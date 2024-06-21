@@ -5,7 +5,8 @@ pub trait DataLabel {
     type C: DataCategory;
     fn tag(&self) -> String;
     fn full_label(&self) -> String {
-        format!("_{}_{}", Self::C::category_prefix(), self.tag())
+        let label = format!("_{}_{}", Self::C::category_prefix(), self.tag());
+        format!("{label:<34}")
     }
 }
 
