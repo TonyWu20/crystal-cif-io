@@ -1,0 +1,7 @@
+[package]
+name = "crystal-cif-io"
+version = "0.1.0"
+edition = "2021"
+author = "TonyWu20"
+
+[dependencies]
