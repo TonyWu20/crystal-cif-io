@@ -27,6 +27,12 @@ pub struct SingleValueSectionBuilder<T: DataLabel> {
     entries: Vec<T>,
 }
 
+impl<T: DataLabel> Default for SingleValueSectionBuilder<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<T: DataLabel> SingleValueSectionBuilder<T> {
     pub fn new() -> Self {
         Self {
@@ -102,6 +108,12 @@ impl<T: LoopDataLabel> LoopDataEntry<T> {
 #[derive(Debug, Clone)]
 pub struct LoopDataEntryBuilder<T: LoopDataLabel> {
     entries: Vec<T>,
+}
+
+impl<T: LoopDataLabel> Default for LoopDataEntryBuilder<T> {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl<T: LoopDataLabel> LoopDataEntryBuilder<T> {
