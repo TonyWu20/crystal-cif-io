@@ -5,3 +5,9 @@ edition = "2021"
 author = "TonyWu20"
 
 [dependencies]
+castep-periodic-table = "0.5"
+chemrust-core = "0.3.3"
+chrono = "0.4"
+
+[dev-dependencies]
+castep-cell-io = {git = "https://github.com/TonyWu20/castep-cell-io.git", branch ="dev"}
