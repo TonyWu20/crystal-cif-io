@@ -1,13 +1,14 @@
 [package]
 name = "crystal-cif-io"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 author = "TonyWu20"
 
 [dependencies]
 castep-periodic-table = "0.5"
-chemrust-core = "0.3.3"
+chemrust-core = "0.3.5"
 chrono = "0.4"
+crystallographic-group = "0.2.0"
 
 [dev-dependencies]
 castep-cell-io = {git = "https://github.com/TonyWu20/castep-cell-io.git", branch ="dev"}

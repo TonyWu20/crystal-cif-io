@@ -110,15 +110,9 @@ impl<T: UnitCellParameters> From<&T> for CellDataSection {
             .add_entry(CellItem::Length_a(value.length_a()))
             .add_entry(CellItem::Length_b(value.length_b()))
             .add_entry(CellItem::Length_c(value.length_c()))
-            .add_entry(CellItem::Angle_alpha(CellAngle::new(
-                value.angle_alpha().to_degrees(),
-            )))
-            .add_entry(CellItem::Angle_beta(CellAngle::new(
-                value.angle_beta().to_degrees(),
-            )))
-            .add_entry(CellItem::Angle_gamma(CellAngle::new(
-                value.angle_gamma().to_degrees(),
-            )))
+            .add_entry(CellItem::Angle_alpha(CellAngle::new(value.angle_alpha())))
+            .add_entry(CellItem::Angle_beta(CellAngle::new(value.angle_beta())))
+            .add_entry(CellItem::Angle_gamma(CellAngle::new(value.angle_gamma())))
             .finish()
     }
 }
