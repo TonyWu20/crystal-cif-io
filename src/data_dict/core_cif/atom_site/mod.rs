@@ -1,10 +1,12 @@
 use chemrust_core::data::atom::CoreAtomData;
 use chemrust_core::data::geom::coordinates::CoordData::{Cartesian, Fractional};
 
+use self::adp_type::AdpType;
 use self::label_symbol::{TypeSymbol, TypeSymbolCode};
 use self::symmetry_multiplicity::SymMultiplicity;
 use crate::data_dict::{DataLabel, LoopData, LoopDataEntry, LoopDataLabel, NumValue};
 
+mod adp_type;
 mod label_symbol;
 mod symmetry_multiplicity;
 
@@ -14,7 +16,7 @@ pub type LoopAtomSiteData = LoopData<AtomSiteLoopItem>;
 #[allow(clippy::upper_case_acronyms, non_camel_case_types)]
 #[derive(Debug, Clone)]
 pub enum AtomSiteLoopItem {
-    Adp_type,
+    Adp_type(AdpType),
     Aniso_B_11,
     Aniso_B_12,
     Aniso_B_13,
@@ -66,14 +68,14 @@ pub enum AtomSiteLoopItem {
     Thermal_displace_type,
     Type_symbol(TypeSymbol),
     U_equiv_geom_mean,
-    U_iso_or_equiv,
+    U_iso_or_equiv(f64),
     Wyckoff_symbol,
 }
 
 impl DataLabel for AtomSiteLoopItem {
     fn tag(&self) -> String {
         match self {
-            AtomSiteLoopItem::Adp_type => "adp_type".to_string(),
+            AtomSiteLoopItem::Adp_type(_) => "adp_type".to_string(),
             AtomSiteLoopItem::Aniso_B_11 => "aniso_B_11".to_string(),
             AtomSiteLoopItem::Aniso_B_12 => "aniso_B_12".to_string(),
             AtomSiteLoopItem::Aniso_B_13 => "aniso_B_13".to_string(),
@@ -129,14 +131,14 @@ impl DataLabel for AtomSiteLoopItem {
             AtomSiteLoopItem::Thermal_displace_type => "thermal_displace_type".to_string(),
             AtomSiteLoopItem::Type_symbol(_) => "type_symbol".to_string(),
             AtomSiteLoopItem::U_equiv_geom_mean => "u_equiv_geom_mean".to_string(),
-            AtomSiteLoopItem::U_iso_or_equiv => "u_iso_or_equiv".to_string(),
+            AtomSiteLoopItem::U_iso_or_equiv(_) => "u_iso_or_equiv".to_string(),
             AtomSiteLoopItem::Wyckoff_symbol => "wyckoff_symbol".to_string(),
         }
     }
 
     fn value_string(&self) -> String {
         match self {
-            AtomSiteLoopItem::Adp_type => todo!(),
+            AtomSiteLoopItem::Adp_type(v) => format!("{v}"),
             AtomSiteLoopItem::Aniso_B_11 => todo!(),
             AtomSiteLoopItem::Aniso_B_12 => todo!(),
             AtomSiteLoopItem::Aniso_B_13 => todo!(),
@@ -191,7 +193,7 @@ impl DataLabel for AtomSiteLoopItem {
             AtomSiteLoopItem::Symmetry_multiplicity(m) => format!("{m}"),
             AtomSiteLoopItem::Thermal_displace_type => todo!(),
             AtomSiteLoopItem::U_equiv_geom_mean => todo!(),
-            AtomSiteLoopItem::U_iso_or_equiv => todo!(),
+            AtomSiteLoopItem::U_iso_or_equiv(f) => format!("{f}"),
             AtomSiteLoopItem::Wyckoff_symbol => todo!(),
         }
     }
@@ -232,6 +234,8 @@ impl<T: CoreAtomData> From<&T> for LoopAtomSiteData {
                     .add_entry(x)
                     .add_entry(y)
                     .add_entry(z)
+                    .add_entry(AtomSiteLoopItem::U_iso_or_equiv(0.0))
+                    .add_entry(AtomSiteLoopItem::Adp_type(AdpType::Uiso))
                     .add_entry(AtomSiteLoopItem::Occupancy(1.0))
                     .finish()
             })
