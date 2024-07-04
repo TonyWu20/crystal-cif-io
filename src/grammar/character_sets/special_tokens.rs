@@ -208,7 +208,10 @@ impl SyntacticUnit for Eol {
     type FormatOutput = char;
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        line_ending.map(|_| Eol).parse_next(input)
+        line_ending
+            .map(|_| Eol)
+            .context(StrContext::Label("<EOL>"))
+            .parse_next(input)
     }
 
     fn formatted_output(&self) -> Self::FormatOutput {

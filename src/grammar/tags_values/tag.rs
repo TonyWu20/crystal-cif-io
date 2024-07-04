@@ -1,0 +1,41 @@
+use std::fmt::Display;
+
+use winnow::{
+    combinator::{preceded, repeat},
+    Parser,
+};
+
+use crate::grammar::{character_sets::NonBlankChar, SyntacticUnit};
+
+#[derive(Debug, Clone)]
+pub struct Tag {
+    name: String,
+}
+
+impl Tag {
+    pub fn new(name: String) -> Self {
+        Self { name }
+    }
+}
+
+impl SyntacticUnit for Tag {
+    type ParseResult = Self;
+
+    type FormatOutput = String;
+
+    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
+        preceded('_', repeat(1.., NonBlankChar::parser))
+            .map(Tag::new)
+            .parse_next(input)
+    }
+
+    fn formatted_output(&self) -> Self::FormatOutput {
+        format!("_{}", self.name)
+    }
+}
+
+impl Display for Tag {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.formatted_output())
+    }
+}

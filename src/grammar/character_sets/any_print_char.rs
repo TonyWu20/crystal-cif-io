@@ -188,3 +188,14 @@ impl Accumulate<AnyPrintChar> for String {
         self.push(acc.as_char())
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::grammar::{character_sets::AnyPrintChar, SyntacticUnit};
+
+    #[test]
+    fn any_print_char() {
+        let mut input = "'";
+        dbg!(AnyPrintChar::parser(&mut input).unwrap());
+    }
+}
