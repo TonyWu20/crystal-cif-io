@@ -74,7 +74,7 @@ mod test {
 ",
             "482.66
 ",
-            " rm
+            "rm
 ",
             "?
 ",
@@ -84,9 +84,9 @@ mod test {
 ",
             "662.31(12)
 ",
-            " 8456
+            "8456
 ",
-            " MoK\\a
+            "MoK\\a
 ",
         ];
         inputs.iter_mut().map(Value::parser).for_each(|res| {

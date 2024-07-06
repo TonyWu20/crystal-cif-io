@@ -42,8 +42,8 @@ impl SyntacticUnit for SingleQuotedString {
                 AnyPrintChar::parser.context(StrContext::Label(
                     "AnyPrintChar, single quote not following white space",
                 )),
-                (terminated(SingleQuote::parser, WhiteSpace::parser)
-                    .context(StrContext::Label("<single_quote><WhiteSpace>"))),
+                terminated(SingleQuote::parser, WhiteSpace::parser)
+                    .context(StrContext::Label("<single_quote><WhiteSpace>")),
             )
             .map(|(s, _open_quote): (String, SingleQuote)| s)
             .context(StrContext::Label("AnyPrintChar")),

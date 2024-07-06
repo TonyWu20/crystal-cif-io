@@ -10,8 +10,6 @@ pub use ordinary_char::OrdinaryChar;
 pub use special_tokens::*;
 pub use text_lead_char::TextLeadChar;
 
-use super::SyntacticUnit;
-
 #[cfg(test)]
 mod test {
     use crate::grammar::character_sets::ordinary_char::OrdinaryChar;
