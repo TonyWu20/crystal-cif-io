@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use winnow::{ascii::Caseless, Parser};
 
 use crate::grammar::SyntacticUnit;
@@ -15,5 +17,11 @@ impl SyntacticUnit for Loop {
 
     fn formatted_output(&self) -> Self::FormatOutput {
         "loop_".to_string()
+    }
+}
+
+impl Display for Loop {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.formatted_output())
     }
 }

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use winnow::{ascii::Caseless, Parser};
 
 use crate::grammar::SyntacticUnit;
@@ -16,5 +18,11 @@ impl SyntacticUnit for Global {
 
     fn formatted_output(&self) -> Self::FormatOutput {
         "global_".to_string()
+    }
+}
+
+impl Display for Global {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.formatted_output())
     }
 }

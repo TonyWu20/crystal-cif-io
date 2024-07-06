@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use winnow::{ascii::Caseless, Parser};
 
 use crate::grammar::SyntacticUnit;
@@ -16,5 +18,11 @@ impl SyntacticUnit for Save {
 
     fn formatted_output(&self) -> Self::FormatOutput {
         "save_".to_string()
+    }
+}
+
+impl Display for Save {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.formatted_output())
     }
 }
