@@ -84,7 +84,9 @@ mod test {
 ",
             "662.31(12)
 ",
-            "8456
+            " 8456
+",
+            " MoK\\a
 ",
         ];
         inputs.iter_mut().map(Value::parser).for_each(|res| {

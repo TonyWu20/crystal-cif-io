@@ -25,6 +25,14 @@ pub enum TextField {
     SemiColonTextField(SemiColonTextField),
 }
 
+impl Display for TextField {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            TextField::SemiColonTextField(t) => write!(f, "{t}"),
+        }
+    }
+}
+
 impl SemiColonTextField {
     pub fn new(lines: Vec<String>) -> Self {
         Self { lines }
@@ -101,7 +109,7 @@ impl SyntacticUnit for TextField {
 
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
-            TextField::SemiColonTextField(f) => format!("{f}"),
+            TextField::SemiColonTextField(f) => f.to_string(),
         }
     }
 }

@@ -14,6 +14,8 @@ mod single_quoted_string;
 mod text_field;
 mod unquoted_string;
 
+pub use text_field::TextField;
+
 #[derive(Debug, Clone)]
 pub enum CharString {
     Unquoted(UnquotedString),
@@ -28,9 +30,9 @@ impl SyntacticUnit for CharString {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         alt((
-            UnquotedString::parser.map(CharString::Unquoted),
             SingleQuotedString::parser.map(CharString::SingleQuoted),
             DoubleQuotedString::parser.map(CharString::DoubleQuoted),
+            UnquotedString::parser.map(CharString::Unquoted),
         ))
         .parse_next(input)
     }
@@ -47,5 +49,16 @@ impl SyntacticUnit for CharString {
 impl Display for CharString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use crate::grammar::{strings_textfields::CharString, SyntacticUnit};
+
+    #[test]
+    fn char_string() {
+        let mut input = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'";
+        dbg!(CharString::parser(&mut input).unwrap());
     }
 }
