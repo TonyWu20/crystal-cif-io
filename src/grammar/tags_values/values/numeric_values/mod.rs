@@ -89,3 +89,22 @@ impl Display for Numeric {
         write!(f, "{}", self.formatted_output())
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::grammar::SyntacticUnit;
+
+    use super::Numeric;
+
+    #[test]
+    fn numeric_test() {
+        let mut input = "     482.66";
+        match Numeric::parser(&mut input) {
+            Ok(n) => println!("{n:?}"),
+            Err(e) => {
+                println!("{e}");
+                println!("{input}");
+            }
+        }
+    }
+}

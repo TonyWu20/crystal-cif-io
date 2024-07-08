@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use winnow::{
-    combinator::{preceded, repeat_till, terminated},
+    combinator::{peek, preceded, repeat_till, terminated},
     error::StrContext,
     Parser,
 };
@@ -42,7 +42,7 @@ impl SyntacticUnit for DoubleQuotedString {
                 AnyPrintChar::parser.context(StrContext::Label(
                     "AnyPrintChar, single quote not following white space",
                 )),
-                terminated(DoubleQuote::parser, WhiteSpace::parser)
+                terminated(DoubleQuote::parser, peek(WhiteSpace::parser))
                     .context(StrContext::Label("<single_quote><WhiteSpace>")),
             )
             .map(|(s, _open_quote): (String, DoubleQuote)| s)

@@ -8,6 +8,7 @@ use winnow::{
 
 use crate::grammar::{
     character_sets::{AnyPrintChar, Eol, TextLeadChar},
+    whitespace_comments::WhiteSpace,
     SyntacticUnit,
 };
 
@@ -46,7 +47,7 @@ impl SyntacticUnit for SemiColonTextField {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         preceded(
-            Eol::parser,
+            WhiteSpace::parser,
             delimited(
                 ';'.context(StrContext::Label(";Begins")),
                 semicolon_text_field.context(StrContext::Label("Text field")),
@@ -59,7 +60,7 @@ impl SyntacticUnit for SemiColonTextField {
     }
 
     fn formatted_output(&self) -> Self::FormatOutput {
-        format!(";{}\n;", self.lines.join("\n"))
+        format!("\n;{}\n;", self.lines.join("\n"))
     }
 }
 
@@ -133,9 +134,18 @@ C~22~H~50~N~4~O~7~ requires: C 54.7, H 10.4, N 11.6%. Crystals of (I)
 suitable for single-crystal X-ray diffraction were selected directly 
 from the sample as prepared.
 ;
+_vrf_PLAT_113_I
+;
+PROBLEM: _A ADDSYM Suggests Possible Pseudo/New Spacegroup       P-1          
+RESPONSE: .See above
+;
 "#;
-        SemiColonTextField::parser(&mut test)
-            .map(|field| println!("{field}"))
-            .unwrap();
+        match SemiColonTextField::parser(&mut test) {
+            Ok(t) => println!("{t}"),
+            Err(e) => {
+                dbg!(e);
+                println!("{test}")
+            }
+        }
     }
 }

@@ -31,7 +31,7 @@ impl UnquotedString {
 
 fn not_eol_unquoted(input: &mut &str) -> PResult<UnquotedString> {
     (
-        NotEol::parser,
+        NotEol::parser.verify(|c| c.char() != '_'),
         alt((OrdinaryChar::parser.map(|oc| oc.as_char()), ';')),
         repeat::<_, _, String, _, _>(0.., NonBlankChar::parser),
     )

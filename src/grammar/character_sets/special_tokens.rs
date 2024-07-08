@@ -365,6 +365,9 @@ impl NotEol {
     pub fn new(c: char) -> Self {
         Self(c)
     }
+    pub fn char(&self) -> char {
+        self.0
+    }
 }
 
 impl SyntacticUnit for NotEol {

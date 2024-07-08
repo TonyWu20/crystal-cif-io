@@ -1,6 +1,10 @@
 use std::fmt::Display;
 
-use winnow::{combinator::separated_pair, Parser};
+use winnow::{
+    combinator::{peek, separated_pair},
+    error::StrContext,
+    Parser,
+};
 
 use crate::grammar::{
     tags_values::{Tag, Value},
@@ -15,9 +19,6 @@ pub struct SingleLineData {
 }
 
 impl SingleLineData {
-    pub fn new(tag: Tag, value: Value) -> Self {
-        Self { tag, value }
-    }
     pub fn from_tag_value(tag_value: (Tag, Value)) -> Self {
         let (tag, value) = tag_value;
         Self { tag, value }
@@ -30,9 +31,13 @@ impl SyntacticUnit for SingleLineData {
     type FormatOutput = String;
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        separated_pair(Tag::parser, WhiteSpace::parser, Value::parser)
-            .map(SingleLineData::from_tag_value)
-            .parse_next(input)
+        separated_pair(
+            Tag::parser.context(StrContext::Label("Tag")),
+            peek(WhiteSpace::parser.context(StrContext::Label("Whitespace"))),
+            Value::parser.context(StrContext::Label("Value")),
+        )
+        .map(SingleLineData::from_tag_value)
+        .parse_next(input)
     }
 
     fn formatted_output(&self) -> Self::FormatOutput {

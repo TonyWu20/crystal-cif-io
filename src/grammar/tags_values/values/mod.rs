@@ -1,9 +1,14 @@
 use std::fmt::{Display, Write};
 
-use winnow::{combinator::alt, Parser};
+use winnow::{
+    combinator::{alt, peek, preceded, terminated},
+    PResult, Parser,
+};
 
 use crate::grammar::{
+    character_sets::Eol,
     strings_textfields::{CharString, TextField},
+    whitespace_comments::WhiteSpace,
     SyntacticUnit,
 };
 
@@ -22,6 +27,20 @@ pub enum Value {
     TextField(TextField),
 }
 
+/// Parse value '?' when the it does not have trailing chars.
+fn unknown_parser(input: &mut &str) -> PResult<Value> {
+    terminated('?', peek(Eol::parser))
+        .map(|_| Value::Unknown)
+        .parse_next(input)
+}
+
+/// Parse value '.' when the it does not have trailing chars.
+fn inapplicable_parser(input: &mut &str) -> PResult<Value> {
+    terminated('.', peek(Eol::parser))
+        .map(|_| Value::Inapplicable)
+        .parse_next(input)
+}
+
 impl SyntacticUnit for Value {
     type ParseResult = Self;
 
@@ -29,11 +48,14 @@ impl SyntacticUnit for Value {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         alt((
+            unknown_parser,
+            inapplicable_parser,
+            preceded(WhiteSpace::parser, unknown_parser),
+            preceded(WhiteSpace::parser, inapplicable_parser),
             Numeric::parser.map(Self::Numeric),
+            preceded(WhiteSpace::parser, Numeric::parser).map(Self::Numeric),
             CharString::parser.map(Self::CharString),
             TextField::parser.map(Self::TextField),
-            '.'.map(|_| Self::Inapplicable),
-            '?'.map(|_| Self::Unknown),
         ))
         .parse_next(input)
     }
@@ -70,15 +92,22 @@ mod test {
     #[test]
     fn value_test() {
         let mut inputs = [
-            "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
+            " ;
+PROBLEM: _A ADDSYM Suggests Possible Pseudo/New Spacegroup       P-1          
+RESPONSE: .See above
+;
 ",
-            "482.66
+            " 'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
 ",
-            "rm
+            "   482.66
 ",
-            "?
+            " rm
 ",
-            ".
+            " ?ii
+",
+            " .
+",
+            "     .
 ",
             "'P 1'
 ",
@@ -86,11 +115,13 @@ mod test {
 ",
             "8456
 ",
+            "  MoK\\a
+",
             "MoK\\a
 ",
         ];
         inputs.iter_mut().map(Value::parser).for_each(|res| {
-            res.map(|v| println!("{v}")).unwrap();
+            res.map(|v| println!("{v:?}")).unwrap();
         })
     }
 }

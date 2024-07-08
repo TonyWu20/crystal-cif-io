@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use winnow::{
-    combinator::{preceded, repeat_till, terminated},
+    combinator::{peek, preceded, repeat_till, terminated},
     error::StrContext,
     Parser,
 };
@@ -42,7 +42,7 @@ impl SyntacticUnit for SingleQuotedString {
                 AnyPrintChar::parser.context(StrContext::Label(
                     "AnyPrintChar, single quote not following white space",
                 )),
-                terminated(SingleQuote::parser, WhiteSpace::parser)
+                terminated(SingleQuote::parser, peek(WhiteSpace::parser))
                     .context(StrContext::Label("<single_quote><WhiteSpace>")),
             )
             .map(|(s, _open_quote): (String, SingleQuote)| s)
@@ -80,7 +80,6 @@ mod test {
     #[test]
     fn single_quoted_string() {
         let mut input = "'f scans, and w scans with k offsets Mr. Evan's things'
-
 ";
         let mut input_2 = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'";
         let mut parser = preceded(

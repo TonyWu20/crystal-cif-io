@@ -1,6 +1,9 @@
 use std::fmt::Display;
 
-use winnow::{combinator::alt, Parser};
+use winnow::{
+    combinator::{alt, preceded},
+    Parser,
+};
 
 use self::{
     double_quoted_string::DoubleQuotedString,
@@ -8,7 +11,7 @@ use self::{
     unquoted_string::{pure_unquoted, UnquotedString},
 };
 
-use super::SyntacticUnit;
+use super::{reserved_words::ReservedWords, whitespace_comments::WhiteSpace, SyntacticUnit};
 
 mod double_quoted_string;
 mod single_quoted_string;
@@ -31,10 +34,20 @@ impl SyntacticUnit for CharString {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         alt((
+            preceded(WhiteSpace::parser, SingleQuotedString::parser).map(CharString::SingleQuoted),
             SingleQuotedString::parser.map(CharString::SingleQuoted),
+            preceded(WhiteSpace::parser, DoubleQuotedString::parser).map(CharString::DoubleQuoted),
             DoubleQuotedString::parser.map(CharString::DoubleQuoted),
-            pure_unquoted.map(CharString::Unquoted),
-            UnquotedString::parser.map(CharString::Unquoted),
+            alt((
+                pure_unquoted,
+                preceded(WhiteSpace::parser, pure_unquoted),
+                UnquotedString::parser,
+            ))
+            .verify(|u| {
+                let mut input = u.as_ref();
+                ReservedWords::not_reserved_words(&mut input)
+            })
+            .map(CharString::Unquoted),
         ))
         .parse_next(input)
     }
@@ -61,9 +74,11 @@ mod test {
     #[test]
     fn char_string() {
         let mut input = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'";
-        let mut input_2 = "rm
+        let mut input_2 = "    rm
 ";
+        let mut input_3 = "_symmetry_cell_setting ";
         dbg!(CharString::parser(&mut input).unwrap());
         dbg!(CharString::parser(&mut input_2).unwrap());
+        dbg!(CharString::parser(&mut input_3).unwrap());
     }
 }

@@ -57,3 +57,22 @@ impl Display for LoopHeader {
         writeln!(f, "{}", self.formatted_output())
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::grammar::{structures::loop_struct::header::LoopHeader, SyntacticUnit};
+
+    #[test]
+    fn loop_header() {
+        let mut input = "loop_
+ _atom_site_aniso_label
+ _atom_site_aniso_U_11
+ _atom_site_aniso_U_22
+ _atom_site_aniso_U_33
+ _atom_site_aniso_U_23
+ _atom_site_aniso_U_13
+ _atom_site_aniso_U_12
+";
+        println!("{}", LoopHeader::parser(&mut input).unwrap());
+    }
+}

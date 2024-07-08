@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use winnow::{combinator::alt, Parser};
+use winnow::{combinator::alt, error::StrContext, Parser};
 
 use crate::grammar::SyntacticUnit;
 
@@ -19,8 +19,12 @@ impl SyntacticUnit for DataItems {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         alt((
-            LoopUnit::parser.map(DataItems::MultiValues),
-            SingleLineData::parser.map(DataItems::SingleValue),
+            SingleLineData::parser
+                .map(DataItems::SingleValue)
+                .context(StrContext::Label("Single line data")),
+            LoopUnit::parser
+                .map(DataItems::MultiValues)
+                .context(StrContext::Label("Loop")),
         ))
         .parse_next(input)
     }
@@ -28,7 +32,7 @@ impl SyntacticUnit for DataItems {
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
             DataItems::SingleValue(v) => format!("{v}"),
-            DataItems::MultiValues(v) => format!("{v}"),
+            DataItems::MultiValues(v) => format!("\n{v}\n"),
         }
     }
 }
