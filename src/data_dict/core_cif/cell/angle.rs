@@ -1,7 +1,10 @@
 use std::fmt::Display;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-pub struct CellAngle(f64);
+pub enum CellAngle {
+    A(f32),
+    B(f32),
+}
 
 impl CellAngle {
     pub fn new(degree: f64) -> Self {

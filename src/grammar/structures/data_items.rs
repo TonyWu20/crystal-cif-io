@@ -13,6 +13,11 @@ pub enum DataItems {
     MultiValues(LoopUnit),
 }
 
+pub trait CIFDataType {}
+
+impl CIFDataType for SingleLineData {}
+impl CIFDataType for LoopUnit {}
+
 impl DataItems {
     pub fn get_single_value_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<&SingleLineData> {
         match self {

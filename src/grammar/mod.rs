@@ -18,6 +18,10 @@ mod structures;
 mod tags_values;
 mod whitespace_comments;
 
+pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
+pub use structures::{CIFDataType, DataItems};
+pub use tags_values::{CIFValue, Tag, Value};
+
 pub trait SyntacticUnit {
     type ParseResult;
     type FormatOutput: Display;

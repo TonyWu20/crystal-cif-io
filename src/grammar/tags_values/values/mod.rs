@@ -7,14 +7,11 @@ use winnow::{
 
 use crate::grammar::{
     character_sets::Eol,
+    numeric_values::Numeric,
     strings_textfields::{CharString, TextField},
     whitespace_comments::WhiteSpace,
     SyntacticUnit,
 };
-
-use self::numeric_values::Numeric;
-
-mod numeric_values;
 
 #[derive(Debug, Clone)]
 pub enum Value {
@@ -26,6 +23,12 @@ pub enum Value {
     CharString(CharString),
     TextField(TextField),
 }
+
+pub trait CIFValue {}
+
+impl CIFValue for Numeric {}
+impl CIFValue for CharString {}
+impl CIFValue for TextField {}
 
 /// Parse value '?' when the it does not have trailing chars.
 fn unknown_parser(input: &mut &str) -> PResult<Value> {
