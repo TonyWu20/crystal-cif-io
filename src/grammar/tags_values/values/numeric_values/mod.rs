@@ -1,11 +1,11 @@
 use std::fmt::Display;
 
 use winnow::{
-    combinator::{alt, delimited, opt},
+    combinator::{alt, delimited, opt, peek, terminated},
     Parser,
 };
 
-use crate::grammar::SyntacticUnit;
+use crate::grammar::{character_sets::Eol, SyntacticUnit};
 
 use self::{float::Float, integer::Integer, unsigned_integer::UnsignedInteger};
 
@@ -68,12 +68,15 @@ impl SyntacticUnit for Numeric {
     type FormatOutput = String;
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        (
-            Number::parser,
-            opt(delimited('(', UnsignedInteger::parser, ')')),
+        terminated(
+            (
+                Number::parser,
+                opt(delimited('(', UnsignedInteger::parser, ')')),
+            ),
+            peek(Eol::parser),
         )
-            .map(|(number, uncer)| Numeric::new(number, uncer))
-            .parse_next(input)
+        .map(|(number, uncer)| Numeric::new(number, uncer))
+        .parse_next(input)
     }
 
     fn formatted_output(&self) -> Self::FormatOutput {

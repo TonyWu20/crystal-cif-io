@@ -41,7 +41,7 @@ impl SyntacticUnit for SingleLineData {
     }
 
     fn formatted_output(&self) -> Self::FormatOutput {
-        format!("{} {}", self.tag, self.value)
+        format!("{:<33} {}", self.tag.to_string(), self.value)
     }
 }
 

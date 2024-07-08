@@ -1,7 +1,7 @@
 use std::fmt::{Display, Write};
 
 use winnow::{
-    combinator::{alt, peek, preceded, terminated},
+    combinator::{alt, opt, peek, preceded, terminated},
     PResult, Parser,
 };
 
@@ -48,14 +48,11 @@ impl SyntacticUnit for Value {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         alt((
-            unknown_parser,
-            inapplicable_parser,
-            preceded(WhiteSpace::parser, unknown_parser),
-            preceded(WhiteSpace::parser, inapplicable_parser),
-            Numeric::parser.map(Self::Numeric),
-            preceded(WhiteSpace::parser, Numeric::parser).map(Self::Numeric),
-            CharString::parser.map(Self::CharString),
+            preceded(opt(WhiteSpace::parser), unknown_parser),
+            preceded(opt(WhiteSpace::parser), inapplicable_parser),
+            preceded(opt(WhiteSpace::parser), Numeric::parser).map(Self::Numeric),
             TextField::parser.map(Self::TextField),
+            CharString::parser.map(Self::CharString),
         ))
         .parse_next(input)
     }
@@ -105,6 +102,10 @@ RESPONSE: .See above
 ",
             " ?ii
 ",
+            "   ?
+",
+            "?
+",
             " .
 ",
             "     .
@@ -119,6 +120,7 @@ RESPONSE: .See above
 ",
             "MoK\\a
 ",
+            "1_445",
         ];
         inputs.iter_mut().map(Value::parser).for_each(|res| {
             res.map(|v| println!("{v:?}")).unwrap();

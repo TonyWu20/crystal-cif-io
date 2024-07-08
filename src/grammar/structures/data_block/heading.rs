@@ -30,7 +30,7 @@ impl SyntacticUnit for DataBlockHeading {
     }
 
     fn formatted_output(&self) -> Self::FormatOutput {
-        format!("data_{}", &self.name)
+        format!("\ndata_{}\n", &self.name)
     }
 }
 

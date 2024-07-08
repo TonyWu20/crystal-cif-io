@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use winnow::{
-    combinator::{delimited, preceded, repeat, terminated},
+    combinator::{delimited, opt, preceded, repeat, terminated},
     error::StrContext,
     PResult, Parser,
 };
@@ -47,7 +47,7 @@ impl SyntacticUnit for SemiColonTextField {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         preceded(
-            WhiteSpace::parser,
+            opt(WhiteSpace::parser),
             delimited(
                 ';'.context(StrContext::Label(";Begins")),
                 semicolon_text_field.context(StrContext::Label("Text field")),
@@ -122,8 +122,7 @@ mod test {
 
     #[test]
     fn text_field_test() {
-        let mut test = r#"
-;
+        let mut test = r#";
 meso-5,5,7,12,12,14-Hexamethyl-4,11-diaza-1,8-diazoniacyclotetradecane 
 (S)-malate(2-) methanol disolvate
 Equimolar quantities of tet-a (Hay et al., 1975) and (S)-malic acid 
