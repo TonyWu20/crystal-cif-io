@@ -18,6 +18,13 @@ impl LoopBody {
     pub fn values(&self) -> &[Value] {
         &self.values
     }
+
+    pub fn nth_column_values(&self, nth: usize, column_size: usize) -> Vec<Value> {
+        self.values
+            .chunks(column_size)
+            .map(|chunk| chunk[nth].clone())
+            .collect()
+    }
 }
 
 impl SyntacticUnit for LoopBody {

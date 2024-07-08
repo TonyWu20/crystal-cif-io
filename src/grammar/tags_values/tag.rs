@@ -7,9 +7,16 @@ use winnow::{
 
 use crate::grammar::{character_sets::NonBlankChar, SyntacticUnit};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Tag {
     name: String,
+}
+
+impl AsRef<str> for Tag {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        <String as AsRef<str>>::as_ref(&self.name)
+    }
 }
 
 impl Tag {

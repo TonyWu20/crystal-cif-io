@@ -25,6 +25,10 @@ impl LoopHeader {
     pub fn tags(&self) -> &[Tag] {
         &self.tags
     }
+
+    pub fn get_tag_index<T: AsRef<str>>(&self, tag: T) -> Option<usize> {
+        self.tags().iter().position(|t| t.as_ref() == tag.as_ref())
+    }
 }
 
 impl SyntacticUnit for LoopHeader {

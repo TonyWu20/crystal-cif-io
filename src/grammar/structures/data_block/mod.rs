@@ -5,9 +5,11 @@ use winnow::{
     Parser,
 };
 
-use crate::grammar::{whitespace_comments::WhiteSpace, SyntacticUnit};
+use crate::grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit};
 
 use self::{heading::DataBlockHeading, members::DataBlockMember};
+
+use super::SingleLineData;
 
 mod heading;
 mod members;
@@ -22,6 +24,29 @@ impl DataBlock {
     pub fn from_heading_members(heading_member: (DataBlockHeading, Vec<DataBlockMember>)) -> Self {
         let (heading, members) = heading_member;
         Self { heading, members }
+    }
+
+    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<Vec<Value>> {
+        self.members.iter().find_map(|member| {
+            if let DataBlockMember::DataItems(data_item) = member {
+                data_item.get_loop_column_values_by_tag(&tag)
+            } else {
+                None
+            }
+        })
+    }
+    pub fn find_single_value_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<&SingleLineData> {
+        self.members.iter().find_map(|member| {
+            if let DataBlockMember::DataItems(data_item) = member {
+                data_item.get_single_value_by_tag(&tag)
+            } else {
+                None
+            }
+        })
+    }
+
+    pub fn heading(&self) -> &DataBlockHeading {
+        &self.heading
     }
 }
 
@@ -731,7 +756,10 @@ _geom_hbond_publ_flag
         let parse_result = DataBlock::parser(&mut input);
         match parse_result {
             Ok(d) => {
-                println!("{d}")
+                println!(
+                    "{}",
+                    d.find_single_value_by_tag("chemical_formula_sum").unwrap()
+                )
                 // println!(
                 //     "{:?}",
                 //     preceded(WhiteSpace::parser, SingleLineData::parser).parse_next(&mut input)

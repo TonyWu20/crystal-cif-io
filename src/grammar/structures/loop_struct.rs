@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use winnow::Parser;
 
-use crate::grammar::SyntacticUnit;
+use crate::grammar::{tags_values::Value, SyntacticUnit};
 
 use self::{body::LoopBody, header::LoopHeader};
 
@@ -22,6 +22,13 @@ impl LoopUnit {
 
     pub fn header(&self) -> &LoopHeader {
         &self.header
+    }
+
+    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<Vec<Value>> {
+        self.header.get_tag_index(tag).map(|index| {
+            self.body
+                .nth_column_values(index, self.header.num_of_tags())
+        })
     }
 }
 

@@ -12,6 +12,13 @@ pub struct DataBlockHeading {
     name: String,
 }
 
+impl AsRef<str> for DataBlockHeading {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        <String as AsRef<str>>::as_ref(&self.name)
+    }
+}
+
 impl DataBlockHeading {
     pub fn new(name: String) -> Self {
         Self { name }

@@ -38,6 +38,18 @@ impl CifDocument {
             data_blocks,
         }
     }
+
+    pub fn data_blocks(&self) -> Option<&Vec<DataBlock>> {
+        self.data_blocks.as_ref()
+    }
+
+    pub fn get_data_block_by_name(&self, data_block_name: &str) -> Option<&DataBlock> {
+        self.data_blocks().map(|blocks| {
+            blocks
+                .iter()
+                .find(|block| block.heading().as_ref() == data_block_name)
+        })?
+    }
 }
 
 impl SyntacticUnit for CifDocument {
@@ -104,16 +116,7 @@ mod test {
         match CifDocument::parser(&mut content.as_str()) {
             Ok(cif) => {
                 let output_path = "cif_parse_test.cif";
-                write(output_path, cif.to_string()).expect("Error during writing test output.")
-            }
-            Err(e) => {
-                dbg!(e);
-            }
-        }
-        let content_2 = read_to_string("cif_parse_test.cif").expect("written out cif");
-        match CifDocument::parser(&mut content_2.as_str()) {
-            Ok(cif) => {
-                let output_path = "cif_parse_test_2.cif";
+                assert!(cif.get_data_block_by_name("I").is_some());
                 write(output_path, cif.to_string()).expect("Error during writing test output.")
             }
             Err(e) => {

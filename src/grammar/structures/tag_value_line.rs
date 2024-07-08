@@ -23,6 +23,14 @@ impl SingleLineData {
         let (tag, value) = tag_value;
         Self { tag, value }
     }
+
+    pub fn tag(&self) -> &Tag {
+        &self.tag
+    }
+
+    pub fn value(&self) -> &Value {
+        &self.value
+    }
 }
 
 impl SyntacticUnit for SingleLineData {

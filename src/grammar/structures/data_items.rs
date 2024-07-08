@@ -1,3 +1,4 @@
+use crate::grammar::tags_values::Value;
 use std::fmt::Display;
 
 use winnow::{combinator::alt, error::StrContext, Parser};
@@ -10,6 +11,29 @@ use super::{loop_struct::LoopUnit, tag_value_line::SingleLineData};
 pub enum DataItems {
     SingleValue(SingleLineData),
     MultiValues(LoopUnit),
+}
+
+impl DataItems {
+    pub fn get_single_value_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<&SingleLineData> {
+        match self {
+            DataItems::SingleValue(tv) => {
+                if tag.as_ref() == tv.tag().as_ref() {
+                    Some(tv)
+                } else {
+                    None
+                }
+            }
+            DataItems::MultiValues(_) => None,
+        }
+    }
+
+    pub fn get_loop_column_values_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<Vec<Value>> {
+        if let DataItems::MultiValues(loop_unit) = self {
+            loop_unit.find_loop_column_by_tag(tag)
+        } else {
+            None
+        }
+    }
 }
 
 impl SyntacticUnit for DataItems {
