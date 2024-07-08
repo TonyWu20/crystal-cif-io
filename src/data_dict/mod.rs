@@ -10,8 +10,6 @@ use chrono::Utc;
 pub use data_types::num_value::NumValue;
 pub use data_types::{DataLabel, LoopData, LoopDataEntry, LoopDataLabel, SingleValueSection};
 
-use crate::CifFile;
-
 use self::core_cif::atom_site::LoopAtomSiteData;
 use self::core_cif::audit::{AuditItem, AuditSection};
 use self::core_cif::cell::CellDataSection;
@@ -24,6 +22,7 @@ pub enum CifData {
     SpaceGroupLoop(SpaceGroupLoopData),
     CellData(CellDataSection),
     AtomSiteLoop(LoopAtomSiteData),
+    Else,
 }
 
 impl Display for CifData {
@@ -34,6 +33,7 @@ impl Display for CifData {
             CifData::CellData(v) => write!(f, "{v}"),
             CifData::AtomSiteLoop(v) => write!(f, "{v}"),
             CifData::Audit(v) => write!(f, "{v}"),
+            CifData::Else => Ok(()),
         }
     }
 }
