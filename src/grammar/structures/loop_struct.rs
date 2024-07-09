@@ -2,9 +2,11 @@ use std::fmt::Display;
 
 use winnow::Parser;
 
-use crate::grammar::{tags_values::Value, SyntacticUnit};
+use crate::grammar::{tags_values::Value, SyntacticUnit, Tag};
 
 use self::{body::LoopBody, header::LoopHeader};
+
+pub use body::LoopColumn;
 
 mod body;
 mod header;
@@ -15,19 +17,55 @@ pub struct LoopUnit {
     body: LoopBody,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct LoopUnitBuilder {
+    value_columns: Option<Vec<LoopColumn>>,
+    column_length: usize,
+}
+
+impl LoopUnitBuilder {
+    pub fn with_value_columns(mut self, value_columns: Vec<LoopColumn>) -> Self {
+        self.column_length = value_columns[0].as_ref().len();
+        self.value_columns = Some(value_columns);
+        self
+    }
+
+    pub fn build(self) -> LoopUnit {
+        let header = self
+            .value_columns
+            .as_ref()
+            .map(|columns| {
+                columns
+                    .iter()
+                    .map(|c| Tag::new(c.tag().to_string()))
+                    .collect::<Vec<Tag>>()
+            })
+            .unwrap_or(Vec::new());
+        let header = LoopHeader::new(header);
+        let body = LoopBody::from_columns(&self.value_columns.unwrap(), self.column_length);
+        LoopUnit::new(header, body)
+    }
+}
+
 impl LoopUnit {
     pub fn new(header: LoopHeader, body: LoopBody) -> Self {
         Self { header, body }
+    }
+
+    pub fn builder() -> LoopUnitBuilder {
+        LoopUnitBuilder::default()
     }
 
     pub fn header(&self) -> &LoopHeader {
         &self.header
     }
 
-    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<Vec<Value>> {
-        self.header.get_tag_index(tag).map(|index| {
-            self.body
-                .nth_column_values(index, self.header.num_of_tags())
+    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<LoopColumn> {
+        self.header.get_tag_index(&tag).map(|index| {
+            let values = self
+                .body
+                .nth_column_values(index, self.header.num_of_tags());
+            LoopColumn::new(Tag::new(tag.as_ref().to_string()), values)
         })
     }
 }

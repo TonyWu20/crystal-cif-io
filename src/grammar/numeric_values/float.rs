@@ -7,12 +7,12 @@ use winnow::{
     PResult, Parser,
 };
 
-use crate::grammar::SyntacticUnit;
+use crate::grammar::{SyntacticUnit, Value};
 
-use super::{exponent::Exponent, integer::Integer};
+use super::{exponent::Exponent, integer::Integer, Number, Numeric};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-pub struct Float(f32);
+pub struct Float(pub f32);
 
 impl Display for Float {
     fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -79,9 +79,33 @@ impl SyntacticUnit for Float {
     }
 }
 
+impl From<f64> for Float {
+    fn from(value: f64) -> Self {
+        Float(value as f32)
+    }
+}
+
+impl From<Float> for Number {
+    fn from(value: Float) -> Self {
+        Number::Float(value)
+    }
+}
+
+impl From<Float> for Numeric {
+    fn from(value: Float) -> Self {
+        Self::new(Number::from(value), None)
+    }
+}
+
+impl From<Float> for Value {
+    fn from(value: Float) -> Self {
+        Value::Numeric(Numeric::from(value))
+    }
+}
+
 #[cfg(test)]
 mod test {
-    use crate::grammar::{tags_values::values::numeric_values::float::Float, SyntacticUnit};
+    use crate::grammar::{Float, SyntacticUnit};
 
     #[test]
     fn float_parsing() {

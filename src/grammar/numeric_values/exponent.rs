@@ -7,7 +7,7 @@ use crate::grammar::SyntacticUnit;
 use super::unsigned_integer::UnsignedInteger;
 
 #[derive(Debug, Clone, Copy)]
-pub struct Exponent(i32);
+pub struct Exponent(pub i32);
 
 impl std::ops::Deref for Exponent {
     type Target = i32;
@@ -51,7 +51,7 @@ impl Display for Exponent {
 
 #[cfg(test)]
 mod test {
-    use crate::grammar::{tags_values::values::numeric_values::exponent::Exponent, SyntacticUnit};
+    use crate::grammar::{numeric_values::exponent::Exponent, SyntacticUnit};
 
     #[test]
     fn exponent_test() {

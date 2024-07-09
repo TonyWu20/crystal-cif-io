@@ -9,6 +9,8 @@ use crate::grammar::{character_sets::Eol, SyntacticUnit};
 
 pub use self::{float::Float, integer::Integer, unsigned_integer::UnsignedInteger};
 
+use super::{CIFValue, Value};
+
 mod exponent;
 mod float;
 mod integer;
@@ -19,6 +21,8 @@ pub enum Number {
     Integer(Integer),
     Float(Float),
 }
+
+impl CIFValue for Number {}
 
 impl SyntacticUnit for Number {
     type ParseResult = Self;
@@ -36,7 +40,7 @@ impl SyntacticUnit for Number {
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
             Number::Integer(i) => format!("{i}"),
-            Number::Float(f) => format!("{f}"),
+            Number::Float(f) => format!("{:<6.3}", &f),
         }
     }
 }
@@ -90,6 +94,18 @@ impl SyntacticUnit for Numeric {
 impl Display for Numeric {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
+    }
+}
+
+impl From<f64> for Numeric {
+    fn from(value: f64) -> Self {
+        Numeric::new(Number::Float(Float(value as f32)), None)
+    }
+}
+
+impl From<Numeric> for Value {
+    fn from(value: Numeric) -> Self {
+        Value::Numeric(value)
     }
 }
 

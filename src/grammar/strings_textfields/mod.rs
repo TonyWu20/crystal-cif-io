@@ -1,17 +1,13 @@
 use std::fmt::Display;
 
 use winnow::{
-    combinator::{alt, preceded},
+    combinator::{alt, opt, preceded},
     Parser,
 };
 
-use self::{
-    double_quoted_string::DoubleQuotedString,
-    single_quoted_string::SingleQuotedString,
-    unquoted_string::{pure_unquoted, UnquotedString},
-};
+use self::unquoted_string::pure_unquoted;
 
-use super::{reserved_words::ReservedWords, whitespace_comments::WhiteSpace, SyntacticUnit};
+use super::{reserved_words::ReservedWords, whitespace_comments::WhiteSpace, SyntacticUnit, Value};
 
 mod double_quoted_string;
 mod single_quoted_string;
@@ -19,6 +15,10 @@ mod text_field;
 mod unquoted_string;
 
 pub use text_field::TextField;
+
+pub use double_quoted_string::DoubleQuotedString;
+pub use single_quoted_string::SingleQuotedString;
+pub use unquoted_string::UnquotedString;
 
 #[derive(Debug, Clone)]
 pub enum CharString {
@@ -34,13 +34,12 @@ impl SyntacticUnit for CharString {
 
     fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
         alt((
-            preceded(WhiteSpace::parser, SingleQuotedString::parser).map(CharString::SingleQuoted),
-            SingleQuotedString::parser.map(CharString::SingleQuoted),
-            preceded(WhiteSpace::parser, DoubleQuotedString::parser).map(CharString::DoubleQuoted),
-            DoubleQuotedString::parser.map(CharString::DoubleQuoted),
+            preceded(opt(WhiteSpace::parser), SingleQuotedString::parser)
+                .map(CharString::SingleQuoted),
+            preceded(opt(WhiteSpace::parser), DoubleQuotedString::parser)
+                .map(CharString::DoubleQuoted),
             alt((
-                pure_unquoted,
-                preceded(WhiteSpace::parser, pure_unquoted),
+                preceded(opt(WhiteSpace::parser), pure_unquoted),
                 UnquotedString::parser,
             ))
             .verify(|u| {
@@ -64,6 +63,12 @@ impl SyntacticUnit for CharString {
 impl Display for CharString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
+    }
+}
+
+impl From<CharString> for Value {
+    fn from(value: CharString) -> Self {
+        Value::CharString(value)
     }
 }
 

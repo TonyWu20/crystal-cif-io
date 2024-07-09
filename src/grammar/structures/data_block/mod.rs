@@ -7,7 +7,7 @@ use winnow::{
 
 use crate::grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit};
 
-use self::{heading::DataBlockHeading, members::DataBlockMember};
+pub use self::{heading::DataBlockHeading, members::DataBlockMember};
 
 use super::SingleLineData;
 

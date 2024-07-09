@@ -10,7 +10,7 @@ use crate::grammar::SyntacticUnit;
 use super::unsigned_integer::UnsignedInteger;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Integer(i32);
+pub struct Integer(pub i32);
 
 impl Display for Integer {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> core::fmt::Result {

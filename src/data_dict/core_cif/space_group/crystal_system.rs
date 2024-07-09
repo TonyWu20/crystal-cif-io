@@ -22,6 +22,7 @@ impl Display for CrystalSystemCif {
     }
 }
 
+#[cfg(feature = "chemrust-core")]
 impl From<crystallographic_group::database::CrystalSystem> for CrystalSystemCif {
     fn from(value: crystallographic_group::database::CrystalSystem) -> Self {
         match value {

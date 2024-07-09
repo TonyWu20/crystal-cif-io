@@ -1,35 +1,22 @@
 pub mod core_cif;
 
-use crate::grammar::{CIFDataType, CIFValue, DataItems, Tag};
+use crate::grammar::{DataItems, LoopColumn, SingleLineData, Tag, Value};
 
 pub trait CifTerm {
-    type Value: CIFValue;
-    type DataForm: CIFDataType;
     fn category_prefix(&self) -> String;
     fn tag(&self) -> Tag;
-    fn value(&self) -> &Self::Value;
-    fn to_data_item(&self) -> DataItems;
 }
 
-// #[derive(Debug, Clone)]
-// pub enum CifData {
-//     Audit(AuditSection),
-//     SpaceGroup(SpaceGroupSection),
-//     SpaceGroupLoop(SpaceGroupLoopData),
-//     CellData(CellDataSection),
-//     AtomSiteLoop(LoopAtomSiteData),
-//     Else,
-// }
+pub trait SingleValueTerm: CifTerm {
+    fn value(&self) -> Value;
+    fn to_single_value_data(&self) -> DataItems {
+        DataItems::SingleValue(SingleLineData::from_tag_value((self.tag(), self.value())))
+    }
+}
 
-// impl Display for CifData {
-//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-//         match self {
-//             CifData::SpaceGroup(v) => write!(f, "{v}"),
-//             CifData::SpaceGroupLoop(v) => write!(f, "{v}"),
-//             CifData::CellData(v) => write!(f, "{v}"),
-//             CifData::AtomSiteLoop(v) => write!(f, "{v}"),
-//             CifData::Audit(v) => write!(f, "{v}"),
-//             CifData::Else => Ok(()),
-//         }
-//     }
-// }
+pub trait LoopValueTerm: CifTerm {
+    fn values(&self) -> Vec<Value>;
+    fn to_loop_column(&self) -> LoopColumn {
+        LoopColumn::new(self.tag(), self.values())
+    }
+}

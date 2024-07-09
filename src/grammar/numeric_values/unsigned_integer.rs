@@ -2,10 +2,12 @@ use std::fmt::Display;
 
 use winnow::{ascii::digit1, error::StrContext, Parser};
 
-use crate::grammar::SyntacticUnit;
+use crate::grammar::{SyntacticUnit, Value};
+
+use super::{Integer, Number, Numeric};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub struct UnsignedInteger(u32);
+pub struct UnsignedInteger(pub u32);
 
 impl std::ops::Deref for UnsignedInteger {
     type Target = u32;
@@ -39,5 +41,17 @@ impl SyntacticUnit for UnsignedInteger {
 impl Display for UnsignedInteger {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
+    }
+}
+
+impl From<UnsignedInteger> for Integer {
+    fn from(value: UnsignedInteger) -> Self {
+        Integer(value.0 as i32)
+    }
+}
+
+impl From<UnsignedInteger> for Value {
+    fn from(value: UnsignedInteger) -> Self {
+        Value::Numeric(Numeric::new(Number::Integer(value.into()), None))
     }
 }

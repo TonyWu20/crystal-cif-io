@@ -12,6 +12,8 @@ use crate::grammar::{
     SyntacticUnit,
 };
 
+use super::CharString;
+
 #[derive(Debug, Clone)]
 pub struct SingleQuotedString {
     content: String,
@@ -55,6 +57,12 @@ impl SyntacticUnit for SingleQuotedString {
 
     fn formatted_output(&self) -> Self::FormatOutput {
         format!("'{}'", self.content)
+    }
+}
+
+impl From<SingleQuotedString> for CharString {
+    fn from(value: SingleQuotedString) -> Self {
+        Self::SingleQuoted(value)
     }
 }
 
