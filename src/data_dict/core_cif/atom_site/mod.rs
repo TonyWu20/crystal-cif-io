@@ -130,10 +130,6 @@ impl CifTerm for AtomSiteLoopItem {
         };
         Tag::new(format!("atom_site_{suffix}"))
     }
-
-    fn category_prefix(&self) -> String {
-        "atom_site".to_string()
-    }
 }
 
 impl LoopValueTerm for AtomSiteLoopItem {

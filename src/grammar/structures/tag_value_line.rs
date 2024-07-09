@@ -6,10 +6,13 @@ use winnow::{
     Parser,
 };
 
-use crate::grammar::{
-    tags_values::{Tag, Value},
-    whitespace_comments::WhiteSpace,
-    SyntacticUnit,
+use crate::{
+    data_dict::{CifTerm, SingleValueTerm},
+    grammar::{
+        tags_values::{Tag, Value},
+        whitespace_comments::WhiteSpace,
+        SyntacticUnit,
+    },
 };
 
 #[derive(Debug, Clone)]
@@ -56,5 +59,17 @@ impl SyntacticUnit for SingleLineData {
 impl Display for SingleLineData {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
+    }
+}
+
+impl CifTerm for SingleLineData {
+    fn tag(&self) -> Tag {
+        self.tag.clone()
+    }
+}
+
+impl SingleValueTerm for SingleLineData {
+    fn value(&self) -> Value {
+        self.value().clone()
     }
 }

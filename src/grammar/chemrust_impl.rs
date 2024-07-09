@@ -21,7 +21,7 @@ pub fn to_cif_document<T: CrystalModel + SymmetryInfo>(model: &T, data_name: &st
     .flat_map(|items| {
         items
             .into_iter()
-            .map(|item| DataBlockMember::DataItems(item))
+            .map(DataBlockMember::DataItems)
             .collect::<Vec<DataBlockMember>>()
     })
     .collect();

@@ -3,7 +3,10 @@ use winnow::{
     Parser,
 };
 
-use crate::grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit, Tag};
+use crate::{
+    data_dict::{CifTerm, LoopValueTerm},
+    grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit, Tag},
+};
 
 #[derive(Debug, Clone)]
 pub struct LoopBody {
@@ -28,13 +31,13 @@ impl LoopBody {
     }
 
     /// Create `LoopBody` from a uniform array of `Vec<Value>` columns.
-    pub fn from_columns(columns: &[LoopColumn], column_length: usize) -> Self {
+    pub fn from_columns<T: LoopValueTerm>(columns: &[T], column_length: usize) -> Self {
         Self::new(
             (0..column_length)
                 .flat_map(|i| {
                     columns
                         .iter()
-                        .map(|c| c.as_ref()[i].clone())
+                        .map(|c| c.values()[i].clone())
                         .collect::<Vec<Value>>()
                 })
                 .collect::<Vec<Value>>(),
@@ -92,5 +95,17 @@ impl LoopColumn {
 
     pub fn tag(&self) -> &str {
         self.tag.as_ref()
+    }
+}
+
+impl CifTerm for LoopColumn {
+    fn tag(&self) -> Tag {
+        self.tag.clone()
+    }
+}
+
+impl LoopValueTerm for LoopColumn {
+    fn values(&self) -> Vec<Value> {
+        self.values().to_vec()
     }
 }

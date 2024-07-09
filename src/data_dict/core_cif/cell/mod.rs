@@ -46,10 +46,6 @@ pub enum MeasurementReflnLoopItem {
 }
 
 impl CifTerm for CellTerms {
-    fn category_prefix(&self) -> String {
-        "cell".to_string()
-    }
-
     fn tag(&self) -> Tag {
         let name = match self {
             CellTerms::Angle_alpha(_) => "angle_alpha",

@@ -3,7 +3,6 @@ pub mod core_cif;
 use crate::grammar::{DataItems, LoopColumn, SingleLineData, Tag, Value};
 
 pub trait CifTerm {
-    fn category_prefix(&self) -> String;
     fn tag(&self) -> Tag;
 }
 

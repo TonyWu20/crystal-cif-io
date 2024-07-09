@@ -57,7 +57,7 @@ impl CifDocument {
         self.data_blocks().map(|blocks| {
             blocks
                 .iter()
-                .find(|block| block.heading().as_ref() == data_block_name)
+                .find(|block| block.heading() == data_block_name)
         })?
     }
 }

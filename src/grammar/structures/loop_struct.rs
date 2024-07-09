@@ -40,7 +40,7 @@ impl LoopUnitBuilder {
                     .map(|c| Tag::new(c.tag().to_string()))
                     .collect::<Vec<Tag>>()
             })
-            .unwrap_or(Vec::new());
+            .unwrap_or_default();
         let header = LoopHeader::new(header);
         let body = LoopBody::from_columns(&self.value_columns.unwrap(), self.column_length);
         LoopUnit::new(header, body)

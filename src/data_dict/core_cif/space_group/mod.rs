@@ -21,10 +21,6 @@ pub enum SpaceGroupItem {
 }
 
 impl CifTerm for SpaceGroupItem {
-    fn category_prefix(&self) -> String {
-        "space_group".to_string()
-    }
-
     fn tag(&self) -> Tag {
         let suffix = match self {
             SpaceGroupItem::Crystal_system(_) => "crystal_system",
@@ -33,7 +29,7 @@ impl CifTerm for SpaceGroupItem {
             SpaceGroupItem::Name_H_M_alt(_) => "name_H-M_alt",
             SpaceGroupItem::Name_Hall(_) => "name_Hall",
         };
-        Tag::new(format!("{}_{}", self.category_prefix(), suffix))
+        Tag::new(format!("space_group_{}", suffix))
     }
 }
 
@@ -60,17 +56,13 @@ pub enum SpaceGroupLoopItem {
 }
 
 impl CifTerm for SpaceGroupLoopItem {
-    fn category_prefix(&self) -> String {
-        "space_group".to_string()
-    }
-
     fn tag(&self) -> Tag {
         let suffix = match self {
             SpaceGroupLoopItem::Symop_id(_) => "symop_id",
             SpaceGroupLoopItem::Symop_operation_xyz(_) => "symop_operation_xyz",
             SpaceGroupLoopItem::Symop_sg_id(_) => "symop_sg_id",
         };
-        Tag::new(format!("{}_{}", self.category_prefix(), suffix))
+        Tag::new(format!("space_group_{}", suffix))
     }
 }
 

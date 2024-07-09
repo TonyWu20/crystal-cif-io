@@ -16,10 +16,6 @@ pub enum AuditItem {
 }
 
 impl CifTerm for AuditItem {
-    fn category_prefix(&self) -> String {
-        "audit".to_string()
-    }
-
     fn tag(&self) -> Tag {
         let suffix = match self {
             AuditItem::Block_code => "block_code",
@@ -28,7 +24,7 @@ impl CifTerm for AuditItem {
             AuditItem::Creation_method(_) => "creation_method",
             AuditItem::Update_record => "Update_record",
         };
-        Tag::new(format!("{}_{}", self.category_prefix(), suffix))
+        Tag::new(format!("audit_{}", suffix))
     }
 }
 

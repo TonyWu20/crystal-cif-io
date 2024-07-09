@@ -1,4 +1,4 @@
-use crate::grammar::tags_values::Value;
+use crate::{grammar::tags_values::Value, LoopColumn};
 use std::fmt::Display;
 
 use winnow::{combinator::alt, error::StrContext, Parser};
@@ -32,7 +32,7 @@ impl DataItems {
         }
     }
 
-    pub fn get_loop_column_values_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<Vec<Value>> {
+    pub fn get_loop_column_values_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<LoopColumn> {
         if let DataItems::MultiValues(loop_unit) = self {
             loop_unit.find_loop_column_by_tag(tag)
         } else {
