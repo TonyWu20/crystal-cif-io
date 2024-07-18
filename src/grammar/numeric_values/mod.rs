@@ -64,6 +64,14 @@ impl Numeric {
             std_uncertainty,
         }
     }
+
+    pub fn number(&self) -> Number {
+        self.number
+    }
+
+    pub fn std_uncertainty(&self) -> Option<UnsignedInteger> {
+        self.std_uncertainty
+    }
 }
 
 impl SyntacticUnit for Numeric {
@@ -100,6 +108,12 @@ impl Display for Numeric {
 impl From<f64> for Numeric {
     fn from(value: f64) -> Self {
         Numeric::new(Number::Float(Float(value as f32)), None)
+    }
+}
+
+impl From<f32> for Numeric {
+    fn from(value: f32) -> Self {
+        Numeric::new(Number::Float(Float(value)), None)
     }
 }
 

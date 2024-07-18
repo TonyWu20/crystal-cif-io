@@ -93,8 +93,16 @@ impl LoopColumn {
         &self.values
     }
 
-    pub fn tag(&self) -> &str {
-        self.tag.as_ref()
+    pub fn tag(&self) -> &Tag {
+        &self.tag
+    }
+
+    pub fn tag_mut(&mut self) -> &mut Tag {
+        &mut self.tag
+    }
+
+    pub fn values_mut(&mut self) -> &mut Vec<Value> {
+        &mut self.values
     }
 }
 

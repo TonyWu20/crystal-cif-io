@@ -10,3 +10,6 @@ pub use grammar::{
 
 #[cfg(feature = "chemrust-core")]
 pub use grammar::chemrust_impl::to_cif_document;
+
+#[cfg(feature = "serde")]
+pub mod serde;

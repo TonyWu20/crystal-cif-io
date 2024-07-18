@@ -27,6 +27,16 @@ pub enum CharString {
     DoubleQuoted(DoubleQuotedString),
 }
 
+impl AsRef<str> for CharString {
+    fn as_ref(&self) -> &str {
+        match self {
+            CharString::Unquoted(u) => u.as_ref(),
+            CharString::SingleQuoted(s) => s.as_ref(),
+            CharString::DoubleQuoted(d) => d.as_ref(),
+        }
+    }
+}
+
 impl SyntacticUnit for CharString {
     type ParseResult = Self;
 

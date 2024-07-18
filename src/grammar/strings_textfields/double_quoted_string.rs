@@ -17,6 +17,13 @@ pub struct DoubleQuotedString {
     content: String,
 }
 
+impl AsRef<str> for DoubleQuotedString {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        <String as AsRef<str>>::as_ref(&self.content)
+    }
+}
+
 impl Display for DoubleQuotedString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())

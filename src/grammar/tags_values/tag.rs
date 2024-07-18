@@ -23,6 +23,10 @@ impl Tag {
     pub fn new(name: String) -> Self {
         Self { name }
     }
+
+    pub fn as_str(&self) -> &str {
+        self.name.as_str()
+    }
 }
 
 impl SyntacticUnit for Tag {

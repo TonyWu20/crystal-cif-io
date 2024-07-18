@@ -2,6 +2,8 @@ mod angle;
 #[cfg(feature = "chemrust-core")]
 pub mod chemrust_impl;
 
+use std::fmt::Display;
+
 use crate::{
     data_dict::{CifTerm, SingleValueTerm},
     grammar::{Numeric, Tag, UnsignedInteger, Value},
@@ -102,5 +104,11 @@ impl SingleValueTerm for CellTerms {
             CellTerms::Measurement_wavelength => todo!(),
             CellTerms::Special_details => todo!(),
         }
+    }
+}
+
+impl Display for CellTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }

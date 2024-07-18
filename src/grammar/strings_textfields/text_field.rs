@@ -17,6 +17,18 @@ pub struct SemiColonTextField {
     lines: Vec<String>,
 }
 
+impl AsRef<Vec<String>> for SemiColonTextField {
+    fn as_ref(&self) -> &Vec<String> {
+        <Vec<String> as AsRef<Vec<String>>>::as_ref(&self.lines)
+    }
+}
+
+impl From<&SemiColonTextField> for String {
+    fn from(value: &SemiColonTextField) -> Self {
+        value.lines.join("\n")
+    }
+}
+
 /// In the present revision the production for <TextField> is a trivial
 /// equivalence to <SemiColonTextField>. The redundancy is retained to permit
 /// possible future extensions to text fields, in particular the possible
@@ -24,6 +36,14 @@ pub struct SemiColonTextField {
 #[derive(Debug, Clone)]
 pub enum TextField {
     SemiColonTextField(SemiColonTextField),
+}
+
+impl From<&TextField> for String {
+    fn from(value: &TextField) -> Self {
+        match value {
+            TextField::SemiColonTextField(s) => s.into(),
+        }
+    }
 }
 
 impl Display for TextField {

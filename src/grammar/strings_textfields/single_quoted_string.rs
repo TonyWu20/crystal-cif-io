@@ -19,6 +19,13 @@ pub struct SingleQuotedString {
     content: String,
 }
 
+impl AsRef<str> for SingleQuotedString {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        <String as AsRef<str>>::as_ref(&self.content)
+    }
+}
+
 impl Display for SingleQuotedString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
