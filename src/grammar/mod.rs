@@ -5,10 +5,7 @@ use winnow::{
     PResult, Parser,
 };
 
-use self::{
-    structures::DataBlock,
-    whitespace_comments::{Comments, WhiteSpace},
-};
+use self::whitespace_comments::{Comments, WhiteSpace};
 
 mod character_sets;
 mod numeric_values;
@@ -25,7 +22,10 @@ pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
 pub use strings_textfields::{
     CharString, DoubleQuotedString, SingleQuotedString, TextField, UnquotedString,
 };
-pub use structures::{CIFDataType, DataItems, LoopColumn, LoopUnit, SingleLineData};
+pub use structures::{
+    CIFDataType, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopColumn, LoopColumns,
+    LoopUnit, SingleLineData,
+};
 pub use tags_values::{CIFValue, Tag, Value};
 
 pub trait SyntacticUnit {

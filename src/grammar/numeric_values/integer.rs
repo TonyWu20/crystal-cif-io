@@ -47,3 +47,9 @@ impl SyntacticUnit for Integer {
         self.0
     }
 }
+
+impl From<u32> for Integer {
+    fn from(value: u32) -> Self {
+        Integer(value as i32)
+    }
+}

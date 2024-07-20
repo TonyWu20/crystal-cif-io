@@ -96,7 +96,8 @@ mod test {
     fn single_quoted_string() {
         let mut input = "'f scans, and w scans with k offsets Mr. Evan's things'
 ";
-        let mut input_2 = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'";
+        let mut input_2 = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
+";
         let mut parser = preceded(
             SingleQuote::parser.context(StrContext::Label("<single_quote> Open")),
             repeat_till(

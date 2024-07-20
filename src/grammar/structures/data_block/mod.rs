@@ -52,6 +52,14 @@ impl DataBlock {
     pub fn heading(&self) -> &str {
         self.heading.as_ref()
     }
+
+    pub fn members(&self) -> &[DataBlockMember] {
+        &self.members
+    }
+
+    pub fn members_mut(&mut self) -> &mut Vec<DataBlockMember> {
+        &mut self.members
+    }
 }
 
 impl SyntacticUnit for DataBlock {

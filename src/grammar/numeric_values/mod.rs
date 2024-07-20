@@ -45,6 +45,18 @@ impl SyntacticUnit for Number {
     }
 }
 
+impl From<i32> for Number {
+    fn from(value: i32) -> Self {
+        Number::Integer(Integer(value))
+    }
+}
+
+impl From<u32> for Number {
+    fn from(value: u32) -> Self {
+        Number::Integer(Integer::from(value))
+    }
+}
+
 impl Display for Number {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
@@ -114,6 +126,12 @@ impl From<f64> for Numeric {
 impl From<f32> for Numeric {
     fn from(value: f32) -> Self {
         Numeric::new(Number::Float(Float(value)), None)
+    }
+}
+
+impl From<i32> for Numeric {
+    fn from(value: i32) -> Self {
+        Numeric::new(Number::from(value), None)
     }
 }
 

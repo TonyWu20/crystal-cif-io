@@ -61,5 +61,5 @@ pub(crate) fn basic_atom_site_data<T: CoreAtomData>(atom_data: &T) -> DataItems 
     let loop_unit = LoopUnit::builder()
         .with_value_columns(columns.to_vec())
         .build();
-    DataItems::MultiValues(loop_unit)
+    DataItems::MultiValues(loop_unit.into())
 }

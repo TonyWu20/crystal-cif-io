@@ -2,7 +2,10 @@ use std::fmt::Display;
 
 use winnow::Parser;
 
-use crate::grammar::{tags_values::Value, SyntacticUnit, Tag};
+use crate::{
+    data_dict::CifTerm,
+    grammar::{tags_values::Value, SyntacticUnit, Tag},
+};
 
 use self::{body::LoopBody, header::LoopHeader};
 
@@ -21,6 +24,11 @@ pub struct LoopUnit {
 pub struct LoopUnitBuilder {
     value_columns: Option<Vec<LoopColumn>>,
     column_length: usize,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct LoopColumns {
+    columns: Vec<LoopColumn>,
 }
 
 impl LoopUnitBuilder {
@@ -102,6 +110,47 @@ impl SyntacticUnit for LoopUnit {
 impl Display for LoopUnit {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
+    }
+}
+
+impl LoopColumns {
+    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<&LoopColumn> {
+        self.columns
+            .iter()
+            .find(|col| col.tag().as_ref() == tag.as_ref())
+    }
+}
+
+impl From<LoopColumns> for LoopUnit {
+    fn from(value: LoopColumns) -> Self {
+        LoopUnit::builder()
+            .with_value_columns(value.columns)
+            .build()
+    }
+}
+
+impl From<&LoopColumns> for LoopUnit {
+    fn from(value: &LoopColumns) -> Self {
+        LoopUnit::builder()
+            .with_value_columns(value.columns.clone())
+            .build()
+    }
+}
+
+impl From<LoopUnit> for LoopColumns {
+    fn from(value: LoopUnit) -> Self {
+        let column_width = value.header().tags().len();
+        LoopColumns {
+            columns: value
+                .header()
+                .tags()
+                .iter()
+                .enumerate()
+                .map(|(i, tag)| {
+                    LoopColumn::new(tag.clone(), value.body.nth_column_values(i, column_width))
+                })
+                .collect::<Vec<LoopColumn>>(),
+        }
     }
 }
 

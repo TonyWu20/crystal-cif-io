@@ -3,9 +3,9 @@ pub mod data_dict;
 mod grammar;
 
 pub use grammar::{
-    CIFDataType, CIFValue, CharString, DataItems, DoubleQuotedString, Float, Integer, LoopColumn,
-    LoopUnit, Number, Numeric, SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString,
-    UnsignedInteger, Value,
+    CIFDataType, CIFValue, CharString, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
+    DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns, LoopUnit, Number, Numeric,
+    SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString, UnsignedInteger, Value,
 };
 
 #[cfg(feature = "chemrust-core")]

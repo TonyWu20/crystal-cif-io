@@ -78,25 +78,3 @@ impl LoopValueTerm for SpaceGroupLoopItem {
         }
     }
 }
-
-#[cfg(test)]
-mod test {
-
-    #[test]
-    fn space_group_data() {
-        // let space_group_section = SpaceGroupSection::init_builder()
-        //     .add_entry(SpaceGroupItem::Id(1))
-        //     .add_entry(SpaceGroupItem::Crystal_system(CrystalSystemCif::Triclinic))
-        //     .add_entry(SpaceGroupItem::IT_number(ITNumber::new(1)))
-        //     .finish();
-        // println!("{space_group_section}");
-        // let space_group_loop_data = SpaceGroupLoopData::init_builder()
-        //     .add_entry(
-        //         LoopDataEntry::init_builder()
-        //             .add_entry(SpaceGroupLoopItem::Symop_operation_xyz("x,y,z".to_string()))
-        //             .finish(),
-        //     )
-        //     .finish();
-        // println!("{space_group_loop_data}");
-    }
-}

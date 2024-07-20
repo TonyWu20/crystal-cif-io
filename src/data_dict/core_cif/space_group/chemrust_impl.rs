@@ -34,13 +34,13 @@ pub(crate) fn basic_space_group_data<T: SymmetryInfo>(model: &T) -> Vec<DataItem
         [
             SpaceGroupItem::Crystal_system(crystal_system).to_single_value_data(),
             SpaceGroupItem::IT_number(ITNumber::new(it_number)).to_single_value_data(),
-            DataItems::MultiValues(symmetry_ops_loop),
+            DataItems::MultiValues(symmetry_ops_loop.into()),
         ]
     } else {
         [
             SpaceGroupItem::Crystal_system(CrystalSystemCif::Triclinic).to_single_value_data(),
             SpaceGroupItem::IT_number(ITNumber::new(1)).to_single_value_data(),
-            DataItems::MultiValues(symmetry_ops_loop),
+            DataItems::MultiValues(symmetry_ops_loop.into()),
         ]
     };
     items.to_vec()

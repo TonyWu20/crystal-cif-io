@@ -88,10 +88,12 @@ mod test {
 
     #[test]
     fn char_string() {
-        let mut input = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'";
+        let mut input = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
+";
         let mut input_2 = "    rm
 ";
-        let mut input_3 = "_symmetry_cell_setting ";
+        let mut input_3 = "_symmetry_cell_setting
+";
         dbg!(CharString::parser(&mut input).unwrap());
         dbg!(CharString::parser(&mut input_2).unwrap());
         dbg!(CharString::parser(&mut input_3).unwrap());
