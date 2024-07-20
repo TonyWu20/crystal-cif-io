@@ -45,7 +45,7 @@ impl LoopUnitBuilder {
             .map(|columns| {
                 columns
                     .iter()
-                    .map(|c| Tag::new(c.tag().to_string()))
+                    .map(|c| c.tag().clone())
                     .collect::<Vec<Tag>>()
             })
             .unwrap_or_default();
