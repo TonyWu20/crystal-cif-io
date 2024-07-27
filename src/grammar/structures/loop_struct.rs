@@ -119,6 +119,23 @@ impl LoopColumns {
             .iter()
             .find(|col| col.tag().as_ref() == tag.as_ref())
     }
+
+    pub fn find_loop_column_mut_by_tag<T: AsRef<str>>(
+        &mut self,
+        tag: T,
+    ) -> Option<&mut LoopColumn> {
+        self.columns_mut()
+            .iter_mut()
+            .find(|col| col.tag().as_ref() == tag.as_ref())
+    }
+
+    pub fn columns(&self) -> &[LoopColumn] {
+        &self.columns
+    }
+
+    pub fn columns_mut(&mut self) -> &mut Vec<LoopColumn> {
+        &mut self.columns
+    }
 }
 
 impl From<LoopColumns> for LoopUnit {
@@ -168,7 +185,7 @@ mod test {
  _atom_type_scat_dispersion_real
  _atom_type_scat_dispersion_imag
  _atom_type_scat_source
- 'C'  'C'   0.0033   0.0000
+ 'C'  'C'   0.0033(9)   0.0000
  'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
  'H'  'H'   0.0000   0.0000
  'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'

@@ -5,11 +5,11 @@ use winnow::{
     Parser,
 };
 
-use crate::grammar::{character_sets::Eol, SyntacticUnit};
+use crate::grammar::SyntacticUnit;
 
 pub use self::{float::Float, integer::Integer, unsigned_integer::UnsignedInteger};
 
-use super::{CIFValue, Value};
+use super::{whitespace_comments::WhiteSpace, CIFValue, Value};
 
 mod exponent;
 mod float;
@@ -97,7 +97,7 @@ impl SyntacticUnit for Numeric {
                 Number::parser,
                 opt(delimited('(', UnsignedInteger::parser, ')')),
             ),
-            peek(Eol::parser),
+            peek(WhiteSpace::parser),
         )
         .map(|(number, uncer)| Numeric::new(number, uncer))
         .parse_next(input)
@@ -149,7 +149,7 @@ mod test {
 
     #[test]
     fn numeric_test() {
-        let mut input = "     482.66";
+        let mut input = "482.66(9)\n";
         match Numeric::parser(&mut input) {
             Ok(n) => println!("{n:?}"),
             Err(e) => {

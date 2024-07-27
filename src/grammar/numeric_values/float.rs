@@ -60,7 +60,7 @@ fn float_2(input: &mut &str) -> PResult<f32> {
         .map(|(sign, float, exp)| {
             format!("{sign}{float}{exp}")
                 .parse::<f32>()
-                .expect("Failed to parse as u32")
+                .expect("Failed to parse as f32")
         })
         .parse_next(input)
 }

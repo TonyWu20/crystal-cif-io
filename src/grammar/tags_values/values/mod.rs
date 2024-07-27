@@ -13,10 +13,11 @@ use crate::grammar::{
     SyntacticUnit,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub enum Value {
     /// '.'
     Inapplicable,
+    #[default]
     /// '?'
     Unknown,
     Numeric(Numeric),
@@ -115,8 +116,7 @@ RESPONSE: .See above
 ",
             "'P 1'
 ",
-            "662.31(12)
-",
+            " 662.31(12) ",
             "8456
 ",
             "  MoK\\a
