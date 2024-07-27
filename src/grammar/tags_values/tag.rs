@@ -7,7 +7,7 @@ use winnow::{
 
 use crate::grammar::{character_sets::NonBlankChar, SyntacticUnit};
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct Tag {
     name: String,
 }
@@ -26,6 +26,11 @@ impl Tag {
 
     pub fn as_str(&self) -> &str {
         self.name.as_str()
+    }
+    pub const fn null() -> Self {
+        Self {
+            name: String::new(),
+        }
     }
 }
 
