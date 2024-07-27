@@ -15,7 +15,7 @@ use crate::{
     },
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct SingleLineData {
     tag: Tag,
     value: Value,
@@ -33,6 +33,12 @@ impl SingleLineData {
 
     pub fn value(&self) -> &Value {
         &self.value
+    }
+    pub const fn null() -> Self {
+        SingleLineData {
+            tag: Tag::null(),
+            value: Value::Unknown,
+        }
     }
 }
 
