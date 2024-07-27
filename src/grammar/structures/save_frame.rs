@@ -17,6 +17,13 @@ pub struct SaveFrameHeading {
     heading: String,
 }
 
+impl AsRef<str> for SaveFrameHeading {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        <String as AsRef<str>>::as_ref(&self.heading)
+    }
+}
+
 impl SaveFrameHeading {
     pub fn new(heading: String) -> Self {
         Self { heading }
@@ -64,6 +71,18 @@ impl SaveFrame {
             heading,
             data_items,
         }
+    }
+
+    pub fn heading(&self) -> &SaveFrameHeading {
+        &self.heading
+    }
+
+    pub fn data_items(&self) -> &[DataItems] {
+        &self.data_items
+    }
+
+    pub fn data_items_mut(&mut self) -> &mut Vec<DataItems> {
+        &mut self.data_items
     }
 }
 
