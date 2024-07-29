@@ -22,6 +22,24 @@ pub enum Number {
     Float(Float),
 }
 
+impl Number {
+    pub fn as_integer(&self) -> Option<&Integer> {
+        if let Self::Integer(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_float(&self) -> Option<&Float> {
+        if let Self::Float(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+}
+
 impl CIFValue for Number {}
 
 impl SyntacticUnit for Number {

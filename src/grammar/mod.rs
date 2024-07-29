@@ -15,6 +15,8 @@ mod structures;
 mod tags_values;
 mod whitespace_comments;
 
+mod index;
+
 #[cfg(feature = "chemrust-core")]
 pub mod chemrust_impl;
 
@@ -59,6 +61,10 @@ impl CifDocument {
                 .iter()
                 .find(|block| block.heading() == data_block_name)
         })?
+    }
+
+    pub fn data_blocks_mut(&mut self) -> &mut Option<Vec<DataBlock>> {
+        &mut self.data_blocks
     }
 }
 
@@ -116,6 +122,8 @@ impl Display for CifDocument {
 mod test {
     use std::fs::{read_to_string, write};
 
+    use crate::DataItems;
+
     use super::{CifDocument, SyntacticUnit};
 
     #[test]
@@ -126,7 +134,12 @@ mod test {
         match CifDocument::parser(&mut content.as_str()) {
             Ok(cif) => {
                 let output_path = "cif_parse_test.cif";
-                assert!(cif.get_data_block_by_name("I").is_some());
+                dbg!(&cif["global"]["audit_creation_date"]);
+                dbg!(&cif["I"]["cell_length_a"]);
+                dbg!(&cif["I"]["cell_length_b"]);
+                if let DataItems::MultiValues(atom_loop) = &cif["I"]["atom_site_label"] {
+                    dbg!(&atom_loop["atom_site_fract_x"]);
+                }
                 write(output_path, cif.to_string()).expect("Error during writing test output.")
             }
             Err(e) => {

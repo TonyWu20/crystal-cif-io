@@ -25,6 +25,32 @@ pub enum Value {
     TextField(TextField),
 }
 
+impl Value {
+    pub fn as_numeric(&self) -> Option<&Numeric> {
+        if let Self::Numeric(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_char_string(&self) -> Option<&CharString> {
+        if let Self::CharString(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_text_field(&self) -> Option<&TextField> {
+        if let Self::TextField(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+}
+
 pub trait CIFValue {}
 
 impl CIFValue for Numeric {}

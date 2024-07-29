@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use castep_periodic_table::element::ElementSymbol;
 
-use crate::grammar::{CharString, UnquotedString, Value};
+use crate::grammar::{CharString, SyntacticUnit, UnquotedString, Value};
 
 #[derive(Debug, Clone)]
 pub enum TypeSymbolCode {
@@ -16,6 +16,20 @@ impl Display for TypeSymbolCode {
             TypeSymbolCode::ElementSymbol(symbol) => write!(f, "{symbol}"),
             TypeSymbolCode::Custom(code) => write!(f, "{}", code),
         }
+    }
+}
+
+impl SyntacticUnit for TypeSymbol {
+    type ParseResult;
+
+    type FormatOutput;
+
+    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
+        todo!()
+    }
+
+    fn formatted_output(&self) -> Self::FormatOutput {
+        todo!()
     }
 }
 

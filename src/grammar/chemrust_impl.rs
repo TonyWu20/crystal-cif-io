@@ -1,13 +1,24 @@
-use chemrust_core::data::{lattice::CrystalModel, symmetry::SymmetryInfo};
+use std::str::FromStr;
 
-use crate::data_dict::core_cif::{
-    atom_site::chemrust_impl::basic_atom_site_data, audit::default_audit_data,
-    cell::chemrust_impl::basic_cell_data, space_group::chemrust_impl::basic_space_group_data,
+use castep_periodic_table::element::ElementSymbol;
+use chemrust_core::data::{
+    atom::CoreAtomData, geom::coordinates::CoordData, lattice::{CellConstants, CrystalModel, UnitCellParameters}, symmetry::SymmetryInfo,
+};
+use nalgebra::Point3;
+
+use crate::{
+    data_dict::
+        core_cif::{
+            atom_site::chemrust_impl::basic_atom_site_data, audit::default_audit_data,
+            cell::chemrust_impl::basic_cell_data,
+            space_group::chemrust_impl::basic_space_group_data,
+        },
+    LoopColumn,
 };
 
 use super::{
     structures::{DataBlock, DataBlockHeading, DataBlockMember},
-    CifDocument,
+    CifDocument, SyntacticUnit,
 };
 
 pub fn to_cif_document<T: CrystalModel + SymmetryInfo>(model: &T, data_name: &str) -> CifDocument {
@@ -30,181 +41,102 @@ pub fn to_cif_document<T: CrystalModel + SymmetryInfo>(model: &T, data_name: &st
     CifDocument::new(None, Some(vec![data_block]))
 }
 
-#[cfg(feature = "serde")]
-mod serde {
-    use std::fmt::Display;
+impl UnitCellParameters for DataBlock {
+    fn lattice_bases(&self) -> nalgebra::Matrix3<f64> {
+        let length_a = self["cell_length_a"].as_single_value().and_then(|v| v.value().as_numeric())
+            .and_then(|n| n.number().as_float().map(|&float| f64::from(float)))
+            .expect("float to f64");
+        let length_b = self["cell_length_b"].as_single_value().and_then(|v| v.value().as_numeric())
+            .and_then(|n| n.number().as_float().map(|&float| f64::from(float)))
+            .expect("float to f64");
+        let length_c = self["cell_length_c"].as_single_value().and_then(|v| v.value().as_numeric())
+            .and_then(|n| n.number().as_float().map(|&float| f64::from(float)))
+            .expect("float to f64");
+        let alpha = self["cell_angle_alpha"].as_single_value().and_then(|v| v.value().as_numeric())
+            .and_then(|n| n.number().as_float().map(|&float| f64::from(float)))
+            .expect("float to f64");
+        let beta = self["cell_angle_beta"].as_single_value().and_then(|v| v.value().as_numeric())
+            .and_then(|n| n.number().as_float().map(|&float| f64::from(float)))
+            .expect("float to f64");
+        let gamma = self["cell_angle_gamma"].as_single_value().and_then(|v| v.value().as_numeric())
+            .and_then(|n| n.number().as_float().map(|&float| f64::from(float)))
+            .expect("float to f64");
+        let cell_constants = CellConstants::new(length_a, length_b, length_c, alpha, beta, gamma);
+        cell_constants.lattice_bases()
+    }
+}
 
-    use castep_periodic_table::element::ElementSymbol;
-    use chemrust_core::data::geom::coordinates::CoordData;
-    use serde::{
-        de::{self, Visitor},
-        Deserialize,
-    };
-    pub struct CifModel {
-        cell_constant: LatticeConstant,
-        atom_site_type_symbols: Vec<ElementSymbol>,
-        atom_site_xyz: Vec<CoordData>,
+impl CoreAtomData for DataBlock {
+    fn indices_repr(&self) -> Vec<usize> {
+        let atom_sites = &self["atom_site_label"].as_multi_values().expect("this data block does not have atom sites data");
+        let labels: &LoopColumn = &atom_sites["atom_site_label"];
+        let len = labels.values().len();
+        (0..len).collect()
     }
 
-    #[derive(Debug, Clone, Copy)]
-    pub struct LatticeConstant {
-        a: f32,
-        b: f32,
-        c: f32,
-        alpha: f32,
-        beta: f32,
-        gamma: f32,
+    fn symbols_repr(&self) -> Vec<ElementSymbol> {
+        let atom_sites = &self["atom_site_label"].as_multi_values().expect("this data block does not have atom sites data");
+            let symbols = &atom_sites["atom_site_type_symbol"];
+            symbols
+                .values()
+                .iter()
+                .map(|value| {
+                    value
+                        .as_char_string()
+                        .map(|char_string| {
+                            
+                            ElementSymbol::from_str(char_string.as_ref()).expect("Single element symbol from periodic table. Multi-element symbol representation is not supported.")
+                        })
+                        .expect("the element symbol value should be <CharString>")
+                })
+                .collect()
     }
 
-    #[derive(Debug)]
-    pub enum DataError {
-        Msg(String),
-        DataNotFound,
-    }
+    fn coords_repr(&self) -> Vec<CoordData> {
+        let atom_sites = &self["atom_site_label"].as_multi_values().expect("this data block does not have atom sites data");
+        if atom_sites.find_loop_column_by_tag("atom_site_fract_x").is_some() &&
+        atom_sites.find_loop_column_by_tag("atom_site_fract_y").is_some() &&
+        atom_sites.find_loop_column_by_tag("atom_site_fract_z").is_some() {
+            let fract_x = &atom_sites["atom_site_fract_x"];
+            let fract_y =  &atom_sites["atom_site_fract_y"];
+            let fract_z =  &atom_sites["atom_site_fract_z"];
+            fract_x.values().iter().zip(fract_y.values().iter()).zip(fract_z.values().iter())
+            .map(|((x,y), z)| {
+                    let (x, y, z) = (*x.as_numeric().expect("Numeric").number().as_float().expect("fractional coord should be float"),
+                        *y.as_numeric().expect("Numeric").number().as_float().expect("fractional coord should be float"),
+                        *z.as_numeric().expect("Numeric").number().as_float().expect("fractional coord should be float"));
+                    let (x,y,z) = ((*x).into(), ( *y ).into(), ( *z ).into());
+                    CoordData::Fractional(Point3::new(x, y, z))
 
-    impl Display for DataError {
-        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            match self {
-                DataError::Msg(m) => write!(f, "{m}"),
-                DataError::DataNotFound => f.write_str("Requested data not found"),
-            }
+                    
+                }).collect()
+        } else if  
+
+        atom_sites.find_loop_column_by_tag("atom_site_cartn_x").is_some() &&
+        atom_sites.find_loop_column_by_tag("atom_site_cartn_y").is_some() &&
+        atom_sites.find_loop_column_by_tag("atom_site_cartn_z").is_some() {
+            let cartn_x = &atom_sites["atom_site_cartn_x"];
+            let cartn_y =  &atom_sites["atom_site_cartn_y"];
+            let cartn_z =  &atom_sites["atom_site_cartn_z"];
+            cartn_x.values().iter().zip(cartn_y.values().iter()).zip(cartn_z.values().iter())
+            .map(|((x,y), z)| {
+                    let (x, y, z) = (*x.as_numeric().expect("Numeric").number().as_float().expect("coord should be float"),
+                        *y.as_numeric().expect("Numeric").number().as_float().expect("coord should be float"),
+                        *z.as_numeric().expect("Numeric").number().as_float().expect("coord should be float"));
+                    let (x,y,z) = ((*x).into(), ( *y ).into(), ( *z ).into());
+                    CoordData::Cartesian(Point3::new(x, y, z))
+                }).collect()
+        } else {
+            panic!("the data block does not have sufficient coordinate data (x, y, and z)")
         }
+
     }
 
-    impl std::error::Error for DataError {}
-
-    impl<'de> Deserialize<'de> for LatticeConstant {
-        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where
-            D: serde::Deserializer<'de>,
-        {
-            #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
-            #[derive(Deserialize)]
-            #[serde(field_identifier, rename_all = "lowercase")]
-            enum Field {
-                Cell_length_a,
-                Cell_length_b,
-                Cell_length_c,
-                Cell_angle_alpha,
-                Cell_angle_beta,
-                Cell_angle_gamma,
-            }
-            struct ConstantVisitor;
-            impl<'de> Visitor<'de> for ConstantVisitor {
-                type Value = LatticeConstant;
-
-                fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-                    formatter.write_str("Data of cell constants")
-                }
-                fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
-                where
-                    A: serde::de::SeqAccess<'de>,
-                {
-                    let a = seq
-                        .next_element()?
-                        .ok_or_else(|| de::Error::invalid_length(0, &self))?;
-                    let b = seq
-                        .next_element()?
-                        .ok_or_else(|| de::Error::invalid_length(0, &self))?;
-                    let c = seq
-                        .next_element()?
-                        .ok_or_else(|| de::Error::invalid_length(0, &self))?;
-                    let alpha = seq
-                        .next_element()?
-                        .ok_or_else(|| de::Error::invalid_length(0, &self))?;
-                    let beta = seq
-                        .next_element()?
-                        .ok_or_else(|| de::Error::invalid_length(0, &self))?;
-                    let gamma = seq
-                        .next_element()?
-                        .ok_or_else(|| de::Error::invalid_length(0, &self))?;
-                    Ok(LatticeConstant {
-                        a,
-                        b,
-                        c,
-                        alpha,
-                        beta,
-                        gamma,
-                    })
-                }
-                fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
-                where
-                    A: de::MapAccess<'de>,
-                {
-                    let mut a = None;
-                    let mut b = None;
-                    let mut c = None;
-                    let mut alpha = None;
-                    let mut beta = None;
-                    let mut gamma = None;
-                    while let Some(key) = map.next_key()? {
-                        let value: f32 = map.next_value()?;
-                        match key {
-                            Field::Cell_length_a => {
-                                if a.is_some() {
-                                    return Err(de::Error::duplicate_field("cell_length_a"));
-                                }
-                                a = Some(value);
-                            }
-                            Field::Cell_length_b => {
-                                if b.is_some() {
-                                    return Err(de::Error::duplicate_field("cell_length_b"));
-                                }
-                                b = Some(value);
-                            }
-                            Field::Cell_length_c => {
-                                if c.is_some() {
-                                    return Err(de::Error::duplicate_field("cell_length_c"));
-                                }
-                                c = Some(value);
-                            }
-                            Field::Cell_angle_alpha => {
-                                if alpha.is_some() {
-                                    return Err(de::Error::duplicate_field("cell_angle_alpha"));
-                                }
-                                alpha = Some(value);
-                            }
-                            Field::Cell_angle_beta => {
-                                if beta.is_some() {
-                                    return Err(de::Error::duplicate_field("cell_angle_beta"));
-                                }
-                                beta = Some(value);
-                            }
-                            Field::Cell_angle_gamma => {
-                                if gamma.is_some() {
-                                    return Err(de::Error::duplicate_field("cell_angle_gamma"));
-                                }
-                                gamma = Some(value);
-                            }
-                        }
-                    }
-                    let a = a.ok_or_else(|| de::Error::missing_field("cell_length_a"))?;
-                    let b = b.ok_or_else(|| de::Error::missing_field("cell_length_a"))?;
-                    let c = c.ok_or_else(|| de::Error::missing_field("cell_length_a"))?;
-                    let alpha =
-                        alpha.ok_or_else(|| de::Error::missing_field("cell_angle_alpha"))?;
-                    let beta = beta.ok_or_else(|| de::Error::missing_field("cell_angle_beta"))?;
-                    let gamma =
-                        gamma.ok_or_else(|| de::Error::missing_field("cell_angle_gamma"))?;
-                    Ok(LatticeConstant {
-                        a,
-                        b,
-                        c,
-                        alpha,
-                        beta,
-                        gamma,
-                    })
-                }
-            }
-            const FIELDS: &[&str] = &[
-                "cell_length_a",
-                "cell_length_b",
-                "cell_length_c",
-                "cell_angle_alpha",
-                "cell_angle_beta",
-                "cell_angle_gamma",
-            ];
-            deserializer.deserialize_struct("LatticeConstant", FIELDS, ConstantVisitor)
-        }
+    fn labels_repr(&self) -> Vec<Option<String>> {
+        let atom_sites = &self["atom_site_label"].as_multi_values().expect("this data block does not have atom sites data");
+        atom_sites["atom_site_label"].values().iter()
+        .map(|val| val.as_char_string().map(|v| v.formatted_output()))
+        .collect()
     }
+
 }

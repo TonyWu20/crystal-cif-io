@@ -42,6 +42,22 @@ impl DataItems {
             None
         }
     }
+
+    pub fn as_single_value(&self) -> Option<&SingleLineData> {
+        if let Self::SingleValue(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_multi_values(&self) -> Option<&LoopColumns> {
+        if let Self::MultiValues(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
 }
 
 impl SyntacticUnit for DataItems {

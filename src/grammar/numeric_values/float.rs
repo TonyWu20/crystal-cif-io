@@ -103,6 +103,12 @@ impl From<Float> for Value {
     }
 }
 
+impl From<Float> for f64 {
+    fn from(value: Float) -> Self {
+        *value as f64
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::grammar::{Float, SyntacticUnit};
