@@ -38,6 +38,14 @@ pub enum TextField {
     SemiColonTextField(SemiColonTextField),
 }
 
+impl TextField {
+    pub fn raw_string(&self) -> String {
+        match self {
+            TextField::SemiColonTextField(sm) => sm.lines.join("\n"),
+        }
+    }
+}
+
 impl From<&TextField> for String {
     fn from(value: &TextField) -> Self {
         match value {
