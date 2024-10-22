@@ -5,7 +5,7 @@ use winnow::{
     PResult, Parser,
 };
 
-use self::whitespace_comments::{Comments, WhiteSpace};
+pub use self::whitespace_comments::{Comments, WhiteSpace};
 
 mod character_sets;
 mod numeric_values;
@@ -21,12 +21,13 @@ mod index;
 pub mod chemrust_impl;
 
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
+pub use reserved_words::Loop;
 pub use strings_textfields::{
     CharString, DoubleQuotedString, SingleQuotedString, TextField, UnquotedString,
 };
 pub use structures::{
-    CIFDataType, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopColumn, LoopColumns,
-    LoopUnit, SingleLineData,
+    CIFDataType, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopBody, LoopColumn,
+    LoopColumns, LoopHeader, LoopUnit, SaveFrame, SaveFrameHeading, SingleLineData,
 };
 pub use tags_values::{CIFValue, Tag, Value};
 

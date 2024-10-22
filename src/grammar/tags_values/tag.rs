@@ -32,6 +32,10 @@ impl Tag {
             name: String::new(),
         }
     }
+
+    pub fn name(&self) -> &str {
+        &self.name
+    }
 }
 
 impl SyntacticUnit for Tag {

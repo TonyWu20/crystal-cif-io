@@ -7,7 +7,7 @@ use crate::{
     grammar::{tags_values::Value, SyntacticUnit, Tag},
 };
 
-use self::{body::LoopBody, header::LoopHeader};
+pub use self::{body::LoopBody, header::LoopHeader};
 
 pub use body::LoopColumn;
 

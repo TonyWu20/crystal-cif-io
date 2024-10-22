@@ -15,7 +15,7 @@ serde = {version = "1.0", optional= true, features=["derive"]}
 indexmap = {version="2.2", optional=true}
 
 [features]
-default = ["chemrust-core"]
+default = ["chemrust-core", "serde"]
 chemrust-core = ["dep:chemrust-core", "dep:crystallographic-group", "dep:nalgebra"]
 serde = ["dep:serde", "dep:indexmap"]
 
