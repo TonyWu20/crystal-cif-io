@@ -66,6 +66,10 @@ impl CifDocument {
     pub fn data_blocks_mut(&mut self) -> &mut Option<Vec<DataBlock>> {
         &mut self.data_blocks
     }
+
+    pub fn parse_from_str(input: &mut &str) -> PResult<CifDocument> {
+        CifDocument::parser(input)
+    }
 }
 
 impl SyntacticUnit for CifDocument {
