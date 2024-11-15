@@ -21,7 +21,6 @@ mod index;
 pub mod chemrust_impl;
 
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
-pub use reserved_words::Loop;
 pub use strings_textfields::{
     CharString, DoubleQuotedString, SingleQuotedString, TextField, UnquotedString,
 };
