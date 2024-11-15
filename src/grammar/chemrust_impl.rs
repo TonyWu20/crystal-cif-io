@@ -140,3 +140,25 @@ impl CoreAtomData for DataBlock {
     }
 
 }
+
+impl CrystalModel for DataBlock {
+    type LatticeData=DataBlock;
+
+    type AtomData=DataBlock;
+
+    fn get_cell_parameters(&self) -> &Self::LatticeData {
+        self
+    }
+
+    fn get_atom_data(&self) -> &Self::AtomData {
+        self
+    }
+
+    fn get_cell_parameters_mut(&mut self) -> &mut Self::LatticeData {
+        self
+    }
+
+    fn get_atom_data_mut(&mut self) -> &mut Self::AtomData {
+        self
+    }
+}
