@@ -3,6 +3,7 @@ use chemrust_core::data::{atom::CoreAtomData, geom::coordinates::CoordData::Frac
 use crate::{
     data_dict::{core_cif::atom_site::adp_type::AdpType, LoopValueTerm},
     grammar::{CharString, DataItems, Float, LoopUnit, Numeric, UnquotedString},
+    DataBlock, DataBlockHeading, DataBlockMember,
 };
 
 use super::{
@@ -62,4 +63,11 @@ pub(crate) fn basic_atom_site_data<T: CoreAtomData>(atom_data: &T) -> DataItems 
         .with_value_columns(columns.to_vec())
         .build();
     DataItems::MultiValues(loop_unit.into())
+}
+
+pub fn from_atom_data(value: &impl CoreAtomData) -> DataBlock {
+    let atom_data = basic_atom_site_data(value);
+    let datablock_members = vec![DataBlockMember::DataItems(atom_data)];
+    let heading = DataBlockHeading::new(String::new());
+    DataBlock::from_heading_members((heading, datablock_members))
 }
