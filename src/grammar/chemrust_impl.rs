@@ -21,6 +21,25 @@ use super::{
     CifDocument, SyntacticUnit,
 };
 
+pub fn to_data_block<T: CrystalModel+SymmetryInfo>(model: &T, data_name: &str) -> DataBlock {
+    let datablock_members = [
+        default_audit_data(),
+        basic_space_group_data(model),
+        basic_cell_data(model.get_cell_parameters()),
+        [basic_atom_site_data(model.get_atom_data())].to_vec(),
+    ]
+    .into_iter()
+    .flat_map(|items| {
+        items
+            .into_iter()
+            .map(DataBlockMember::DataItems)
+            .collect::<Vec<DataBlockMember>>()
+    })
+    .collect();
+    let heading = DataBlockHeading::new(data_name.to_string());
+    DataBlock::from_heading_members((heading, datablock_members))
+}
+
 pub fn to_cif_document<T: CrystalModel + SymmetryInfo>(model: &T, data_name: &str) -> CifDocument {
     let datablock_members = [
         default_audit_data(),
