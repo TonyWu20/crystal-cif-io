@@ -12,9 +12,18 @@ use crate::grammar::{
     SyntacticUnit,
 };
 
+use super::CharString;
+
 #[derive(Debug, Clone)]
 pub struct SingleQuotedString {
     content: String,
+}
+
+impl AsRef<str> for SingleQuotedString {
+    #[inline]
+    fn as_ref(&self) -> &str {
+        <String as AsRef<str>>::as_ref(&self.content)
+    }
 }
 
 impl Display for SingleQuotedString {
@@ -58,6 +67,12 @@ impl SyntacticUnit for SingleQuotedString {
     }
 }
 
+impl From<SingleQuotedString> for CharString {
+    fn from(value: SingleQuotedString) -> Self {
+        Self::SingleQuoted(value)
+    }
+}
+
 #[cfg(test)]
 mod test {
     use winnow::{
@@ -81,7 +96,8 @@ mod test {
     fn single_quoted_string() {
         let mut input = "'f scans, and w scans with k offsets Mr. Evan's things'
 ";
-        let mut input_2 = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'";
+        let mut input_2 = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
+";
         let mut parser = preceded(
             SingleQuote::parser.context(StrContext::Label("<single_quote> Open")),
             repeat_till(

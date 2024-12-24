@@ -5,9 +5,12 @@ use winnow::{
     Parser,
 };
 
-use crate::grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit};
+use crate::{
+    grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit},
+    LoopColumn,
+};
 
-use self::{heading::DataBlockHeading, members::DataBlockMember};
+pub use self::{heading::DataBlockHeading, members::DataBlockMember};
 
 use super::SingleLineData;
 
@@ -26,7 +29,7 @@ impl DataBlock {
         Self { heading, members }
     }
 
-    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<Vec<Value>> {
+    pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<LoopColumn> {
         self.members.iter().find_map(|member| {
             if let DataBlockMember::DataItems(data_item) = member {
                 data_item.get_loop_column_values_by_tag(&tag)
@@ -35,6 +38,7 @@ impl DataBlock {
             }
         })
     }
+
     pub fn find_single_value_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<&SingleLineData> {
         self.members.iter().find_map(|member| {
             if let DataBlockMember::DataItems(data_item) = member {
@@ -45,8 +49,16 @@ impl DataBlock {
         })
     }
 
-    pub fn heading(&self) -> &DataBlockHeading {
-        &self.heading
+    pub fn heading(&self) -> &str {
+        self.heading.as_ref()
+    }
+
+    pub fn members(&self) -> &[DataBlockMember] {
+        &self.members
+    }
+
+    pub fn members_mut(&mut self) -> &mut Vec<DataBlockMember> {
+        &mut self.members
     }
 }
 

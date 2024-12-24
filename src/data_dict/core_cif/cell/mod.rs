@@ -1,23 +1,26 @@
-use chemrust_core::data::lattice::UnitCellParameters;
-
-use crate::data_dict::{DataLabel, SingleValueSection};
-
 mod angle;
+#[cfg(feature = "chemrust-core")]
+pub mod chemrust_impl;
+
+use std::fmt::Display;
+
+use crate::{
+    data_dict::{CifTerm, SingleValueTerm},
+    grammar::{Numeric, Tag, UnsignedInteger, Value},
+};
 
 pub use self::angle::CellAngle;
 
-pub type CellDataSection = SingleValueSection<CellItem>;
-
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
-pub enum CellItem {
+pub enum CellTerms {
     Angle_alpha(CellAngle),
     Angle_beta(CellAngle),
     Angle_gamma(CellAngle),
-    Formula_units_Z(usize),
-    Length_a(f64),
-    Length_b(f64),
-    Length_c(f64),
+    Formula_units_Z(UnsignedInteger),
+    Length_a(Numeric),
+    Length_b(Numeric),
+    Length_c(Numeric),
     Measurement_pressure,
     Measurement_radiation,
     Measurement_reflns_used,
@@ -28,11 +31,11 @@ pub enum CellItem {
     Reciprocal_angle_alpha(CellAngle),
     Reciprocal_angle_beta(CellAngle),
     Reciprocal_angle_gamma(CellAngle),
-    Reciprocal_length_a(f64),
-    Reciprocal_length_b(f64),
-    Reciprocal_length_c(f64),
+    Reciprocal_length_a(Numeric),
+    Reciprocal_length_b(Numeric),
+    Reciprocal_length_c(Numeric),
     Special_details,
-    Volume(f64),
+    Volume(Numeric),
 }
 
 #[derive(Debug, Clone)]
@@ -44,75 +47,68 @@ pub enum MeasurementReflnLoopItem {
     Measurement_refln_theta,
 }
 
-impl DataLabel for CellItem {
-    fn category_prefix(&self) -> String {
-        "cell".to_string()
+impl CifTerm for CellTerms {
+    fn tag(&self) -> Tag {
+        let name = match self {
+            CellTerms::Angle_alpha(_) => "angle_alpha",
+            CellTerms::Angle_beta(_) => "angle_beta",
+            CellTerms::Angle_gamma(_) => "angle_gamma",
+            CellTerms::Formula_units_Z(_) => "formula_units_z",
+            CellTerms::Length_a(_) => "length_a",
+            CellTerms::Length_b(_) => "length_b",
+            CellTerms::Length_c(_) => "length_c",
+            CellTerms::Measurement_pressure => "measurement_pressure",
+            CellTerms::Measurement_radiation => "measurement_radiation",
+            CellTerms::Measurement_reflns_used => "measurement_reflns_used",
+            CellTerms::Measurement_temperature => "measurement_temperature",
+            CellTerms::Measurement_theta_max => "measurement_theta_max",
+            CellTerms::Measurement_theta_min => "measurement_theta_min",
+            CellTerms::Measurement_wavelength => "measurement_wavelength",
+            CellTerms::Reciprocal_angle_alpha(_) => "reciprocal_angle_alpha",
+            CellTerms::Reciprocal_angle_beta(_) => "reciprocal_angle_beta",
+            CellTerms::Reciprocal_angle_gamma(_) => "reciprocal_angle_gamma",
+            CellTerms::Reciprocal_length_a(_) => "reciprocal_length_a",
+            CellTerms::Reciprocal_length_b(_) => "reciprocal_length_b",
+            CellTerms::Reciprocal_length_c(_) => "reciprocal_length_c",
+            CellTerms::Special_details => "special_details",
+            CellTerms::Volume(_) => "volume",
+        };
+        Tag::new(format!("cell_{name}"))
     }
+}
 
-    fn tag(&self) -> String {
+impl SingleValueTerm for CellTerms {
+    fn value(&self) -> crate::grammar::Value {
         match self {
-            CellItem::Angle_alpha(_) => "angle_alpha".to_string(),
-            CellItem::Angle_beta(_) => "angle_beta".to_string(),
-            CellItem::Angle_gamma(_) => "angle_gamma".to_string(),
-            CellItem::Formula_units_Z(_) => "formula_units_Z".to_string(),
-            CellItem::Length_a(_) => "length_a".to_string(),
-            CellItem::Length_b(_) => "length_b".to_string(),
-            CellItem::Length_c(_) => "length_c".to_string(),
-            CellItem::Measurement_pressure => todo!(),
-            CellItem::Measurement_radiation => todo!(),
-            CellItem::Measurement_reflns_used => todo!(),
-            CellItem::Measurement_temperature => todo!(),
-            CellItem::Measurement_theta_max => todo!(),
-            CellItem::Measurement_theta_min => todo!(),
-            CellItem::Measurement_wavelength => todo!(),
-            CellItem::Reciprocal_angle_alpha(_) => "reciprocal_angle_alpha".to_string(),
-            CellItem::Reciprocal_angle_beta(_) => "reciprocal_angle_beta".to_string(),
-            CellItem::Reciprocal_angle_gamma(_) => "reciprocal_angle_gamma".to_string(),
-            CellItem::Reciprocal_length_a(_) => "reciprocal_length_a".to_string(),
-            CellItem::Reciprocal_length_b(_) => "reciprocal_length_b".to_string(),
-            CellItem::Reciprocal_length_c(_) => "reciprocal_length_c".to_string(),
-            CellItem::Special_details => todo!(),
-            CellItem::Volume(_) => "volume".to_string(),
-        }
-    }
+            CellTerms::Angle_alpha(a)
+            | CellTerms::Angle_beta(a)
+            | CellTerms::Angle_gamma(a)
+            | CellTerms::Reciprocal_angle_alpha(a)
+            | CellTerms::Reciprocal_angle_beta(a)
+            | CellTerms::Reciprocal_angle_gamma(a) => (*a).into(),
 
-    fn value_string(&self) -> String {
-        match self {
-            CellItem::Angle_alpha(angle)
-            | CellItem::Angle_beta(angle)
-            | CellItem::Angle_gamma(angle)
-            | CellItem::Reciprocal_angle_alpha(angle)
-            | CellItem::Reciprocal_angle_beta(angle)
-            | CellItem::Reciprocal_angle_gamma(angle) => format!("{angle:.4}"),
-            CellItem::Formula_units_Z(z) => format!("{z}"),
-            CellItem::Length_a(f)
-            | CellItem::Length_b(f)
-            | CellItem::Length_c(f)
-            | CellItem::Reciprocal_length_a(f)
-            | CellItem::Reciprocal_length_b(f)
-            | CellItem::Reciprocal_length_c(f)
-            | CellItem::Volume(f) => format!("{f:.4}"),
-            CellItem::Measurement_pressure => todo!(),
-            CellItem::Measurement_radiation => todo!(),
-            CellItem::Measurement_reflns_used => todo!(),
-            CellItem::Measurement_temperature => todo!(),
-            CellItem::Measurement_theta_max => todo!(),
-            CellItem::Measurement_theta_min => todo!(),
-            CellItem::Measurement_wavelength => todo!(),
-            CellItem::Special_details => todo!(),
+            CellTerms::Formula_units_Z(z) => (*z).into(),
+            CellTerms::Length_a(numeric)
+            | CellTerms::Length_b(numeric)
+            | CellTerms::Length_c(numeric)
+            | CellTerms::Reciprocal_length_a(numeric)
+            | CellTerms::Reciprocal_length_b(numeric)
+            | CellTerms::Reciprocal_length_c(numeric)
+            | CellTerms::Volume(numeric) => Value::Numeric(*numeric),
+            CellTerms::Measurement_pressure => todo!(),
+            CellTerms::Measurement_radiation => todo!(),
+            CellTerms::Measurement_reflns_used => todo!(),
+            CellTerms::Measurement_temperature => todo!(),
+            CellTerms::Measurement_theta_max => todo!(),
+            CellTerms::Measurement_theta_min => todo!(),
+            CellTerms::Measurement_wavelength => todo!(),
+            CellTerms::Special_details => todo!(),
         }
     }
 }
 
-impl<T: UnitCellParameters> From<&T> for CellDataSection {
-    fn from(value: &T) -> Self {
-        Self::init_builder()
-            .add_entry(CellItem::Length_a(value.length_a()))
-            .add_entry(CellItem::Length_b(value.length_b()))
-            .add_entry(CellItem::Length_c(value.length_c()))
-            .add_entry(CellItem::Angle_alpha(CellAngle::new(value.angle_alpha())))
-            .add_entry(CellItem::Angle_beta(CellAngle::new(value.angle_beta())))
-            .add_entry(CellItem::Angle_gamma(CellAngle::new(value.angle_gamma())))
-            .finish()
+impl Display for CellTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }

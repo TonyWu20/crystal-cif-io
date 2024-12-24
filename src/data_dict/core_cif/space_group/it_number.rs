@@ -20,3 +20,15 @@ impl Display for ITNumber {
         write!(f, "{}", self.0)
     }
 }
+
+impl From<i32> for ITNumber {
+    fn from(value: i32) -> Self {
+        Self(value as u8)
+    }
+}
+
+impl From<ITNumber> for u64 {
+    fn from(value: ITNumber) -> Self {
+        value.0 as u64
+    }
+}

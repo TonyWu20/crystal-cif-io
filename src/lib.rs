@@ -1,30 +1,13 @@
-use std::fmt::Display;
-
-use data_dict::DataBlock;
-
 pub mod data_dict;
 
 mod grammar;
-mod parsing;
 
-pub struct CifFile {
-    data_blocks: Vec<DataBlock>,
-}
+pub use grammar::{
+    CIFDataType, CIFValue, CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember,
+    DataItems, DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns, LoopUnit, Number,
+    Numeric, SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString, UnsignedInteger,
+    Value,
+};
 
-impl CifFile {
-    pub fn new(data_blocks: Vec<DataBlock>) -> Self {
-        Self { data_blocks }
-    }
-}
-
-impl Display for CifFile {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let content = self
-            .data_blocks
-            .iter()
-            .map(|block| format!("{block}"))
-            .collect::<Vec<String>>()
-            .join("\n");
-        write!(f, "{content}")
-    }
-}
+#[cfg(feature = "chemrust-core")]
+pub use grammar::chemrust_impl::to_cif_document;

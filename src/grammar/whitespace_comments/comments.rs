@@ -4,7 +4,7 @@ use winnow::{
     ascii::line_ending,
     combinator::{delimited, repeat},
     stream::Accumulate,
-    Parser,
+    PResult, Parser,
 };
 
 use crate::grammar::{
@@ -32,6 +32,10 @@ impl TokenizedComments {
 impl Comments {
     pub fn new(content: Vec<String>) -> Self {
         Self { content }
+    }
+
+    pub fn content(&self) -> &[String] {
+        &self.content
     }
 }
 

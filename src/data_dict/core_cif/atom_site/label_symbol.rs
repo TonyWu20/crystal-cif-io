@@ -2,6 +2,8 @@ use std::fmt::Display;
 
 use castep_periodic_table::element::ElementSymbol;
 
+use crate::grammar::{CharString, UnquotedString, Value};
+
 #[derive(Debug, Clone)]
 pub enum TypeSymbolCode {
     ElementSymbol(ElementSymbol),
@@ -44,5 +46,23 @@ impl Display for TypeSymbol {
             String::new()
         };
         write!(f, "{}{}", self.code, oxidation_state)
+    }
+}
+
+impl From<TypeSymbol> for UnquotedString {
+    fn from(value: TypeSymbol) -> Self {
+        UnquotedString::new(value.to_string())
+    }
+}
+
+impl From<TypeSymbol> for CharString {
+    fn from(value: TypeSymbol) -> Self {
+        CharString::Unquoted(UnquotedString::from(value))
+    }
+}
+
+impl From<TypeSymbol> for Value {
+    fn from(value: TypeSymbol) -> Self {
+        Value::CharString(CharString::from(value))
     }
 }

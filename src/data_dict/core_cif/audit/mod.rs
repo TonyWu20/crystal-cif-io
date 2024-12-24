@@ -1,39 +1,54 @@
-use crate::data_dict::{DataLabel, SingleValueSection};
+use chrono::Utc;
+
+use crate::{
+    data_dict::{CifTerm, SingleValueTerm},
+    grammar::{CharString, DataItems, SingleQuotedString, Tag, Value},
+};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AuditItem {
     Block_code,
     Block_doi,
-    Creation_date(String),
-    Creation_method(String),
+    Creation_date(CharString),
+    Creation_method(CharString),
     Update_record,
 }
 
-pub type AuditSection = SingleValueSection<AuditItem>;
-
-impl DataLabel for AuditItem {
-    fn category_prefix(&self) -> String {
-        "audit".to_string()
+impl CifTerm for AuditItem {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            AuditItem::Block_code => "block_code",
+            AuditItem::Block_doi => "block_doi",
+            AuditItem::Creation_date(_) => "creation_date",
+            AuditItem::Creation_method(_) => "creation_method",
+            AuditItem::Update_record => "Update_record",
+        };
+        Tag::new(format!("audit_{}", suffix))
     }
+}
 
-    fn tag(&self) -> String {
+impl SingleValueTerm for AuditItem {
+    fn value(&self) -> Value {
         match self {
             AuditItem::Block_code => todo!(),
             AuditItem::Block_doi => todo!(),
-            AuditItem::Creation_date(_) => "creation_date".to_string(),
-            AuditItem::Creation_method(_) => "creation_method".to_string(),
+            AuditItem::Creation_date(d) => Value::from(d.clone()),
+            AuditItem::Creation_method(method) => Value::from(method.clone()),
             AuditItem::Update_record => todo!(),
         }
     }
+}
 
-    fn value_string(&self) -> String {
-        match self {
-            AuditItem::Block_code => todo!(),
-            AuditItem::Block_doi => todo!(),
-            AuditItem::Creation_date(d) => d.to_string(),
-            AuditItem::Creation_method(s) => s.to_string(),
-            AuditItem::Update_record => todo!(),
-        }
-    }
+pub(crate) fn default_audit_data() -> Vec<DataItems> {
+    [
+        AuditItem::Creation_date(
+            SingleQuotedString::new(format!("{}", Utc::now().format("%Y-%m-%d"))).into(),
+        ),
+        AuditItem::Creation_method(
+            SingleQuotedString::new("crystal-cif-io by TonyWu20".to_string()).into(),
+        ),
+    ]
+    .map(|item| item.to_single_value_data())
+    .to_vec()
 }

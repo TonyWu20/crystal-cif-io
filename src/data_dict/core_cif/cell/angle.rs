@@ -1,30 +1,31 @@
-use std::fmt::Display;
+use crate::grammar::{Float, Number, Numeric, Value};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-pub struct CellAngle(f64);
+pub struct CellAngle(Float);
 
 impl CellAngle {
-    pub fn new(degree: f64) -> Self {
-        Self(degree.clamp(0.0, 180.0))
+    pub fn new(float: Float) -> Self {
+        Self(Float(float.clamp(0.0, 180.0)))
+    }
+    pub fn angle(&self) -> Float {
+        self.0
     }
 }
 
-impl std::ops::Deref for CellAngle {
-    type Target = f64;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
+impl From<CellAngle> for Value {
+    fn from(value: CellAngle) -> Self {
+        Value::Numeric(Numeric::new(Number::Float(value.angle()), None))
     }
 }
 
-impl Display for CellAngle {
-    fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        <f64 as Display>::fmt(&self.0, fmt)
+impl From<f32> for CellAngle {
+    fn from(value: f32) -> Self {
+        Self::new(Float(value))
     }
 }
 
-impl Default for CellAngle {
-    fn default() -> Self {
-        Self(90.0)
+impl From<f64> for CellAngle {
+    fn from(value: f64) -> Self {
+        (value as f32).into()
     }
 }

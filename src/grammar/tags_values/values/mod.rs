@@ -7,25 +7,55 @@ use winnow::{
 
 use crate::grammar::{
     character_sets::Eol,
+    numeric_values::Numeric,
     strings_textfields::{CharString, TextField},
     whitespace_comments::WhiteSpace,
     SyntacticUnit,
 };
 
-use self::numeric_values::Numeric;
-
-mod numeric_values;
-
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub enum Value {
     /// '.'
     Inapplicable,
+    #[default]
     /// '?'
     Unknown,
     Numeric(Numeric),
     CharString(CharString),
     TextField(TextField),
 }
+
+impl Value {
+    pub fn as_numeric(&self) -> Option<&Numeric> {
+        if let Self::Numeric(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_char_string(&self) -> Option<&CharString> {
+        if let Self::CharString(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_text_field(&self) -> Option<&TextField> {
+        if let Self::TextField(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+}
+
+pub trait CIFValue {}
+
+impl CIFValue for Numeric {}
+impl CIFValue for CharString {}
+impl CIFValue for TextField {}
 
 /// Parse value '?' when the it does not have trailing chars.
 fn unknown_parser(input: &mut &str) -> PResult<Value> {
@@ -112,8 +142,7 @@ RESPONSE: .See above
 ",
             "'P 1'
 ",
-            "662.31(12)
-",
+            " 662.31(12) ",
             "8456
 ",
             "  MoK\\a

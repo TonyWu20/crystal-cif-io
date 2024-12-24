@@ -77,6 +77,9 @@ mod test {
  _atom_site_aniso_U_13
  _atom_site_aniso_U_12
 ";
-        println!("{}", LoopHeader::parser(&mut input).unwrap());
+        println!(
+            "{}",
+            LoopHeader::parser(&mut input).unwrap().formatted_output()
+        );
     }
 }

@@ -2,6 +2,7 @@ use std::fmt::Display;
 
 use winnow::{
     combinator::{alt, repeat},
+    error::StrContext,
     stream::AsChar,
     PResult, Parser,
 };
@@ -31,7 +32,11 @@ impl UnquotedString {
 
 fn not_eol_unquoted(input: &mut &str) -> PResult<UnquotedString> {
     (
-        NotEol::parser.verify(|c| c.char() != '_'),
+        NotEol::parser
+            .verify(|c| c.char() != '_')
+            .context(winnow::error::StrContext::Expected(
+                winnow::error::StrContextValue::Description("Unquoted string without '_' prefix"),
+            )),
         alt((OrdinaryChar::parser.map(|oc| oc.as_char()), ';')),
         repeat::<_, _, String, _, _>(0.., NonBlankChar::parser),
     )
@@ -41,8 +46,8 @@ fn not_eol_unquoted(input: &mut &str) -> PResult<UnquotedString> {
 
 fn eol_unquoted(input: &mut &str) -> PResult<UnquotedString> {
     (
-        Eol::parser,
-        OrdinaryChar::parser,
+        Eol::parser.context(StrContext::Label("Leading <EOL> for an <UnquotedString>")),
+        OrdinaryChar::parser.context(StrContext::Label("<OrdinaryChar>")),
         repeat::<_, _, String, _, _>(0.., NonBlankChar::parser),
     )
         .map(|(_eol, oc, content)| UnquotedString::new(format!("{oc}{content}")))
@@ -51,7 +56,7 @@ fn eol_unquoted(input: &mut &str) -> PResult<UnquotedString> {
 
 pub fn pure_unquoted(input: &mut &str) -> PResult<UnquotedString> {
     (
-        OrdinaryChar::parser,
+        OrdinaryChar::parser.context(StrContext::Label("<OrdinaryChar>")),
         repeat::<_, _, String, _, _>(0.., NonBlankChar::parser),
     )
         .map(|(oc, content)| UnquotedString::new(format!("{oc}{content}")))
