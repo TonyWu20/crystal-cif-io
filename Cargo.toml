@@ -3,6 +3,10 @@ name = "crystal-cif-io"
 version = "0.1.0"
 edition = "2021"
 author = "TonyWu20"
+description = "A library to parse and write crystallography `cif` format."
+keywords = ["chemistry", "crystallography"]
+license = "MIT"
+repository = "https://github.com/TonyWu20/crystal-cif-io"
 
 [dependencies]
 castep-periodic-table = "0.5"
