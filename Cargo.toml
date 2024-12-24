@@ -11,13 +11,11 @@ nalgebra = {version="0.33", optional=true}
 chrono = "0.4"
 crystallographic-group = {version = "0.2.0", optional = true}
 winnow = "0.6"
-serde = {version = "1.0", optional= true, features=["derive"]}
 indexmap = {version="2.2", optional=true}
 
 [features]
 default = ["chemrust-core"]
 chemrust-core = ["dep:chemrust-core", "dep:crystallographic-group", "dep:nalgebra"]
-serde = ["dep:serde", "dep:indexmap"]
 
 [dev-dependencies]
 castep-cell-io = {git = "https://github.com/TonyWu20/castep-cell-io.git", branch ="dev"}
