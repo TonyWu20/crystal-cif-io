@@ -1,6 +1,6 @@
 [package]
 name = "crystal-cif-io"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 author = "TonyWu20"
 description = "A library to parse and write crystallography `cif` format."

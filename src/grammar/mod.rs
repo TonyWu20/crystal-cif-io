@@ -35,6 +35,9 @@ pub trait SyntacticUnit {
     type FormatOutput: Display;
     fn parser(input: &mut &str) -> PResult<Self::ParseResult>;
     fn formatted_output(&self) -> Self::FormatOutput;
+    fn add_to_document(&self, doc: &mut CifDocument) {
+        unimplemented!()
+    }
 }
 
 #[derive(Debug, Clone)]

@@ -17,9 +17,15 @@ use crate::{
 };
 
 use super::{
-    structures::{DataBlock, DataBlockHeading, DataBlockMember},
-    CifDocument, SyntacticUnit,
+    structures::{DataBlock, DataBlockHeading, DataBlockMember}, CifDocument, SyntacticUnit
 };
+
+
+pub fn from_data_block_members(members: &[DataBlockMember], data_name:&str) ->  CifDocument {
+    let heading = DataBlockHeading::new(data_name.to_string());
+    let data_block = DataBlock::from_heading_members((heading, members.to_vec()));
+    CifDocument::new(None, Some(vec![data_block]))
+}
 
 pub fn to_data_block<T: CrystalModel+SymmetryInfo>(model: &T, data_name: &str) -> DataBlock {
     let datablock_members = [
@@ -177,3 +183,17 @@ impl CrystalModel for DataBlock {
         self
     }
 }
+
+impl SymmetryInfo for DataBlock {
+    fn make_symmetry(&self) -> bool {
+        self.get_space_group_it_num() > 1_u8
+    }
+
+    fn get_space_group_it_num(&self) -> u8 {
+        self.find_single_value_by_tag("IT_number")
+            .and_then(|value| value.value().as_numeric()).map(|value| value.number())
+            .and_then(|value| value.as_integer().map(|i| i.0 as u8))
+            .unwrap_or(1)
+    }
+}
+

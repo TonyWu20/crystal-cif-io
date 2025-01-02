@@ -65,9 +65,7 @@ pub(crate) fn basic_atom_site_data<T: CoreAtomData>(atom_data: &T) -> DataItems 
     DataItems::MultiValues(loop_unit.into())
 }
 
-pub fn from_atom_data(value: &impl CoreAtomData) -> DataBlock {
+pub fn from_atom_data(value: &impl CoreAtomData) -> Vec<DataBlockMember> {
     let atom_data = basic_atom_site_data(value);
-    let datablock_members = vec![DataBlockMember::DataItems(atom_data)];
-    let heading = DataBlockHeading::new(String::new());
-    DataBlock::from_heading_members((heading, datablock_members))
+    vec![DataBlockMember::DataItems(atom_data)]
 }
