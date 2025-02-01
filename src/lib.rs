@@ -11,3 +11,5 @@ pub use grammar::{
 
 #[cfg(feature = "chemrust-core")]
 pub use grammar::chemrust_impl::{from_data_block_members, to_cif_document, to_data_block};
+
+mod parser;

@@ -1,0 +1,84 @@
+// src/cif.pest
+WHITESPACE = _{ " " | "\t" | NEWLINE }
+COMMENT = _{ "#" ~ (!"\n" ~ ANY)* ~ ("\n" | EOI) }
+
+// 基础字符定义
+digit = { '0'..'9' }
+letter = { 'a'..'z' | 'A'..'Z' }
+underscore = { "_" }
+special_char = { "." | "+" | "-" | "?" | ":" }
+
+// 数据块名称 (1.3.1)
+data_header = { "data_" ~ (letter | digit | underscore)+ }
+
+// 数据名称 (1.3.2)
+data_name = { "_" ~ (letter | digit | underscore)+ ~ ("." ~ (letter | digit | underscore)+)* }
+
+// 基本值类型
+non_blank_char = { letter | digit | special_char | underscore }
+unquoted_string = @{ non_blank_char+ }
+
+// 字符串定义 (1.4.1)
+single_quote_text = { "'" ~ ( (!"'" | "''") ~ ANY )* ~ "'" }
+double_quote_text = { "\"" ~ ( (!"\"" | "\"\"") ~ ANY )* ~ "\"" }
+semicolon_text = { 
+    ";" ~ NEWLINE?
+    ~ ( (!";" | ";;") ~ ANY )*
+    ~ ";" 
+}
+
+// 数值格式 (1.4.2)
+unsigned_integer = @{ digit+ }
+integer = @{ ("+" | "-")? ~ unsigned_integer }
+decimal = @{ integer ~ "." ~ digit+ }
+exponent = { ("e" | "E") ~ integer }
+real = @{ (integer | decimal) ~ exponent? }
+uncertainty = { "(" ~ digit+ ~ ")" }
+number = @{ (real | integer) ~ uncertainty? }
+
+// 值定义 (1.4)
+value = { 
+    number 
+    | semicolon_text 
+    | double_quote_text 
+    | single_quote_text 
+    | unquoted_string 
+}
+
+// 数据项 (1.3.3)
+tag_value = { 
+    data_name ~ 
+    ( (WHITESPACE+ ~ value) 
+    | (NEWLINE ~ WHITESPACE* ~ semicolon_text) 
+    ) 
+}
+
+// 循环结构 (1.3.4)
+loop_header = { "loop_" ~ (WHITESPACE | COMMENT)* }
+loop_values = { 
+    (value ~ WHITESPACE*)+ ~ 
+    (NEWLINE+ | COMMENT | EOI) 
+}
+
+loop_ = {
+    loop_header ~
+    NEWLINE* ~
+    data_name+ ~
+    NEWLINE+ ~
+    loop_values+
+}
+
+// 数据块结构 (1.2)
+data_block = {
+    data_header ~ 
+    (NEWLINE | COMMENT)* ~
+    (tag_value | loop_ | COMMENT)* 
+}
+
+// 完整CIF文件
+cif = { 
+    SOI ~ 
+    (COMMENT | WHITESPACE)* ~ 
+    data_block* ~ 
+    EOI 
+}
