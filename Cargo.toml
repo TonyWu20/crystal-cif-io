@@ -1,6 +1,6 @@
 [package]
 name = "crystal-cif-io"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 author = "TonyWu20"
 description = "A library to parse and write crystallography `cif` format."
@@ -10,10 +10,10 @@ repository = "https://github.com/TonyWu20/crystal-cif-io"
 
 [dependencies]
 castep-periodic-table = "0.5"
-chemrust-core = {version="0.4.0", optional = true}
+chemrust-core = {version="0.5.1", optional = true}
 nalgebra = {version="0.33", optional=true}
 chrono = "0.4"
-crystallographic-group = {version = "0.2.0", optional = true}
+crystallographic-group = {version = "0.3.1", optional = true}
 winnow = "0.6"
 indexmap = {version="2.2", optional=true}
 pest = "2.7.15"

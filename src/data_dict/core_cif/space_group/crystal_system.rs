@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crystallographic_group::database::CrystalSystem as CS;
+use crystallographic_group::database::CrystalSystem;
 // use serde::{Deserialize, Serialize};
 
 // /// This crate
@@ -73,16 +73,16 @@ impl TryFrom<String> for CrystalSystemCif {
 }
 
 #[cfg(feature = "chemrust-core")]
-impl From<crystallographic_group::database::CrystalSystem> for CrystalSystemCif {
-    fn from(value: crystallographic_group::database::CrystalSystem) -> Self {
+impl From<CrystalSystem> for CrystalSystemCif {
+    fn from(value: CrystalSystem) -> Self {
         match value {
-            CS::Triclinic => Self::Triclinic,
-            CS::Monoclinic => Self::Monoclinic,
-            CS::Orthorhombic => Self::Orthorhombic,
-            CS::Tetragonal => Self::Tetragonal,
-            CS::Trigonal => Self::Trigonal,
-            CS::Hexagonal => Self::Hexagonal,
-            CS::Cubic => Self::Cubic,
+            CrystalSystem::Triclinic => Self::Triclinic,
+            CrystalSystem::Monoclinic => Self::Monoclinic,
+            CrystalSystem::Orthorhombic => Self::Orthorhombic,
+            CrystalSystem::Tetragonal => Self::Tetragonal,
+            CrystalSystem::Trigonal => Self::Trigonal,
+            CrystalSystem::Hexagonal => Self::Hexagonal,
+            CrystalSystem::Cubic => Self::Cubic,
         }
     }
 }

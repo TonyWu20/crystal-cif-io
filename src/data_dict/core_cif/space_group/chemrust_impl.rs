@@ -1,3 +1,4 @@
+use chemrust_core::data::lattice::{CrystalModel, UnitCellParameters};
 use chemrust_core::data::symmetry::SymmetryInfo;
 use crystallographic_group::database::{LookUpSpaceGroup, DEFAULT_SPACE_GROUP_SYMBOLS};
 use crystallographic_group::hall_symbols::HallSymbolNotation;
@@ -6,7 +7,8 @@ use crate::data_dict::{LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, DataItems, LoopUnit, UnquotedString};
 
 use super::{CrystalSystemCif, ITNumber, SpaceGroupItem, SpaceGroupLoopItem};
-pub(crate) fn basic_space_group_data<T: SymmetryInfo>(model: &T) -> Vec<DataItems> {
+
+pub(crate) fn basic_space_group_data<T: SymmetryInfo + CrystalModel>(model: &T) -> Vec<DataItems> {
     let space_group = DEFAULT_SPACE_GROUP_SYMBOLS
         .get_hm_full_notation((model.get_space_group_it_num() - 1) as usize)
         .expect("Invalid space group number");
@@ -29,7 +31,8 @@ pub(crate) fn basic_space_group_data<T: SymmetryInfo>(model: &T) -> Vec<DataItem
         .with_value_columns(vec![symmetry_ops_column])
         .build();
     let items = if model.make_symmetry() {
-        let crystal_system = model.get_crystal_system().into();
+        let crystal_system =
+            CrystalSystemCif::from(model.get_cell_parameters().get_crystal_system());
         let it_number = model.get_space_group_it_num();
         [
             SpaceGroupItem::Crystal_system(crystal_system).to_single_value_data(),
