@@ -30,8 +30,14 @@ Reference: `/home/tony/programming/castep-cell-io/castep_cell_fmt`
 | `src/error.rs` | `CResult<T>` result alias, `Error` enum via `thiserror` |
 | `src/parser.rs::rich_error` | renders an `ariadne` report with the source text labeled |
 
-Dependencies to add: `chumsky 0.10.1` and `ariadne 0.6` with the
-`auto-color` feature. Match the versions in `castep_cell_fmt`.
+Dependencies to add: `chumsky 0.13.0` and `ariadne 0.6.0` with the
+`auto-color` feature. Both are the latest stable releases, checked on
+crates.io on 2026-10-06.
+
+Version note: `castep_cell_fmt` pins `chumsky 0.10.1`. This crate uses
+`chumsky 0.13.0` instead. The chumsky changelog records additions only
+between 0.10 and 0.13, so the 0.10 pattern ports over with minor edits.
+The `chumsky 1.0.0-alpha` pre-release line is not chosen.
 
 ## Binding acceptance criteria
 
