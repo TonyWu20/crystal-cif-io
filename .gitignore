@@ -13,9 +13,11 @@ Cargo.lock
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
 
+# rushi session traces
+sessions
+
 
 # Added by cargo
 
 /target
 *.cell
-session
