@@ -15,3 +15,10 @@ cargo test ground_truth_verify                    # check parser against the gro
 cargo run --example gt_generate                   # write missing expected JSON
 cargo run --example gt_generate -- --force        # overwrite expected JSON (guarded)
 ```
+
+## Roadmap
+
+The parser will move from `winnow` to `chumsky` + `ariadne`, modeled on
+`castep_cell_fmt`. The decision, rationale, and binding acceptance
+criteria live in
+[`docs/refactor-chumsky-ariadne.md`](docs/refactor-chumsky-ariadne.md).
