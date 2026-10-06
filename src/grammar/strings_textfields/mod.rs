@@ -96,6 +96,12 @@ mod test {
 ";
         dbg!(CharString::parser(&mut input).unwrap());
         dbg!(CharString::parser(&mut input_2).unwrap());
-        dbg!(CharString::parser(&mut input_3).unwrap());
+        // A bare data name is not a character string value: after the
+        // leading EOL the first value character must be an OrdinaryChar,
+        // and '_' is not one (spec Appendix A <UnquotedString>).
+        assert!(
+            CharString::parser(&mut input_3).is_err(),
+            "a bare data name must not parse as a character string value"
+        );
     }
 }

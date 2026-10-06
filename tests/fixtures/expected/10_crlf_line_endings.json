@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "b",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "2.5"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "c",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "three"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "d",
+          "value": {
+            "kind": "text_field",
+            "text": "\ncrlf text field"
+          }
+        }
+      ],
+      "name": "crlf"
+    }
+  ],
+  "fixture": "10_crlf_line_endings.cif",
+  "schema_version": 1
+}

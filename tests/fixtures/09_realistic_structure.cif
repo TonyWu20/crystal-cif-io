@@ -1,0 +1,59 @@
+#\#CIF_1.1
+#
+# A synthetic small-molecule structure exercising the common core_cif
+# data names used by this crate: audit/cell/symmetry tags, an atom_site
+# loop with isotropic displacement and standard uncertainties, an aniso
+# loop with a negative value, and a geom_bond loop with inapplicable
+# values.
+data_gtex
+
+_audit_author_name             'Tony Wu'
+_cell_length_a                 5.4500(0)
+_cell_length_b                 5.4500(0)
+_cell_length_c                 13.9200(0)
+_cell_angle_alpha              90.0
+_cell_angle_beta               90.0
+_cell_angle_gamma              90.0
+_cell_volume                   416.48
+_symmetry_cell_setting         tetragonal
+_symmetry_space_group_name_H-M   'P 42/1 c'
+_symmetry_space_group_name_Hall  '-P 4a 2c'
+_symmetry_intensities_type     Laue
+
+_atom_sites_type               idealized
+_atom_sites_count              4
+
+loop_
+ _atom_site_label
+ _atom_site_type_symbol
+ _atom_site_fract_x
+ _atom_site_fract_y
+ _atom_site_fract_z
+ _atom_site_occupancy
+ _atom_site_U_iso_or_equiv
+ _atom_site_adp_type
+N1   N    0.2500 0.7500 0.1250  1.000  0.0112(16) Uiso
+C2   C    0.7500 0.2500 0.3750  1.000  0.0134(18) Uiso
+H3   H    0.2500 0.7500 0.6250  1.000  0.0160(25) Uiso
+O4   O    0.7500 0.2500 0.8750  1.000  0.0098(15) Uiso
+
+loop_
+ _atom_site_aniso_label
+ _atom_site_aniso_U_11
+ _atom_site_aniso_U_22
+ _atom_site_aniso_U_33
+ _atom_site_aniso_U_23
+ _atom_site_aniso_U_13
+ _atom_site_aniso_U_12
+N1  0.0112(16) 0.0134(18) 0.0101(14) 0.0000(12) 0.0000(10) 0.0000(11)
+C2  0.0134(18) 0.0160(21) 0.0112(15) 0.0000(13) -0.0010(12) 0.0000(12)
+
+loop_
+ _geom_bond_atom_site_label_1
+ _geom_bond_atom_site_label_2
+ _geom_bond_distance
+ _geom_bond_site_symmetry_2
+ _geom_bond_publ_flag
+N1 C2 1.470(2) . y
+C2 O4 1.250(3) . y
+O4 N1 1.260(4) ? y

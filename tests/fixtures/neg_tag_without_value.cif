@@ -1,0 +1,8 @@
+#\#CIF_1.1
+# NEGATIVE: a data name (tag) must be followed by a value. Here the tag
+# is immediately followed by another tag, so the first tag has no value.
+# Parsing must fail. (spec para. 7)
+data_bad
+
+_first_tag
+_second_tag   1

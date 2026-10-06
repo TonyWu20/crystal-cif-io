@@ -1,0 +1,28 @@
+#\#CIF_1.1
+#
+# Every <Numeric> production from the CIF 1.1 formal grammar
+# (spec Appendix A): integers, signed integers, all <Float> forms,
+# exponents, and standard uncertainties on both number kinds.
+data_numbers
+
+# --- <Integer> forms ---
+_int_plain             482
+_int_negative          -482
+_int_positive          +482
+_int_zero              0
+
+# --- <Float> forms ---
+_float_decimal         5.365
+_float_leading_dot     .5
+_float_trailing_dot    5.
+_float_exp_plain       3.5E+2
+_float_exp_lower       .5e-3
+_float_trailing_exp    5.E2
+_float_sign_exp        +1.5e+10
+_float_neg_exp         -2.5E-4
+_int_with_exp          5E3
+
+# --- <Numeric> with <UnsignedInteger> uncertainty ---
+_int_uncertainty       482(9)
+_float_uncertainty     5.365(3)
+_zero_uncertainty      12(0)

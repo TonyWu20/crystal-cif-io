@@ -1,0 +1,17 @@
+#\#CIF_1.1
+#
+# Reserved words and block codes are case-insensitive (spec para. 6,
+# 26, 35): mixed-case data_ / loop_ / save_ forms, a save frame
+# closed by a mixed-case terminator, and an empty data block.
+DATA_ii
+
+lOoP_
+ _case_tag
+ v1
+ v2
+
+sAvE_fc
+ _fc_a 1
+SAVE_
+
+data_empty

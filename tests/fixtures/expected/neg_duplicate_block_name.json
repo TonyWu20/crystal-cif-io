@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "duplicate data block name i",
+    "stage": "validate",
+    "violation": "duplicate_block_name"
+  },
+  "fixture": "neg_duplicate_block_name.cif",
+  "schema_version": 1
+}

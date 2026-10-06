@@ -133,7 +133,11 @@ mod test {
 
     use super::{CifDocument, SyntacticUnit};
 
+    // Machine-local test: reads `$HOME/Downloads/example.cif`, which does not
+    // exist in a clean checkout. Keep for local use; run with
+    // `cargo test cif_doc_parsing -- --ignored`.
     #[test]
+    #[ignore]
     fn cif_doc_parsing() {
         let home = std::env::var("HOME").unwrap();
         let example = format!("{home}/Downloads/example.cif");

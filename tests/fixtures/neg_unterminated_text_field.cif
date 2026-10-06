@@ -1,0 +1,8 @@
+#\#CIF_1.1
+# NEGATIVE: a text field opened with ';' but never closed. Parsing must
+# fail. (spec para. 17: a text field is bounded by <eol> ; ... ; )
+data_bad
+
+_some_tag
+;
+this text field has no closing semicolon

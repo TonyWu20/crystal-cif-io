@@ -1,0 +1,11 @@
+#\#CIF_1.1
+#
+# White space and comment edges (spec para. 24, 45): tabs as token
+# separators, a comment only after white space, and '#' glued to a
+# value, which is part of the value, not a comment.
+data_ws
+
+_tab_sep_value	7
+_hash_attached	123#
+_trailing_comment	456	# a real comment
+	_indented_tag	42

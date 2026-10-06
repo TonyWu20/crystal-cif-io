@@ -1,0 +1,7 @@
+#\#CIF_1.1
+# NEGATIVE: a data name may appear no more than once in a data block
+# (spec para. 7). The parse succeeds; spec validation must reject the
+# file.
+data_I
+_a 1
+_a 2

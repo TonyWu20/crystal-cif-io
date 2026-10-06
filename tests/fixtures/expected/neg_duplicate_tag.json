@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "duplicate tag a in block or save frame i",
+    "stage": "validate",
+    "violation": "duplicate_tag_in_block"
+  },
+  "fixture": "neg_duplicate_tag.cif",
+  "schema_version": 1
+}

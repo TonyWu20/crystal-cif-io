@@ -1,0 +1,27 @@
+#\#CIF_1.1
+#
+# Loop structures (spec para. 7, Appendix A <LoopHeader>/<LoopBody>):
+# a loop header of one or more data names, followed by a body of value
+# rows. Exercises multi-column loops with mixed value kinds and a
+# single-column loop.
+data_crystal
+
+_cell_length_a          5.365
+_cell_length_b          5.365
+
+loop_
+ _atom_site_label
+ _atom_site_type_symbol
+ _atom_site_fract_x
+ _atom_site_fract_y
+ _atom_site_fract_z
+ _atom_site_occupancy
+ C1  C   0.1635 0.0317 0.2751 1.00
+ C2  C   0.3354 0.9672 0.7746 1.00
+ O1  O   0.8364 0.5313 0.4254 .
+
+loop_
+ _refine_ls_number_observed
+ 482
+
+_symmetry_cell_setting  monoclinic

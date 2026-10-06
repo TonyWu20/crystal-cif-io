@@ -1,0 +1,6 @@
+#\#CIF_1.1
+# NEGATIVE: 'loop_' is a reserved word and may not appear as an
+# unquoted data value (spec para. 8, 11). Parsing must fail.
+data_bad
+
+_some_tag  loop_

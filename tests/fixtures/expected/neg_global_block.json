@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "global_ blocks are expressly forbidden in CIF 1.1 (spec para. 33). The global_ line is neither a comment, white space, data block header, nor a value; the file does not parse.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_global_block.cif",
+  "schema_version": 1
+}

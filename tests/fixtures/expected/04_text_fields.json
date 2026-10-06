@@ -1,0 +1,51 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "tf_single_line",
+          "value": {
+            "kind": "text_field",
+            "text": "\nfoo"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tf_multi_line",
+          "value": {
+            "kind": "text_field",
+            "text": "  foo\n  bar"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tf_hash_and_semicolon",
+          "value": {
+            "kind": "text_field",
+            "text": "\na;b # not a comment inside a text field"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tf_empty",
+          "value": {
+            "kind": "text_field",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tf_bracket_lead",
+          "value": {
+            "kind": "text_field",
+            "text": "\n[reserved bracket lead]"
+          }
+        }
+      ],
+      "name": "text_fields"
+    }
+  ],
+  "fixture": "04_text_fields.cif",
+  "schema_version": 1
+}

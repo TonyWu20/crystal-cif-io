@@ -1,0 +1,53 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "v1"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "v2"
+              }
+            ]
+          ],
+          "tags": [
+            "case_tag"
+          ]
+        },
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "fc_a",
+              "value": {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              }
+            }
+          ],
+          "name": "fc"
+        }
+      ],
+      "name": "ii"
+    },
+    {
+      "members": [],
+      "name": "empty"
+    }
+  ],
+  "fixture": "12_mixed_case.cif",
+  "schema_version": 1
+}

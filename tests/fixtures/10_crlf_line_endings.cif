@@ -1,0 +1,9 @@
+data_crlf
+
+_a 1
+_b 2.5
+_c 'three'
+_d
+;
+crlf text field
+;

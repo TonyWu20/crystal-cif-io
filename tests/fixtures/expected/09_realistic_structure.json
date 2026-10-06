@@ -1,0 +1,540 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "audit_author_name",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Tony Wu"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "0",
+            "type": "float",
+            "value": "5.45"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_b",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "0",
+            "type": "float",
+            "value": "5.45"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_c",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "0",
+            "type": "float",
+            "value": "13.92"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_alpha",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_beta",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_gamma",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_volume",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "416.48"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_cell_setting",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "tetragonal"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_space_group_name_H-M",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "P 42/1 c"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_space_group_name_Hall",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "-P 4a 2c"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_intensities_type",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "Laue"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_type",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "idealized"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_count",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "4"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "N1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "N"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.25"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.75"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.125"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "16",
+                "type": "float",
+                "value": "0.0112"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "C2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "C"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.75"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.25"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.375"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "18",
+                "type": "float",
+                "value": "0.0134"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H3"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.25"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.75"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.625"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "25",
+                "type": "float",
+                "value": "0.016"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O4"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.75"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.25"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.875"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "15",
+                "type": "float",
+                "value": "0.0098"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_site_label",
+            "atom_site_type_symbol",
+            "atom_site_fract_x",
+            "atom_site_fract_y",
+            "atom_site_fract_z",
+            "atom_site_occupancy",
+            "atom_site_U_iso_or_equiv",
+            "atom_site_adp_type"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "N1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "16",
+                "type": "float",
+                "value": "0.0112"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "18",
+                "type": "float",
+                "value": "0.0134"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "14",
+                "type": "float",
+                "value": "0.0101"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "12",
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "10",
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "11",
+                "type": "float",
+                "value": "0"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "C2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "18",
+                "type": "float",
+                "value": "0.0134"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "21",
+                "type": "float",
+                "value": "0.016"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "15",
+                "type": "float",
+                "value": "0.0112"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "13",
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "12",
+                "type": "float",
+                "value": "-0.001"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "12",
+                "type": "float",
+                "value": "0"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_site_aniso_label",
+            "atom_site_aniso_U_11",
+            "atom_site_aniso_U_22",
+            "atom_site_aniso_U_33",
+            "atom_site_aniso_U_23",
+            "atom_site_aniso_U_13",
+            "atom_site_aniso_U_12"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "N1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "C2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "1.47"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "C2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O4"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "3",
+                "type": "float",
+                "value": "1.25"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O4"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "N1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "4",
+                "type": "float",
+                "value": "1.26"
+              },
+              {
+                "kind": "unknown"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y"
+              }
+            ]
+          ],
+          "tags": [
+            "geom_bond_atom_site_label_1",
+            "geom_bond_atom_site_label_2",
+            "geom_bond_distance",
+            "geom_bond_site_symmetry_2",
+            "geom_bond_publ_flag"
+          ]
+        }
+      ],
+      "name": "gtex"
+    }
+  ],
+  "fixture": "09_realistic_structure.cif",
+  "schema_version": 1,
+  "known_gap": true,
+  "known_gap_note": "spec-correct: '.' and '?' are inapplicable/unknown values wherever they stand as whole tokens (spec Appendix A <Value>). The current winnow parser only accepts '.'/'?' as such at end of line, so it returns char_string for the mid-line occurrences in the geom_bond loop rows."
+}

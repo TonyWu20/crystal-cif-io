@@ -1,0 +1,23 @@
+#\#CIF_1.1
+#
+# Save frames (spec para. 6, 10, Appendix A <SaveFrame>): a
+# partitioned collection of data items inside a data block, opened by
+# save_<framecode> and closed by a bare save_. Save frames may not
+# nest. A dictionary-style example with one save frame.
+data_dict
+
+_atom_site_label
+;
+The atom site label.
+;
+
+save_atom_site_label
+ _atom_site_label_category   A
+ _atom_site_label_type      String
+ _atom_site_label_examples  'C1, C2, O1'
+save_
+
+_atom_site_occupancy
+;
+The site occupancy.
+;
