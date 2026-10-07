@@ -1,16 +1,9 @@
 use std::fmt::Display;
 
-use winnow::{
-    combinator::{peek, separated_pair},
-    error::StrContext,
-    Parser,
-};
-
 use crate::{
     data_dict::{CifTerm, SingleValueTerm},
     grammar::{
         tags_values::{Tag, Value},
-        whitespace_comments::WhiteSpace,
         SyntacticUnit,
     },
 };
@@ -43,19 +36,7 @@ impl SingleLineData {
 }
 
 impl SyntacticUnit for SingleLineData {
-    type ParseResult = Self;
-
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        separated_pair(
-            Tag::parser.context(StrContext::Label("Tag")),
-            peek(WhiteSpace::parser.context(StrContext::Label("Whitespace"))),
-            Value::parser.context(StrContext::Label("Value")),
-        )
-        .map(SingleLineData::from_tag_value)
-        .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         format!("{:<33} {}", self.tag.to_string(), self.value)

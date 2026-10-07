@@ -1,11 +1,6 @@
-use winnow::{
-    combinator::{preceded, repeat},
-    Parser,
-};
-
 use crate::{
     data_dict::{CifTerm, LoopValueTerm},
-    grammar::{tags_values::Value, whitespace_comments::WhiteSpace, SyntacticUnit, Tag},
+    grammar::{tags_values::Value, SyntacticUnit, Tag},
 };
 
 #[derive(Debug, Clone)]
@@ -46,22 +41,7 @@ impl LoopBody {
 }
 
 impl SyntacticUnit for LoopBody {
-    type ParseResult = Self;
-
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        (
-            Value::parser,
-            repeat(0.., preceded(WhiteSpace::parser, Value::parser)),
-        )
-            .map(|(first, following): (Value, Vec<Value>)| {
-                let mut values = vec![first];
-                values.extend(following);
-                LoopBody::new(values)
-            })
-            .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         self.values()

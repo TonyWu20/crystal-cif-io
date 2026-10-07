@@ -1,12 +1,10 @@
 use std::fmt::Display;
 
-use winnow::{
-    combinator::{preceded, repeat},
-    Parser,
-};
+use crate::grammar::SyntacticUnit;
 
-use crate::grammar::{character_sets::NonBlankChar, reserved_words::Data, SyntacticUnit};
-
+/// The heading of a data block: `data_` plus the block code. The
+/// stored name is the block code without the `data_` prefix, exactly
+/// as written (reserved words are case-insensitive, spec para. 26).
 #[derive(Debug, Clone)]
 pub struct DataBlockHeading {
     name: String,
@@ -29,16 +27,8 @@ impl DataBlockHeading {
     }
 }
 
-impl SyntacticUnit for DataBlockHeading {
-    type ParseResult = Self;
-
+impl crate::grammar::SyntacticUnit for DataBlockHeading {
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        preceded(Data::parser, repeat(1.., NonBlankChar::parser))
-            .map(DataBlockHeading::new)
-            .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         format!("\ndata_{}\n", &self.name)

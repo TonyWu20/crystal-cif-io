@@ -1,11 +1,8 @@
 use std::fmt::Display;
 
-use winnow::{combinator::alt, error::StrContext, Parser};
+use crate::grammar::SyntacticUnit;
 
-use crate::grammar::{
-    structures::{data_items::DataItems, save_frame::SaveFrame},
-    SyntacticUnit,
-};
+use crate::grammar::structures::{data_items::DataItems, save_frame::SaveFrame};
 
 #[derive(Debug, Clone)]
 pub enum DataBlockMember {
@@ -13,22 +10,8 @@ pub enum DataBlockMember {
     SaveFrame(SaveFrame),
 }
 
-impl SyntacticUnit for DataBlockMember {
-    type ParseResult = Self;
-
+impl crate::grammar::SyntacticUnit for DataBlockMember {
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        alt((
-            DataItems::parser
-                .map(Self::DataItems)
-                .context(StrContext::Label("DataItems")),
-            SaveFrame::parser
-                .map(Self::SaveFrame)
-                .context(StrContext::Label("SaveFrame")),
-        ))
-        .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {

@@ -20,7 +20,7 @@ use std::path::PathBuf;
 
 use serde_json::{json, Value as Json};
 
-use crystal_cif_io::{canonical, CifDocument};
+use crystal_cif_io::canonical;
 
 fn fixture_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures")
@@ -30,20 +30,13 @@ fn expected_path(stem: &str) -> PathBuf {
     fixture_dir().join("expected").join(format!("{stem}.json"))
 }
 
-/// Parse with the current winnow IR entry point.
-/// Returns the document and the unconsumed input tail.
-fn parse_cif(content: &str) -> Result<(CifDocument, &str), String> {
-    let mut rest: &str = content;
-    match CifDocument::parse_from_str(&mut rest) {
-        Ok(doc) => Ok((doc, rest)),
-        Err(e) => Err(format!("{e:?}")),
+/// Parse with the chumsky entry point. `Ok` means the whole input was
+/// consumed (the top level is strict).
+fn parse_cif(content: &str) -> Result<crystal_cif_io::CifDocument, String> {
+    match crystal_cif_io::parse_cif(content) {
+        Ok(doc) => Ok(doc),
+        Err(errors) => Err(format!("{errors:?}")),
     }
-}
-
-/// The CIF spec allows SP/HT/LF/CR as white space; a tail of only
-/// those characters (or empty) counts as full consumption.
-fn fully_consumed(tail: &str) -> bool {
-    tail.bytes().all(|b| matches!(b, b' ' | b'\t' | b'\n' | b'\r'))
 }
 
 fn expect_error(fixture: &str, stage: &str, violation: &str, description: &str) -> Json {
@@ -71,13 +64,7 @@ fn regenerate(content: &str, fixture: &str) -> Json {
                  CIF 1.1 syntax rules recorded in docs/ground-truth.md."
             ),
         ),
-        Ok((_doc, tail)) if !fully_consumed(tail) => expect_error(
-            fixture,
-            "parse",
-            "unparseable",
-            "parser left unconsumed input (no stop_ token or trailing garbage).",
-        ),
-        Ok((doc, _tail)) => {
+        Ok(doc) => {
             let violations = canonical::validate(&doc);
             if violations.is_empty() {
                 canonical::document_json(&doc, fixture)
@@ -158,14 +145,16 @@ fn main() {
             fresh
         };
 
-        fs::write(&expected, serde_json::to_string_pretty(&body).unwrap() + "\n").unwrap();
+        fs::write(
+            &expected,
+            serde_json::to_string_pretty(&body).unwrap() + "\n",
+        )
+        .unwrap();
         written += 1;
         println!("  wrote {name}");
     }
 
-    println!(
-        "regenerated {written} file(s), skipped {skipped} existing, guarded {guarded:?}"
-    );
+    println!("regenerated {written} file(s), skipped {skipped} existing, guarded {guarded:?}");
     if !guarded.is_empty() {
         eprintln!("note: guarded files keep their spec-corrected expectations.");
     }

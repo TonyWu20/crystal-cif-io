@@ -26,7 +26,7 @@ use std::convert::AsRef;
 use serde_json::{json, Map, Value as Json};
 
 use crate::{
-    CharString, CifDocument, DataBlockMember, DataItems, LoopColumns, Numeric, Number, Value,
+    CharString, CifDocument, DataBlockMember, DataItems, LoopColumns, Number, Numeric, Value,
 };
 
 /// Serialize a parsed document into the canonical JSON shape.
@@ -78,7 +78,10 @@ fn items_json(items: &DataItems) -> Json {
 
 fn loop_json(columns: &LoopColumns) -> Json {
     let cols = columns.columns();
-    let tags = cols.iter().map(|c| json!(c.tag().as_str())).collect::<Vec<_>>();
+    let tags = cols
+        .iter()
+        .map(|c| json!(c.tag().as_str()))
+        .collect::<Vec<_>>();
     let row_len = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let rows = (0..row_len)
         .map(|row| {
@@ -145,18 +148,9 @@ fn numeric_json(n: &Numeric) -> Json {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Violation {
     DuplicateBlockName(String),
-    DuplicateTagInBlock {
-        block: String,
-        tag: String,
-    },
-    DuplicateSaveFrameCode {
-        block: String,
-        code: String,
-    },
-    RaggedLoop {
-        block: String,
-        tags: Vec<String>,
-    },
+    DuplicateTagInBlock { block: String, tag: String },
+    DuplicateSaveFrameCode { block: String, code: String },
+    RaggedLoop { block: String, tags: Vec<String> },
 }
 
 impl Violation {
@@ -237,12 +231,7 @@ pub fn validate(doc: &CifDocument) -> Vec<Violation> {
     out
 }
 
-fn record_tag(
-    out: &mut Vec<Violation>,
-    scope: &str,
-    tag: &str,
-    seen: &mut HashSet<String>,
-) {
+fn record_tag(out: &mut Vec<Violation>, scope: &str, tag: &str, seen: &mut HashSet<String>) {
     let key = tag.to_lowercase();
     if !seen.insert(key.clone()) {
         out.push(Violation::DuplicateTagInBlock {
@@ -252,7 +241,12 @@ fn record_tag(
     }
 }
 
-fn record_tags(out: &mut Vec<Violation>, scope: &str, lc: &LoopColumns, seen: &mut HashSet<String>) {
+fn record_tags(
+    out: &mut Vec<Violation>,
+    scope: &str,
+    lc: &LoopColumns,
+    seen: &mut HashSet<String>,
+) {
     for col in lc.columns() {
         record_tag(out, scope, col.tag().as_str(), seen);
     }
@@ -261,7 +255,11 @@ fn record_tags(out: &mut Vec<Violation>, scope: &str, lc: &LoopColumns, seen: &m
 fn check_loop(out: &mut Vec<Violation>, scope: &str, lc: &LoopColumns, _where: &str) {
     let lens: BTreeSet<usize> = lc.columns().iter().map(|c| c.values().len()).collect();
     if lens.len() > 1 {
-        let tags = lc.columns().iter().map(|c| c.tag().as_str().to_string()).collect();
+        let tags = lc
+            .columns()
+            .iter()
+            .map(|c| c.tag().as_str().to_string())
+            .collect();
         out.push(Violation::RaggedLoop {
             block: scope.to_string(),
             tags,
@@ -276,7 +274,8 @@ pub fn trees_equal(expected: &Json, actual: &Json) -> bool {
     match (expected, actual) {
         (Json::Object(e), Json::Object(a)) => {
             e.len() == a.len()
-                && e.iter().all(|(k, ev)| a.get(k).map(|av| trees_equal(ev, av)).unwrap_or(false))
+                && e.iter()
+                    .all(|(k, ev)| a.get(k).map(|av| trees_equal(ev, av)).unwrap_or(false))
         }
         (Json::Array(e), Json::Array(a)) => {
             e.len() == a.len() && e.iter().zip(a.iter()).all(|(ev, av)| trees_equal(ev, av))

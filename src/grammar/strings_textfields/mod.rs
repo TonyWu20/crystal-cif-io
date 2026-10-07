@@ -1,23 +1,17 @@
 use std::fmt::Display;
 
-use winnow::{
-    combinator::{alt, opt, preceded},
-    Parser,
-};
+use crate::grammar::SyntacticUnit;
 
-use self::unquoted_string::pure_unquoted;
-
-use super::{reserved_words::ReservedWords, whitespace_comments::WhiteSpace, SyntacticUnit, Value};
+use super::CIFValue;
 
 mod double_quoted_string;
 mod single_quoted_string;
 mod text_field;
 mod unquoted_string;
 
-pub use text_field::TextField;
-
 pub use double_quoted_string::DoubleQuotedString;
 pub use single_quoted_string::SingleQuotedString;
+pub use text_field::{SemiColonTextField, TextField};
 pub use unquoted_string::UnquotedString;
 
 #[derive(Debug, Clone)]
@@ -37,35 +31,22 @@ impl AsRef<str> for CharString {
     }
 }
 
-impl SyntacticUnit for CharString {
-    type ParseResult = Self;
-
-    type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        alt((
-            preceded(opt(WhiteSpace::parser), SingleQuotedString::parser)
-                .map(CharString::SingleQuoted),
-            preceded(opt(WhiteSpace::parser), DoubleQuotedString::parser)
-                .map(CharString::DoubleQuoted),
-            alt((
-                preceded(opt(WhiteSpace::parser), pure_unquoted),
-                UnquotedString::parser,
-            ))
-            .verify(|u| {
-                let mut input = u.as_ref();
-                ReservedWords::not_reserved_words(&mut input)
-            })
-            .map(CharString::Unquoted),
-        ))
-        .parse_next(input)
+impl CharString {
+    /// The character string content, as written between the
+    /// delimiters.
+    pub fn content(&self) -> &str {
+        self.as_ref()
     }
+}
+
+impl super::SyntacticUnit for CharString {
+    type FormatOutput = String;
 
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
             CharString::Unquoted(s) => format!("{s}"),
             CharString::SingleQuoted(s) => format!("{s}"),
-            CharString::DoubleQuoted(s) => format!("{s}"),
+            CharString::DoubleQuoted(d) => format!("{d}"),
         }
     }
 }
@@ -76,32 +57,10 @@ impl Display for CharString {
     }
 }
 
-impl From<CharString> for Value {
+impl From<CharString> for crate::Value {
     fn from(value: CharString) -> Self {
-        Value::CharString(value)
+        crate::Value::CharString(value)
     }
 }
 
-#[cfg(test)]
-mod test {
-    use crate::grammar::{strings_textfields::CharString, SyntacticUnit};
-
-    #[test]
-    fn char_string() {
-        let mut input = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
-";
-        let mut input_2 = "    rm
-";
-        let mut input_3 = "_symmetry_cell_setting
-";
-        dbg!(CharString::parser(&mut input).unwrap());
-        dbg!(CharString::parser(&mut input_2).unwrap());
-        // A bare data name is not a character string value: after the
-        // leading EOL the first value character must be an OrdinaryChar,
-        // and '_' is not one (spec Appendix A <UnquotedString>).
-        assert!(
-            CharString::parser(&mut input_3).is_err(),
-            "a bare data name must not parse as a character string value"
-        );
-    }
-}
+impl CIFValue for CharString {}

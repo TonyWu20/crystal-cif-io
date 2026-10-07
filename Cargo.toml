@@ -14,12 +14,10 @@ chemrust-core = {version="0.5.1", optional = true}
 nalgebra = {version="0.33", optional=true}
 chrono = "0.4"
 crystallographic-group = {version = "0.3.1", optional = true}
-winnow = "0.6"
 indexmap = {version="2.2", optional=true}
-pest = "2.7.15"
-pest_derive = "2.7.15"
-pest-ast = "0.3.5"
 serde_json = "1"
+chumsky = "0.13"
+ariadne = { version = "0.6", features = ["auto-color"] }
 
 [features]
 default = ["chemrust-core"]

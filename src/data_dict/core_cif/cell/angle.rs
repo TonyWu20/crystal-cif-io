@@ -20,7 +20,7 @@ impl From<CellAngle> for Value {
 
 impl From<f32> for CellAngle {
     fn from(value: f32) -> Self {
-        Self::new(Float(value))
+        Self::new(Float(value.into()))
     }
 }
 

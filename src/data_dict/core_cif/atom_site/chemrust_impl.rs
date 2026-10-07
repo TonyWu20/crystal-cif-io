@@ -3,7 +3,7 @@ use chemrust_core::data::{atom::CoreAtomData, geom::coordinates::CoordData::Frac
 use crate::{
     data_dict::{core_cif::atom_site::adp_type::AdpType, LoopValueTerm},
     grammar::{CharString, DataItems, Float, LoopUnit, Numeric, UnquotedString},
-    DataBlock, DataBlockHeading, DataBlockMember,
+    DataBlockMember,
 };
 
 use super::{

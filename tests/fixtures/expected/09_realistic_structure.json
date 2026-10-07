@@ -534,7 +534,5 @@
     }
   ],
   "fixture": "09_realistic_structure.cif",
-  "schema_version": 1,
-  "known_gap": true,
-  "known_gap_note": "spec-correct: '.' and '?' are inapplicable/unknown values wherever they stand as whole tokens (spec Appendix A <Value>). The current winnow parser only accepts '.'/'?' as such at end of line, so it returns char_string for the mid-line occurrences in the geom_bond loop rows."
+  "schema_version": 1
 }
