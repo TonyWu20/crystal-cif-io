@@ -164,17 +164,22 @@ impl Violation {
         }
     }
 
-    pub fn to_string(&self) -> String {
+}
+
+impl std::fmt::Display for Violation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::DuplicateBlockName(name) => format!("duplicate data block name {name}"),
+            Self::DuplicateBlockName(name) => {
+                write!(f, "duplicate data block name {name}")
+            }
             Self::DuplicateTagInBlock { block, tag } => {
-                format!("duplicate tag {tag} in block or save frame {block}")
+                write!(f, "duplicate tag {tag} in block or save frame {block}")
             }
             Self::DuplicateSaveFrameCode { block, code } => {
-                format!("duplicate save frame code {code} in block {block}")
+                write!(f, "duplicate save frame code {code} in block {block}")
             }
             Self::RaggedLoop { block, tags } => {
-                format!("ragged loop {tags:?} in block {block}")
+                write!(f, "ragged loop {tags:?} in block {block}")
             }
         }
     }
