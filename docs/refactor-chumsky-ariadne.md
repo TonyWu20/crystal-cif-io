@@ -131,6 +131,25 @@ Verification: `cargo test` is green (6 unit tests and
 "a reserved word stem with a code, `save_foo`, may not begin a
 value". `gt_generate --force` writes nothing.
 
+## Post-commit cleanup (2026-10-07)
+
+After the Phase-2 commit, the remaining clippy findings were resolved in
+two follow-up commits:
+
+- **Cosmetic fixes (14).** `cargo clippy --fix` applied all 14
+  machine-applicable lints (redundant references, an elided lifetime,
+  no-op `f64` conversions, a `first()` call, a char-array trim, and a
+  dropped `clone` on a `Copy` combinator). All are
+  behavior-preserving.
+- **`Violation` as a `Display` impl.** The hand-written `to_string`
+  method on `Violation` in `src/canonical.rs` was replaced with a
+  `Display` impl. The formatted strings are byte-identical, so the
+  `v.to_string()` call sites in the tests and examples keep the same
+  output.
+
+`cargo clippy` is now clean. `cargo test` stays green and
+`gt_generate --force` still writes nothing.
+
 ## Phases
 
 | phase | state |
