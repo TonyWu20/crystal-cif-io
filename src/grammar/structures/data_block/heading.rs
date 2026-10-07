@@ -31,7 +31,7 @@ impl crate::grammar::SyntacticUnit for DataBlockHeading {
     type FormatOutput = String;
 
     fn formatted_output(&self) -> Self::FormatOutput {
-        format!("\ndata_{}\n", &self.name)
+        format!("\ndata_{}\n", self.name)
     }
 }
 

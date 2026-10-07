@@ -173,7 +173,7 @@ impl CoreAtomData for DataBlock {
                             .as_float()
                             .expect("fractional coord should be float"),
                     );
-                    let (x, y, z) = ((*x).into(), (*y).into(), (*z).into());
+                    let (x, y, z) = ((*x), (*y), (*z));
                     CoordData::Fractional(Point3::new(x, y, z))
                 })
                 .collect()
@@ -213,7 +213,7 @@ impl CoreAtomData for DataBlock {
                             .as_float()
                             .expect("coord should be float"),
                     );
-                    let (x, y, z) = ((*x).into(), (*y).into(), (*z).into());
+                    let (x, y, z) = ((*x), (*y), (*z));
                     CoordData::Cartesian(Point3::new(x, y, z))
                 })
                 .collect()

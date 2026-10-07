@@ -42,7 +42,7 @@ impl SyntacticUnit for Number {
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
             Number::Integer(i) => format!("{i}"),
-            Number::Float(f) => format!("{:<6.3}", &f.0),
+            Number::Float(f) => format!("{:<6.3}", f.0),
         }
     }
 }

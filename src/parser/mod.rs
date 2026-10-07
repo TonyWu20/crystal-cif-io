@@ -247,7 +247,7 @@ fn numeric<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
             token.extend(rest);
             token
         })
-        .filter(|token: &String| is_numeric_literal(&token))
+        .filter(|token: &String| is_numeric_literal(token))
         .map(|token: String| numeric_value(&token))
 }
 
@@ -271,7 +271,7 @@ fn is_numeric_literal(token: &str) -> bool {
     }
     let bytes = number_part.as_bytes();
     let mut i = 0;
-    if matches!(bytes.get(0), Some(b'+') | Some(b'-')) {
+    if matches!(bytes.first(), Some(b'+') | Some(b'-')) {
         i = 1;
     }
     let mut digits = 0usize;
@@ -373,7 +373,7 @@ fn single_quoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> 
     just('\'')
         .then(run)
         .map(|(_q, run): (char, &str)| {
-            run.trim_end_matches(|c: char| matches!(c, ' ' | '\t'))
+            run.trim_end_matches([' ', '\t'])
                 .to_string()
         })
         .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('\''))
@@ -396,7 +396,7 @@ fn double_quoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> 
     just('"')
         .then(run)
         .map(|(_q, run): (char, &str)| {
-            run.trim_end_matches(|c: char| matches!(c, ' ' | '\t'))
+            run.trim_end_matches([' ', '\t'])
                 .to_string()
         })
         .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('"'))
@@ -414,7 +414,7 @@ fn double_quoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> 
 /// newline.
 fn text_field<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
     let line_content = any().filter(|&c| !is_eol(c)).repeated().to_slice();
-    let first_line = line_content.clone().then(eol());
+    let first_line = line_content.then(eol());
     let full_line = choice((
         // A content line: a first character that is not `;`, then any
         // non-EOL characters to the EOL.
