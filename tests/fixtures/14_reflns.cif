@@ -1,0 +1,37 @@
+## CIF_1.1
+#
+# T2 ground-truth fixture: a realistic reflection-set block.
+# Single-value items from the exptl, reflns, refine, and symmetry
+# categories, plus a refln loop in the classic measured-reflection
+# form.
+
+data_reflns_example
+
+_exptl_crystals_number 1
+_exptl_absorpt_correction_type none
+_reflns_number_total 1421
+_reflns_number_observed 1286
+_reflns_number_gt 1102
+_reflns_observed_criterion 'I > 2sigma(I)'
+_refine_ls_number_parameters 87
+_refine_ls_number_reflns 1286
+_refine_ls_R_factor_gt 0.0412
+_refine_ls_wR_factor_gt 0.0438
+_refine_ls_goodness_of_fit_gt 1.021
+_refine_ls_hydrogen_treatment constr
+_refine_ls_structure_factor_coef F
+_symmetry_cell_setting tetragonal
+
+loop_
+ _refln_index_h
+ _refln_index_k
+ _refln_index_l
+ _refln_F_meas
+ _refln_F_sigma
+ _refln_observed_status
+-1  0  0    12.483   0.412  o
+ 0  0  1   45.701   1.023  o
+ 1  0  0   44.882   0.997  o
+ 0  1  1   15.204   0.661  o
+ 1  1  0    9.832   0.355  o
+ 0  2  1    7.660   ?      o

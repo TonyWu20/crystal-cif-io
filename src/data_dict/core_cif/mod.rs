@@ -1,4 +1,16 @@
 pub mod atom_site;
 pub mod audit;
 pub mod cell;
+pub mod exptl;
+pub mod exptl_crystal;
+pub mod exptl_crystal_face;
+pub mod refine;
+pub mod refine_ls_class;
+pub mod refln;
+pub mod reflns;
+pub mod reflns_class;
+pub mod reflns_scale;
+pub mod reflns_shell;
 pub mod space_group;
+pub mod symmetry;
+pub mod symmetry_equiv;
