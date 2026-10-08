@@ -544,6 +544,688 @@
       "extra_item": {
         "type": "string"
       }
+    },
+    "diffrn": {
+      "ambient_environment": {
+        "type": "string"
+      },
+      "ambient_pressure": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "ambient_pressure_gt": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "ambient_pressure_lt": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "ambient_temperature": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "ambient_temperature_gt": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "ambient_temperature_lt": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "crystal_treatment": {
+        "type": "string"
+      },
+      "measured_fraction_theta_full": {
+        "type": "range",
+        "min": 0.0,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "measured_fraction_theta_max": {
+        "type": "range",
+        "min": 0.0,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "special_details": {
+        "type": "string"
+      },
+      "symmetry_description": {
+        "type": "string"
+      }
+    },
+    "diffrn_attenuator": {
+      "code": {
+        "type": "string"
+      },
+      "material": {
+        "type": "string"
+      },
+      "scale": {
+        "type": "range",
+        "min": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "diffrn_detector": {
+      "diffrn_detector": {
+        "type": "string"
+      },
+      "area_resol_mean": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "details": {
+        "type": "string"
+      },
+      "dtime": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "type": {
+        "type": "string"
+      },
+      "diffrn_radiation_detector": {
+        "type": "string"
+      },
+      "diffrn_radiation_detector_dtime": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "diffrn_measurement": {
+      "details": {
+        "type": "string"
+      },
+      "device": {
+        "type": "string"
+      },
+      "device_details": {
+        "type": "string"
+      },
+      "device_type": {
+        "type": "string"
+      },
+      "method": {
+        "type": "string"
+      },
+      "specimen_support": {
+        "type": "string"
+      }
+    },
+    "diffrn_orient_matrix": {
+      "UB_11": {
+        "type": "numeric"
+      },
+      "UB_12": {
+        "type": "numeric"
+      },
+      "UB_13": {
+        "type": "numeric"
+      },
+      "UB_21": {
+        "type": "numeric"
+      },
+      "UB_22": {
+        "type": "numeric"
+      },
+      "UB_23": {
+        "type": "numeric"
+      },
+      "UB_31": {
+        "type": "numeric"
+      },
+      "UB_32": {
+        "type": "numeric"
+      },
+      "UB_33": {
+        "type": "numeric"
+      },
+      "type": {
+        "type": "string"
+      }
+    },
+    "diffrn_orient_refln": {
+      "angle_chi": {
+        "type": "numeric"
+      },
+      "angle_kappa": {
+        "type": "numeric"
+      },
+      "angle_omega": {
+        "type": "numeric"
+      },
+      "angle_phi": {
+        "type": "numeric"
+      },
+      "angle_psi": {
+        "type": "numeric"
+      },
+      "angle_theta": {
+        "type": "numeric"
+      },
+      "index_h": {
+        "type": "numeric"
+      },
+      "index_k": {
+        "type": "numeric"
+      },
+      "index_l": {
+        "type": "numeric"
+      }
+    },
+    "diffrn_radiation": {
+      "collimation": {
+        "type": "string"
+      },
+      "filter_edge": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "inhomogeneity": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "monochromator": {
+        "type": "string"
+      },
+      "polarisn_norm": {
+        "type": "range",
+        "min": -180.0,
+        "max": 180.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "polarisn_ratio": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "probe": {
+        "type": "closed",
+        "values": [
+          "x-ray",
+          "neutron",
+          "electron",
+          "gamma"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration"
+      },
+      "type": {
+        "type": "string"
+      },
+      "xray_symbol": {
+        "type": "closed",
+        "values": [
+          "K-L~3~",
+          "K-L~2~",
+          "K-M~3~",
+          "K-L~2,3~"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration"
+      }
+    },
+    "diffrn_radiation_wavelength": {
+      "diffrn_radiation_wavelength": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "details": {
+        "type": "string"
+      },
+      "determination": {
+        "type": "closed",
+        "values": [
+          "fundamental"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration"
+      },
+      "id": {
+        "type": "string"
+      },
+      "wt": {
+        "type": "range",
+        "min": 0.0,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "diffrn_refln": {
+      "angle_chi": {
+        "type": "numeric"
+      },
+      "angle_kappa": {
+        "type": "numeric"
+      },
+      "angle_omega": {
+        "type": "numeric"
+      },
+      "angle_phi": {
+        "type": "numeric"
+      },
+      "angle_psi": {
+        "type": "numeric"
+      },
+      "angle_theta": {
+        "type": "numeric"
+      },
+      "attenuator_code": {
+        "type": "string"
+      },
+      "class_code": {
+        "type": "string"
+      },
+      "counts_bg_1": {
+        "type": "numeric"
+      },
+      "counts_bg_2": {
+        "type": "numeric"
+      },
+      "counts_net": {
+        "type": "numeric"
+      },
+      "counts_peak": {
+        "type": "numeric"
+      },
+      "counts_total": {
+        "type": "numeric"
+      },
+      "crystal_id": {
+        "type": "string"
+      },
+      "detect_slit_horiz": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "detect_slit_vert": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "elapsed_time": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "index_h": {
+        "type": "numeric"
+      },
+      "index_k": {
+        "type": "numeric"
+      },
+      "index_l": {
+        "type": "numeric"
+      },
+      "intensity_net": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "intensity_sigma": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "intensity_u": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "scale_group_code": {
+        "type": "string"
+      },
+      "scan_mode": {
+        "type": "closed",
+        "values": [
+          "om",
+          "ot",
+          "q"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration"
+      },
+      "scan_mode_backgd": {
+        "type": "closed",
+        "values": [
+          "st",
+          "mo"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration"
+      },
+      "scan_rate": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "scan_time_backgd": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "scan_width": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "sint/lambda": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "SintLambda",
+        "rust": "SintLambda"
+      },
+      "standard_code": {
+        "type": "string"
+      },
+      "wavelength": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "wavelength_id": {
+        "type": "string"
+      }
+    },
+    "diffrn_reflns": {
+      "Laue_measured_fraction_full": {
+        "type": "range",
+        "min": 0.95,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "Laue_measured_fraction_max": {
+        "type": "range",
+        "min": 0.0,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "av_R_equivalents": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "av_sigmaI/netI": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "AvSigmaIOverNetI",
+        "rust": "AvSigmaIOverNetI"
+      },
+      "av_unetI/netI": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "AvUnetIOverNetI",
+        "rust": "AvUnetIOverNetI"
+      },
+      "limit_h_max": {
+        "type": "numeric"
+      },
+      "limit_h_min": {
+        "type": "numeric"
+      },
+      "limit_k_max": {
+        "type": "numeric"
+      },
+      "limit_k_min": {
+        "type": "numeric"
+      },
+      "limit_l_max": {
+        "type": "numeric"
+      },
+      "limit_l_min": {
+        "type": "numeric"
+      },
+      "number": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "ReflnsNumber",
+        "rust": "ReflnsNumber"
+      },
+      "point_group_measured_fraction_full": {
+        "type": "range",
+        "min": 0.95,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "point_group_measured_fraction_max": {
+        "type": "range",
+        "min": 0.0,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "reduction_process": {
+        "type": "string"
+      },
+      "resolution_full": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "resolution_max": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "theta_full": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "theta_max": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "theta_min": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "transf_matrix_11": {
+        "type": "numeric"
+      },
+      "transf_matrix_12": {
+        "type": "numeric"
+      },
+      "transf_matrix_13": {
+        "type": "numeric"
+      },
+      "transf_matrix_21": {
+        "type": "numeric"
+      },
+      "transf_matrix_22": {
+        "type": "numeric"
+      },
+      "transf_matrix_23": {
+        "type": "numeric"
+      },
+      "transf_matrix_31": {
+        "type": "numeric"
+      },
+      "transf_matrix_32": {
+        "type": "numeric"
+      },
+      "transf_matrix_33": {
+        "type": "numeric"
+      }
+    },
+    "diffrn_reflns_class": {
+      "av_R_eq": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "av_sgI/I": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "AvSgIOverI",
+        "rust": "AvSgIOverI"
+      },
+      "av_uI/I": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "AvUIOverI",
+        "rust": "AvUIOverI"
+      },
+      "code": {
+        "type": "string"
+      },
+      "d_res_high": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "d_res_low": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "description": {
+        "type": "string"
+      },
+      "number": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "ReflnsClassNumber",
+        "rust": "ReflnsClassNumber"
+      }
+    },
+    "diffrn_scale_group": {
+      "I_net": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "code": {
+        "type": "string"
+      }
+    },
+    "diffrn_source": {
+      "diffrn_radiation_source": {
+        "type": "string"
+      },
+      "diffrn_source": {
+        "type": "string"
+      },
+      "current": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "details": {
+        "type": "string"
+      },
+      "power": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "size": {
+        "type": "string"
+      },
+      "take-off_angle": {
+        "type": "range",
+        "min": 0.0,
+        "max": 90.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "TakeOffAngle",
+        "rust": "TakeOffAngle"
+      },
+      "target": {
+        "type": "closed",
+        "values": [
+          "H",
+          "Ar",
+          "As",
+          "Cd",
+          "Eu",
+          "Pt",
+          "Np",
+          "Hs"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration"
+      },
+      "type": {
+        "type": "string"
+      },
+      "voltage": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "diffrn_standard_refln": {
+      "code": {
+        "type": "string"
+      },
+      "index_h": {
+        "type": "numeric"
+      },
+      "index_k": {
+        "type": "numeric"
+      },
+      "index_l": {
+        "type": "numeric"
+      }
+    },
+    "diffrn_standards": {
+      "decay_%": {
+        "type": "range",
+        "max": 100.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "DecayPercent",
+        "rust": "DecayPercent"
+      },
+      "interval_count": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "interval_time": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "number": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "variant": "StandardsNumber",
+        "rust": "StandardsNumber"
+      },
+      "scale_sigma": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "scale_u": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
     }
   }
 }
