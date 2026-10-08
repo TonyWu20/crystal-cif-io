@@ -1,0 +1,378 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "exptl_crystals_number",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_absorpt_correction_type",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "none"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "reflns_number_total",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1421"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "reflns_number_observed",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1286"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "reflns_number_gt",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1102"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "reflns_observed_criterion",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "I > 2sigma(I)"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_number_parameters",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "87"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_number_reflns",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1286"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_R_factor_gt",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.0412"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_wR_factor_gt",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.0438"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_goodness_of_fit_gt",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1.021"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_hydrogen_treatment",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "constr"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_structure_factor_coef",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "F"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_cell_setting",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "tetragonal"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "-1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "12.483"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.412"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "o"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "45.701"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1.023"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "o"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "44.882"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.997"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "o"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "15.204"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.661"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "o"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "9.832"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.355"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "o"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "7.66"
+              },
+              {
+                "kind": "unknown"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "o"
+              }
+            ]
+          ],
+          "tags": [
+            "refln_index_h",
+            "refln_index_k",
+            "refln_index_l",
+            "refln_F_meas",
+            "refln_F_sigma",
+            "refln_observed_status"
+          ]
+        }
+      ],
+      "name": "reflns_example"
+    }
+  ],
+  "fixture": "14_reflns.cif",
+  "schema_version": 1
+}
