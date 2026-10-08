@@ -306,6 +306,7 @@ Record decisions here as they are made.
 | D6 | legacy `data_types` API | A: remove it. The crate is pre-1.0, nothing external uses it | 2026-10-08 |
 | D7 | write-path float truncation | A: format `Float` with the `f64` shortest-round-trip `Display` in T0 | 2026-10-08 |
 | D8 | CIF 2.0 list values | A: dialect detection, a `Value::List` variant, the 2.0 string restriction. Scoped to lists only (section 13). Implemented in the T6 wave | 2026-10-08 |
+| D4a | codegen implementation | `examples/dict_codegen.rs` with `codegen/annotations.json` (JSON: the generator reuses the existing `serde_json`; no new dependencies). The format and the reuse path are documented in `docs/codegen.md`. The registry and pub-mod lists stay append-only. T4 carries no range items; its five closed sets become typed enums | 2026-10-08 |
 
 The current wave covers T0, T2, T3, T4, T5. T6 (and the D8 parser
 work) start only when D1 approves the shell scope.
