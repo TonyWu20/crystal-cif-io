@@ -42,6 +42,5 @@ pub mod geom_contact;
 pub mod geom_hbond;
 pub mod geom_torsion;
 pub mod range_check;
-pub mod space_group;
 pub mod valence_param;
 pub mod valence_ref;
