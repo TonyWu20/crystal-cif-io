@@ -311,6 +311,15 @@ Record decisions here as they are made.
 The current wave covers T0, T2, T3, T4, T5. T6 (and the D8 parser
 work) start only when D1 approves the shell scope.
 
+Wave status (2026-10-09): T0, T2, T3, T4, T5 are merged into
+dev-0.2 (final merge ab7db3f). All 734 items of the standard
+dictionary are implemented. The recorded inventory holds 732.
+The two missing items sit in the drift list. Four review sessions
+finished clean. No P0 findings. The one P1 (a non-compiling
+intermediate merge tree from the line-union merges) was repaired
+on the branch (38a4956) and verified by the reviews. Open P2
+notes: sessions/dict-items-review-t2..t5/report.md.
+
 ## 11. Sources
 
 - IUCr CIF 1.1 working specification (file syntax, common semantics):
