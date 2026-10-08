@@ -15,8 +15,6 @@ mod whitespace_comments;
 
 mod index;
 
-#[cfg(feature = "chemrust-core")]
-pub mod chemrust_impl;
 
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
 pub use strings_textfields::{

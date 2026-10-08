@@ -10,18 +10,12 @@ repository = "https://github.com/TonyWu20/crystal-cif-io"
 
 [dependencies]
 castep-periodic-table = "0.5"
-chemrust-core = {version="0.5.1", optional = true}
-nalgebra = {version="0.33", optional=true}
 chrono = "0.4"
-crystallographic-group = {version = "0.3.1", optional = true}
 indexmap = {version="2.2", optional=true}
 serde_json = "1"
 chumsky = "0.13"
 ariadne = { version = "0.6", features = ["auto-color"] }
 
-[features]
-default = ["chemrust-core"]
-chemrust-core = ["dep:chemrust-core", "dep:crystallographic-group", "dep:nalgebra"]
 
 # The `castep-cell-io` git dev-branch dev-dependency no longer compiles
 # (API drift in its own `UnitCellParameters` bound). Its only user was the

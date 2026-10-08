@@ -6,8 +6,6 @@ use self::label_symbol::TypeSymbol;
 use self::symmetry_multiplicity::SymMultiplicity;
 
 mod adp_type;
-#[cfg(feature = "chemrust-core")]
-pub mod chemrust_impl;
 mod label_symbol;
 mod symmetry_multiplicity;
 

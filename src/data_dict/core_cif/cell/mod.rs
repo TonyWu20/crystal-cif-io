@@ -1,6 +1,4 @@
 mod angle;
-#[cfg(feature = "chemrust-core")]
-pub mod chemrust_impl;
 
 use std::fmt::Display;
 

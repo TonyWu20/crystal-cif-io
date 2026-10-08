@@ -1,8 +1,6 @@
-use chrono::Utc;
-
 use crate::{
     data_dict::{CifTerm, SingleValueTerm},
-    grammar::{CharString, DataItems, SingleQuotedString, Tag, Value},
+    grammar::{CharString, Tag, Value},
 };
 
 #[derive(Debug, Clone)]
@@ -38,17 +36,4 @@ impl SingleValueTerm for AuditItem {
             AuditItem::Update_record => todo!(),
         }
     }
-}
-
-pub(crate) fn default_audit_data() -> Vec<DataItems> {
-    [
-        AuditItem::Creation_date(
-            SingleQuotedString::new(format!("{}", Utc::now().format("%Y-%m-%d"))).into(),
-        ),
-        AuditItem::Creation_method(
-            SingleQuotedString::new("crystal-cif-io by TonyWu20".to_string()).into(),
-        ),
-    ]
-    .map(|item| item.to_single_value_data())
-    .to_vec()
 }

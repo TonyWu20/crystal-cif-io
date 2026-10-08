@@ -1,6 +1,5 @@
 use std::fmt::Display;
 
-use crystallographic_group::database::CrystalSystem;
 // use serde::{Deserialize, Serialize};
 
 // /// This crate
@@ -69,21 +68,6 @@ impl TryFrom<String> for CrystalSystemCif {
 
     fn try_from(value: String) -> Result<Self, Self::Error> {
         Self::try_from(value.as_str())
-    }
-}
-
-#[cfg(feature = "chemrust-core")]
-impl From<CrystalSystem> for CrystalSystemCif {
-    fn from(value: CrystalSystem) -> Self {
-        match value {
-            CrystalSystem::Triclinic => Self::Triclinic,
-            CrystalSystem::Monoclinic => Self::Monoclinic,
-            CrystalSystem::Orthorhombic => Self::Orthorhombic,
-            CrystalSystem::Tetragonal => Self::Tetragonal,
-            CrystalSystem::Trigonal => Self::Trigonal,
-            CrystalSystem::Hexagonal => Self::Hexagonal,
-            CrystalSystem::Cubic => Self::Cubic,
-        }
     }
 }
 

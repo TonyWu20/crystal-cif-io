@@ -7,8 +7,6 @@ mod it_number;
 pub use crystal_system::CrystalSystemCif;
 pub use it_number::ITNumber;
 
-#[cfg(feature = "chemrust-core")]
-pub mod chemrust_impl;
 
 #[allow(clippy::upper_case_acronyms, non_camel_case_types)]
 #[derive(Debug, Clone)]

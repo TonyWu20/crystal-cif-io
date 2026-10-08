@@ -5,7 +5,7 @@ CIF work. Phase 1 (groundtruth) is done.
 See [`ground-truth.md`](ground-truth.md).
 Decision recorded 2026-10-06. Implementation recorded 2026-10-07.
 Post-review defect fix (unreachable semantic diagnostics) recorded
-2026-10-07.
+2026-10-07. Chemrust layer removed 2026-10-07.
 
 ## Decision
 
@@ -94,12 +94,30 @@ All four criteria hold as of 2026-10-07.
   A successful parse stays untouched. The `parse_cif` signature and
   `Err` contract are unchanged.
 
-## Known pre-existing defect (out of scope)
+## Chemrust layer removed (2026-10-07)
 
-`cargo test --no-default-features` fails on `HEAD`.
-The `crystallographic_group` imports in `src/data_dict/core_cif/`
-are not feature-gated behind `chemrust-core`. This defect predates
-the parser work and is not fixed here.
+The `chemrust-core` optional dependency (and its companions
+`crystallographic-group` and `nalgebra`) was removed entirely.
+This dissolved the `--no-default-features` defect above: with no
+optional dependency left, the crate builds with no features and
+the old defect can no longer occur.
+
+- Deleted the four `chemrust_impl.rs` files in `src/grammar/` and
+  `src/data_dict/core_cif/` (cell, atom_site, space_group).
+- Removed the `chemrust-core` feature and the three optional
+  dependencies from `Cargo.toml`.
+- Made `space_group/crystal_system.rs` dependency-free: dropped the
+  ungated `crystallographic_group` import and the chemrust
+  `From<CrystalSystem>` conversion. The CIF-native `CrystalSystemCif`
+  enum, its `Display`, and its `TryFrom` stay.
+- Removed the now-dead `default_audit_data` helper (its only caller
+  was the deleted `chemrust_impl`).
+
+The crate is now a pure CIF parse, IR, canonical-JSON, and data-
+dictionary layer. It no longer converts to chemrust types. The
+data-dictionary entries keep their CIF-native term types; the
+chemrust conversion will be re-added, if at all, as its own future
+layer.
 
 ## Post-review defect fix: unreachable semantic diagnostics (2026-10-07)
 

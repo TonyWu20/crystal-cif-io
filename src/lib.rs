@@ -9,8 +9,6 @@ pub use grammar::{
     SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString, UnsignedInteger, Value,
 };
 
-#[cfg(feature = "chemrust-core")]
-pub use grammar::chemrust_impl::{from_data_block_members, to_cif_document, to_data_block};
 
 /// The chumsky + ariadne CIF 1.1 parser. `parse_cif` is the strict
 /// entry point (`Ok` means the whole input was consumed);
