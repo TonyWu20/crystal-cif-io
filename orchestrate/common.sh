@@ -60,11 +60,14 @@ mission() {
     *)            script="$ORCH/mission_$name.sh" ;;
   esac
   [ -f "$script" ] || { log "FATAL: missing mission script $script"; return 1; }
-  (
-    setsid nohup bash "$script" </dev/null >> "$LOGDIR/mission_$name.out" 2>&1 &
-    echo $! > "$PIDDIR/$name.pid"
-  )
-  cat "$PIDDIR/$name.pid"
+  # The mission is backgrounded in the CALLING shell, so it stays a
+  # child of the orchestrator and wait_pid can block on its exit code.
+  # This function must therefore not be run inside a command
+  # substitution: call it plainly, then read the pid from the pidfile.
+  # setsid detaches the mission from this session (it survives the
+  # orchestrator exiting).
+  setsid nohup bash "$script" </dev/null >> "$LOGDIR/mission_$name.out" 2>&1 &
+  echo $! > "$PIDDIR/$name.pid"
 }
 
 # wait_pid <pid> <name> : 0 if the mission exited 0

@@ -23,7 +23,8 @@ if state_get t0_merged; then
   log "stage 1 (t0): skipped, already merged"
 else
   hold
-  p_t0=$(mission dict-items-t0) || abort "could not launch dict-items-t0"
+  mission dict-items-t0 || abort "could not launch dict-items-t0"
+  t0=$(cat "$PIDDIR/dict-items-t0.pid")
   log "stage 1: dict-items-t0 pid=$p_t0"
   if ! wait_pid "$p_t0" dict-items-t0; then
     abort "T0 mission FAILED. Inspect orchestrate/logs/mission_dict-items-t0.out and the worktree .worktrees/dict-items-t0, then rerun the orchestrator."
@@ -40,9 +41,12 @@ if state_get w2a_merged; then
   log "stage 2 (w2a): skipped, already merged"
 else
   hold
-  p_t2=$(mission dict-items-t2) || abort "could not launch dict-items-t2"
-  p_t3=$(mission dict-items-t3) || abort "could not launch dict-items-t3"
-  p_t4=$(mission dict-items-t4) || abort "could not launch dict-items-t4"
+  mission dict-items-t2 || abort "could not launch dict-items-t2"
+  t2=$(cat "$PIDDIR/dict-items-t2.pid")
+  mission dict-items-t3 || abort "could not launch dict-items-t3"
+  t3=$(cat "$PIDDIR/dict-items-t3.pid")
+  mission dict-items-t4 || abort "could not launch dict-items-t4"
+  t4=$(cat "$PIDDIR/dict-items-t4.pid")
   log "stage 2: t2 pid=$p_t2 t3 pid=$p_t3 t4 pid=$p_t4"
   failed=""
   for n in t2 t3 t4; do
@@ -75,7 +79,8 @@ if state_get t5_merged; then
   log "stage 3 (t5): skipped, already merged"
 else
   hold
-  p_t5=$(mission dict-items-t5) || abort "could not launch dict-items-t5"
+  mission dict-items-t5 || abort "could not launch dict-items-t5"
+  t5=$(cat "$PIDDIR/dict-items-t5.pid")
   log "stage 3: dict-items-t5 pid=$p_t5"
   if ! wait_pid "$p_t5" dict-items-t5; then
     abort "T5 mission FAILED. Inspect orchestrate/logs/mission_dict-items-t5.out and the worktree .worktrees/dict-items-t5, then rerun the orchestrator."
@@ -92,10 +97,14 @@ if state_get reviews_done; then
   log "stage 4 (reviews): skipped, already done"
 else
   hold
-  p_r2=$(mission dict-items-review-t2) || abort "could not launch dict-items-review-t2"
-  p_r3=$(mission dict-items-review-t3) || abort "could not launch dict-items-review-t3"
-  p_r4=$(mission dict-items-review-t4) || abort "could not launch dict-items-review-t4"
-  p_r5=$(mission dict-items-review-t5) || abort "could not launch dict-items-review-t5"
+  mission dict-items-review-t2 || abort "could not launch dict-items-review-t2"
+  r2=$(cat "$PIDDIR/dict-items-review-t2.pid")
+  mission dict-items-review-t3 || abort "could not launch dict-items-review-t3"
+  r3=$(cat "$PIDDIR/dict-items-review-t3.pid")
+  mission dict-items-review-t4 || abort "could not launch dict-items-review-t4"
+  r4=$(cat "$PIDDIR/dict-items-review-t4.pid")
+  mission dict-items-review-t5 || abort "could not launch dict-items-review-t5"
+  r5=$(cat "$PIDDIR/dict-items-review-t5.pid")
   log "stage 4: review pids: r2=$p_r2 r3=$p_r3 r4=$p_r4 r5=$p_r5"
   rc_reviews=0
   for n in t2 t3 t4 t5; do
