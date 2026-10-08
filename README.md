@@ -18,7 +18,10 @@ cargo run --example gt_generate -- --force        # overwrite expected JSON (gua
 
 ## Roadmap
 
-The parser will move from `winnow` to `chumsky` + `ariadne`, modeled on
-`castep_cell_fmt`. The decision, rationale, and binding acceptance
-criteria live in
+The parser refactor (chumsky + ariadne, modeled on `castep_cell_fmt`)
+lives in
 [`docs/refactor-chumsky-ariadne.md`](docs/refactor-chumsky-ariadne.md).
+
+The remaining CIF dictionary items for the CIF 1.1 standard carry their
+own roadmap in
+[`docs/roadmap-dict-items.md`](docs/roadmap-dict-items.md).
