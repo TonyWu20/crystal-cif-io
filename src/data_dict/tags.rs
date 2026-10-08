@@ -140,6 +140,233 @@ pub mod space_group_symop {
     ];
 }
 
+/// `atom_sites` category tags (29).
+pub mod atom_sites {
+    pub const TAGS: &[&str] = &[
+        "atom_sites_Cartn_tran_matrix_11",
+        "atom_sites_Cartn_tran_matrix_12",
+        "atom_sites_Cartn_tran_matrix_13",
+        "atom_sites_Cartn_tran_matrix_21",
+        "atom_sites_Cartn_tran_matrix_22",
+        "atom_sites_Cartn_tran_matrix_23",
+        "atom_sites_Cartn_tran_matrix_31",
+        "atom_sites_Cartn_tran_matrix_32",
+        "atom_sites_Cartn_tran_matrix_33",
+        "atom_sites_Cartn_tran_vector_1",
+        "atom_sites_Cartn_tran_vector_2",
+        "atom_sites_Cartn_tran_vector_3",
+        "atom_sites_Cartn_transform_axes",
+        "atom_sites_fract_tran_matrix_11",
+        "atom_sites_fract_tran_matrix_12",
+        "atom_sites_fract_tran_matrix_13",
+        "atom_sites_fract_tran_matrix_21",
+        "atom_sites_fract_tran_matrix_22",
+        "atom_sites_fract_tran_matrix_23",
+        "atom_sites_fract_tran_matrix_31",
+        "atom_sites_fract_tran_matrix_32",
+        "atom_sites_fract_tran_matrix_33",
+        "atom_sites_fract_tran_vector_1",
+        "atom_sites_fract_tran_vector_2",
+        "atom_sites_fract_tran_vector_3",
+        "atom_sites_solution_hydrogens",
+        "atom_sites_solution_primary",
+        "atom_sites_solution_secondary",
+        "atom_sites_special_details",
+    ];
+}
+
+/// `atom_type` category tags (22).
+pub mod atom_type {
+    pub const TAGS: &[&str] = &[
+        "atom_type_analytical_mass_%",
+        "atom_type_description",
+        "atom_type_number_in_cell",
+        "atom_type_oxidation_number",
+        "atom_type_radius_bond",
+        "atom_type_radius_contact",
+        "atom_type_scat_Cromer_Mann_a1",
+        "atom_type_scat_Cromer_Mann_a2",
+        "atom_type_scat_Cromer_Mann_a3",
+        "atom_type_scat_Cromer_Mann_a4",
+        "atom_type_scat_Cromer_Mann_b1",
+        "atom_type_scat_Cromer_Mann_b2",
+        "atom_type_scat_Cromer_Mann_b3",
+        "atom_type_scat_Cromer_Mann_b4",
+        "atom_type_scat_Cromer_Mann_c",
+        "atom_type_scat_dispersion_imag",
+        "atom_type_scat_dispersion_real",
+        "atom_type_scat_dispersion_source",
+        "atom_type_scat_length_neutron",
+        "atom_type_scat_source",
+        "atom_type_scat_versus_stol_list",
+        "atom_type_symbol",
+    ];
+}
+
+/// `chemical` category tags (25).
+pub mod chemical {
+    pub const TAGS: &[&str] = &[
+        "chemical_absolute_configuration",
+        "chemical_compound_source",
+        "chemical_enantioexcess_bulk",
+        "chemical_enantioexcess_bulk_technique",
+        "chemical_enantioexcess_crystal",
+        "chemical_enantioexcess_crystal_technique",
+        "chemical_identifier_inchi",
+        "chemical_identifier_inchi_key",
+        "chemical_identifier_inchi_version",
+        "chemical_melting_point",
+        "chemical_melting_point_gt",
+        "chemical_melting_point_lt",
+        "chemical_name_common",
+        "chemical_name_mineral",
+        "chemical_name_structure_type",
+        "chemical_name_systematic",
+        "chemical_optical_rotation",
+        "chemical_properties_biological",
+        "chemical_properties_physical",
+        "chemical_temperature_decomposition",
+        "chemical_temperature_decomposition_gt",
+        "chemical_temperature_decomposition_lt",
+        "chemical_temperature_sublimation",
+        "chemical_temperature_sublimation_gt",
+        "chemical_temperature_sublimation_lt",
+    ];
+}
+
+/// `chemical_conn_atom` category tags (7).
+pub mod chemical_conn_atom {
+    pub const TAGS: &[&str] = &[
+        "chemical_conn_atom_NCA",
+        "chemical_conn_atom_NH",
+        "chemical_conn_atom_charge",
+        "chemical_conn_atom_display_x",
+        "chemical_conn_atom_display_y",
+        "chemical_conn_atom_number",
+        "chemical_conn_atom_type_symbol",
+    ];
+}
+
+/// `chemical_conn_bond` category tags (3).
+pub mod chemical_conn_bond {
+    pub const TAGS: &[&str] = &[
+        "chemical_conn_bond_atom_1",
+        "chemical_conn_bond_atom_2",
+        "chemical_conn_bond_type",
+    ];
+}
+
+/// `chemical_formula` category tags (7).
+pub mod chemical_formula {
+    pub const TAGS: &[&str] = &[
+        "chemical_formula_analytical",
+        "chemical_formula_iupac",
+        "chemical_formula_moiety",
+        "chemical_formula_structural",
+        "chemical_formula_sum",
+        "chemical_formula_weight",
+        "chemical_formula_weight_meas",
+    ];
+}
+
+/// `geom` category tags (1).
+pub mod geom {
+    pub const TAGS: &[&str] = &["geom_special_details"];
+}
+
+/// `geom_angle` category tags (8).
+pub mod geom_angle {
+    pub const TAGS: &[&str] = &[
+        "geom_angle",
+        "geom_angle_atom_site_label_1",
+        "geom_angle_atom_site_label_2",
+        "geom_angle_atom_site_label_3",
+        "geom_angle_publ_flag",
+        "geom_angle_site_symmetry_1",
+        "geom_angle_site_symmetry_2",
+        "geom_angle_site_symmetry_3",
+    ];
+}
+
+/// `geom_bond` category tags (8).
+pub mod geom_bond {
+    pub const TAGS: &[&str] = &[
+        "geom_bond_atom_site_label_1",
+        "geom_bond_atom_site_label_2",
+        "geom_bond_distance",
+        "geom_bond_multiplicity",
+        "geom_bond_publ_flag",
+        "geom_bond_site_symmetry_1",
+        "geom_bond_site_symmetry_2",
+        "geom_bond_valence",
+    ];
+}
+
+/// `geom_contact` category tags (6).
+pub mod geom_contact {
+    pub const TAGS: &[&str] = &[
+        "geom_contact_atom_site_label_1",
+        "geom_contact_atom_site_label_2",
+        "geom_contact_distance",
+        "geom_contact_publ_flag",
+        "geom_contact_site_symmetry_1",
+        "geom_contact_site_symmetry_2",
+    ];
+}
+
+/// `geom_hbond` category tags (11).
+pub mod geom_hbond {
+    pub const TAGS: &[&str] = &[
+        "geom_hbond_angle_DHA",
+        "geom_hbond_atom_site_label_A",
+        "geom_hbond_atom_site_label_D",
+        "geom_hbond_atom_site_label_H",
+        "geom_hbond_distance_DA",
+        "geom_hbond_distance_DH",
+        "geom_hbond_distance_HA",
+        "geom_hbond_publ_flag",
+        "geom_hbond_site_symmetry_A",
+        "geom_hbond_site_symmetry_D",
+        "geom_hbond_site_symmetry_H",
+    ];
+}
+
+/// `geom_torsion` category tags (10).
+pub mod geom_torsion {
+    pub const TAGS: &[&str] = &[
+        "geom_torsion",
+        "geom_torsion_atom_site_label_1",
+        "geom_torsion_atom_site_label_2",
+        "geom_torsion_atom_site_label_3",
+        "geom_torsion_atom_site_label_4",
+        "geom_torsion_publ_flag",
+        "geom_torsion_site_symmetry_1",
+        "geom_torsion_site_symmetry_2",
+        "geom_torsion_site_symmetry_3",
+        "geom_torsion_site_symmetry_4",
+    ];
+}
+
+/// `valence_param` category tags (9).
+pub mod valence_param {
+    pub const TAGS: &[&str] = &[
+        "valence_param_B",
+        "valence_param_Ro",
+        "valence_param_atom_1",
+        "valence_param_atom_1_valence",
+        "valence_param_atom_2",
+        "valence_param_atom_2_valence",
+        "valence_param_details",
+        "valence_param_id",
+        "valence_param_ref_id",
+    ];
+}
+
+/// `valence_ref` category tags (2).
+pub mod valence_ref {
+    pub const TAGS: &[&str] = &["valence_ref_id", "valence_ref_reference"];
+}
+
 /// All implemented tags, one entry per `CifTerm` tag string.
 pub const ALL: &[&str] = &[
     // atom_site
@@ -241,6 +468,168 @@ pub const ALL: &[&str] = &[
     "space_group_symop_id",
     "space_group_symop_operation_xyz",
     "space_group_symop_sg_id",
+    // atom_sites
+    "atom_sites_Cartn_tran_matrix_11",
+    "atom_sites_Cartn_tran_matrix_12",
+    "atom_sites_Cartn_tran_matrix_13",
+    "atom_sites_Cartn_tran_matrix_21",
+    "atom_sites_Cartn_tran_matrix_22",
+    "atom_sites_Cartn_tran_matrix_23",
+    "atom_sites_Cartn_tran_matrix_31",
+    "atom_sites_Cartn_tran_matrix_32",
+    "atom_sites_Cartn_tran_matrix_33",
+    "atom_sites_Cartn_tran_vector_1",
+    "atom_sites_Cartn_tran_vector_2",
+    "atom_sites_Cartn_tran_vector_3",
+    "atom_sites_Cartn_transform_axes",
+    "atom_sites_fract_tran_matrix_11",
+    "atom_sites_fract_tran_matrix_12",
+    "atom_sites_fract_tran_matrix_13",
+    "atom_sites_fract_tran_matrix_21",
+    "atom_sites_fract_tran_matrix_22",
+    "atom_sites_fract_tran_matrix_23",
+    "atom_sites_fract_tran_matrix_31",
+    "atom_sites_fract_tran_matrix_32",
+    "atom_sites_fract_tran_matrix_33",
+    "atom_sites_fract_tran_vector_1",
+    "atom_sites_fract_tran_vector_2",
+    "atom_sites_fract_tran_vector_3",
+    "atom_sites_solution_hydrogens",
+    "atom_sites_solution_primary",
+    "atom_sites_solution_secondary",
+    "atom_sites_special_details",
+    // atom_type
+    "atom_type_analytical_mass_%",
+    "atom_type_description",
+    "atom_type_number_in_cell",
+    "atom_type_oxidation_number",
+    "atom_type_radius_bond",
+    "atom_type_radius_contact",
+    "atom_type_scat_Cromer_Mann_a1",
+    "atom_type_scat_Cromer_Mann_a2",
+    "atom_type_scat_Cromer_Mann_a3",
+    "atom_type_scat_Cromer_Mann_a4",
+    "atom_type_scat_Cromer_Mann_b1",
+    "atom_type_scat_Cromer_Mann_b2",
+    "atom_type_scat_Cromer_Mann_b3",
+    "atom_type_scat_Cromer_Mann_b4",
+    "atom_type_scat_Cromer_Mann_c",
+    "atom_type_scat_dispersion_imag",
+    "atom_type_scat_dispersion_real",
+    "atom_type_scat_dispersion_source",
+    "atom_type_scat_length_neutron",
+    "atom_type_scat_source",
+    "atom_type_scat_versus_stol_list",
+    "atom_type_symbol",
+    // chemical
+    "chemical_absolute_configuration",
+    "chemical_compound_source",
+    "chemical_enantioexcess_bulk",
+    "chemical_enantioexcess_bulk_technique",
+    "chemical_enantioexcess_crystal",
+    "chemical_enantioexcess_crystal_technique",
+    "chemical_identifier_inchi",
+    "chemical_identifier_inchi_key",
+    "chemical_identifier_inchi_version",
+    "chemical_melting_point",
+    "chemical_melting_point_gt",
+    "chemical_melting_point_lt",
+    "chemical_name_common",
+    "chemical_name_mineral",
+    "chemical_name_structure_type",
+    "chemical_name_systematic",
+    "chemical_optical_rotation",
+    "chemical_properties_biological",
+    "chemical_properties_physical",
+    "chemical_temperature_decomposition",
+    "chemical_temperature_decomposition_gt",
+    "chemical_temperature_decomposition_lt",
+    "chemical_temperature_sublimation",
+    "chemical_temperature_sublimation_gt",
+    "chemical_temperature_sublimation_lt",
+    // chemical_conn_atom
+    "chemical_conn_atom_NCA",
+    "chemical_conn_atom_NH",
+    "chemical_conn_atom_charge",
+    "chemical_conn_atom_display_x",
+    "chemical_conn_atom_display_y",
+    "chemical_conn_atom_number",
+    "chemical_conn_atom_type_symbol",
+    // chemical_conn_bond
+    "chemical_conn_bond_atom_1",
+    "chemical_conn_bond_atom_2",
+    "chemical_conn_bond_type",
+    // chemical_formula
+    "chemical_formula_analytical",
+    "chemical_formula_iupac",
+    "chemical_formula_moiety",
+    "chemical_formula_structural",
+    "chemical_formula_sum",
+    "chemical_formula_weight",
+    "chemical_formula_weight_meas",
+    // geom
+    "geom_special_details",
+    // geom_angle
+    "geom_angle",
+    "geom_angle_atom_site_label_1",
+    "geom_angle_atom_site_label_2",
+    "geom_angle_atom_site_label_3",
+    "geom_angle_publ_flag",
+    "geom_angle_site_symmetry_1",
+    "geom_angle_site_symmetry_2",
+    "geom_angle_site_symmetry_3",
+    // geom_bond
+    "geom_bond_atom_site_label_1",
+    "geom_bond_atom_site_label_2",
+    "geom_bond_distance",
+    "geom_bond_multiplicity",
+    "geom_bond_publ_flag",
+    "geom_bond_site_symmetry_1",
+    "geom_bond_site_symmetry_2",
+    "geom_bond_valence",
+    // geom_contact
+    "geom_contact_atom_site_label_1",
+    "geom_contact_atom_site_label_2",
+    "geom_contact_distance",
+    "geom_contact_publ_flag",
+    "geom_contact_site_symmetry_1",
+    "geom_contact_site_symmetry_2",
+    // geom_hbond
+    "geom_hbond_angle_DHA",
+    "geom_hbond_atom_site_label_A",
+    "geom_hbond_atom_site_label_D",
+    "geom_hbond_atom_site_label_H",
+    "geom_hbond_distance_DA",
+    "geom_hbond_distance_DH",
+    "geom_hbond_distance_HA",
+    "geom_hbond_publ_flag",
+    "geom_hbond_site_symmetry_A",
+    "geom_hbond_site_symmetry_D",
+    "geom_hbond_site_symmetry_H",
+    // geom_torsion
+    "geom_torsion",
+    "geom_torsion_atom_site_label_1",
+    "geom_torsion_atom_site_label_2",
+    "geom_torsion_atom_site_label_3",
+    "geom_torsion_atom_site_label_4",
+    "geom_torsion_publ_flag",
+    "geom_torsion_site_symmetry_1",
+    "geom_torsion_site_symmetry_2",
+    "geom_torsion_site_symmetry_3",
+    "geom_torsion_site_symmetry_4",
+    // valence_param
+    "valence_param_B",
+    "valence_param_Ro",
+    "valence_param_atom_1",
+    "valence_param_atom_1_valence",
+    "valence_param_atom_2",
+    "valence_param_atom_2_valence",
+    "valence_param_details",
+    "valence_param_id",
+    "valence_param_ref_id",
+    // valence_ref
+    "valence_ref_id",
+    "valence_ref_reference",
 ];
 
 #[cfg(test)]
@@ -267,6 +656,48 @@ mod tests {
         for t in space_group_symop::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in atom_sites::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_type::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in chemical::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in chemical_conn_atom::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in chemical_conn_bond::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in chemical_formula::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in geom::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in geom_angle::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in geom_bond::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in geom_contact::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in geom_hbond::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in geom_torsion::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in valence_param::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in valence_ref::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
     }
 
     #[test]
@@ -277,7 +708,21 @@ mod tests {
         assert_eq!(cell_measurement_refln::TAGS.len(), 4);
         assert_eq!(space_group::TAGS.len(), 5);
         assert_eq!(space_group_symop::TAGS.len(), 3);
-        assert_eq!(ALL.len(), 93);
+        assert_eq!(atom_sites::TAGS.len(), 29);
+        assert_eq!(atom_type::TAGS.len(), 22);
+        assert_eq!(chemical::TAGS.len(), 25);
+        assert_eq!(chemical_conn_atom::TAGS.len(), 7);
+        assert_eq!(chemical_conn_bond::TAGS.len(), 3);
+        assert_eq!(chemical_formula::TAGS.len(), 7);
+        assert_eq!(geom::TAGS.len(), 1);
+        assert_eq!(geom_angle::TAGS.len(), 8);
+        assert_eq!(geom_bond::TAGS.len(), 8);
+        assert_eq!(geom_contact::TAGS.len(), 6);
+        assert_eq!(geom_hbond::TAGS.len(), 11);
+        assert_eq!(geom_torsion::TAGS.len(), 10);
+        assert_eq!(valence_param::TAGS.len(), 9);
+        assert_eq!(valence_ref::TAGS.len(), 2);
+        assert_eq!(ALL.len(), 241);
         assert!(ALL.iter().all(|t| !t.starts_with('_')));
         assert_eq!(
             ALL.len(),

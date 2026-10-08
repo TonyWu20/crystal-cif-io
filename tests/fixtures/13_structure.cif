@@ -1,0 +1,165 @@
+#\#CIF_1.1
+
+# A synthetic acetonitrile (CH3CN) structure block exercising the
+# T3 structure and chemistry data names: the chemical single items,
+# the atom_type loop, the chemical_conn_atom and chemical_conn_bond
+# loops, the geom special-list loops (angle, bond, contact, hbond,
+# torsion), the atom_sites solution codes and transform family, and
+# the valence parameter and reference loops.
+
+data_acnitrile
+
+_chemical_name_common                 'acetonitrile'
+_chemical_name_systematic             'ethanenitrile'
+_chemical_compound_source             'commercial'
+_chemical_formula_sum                 'C2 H3 N'
+_chemical_formula_weight              41.05
+_chemical_melting_point               190.8
+_chemical_identifier_inchi            'InChI=1S/C2H3N/c1-2-3/h1H3'
+
+loop_
+ _chemical_melting_point_gt
+ _chemical_melting_point_lt
+ 192.15 190.8
+
+_atom_sites_solution_primary          difmap
+_atom_sites_solution_secondary        direct
+_atom_sites_solution_hydrogens        geom
+_atom_sites_Cartn_transform_axes     xyz
+_atom_sites_special_details           'transform from the crystal frame'
+
+loop_
+ _atom_sites_fract_tran_matrix_11
+ _atom_sites_fract_tran_matrix_12
+ _atom_sites_fract_tran_matrix_13
+ _atom_sites_fract_tran_matrix_21
+ _atom_sites_fract_tran_matrix_22
+ _atom_sites_fract_tran_matrix_23
+ _atom_sites_fract_tran_matrix_31
+ _atom_sites_fract_tran_matrix_32
+ _atom_sites_fract_tran_matrix_33
+ _atom_sites_fract_tran_vector_1
+ _atom_sites_fract_tran_vector_2
+ _atom_sites_fract_tran_vector_3
+ 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+
+_geom_special_details                 'H-bond criteria per the IUCr recommendations'
+
+loop_
+ _atom_type_symbol
+ _atom_type_analytical_mass_%
+ _atom_type_oxidation_number
+ _atom_type_radius_bond
+ _atom_type_radius_contact
+ _atom_type_number_in_cell
+ C  58.52  0  0.77  0.70  2
+ N  34.12  0  0.70  0.65  1
+ H   7.37  0  0.31  0.25  3
+
+loop_
+ _chemical_conn_atom_number
+ _chemical_conn_atom_type_symbol
+ _chemical_conn_atom_charge
+ _chemical_conn_atom_NH
+ _chemical_conn_atom_NCA
+ _chemical_conn_atom_display_x
+ _chemical_conn_atom_display_y
+ 1 C  0  3  4  0.50  0.25
+ 2 C  0  0  2  0.75  0.25
+ 3 N  0  0  1  1.00  0.25
+ 4 H  0  0  1  0.30  0.05
+ 5 H  0  0  1  0.15  0.45
+ 6 H  0  0  1  0.65  0.45
+
+loop_
+ _chemical_conn_bond_atom_1
+ _chemical_conn_bond_atom_2
+ _chemical_conn_bond_type
+ 1 2 sing
+ 2 3 trip
+ 1 4 sing
+ 1 5 sing
+ 1 6 sing
+
+loop_
+ _geom_angle_atom_site_label_1
+ _geom_angle_atom_site_label_2
+ _geom_angle_atom_site_label_3
+ _geom_angle_site_symmetry_1
+ _geom_angle_site_symmetry_2
+ _geom_angle_site_symmetry_3
+ _geom_angle
+ _geom_angle_publ_flag
+ C2 C1 H4 . . . 109.2(1) y
+ C2 C1 H5 . . . 109.2(1) n
+ H4 C1 H5 . . . 111.6(2) y
+ N3 C2 C1 . . . 180.0(1) y
+
+loop_
+ _geom_bond_atom_site_label_1
+ _geom_bond_atom_site_label_2
+ _geom_bond_distance
+ _geom_bond_multiplicity
+ _geom_bond_valence
+ _geom_bond_site_symmetry_1
+ _geom_bond_site_symmetry_2
+ _geom_bond_publ_flag
+ C1 C2 1.461(2) 1 4 . . y
+ C2 N3 1.158(2) 3 3 . . y
+ C1 H4 1.094(3) 1 1 . . n
+
+loop_
+ _geom_contact_atom_site_label_1
+ _geom_contact_atom_site_label_2
+ _geom_contact_distance
+ _geom_contact_site_symmetry_1
+ _geom_contact_site_symmetry_2
+ _geom_contact_publ_flag
+ H4 N3 2.91(2) . . y
+ H5 C2 3.05(2) . . n
+
+loop_
+ _geom_hbond_atom_site_label_D
+ _geom_hbond_atom_site_label_H
+ _geom_hbond_atom_site_label_A
+ _geom_hbond_site_symmetry_D
+ _geom_hbond_site_symmetry_H
+ _geom_hbond_site_symmetry_A
+ _geom_hbond_distance_DH
+ _geom_hbond_distance_HA
+ _geom_hbond_distance_DA
+ _geom_hbond_angle_DHA
+ _geom_hbond_publ_flag
+ C1 H4 N3 . . . 1.09(2) 1.82(2) 2.91(2) 171.3(5) y
+
+loop_
+ _geom_torsion_atom_site_label_1
+ _geom_torsion_atom_site_label_2
+ _geom_torsion_atom_site_label_3
+ _geom_torsion_atom_site_label_4
+ _geom_torsion_site_symmetry_1
+ _geom_torsion_site_symmetry_2
+ _geom_torsion_site_symmetry_3
+ _geom_torsion_site_symmetry_4
+ _geom_torsion
+ _geom_torsion_publ_flag
+ H4 C1 C2 N3 . . . . 0.0(3) y
+
+loop_
+ _valence_param_id
+ _valence_param_ref_id
+ _valence_param_atom_1
+ _valence_param_atom_1_valence
+ _valence_param_atom_2
+ _valence_param_atom_2_valence
+ _valence_param_B
+ _valence_param_Ro
+ _valence_param_details
+ V1 R1 C 4 N 3 10.0 1.461 'C-N triple bond set'
+ V2 R2 C 4 H 1 10.0 1.094 'C-H single bond set'
+
+loop_
+ _valence_ref_id
+ _valence_ref_reference
+ R1 'Brown, I. D. and Altona, J. (1989). Acta Cryst. B45, 101-109.'
+ R2 'Altona, O. and Brown, I. D. (1997). J. Am. Chem. Soc. 119, 3615-3622.'
