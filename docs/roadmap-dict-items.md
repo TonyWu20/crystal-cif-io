@@ -37,8 +37,10 @@ Defects in the current code:
    `cell`, 3 in `audit`.
 2. `MeasurementReflnLoopItem` defines four loop items. It lacks a
    `CifTerm` impl, so the items are dead code.
-3. `Numeric` stores `f32`. The refactor target is `f64`
-   (`docs/ground-truth.md`, known gap 5).
+3. The write path truncates floats. `Number` formats a `Float`
+   as `{:<6.3}`, so a round trip loses digits. The parse path
+   keeps full `f64` precision (`docs/ground-truth.md` gap 5 is
+   closed).
 4. `audit_Update_record` deviates from the lowercase dictionary
    spelling.
 5. The legacy writer API in `data_dict/data_types` overlaps the
@@ -167,11 +169,11 @@ log at the end of this document.
 |---|---|---|---|
 | D1 | baseline scope | A: standard 734 only. B: standard 734 + shell 347 | B, in two steps: T2–T5 then T6 |
 | D2 | explicit SU items (228 in the shell, 223 unimplemented) | A: model the `_su` items. B: keep the uncertainty inside `Numeric` and skip `_su` | B for now. Reopen when paired-value checks need them |
-| D3 | matrix value type (shell items, 66) | A: add a `Matrix` value to the grammar. B: leave to T6 | A, in T0, so T6 stays mechanical |
+| D3 | matrix value type (66 shell items) | A: a `Matrix` value type, no `Value` variant. B: plain `Vec<Vec<Numeric>>` everywhere | A. See section 12 for the design |
 | D4 | code shape for bulk items | A: hand-written enums per category. B: a codegen step that reads the inventory | A for T2–T3 (335 items), B for T4–T6 (657 items) |
 | D5 | `todo!()` panics | A: implement all 51 payloads in T0. B: return a `Result` and defer the payload | A. They sit in finished categories, so the writes must work |
 | D6 | legacy `data_types` writer API | A: remove it. B: keep it aligned with `CifTerm` | A. The crate is pre-1.0. Nothing external uses it |
-| D7 | `f32` to `f64` for `Numeric` | A: in T0. B: later | A. Ground-truth gap 5 already marks it |
+| D7 | write-path float truncation (`{:<6.3}`) | A: format with the `f64` shortest-round-trip Display in T0. B: keep the truncation | A. The parse path already keeps full precision |
 
 ## 6. Phases
 
@@ -184,9 +186,10 @@ No new items. The goal is a safe base and a verification loop.
    Add a generator example.
 2. Add a test that maps every `CifTerm` tag to the inventory.
    Fail on an unknown tag. Print the per-category coverage.
-3. Move `Numeric` from `f32` to `f64` (D7).
-4. Add a `Matrix` value to the grammar (D3).
-   Extend the canonical JSON schema and the groundtruth fixtures.
+3. Stop the write-path float truncation (D7).
+4. Add a `Matrix` value type (D3, section 12).
+   No `Value` variant today. Matrix items bind in the
+   data-dictionary layer.
 5. Implement the 51 `todo!()` payloads (D5).
    Wire `MeasurementReflnLoopItem` into `CifTerm`.
    This closes `cell_measurement_refln` (4 items).
@@ -299,7 +302,7 @@ Record decisions here as they are made.
 | D4 | codegen vs hand-written | open | — |
 | D5 | `todo!()` strategy | open | — |
 | D6 | legacy `data_types` API | open | — |
-| D7 | `f32` to `f64` | open | — |
+| D7 | write-path float truncation | open (redefined. `Float` is already `f64`) | — |
 
 ## 11. Sources
 
@@ -311,3 +314,91 @@ Record decisions here as they are made.
   `github.com/COMCIFS/cif_core` (`cif_core.dic`).
 - Current state of the crate: `src/data_dict`, 51 `todo!()` sites,
   `MeasurementReflnLoopItem` without a `CifTerm` impl.
+
+## 12. `Matrix` value type design (D3)
+
+### 12.1 What a matrix is in a file
+
+A matrix never appears as one token in a CIF 1.1 file. The
+standard dictionary writes it as a numbered item family. A 3 x 3
+matrix is nine items. A vector is three items. For example,
+`_atom_sites_fract_tran_matrix_11` through `_33`.
+
+The core shell adds 66 items with a `Matrix` container. The
+dictionary fixes each shape with `_type.dimension` (for example
+`[3,3]`). Examples are `cell.metric_tensor`,
+`space_group_symop.R`, `space_group_symop.Seitz_matrix` (4 x 4),
+`cell.vector_a`, `atom_site.cartn_xyz`.
+
+The shell dictionary also expects a list value syntax (`[...]`).
+That syntax exists only in CIF 2.0. The crate parses CIF 1.1.
+So the list form is a later parser feature. Today, a matrix item
+binds as a typed view over loop values and item families.
+
+### 12.2 The Rust type
+
+The type lives in the public value layer, next to `Numeric`.
+
+```rust
+// src/grammar/matrix.rs
+#[derive(Debug, Clone, PartialEq)]
+pub struct Matrix {
+    rows: Vec<Vec<Number>>,
+}
+
+impl Matrix {
+    /// All rows must share one length, with at least one row.
+    pub fn try_new(rows: Vec<Vec<Number>>) -> Result<Self, MatrixError>;
+
+    pub fn rows(&self) -> &[Vec<Number>];
+    pub fn shape(&self) -> (usize, usize);
+    pub fn row(&self, i: usize) -> Option<&[Number]>;
+    pub fn col(&self, i: usize) -> Option<Vec<Number>>;
+
+    /// Shape-checked views for items whose shape the dictionary fixes.
+    pub fn as_3x3(&self) -> Option<[[&Number; 3]; 3]>;
+    pub fn as_vector(&self) -> Option<Vec<Number>>;
+}
+```
+
+Design points:
+
+1. The element type is `Number`, not `Numeric`. The dictionary
+   links matrix uncertainty to a `_su` companion item. It does not
+   attach it per element. This matches D2 (B).
+2. No `Value` variant. A `Value` is one CIF 1.1 token. A matrix
+   is not one.
+3. Typed wrappers live in `data_dict`, following the `CellAngle`
+   pattern. For example, `SymopSeitz(Matrix)` checks the 4 x 4
+   shape.
+4. `try_new` rejects ragged rows. It returns a `MatrixError` in
+   the style of `CrystalSystemCifError`.
+
+### 12.3 Item binding per tier
+
+- T2–T5: matrix-like data is item families. The items stay plain
+  `numb` items. No `Matrix` is needed.
+- T3 sugar (optional): a struct assembles the 3 x 3 transform
+  matrix and 3-vector from the twelve numbered
+  `atom_sites_fract_tran_*` items.
+- T6: shell matrix items hold a `Matrix` payload. For example,
+  `CellTerms::Metric_tensor(Matrix)`. The writer emits the
+  element family for a 1.1 target. It emits a list value for a
+  2.0 target.
+
+### 12.4 Canonical JSON
+
+No change today. The schema keeps its five value kinds. A matrix
+item encodes through its 1.1 file form (loop rows or single
+items). If the crate parses CIF 2.0 list values later, the schema
+gains `kind: "matrix"` with nested rows. The version moves to 2.
+
+### 12.5 Verification
+
+- Unit tests cover `try_new` rejection of ragged rows, the shape
+  views, and `Display` round trips.
+- The inventory JSON records the shape of the 66 items. It reads
+  the shape from the shell `_type.dimension`.
+- A groundtruth fixture pins the classic family form. For
+  example, the `atom_sites` transform items parse to numbers, as
+  today.
