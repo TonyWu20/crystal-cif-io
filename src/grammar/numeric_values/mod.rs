@@ -42,7 +42,9 @@ impl SyntacticUnit for Number {
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
             Number::Integer(i) => format!("{i}"),
-            Number::Float(f) => format!("{:<6.3}", f.0),
+            // The f64 Display is the shortest round-trip form. The
+            // old `{:<6.3}` width truncated write-path values.
+            Number::Float(f) => f.0.to_string(),
         }
     }
 }
