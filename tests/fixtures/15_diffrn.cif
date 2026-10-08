@@ -1,0 +1,48 @@
+## CIF_1.1
+#
+# T5 ground-truth fixture: a realistic raw-diffraction block.
+# Single-value items from the diffrn, diffrn_measurement,
+# diffrn_radiation, and diffrn_reflns categories, plus a
+# diffrn_refln measured-reflection loop and a diffrn_orient_refln
+# loop in the classic orientation form.
+
+data_diffrn_example
+
+_diffrn_measurement_device 'XtalAreaDetector'
+_diffrn_measurement_method 'f and w scan'
+_diffrn_radiation_type 'X-ray'
+_diffrn_radiation_monochromator 'graphite'
+_diffrn_ambient_temperature 295
+_diffrn_detector 'CCD'
+_diffrn_reflns_number 5123
+_diffrn_reflns_theta_max 25.0
+_diffrn_reflns_theta_min 1.5
+_diffrn_reflns_resolution_max 0.78
+
+loop_
+ _diffrn_refln_index_h
+ _diffrn_refln_index_k
+ _diffrn_refln_index_l
+ _diffrn_refln_angle_omega
+ _diffrn_refln_angle_chi
+ _diffrn_refln_angle_kappa
+ _diffrn_refln_angle_theta
+ _diffrn_refln_intensity_net
+ _diffrn_refln_intensity_sigma
+ _diffrn_refln_scan_mode
+  1  0  0    25.1   90.0    0.0   15.2    1245.3    12.4   om
+  0  1  0    30.2  120.0   10.0   16.1     980.2     9.8   om
+  0  0  1    45.3   45.0   20.0   17.4    2100.5    15.1   ot
+  1  1  0    50.4   60.0   30.0   18.2      320.1     4.0   q
+
+loop_
+ _diffrn_orient_refln_index_h
+ _diffrn_orient_refln_index_k
+ _diffrn_orient_refln_index_l
+ _diffrn_orient_refln_angle_omega
+ _diffrn_orient_refln_angle_chi
+ _diffrn_orient_refln_angle_kappa
+ _diffrn_orient_refln_angle_theta
+  1  0  0    10.0   90.0    0.0   15.2
+  0  1  0    20.0  120.0   10.0   16.1
+  0  0  1    30.0   45.0   20.0   17.4
