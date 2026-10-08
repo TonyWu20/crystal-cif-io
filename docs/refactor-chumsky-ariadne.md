@@ -168,6 +168,23 @@ two follow-up commits:
 `cargo clippy` is now clean. `cargo test` stays green and
 `gt_generate --force` still writes nothing.
 
+## Dependency changes (2026-10-07)
+
+- Dropped `chrono`. Its only user was the deleted
+  `default_audit_data` helper.
+- Dropped the orphaned `indexmap` optional dependency. No feature
+  referenced it after the `chemrust-core` feature was removed.
+- Replaced `castep-periodic-table` with `elements_rs 0.2.8`,
+  default features off so serde is not pulled in.
+  - `elements_rs` 0.1.x through 0.2.7 are GPL-3.0. Version 0.2.8 is
+    MIT, which matches this crate's license. 0.2.8 is therefore the
+    version used.
+  - `atom_site/label_symbol.rs` now holds `elements_rs::Element`
+    instead of the castep `ElementSymbol`. The `TypeSymbolCode`
+    variant `ElementSymbol` is renamed `Element` to match. `Element`
+    prints its symbol via `Display`, so `TypeSymbol` output is
+    unchanged.
+
 ## Phases
 
 | phase | state |
