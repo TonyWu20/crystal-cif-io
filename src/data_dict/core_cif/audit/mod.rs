@@ -20,7 +20,7 @@ impl CifTerm for AuditItem {
             AuditItem::Block_doi(_) => "block_doi",
             AuditItem::Creation_date(_) => "creation_date",
             AuditItem::Creation_method(_) => "creation_method",
-            AuditItem::Update_record(_) => "Update_record",
+            AuditItem::Update_record(_) => "update_record",
         };
         Tag::new(format!("audit_{}", suffix))
     }
