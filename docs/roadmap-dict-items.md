@@ -174,6 +174,7 @@ log at the end of this document.
 | D5 | `todo!()` panics | A: implement all 51 payloads in T0. B: return a `Result` and defer the payload | A. They sit in finished categories, so the writes must work |
 | D6 | legacy `data_types` writer API | A: remove it. B: keep it aligned with `CifTerm` | A. The crate is pre-1.0. Nothing external uses it |
 | D7 | write-path float truncation (`{:<6.3}`) | A: format with the `f64` shortest-round-trip Display in T0. B: keep the truncation | A. The parse path already keeps full precision |
+| D8 | CIF 2.0 list values (`[...]`), the carrier for `Matrix` items | A: add dialect detection, a `Value::List` variant, and the 2.0 string restriction. B: keep the crate 1.1-only and skip list parsing | A, scoped to lists only (tables stay out). See section 13 |
 
 ## 6. Phases
 
@@ -245,7 +246,8 @@ diffrn loops.
 
 ### T6 — core shell additions (347 items, optional)
 
-Start only after D1 approves the shell scope.
+Start only after D1 approves the shell scope. Reading CIF 2.0
+files needs D8 first. Writing 2.0 list values also needs D8.
 
 - 123 items extend the finished categories: SU items (61 in these
   categories), matrix items (37), `beta_*` aniso items, Wyckoff and
@@ -303,6 +305,7 @@ Record decisions here as they are made.
 | D5 | `todo!()` strategy | open | — |
 | D6 | legacy `data_types` API | open | — |
 | D7 | write-path float truncation | open (redefined. `Float` is already `f64`) | — |
+| D8 | CIF 2.0 list values | open | — |
 
 ## 11. Sources
 
@@ -402,3 +405,105 @@ gains `kind: "matrix"` with nested rows. The version moves to 2.
 - A groundtruth fixture pins the classic family form. For
   example, the `atom_sites` transform items parse to numbers, as
   today.
+
+## 13. CIF 2.0 list values (D8)
+
+### 13.1 Why
+
+The `Matrix` items of the core shell carry their value as a list.
+The CIF 2.0 grammar defines the list syntax. The crate must parse
+it to read 2.0 files and to write 2.0 targets. This section fixes
+the scope and the acceptance criteria.
+
+### 13.2 The grammar facts
+
+The CIF 2.0 EBNF (published with the Bernstein et al. 2016 paper,
+mirrored in the COMCIFS repository) gives:
+
+- `list = '[' values ']'`, values separated by white space.
+- A list may hold zero or more values. It may nest.
+- `table = '{' key:value pairs '}'` also exists. No core
+  dictionary item uses a table.
+- A 2.0 file starts with the magic code `#\#CIF_2.0` as its first
+  characters, after any byte order mark.
+- A 2.0 unquoted value may not contain `[`, `]`, `{`, or `}`.
+  The 1.1 parser accepts those characters today. The dialect
+  switch must enforce the 2.0 restriction.
+
+### 13.3 Scope
+
+In:
+
+1. Dialect detection from the file start. A `#\#CIF_2.0` magic
+   code enables the 2.0 value rules. Anything else stays 1.1.
+   The 1.1 behavior is unchanged.
+2. A `Value::List(Vec<Value>)` variant. Nested lists are legal.
+3. The 2.0 restriction on unquoted values. A `[`, `]`, `{`, or
+   `}` inside an unquoted value is a parse error in the 2.0
+   dialect. In the 1.1 dialect it is a plain character, as today.
+4. `Matrix` binding: a matrix item reads a `List` of `Numeric`
+   values, checks rectangularity, then checks the dictionary shape
+   (`_type.dimension`).
+
+Out:
+
+1. Table values. No core dictionary item uses one.
+2. Triple-quoted strings (`"""`, `'''`), a 2.0 string form.
+3. Other 2.0 syntax. The magic code stays an inert comment line
+   in 1.1 parsing.
+
+### 13.4 The design
+
+- `Value` gains one variant: `List(Vec<Value>)`. The grammar stays
+  general. A list holds any values. The data-dictionary layer
+  applies the matrix type.
+- The parser holds a dialect flag. The value rule becomes:
+  `list | <current choice>`, where `list` parses only in the 2.0
+  dialect. The unquoted-string rule drops the four bracket
+  characters in the 2.0 dialect.
+- `Matrix` gains a constructor from list values. It rejects
+  non-numeric elements and ragged shapes.
+
+### 13.5 Canonical JSON
+
+The schema gains one value kind:
+
+```json
+{ "kind": "list", "values": [ { "kind": "numeric", "...": "..." } ] }
+```
+
+New fixtures carry `schema_version: 2`. Existing fixtures keep
+version 1. The harness accepts both versions. A matrix-shaped list
+encodes as a nested list of `numeric` values. No dedicated
+`matrix` kind is needed. The shape is dictionary data.
+
+### 13.6 Fixtures
+
+- `16_cif2_lists.cif`: a `#\#CIF_2.0` file with nested lists, a
+  3 x 3 matrix list, an empty list, and a list of quoted strings.
+- `neg_cif2_unbalanced_bracket.cif`: an unclosed `[`.
+- `neg_cif2_bracket_in_unquoted.cif`: a 2.0 file with `[` inside
+  an unquoted value.
+- `17_cif1_brackets_stay_strings.cif`: a 1.1 file where
+  `[1,2,3]` stays an unquoted `char_string`. This pins the
+  dialect split.
+
+### 13.7 Acceptance criteria
+
+1. `parse_cif` reads every fixture in 13.6 into the canonical
+   shape.
+2. All 12 existing 1.1 fixtures parse unchanged. Their expected
+   JSON is byte-identical.
+3. A 2.0 file with a `[` inside an unquoted value fails at the
+   parse stage with a `Rich` error.
+4. `Value::List` is exported from the crate root.
+5. The groundtruth harness runs with two schema versions.
+
+### 13.8 Effort
+
+About two days. The dialect flag and the value rule are half a
+day. The JSON kind and the harness change are half a day. The
+four fixtures and their expected files are half a day.
+
+D8 is independent of T2–T5. It builds on the T0 base. T6 needs it
+only for reading 2.0 files or writing 2.0 targets.
