@@ -26,20 +26,31 @@ fn main() {
         .map(|c| c["name"].as_str().expect("category name"))
         .collect();
 
-    let by_name: HashMap<String, ()> = items
+    // The recorded category of each item (lowercased name to category).
+    let by_name: HashMap<String, &str> = items
         .iter()
         .map(|i| {
             (
                 i["name"].as_str().expect("item name").to_ascii_lowercase(),
-                (),
+                i["category"].as_str().expect("item category"),
             )
         })
         .collect();
 
     let mut implemented_in: HashMap<String, usize> = HashMap::new();
     for tag in tags::ALL {
-        if let Some(cat) = longest_category(&cat_names, tag) {
-            *implemented_in.entry(cat.to_string()).or_insert(0) += 1;
+        // The recorded category is authoritative. Some items carry a
+        // different category name prefix in their name (for example the
+        // `diffrn_radiation_detector` item of the `diffrn_detector`
+        // category), so the name-prefix heuristic would misassign them.
+        // Prefer the recorded category, fall back to the prefix rule.
+        let key = tag.to_ascii_lowercase();
+        let cat = by_name
+            .get(&key)
+            .map(|c| c.to_string())
+            .or_else(|| longest_category(&cat_names, tag).map(|c| c.to_string()));
+        if let Some(cat) = cat {
+            *implemented_in.entry(cat).or_insert(0) += 1;
         }
     }
 

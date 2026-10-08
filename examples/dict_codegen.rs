@@ -102,6 +102,10 @@ struct Item {
     tag: String,
     /// The name minus the category prefix.
     suffix: String,
+    /// True when the name carries the `<category>_` prefix. When
+    /// false, the item name equals the category name, so its tag is
+    /// the name itself rather than `<category>_<suffix>`.
+    prefixed: bool,
     is_loop: bool,
 }
 
@@ -233,9 +237,10 @@ fn validate(inventory: &Value, annotations: &Value) -> Vec<String> {
                 let max = entry["max"].as_f64();
                 match (min, max) {
                     (Some(lo), Some(hi)) if lo < hi => {}
+                    (Some(_), None) | (None, Some(_)) => {}
                     _ => {
                         errors.push(format!(
-                            "annotation `{cat}_{suffix}`: a range needs numeric `min` < `max`"
+                            "annotation `{cat}_{suffix}`: a range needs a `min` and/or `max` bound (with `min` < `max` when both are set)"
                         ));
                     }
                 }
@@ -554,16 +559,22 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
         .chain(plan.loop_items.iter())
         .find(|p| p.type_name.as_deref() == Some(t.name.as_str()))
         .expect("type file matches an item");
-    let min = plan_item.min.unwrap_or(0.0);
-    let max = plan_item.max.unwrap_or(0.0);
+    let min = plan_item.min;
+    let max = plan_item.max;
     let item = &plan_item.item.name;
+    let interval = match (min, max) {
+        (Some(lo), Some(hi)) => format!("[{}, {}]", f64_bound(lo), f64_bound(hi)),
+        (Some(lo), None) => format!("[{}, +infinity)", f64_bound(lo)),
+        (None, Some(hi)) => format!("(-infinity, {}]", f64_bound(hi)),
+        (None, None) => "[unbounded]".to_string(),
+    };
 
     let mut out = String::new();
     out.push_str("use std::fmt::Display;\n\n");
     out.push_str("use crate::grammar::{Float, Number, Numeric, Value};\n\n");
     let doc = format!(
-        "/// The write-time range check for `_{item}`. `new` clamps the\n\
-         /// value to [{min}, {max}], matching the dictionary `_enumeration`.\n"
+        "/// The write-time range check for `_{item}`. `new` clamps the value\n\
+         /// to {interval}, matching the dictionary `_enumeration`.\n"
     );
     out.push_str(&doc);
     if let Some(note) = &plan_item.note {
@@ -580,7 +591,15 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
     let head = format!("impl {} {{\n", t.name);
     out.push_str(&head);
     out.push_str("    pub fn new(float: Float) -> Self {\n");
-    let line = format!("        Self(Float(float.clamp({min}, {max})))\n");
+    let clamp = match (min, max) {
+        (Some(lo), Some(hi)) => {
+            format!("float.clamp({}, {})", f64_bound(lo), f64_bound(hi))
+        }
+        (Some(lo), None) => format!("float.max({})", f64_bound(lo)),
+        (None, Some(hi)) => format!("float.min({})", f64_bound(hi)),
+        (None, None) => "float".to_string(),
+    };
+    let line = format!("        Self(Float({clamp}))\n");
     out.push_str(&line);
     out.push_str("    }\n\n");
     out.push_str("    pub fn value(&self) -> Float {\n        self.0\n    }\n");
@@ -592,24 +611,19 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
     let head = format!("impl From<{}> for Value {{\n", t.name);
     out.push_str(&head);
     let body = format!(
-        "    fn from(value: {}) -> Self {{\n        Value::Numeric(Numeric::new(Number::Float(Float(value.value())), None))\n    }}\n}}\n\n",
+        "    fn from(value: {}) -> Self {{\n        Value::Numeric(Numeric::new(Number::Float(value.value()), None))\n    }}\n}}\n\n",
         t.name
     );
     out.push_str(&body);
     let head = format!("impl From<f64> for {} {{\n", t.name);
     out.push_str(&head);
-    let body = format!(
-        "    fn from(value: {}) -> Self {{\n        Self::new(Float(value))\n    }}\n}}\n\n",
-        t.name
-    );
-    out.push_str(&body);
+    let body = "    fn from(value: f64) -> Self {\n        Self::new(Float(value))\n    }\n}\n\n";
+    out.push_str(body);
     let head = format!("impl From<f32> for {} {{\n", t.name);
     out.push_str(&head);
-    let body = format!(
-        "    fn from(value: {}) -> Self {{\n        Self::new(Float(value as f64))\n    }}\n}}\n",
-        t.name
-    );
-    out.push_str(&body);
+    let body =
+        "    fn from(value: f32) -> Self {\n        Self::new(Float(value as f64))\n    }\n}\n";
+    out.push_str(body);
     out
 }
 
@@ -658,6 +672,7 @@ fn emit_mod(plan: &CatPlan) -> String {
     if any_numeric {
         gram.insert(1, "Numeric");
     }
+    gram.sort();
     out.push_str("use crate::{\n");
     let line = format!("    data_dict::{{{}}},\n", traits.join(", "));
     out.push_str(&line);
@@ -725,18 +740,31 @@ fn emit_cif_term(cat: &str, enum_name: &str, plans: &[Plan]) -> String {
     let head = format!("impl CifTerm for {enum_name} {{\n");
     out.push_str(&head);
     out.push_str("    fn tag(&self) -> Tag {\n");
-    out.push_str("        let suffix = match self {\n");
+    let full_tag = plans.iter().any(|p| !p.item.prefixed);
+    out.push_str(if full_tag {
+        "        let tag = match self {\n"
+    } else {
+        "        let suffix = match self {\n"
+    });
     for p in plans {
-        let line = format!(
-            "            {enum_name}::{}(_) => \"{}\",\n",
-            p.variant,
-            p.item.suffix.to_ascii_lowercase()
-        );
-        out.push_str(&line);
+        let pattern = format!("{enum_name}::{}(_)", p.variant);
+        let body = if full_tag {
+            format!("\"{}\"", p.item.name.to_ascii_lowercase())
+        } else {
+            format!("\"{}\"", p.item.suffix.to_ascii_lowercase())
+        };
+        for line in fmt_arm("            ", &[pattern], &body) {
+            out.push_str(&line);
+            out.push('\n');
+        }
     }
     out.push_str("        };\n");
-    let line = format!("        Tag::new(format!(\"{cat}_{{suffix}}\"))\n");
-    out.push_str(&line);
+    if full_tag {
+        out.push_str("        Tag::new(tag.to_string())\n");
+    } else {
+        let line = format!("        Tag::new(format!(\"{cat}_{{suffix}}\"))\n");
+        out.push_str(&line);
+    }
     out.push_str("    }\n}\n");
     out
 }
@@ -809,12 +837,19 @@ fn value_groups(plans: &[Plan], loop_form: bool) -> Vec<ValueGroup> {
     let mut typed_idx = 0usize;
     let mut groups: Vec<ValueGroup> = Vec::new();
     for (kind, type_name) in keys {
-        let var: &str = match kind.as_str() {
-            "string" => "s",
-            "numeric" => "n",
+        let var: String = match kind.as_str() {
+            "string" => "s".to_string(),
+            "numeric" => "n".to_string(),
             _ => {
-                let pool = ["v", "m", "c", "b", "t", "u"];
-                let picked = pool[typed_idx];
+                const POOL: &[&str] = &[
+                    "v", "m", "c", "b", "t", "u", "w", "x", "y", "z", "q", "r", "f", "g", "h", "j",
+                    "k", "l", "p", "d",
+                ];
+                let picked = if typed_idx < POOL.len() {
+                    POOL[typed_idx].to_string()
+                } else {
+                    format!("v{typed_idx}")
+                };
                 typed_idx += 1;
                 picked
             }
@@ -853,15 +888,50 @@ fn field_type(p: &Plan) -> String {
     }
 }
 
-/// Code variant name for a closed code: first character uppercased,
-/// the rest as written.
+/// Format a range bound as a Rust float literal, guaranteeing a
+/// decimal point so the emitted code reads as a float.
+fn f64_bound(v: f64) -> String {
+    let s = v.to_string();
+    if s.contains('.') || s.contains('e') || s.contains('f') || s.contains('N') {
+        s
+    } else {
+        format!("{s}.0")
+    }
+}
+
+/// Code variant name for a closed code. Alphanumeric characters are
+/// kept, every other character maps to `_`, underscore runs collapse,
+/// and the leading/trailing `_` are trimmed. The first character is
+/// uppercased; a leading digit gets a `C` prefix. The result is a
+/// valid Rust identifier, stable for the alphanumeric codes of the
+/// existing tiers.
 fn code_variant(code: &str) -> String {
-    let mut chars = code.chars();
-    let first = chars
-        .next()
-        .map(|c| c.to_ascii_uppercase().to_string())
-        .unwrap_or_default();
-    format!("{first}{}", chars.collect::<String>())
+    let mut out: Vec<char> = Vec::new();
+    for c in code.chars() {
+        let mapped = if c.is_alphanumeric() { c } else { '_' };
+        if mapped == '_' && out.last() == Some(&'_') {
+            continue;
+        }
+        out.push(mapped);
+    }
+    while out.first() == Some(&'_') {
+        out.remove(0);
+    }
+    while out.last() == Some(&'_') {
+        out.pop();
+    }
+    let mut id: String = out.iter().collect();
+    if id.is_empty() {
+        id = "Code".to_string();
+    } else {
+        let mut chars = id.chars();
+        let first = chars.next().map(|c| c.to_ascii_uppercase()).unwrap();
+        id = first.to_string() + &chars.collect::<String>();
+    }
+    if id.chars().next().is_some_and(|c| c.is_ascii_digit()) {
+        id = format!("C{id}");
+    }
+    id
 }
 
 /// Default variant name: the item suffix with the first character
@@ -1008,6 +1078,7 @@ fn inv_items(inventory: &Value, errors: &mut Vec<String>) -> Vec<Item> {
         .map(|i| {
             let name = i["name"].as_str().unwrap_or_default().to_string();
             let cat = i["category"].as_str().unwrap_or_default();
+            let prefixed = name.starts_with(&format!("{cat}_"));
             let suffix = name
                 .strip_prefix(&format!("{cat}_"))
                 .unwrap_or(&name)
@@ -1018,6 +1089,7 @@ fn inv_items(inventory: &Value, errors: &mut Vec<String>) -> Vec<Item> {
                 name,
                 tag,
                 suffix,
+                prefixed,
                 is_loop: i["is_loop"].as_bool().unwrap_or(false),
             }
         })

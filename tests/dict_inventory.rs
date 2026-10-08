@@ -87,7 +87,14 @@ fn print_coverage(categories: &[Value], by_name: &HashMap<String, &Value>) {
     let mut implemented = 0usize;
     for tag in tags::ALL {
         implemented += 1;
-        let cat = longest_category(&cat_names, tag);
+        // The recorded category is authoritative. Some items carry a
+        // different category name prefix in their name, so prefer the
+        // recorded category and fall back to the name-prefix rule.
+        let key = tag.to_ascii_lowercase();
+        let cat = by_name
+            .get(&key)
+            .and_then(|v| v["category"].as_str())
+            .or_else(|| longest_category(&cat_names, tag));
         if let Some(cat) = cat {
             *implemented_in.entry(cat.to_string()).or_insert(0) += 1;
         }
