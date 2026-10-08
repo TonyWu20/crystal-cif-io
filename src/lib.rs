@@ -5,8 +5,9 @@ mod grammar;
 pub use grammar::{
     CIFDataType, CIFValue, CharString, CifDocument, Comments, DataBlock, DataBlockHeading,
     DataBlockMember, DataItems, DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns,
-    LoopHeader, LoopUnit, Number, Numeric, SaveFrame, SaveFrameHeading, SemiColonTextField,
-    SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString, UnsignedInteger, Value,
+    LoopHeader, LoopUnit, Matrix, MatrixError, Number, Numeric, SaveFrame, SaveFrameHeading,
+    SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString,
+    UnsignedInteger, Value,
 };
 
 

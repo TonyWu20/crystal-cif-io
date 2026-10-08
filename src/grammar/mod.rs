@@ -7,15 +7,16 @@
 
 use std::fmt::Display;
 
+mod index;
+mod matrix;
 mod numeric_values;
 mod strings_textfields;
 mod structures;
 mod tags_values;
 mod whitespace_comments;
 
-mod index;
 
-
+pub use matrix::{Matrix, MatrixError};
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
 pub use strings_textfields::{
     CharString, DoubleQuotedString, SemiColonTextField, SingleQuotedString, TextField,
