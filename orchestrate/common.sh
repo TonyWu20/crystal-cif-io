@@ -25,12 +25,14 @@ state_get() {
 }
 
 # ping <msg...> : poke the main session (event trigger, works live or dead)
+# Fire and forget: a blocking poke would stall the whole pipeline while
+# the main session's loop handles the message (a poke into a dead loop
+# starts the loop and blocks until its turn ends). The backgrounded call
+# still delivers the wake: it appends to a live loop, or starts a dead one.
 ping() {
   local msg="$*"
   log "PING: $msg"
-  if ! rushi run "$MAIN_SESSION" "dict-items-orch: $msg" >> "$LOGDIR/orchestrator.log" 2>&1; then
-    log "WARN: ping to $MAIN_SESSION failed"
-  fi
+  setsid nohup rushi run "$MAIN_SESSION" "dict-items-orch: $msg" >> "$LOGDIR/orchestrator.log" 2>&1 &
 }
 
 # hold : pause while $ORCH/HOLD exists (the orchestrator user freezes it)

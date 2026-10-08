@@ -45,4 +45,7 @@ so build artifacts and session logs live in the main tree.
 
 Per-wave pings (T0 merged, all impl tiers merged, reviews done),
 plus an immediate ping on any failure. No per-mission pings on
-success.
+success. Pings are fire and forget: the poke is a backgrounded
+`rushi run` so the pipeline never blocks on the main session's loop
+(a blocking poke into a dead loop starts the loop and waits for its
+turn to end).
