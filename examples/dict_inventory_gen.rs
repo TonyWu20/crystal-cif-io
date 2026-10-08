@@ -38,7 +38,6 @@ use serde_json::{json, Value};
 ///
 /// `is_loop` is true when the block is a family block or when its
 /// `_list` tag has the value `yes` or `both`.
-
 fn main() {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let dic_path = manifest.join("tests/dict/cif_core.dic");
@@ -71,10 +70,7 @@ fn main() {
         }
         if name.ends_with("[]") {
             overview_blocks += 1;
-            let cat = name
-                .strip_suffix("_[]")
-                .unwrap_or(name)
-                .to_string();
+            let cat = name.strip_suffix("_[]").unwrap_or(name).to_string();
             if !categories.contains(&cat) {
                 categories.push(cat);
             }
@@ -124,7 +120,10 @@ fn main() {
     });
     let mut seen = std::collections::HashSet::new();
     for item in &items {
-        let key = (item["category"].as_str().unwrap(), item["name"].as_str().unwrap());
+        let key = (
+            item["category"].as_str().unwrap(),
+            item["name"].as_str().unwrap(),
+        );
         if !seen.insert(key) {
             panic!("duplicate inventory item {key:?}");
         }
@@ -162,7 +161,8 @@ fn main() {
         "items": items,
     });
     let rendered = serde_json::to_string_pretty(&doc).expect("serialize inventory");
-    fs::write(&out_path, rendered + "\n").unwrap_or_else(|e| panic!("write {}: {e}", out_path.display()));
+    fs::write(&out_path, rendered + "\n")
+        .unwrap_or_else(|e| panic!("write {}: {e}", out_path.display()));
     println!(
         "wrote {}: {total} items in {} categories ({} family blocks, {} single blocks)",
         out_path.display(),
@@ -263,7 +263,7 @@ fn analyze_block(lines: &[String]) -> BlockMeta {
                         if tok.starts_with('_') || tok.starts_with('\'') {
                             break;
                         }
-                        push_enum_code(&mut meta, *tok);
+                        push_enum_code(&mut meta, tok);
                     }
                     i += 1;
                     while i < lines.len() {
@@ -368,7 +368,13 @@ fn stripped_item_name(name: &str) -> String {
     name.strip_prefix('_').unwrap_or(name).to_string()
 }
 
-fn item_json(name: &str, category: &str, r#type: &str, is_loop: bool, enumeration: &Value) -> Value {
+fn item_json(
+    name: &str,
+    category: &str,
+    r#type: &str,
+    is_loop: bool,
+    enumeration: &Value,
+) -> Value {
     json!({
         "name": name,
         "category": category,

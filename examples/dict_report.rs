@@ -18,13 +18,22 @@ use crystal_cif_io::data_dict::tags;
 fn main() {
     let inventory = load_inventory();
     let items = inventory["items"].as_array().expect("items array");
-    let categories = inventory["categories"].as_array().expect("categories array");
-    let cat_names: Vec<&str> =
-        categories.iter().map(|c| c["name"].as_str().expect("category name")).collect();
+    let categories = inventory["categories"]
+        .as_array()
+        .expect("categories array");
+    let cat_names: Vec<&str> = categories
+        .iter()
+        .map(|c| c["name"].as_str().expect("category name"))
+        .collect();
 
     let by_name: HashMap<String, ()> = items
         .iter()
-        .map(|i| (i["name"].as_str().expect("item name").to_ascii_lowercase(), ()))
+        .map(|i| {
+            (
+                i["name"].as_str().expect("item name").to_ascii_lowercase(),
+                (),
+            )
+        })
         .collect();
 
     let mut implemented_in: HashMap<String, usize> = HashMap::new();
@@ -39,7 +48,10 @@ fn main() {
         .unwrap_or("unknown");
     println!("dictionary inventory: tests/dict_inventory.json (DDL1 {version})");
     println!("category coverage (implemented tags vs recorded inventory):");
-    println!("{:<32} {:>9} {:>11} {:>8}", "category", "inventory", "implemented", "missing");
+    println!(
+        "{:<32} {:>9} {:>11} {:>8}",
+        "category", "inventory", "implemented", "missing"
+    );
     for c in categories {
         let name = c["name"].as_str().unwrap();
         let total = c["item_count"].as_u64().expect("item_count");
@@ -102,7 +114,7 @@ fn longest_category<'a>(categories: &'a [&'a str], tag: &str) -> Option<&'a str>
 
 fn load_inventory() -> Value {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/dict_inventory.json");
-    let raw = std::fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).expect("inventory JSON must parse")
 }

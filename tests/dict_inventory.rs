@@ -31,7 +31,9 @@ const KNOWN_DICTIONARY_DRIFT: &[&str] = &["space_group_id", "space_group_symop_s
 fn registry_tags_exist_in_inventory() {
     let inventory = load_inventory();
     let items = inventory["items"].as_array().expect("items array");
-    let categories = inventory["categories"].as_array().expect("categories array");
+    let categories = inventory["categories"]
+        .as_array()
+        .expect("categories array");
     assert!(!items.is_empty(), "empty inventory");
     assert!(!categories.is_empty(), "empty category list");
 
@@ -77,8 +79,10 @@ fn registry_tags_exist_in_inventory() {
 /// Print the per-category coverage table: recorded inventory items
 /// versus implemented tags, plus the totals.
 fn print_coverage(categories: &[Value], by_name: &HashMap<String, &Value>) {
-    let cat_names: Vec<&str> =
-        categories.iter().map(|c| c["name"].as_str().expect("category name")).collect();
+    let cat_names: Vec<&str> = categories
+        .iter()
+        .map(|c| c["name"].as_str().expect("category name"))
+        .collect();
     let mut implemented_in: HashMap<String, usize> = HashMap::new();
     let mut implemented = 0usize;
     for tag in tags::ALL {
@@ -89,7 +93,10 @@ fn print_coverage(categories: &[Value], by_name: &HashMap<String, &Value>) {
         }
     }
     println!("category coverage (implemented tags vs recorded inventory):");
-    println!("{:<32} {:>9} {:>11} {:>8}", "category", "inventory", "implemented", "missing");
+    println!(
+        "{:<32} {:>9} {:>11} {:>8}",
+        "category", "inventory", "implemented", "missing"
+    );
     for c in categories {
         let name = c["name"].as_str().unwrap();
         let total = c["item_count"].as_u64().expect("item_count");
@@ -141,7 +148,7 @@ fn longest_category<'a>(categories: &'a [&'a str], tag: &str) -> Option<&'a str>
 
 fn load_inventory() -> Value {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/dict_inventory.json");
-    let raw = std::fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).expect("inventory JSON must parse")
 }

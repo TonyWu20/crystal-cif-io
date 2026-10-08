@@ -141,6 +141,7 @@ impl From<OccupancyRefineFlag> for Value {
 /// The closed code set of `_atom_site_refinement_flags_posn`. The
 /// dictionary records the single-letter codes and their
 /// combinations.
+#[allow(clippy::upper_case_acronyms)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PosnRefineFlag {
     /// `.`: no constraints on the positional coordinates.

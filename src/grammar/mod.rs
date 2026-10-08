@@ -15,7 +15,6 @@ mod structures;
 mod tags_values;
 mod whitespace_comments;
 
-
 pub use matrix::{Matrix, MatrixError};
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
 pub use strings_textfields::{

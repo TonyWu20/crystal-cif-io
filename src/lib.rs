@@ -10,7 +10,6 @@ pub use grammar::{
     UnsignedInteger, Value,
 };
 
-
 /// The chumsky + ariadne CIF 1.1 parser. `parse_cif` is the strict
 /// entry point (`Ok` means the whole input was consumed);
 /// `rich_error` renders a `Rich` error as an ariadne report with the

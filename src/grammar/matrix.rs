@@ -88,21 +88,9 @@ impl Matrix {
             return None;
         }
         Some([
-            [
-                &self.rows[0][0],
-                &self.rows[0][1],
-                &self.rows[0][2],
-            ],
-            [
-                &self.rows[1][0],
-                &self.rows[1][1],
-                &self.rows[1][2],
-            ],
-            [
-                &self.rows[2][0],
-                &self.rows[2][1],
-                &self.rows[2][2],
-            ],
+            [&self.rows[0][0], &self.rows[0][1], &self.rows[0][2]],
+            [&self.rows[1][0], &self.rows[1][1], &self.rows[1][2]],
+            [&self.rows[2][0], &self.rows[2][1], &self.rows[2][2]],
         ])
     }
 
@@ -110,7 +98,12 @@ impl Matrix {
     /// held as a 3 x 1 or 1 x 3 matrix.
     pub fn as_vector(&self) -> Option<Vec<Number>> {
         match self.shape() {
-            (3, 1) => Some(self.rows.iter().flat_map(|row| row.iter().cloned()).collect()),
+            (3, 1) => Some(
+                self.rows
+                    .iter()
+                    .flat_map(|row| row.iter().cloned())
+                    .collect(),
+            ),
             (1, 3) => Some(self.rows[0].clone()),
             _ => None,
         }
@@ -144,9 +137,9 @@ mod tests {
         let two = Number::Integer(Integer(2));
         let three = Number::Float(Float(3.0));
         Matrix::try_new(vec![
-            vec![one.clone(), one, one],
+            vec![one, one, one],
             vec![one, two, two],
-            vec![two, three.clone(), three],
+            vec![two, three, three],
         ])
         .expect("3x3 matrix")
     }
@@ -155,10 +148,7 @@ mod tests {
     fn try_new_rejects_ragged_rows() {
         let m = Matrix::try_new(vec![
             vec![Number::Integer(Integer(1))],
-            vec![
-                Number::Integer(Integer(1)),
-                Number::Integer(Integer(2)),
-            ],
+            vec![Number::Integer(Integer(1)), Number::Integer(Integer(2))],
         ]);
         assert!(m.is_err());
     }
@@ -227,21 +217,18 @@ mod tests {
         let m = matrix_3x3();
         let text = m.to_string();
         let tokens = text
-            .split(|c| c == ' ' || c == '\n')
+            .split(|c: char| c.is_ascii_whitespace())
             .filter(|t| !t.is_empty())
             .collect::<Vec<&str>>();
         assert_eq!(tokens.len(), 9);
-        let expected: Vec<f64> = vec![
-            1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0,
-        ];
+        let expected: Vec<f64> = vec![1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0];
         let parsed: Vec<f64> = tokens
             .iter()
             .map(|t| t.parse::<f64>().expect("token parses"))
             .collect();
         assert_eq!(parsed, expected);
         // Round trip through the f64 shortest form for a float entry.
-        let floaty = Matrix::try_new(vec![vec![Number::Float(Float(0.1))]])
-            .expect("1x1 matrix");
+        let floaty = Matrix::try_new(vec![vec![Number::Float(Float(0.1))]]).expect("1x1 matrix");
         let text = floaty.to_string();
         assert_eq!(text, "0.1");
         assert_eq!(text.parse::<f64>(), Ok(0.1_f64));

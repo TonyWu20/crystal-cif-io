@@ -156,7 +156,9 @@ impl LoopValueTerm for AtomSiteLoopItem {
             | AtomSiteLoopItem::B_iso_or_equiv(v)
             | AtomSiteLoopItem::Chemical_conn_number(v)
             | AtomSiteLoopItem::Site_symmetry_order(v)
-            | AtomSiteLoopItem::U_equiv_geom_mean(v) => v.iter().cloned().map(Value::from).collect(),
+            | AtomSiteLoopItem::U_equiv_geom_mean(v) => {
+                v.iter().cloned().map(Value::from).collect()
+            }
             AtomSiteLoopItem::Aniso_label(v)
             | AtomSiteLoopItem::Calc_attached_atom(v)
             | AtomSiteLoopItem::Constraints(v)
@@ -187,7 +189,9 @@ impl LoopValueTerm for AtomSiteLoopItem {
                 f.iter().cloned().map(Value::from).collect()
             }
             AtomSiteLoopItem::Refinement_flags(v) => v.iter().cloned().map(Value::from).collect(),
-            AtomSiteLoopItem::Refinement_flags_adp(v) => v.iter().cloned().map(Value::from).collect(),
+            AtomSiteLoopItem::Refinement_flags_adp(v) => {
+                v.iter().cloned().map(Value::from).collect()
+            }
             AtomSiteLoopItem::Refinement_flags_occupancy(v) => {
                 v.iter().cloned().map(Value::from).collect()
             }

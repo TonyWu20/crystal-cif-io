@@ -278,7 +278,10 @@ mod tests {
         assert_eq!(space_group::TAGS.len(), 5);
         assert_eq!(space_group_symop::TAGS.len(), 3);
         assert_eq!(ALL.len(), 93);
-        assert!(ALL.iter().all(|t| t.starts_with('_') == false));
-        assert_eq!(ALL.len(), ALL.iter().collect::<std::collections::HashSet<_>>().len());
+        assert!(ALL.iter().all(|t| !t.starts_with('_')));
+        assert_eq!(
+            ALL.len(),
+            ALL.iter().collect::<std::collections::HashSet<_>>().len()
+        );
     }
 }
