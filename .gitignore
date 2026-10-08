@@ -21,3 +21,12 @@ sessions
 
 /target
 *.cell
+
+# dict-items orchestration (worktrees, state, logs, task files are tracked; runtime state is not)
+.worktrees/
+orchestrate/logs/
+orchestrate/pids/
+orchestrate/tmp/
+orchestrate/STATE
+orchestrate/HOLD
+orchestrate/PID

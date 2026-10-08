@@ -298,14 +298,17 @@ Record decisions here as they are made.
 
 | id | decision | outcome | date |
 |---|---|---|---|
-| D1 | baseline scope | open | — |
-| D2 | explicit SU items | open | — |
-| D3 | matrix value type | open | — |
-| D4 | codegen vs hand-written | open | — |
-| D5 | `todo!()` strategy | open | — |
-| D6 | legacy `data_types` API | open | — |
-| D7 | write-path float truncation | open (redefined. `Float` is already `f64`) | — |
-| D8 | CIF 2.0 list values | open | — |
+| D1 | baseline scope | B: the standard 734 items now. The 347 shell items stay T6, a later separate wave (two steps: T2–T5, then T6) | 2026-10-08 |
+| D2 | explicit SU items | B: keep the uncertainty inside `Numeric`. Skip the `_su` items. Reopen when paired-value checks need them | 2026-10-08 |
+| D3 | matrix value type | A: a `Matrix` value type in the value layer, no `Value` variant (section 12) | 2026-10-08 |
+| D4 | codegen vs hand-written | A: hand-written for T2–T3. B: a codegen step for T4–T6. The codegen lands in T4 | 2026-10-08 |
+| D5 | `todo!()` strategy | A: implement all 51 payloads in T0. Wire `MeasurementReflnLoopItem` into `CifTerm` | 2026-10-08 |
+| D6 | legacy `data_types` API | A: remove it. The crate is pre-1.0, nothing external uses it | 2026-10-08 |
+| D7 | write-path float truncation | A: format `Float` with the `f64` shortest-round-trip `Display` in T0 | 2026-10-08 |
+| D8 | CIF 2.0 list values | A: dialect detection, a `Value::List` variant, the 2.0 string restriction. Scoped to lists only (section 13). Implemented in the T6 wave | 2026-10-08 |
+
+The current wave covers T0, T2, T3, T4, T5. T6 (and the D8 parser
+work) start only when D1 approves the shell scope.
 
 ## 11. Sources
 
@@ -313,6 +316,13 @@ Record decisions here as they are made.
   mirror at `cristal.org/DU-SDPD/nexus/iucr2/iucr-top/cif/spec/version1/`.
 - IUCr core CIF dictionary, DDL1 v2.4.5:
   `ftp.iucr.org/cifdics/cif_core.dic`.
+- Retrieval status (2026-10-08): `ftp.iucr.org` is unreachable from
+  the build machine. The DDL1 inventory source is the IUCr-managed
+  archive at `github.com/COMCIFS/DDL1-legacy-dictionaries`
+  (`dictionaries/cif_core.dic`, `_dictionary_version` 2.5.0-dev.1),
+  committed as `tests/dict/cif_core.dic` (see `tests/dict/SOURCE.md`).
+  T0 records the actual item counts in the inventory. If they differ
+  from the 734 of v2.4.5, the coverage gate uses the recorded counts.
 - IUCr core dictionary shell v3.4.0-dev:
   `github.com/COMCIFS/cif_core` (`cif_core.dic`).
 - Current state of the crate: `src/data_dict`, 51 `todo!()` sites,
