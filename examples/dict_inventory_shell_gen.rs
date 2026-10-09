@@ -86,11 +86,16 @@ fn parse_block(lines: &[String]) -> BlockData {
     let mut in_loop = false;
     let mut header: Vec<String> = Vec::new();
     let mut rows: Vec<Vec<String>> = Vec::new();
+    // True when the physical line just handled pushed a one-cell row.
+    // It guards the detail-column merge (a detail line merges only
+    // when it sits directly under its state line).
+    let mut row_just_pushed = false;
 
     for raw in lines {
         let line = raw.trim_end();
         let t = line.trim();
         if in_field {
+            row_just_pushed = false;
             if t == ";" {
                 in_field = false;
             }
@@ -110,6 +115,7 @@ fn parse_block(lines: &[String]) -> BlockData {
             if ends {
                 loops.push((std::mem::take(&mut header), std::mem::take(&mut rows)));
                 in_loop = false;
+                row_just_pushed = false;
             } else {
                 if t.starts_with('_') {
                     // Column header line. One line may hold several
@@ -117,15 +123,30 @@ fn parse_block(lines: &[String]) -> BlockData {
                     for tok in t.split_whitespace() {
                         header.push(unquote(tok));
                     }
+                    row_just_pushed = false;
                 } else {
-                    // A data row: split on whitespace, drop empty
-                    // tokens. Quoted cells keep no quotes.
-                    let mut cells: Vec<String> = Vec::new();
-                    for tok in t.split_whitespace() {
-                        cells.push(unquote(tok));
-                    }
+                    // A data row: split into cells. Quoted cells keep
+                    // interior blanks. A one-cell quoted line that
+                    // follows a one-cell row is the detail column of
+                    // that row (the COMCIFS two-column layout): merge
+                    // it in so the detail is not read as a new row.
+                    let cells = split_cells(t);
                     if !cells.is_empty() {
-                        rows.push(cells);
+                        let merge = cells.len() == 1
+                            && first_cell_quoted(t)
+                            && header.len() >= 2
+                            && row_just_pushed
+                            && rows.last().is_some_and(|r| r.len() == 1);
+                        if merge {
+                            if let (Some(last), Some(cell)) =
+                                (rows.last_mut(), cells.into_iter().next())
+                            {
+                                last.push(cell);
+                            }
+                        } else {
+                            rows.push(cells);
+                        }
+                        row_just_pushed = rows.last().is_some_and(|r| r.len() == 1);
                     }
                 }
                 continue;
@@ -184,6 +205,45 @@ fn unquote(tok: &str) -> String {
         .unwrap_or_else(|| t.to_string())
 }
 
+/// Split a loop row into cells. A quoted cell keeps its interior
+/// blanks: `'Space group tables'` is one cell, not three tokens.
+/// The quotes are dropped from the cell. An unterminated quote
+/// leaves the rest of the line as plain tokens.
+fn split_cells(line: &str) -> Vec<String> {
+    let mut cells: Vec<String> = Vec::new();
+    let mut rest = line;
+    while let Some(pos) = rest.find(|c: char| c == '\'' || c == '"') {
+        let before = &rest[..pos];
+        for tok in before.split_whitespace() {
+            cells.push(tok.to_string());
+        }
+        let q = rest.as_bytes()[pos] as char;
+        let after = &rest[pos + 1..];
+        match after.find(q) {
+            Some(end) => {
+                cells.push(after[..end].to_string());
+                rest = &after[end + 1..];
+            }
+            None => {
+                for tok in after.split_whitespace() {
+                    cells.push(tok.to_string());
+                }
+                rest = "";
+            }
+        }
+    }
+    for tok in rest.split_whitespace() {
+        cells.push(tok.to_string());
+    }
+    cells
+}
+
+/// True when the first cell of `line` is a quoted cell.
+fn first_cell_quoted(line: &str) -> bool {
+    let t = line.trim_start();
+    t.starts_with('\'') || t.starts_with('"')
+}
+
 /// The recorded type of the item from its `_type.contents`, when
 /// the metadata is present.
 fn contents_type(contents: Option<&str>) -> Option<&'static str> {
@@ -207,7 +267,6 @@ fn imported_type(object: &str) -> &'static str {
 }
 
 struct ItemRec {
-    block: String,
     definition_id: String,
     category: String,
     object: String,
@@ -232,9 +291,9 @@ fn main() {
     let blocks = split_blocks(&lines);
 
     let mut items: Vec<ItemRec> = Vec::new();
-    let mut dict_name: Option<String> = None;
-    let mut dict_version: Option<String> = None;
-    let mut dict_update: Option<String> = None;
+    let dict_name: Option<String>;
+    let dict_version: Option<String>;
+    let dict_update: Option<String>;
 
     // The file-level `data_CIF_CORE` block (before the first
     // `save_` line) holds the dictionary metadata.
@@ -307,7 +366,6 @@ fn main() {
             }
         }
         items.push(ItemRec {
-            block: name.clone(),
             definition_id: definition_id.unwrap_or_else(|| format!("_{category}.{object}")),
             category: category.clone(),
             object: object.clone(),

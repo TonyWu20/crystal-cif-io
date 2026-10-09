@@ -10,7 +10,7 @@ pub enum AuditItem {
     Block_doi(CharString),
     Creation_date(CharString),
     Creation_method(CharString),
-    /// The closed code set (Base, Space, Entry, Custom, Local)
+    /// The closed code set (Base, Space group tables, Entry, Custom, Local)
     /// recorded in the shell dictionary; the plain text form is
     /// kept.
     Schema(CharString),

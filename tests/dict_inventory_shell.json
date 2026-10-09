@@ -2328,7 +2328,7 @@
         "kind": "closed",
         "values": [
           "Base",
-          "'Space",
+          "Space group tables",
           "Entry",
           "Custom",
           "Local"
@@ -4787,11 +4787,8 @@
         "kind": "closed",
         "values": [
           "fundamental",
-          "'Fundamental",
           "estimated",
-          "'Estimated,",
-          "refined",
-          "'Refined"
+          "refined"
         ]
       },
       "is_loop": false,
