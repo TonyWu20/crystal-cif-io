@@ -18,3 +18,19 @@ T0 (the foundation tier) records the actual item counts in
 `tests/dict_inventory.json`. If the total differs from the 734 of
 v2.4.5, the coverage gate uses the recorded counts. The roadmap's
 per-category counts are then guidance, not a hard pin.
+
+
+## Shell dictionary
+
+- file: `cif_core_shell.dic` (core shell, CIF_CORE)
+- fetched: 2026-10-09
+- source: `https://raw.githubusercontent.com/COMCIFS/cif_core/main/cif_core.dic`
+- `_dictionary.version` in the file: 3.4.0-dev (DDL conformance 4.2.0)
+- format: DDLm / DDL 4.2.0. Items are `save_<category>.<item>` blocks.
+  Item metadata lives in `_type.purpose`, `_type.container`,
+  `_type.contents`, `_type.dimension`, and the `_definition.*` and
+  `_method.*` fields. This differs from the DDL1 syntax of
+  `cif_core.dic` above. The T6 inventory generator handles this
+  format.
+- role: input for the T6 wave (347 shell items) and the D8 wave
+  (2.0 list-value grammar for the 66 Matrix items).
