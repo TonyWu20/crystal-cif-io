@@ -181,6 +181,60 @@
               }
             ]
           }
+        },
+        {
+          "kind": "item",
+          "tag": "list_blank_quoted",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "alpha beta"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "gamma"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_empty_quoted",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_trail_blank",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              }
+            ]
+          }
         }
       ],
       "name": "cif2_lists"

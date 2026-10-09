@@ -423,22 +423,6 @@ fn char_string<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value,
     .map(Value::CharString)
 }
 
-/// A content character of a quoted value, per dialect.
-///
-/// 1.1: any printable character except EOL; the value token runs to
-/// the end of the line and embedded blanks are legal (fixture 03).
-/// 2.0: values are separated by white space, so the run stops at a
-/// blank; and the list closer `]` ends the run, so a quoted value
-/// may sit flush against the closer of its list.
-fn quoted_content_char(dialect: CifDialect, c: char) -> bool {
-    if !is_printable(c) || is_eol(c) {
-        return false;
-    }
-    match dialect {
-        CifDialect::Cif1_1 => true,
-        CifDialect::Cif2_0 => !is_blank(c) && c != ']',
-    }
-}
 
 /// An unquoted character string: `<OrdinaryChar><NonBlankChar>*`,
 /// where the whole token is not a bare reserved word (spec para. 8,
@@ -511,44 +495,93 @@ fn continues_value_token(dialect: CifDialect, c: char) -> bool {
     matches!(dialect, CifDialect::Cif1_1) || c != ']'
 }
 
-/// A single-quoted character string (spec para. 15, 16). The content
-/// may hold any printable character, including embedded quotes (kept
-/// verbatim). The value token ends at the first white space or EOL;
-/// the last character of the token must be the closing quote.
+/// A single-quoted character string (spec para. 15, 16).
+///
+/// 1.1: the content may hold any printable character, including
+/// embedded quotes (kept verbatim). The value token ends at the
+/// first white space or EOL, and the last character of the token
+/// must be the closing quote.
+/// 2.0: the EBNF quote-content excludes only the closing quote, so
+/// blanks inside the quotes are legal (COMCIFS CIF2-EBNF,
+/// `quote-content`). The run stops at the first closing quote,
+/// which must be present. The empty form `''` is a legal empty
+/// string. (Review d8 P1-1.)
 fn single_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
-    let run = any()
-        .filter(move |&c| quoted_content_char(dialect, c))
-        .repeated()
-        .to_slice();
-    just('\'')
-        .then(run)
-        .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
-        .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('\''))
-        .map(|trimmed: String| {
-            CharString::SingleQuoted(SingleQuotedString::new(
-                trimmed[..trimmed.len() - 1].to_string(),
-            ))
-        })
+    match dialect {
+        CifDialect::Cif1_1 => {
+            let run = any()
+                .filter(|&c| is_printable(c) && !is_eol(c))
+                .repeated()
+                .to_slice();
+            just('\'')
+                .then(run)
+                .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
+                .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('\''))
+                .map(|trimmed: String| {
+                    CharString::SingleQuoted(SingleQuotedString::new(
+                        trimmed[..trimmed.len() - 1].to_string(),
+                    ))
+                })
+                .boxed()
+        }
+        CifDialect::Cif2_0 => {
+            let run = any()
+                .filter(|&c| is_printable(c) && !is_eol(c) && c != '\'')
+                .repeated()
+                .to_slice();
+            just('\'')
+                .then(run)
+                .then(just('\''))
+                .map(|((_q, content), _q2): ((char, &str), char)| {
+                    CharString::SingleQuoted(SingleQuotedString::new(content.to_string()))
+                })
+                .boxed()
+        }
+    }
 }
 
-/// A double-quoted character string. The content may hold any
-/// printable character, including embedded quotes (kept verbatim).
-/// The value token ends at the first white space or EOL; the last
-/// character of the token must be the closing quote.
+/// A double-quoted character string.
+///
+/// 1.1: the content may hold any printable character, including
+/// embedded quotes (kept verbatim). The value token ends at the
+/// first white space or EOL, and the last character of the token
+/// must be the closing quote.
+/// 2.0: the EBNF quote-content excludes only the closing quote, so
+/// blanks inside the quotes are legal. The run stops at the first
+/// closing quote, which must be present. The empty form `""` is a
+/// legal empty string. (Review d8 P1-1.)
 fn double_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
-    let run = any()
-        .filter(move |&c| quoted_content_char(dialect, c))
-        .repeated()
-        .to_slice();
-    just('"')
-        .then(run)
-        .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
-        .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('"'))
-        .map(|trimmed: String| {
-            CharString::DoubleQuoted(DoubleQuotedString::new(
-                trimmed[..trimmed.len() - 1].to_string(),
-            ))
-        })
+    match dialect {
+        CifDialect::Cif1_1 => {
+            let run = any()
+                .filter(|&c| is_printable(c) && !is_eol(c))
+                .repeated()
+                .to_slice();
+            just('"')
+                .then(run)
+                .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
+                .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('"'))
+                .map(|trimmed: String| {
+                    CharString::DoubleQuoted(DoubleQuotedString::new(
+                        trimmed[..trimmed.len() - 1].to_string(),
+                    ))
+                })
+                .boxed()
+        }
+        CifDialect::Cif2_0 => {
+            let run = any()
+                .filter(|&c| is_printable(c) && !is_eol(c) && c != '"')
+                .repeated()
+                .to_slice();
+            just('"')
+                .then(run)
+                .then(just('"'))
+                .map(|((_q, content), _q2): ((char, &str), char)| {
+                    CharString::DoubleQuoted(DoubleQuotedString::new(content.to_string()))
+                })
+                .boxed()
+        }
+    }
 }
 
 /// `<SemiColonTextField>` (spec para. 17): an opening `;`, then the
@@ -696,6 +729,9 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
             // `Boxed`) so the recursive `choice` satisfies chumsky's
             // `Clone` bound: the sibling productions are opaque `impl
             // Parser` types, which rustc does not prove `Clone` through.
+            // The EBNF list production allows optional white space
+            // (blanks, comments, and new lines) before the closer,
+            // so `[1 ]` and `[ 1 ]` parse (review d8 P1-2).
             let list = just('[')
                 .then(
                     ws_region(false)
@@ -706,8 +742,9 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
                         .separated_by(ws_region(false).boxed().map(|_| ()))
                         .collect::<Vec<Value>>(),
                 )
+                .then(ws_region(false).boxed().map(|_| ()))
                 .then(just(']'))
-                .map(|((_open, values), _close)| Value::List(values))
+                .map(|(((_open, values), _ws), _close)| Value::List(values))
                 .filter(move |_: &Value| dialect == CifDialect::Cif2_0);
             choice((
                 list,
