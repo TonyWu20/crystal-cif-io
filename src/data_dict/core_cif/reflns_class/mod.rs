@@ -5,7 +5,7 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Numeric, Tag, Value},
 };
 
@@ -75,6 +75,40 @@ impl Display for ReflnsClassLoopItem {
             write!(f, " {value}")?;
         }
         Ok(())
+    }
+}
+
+// The T6 single-value item of the `reflns_class` category.
+
+/// The single-value item of the `reflns_class` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum ReflnsClassTerms {
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `0:`); the plain numeric form is kept.
+    Number_observed(Numeric),
+}
+
+impl CifTerm for ReflnsClassTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            ReflnsClassTerms::Number_observed(_) => "number_observed",
+        };
+        Tag::new(format!("reflns_class_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for ReflnsClassTerms {
+    fn value(&self) -> Value {
+        match self {
+            ReflnsClassTerms::Number_observed(n) => Value::Numeric(*n),
+        }
+    }
+}
+
+impl Display for ReflnsClassTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

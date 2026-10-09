@@ -12,7 +12,7 @@ pub use ranges::{AnalyticalMass, NumberInCell, OxidationNumber, Radius};
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Numeric, Tag, Value},
 };
 
@@ -105,6 +105,60 @@ impl LoopValueTerm for AtomTypeLoopItem {
                 v.iter().cloned().map(Value::from).collect()
             }
         }
+    }
+}
+
+// The T6 single-value items of the `atom_type` category.
+
+/// The single-value items of the `atom_type` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum AtomTypeTerms {
+    Atomic_mass(Numeric),
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `1:`); the plain numeric form is kept.
+    Atomic_number(Numeric),
+    Display_colour(CharString),
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `1:`); the plain numeric form is kept.
+    Electron_count(Numeric),
+    Element_symbol(CharString),
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `1:`); the plain numeric form is kept.
+    Mass_number(Numeric),
+}
+
+impl CifTerm for AtomTypeTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            AtomTypeTerms::Atomic_mass(_) => "atomic_mass",
+            AtomTypeTerms::Atomic_number(_) => "atomic_number",
+            AtomTypeTerms::Display_colour(_) => "display_colour",
+            AtomTypeTerms::Electron_count(_) => "electron_count",
+            AtomTypeTerms::Element_symbol(_) => "element_symbol",
+            AtomTypeTerms::Mass_number(_) => "mass_number",
+        };
+        Tag::new(format!("atom_type_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for AtomTypeTerms {
+    fn value(&self) -> Value {
+        match self {
+            AtomTypeTerms::Atomic_mass(n)
+            | AtomTypeTerms::Atomic_number(n)
+            | AtomTypeTerms::Electron_count(n)
+            | AtomTypeTerms::Mass_number(n) => Value::Numeric(*n),
+            AtomTypeTerms::Display_colour(s) | AtomTypeTerms::Element_symbol(s) => {
+                Value::CharString(s.clone())
+            }
+        }
+    }
+}
+
+impl Display for AtomTypeTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

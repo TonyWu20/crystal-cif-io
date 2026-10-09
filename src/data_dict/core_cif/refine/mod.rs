@@ -145,6 +145,10 @@ impl From<Rogers> for Value {
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum RefineTerms {
+    /// The closed code set (dynamical, kinematical) recorded in the
+    /// shell dictionary; the plain text form is kept.
+    Diffraction_theory(CharString),
+    Diffraction_theory_details(CharString),
     Ls_F_calc_details(CharString),
     Ls_F_calc_formula(CharString),
     Ls_F_calc_precision(NonNeg),
@@ -193,6 +197,8 @@ pub enum RefineTerms {
 impl CifTerm for RefineTerms {
     fn tag(&self) -> Tag {
         let suffix = match self {
+            RefineTerms::Diffraction_theory(_) => "diffraction_theory",
+            RefineTerms::Diffraction_theory_details(_) => "diffraction_theory_details",
             RefineTerms::Ls_F_calc_details(_) => "ls_F_calc_details",
             RefineTerms::Ls_F_calc_formula(_) => "ls_F_calc_formula",
             RefineTerms::Ls_F_calc_precision(_) => "ls_F_calc_precision",
@@ -244,7 +250,9 @@ impl CifTerm for RefineTerms {
 impl SingleValueTerm for RefineTerms {
     fn value(&self) -> Value {
         match self {
-            RefineTerms::Ls_F_calc_details(s)
+            RefineTerms::Diffraction_theory(s)
+            | RefineTerms::Diffraction_theory_details(s)
+            | RefineTerms::Ls_F_calc_details(s)
             | RefineTerms::Ls_F_calc_formula(s)
             | RefineTerms::Ls_abs_structure_details(s)
             | RefineTerms::Ls_extinction_expression(s)

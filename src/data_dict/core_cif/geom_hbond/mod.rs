@@ -12,7 +12,7 @@ pub use ranges::HbondDistance;
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;
-use crate::data_dict::{CifTerm, LoopValueTerm};
+use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Numeric, Tag, Value};
 
 /// Loop columns of the `geom_hbond` category (11 items).
@@ -66,6 +66,38 @@ impl LoopValueTerm for GeomHbondLoopItem {
             | GeomHbondLoopItem::Distance_ha(v) => v.iter().cloned().map(Value::from).collect(),
             GeomHbondLoopItem::Publ_flag(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value item of the `geom_hbond` category.
+
+/// The single-value item of the `geom_hbond` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum GeomHbondTerms {
+    Id(CharString),
+}
+
+impl CifTerm for GeomHbondTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            GeomHbondTerms::Id(_) => "id",
+        };
+        Tag::new(format!("geom_hbond_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for GeomHbondTerms {
+    fn value(&self) -> Value {
+        match self {
+            GeomHbondTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for GeomHbondTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

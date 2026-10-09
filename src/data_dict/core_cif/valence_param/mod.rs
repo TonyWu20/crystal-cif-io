@@ -6,7 +6,7 @@
 
 use std::fmt::Display;
 
-use crate::data_dict::{CifTerm, LoopValueTerm};
+use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Numeric, Tag, Value};
 
 /// Loop columns of the `valence_param` category (9 items).
@@ -56,6 +56,37 @@ impl LoopValueTerm for ValenceParamLoopItem {
             | ValenceParamLoopItem::Id(v)
             | ValenceParamLoopItem::Ref_id(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+// The T6 single-value item of the `valence_param` category.
+
+/// The single-value item of the `valence_param` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum ValenceParamTerms {
+    Citation_id(CharString),
+}
+
+impl CifTerm for ValenceParamTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            ValenceParamTerms::Citation_id(_) => "citation_id",
+        };
+        Tag::new(format!("valence_param_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for ValenceParamTerms {
+    fn value(&self) -> Value {
+        match self {
+            ValenceParamTerms::Citation_id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for ValenceParamTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

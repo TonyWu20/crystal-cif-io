@@ -1,7 +1,52 @@
+mod paper_pages;
+
+use std::fmt::Display;
+
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Tag, Value},
 };
+
+pub use self::paper_pages::PaperPages;
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum JournalTerms {
+    Journal_data_validation_number(CharString),
+    Paper_number(CharString),
+    /// range constraint recorded in the dictionary _enumeration
+    Paper_pages(PaperPages),
+    Paper_url(CharString),
+}
+
+impl CifTerm for JournalTerms {
+    fn tag(&self) -> Tag {
+        let tag = match self {
+            JournalTerms::Journal_data_validation_number(_) => "journal.data_validation_number",
+            JournalTerms::Paper_number(_) => "journal_paper_number",
+            JournalTerms::Paper_pages(_) => "journal_paper_pages",
+            JournalTerms::Paper_url(_) => "journal_paper_url",
+        };
+        Tag::new(tag.to_string())
+    }
+}
+
+impl SingleValueTerm for JournalTerms {
+    fn value(&self) -> Value {
+        match self {
+            JournalTerms::Journal_data_validation_number(s)
+            | JournalTerms::Paper_number(s)
+            | JournalTerms::Paper_url(s) => Value::CharString(s.clone()),
+            JournalTerms::Paper_pages(v) => Value::from(*v),
+        }
+    }
+}
+
+impl Display for JournalTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
+    }
+}
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

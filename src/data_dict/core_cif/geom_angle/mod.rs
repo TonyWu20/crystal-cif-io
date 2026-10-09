@@ -8,7 +8,7 @@
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;
-use crate::data_dict::{CifTerm, LoopValueTerm};
+use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Numeric, Tag, Value};
 
 /// Loop columns of the `geom_angle` category (8 items).
@@ -58,6 +58,45 @@ impl LoopValueTerm for GeomAngleLoopItem {
             | GeomAngleLoopItem::Site_symmetry_3(v) => v.iter().cloned().map(Value::from).collect(),
             GeomAngleLoopItem::Publ_flag(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value items of the `geom_angle` category.
+
+/// The single-value items of the `geom_angle` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum GeomAngleTerms {
+    /// The shell records a two-value list (`_type.dimension`
+    /// `[2]`); the read path does not bound the shape.
+    Distances(Vec<Numeric>),
+    Id(CharString),
+}
+
+impl CifTerm for GeomAngleTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            GeomAngleTerms::Distances(_) => "distances",
+            GeomAngleTerms::Id(_) => "id",
+        };
+        Tag::new(format!("geom_angle_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for GeomAngleTerms {
+    fn value(&self) -> Value {
+        match self {
+            GeomAngleTerms::Distances(v) => {
+                Value::List(v.iter().cloned().map(Value::from).collect())
+            }
+            GeomAngleTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for GeomAngleTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

@@ -1,21 +1,55 @@
 mod av_r_eq;
 mod av_sg_i_over_i;
 mod av_u_i_over_i;
+mod av_ui_over_i;
 mod d_res_high;
 mod d_res_low;
 mod reflns_class_number;
 
+use std::fmt::Display;
+
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Tag, Value},
 };
 
 pub use self::av_r_eq::AvREq;
 pub use self::av_sg_i_over_i::AvSgIOverI;
 pub use self::av_u_i_over_i::AvUIOverI;
+pub use self::av_ui_over_i::AvUiOverI;
 pub use self::d_res_high::DResHigh;
 pub use self::d_res_low::DResLow;
 pub use self::reflns_class_number::ReflnsClassNumber;
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum DiffrnReflnsClassTerms {
+    /// range constraint recorded in the dictionary _enumeration
+    Av_ui_over_i(AvUiOverI),
+}
+
+impl CifTerm for DiffrnReflnsClassTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            DiffrnReflnsClassTerms::Av_ui_over_i(_) => "av_ui_over_i",
+        };
+        Tag::new(format!("diffrn_reflns_class_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for DiffrnReflnsClassTerms {
+    fn value(&self) -> Value {
+        match self {
+            DiffrnReflnsClassTerms::Av_ui_over_i(v) => Value::from(*v),
+        }
+    }
+}
+
+impl Display for DiffrnReflnsClassTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
+    }
+}
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

@@ -11,6 +11,9 @@ pub enum AuditContactAuthorTerms {
     Address(CharString),
     Email(CharString),
     Fax(CharString),
+    Id(CharString),
+    Id_iucr(CharString),
+    Id_orcid(CharString),
     Name(CharString),
     Phone(CharString),
 }
@@ -21,6 +24,9 @@ impl CifTerm for AuditContactAuthorTerms {
             AuditContactAuthorTerms::Address(_) => "address",
             AuditContactAuthorTerms::Email(_) => "email",
             AuditContactAuthorTerms::Fax(_) => "fax",
+            AuditContactAuthorTerms::Id(_) => "id",
+            AuditContactAuthorTerms::Id_iucr(_) => "id_iucr",
+            AuditContactAuthorTerms::Id_orcid(_) => "id_orcid",
             AuditContactAuthorTerms::Name(_) => "name",
             AuditContactAuthorTerms::Phone(_) => "phone",
         };
@@ -34,6 +40,9 @@ impl SingleValueTerm for AuditContactAuthorTerms {
             AuditContactAuthorTerms::Address(s)
             | AuditContactAuthorTerms::Email(s)
             | AuditContactAuthorTerms::Fax(s)
+            | AuditContactAuthorTerms::Id(s)
+            | AuditContactAuthorTerms::Id_iucr(s)
+            | AuditContactAuthorTerms::Id_orcid(s)
             | AuditContactAuthorTerms::Name(s)
             | AuditContactAuthorTerms::Phone(s) => Value::CharString(s.clone()),
         }

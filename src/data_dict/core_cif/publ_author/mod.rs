@@ -1,7 +1,44 @@
+use std::fmt::Display;
+
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Tag, Value},
 };
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum PublAuthorTerms {
+    Id(CharString),
+    Id_audit(CharString),
+    Phone(CharString),
+}
+
+impl CifTerm for PublAuthorTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            PublAuthorTerms::Id(_) => "id",
+            PublAuthorTerms::Id_audit(_) => "id_audit",
+            PublAuthorTerms::Phone(_) => "phone",
+        };
+        Tag::new(format!("publ_author_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for PublAuthorTerms {
+    fn value(&self) -> Value {
+        match self {
+            PublAuthorTerms::Id(s) | PublAuthorTerms::Id_audit(s) | PublAuthorTerms::Phone(s) => {
+                Value::CharString(s.clone())
+            }
+        }
+    }
+}
+
+impl Display for PublAuthorTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
+    }
+}
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

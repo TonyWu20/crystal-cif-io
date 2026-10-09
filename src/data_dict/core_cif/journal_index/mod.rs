@@ -1,7 +1,38 @@
+use std::fmt::Display;
+
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Tag, Value},
 };
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum JournalIndexTerms {
+    Id(CharString),
+}
+
+impl CifTerm for JournalIndexTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            JournalIndexTerms::Id(_) => "id",
+        };
+        Tag::new(format!("journal_index_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for JournalIndexTerms {
+    fn value(&self) -> Value {
+        match self {
+            JournalIndexTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for JournalIndexTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
+    }
+}
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

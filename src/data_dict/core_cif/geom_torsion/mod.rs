@@ -8,7 +8,7 @@
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;
-use crate::data_dict::{CifTerm, LoopValueTerm};
+use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Numeric, Tag, Value};
 
 /// Loop columns of the `geom_torsion` category (10 items).
@@ -66,6 +66,45 @@ impl LoopValueTerm for GeomTorsionLoopItem {
             }
             GeomTorsionLoopItem::Publ_flag(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value items of the `geom_torsion` category.
+
+/// The single-value items of the `geom_torsion` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum GeomTorsionTerms {
+    /// The shell records a three-value list (`_type.dimension`
+    /// `[3]`); the read path does not bound the shape.
+    Distances(Vec<Numeric>),
+    Id(CharString),
+}
+
+impl CifTerm for GeomTorsionTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            GeomTorsionTerms::Distances(_) => "distances",
+            GeomTorsionTerms::Id(_) => "id",
+        };
+        Tag::new(format!("geom_torsion_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for GeomTorsionTerms {
+    fn value(&self) -> Value {
+        match self {
+            GeomTorsionTerms::Distances(v) => {
+                Value::List(v.iter().cloned().map(Value::from).collect())
+            }
+            GeomTorsionTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for GeomTorsionTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

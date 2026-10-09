@@ -1,20 +1,22 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
-    grammar::{CharString, Numeric, Tag, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{CharString, Matrix, Numeric, Tag, Value},
 };
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnOrientMatrixTerms {
     Type(CharString),
+    Ubij(Matrix),
 }
 
 impl CifTerm for DiffrnOrientMatrixTerms {
     fn tag(&self) -> Tag {
         let suffix = match self {
             DiffrnOrientMatrixTerms::Type(_) => "type",
+            DiffrnOrientMatrixTerms::Ubij(_) => "ubij",
         };
         Tag::new(format!("diffrn_orient_matrix_{suffix}"))
     }
@@ -24,6 +26,7 @@ impl SingleValueTerm for DiffrnOrientMatrixTerms {
     fn value(&self) -> Value {
         match self {
             DiffrnOrientMatrixTerms::Type(s) => Value::CharString(s.clone()),
+            DiffrnOrientMatrixTerms::Ubij(m) => matrix::to_value(m),
         }
     }
 }

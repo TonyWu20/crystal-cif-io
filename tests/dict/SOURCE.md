@@ -32,5 +32,9 @@ per-category counts are then guidance, not a hard pin.
   `_method.*` fields. This differs from the DDL1 syntax of
   `cif_core.dic` above. The T6 inventory generator handles this
   format.
-- role: input for the T6 wave (347 shell items) and the D8 wave
-  (2.0 list-value grammar for the 66 Matrix items).
+- role: input for the T6 wave and the D8 wave (the 2.0
+  list-value grammar for the Matrix items). The recorded T6 split
+  (items, the `_su` set, the implemented set) lives in the
+  `counts` object of `tests/dict_inventory_shell.json`; the
+  roadmap's T6 totals differ from the recorded counts, so the
+  recorded numbers are authoritative for the T6 gates.

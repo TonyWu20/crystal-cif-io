@@ -12,9 +12,11 @@ mod scan_width;
 mod sint_lambda;
 mod wavelength;
 
+use std::fmt::Display;
+
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
-    grammar::{CharString, Numeric, Tag, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{CharString, Matrix, Numeric, Tag, Value},
 };
 
 pub use self::detect_slit_horiz::DetectSlitHoriz;
@@ -30,6 +32,50 @@ pub use self::scan_time_backgd::ScanTimeBackgd;
 pub use self::scan_width::ScanWidth;
 pub use self::sint_lambda::SintLambda;
 pub use self::wavelength::Wavelength;
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum DiffrnReflnTerms {
+    Hkl(Matrix),
+    Id(CharString),
+    Intensity_bg_1(Numeric),
+    Intensity_bg_2(Numeric),
+    Intensity_peak(Numeric),
+    Intensity_total(Numeric),
+}
+
+impl CifTerm for DiffrnReflnTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            DiffrnReflnTerms::Hkl(_) => "hkl",
+            DiffrnReflnTerms::Id(_) => "id",
+            DiffrnReflnTerms::Intensity_bg_1(_) => "intensity_bg_1",
+            DiffrnReflnTerms::Intensity_bg_2(_) => "intensity_bg_2",
+            DiffrnReflnTerms::Intensity_peak(_) => "intensity_peak",
+            DiffrnReflnTerms::Intensity_total(_) => "intensity_total",
+        };
+        Tag::new(format!("diffrn_refln_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for DiffrnReflnTerms {
+    fn value(&self) -> Value {
+        match self {
+            DiffrnReflnTerms::Hkl(m) => matrix::to_value(m),
+            DiffrnReflnTerms::Id(s) => Value::CharString(s.clone()),
+            DiffrnReflnTerms::Intensity_bg_1(n)
+            | DiffrnReflnTerms::Intensity_bg_2(n)
+            | DiffrnReflnTerms::Intensity_peak(n)
+            | DiffrnReflnTerms::Intensity_total(n) => Value::Numeric(*n),
+        }
+    }
+}
+
+impl Display for DiffrnReflnTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
+    }
+}
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

@@ -1,4 +1,5 @@
 mod filter_edge;
+mod illumination_mode;
 mod inhomogeneity;
 mod polarisn_norm;
 mod polarisn_ratio;
@@ -13,6 +14,7 @@ use crate::{
 };
 
 pub use self::filter_edge::FilterEdge;
+pub use self::illumination_mode::IlluminationMode;
 pub use self::inhomogeneity::Inhomogeneity;
 pub use self::polarisn_norm::PolarisnNorm;
 pub use self::polarisn_ratio::PolarisnRatio;
@@ -25,6 +27,8 @@ pub enum DiffrnRadiationTerms {
     Collimation(CharString),
     /// range constraint recorded in the dictionary _enumeration
     Filter_edge(FilterEdge),
+    /// closed code set recorded in the dictionary _enumeration_set
+    Illumination_mode(IlluminationMode),
     /// range constraint recorded in the dictionary _enumeration
     Inhomogeneity(Inhomogeneity),
     Monochromator(CharString),
@@ -44,6 +48,7 @@ impl CifTerm for DiffrnRadiationTerms {
         let suffix = match self {
             DiffrnRadiationTerms::Collimation(_) => "collimation",
             DiffrnRadiationTerms::Filter_edge(_) => "filter_edge",
+            DiffrnRadiationTerms::Illumination_mode(_) => "illumination_mode",
             DiffrnRadiationTerms::Inhomogeneity(_) => "inhomogeneity",
             DiffrnRadiationTerms::Monochromator(_) => "monochromator",
             DiffrnRadiationTerms::Polarisn_norm(_) => "polarisn_norm",
@@ -63,11 +68,12 @@ impl SingleValueTerm for DiffrnRadiationTerms {
             | DiffrnRadiationTerms::Monochromator(s)
             | DiffrnRadiationTerms::Type(s) => Value::CharString(s.clone()),
             DiffrnRadiationTerms::Filter_edge(v) => Value::from(*v),
-            DiffrnRadiationTerms::Inhomogeneity(m) => Value::from(*m),
-            DiffrnRadiationTerms::Polarisn_norm(c) => Value::from(*c),
-            DiffrnRadiationTerms::Polarisn_ratio(b) => Value::from(*b),
-            DiffrnRadiationTerms::Probe(t) => Value::from(*t),
-            DiffrnRadiationTerms::Xray_symbol(u) => Value::from(*u),
+            DiffrnRadiationTerms::Illumination_mode(m) => Value::from(*m),
+            DiffrnRadiationTerms::Inhomogeneity(c) => Value::from(*c),
+            DiffrnRadiationTerms::Polarisn_norm(b) => Value::from(*b),
+            DiffrnRadiationTerms::Polarisn_ratio(t) => Value::from(*t),
+            DiffrnRadiationTerms::Probe(u) => Value::from(*u),
+            DiffrnRadiationTerms::Xray_symbol(w) => Value::from(*w),
         }
     }
 }

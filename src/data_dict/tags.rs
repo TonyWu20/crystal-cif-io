@@ -13,7 +13,49 @@
 
 /// `atom_site` category tags (54).
 
-/// `atom_site` category tags (54).
+/// `atom_analytical` category tags (6).
+pub mod atom_analytical {
+    pub const TAGS: &[&str] = &[
+        "atom_analytical_analyte",
+        "atom_analytical_analyte_mass_percent",
+        "atom_analytical_chemical_species",
+        "atom_analytical_chemical_species_mass_percent",
+        "atom_analytical_id",
+        "atom_analytical_meas_id",
+    ];
+}
+
+/// `atom_analytical_mass_loss` category tags (5).
+pub mod atom_analytical_mass_loss {
+    pub const TAGS: &[&str] = &[
+        "atom_analytical_mass_loss_id",
+        "atom_analytical_mass_loss_meas_id",
+        "atom_analytical_mass_loss_percent",
+        "atom_analytical_mass_loss_special_details",
+        "atom_analytical_mass_loss_temperature",
+    ];
+}
+
+/// `atom_analytical_source` category tags (4).
+pub mod atom_analytical_source {
+    pub const TAGS: &[&str] = &[
+        "atom_analytical_source_equipment_make",
+        "atom_analytical_source_id",
+        "atom_analytical_source_special_details",
+        "atom_analytical_source_technique",
+    ];
+}
+
+/// `atom_scat_versus_stol` category tags (3).
+pub mod atom_scat_versus_stol {
+    pub const TAGS: &[&str] = &[
+        "atom_scat_versus_stol_atom_type",
+        "atom_scat_versus_stol_scat_value",
+        "atom_scat_versus_stol_stol_value",
+    ];
+}
+
+/// `atom_site` category tags (57).
 pub mod atom_site {
     pub const TAGS: &[&str] = &[
         "atom_site_adp_type",
@@ -23,21 +65,22 @@ pub mod atom_site {
         "atom_site_aniso_B_22",
         "atom_site_aniso_B_23",
         "atom_site_aniso_B_33",
-        "atom_site_aniso_label",
-        "atom_site_aniso_ratio",
-        "atom_site_aniso_type_symbol",
         "atom_site_aniso_U_11",
         "atom_site_aniso_U_12",
         "atom_site_aniso_U_13",
         "atom_site_aniso_U_22",
         "atom_site_aniso_U_23",
         "atom_site_aniso_U_33",
+        "atom_site_aniso_label",
+        "atom_site_aniso_ratio",
+        "atom_site_aniso_type_symbol",
         "atom_site_attached_hydrogens",
         "atom_site_b_equiv_geom_mean",
         "atom_site_b_iso_or_equiv",
         "atom_site_calc_attached_atom",
         "atom_site_calc_flag",
         "atom_site_cartn_x",
+        "atom_site_cartn_xyz",
         "atom_site_cartn_y",
         "atom_site_cartn_z",
         "atom_site_chemical_conn_number",
@@ -45,7 +88,9 @@ pub mod atom_site {
         "atom_site_description",
         "atom_site_disorder_assembly",
         "atom_site_disorder_group",
+        "atom_site_fract_symmform",
         "atom_site_fract_x",
+        "atom_site_fract_xyz",
         "atom_site_fract_y",
         "atom_site_fract_z",
         "atom_site_label",
@@ -70,6 +115,22 @@ pub mod atom_site {
         "atom_site_u_equiv_geom_mean",
         "atom_site_u_iso_or_equiv",
         "atom_site_wyckoff_symbol",
+    ];
+}
+
+/// `atom_site_aniso` category tags (10).
+pub mod atom_site_aniso {
+    pub const TAGS: &[&str] = &[
+        "atom_site.tensor_beta",
+        "atom_site_aniso_beta_11",
+        "atom_site_aniso_beta_12",
+        "atom_site_aniso_beta_13",
+        "atom_site_aniso_beta_22",
+        "atom_site_aniso_beta_23",
+        "atom_site_aniso_beta_33",
+        "atom_site_aniso_matrix_b",
+        "atom_site_aniso_matrix_u",
+        "atom_site_aniso_symmform",
     ];
 }
 
@@ -108,11 +169,34 @@ pub mod atom_sites {
     ];
 }
 
-/// `atom_type` category tags (22).
+/// `atom_sites_cartn_transform` category tags (2).
+pub mod atom_sites_cartn_transform {
+    pub const TAGS: &[&str] = &[
+        "atom_sites_cartn_transform_matrix",
+        "atom_sites_cartn_transform_vector",
+    ];
+}
+
+/// `atom_sites_fract_transform` category tags (3).
+pub mod atom_sites_fract_transform {
+    pub const TAGS: &[&str] = &[
+        "atom_sites_fract_transform_axes",
+        "atom_sites_fract_transform_matrix",
+        "atom_sites_fract_transform_vector",
+    ];
+}
+
+/// `atom_type` category tags (28).
 pub mod atom_type {
     pub const TAGS: &[&str] = &[
         "atom_type_analytical_mass_%",
+        "atom_type_atomic_mass",
+        "atom_type_atomic_number",
         "atom_type_description",
+        "atom_type_display_colour",
+        "atom_type_electron_count",
+        "atom_type_element_symbol",
+        "atom_type_mass_number",
         "atom_type_number_in_cell",
         "atom_type_oxidation_number",
         "atom_type_radius_bond",
@@ -136,37 +220,91 @@ pub mod atom_type {
     ];
 }
 
-/// `audit` category tags (5).
+/// `atom_type_scat` category tags (26).
+pub mod atom_type_scat {
+    pub const TAGS: &[&str] = &[
+        "atom_type_scat_cromer_mann_as",
+        "atom_type_scat_cromer_mann_bs",
+        "atom_type_scat_dispersion",
+        "atom_type_scat_dispersion_imag_cu",
+        "atom_type_scat_dispersion_imag_mo",
+        "atom_type_scat_dispersion_real_cu",
+        "atom_type_scat_dispersion_real_mo",
+        "atom_type_scat_exponential_polynomial_coefs",
+        "atom_type_scat_exponential_polynomial_lower_limit",
+        "atom_type_scat_exponential_polynomial_upper_limit",
+        "atom_type_scat_gaussian_as",
+        "atom_type_scat_gaussian_bs",
+        "atom_type_scat_gaussian_c",
+        "atom_type_scat_gaussian_lower_limit",
+        "atom_type_scat_gaussian_upper_limit",
+        "atom_type_scat_hi_ang_fox_c0",
+        "atom_type_scat_hi_ang_fox_c1",
+        "atom_type_scat_hi_ang_fox_c2",
+        "atom_type_scat_hi_ang_fox_c3",
+        "atom_type_scat_hi_ang_fox_coefs",
+        "atom_type_scat_inv_mott_bethe_as",
+        "atom_type_scat_inv_mott_bethe_bs",
+        "atom_type_scat_inv_mott_bethe_c",
+        "atom_type_scat_inv_mott_bethe_lower_limit",
+        "atom_type_scat_inv_mott_bethe_upper_limit",
+        "atom_type_scat_symbol",
+    ];
+}
+
+/// `audit` category tags (6).
 pub mod audit {
     pub const TAGS: &[&str] = &[
         "audit_block_code",
         "audit_block_doi",
         "audit_creation_date",
         "audit_creation_method",
+        "audit_schema",
         "audit_update_record",
     ];
 }
 
-/// `audit_author` category tags (2).
+/// `audit_author` category tags (7).
 pub mod audit_author {
-    pub const TAGS: &[&str] = &["audit_author_address", "audit_author_name"];
+    pub const TAGS: &[&str] = &[
+        "audit_author_address",
+        "audit_author_email",
+        "audit_author_fax",
+        "audit_author_id",
+        "audit_author_id_orcid",
+        "audit_author_name",
+        "audit_author_phone",
+    ];
 }
 
-/// `audit_conform` category tags (3).
+/// `audit_author_role` category tags (3).
+pub mod audit_author_role {
+    pub const TAGS: &[&str] = &[
+        "audit_author_role_id",
+        "audit_author_role_role",
+        "audit_author_role_special_details",
+    ];
+}
+
+/// `audit_conform` category tags (4).
 pub mod audit_conform {
     pub const TAGS: &[&str] = &[
+        "audit_conform_dict_doi",
         "audit_conform_dict_location",
         "audit_conform_dict_name",
         "audit_conform_dict_version",
     ];
 }
 
-/// `audit_contact_author` category tags (5).
+/// `audit_contact_author` category tags (8).
 pub mod audit_contact_author {
     pub const TAGS: &[&str] = &[
         "audit_contact_author_address",
         "audit_contact_author_email",
         "audit_contact_author_fax",
+        "audit_contact_author_id",
+        "audit_contact_author_id_iucr",
+        "audit_contact_author_id_orcid",
         "audit_contact_author_name",
         "audit_contact_author_phone",
     ];
@@ -177,13 +315,33 @@ pub mod audit_link {
     pub const TAGS: &[&str] = &["audit_link_block_code", "audit_link_block_description"];
 }
 
-/// `cell` category tags (22).
+/// `audit_support` category tags (8).
+pub mod audit_support {
+    pub const TAGS: &[&str] = &[
+        "audit_support_award_number",
+        "audit_support_award_recipient",
+        "audit_support_award_type",
+        "audit_support_funding_organization",
+        "audit_support_funding_organization_doi",
+        "audit_support_funding_organization_url",
+        "audit_support_id",
+        "audit_support_special_details",
+    ];
+}
+
+/// `cell` category tags (38).
 pub mod cell {
     pub const TAGS: &[&str] = &[
         "cell_angle_alpha",
         "cell_angle_beta",
         "cell_angle_gamma",
+        "cell_atomic_mass",
+        "cell_convert_uij_to_betaij",
+        "cell_convert_uiso_to_uij",
         "cell_formula_units_z",
+        "cell_formula_units_z_details",
+        "cell_formula_units_z_prime",
+        "cell_formula_units_z_prime_details",
         "cell_length_a",
         "cell_length_b",
         "cell_length_c",
@@ -194,20 +352,31 @@ pub mod cell {
         "cell_measurement_theta_max",
         "cell_measurement_theta_min",
         "cell_measurement_wavelength",
+        "cell_metric_tensor",
+        "cell_orthogonal_matrix",
         "cell_reciprocal_angle_alpha",
         "cell_reciprocal_angle_beta",
         "cell_reciprocal_angle_gamma",
         "cell_reciprocal_length_a",
         "cell_reciprocal_length_b",
         "cell_reciprocal_length_c",
+        "cell_reciprocal_metric_tensor",
+        "cell_reciprocal_orthogonal_matrix",
+        "cell_reciprocal_vector_a",
+        "cell_reciprocal_vector_b",
+        "cell_reciprocal_vector_c",
         "cell_special_details",
+        "cell_vector_a",
+        "cell_vector_b",
+        "cell_vector_c",
         "cell_volume",
     ];
 }
 
-/// `cell_measurement_refln` category tags (4).
+/// `cell_measurement_refln` category tags (5).
 pub mod cell_measurement_refln {
     pub const TAGS: &[&str] = &[
+        "cell_measurement_refln_hkl",
         "cell_measurement_refln_index_h",
         "cell_measurement_refln_index_k",
         "cell_measurement_refln_index_l",
@@ -259,11 +428,13 @@ pub mod chemical_conn_atom {
     ];
 }
 
-/// `chemical_conn_bond` category tags (3).
+/// `chemical_conn_bond` category tags (5).
 pub mod chemical_conn_bond {
     pub const TAGS: &[&str] = &[
+        "chem_comp_bond.value_dist",
         "chemical_conn_bond_atom_1",
         "chemical_conn_bond_atom_2",
+        "chemical_conn_bond_id",
         "chemical_conn_bond_type",
     ];
 }
@@ -281,7 +452,7 @@ pub mod chemical_formula {
     ];
 }
 
-/// `citation` category tags (26).
+/// `citation` category tags (27).
 pub mod citation {
     pub const TAGS: &[&str] = &[
         "citation_abstract",
@@ -309,6 +480,7 @@ pub mod citation {
         "citation_publisher",
         "citation_special_details",
         "citation_title",
+        "citation_url",
         "citation_year",
     ];
 }
@@ -322,16 +494,17 @@ pub mod citation_author {
     ];
 }
 
-/// `citation_editor` category tags (3).
+/// `citation_editor` category tags (4).
 pub mod citation_editor {
     pub const TAGS: &[&str] = &[
+        "citation_editor",
         "citation_editor_citation_id",
         "citation_editor_name",
         "citation_editor_ordinal",
     ];
 }
 
-/// `computing` category tags (7).
+/// `computing` category tags (8).
 pub mod computing {
     pub const TAGS: &[&str] = &[
         "computing_cell_refinement",
@@ -339,6 +512,7 @@ pub mod computing {
         "computing_data_reduction",
         "computing_molecular_graphics",
         "computing_publication_material",
+        "computing_sample_tracking",
         "computing_structure_refinement",
         "computing_structure_solution",
     ];
@@ -365,21 +539,45 @@ pub mod database {
     ];
 }
 
-/// `diffrn` category tags (12).
+/// `database_code` category tags (2).
+pub mod database_code {
+    pub const TAGS: &[&str] = &["database_code_amcsd", "database_code_bincstrdb"];
+}
+
+/// `database_related` category tags (5).
+pub mod database_related {
+    pub const TAGS: &[&str] = &[
+        "database_related_database_id",
+        "database_related_entry_code",
+        "database_related_id",
+        "database_related_relation",
+        "database_related_special_details",
+    ];
+}
+
+/// `diffrn` category tags (20).
 pub mod diffrn {
     pub const TAGS: &[&str] = &[
         "diffrn_ambient_environment",
         "diffrn_ambient_pressure",
         "diffrn_ambient_pressure_gt",
         "diffrn_ambient_pressure_lt",
+        "diffrn_ambient_temp_details",
+        "diffrn_ambient_temp_gt",
+        "diffrn_ambient_temp_lt",
         "diffrn_ambient_temperature",
         "diffrn_ambient_temperature_gt",
         "diffrn_ambient_temperature_lt",
+        "diffrn_crystal_support",
         "diffrn_crystal_treatment",
+        "diffrn_flux_density",
         "diffrn_measured_fraction_theta_full",
         "diffrn_measured_fraction_theta_max",
+        "diffrn_precession_semi_angle",
         "diffrn_special_details",
         "diffrn_symmetry_description",
+        "diffrn_total_dose",
+        "diffrn_total_exposure_time",
     ];
 }
 
@@ -389,6 +587,15 @@ pub mod diffrn_attenuator {
         "diffrn_attenuator_code",
         "diffrn_attenuator_material",
         "diffrn_attenuator_scale",
+    ];
+}
+
+/// `diffrn_component_pid` category tags (3).
+pub mod diffrn_component_pid {
+    pub const TAGS: &[&str] = &[
+        "diffrn_component_pid_details",
+        "diffrn_component_pid_framework",
+        "diffrn_component_pid_pid",
     ];
 }
 
@@ -405,7 +612,7 @@ pub mod diffrn_detector {
     ];
 }
 
-/// `diffrn_measurement` category tags (6).
+/// `diffrn_measurement` category tags (11).
 pub mod diffrn_measurement {
     pub const TAGS: &[&str] = &[
         "diffrn_measurement_details",
@@ -413,11 +620,16 @@ pub mod diffrn_measurement {
         "diffrn_measurement_device_details",
         "diffrn_measurement_device_type",
         "diffrn_measurement_method",
+        "diffrn_measurement_method_precession",
+        "diffrn_measurement_rotation_mode",
+        "diffrn_measurement_sample_tracking",
+        "diffrn_measurement_sample_tracking_method",
+        "diffrn_measurement_specimen_attachment_type",
         "diffrn_measurement_specimen_support",
     ];
 }
 
-/// `diffrn_orient_matrix` category tags (10).
+/// `diffrn_orient_matrix` category tags (11).
 pub mod diffrn_orient_matrix {
     pub const TAGS: &[&str] = &[
         "diffrn_orient_matrix_type",
@@ -430,10 +642,11 @@ pub mod diffrn_orient_matrix {
         "diffrn_orient_matrix_ub_31",
         "diffrn_orient_matrix_ub_32",
         "diffrn_orient_matrix_ub_33",
+        "diffrn_orient_matrix_ubij",
     ];
 }
 
-/// `diffrn_orient_refln` category tags (9).
+/// `diffrn_orient_refln` category tags (10).
 pub mod diffrn_orient_refln {
     pub const TAGS: &[&str] = &[
         "diffrn_orient_refln_angle_chi",
@@ -442,17 +655,19 @@ pub mod diffrn_orient_refln {
         "diffrn_orient_refln_angle_phi",
         "diffrn_orient_refln_angle_psi",
         "diffrn_orient_refln_angle_theta",
+        "diffrn_orient_refln_hkl",
         "diffrn_orient_refln_index_h",
         "diffrn_orient_refln_index_k",
         "diffrn_orient_refln_index_l",
     ];
 }
 
-/// `diffrn_radiation` category tags (9).
+/// `diffrn_radiation` category tags (10).
 pub mod diffrn_radiation {
     pub const TAGS: &[&str] = &[
         "diffrn_radiation_collimation",
         "diffrn_radiation_filter_edge",
+        "diffrn_radiation_illumination_mode",
         "diffrn_radiation_inhomogeneity",
         "diffrn_radiation_monochromator",
         "diffrn_radiation_polarisn_norm",
@@ -463,18 +678,20 @@ pub mod diffrn_radiation {
     ];
 }
 
-/// `diffrn_radiation_wavelength` category tags (5).
+/// `diffrn_radiation_wavelength` category tags (7).
 pub mod diffrn_radiation_wavelength {
     pub const TAGS: &[&str] = &[
         "diffrn_radiation_wavelength",
         "diffrn_radiation_wavelength_details",
         "diffrn_radiation_wavelength_determination",
         "diffrn_radiation_wavelength_id",
+        "diffrn_radiation_wavelength_type",
         "diffrn_radiation_wavelength_wt",
+        "diffrn_radiation_wavelength_xray_symbol",
     ];
 }
 
-/// `diffrn_refln` category tags (33).
+/// `diffrn_refln` category tags (39).
 pub mod diffrn_refln {
     pub const TAGS: &[&str] = &[
         "diffrn_refln_angle_chi",
@@ -494,11 +711,17 @@ pub mod diffrn_refln {
         "diffrn_refln_detect_slit_horiz",
         "diffrn_refln_detect_slit_vert",
         "diffrn_refln_elapsed_time",
+        "diffrn_refln_hkl",
+        "diffrn_refln_id",
         "diffrn_refln_index_h",
         "diffrn_refln_index_k",
         "diffrn_refln_index_l",
+        "diffrn_refln_intensity_bg_1",
+        "diffrn_refln_intensity_bg_2",
         "diffrn_refln_intensity_net",
+        "diffrn_refln_intensity_peak",
         "diffrn_refln_intensity_sigma",
+        "diffrn_refln_intensity_total",
         "diffrn_refln_intensity_u",
         "diffrn_refln_scale_group_code",
         "diffrn_refln_scan_mode",
@@ -513,7 +736,7 @@ pub mod diffrn_refln {
     ];
 }
 
-/// `diffrn_reflns` category tags (29).
+/// `diffrn_reflns` category tags (33).
 pub mod diffrn_reflns {
     pub const TAGS: &[&str] = &[
         "diffrn_reflns_av_r_equivalents",
@@ -527,9 +750,13 @@ pub mod diffrn_reflns {
         "diffrn_reflns_limit_k_min",
         "diffrn_reflns_limit_l_max",
         "diffrn_reflns_limit_l_min",
+        "diffrn_reflns_limit_max",
+        "diffrn_reflns_limit_min",
         "diffrn_reflns_number",
         "diffrn_reflns_point_group_measured_fraction_full",
         "diffrn_reflns_point_group_measured_fraction_max",
+        "diffrn_reflns_point_measured_fraction_full",
+        "diffrn_reflns_point_measured_fraction_max",
         "diffrn_reflns_reduction_process",
         "diffrn_reflns_resolution_full",
         "diffrn_reflns_resolution_max",
@@ -548,12 +775,13 @@ pub mod diffrn_reflns {
     ];
 }
 
-/// `diffrn_reflns_class` category tags (8).
+/// `diffrn_reflns_class` category tags (9).
 pub mod diffrn_reflns_class {
     pub const TAGS: &[&str] = &[
         "diffrn_reflns_class_av_r_eq",
         "diffrn_reflns_class_av_sgi/i",
         "diffrn_reflns_class_av_ui/i",
+        "diffrn_reflns_class_av_ui_over_i",
         "diffrn_reflns_class_code",
         "diffrn_reflns_class_d_res_high",
         "diffrn_reflns_class_d_res_low",
@@ -562,18 +790,29 @@ pub mod diffrn_reflns_class {
     ];
 }
 
+/// `diffrn_reflns_transf_matrix` category tags (1).
+pub mod diffrn_reflns_transf_matrix {
+    pub const TAGS: &[&str] = &["diffrn_reflns_transf_matrix_tij"];
+}
+
 /// `diffrn_scale_group` category tags (2).
 pub mod diffrn_scale_group {
     pub const TAGS: &[&str] = &["diffrn_scale_group_code", "diffrn_scale_group_i_net"];
 }
 
-/// `diffrn_source` category tags (10).
+/// `diffrn_source` category tags (16).
 pub mod diffrn_source {
     pub const TAGS: &[&str] = &[
         "diffrn_radiation_source",
         "diffrn_source",
+        "diffrn_source_beamline",
+        "diffrn_source_convergence_angle",
         "diffrn_source_current",
         "diffrn_source_details",
+        "diffrn_source_device",
+        "diffrn_source_ed_diffracting_area_selection",
+        "diffrn_source_facility",
+        "diffrn_source_make",
         "diffrn_source_power",
         "diffrn_source_size",
         "diffrn_source_take-off_angle",
@@ -583,10 +822,11 @@ pub mod diffrn_source {
     ];
 }
 
-/// `diffrn_standard_refln` category tags (4).
+/// `diffrn_standard_refln` category tags (5).
 pub mod diffrn_standard_refln {
     pub const TAGS: &[&str] = &[
         "diffrn_standard_refln_code",
+        "diffrn_standard_refln_hkl",
         "diffrn_standard_refln_index_h",
         "diffrn_standard_refln_index_k",
         "diffrn_standard_refln_index_l",
@@ -605,7 +845,18 @@ pub mod diffrn_standards {
     ];
 }
 
-/// `exptl` category tags (9).
+/// `display_colour` category tags (5).
+pub mod display_colour {
+    pub const TAGS: &[&str] = &[
+        "display_colour_blue",
+        "display_colour_green",
+        "display_colour_hue",
+        "display_colour_red",
+        "display_colour_rgb",
+    ];
+}
+
+/// `exptl` category tags (12).
 pub mod exptl {
     pub const TAGS: &[&str] = &[
         "exptl_absorpt_coefficient_mu",
@@ -614,13 +865,21 @@ pub mod exptl {
         "exptl_absorpt_correction_type",
         "exptl_absorpt_process_details",
         "exptl_crystals_number",
+        "exptl_method",
+        "exptl_method_details",
+        "exptl_method_id_panet",
         "exptl_special_details",
         "exptl_transmission_factor_max",
         "exptl_transmission_factor_min",
     ];
 }
 
-/// `exptl_crystal` category tags (24).
+/// `exptl_absorpt` category tags (1).
+pub mod exptl_absorpt {
+    pub const TAGS: &[&str] = &["exptl_absorpt_special_details"];
+}
+
+/// `exptl_crystal` category tags (27).
 pub mod exptl_crystal {
     pub const TAGS: &[&str] = &[
         "exptl_crystal_F_000",
@@ -638,6 +897,9 @@ pub mod exptl_crystal {
         "exptl_crystal_density_method",
         "exptl_crystal_description",
         "exptl_crystal_id",
+        "exptl_crystal_mosaic_block_size",
+        "exptl_crystal_mosaic_method",
+        "exptl_crystal_mosaicity",
         "exptl_crystal_preparation",
         "exptl_crystal_pressure_history",
         "exptl_crystal_recrystallization_method",
@@ -650,13 +912,14 @@ pub mod exptl_crystal {
     ];
 }
 
-/// `exptl_crystal_face` category tags (8).
+/// `exptl_crystal_face` category tags (9).
 pub mod exptl_crystal_face {
     pub const TAGS: &[&str] = &[
         "exptl_crystal_face_diffr_chi",
         "exptl_crystal_face_diffr_kappa",
         "exptl_crystal_face_diffr_phi",
         "exptl_crystal_face_diffr_psi",
+        "exptl_crystal_face_hkl",
         "exptl_crystal_face_index_h",
         "exptl_crystal_face_index_k",
         "exptl_crystal_face_index_l",
@@ -664,18 +927,39 @@ pub mod exptl_crystal_face {
     ];
 }
 
-/// `geom` category tags (1).
-pub mod geom {
-    pub const TAGS: &[&str] = &["geom_special_details"];
+/// `function` category tags (7).
+pub mod function {
+    pub const TAGS: &[&str] = &[
+        "function_atomtype",
+        "function_closest",
+        "function_seitzfromjones",
+        "function_symequiv",
+        "function_symkey",
+        "function_symlat",
+        "function_symop",
+    ];
 }
 
-/// `geom_angle` category tags (8).
+/// `geom` category tags (5).
+pub mod geom {
+    pub const TAGS: &[&str] = &[
+        "geom_bond_distance_incr",
+        "geom_contact_distance_incr",
+        "geom_min_bond_distance_cutoff",
+        "geom_min_contact_distance_cutoff",
+        "geom_special_details",
+    ];
+}
+
+/// `geom_angle` category tags (10).
 pub mod geom_angle {
     pub const TAGS: &[&str] = &[
         "geom_angle",
         "geom_angle_atom_site_label_1",
         "geom_angle_atom_site_label_2",
         "geom_angle_atom_site_label_3",
+        "geom_angle_distances",
+        "geom_angle_id",
         "geom_angle_publ_flag",
         "geom_angle_site_symmetry_1",
         "geom_angle_site_symmetry_2",
@@ -683,12 +967,13 @@ pub mod geom_angle {
     ];
 }
 
-/// `geom_bond` category tags (8).
+/// `geom_bond` category tags (9).
 pub mod geom_bond {
     pub const TAGS: &[&str] = &[
         "geom_bond_atom_site_label_1",
         "geom_bond_atom_site_label_2",
         "geom_bond_distance",
+        "geom_bond_id",
         "geom_bond_multiplicity",
         "geom_bond_publ_flag",
         "geom_bond_site_symmetry_1",
@@ -697,19 +982,20 @@ pub mod geom_bond {
     ];
 }
 
-/// `geom_contact` category tags (6).
+/// `geom_contact` category tags (7).
 pub mod geom_contact {
     pub const TAGS: &[&str] = &[
         "geom_contact_atom_site_label_1",
         "geom_contact_atom_site_label_2",
         "geom_contact_distance",
+        "geom_contact_id",
         "geom_contact_publ_flag",
         "geom_contact_site_symmetry_1",
         "geom_contact_site_symmetry_2",
     ];
 }
 
-/// `geom_hbond` category tags (11).
+/// `geom_hbond` category tags (12).
 pub mod geom_hbond {
     pub const TAGS: &[&str] = &[
         "geom_hbond_angle_DHA",
@@ -719,6 +1005,7 @@ pub mod geom_hbond {
         "geom_hbond_distance_DA",
         "geom_hbond_distance_DH",
         "geom_hbond_distance_HA",
+        "geom_hbond_id",
         "geom_hbond_publ_flag",
         "geom_hbond_site_symmetry_A",
         "geom_hbond_site_symmetry_D",
@@ -726,7 +1013,7 @@ pub mod geom_hbond {
     ];
 }
 
-/// `geom_torsion` category tags (10).
+/// `geom_torsion` category tags (12).
 pub mod geom_torsion {
     pub const TAGS: &[&str] = &[
         "geom_torsion",
@@ -734,6 +1021,8 @@ pub mod geom_torsion {
         "geom_torsion_atom_site_label_2",
         "geom_torsion_atom_site_label_3",
         "geom_torsion_atom_site_label_4",
+        "geom_torsion_distances",
+        "geom_torsion_id",
         "geom_torsion_publ_flag",
         "geom_torsion_site_symmetry_1",
         "geom_torsion_site_symmetry_2",
@@ -742,9 +1031,10 @@ pub mod geom_torsion {
     ];
 }
 
-/// `journal` category tags (38).
+/// `journal` category tags (42).
 pub mod journal {
     pub const TAGS: &[&str] = &[
+        "journal.data_validation_number",
         "journal_coden_astm",
         "journal_coden_cambridge",
         "journal_coeditor_address",
@@ -772,6 +1062,9 @@ pub mod journal {
         "journal_page_last",
         "journal_paper_category",
         "journal_paper_doi",
+        "journal_paper_number",
+        "journal_paper_pages",
+        "journal_paper_url",
         "journal_suppl_publ_number",
         "journal_suppl_publ_pages",
         "journal_techeditor_address",
@@ -786,12 +1079,33 @@ pub mod journal {
     ];
 }
 
-/// `journal_index` category tags (3).
+/// `journal_index` category tags (4).
 pub mod journal_index {
     pub const TAGS: &[&str] = &[
+        "journal_index_id",
         "journal_index_subterm",
         "journal_index_term",
         "journal_index_type",
+    ];
+}
+
+/// `model_site` category tags (14).
+pub mod model_site {
+    pub const TAGS: &[&str] = &[
+        "model_site_adp_eigenvalues",
+        "model_site_adp_eigenvectors",
+        "model_site_adp_matrix_beta",
+        "model_site_cartn_xyz",
+        "model_site_display_colour",
+        "model_site_fract_xyz",
+        "model_site_id",
+        "model_site_index",
+        "model_site_label",
+        "model_site_mole_index",
+        "model_site_radius_bond",
+        "model_site_radius_contact",
+        "model_site_symop",
+        "model_site_type_symbol",
     ];
 }
 
@@ -833,15 +1147,18 @@ pub mod publ {
     ];
 }
 
-/// `publ_author` category tags (6).
+/// `publ_author` category tags (9).
 pub mod publ_author {
     pub const TAGS: &[&str] = &[
         "publ_author_address",
         "publ_author_email",
         "publ_author_footnote",
+        "publ_author_id",
+        "publ_author_id_audit",
         "publ_author_id_iucr",
         "publ_author_id_orcid",
         "publ_author_name",
+        "publ_author_phone",
     ];
 }
 
@@ -856,6 +1173,11 @@ pub mod publ_body {
     ];
 }
 
+/// `publ_contact_author` category tags (1).
+pub mod publ_contact_author {
+    pub const TAGS: &[&str] = &["publ_contact_author_id"];
+}
+
 /// `publ_manuscript_incl` category tags (3).
 pub mod publ_manuscript_incl {
     pub const TAGS: &[&str] = &[
@@ -865,12 +1187,14 @@ pub mod publ_manuscript_incl {
     ];
 }
 
-/// `refine` category tags (46).
+/// `refine` category tags (48).
 pub mod refine {
     pub const TAGS: &[&str] = &[
         "refine_diff_density_max",
         "refine_diff_density_min",
         "refine_diff_density_rms",
+        "refine_diffraction_theory",
+        "refine_diffraction_theory_details",
         "refine_ls_F_calc_details",
         "refine_ls_F_calc_formula",
         "refine_ls_F_calc_precision",
@@ -917,6 +1241,28 @@ pub mod refine {
     ];
 }
 
+/// `refine_diff` category tags (3).
+pub mod refine_diff {
+    pub const TAGS: &[&str] = &[
+        "refine_diff_potential_max",
+        "refine_diff_potential_min",
+        "refine_diff_potential_rms",
+    ];
+}
+
+/// `refine_ls` category tags (7).
+pub mod refine_ls {
+    pub const TAGS: &[&str] = &[
+        "refine_ls_abs_structure_z_score",
+        "refine_ls_number_reflns_gt",
+        "refine_ls_sample_shape_details",
+        "refine_ls_sample_shape_expression",
+        "refine_ls_sample_thickness",
+        "refine_ls_shift_over_su_max",
+        "refine_ls_shift_over_su_mean",
+    ];
+}
+
 /// `refine_ls_class` category tags (8).
 pub mod refine_ls_class {
     pub const TAGS: &[&str] = &[
@@ -931,7 +1277,7 @@ pub mod refine_ls_class {
     ];
 }
 
-/// `refln` category tags (31).
+/// `refln` category tags (37).
 pub mod refln {
     pub const TAGS: &[&str] = &[
         "refln_A_calc",
@@ -939,14 +1285,20 @@ pub mod refln {
         "refln_B_calc",
         "refln_B_meas",
         "refln_F_calc",
+        "refln_F_complex",
         "refln_F_meas",
         "refln_F_sigma",
         "refln_F_squared_calc",
         "refln_F_squared_meas",
         "refln_F_squared_sigma",
+        "refln_Lp_factor",
         "refln_class_code",
         "refln_crystal_id",
         "refln_d_spacing",
+        "refln_fom",
+        "refln_form_factor_table",
+        "refln_hkl",
+        "refln_id",
         "refln_include_status",
         "refln_index_h",
         "refln_index_k",
@@ -968,12 +1320,13 @@ pub mod refln {
     ];
 }
 
-/// `reflns` category tags (17).
+/// `reflns` category tags (20).
 pub mod reflns {
     pub const TAGS: &[&str] = &[
         "reflns_Friedel_coverage",
         "reflns_Friedel_fraction_full",
         "reflns_Friedel_fraction_max",
+        "reflns_apply_dispersion_to_fcalc",
         "reflns_d_resolution_high",
         "reflns_d_resolution_low",
         "reflns_limit_h_max",
@@ -982,6 +1335,8 @@ pub mod reflns {
         "reflns_limit_k_min",
         "reflns_limit_l_max",
         "reflns_limit_l_min",
+        "reflns_limit_max",
+        "reflns_limit_min",
         "reflns_number_gt",
         "reflns_number_observed",
         "reflns_number_total",
@@ -991,7 +1346,7 @@ pub mod reflns {
     ];
 }
 
-/// `reflns_class` category tags (11).
+/// `reflns_class` category tags (12).
 pub mod reflns_class {
     pub const TAGS: &[&str] = &[
         "reflns_class_R_Fsqd_factor",
@@ -1003,6 +1358,7 @@ pub mod reflns_class {
         "reflns_class_d_res_low",
         "reflns_class_description",
         "reflns_class_number_gt",
+        "reflns_class_number_observed",
         "reflns_class_number_total",
         "reflns_class_wR_factor_all",
     ];
@@ -1018,7 +1374,7 @@ pub mod reflns_scale {
     ];
 }
 
-/// `reflns_shell` category tags (23).
+/// `reflns_shell` category tags (24).
 pub mod reflns_shell {
     pub const TAGS: &[&str] = &[
         "reflns_shell_Rmerge_F_all",
@@ -1028,6 +1384,7 @@ pub mod reflns_shell {
         "reflns_shell_Rmerge_I_gt",
         "reflns_shell_Rmerge_I_obs",
         "reflns_shell_d_res_high",
+        "reflns_shell_d_res_limits",
         "reflns_shell_d_res_low",
         "reflns_shell_meanI_over_sigI_all",
         "reflns_shell_meanI_over_sigI_gt",
@@ -1047,23 +1404,58 @@ pub mod reflns_shell {
     ];
 }
 
-/// `space_group` category tags (5).
+/// `space_group` category tags (19).
 pub mod space_group {
     pub const TAGS: &[&str] = &[
+        "space_group_IT_number",
+        "space_group_bravais_type",
+        "space_group_centring_type",
         "space_group_crystal_system",
         "space_group_id",
-        "space_group_IT_number",
+        "space_group_it_coordinate_system_code",
+        "space_group_laue_class",
+        "space_group_multiplicity",
         "space_group_name_H-M_alt",
         "space_group_name_Hall",
+        "space_group_name_h_m_alt_description",
+        "space_group_name_h_m_ref",
+        "space_group_name_schoenflies",
+        "space_group_patterson_name_h_m",
+        "space_group_point_group_h_m",
+        "space_group_reference_setting",
+        "space_group_transform_pp_abc",
+        "space_group_transform_qq_xyz",
+        "symmetry.space_group_name_h-m",
     ];
 }
 
-/// `space_group_symop` category tags (3).
+/// `space_group_generator` category tags (2).
+pub mod space_group_generator {
+    pub const TAGS: &[&str] = &["space_group_generator_id", "space_group_generator_xyz"];
+}
+
+/// `space_group_symop` category tags (8).
 pub mod space_group_symop {
     pub const TAGS: &[&str] = &[
         "space_group_symop_id",
+        "space_group_symop_operation_description",
         "space_group_symop_operation_xyz",
+        "space_group_symop_r",
+        "space_group_symop_rt",
+        "space_group_symop_seitz_matrix",
         "space_group_symop_sg_id",
+        "space_group_symop_t",
+    ];
+}
+
+/// `space_group_wyckoff` category tags (5).
+pub mod space_group_wyckoff {
+    pub const TAGS: &[&str] = &[
+        "space_group_wyckoff_coords_xyz",
+        "space_group_wyckoff_id",
+        "space_group_wyckoff_letter",
+        "space_group_wyckoff_multiplicity",
+        "space_group_wyckoff_site_symmetry",
     ];
 }
 
@@ -1082,7 +1474,7 @@ pub mod symmetry_equiv {
     pub const TAGS: &[&str] = &["symmetry_equiv_pos_as_xyz", "symmetry_equiv_pos_site_id"];
 }
 
-/// `valence_param` category tags (9).
+/// `valence_param` category tags (10).
 pub mod valence_param {
     pub const TAGS: &[&str] = &[
         "valence_param_B",
@@ -1091,6 +1483,7 @@ pub mod valence_param {
         "valence_param_atom_1_valence",
         "valence_param_atom_2",
         "valence_param_atom_2_valence",
+        "valence_param_citation_id",
         "valence_param_details",
         "valence_param_id",
         "valence_param_ref_id",
@@ -1104,6 +1497,28 @@ pub mod valence_ref {
 
 /// All implemented tags, one entry per `CifTerm` tag string.
 pub const ALL: &[&str] = &[
+    // atom_analytical
+    "atom_analytical_analyte",
+    "atom_analytical_analyte_mass_percent",
+    "atom_analytical_chemical_species",
+    "atom_analytical_chemical_species_mass_percent",
+    "atom_analytical_id",
+    "atom_analytical_meas_id",
+    // atom_analytical_mass_loss
+    "atom_analytical_mass_loss_id",
+    "atom_analytical_mass_loss_meas_id",
+    "atom_analytical_mass_loss_percent",
+    "atom_analytical_mass_loss_special_details",
+    "atom_analytical_mass_loss_temperature",
+    // atom_analytical_source
+    "atom_analytical_source_equipment_make",
+    "atom_analytical_source_id",
+    "atom_analytical_source_special_details",
+    "atom_analytical_source_technique",
+    // atom_scat_versus_stol
+    "atom_scat_versus_stol_atom_type",
+    "atom_scat_versus_stol_scat_value",
+    "atom_scat_versus_stol_stol_value",
     // atom_site
     "atom_site_adp_type",
     "atom_site_aniso_B_11",
@@ -1112,21 +1527,22 @@ pub const ALL: &[&str] = &[
     "atom_site_aniso_B_22",
     "atom_site_aniso_B_23",
     "atom_site_aniso_B_33",
-    "atom_site_aniso_label",
-    "atom_site_aniso_ratio",
-    "atom_site_aniso_type_symbol",
     "atom_site_aniso_U_11",
     "atom_site_aniso_U_12",
     "atom_site_aniso_U_13",
     "atom_site_aniso_U_22",
     "atom_site_aniso_U_23",
     "atom_site_aniso_U_33",
+    "atom_site_aniso_label",
+    "atom_site_aniso_ratio",
+    "atom_site_aniso_type_symbol",
     "atom_site_attached_hydrogens",
     "atom_site_b_equiv_geom_mean",
     "atom_site_b_iso_or_equiv",
     "atom_site_calc_attached_atom",
     "atom_site_calc_flag",
     "atom_site_cartn_x",
+    "atom_site_cartn_xyz",
     "atom_site_cartn_y",
     "atom_site_cartn_z",
     "atom_site_chemical_conn_number",
@@ -1134,7 +1550,9 @@ pub const ALL: &[&str] = &[
     "atom_site_description",
     "atom_site_disorder_assembly",
     "atom_site_disorder_group",
+    "atom_site_fract_symmform",
     "atom_site_fract_x",
+    "atom_site_fract_xyz",
     "atom_site_fract_y",
     "atom_site_fract_z",
     "atom_site_label",
@@ -1159,6 +1577,17 @@ pub const ALL: &[&str] = &[
     "atom_site_u_equiv_geom_mean",
     "atom_site_u_iso_or_equiv",
     "atom_site_wyckoff_symbol",
+    // atom_site_aniso
+    "atom_site.tensor_beta",
+    "atom_site_aniso_beta_11",
+    "atom_site_aniso_beta_12",
+    "atom_site_aniso_beta_13",
+    "atom_site_aniso_beta_22",
+    "atom_site_aniso_beta_23",
+    "atom_site_aniso_beta_33",
+    "atom_site_aniso_matrix_b",
+    "atom_site_aniso_matrix_u",
+    "atom_site_aniso_symmform",
     // atom_sites
     "atom_sites_Cartn_tran_matrix_11",
     "atom_sites_Cartn_tran_matrix_12",
@@ -1189,9 +1618,22 @@ pub const ALL: &[&str] = &[
     "atom_sites_solution_primary",
     "atom_sites_solution_secondary",
     "atom_sites_special_details",
+    // atom_sites_cartn_transform
+    "atom_sites_cartn_transform_matrix",
+    "atom_sites_cartn_transform_vector",
+    // atom_sites_fract_transform
+    "atom_sites_fract_transform_axes",
+    "atom_sites_fract_transform_matrix",
+    "atom_sites_fract_transform_vector",
     // atom_type
     "atom_type_analytical_mass_%",
+    "atom_type_atomic_mass",
+    "atom_type_atomic_number",
     "atom_type_description",
+    "atom_type_display_colour",
+    "atom_type_electron_count",
+    "atom_type_element_symbol",
+    "atom_type_mass_number",
     "atom_type_number_in_cell",
     "atom_type_oxidation_number",
     "atom_type_radius_bond",
@@ -1212,16 +1654,54 @@ pub const ALL: &[&str] = &[
     "atom_type_scat_source",
     "atom_type_scat_versus_stol_list",
     "atom_type_symbol",
+    // atom_type_scat
+    "atom_type_scat_cromer_mann_as",
+    "atom_type_scat_cromer_mann_bs",
+    "atom_type_scat_dispersion",
+    "atom_type_scat_dispersion_imag_cu",
+    "atom_type_scat_dispersion_imag_mo",
+    "atom_type_scat_dispersion_real_cu",
+    "atom_type_scat_dispersion_real_mo",
+    "atom_type_scat_exponential_polynomial_coefs",
+    "atom_type_scat_exponential_polynomial_lower_limit",
+    "atom_type_scat_exponential_polynomial_upper_limit",
+    "atom_type_scat_gaussian_as",
+    "atom_type_scat_gaussian_bs",
+    "atom_type_scat_gaussian_c",
+    "atom_type_scat_gaussian_lower_limit",
+    "atom_type_scat_gaussian_upper_limit",
+    "atom_type_scat_hi_ang_fox_c0",
+    "atom_type_scat_hi_ang_fox_c1",
+    "atom_type_scat_hi_ang_fox_c2",
+    "atom_type_scat_hi_ang_fox_c3",
+    "atom_type_scat_hi_ang_fox_coefs",
+    "atom_type_scat_inv_mott_bethe_as",
+    "atom_type_scat_inv_mott_bethe_bs",
+    "atom_type_scat_inv_mott_bethe_c",
+    "atom_type_scat_inv_mott_bethe_lower_limit",
+    "atom_type_scat_inv_mott_bethe_upper_limit",
+    "atom_type_scat_symbol",
     // audit
     "audit_block_code",
     "audit_block_doi",
     "audit_creation_date",
     "audit_creation_method",
+    "audit_schema",
     "audit_update_record",
     // audit_author
     "audit_author_address",
+    "audit_author_email",
+    "audit_author_fax",
+    "audit_author_id",
+    "audit_author_id_orcid",
     "audit_author_name",
+    "audit_author_phone",
+    // audit_author_role
+    "audit_author_role_id",
+    "audit_author_role_role",
+    "audit_author_role_special_details",
     // audit_conform
+    "audit_conform_dict_doi",
     "audit_conform_dict_location",
     "audit_conform_dict_name",
     "audit_conform_dict_version",
@@ -1229,16 +1709,34 @@ pub const ALL: &[&str] = &[
     "audit_contact_author_address",
     "audit_contact_author_email",
     "audit_contact_author_fax",
+    "audit_contact_author_id",
+    "audit_contact_author_id_iucr",
+    "audit_contact_author_id_orcid",
     "audit_contact_author_name",
     "audit_contact_author_phone",
     // audit_link
     "audit_link_block_code",
     "audit_link_block_description",
+    // audit_support
+    "audit_support_award_number",
+    "audit_support_award_recipient",
+    "audit_support_award_type",
+    "audit_support_funding_organization",
+    "audit_support_funding_organization_doi",
+    "audit_support_funding_organization_url",
+    "audit_support_id",
+    "audit_support_special_details",
     // cell
     "cell_angle_alpha",
     "cell_angle_beta",
     "cell_angle_gamma",
+    "cell_atomic_mass",
+    "cell_convert_uij_to_betaij",
+    "cell_convert_uiso_to_uij",
     "cell_formula_units_z",
+    "cell_formula_units_z_details",
+    "cell_formula_units_z_prime",
+    "cell_formula_units_z_prime_details",
     "cell_length_a",
     "cell_length_b",
     "cell_length_c",
@@ -1249,15 +1747,26 @@ pub const ALL: &[&str] = &[
     "cell_measurement_theta_max",
     "cell_measurement_theta_min",
     "cell_measurement_wavelength",
+    "cell_metric_tensor",
+    "cell_orthogonal_matrix",
     "cell_reciprocal_angle_alpha",
     "cell_reciprocal_angle_beta",
     "cell_reciprocal_angle_gamma",
     "cell_reciprocal_length_a",
     "cell_reciprocal_length_b",
     "cell_reciprocal_length_c",
+    "cell_reciprocal_metric_tensor",
+    "cell_reciprocal_orthogonal_matrix",
+    "cell_reciprocal_vector_a",
+    "cell_reciprocal_vector_b",
+    "cell_reciprocal_vector_c",
     "cell_special_details",
+    "cell_vector_a",
+    "cell_vector_b",
+    "cell_vector_c",
     "cell_volume",
     // cell_measurement_refln
+    "cell_measurement_refln_hkl",
     "cell_measurement_refln_index_h",
     "cell_measurement_refln_index_k",
     "cell_measurement_refln_index_l",
@@ -1297,8 +1806,10 @@ pub const ALL: &[&str] = &[
     "chemical_conn_atom_number",
     "chemical_conn_atom_type_symbol",
     // chemical_conn_bond
+    "chem_comp_bond.value_dist",
     "chemical_conn_bond_atom_1",
     "chemical_conn_bond_atom_2",
+    "chemical_conn_bond_id",
     "chemical_conn_bond_type",
     // chemical_formula
     "chemical_formula_analytical",
@@ -1334,12 +1845,14 @@ pub const ALL: &[&str] = &[
     "citation_publisher",
     "citation_special_details",
     "citation_title",
+    "citation_url",
     "citation_year",
     // citation_author
     "citation_author_citation_id",
     "citation_author_name",
     "citation_author_ordinal",
     // citation_editor
+    "citation_editor",
     "citation_editor_citation_id",
     "citation_editor_name",
     "citation_editor_ordinal",
@@ -1349,6 +1862,7 @@ pub const ALL: &[&str] = &[
     "computing_data_reduction",
     "computing_molecular_graphics",
     "computing_publication_material",
+    "computing_sample_tracking",
     "computing_structure_refinement",
     "computing_structure_solution",
     // database
@@ -1367,23 +1881,44 @@ pub const ALL: &[&str] = &[
     "database_dataset_doi",
     "database_journal_astm",
     "database_journal_csd",
+    // database_code
+    "database_code_amcsd",
+    "database_code_bincstrdb",
+    // database_related
+    "database_related_database_id",
+    "database_related_entry_code",
+    "database_related_id",
+    "database_related_relation",
+    "database_related_special_details",
     // diffrn
     "diffrn_ambient_environment",
     "diffrn_ambient_pressure",
     "diffrn_ambient_pressure_gt",
     "diffrn_ambient_pressure_lt",
+    "diffrn_ambient_temp_details",
+    "diffrn_ambient_temp_gt",
+    "diffrn_ambient_temp_lt",
     "diffrn_ambient_temperature",
     "diffrn_ambient_temperature_gt",
     "diffrn_ambient_temperature_lt",
+    "diffrn_crystal_support",
     "diffrn_crystal_treatment",
+    "diffrn_flux_density",
     "diffrn_measured_fraction_theta_full",
     "diffrn_measured_fraction_theta_max",
+    "diffrn_precession_semi_angle",
     "diffrn_special_details",
     "diffrn_symmetry_description",
+    "diffrn_total_dose",
+    "diffrn_total_exposure_time",
     // diffrn_attenuator
     "diffrn_attenuator_code",
     "diffrn_attenuator_material",
     "diffrn_attenuator_scale",
+    // diffrn_component_pid
+    "diffrn_component_pid_details",
+    "diffrn_component_pid_framework",
+    "diffrn_component_pid_pid",
     // diffrn_detector
     "diffrn_detector",
     "diffrn_detector_area_resol_mean",
@@ -1398,6 +1933,11 @@ pub const ALL: &[&str] = &[
     "diffrn_measurement_device_details",
     "diffrn_measurement_device_type",
     "diffrn_measurement_method",
+    "diffrn_measurement_method_precession",
+    "diffrn_measurement_rotation_mode",
+    "diffrn_measurement_sample_tracking",
+    "diffrn_measurement_sample_tracking_method",
+    "diffrn_measurement_specimen_attachment_type",
     "diffrn_measurement_specimen_support",
     // diffrn_orient_matrix
     "diffrn_orient_matrix_type",
@@ -1410,6 +1950,7 @@ pub const ALL: &[&str] = &[
     "diffrn_orient_matrix_ub_31",
     "diffrn_orient_matrix_ub_32",
     "diffrn_orient_matrix_ub_33",
+    "diffrn_orient_matrix_ubij",
     // diffrn_orient_refln
     "diffrn_orient_refln_angle_chi",
     "diffrn_orient_refln_angle_kappa",
@@ -1417,12 +1958,14 @@ pub const ALL: &[&str] = &[
     "diffrn_orient_refln_angle_phi",
     "diffrn_orient_refln_angle_psi",
     "diffrn_orient_refln_angle_theta",
+    "diffrn_orient_refln_hkl",
     "diffrn_orient_refln_index_h",
     "diffrn_orient_refln_index_k",
     "diffrn_orient_refln_index_l",
     // diffrn_radiation
     "diffrn_radiation_collimation",
     "diffrn_radiation_filter_edge",
+    "diffrn_radiation_illumination_mode",
     "diffrn_radiation_inhomogeneity",
     "diffrn_radiation_monochromator",
     "diffrn_radiation_polarisn_norm",
@@ -1435,7 +1978,9 @@ pub const ALL: &[&str] = &[
     "diffrn_radiation_wavelength_details",
     "diffrn_radiation_wavelength_determination",
     "diffrn_radiation_wavelength_id",
+    "diffrn_radiation_wavelength_type",
     "diffrn_radiation_wavelength_wt",
+    "diffrn_radiation_wavelength_xray_symbol",
     // diffrn_refln
     "diffrn_refln_angle_chi",
     "diffrn_refln_angle_kappa",
@@ -1454,11 +1999,17 @@ pub const ALL: &[&str] = &[
     "diffrn_refln_detect_slit_horiz",
     "diffrn_refln_detect_slit_vert",
     "diffrn_refln_elapsed_time",
+    "diffrn_refln_hkl",
+    "diffrn_refln_id",
     "diffrn_refln_index_h",
     "diffrn_refln_index_k",
     "diffrn_refln_index_l",
+    "diffrn_refln_intensity_bg_1",
+    "diffrn_refln_intensity_bg_2",
     "diffrn_refln_intensity_net",
+    "diffrn_refln_intensity_peak",
     "diffrn_refln_intensity_sigma",
+    "diffrn_refln_intensity_total",
     "diffrn_refln_intensity_u",
     "diffrn_refln_scale_group_code",
     "diffrn_refln_scan_mode",
@@ -1482,9 +2033,13 @@ pub const ALL: &[&str] = &[
     "diffrn_reflns_limit_k_min",
     "diffrn_reflns_limit_l_max",
     "diffrn_reflns_limit_l_min",
+    "diffrn_reflns_limit_max",
+    "diffrn_reflns_limit_min",
     "diffrn_reflns_number",
     "diffrn_reflns_point_group_measured_fraction_full",
     "diffrn_reflns_point_group_measured_fraction_max",
+    "diffrn_reflns_point_measured_fraction_full",
+    "diffrn_reflns_point_measured_fraction_max",
     "diffrn_reflns_reduction_process",
     "diffrn_reflns_resolution_full",
     "diffrn_reflns_resolution_max",
@@ -1504,19 +2059,28 @@ pub const ALL: &[&str] = &[
     "diffrn_reflns_class_av_r_eq",
     "diffrn_reflns_class_av_sgi/i",
     "diffrn_reflns_class_av_ui/i",
+    "diffrn_reflns_class_av_ui_over_i",
     "diffrn_reflns_class_code",
     "diffrn_reflns_class_d_res_high",
     "diffrn_reflns_class_d_res_low",
     "diffrn_reflns_class_description",
     "diffrn_reflns_class_number",
+    // diffrn_reflns_transf_matrix
+    "diffrn_reflns_transf_matrix_tij",
     // diffrn_scale_group
     "diffrn_scale_group_code",
     "diffrn_scale_group_i_net",
     // diffrn_source
     "diffrn_radiation_source",
     "diffrn_source",
+    "diffrn_source_beamline",
+    "diffrn_source_convergence_angle",
     "diffrn_source_current",
     "diffrn_source_details",
+    "diffrn_source_device",
+    "diffrn_source_ed_diffracting_area_selection",
+    "diffrn_source_facility",
+    "diffrn_source_make",
     "diffrn_source_power",
     "diffrn_source_size",
     "diffrn_source_take-off_angle",
@@ -1525,6 +2089,7 @@ pub const ALL: &[&str] = &[
     "diffrn_source_voltage",
     // diffrn_standard_refln
     "diffrn_standard_refln_code",
+    "diffrn_standard_refln_hkl",
     "diffrn_standard_refln_index_h",
     "diffrn_standard_refln_index_k",
     "diffrn_standard_refln_index_l",
@@ -1535,6 +2100,12 @@ pub const ALL: &[&str] = &[
     "diffrn_standards_number",
     "diffrn_standards_scale_sigma",
     "diffrn_standards_scale_u",
+    // display_colour
+    "display_colour_blue",
+    "display_colour_green",
+    "display_colour_hue",
+    "display_colour_red",
+    "display_colour_rgb",
     // exptl
     "exptl_absorpt_coefficient_mu",
     "exptl_absorpt_correction_T_max",
@@ -1542,9 +2113,14 @@ pub const ALL: &[&str] = &[
     "exptl_absorpt_correction_type",
     "exptl_absorpt_process_details",
     "exptl_crystals_number",
+    "exptl_method",
+    "exptl_method_details",
+    "exptl_method_id_panet",
     "exptl_special_details",
     "exptl_transmission_factor_max",
     "exptl_transmission_factor_min",
+    // exptl_absorpt
+    "exptl_absorpt_special_details",
     // exptl_crystal
     "exptl_crystal_F_000",
     "exptl_crystal_colour",
@@ -1561,6 +2137,9 @@ pub const ALL: &[&str] = &[
     "exptl_crystal_density_method",
     "exptl_crystal_description",
     "exptl_crystal_id",
+    "exptl_crystal_mosaic_block_size",
+    "exptl_crystal_mosaic_method",
+    "exptl_crystal_mosaicity",
     "exptl_crystal_preparation",
     "exptl_crystal_pressure_history",
     "exptl_crystal_recrystallization_method",
@@ -1575,17 +2154,32 @@ pub const ALL: &[&str] = &[
     "exptl_crystal_face_diffr_kappa",
     "exptl_crystal_face_diffr_phi",
     "exptl_crystal_face_diffr_psi",
+    "exptl_crystal_face_hkl",
     "exptl_crystal_face_index_h",
     "exptl_crystal_face_index_k",
     "exptl_crystal_face_index_l",
     "exptl_crystal_face_perp_dist",
+    // function
+    "function_atomtype",
+    "function_closest",
+    "function_seitzfromjones",
+    "function_symequiv",
+    "function_symkey",
+    "function_symlat",
+    "function_symop",
     // geom
+    "geom_bond_distance_incr",
+    "geom_contact_distance_incr",
+    "geom_min_bond_distance_cutoff",
+    "geom_min_contact_distance_cutoff",
     "geom_special_details",
     // geom_angle
     "geom_angle",
     "geom_angle_atom_site_label_1",
     "geom_angle_atom_site_label_2",
     "geom_angle_atom_site_label_3",
+    "geom_angle_distances",
+    "geom_angle_id",
     "geom_angle_publ_flag",
     "geom_angle_site_symmetry_1",
     "geom_angle_site_symmetry_2",
@@ -1594,6 +2188,7 @@ pub const ALL: &[&str] = &[
     "geom_bond_atom_site_label_1",
     "geom_bond_atom_site_label_2",
     "geom_bond_distance",
+    "geom_bond_id",
     "geom_bond_multiplicity",
     "geom_bond_publ_flag",
     "geom_bond_site_symmetry_1",
@@ -1603,6 +2198,7 @@ pub const ALL: &[&str] = &[
     "geom_contact_atom_site_label_1",
     "geom_contact_atom_site_label_2",
     "geom_contact_distance",
+    "geom_contact_id",
     "geom_contact_publ_flag",
     "geom_contact_site_symmetry_1",
     "geom_contact_site_symmetry_2",
@@ -1614,6 +2210,7 @@ pub const ALL: &[&str] = &[
     "geom_hbond_distance_DA",
     "geom_hbond_distance_DH",
     "geom_hbond_distance_HA",
+    "geom_hbond_id",
     "geom_hbond_publ_flag",
     "geom_hbond_site_symmetry_A",
     "geom_hbond_site_symmetry_D",
@@ -1624,12 +2221,15 @@ pub const ALL: &[&str] = &[
     "geom_torsion_atom_site_label_2",
     "geom_torsion_atom_site_label_3",
     "geom_torsion_atom_site_label_4",
+    "geom_torsion_distances",
+    "geom_torsion_id",
     "geom_torsion_publ_flag",
     "geom_torsion_site_symmetry_1",
     "geom_torsion_site_symmetry_2",
     "geom_torsion_site_symmetry_3",
     "geom_torsion_site_symmetry_4",
     // journal
+    "journal.data_validation_number",
     "journal_coden_astm",
     "journal_coden_cambridge",
     "journal_coeditor_address",
@@ -1657,6 +2257,9 @@ pub const ALL: &[&str] = &[
     "journal_page_last",
     "journal_paper_category",
     "journal_paper_doi",
+    "journal_paper_number",
+    "journal_paper_pages",
+    "journal_paper_url",
     "journal_suppl_publ_number",
     "journal_suppl_publ_pages",
     "journal_techeditor_address",
@@ -1669,9 +2272,25 @@ pub const ALL: &[&str] = &[
     "journal_volume",
     "journal_year",
     // journal_index
+    "journal_index_id",
     "journal_index_subterm",
     "journal_index_term",
     "journal_index_type",
+    // model_site
+    "model_site_adp_eigenvalues",
+    "model_site_adp_eigenvectors",
+    "model_site_adp_matrix_beta",
+    "model_site_cartn_xyz",
+    "model_site_display_colour",
+    "model_site_fract_xyz",
+    "model_site_id",
+    "model_site_index",
+    "model_site_label",
+    "model_site_mole_index",
+    "model_site_radius_bond",
+    "model_site_radius_contact",
+    "model_site_symop",
+    "model_site_type_symbol",
     // publ
     "publ_contact_author",
     "publ_contact_author_address",
@@ -1709,15 +2328,20 @@ pub const ALL: &[&str] = &[
     "publ_author_address",
     "publ_author_email",
     "publ_author_footnote",
+    "publ_author_id",
+    "publ_author_id_audit",
     "publ_author_id_iucr",
     "publ_author_id_orcid",
     "publ_author_name",
+    "publ_author_phone",
     // publ_body
     "publ_body_contents",
     "publ_body_element",
     "publ_body_format",
     "publ_body_label",
     "publ_body_title",
+    // publ_contact_author
+    "publ_contact_author_id",
     // publ_manuscript_incl
     "publ_manuscript_incl_extra_defn",
     "publ_manuscript_incl_extra_info",
@@ -1726,6 +2350,8 @@ pub const ALL: &[&str] = &[
     "refine_diff_density_max",
     "refine_diff_density_min",
     "refine_diff_density_rms",
+    "refine_diffraction_theory",
+    "refine_diffraction_theory_details",
     "refine_ls_F_calc_details",
     "refine_ls_F_calc_formula",
     "refine_ls_F_calc_precision",
@@ -1769,6 +2395,18 @@ pub const ALL: &[&str] = &[
     "refine_ls_weighting_details",
     "refine_ls_weighting_scheme",
     "refine_special_details",
+    // refine_diff
+    "refine_diff_potential_max",
+    "refine_diff_potential_min",
+    "refine_diff_potential_rms",
+    // refine_ls
+    "refine_ls_abs_structure_z_score",
+    "refine_ls_number_reflns_gt",
+    "refine_ls_sample_shape_details",
+    "refine_ls_sample_shape_expression",
+    "refine_ls_sample_thickness",
+    "refine_ls_shift_over_su_max",
+    "refine_ls_shift_over_su_mean",
     // refine_ls_class
     "refine_ls_class_R_Fsqd_factor",
     "refine_ls_class_R_I_factor",
@@ -1784,14 +2422,20 @@ pub const ALL: &[&str] = &[
     "refln_B_calc",
     "refln_B_meas",
     "refln_F_calc",
+    "refln_F_complex",
     "refln_F_meas",
     "refln_F_sigma",
     "refln_F_squared_calc",
     "refln_F_squared_meas",
     "refln_F_squared_sigma",
+    "refln_Lp_factor",
     "refln_class_code",
     "refln_crystal_id",
     "refln_d_spacing",
+    "refln_fom",
+    "refln_form_factor_table",
+    "refln_hkl",
+    "refln_id",
     "refln_include_status",
     "refln_index_h",
     "refln_index_k",
@@ -1814,6 +2458,7 @@ pub const ALL: &[&str] = &[
     "reflns_Friedel_coverage",
     "reflns_Friedel_fraction_full",
     "reflns_Friedel_fraction_max",
+    "reflns_apply_dispersion_to_fcalc",
     "reflns_d_resolution_high",
     "reflns_d_resolution_low",
     "reflns_limit_h_max",
@@ -1822,6 +2467,8 @@ pub const ALL: &[&str] = &[
     "reflns_limit_k_min",
     "reflns_limit_l_max",
     "reflns_limit_l_min",
+    "reflns_limit_max",
+    "reflns_limit_min",
     "reflns_number_gt",
     "reflns_number_observed",
     "reflns_number_total",
@@ -1838,6 +2485,7 @@ pub const ALL: &[&str] = &[
     "reflns_class_d_res_low",
     "reflns_class_description",
     "reflns_class_number_gt",
+    "reflns_class_number_observed",
     "reflns_class_number_total",
     "reflns_class_wR_factor_all",
     // reflns_scale
@@ -1853,6 +2501,7 @@ pub const ALL: &[&str] = &[
     "reflns_shell_Rmerge_I_gt",
     "reflns_shell_Rmerge_I_obs",
     "reflns_shell_d_res_high",
+    "reflns_shell_d_res_limits",
     "reflns_shell_d_res_low",
     "reflns_shell_meanI_over_sigI_all",
     "reflns_shell_meanI_over_sigI_gt",
@@ -1870,15 +2519,43 @@ pub const ALL: &[&str] = &[
     "reflns_shell_percent_possible_gt",
     "reflns_shell_percent_possible_obs",
     // space_group
+    "space_group_IT_number",
+    "space_group_bravais_type",
+    "space_group_centring_type",
     "space_group_crystal_system",
     "space_group_id",
-    "space_group_IT_number",
+    "space_group_it_coordinate_system_code",
+    "space_group_laue_class",
+    "space_group_multiplicity",
     "space_group_name_H-M_alt",
     "space_group_name_Hall",
+    "space_group_name_h_m_alt_description",
+    "space_group_name_h_m_ref",
+    "space_group_name_schoenflies",
+    "space_group_patterson_name_h_m",
+    "space_group_point_group_h_m",
+    "space_group_reference_setting",
+    "space_group_transform_pp_abc",
+    "space_group_transform_qq_xyz",
+    "symmetry.space_group_name_h-m",
+    // space_group_generator
+    "space_group_generator_id",
+    "space_group_generator_xyz",
     // space_group_symop
     "space_group_symop_id",
+    "space_group_symop_operation_description",
     "space_group_symop_operation_xyz",
+    "space_group_symop_r",
+    "space_group_symop_rt",
+    "space_group_symop_seitz_matrix",
     "space_group_symop_sg_id",
+    "space_group_symop_t",
+    // space_group_wyckoff
+    "space_group_wyckoff_coords_xyz",
+    "space_group_wyckoff_id",
+    "space_group_wyckoff_letter",
+    "space_group_wyckoff_multiplicity",
+    "space_group_wyckoff_site_symmetry",
     // symmetry
     "symmetry_Int_Tables_number",
     "symmetry_cell_setting",
@@ -1894,6 +2571,7 @@ pub const ALL: &[&str] = &[
     "valence_param_atom_1_valence",
     "valence_param_atom_2",
     "valence_param_atom_2_valence",
+    "valence_param_citation_id",
     "valence_param_details",
     "valence_param_id",
     "valence_param_ref_id",
@@ -1908,19 +2586,46 @@ mod tests {
 
     #[test]
     fn category_sections_are_subsets_of_all() {
+        for t in atom_analytical::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_analytical_mass_loss::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_analytical_source::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_scat_versus_stol::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in atom_site::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_site_aniso::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in atom_sites::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in atom_sites_cartn_transform::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_sites_fract_transform::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in atom_type::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in atom_type_scat::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in audit::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in audit_author::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in audit_author_role::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in audit_conform::TAGS {
@@ -1930,6 +2635,9 @@ mod tests {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in audit_link::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in audit_support::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in cell::TAGS {
@@ -1965,10 +2673,19 @@ mod tests {
         for t in database::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in database_code::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in database_related::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in diffrn::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in diffrn_attenuator::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in diffrn_component_pid::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in diffrn_detector::TAGS {
@@ -1998,6 +2715,9 @@ mod tests {
         for t in diffrn_reflns_class::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in diffrn_reflns_transf_matrix::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in diffrn_scale_group::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
@@ -2010,13 +2730,22 @@ mod tests {
         for t in diffrn_standards::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in display_colour::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in exptl::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in exptl_absorpt::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in exptl_crystal::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in exptl_crystal_face::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in function::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in geom::TAGS {
@@ -2043,6 +2772,9 @@ mod tests {
         for t in journal_index::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in model_site::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in publ::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
@@ -2052,10 +2784,19 @@ mod tests {
         for t in publ_body::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in publ_contact_author::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in publ_manuscript_incl::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in refine::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in refine_diff::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in refine_ls::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in refine_ls_class::TAGS {
@@ -2079,7 +2820,13 @@ mod tests {
         for t in space_group::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
+        for t in space_group_generator::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
         for t in space_group_symop::TAGS {
+            assert!(ALL.contains(t), "{t} missing from ALL");
+        }
+        for t in space_group_wyckoff::TAGS {
             assert!(ALL.contains(t), "{t} missing from ALL");
         }
         for t in symmetry::TAGS {
@@ -2098,69 +2845,92 @@ mod tests {
 
     #[test]
     fn registry_counts() {
-        assert_eq!(atom_site::TAGS.len(), 54);
+        assert_eq!(atom_analytical::TAGS.len(), 6);
+        assert_eq!(atom_analytical_mass_loss::TAGS.len(), 5);
+        assert_eq!(atom_analytical_source::TAGS.len(), 4);
+        assert_eq!(atom_scat_versus_stol::TAGS.len(), 3);
+        assert_eq!(atom_site::TAGS.len(), 57);
+        assert_eq!(atom_site_aniso::TAGS.len(), 10);
         assert_eq!(atom_sites::TAGS.len(), 29);
-        assert_eq!(atom_type::TAGS.len(), 22);
-        assert_eq!(audit::TAGS.len(), 5);
-        assert_eq!(audit_author::TAGS.len(), 2);
-        assert_eq!(audit_conform::TAGS.len(), 3);
-        assert_eq!(audit_contact_author::TAGS.len(), 5);
+        assert_eq!(atom_sites_cartn_transform::TAGS.len(), 2);
+        assert_eq!(atom_sites_fract_transform::TAGS.len(), 3);
+        assert_eq!(atom_type::TAGS.len(), 28);
+        assert_eq!(atom_type_scat::TAGS.len(), 26);
+        assert_eq!(audit::TAGS.len(), 6);
+        assert_eq!(audit_author::TAGS.len(), 7);
+        assert_eq!(audit_author_role::TAGS.len(), 3);
+        assert_eq!(audit_conform::TAGS.len(), 4);
+        assert_eq!(audit_contact_author::TAGS.len(), 8);
         assert_eq!(audit_link::TAGS.len(), 2);
-        assert_eq!(cell::TAGS.len(), 22);
-        assert_eq!(cell_measurement_refln::TAGS.len(), 4);
+        assert_eq!(audit_support::TAGS.len(), 8);
+        assert_eq!(cell::TAGS.len(), 38);
+        assert_eq!(cell_measurement_refln::TAGS.len(), 5);
         assert_eq!(chemical::TAGS.len(), 25);
         assert_eq!(chemical_conn_atom::TAGS.len(), 7);
-        assert_eq!(chemical_conn_bond::TAGS.len(), 3);
+        assert_eq!(chemical_conn_bond::TAGS.len(), 5);
         assert_eq!(chemical_formula::TAGS.len(), 7);
-        assert_eq!(citation::TAGS.len(), 26);
+        assert_eq!(citation::TAGS.len(), 27);
         assert_eq!(citation_author::TAGS.len(), 3);
-        assert_eq!(citation_editor::TAGS.len(), 3);
-        assert_eq!(computing::TAGS.len(), 7);
+        assert_eq!(citation_editor::TAGS.len(), 4);
+        assert_eq!(computing::TAGS.len(), 8);
         assert_eq!(database::TAGS.len(), 15);
-        assert_eq!(diffrn::TAGS.len(), 12);
+        assert_eq!(database_code::TAGS.len(), 2);
+        assert_eq!(database_related::TAGS.len(), 5);
+        assert_eq!(diffrn::TAGS.len(), 20);
         assert_eq!(diffrn_attenuator::TAGS.len(), 3);
+        assert_eq!(diffrn_component_pid::TAGS.len(), 3);
         assert_eq!(diffrn_detector::TAGS.len(), 7);
-        assert_eq!(diffrn_measurement::TAGS.len(), 6);
-        assert_eq!(diffrn_orient_matrix::TAGS.len(), 10);
-        assert_eq!(diffrn_orient_refln::TAGS.len(), 9);
-        assert_eq!(diffrn_radiation::TAGS.len(), 9);
-        assert_eq!(diffrn_radiation_wavelength::TAGS.len(), 5);
-        assert_eq!(diffrn_refln::TAGS.len(), 33);
-        assert_eq!(diffrn_reflns::TAGS.len(), 29);
-        assert_eq!(diffrn_reflns_class::TAGS.len(), 8);
+        assert_eq!(diffrn_measurement::TAGS.len(), 11);
+        assert_eq!(diffrn_orient_matrix::TAGS.len(), 11);
+        assert_eq!(diffrn_orient_refln::TAGS.len(), 10);
+        assert_eq!(diffrn_radiation::TAGS.len(), 10);
+        assert_eq!(diffrn_radiation_wavelength::TAGS.len(), 7);
+        assert_eq!(diffrn_refln::TAGS.len(), 39);
+        assert_eq!(diffrn_reflns::TAGS.len(), 33);
+        assert_eq!(diffrn_reflns_class::TAGS.len(), 9);
+        assert_eq!(diffrn_reflns_transf_matrix::TAGS.len(), 1);
         assert_eq!(diffrn_scale_group::TAGS.len(), 2);
-        assert_eq!(diffrn_source::TAGS.len(), 10);
-        assert_eq!(diffrn_standard_refln::TAGS.len(), 4);
+        assert_eq!(diffrn_source::TAGS.len(), 16);
+        assert_eq!(diffrn_standard_refln::TAGS.len(), 5);
         assert_eq!(diffrn_standards::TAGS.len(), 6);
-        assert_eq!(exptl::TAGS.len(), 9);
-        assert_eq!(exptl_crystal::TAGS.len(), 24);
-        assert_eq!(exptl_crystal_face::TAGS.len(), 8);
-        assert_eq!(geom::TAGS.len(), 1);
-        assert_eq!(geom_angle::TAGS.len(), 8);
-        assert_eq!(geom_bond::TAGS.len(), 8);
-        assert_eq!(geom_contact::TAGS.len(), 6);
-        assert_eq!(geom_hbond::TAGS.len(), 11);
-        assert_eq!(geom_torsion::TAGS.len(), 10);
-        assert_eq!(journal::TAGS.len(), 38);
-        assert_eq!(journal_index::TAGS.len(), 3);
+        assert_eq!(display_colour::TAGS.len(), 5);
+        assert_eq!(exptl::TAGS.len(), 12);
+        assert_eq!(exptl_absorpt::TAGS.len(), 1);
+        assert_eq!(exptl_crystal::TAGS.len(), 27);
+        assert_eq!(exptl_crystal_face::TAGS.len(), 9);
+        assert_eq!(function::TAGS.len(), 7);
+        assert_eq!(geom::TAGS.len(), 5);
+        assert_eq!(geom_angle::TAGS.len(), 10);
+        assert_eq!(geom_bond::TAGS.len(), 9);
+        assert_eq!(geom_contact::TAGS.len(), 7);
+        assert_eq!(geom_hbond::TAGS.len(), 12);
+        assert_eq!(geom_torsion::TAGS.len(), 12);
+        assert_eq!(journal::TAGS.len(), 42);
+        assert_eq!(journal_index::TAGS.len(), 4);
+        assert_eq!(model_site::TAGS.len(), 14);
         assert_eq!(publ::TAGS.len(), 32);
-        assert_eq!(publ_author::TAGS.len(), 6);
+        assert_eq!(publ_author::TAGS.len(), 9);
         assert_eq!(publ_body::TAGS.len(), 5);
+        assert_eq!(publ_contact_author::TAGS.len(), 1);
         assert_eq!(publ_manuscript_incl::TAGS.len(), 3);
-        assert_eq!(refine::TAGS.len(), 46);
+        assert_eq!(refine::TAGS.len(), 48);
+        assert_eq!(refine_diff::TAGS.len(), 3);
+        assert_eq!(refine_ls::TAGS.len(), 7);
         assert_eq!(refine_ls_class::TAGS.len(), 8);
-        assert_eq!(refln::TAGS.len(), 31);
-        assert_eq!(reflns::TAGS.len(), 17);
-        assert_eq!(reflns_class::TAGS.len(), 11);
+        assert_eq!(refln::TAGS.len(), 37);
+        assert_eq!(reflns::TAGS.len(), 20);
+        assert_eq!(reflns_class::TAGS.len(), 12);
         assert_eq!(reflns_scale::TAGS.len(), 4);
-        assert_eq!(reflns_shell::TAGS.len(), 23);
-        assert_eq!(space_group::TAGS.len(), 5);
-        assert_eq!(space_group_symop::TAGS.len(), 3);
+        assert_eq!(reflns_shell::TAGS.len(), 24);
+        assert_eq!(space_group::TAGS.len(), 19);
+        assert_eq!(space_group_generator::TAGS.len(), 2);
+        assert_eq!(space_group_symop::TAGS.len(), 8);
+        assert_eq!(space_group_wyckoff::TAGS.len(), 5);
         assert_eq!(symmetry::TAGS.len(), 4);
         assert_eq!(symmetry_equiv::TAGS.len(), 2);
-        assert_eq!(valence_param::TAGS.len(), 9);
+        assert_eq!(valence_param::TAGS.len(), 10);
         assert_eq!(valence_ref::TAGS.len(), 2);
-        assert_eq!(ALL.len(), 734);
+        assert_eq!(ALL.len(), 996);
         assert!(ALL.iter().all(|t| !t.starts_with('_')));
         assert_eq!(
             ALL.len(),

@@ -49,6 +49,7 @@ const RESERVED_TYPE_NAMES: &[&str] = &[
     "Integer",
     "LoopColumn",
     "LoopValueTerm",
+    "Matrix",
     "Numeric",
     "Number",
     "SingleLineData",
@@ -62,9 +63,16 @@ const RESERVED_TYPE_NAMES: &[&str] = &[
 fn main() -> ExitCode {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let inventory = load_json(&manifest.join("tests/dict_inventory.json"));
+    // The T6 dual-inventory step: when the shell inventory is
+    // recorded, the shell items join the per-category item set.
+    let shell_path = manifest.join("tests/dict_inventory_shell.json");
+    let shell = shell_path.is_file().then(|| load_json(&shell_path));
     let annotations = load_json(&manifest.join("codegen/annotations.json"));
+    // The legacy drift tags: registry strings for items the
+    // dictionary no longer defines. Kept per category.
+    let drift = annotations["drift"].clone();
 
-    let errors = validate(&inventory, &annotations);
+    let errors = validate(&inventory, shell.as_ref(), &annotations);
     if !errors.is_empty() {
         for e in &errors {
             eprintln!("dict_codegen error: {e}");
@@ -73,12 +81,12 @@ fn main() -> ExitCode {
         return ExitCode::FAILURE;
     }
 
-    let warnings = warn(&inventory, &annotations);
+    let warnings = warn(&inventory, shell.as_ref(), &annotations);
     for w in &warnings {
         println!("dict_codegen warning: {w}");
     }
 
-    let report = emit(&manifest, &inventory, &annotations);
+    let report = emit(&manifest, &inventory, shell.as_ref(), &annotations, &drift);
     for line in &report {
         println!("{line}");
     }
@@ -145,13 +153,18 @@ struct CatPlan {
 /// Validate the annotations against the inventory. Every problem is an
 /// error: the annotations must drive the output, and a mismatch with
 /// the recorded inventory is drift.
-fn validate(inventory: &Value, annotations: &Value) -> Vec<String> {
+fn validate(inventory: &Value, shell: Option<&Value>, annotations: &Value) -> Vec<String> {
     let mut errors = Vec::new();
     let cats = ann_categories(annotations, &mut errors);
-    let items = inv_items(inventory, &mut errors);
+    let standard = inv_items(inventory, &mut errors);
+    let items: Vec<Item> = if shell.is_some() {
+        union_items(shell, &standard, &mut errors)
+    } else {
+        standard
+    };
 
     for (cat, entries) in &cats {
-        if !cats_has_inventory_category(inventory, cat, &mut errors) {
+        if !cats_has_inventory_category(inventory, cat, shell, &mut errors) {
             continue;
         }
         let in_cat: BTreeSet<&str> = items
@@ -183,7 +196,7 @@ fn validate(inventory: &Value, annotations: &Value) -> Vec<String> {
                 continue;
             };
             match kind {
-                "string" | "numeric" | "closed" | "range" => {}
+                "string" | "numeric" | "closed" | "range" | "matrix" => {}
                 other => {
                     errors.push(format!(
                         "annotation `{cat}_{suffix}`: unknown value type `{other}`"
@@ -194,6 +207,10 @@ fn validate(inventory: &Value, annotations: &Value) -> Vec<String> {
             match (kind, item.item["type"].as_str().unwrap()) {
                 ("string", "char") | ("closed", "char") => {}
                 ("numeric", "numb") | ("range", "numb") => {}
+                // The matrix payload binds the matrix container
+                // items, whose contents the dictionary records as
+                // numbers.
+                ("matrix", "numb") => {}
                 (k, t) => {
                     errors.push(format!(
                         "annotation `{cat}_{suffix}`: value type `{k}` does not match \
@@ -250,11 +267,35 @@ fn validate(inventory: &Value, annotations: &Value) -> Vec<String> {
     errors
 }
 
-fn cats_has_inventory_category(inventory: &Value, cat: &str, errors: &mut Vec<String>) -> bool {
-    let ok = inventory["categories"]
+fn cats_has_inventory_category(
+    inventory: &Value,
+    cat: &str,
+    shell: Option<&Value>,
+    errors: &mut Vec<String>,
+) -> bool {
+    let mut ok = inventory["categories"]
         .as_array()
         .map(|a| a.iter().any(|c| c["name"].as_str() == Some(cat)))
         .unwrap_or(false);
+    if !ok {
+        // The T6 step: a shell-only category is spelled lowercase
+        // in the annotations, matching the registry tag case.
+        ok = shell
+            .map(|v| {
+                v["categories"]
+                    .as_array()
+                    .map(|a| {
+                        a.iter().any(|c| {
+                            c["name"]
+                                .as_str()
+                                .map(|n| n.to_ascii_lowercase() == cat)
+                                .unwrap_or(false)
+                        })
+                    })
+                    .unwrap_or(false)
+            })
+            .unwrap_or(false);
+    }
     if !ok {
         errors.push(format!(
             "annotation category `{cat}`: not in the inventory category list"
@@ -265,11 +306,16 @@ fn cats_has_inventory_category(inventory: &Value, cat: &str, errors: &mut Vec<St
 
 /// Drift warnings: the annotations diverge from what the dictionary
 /// records. They never block the run.
-fn warn(inventory: &Value, annotations: &Value) -> Vec<String> {
+fn warn(inventory: &Value, shell: Option<&Value>, annotations: &Value) -> Vec<String> {
     let mut warnings = Vec::new();
     let mut errors = Vec::new();
     let cats = ann_categories(annotations, &mut errors);
-    let items = inv_items(inventory, &mut errors);
+    let standard = inv_items(inventory, &mut errors);
+    let items: Vec<Item> = if shell.is_some() {
+        union_items(shell, &standard, &mut errors)
+    } else {
+        standard
+    };
     if !errors.is_empty() {
         return warnings;
     }
@@ -305,6 +351,15 @@ fn warn(inventory: &Value, annotations: &Value) -> Vec<String> {
                      inventory does not record (dictionary drift)"
                 ));
             }
+            // The T6 matrix payload: a plain annotation on an item
+            // the shell records with a matrix shape is a drift note.
+            if !item.item["matrix_shape"].is_null() && (kind == "string" || kind == "numeric") {
+                let shape = item.item["matrix_shape"].as_str().unwrap_or("?");
+                warnings.push(format!(
+                    "item `{cat}_{suffix}`: the shell dictionary records the matrix \
+                     shape `{shape}`, but the annotation uses a plain `{kind}` value"
+                ));
+            }
         }
     }
     warnings
@@ -312,10 +367,21 @@ fn warn(inventory: &Value, annotations: &Value) -> Vec<String> {
 
 /// Plan every category, then emit the modules and the registry
 /// updates. Nothing is written when a plan has an error.
-fn emit(manifest: &Path, inventory: &Value, annotations: &Value) -> Vec<String> {
+fn emit(
+    manifest: &Path,
+    inventory: &Value,
+    shell: Option<&Value>,
+    annotations: &Value,
+    drift: &Value,
+) -> Vec<String> {
     let mut errors = Vec::new();
     let cats = ann_categories(annotations, &mut errors);
-    let items = inv_items(inventory, &mut errors);
+    let standard = inv_items(inventory, &mut errors);
+    let items: Vec<Item> = if shell.is_some() {
+        union_items(shell, &standard, &mut errors)
+    } else {
+        standard
+    };
     if !errors.is_empty() {
         fail(&errors);
     }
@@ -338,7 +404,7 @@ fn emit(manifest: &Path, inventory: &Value, annotations: &Value) -> Vec<String> 
     let ann_cats: Vec<String> = plans.iter().map(|p| p.cat.clone()).collect();
     update_core_cif_mod(&core_cif_mod, &ann_cats, &mut report);
     let tags = manifest.join("src/data_dict/tags.rs");
-    update_tags_registry(&tags, &cats, &items, &mut report);
+    update_tags_registry(&tags, &cats, &items, &drift, &mut report);
     report
 }
 
@@ -627,6 +693,14 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
     out
 }
 
+/// The rustfmt import-list order key: names that start lowercase
+/// sort before names that start uppercase; within each group the
+/// case-folded name decides.
+fn import_order(name: &str) -> (u8, String) {
+    let lower = name.chars().next().is_some_and(|c| c.is_ascii_lowercase());
+    (u8::from(!lower), name.to_lowercase())
+}
+
 /// Emit the category module (`mod.rs`).
 fn emit_mod(plan: &CatPlan) -> String {
     let cat = &plan.cat;
@@ -655,6 +729,17 @@ fn emit_mod(plan: &CatPlan) -> String {
     if has_single {
         traits.push("SingleValueTerm".to_string());
     }
+    let any_matrix = plan
+        .single
+        .iter()
+        .chain(plan.loop_items.iter())
+        .any(|p| p.kind == "matrix");
+    if any_matrix {
+        // The matrix payload helper module (data_dict::matrix).
+        traits.push("matrix".to_string());
+    }
+    // rustfmt sorts import lists with lowercase names first.
+    traits.sort_by(|a, b| import_order(a).cmp(&import_order(b)));
     let mut gram: Vec<&str> = vec!["Tag", "Value"];
     let any_string = plan
         .single
@@ -672,7 +757,11 @@ fn emit_mod(plan: &CatPlan) -> String {
     if any_numeric {
         gram.insert(1, "Numeric");
     }
-    gram.sort();
+    if any_matrix {
+        gram.push("Matrix");
+    }
+    // rustfmt sorts import lists with lowercase names first.
+    gram.sort_by(|a, b| import_order(a).cmp(&import_order(b)));
     out.push_str("use crate::{\n");
     let line = format!("    data_dict::{{{}}},\n", traits.join(", "));
     out.push_str(&line);
@@ -837,9 +926,11 @@ fn value_groups(plans: &[Plan], loop_form: bool) -> Vec<ValueGroup> {
     let mut typed_idx = 0usize;
     let mut groups: Vec<ValueGroup> = Vec::new();
     for (kind, type_name) in keys {
-        let var: String = match kind.as_str() {
-            "string" => "s".to_string(),
-            "numeric" => "n".to_string(),
+        let var: String = match (kind.as_str(), loop_form) {
+            ("string", _) => "s".to_string(),
+            ("numeric", _) => "n".to_string(),
+            ("matrix", true) => "v".to_string(),
+            ("matrix", false) => "m".to_string(),
             _ => {
                 const POOL: &[&str] = &[
                     "v", "m", "c", "b", "t", "u", "w", "x", "y", "z", "q", "r", "f", "g", "h", "j",
@@ -860,11 +951,19 @@ fn value_groups(plans: &[Plan], loop_form: bool) -> Vec<ValueGroup> {
             .map(|p| p.variant.clone())
             .collect();
         let body = if loop_form {
-            format!("{var}.iter().cloned().map(Value::from).collect()")
+            match kind.as_str() {
+                "string" => format!("{var}.iter().cloned().map(Value::from).collect()"),
+                "numeric" => format!("{var}.iter().cloned().map(Value::from).collect()"),
+                "matrix" => {
+                    format!("{var}.iter().cloned().map(|m| matrix::to_value(&m)).collect()")
+                }
+                _ => format!("{var}.iter().cloned().map(Value::from).collect()"),
+            }
         } else {
             match kind.as_str() {
                 "string" => "Value::CharString(s.clone())".to_string(),
                 "numeric" => "Value::Numeric(*n)".to_string(),
+                "matrix" => "matrix::to_value(m)".to_string(),
                 _ => format!("Value::from(*{var})"),
             }
         };
@@ -881,6 +980,7 @@ fn field_type(p: &Plan) -> String {
     match p.kind.as_str() {
         "string" => "CharString".to_string(),
         "numeric" => "Numeric".to_string(),
+        "matrix" => "Matrix".to_string(),
         other => p
             .type_name
             .clone()
@@ -938,6 +1038,10 @@ fn code_variant(code: &str) -> String {
 /// uppercased, the rest as written (`measurement_radiation` becomes
 /// `Measurement_radiation`, matching the cell module).
 fn default_variant(suffix: &str) -> String {
+    // The shell dictionary records dotted item names; the dot is
+    // a name separator, so it joins the underscore in the
+    // generated identifier.
+    let suffix = suffix.replace('.', "_");
     let mut chars = suffix.chars();
     let first = chars
         .next()
@@ -950,6 +1054,7 @@ fn default_variant(suffix: &str) -> String {
 /// (`coordinate_linkage` becomes `CoordinateLinkage`).
 fn default_type_name(suffix: &str) -> String {
     suffix
+        .replace('.', "_")
         .split('_')
         .map(|w| {
             let mut chars = w.chars();
@@ -1096,6 +1201,65 @@ fn inv_items(inventory: &Value, errors: &mut Vec<String>) -> Vec<Item> {
         .collect()
 }
 
+/// The T6 item union: the standard inventory items plus the shell
+/// items whose name the standard inventory lacks. The shell items
+/// are normalized to the crate spelling: lowercase item names and
+/// lowercase category names, matching the registry tag case.
+///
+/// The shell `_su` uncertainty items stay out of the union per
+/// decision D2: the uncertainty stays inside `Numeric`, and the
+/// base item already carries the value.
+fn union_items(shell: Option<&Value>, standard: &[Item], errors: &mut Vec<String>) -> Vec<Item> {
+    let mut out = standard.to_vec();
+    let shell = match shell {
+        Some(v) => v,
+        None => return out,
+    };
+    let std_names: std::collections::HashSet<String> =
+        standard.iter().map(|i| i.tag.clone()).collect();
+    let empty: Vec<Value> = Vec::new();
+    for record in shell["items"].as_array().unwrap_or(&empty) {
+        let name = record["name"]
+            .as_str()
+            .unwrap_or_default()
+            .to_ascii_lowercase();
+        if name.is_empty() {
+            errors.push(format!("shell inventory: an item record has no `name`"));
+            continue;
+        }
+        if std_names.contains(&name) {
+            continue; // the standard inventory already records the item
+        }
+        if name.ends_with("_su") {
+            continue; // decision D2: the _su items are skipped
+        }
+        let cat = record["category"]
+            .as_str()
+            .unwrap_or_default()
+            .to_ascii_lowercase();
+        let prefixed = name.starts_with(&format!("{cat}_"));
+        let suffix = if prefixed {
+            name[cat.len() + 1..].to_string()
+        } else {
+            name.clone()
+        };
+        let mut item = record.clone();
+        // The registry keying uses the crate-spelling
+        // lowercase category name.
+        item["category"] = Value::String(cat);
+        out.push(Item {
+            item,
+            name: name.clone(),
+            tag: name,
+            suffix,
+            prefixed,
+            is_loop: record["is_loop"].as_bool().unwrap_or(false),
+        });
+    }
+    out.sort_by(|a, b| a.name.cmp(&b.name));
+    out
+}
+
 /// Insert the missing `pub mod` lines, in sorted position. The
 /// existing lines are kept verbatim; the file must hold only `pub
 /// mod` lines or the run aborts.
@@ -1139,6 +1303,7 @@ fn update_tags_registry(
     path: &Path,
     cats: &BTreeMap<String, BTreeMap<String, Value>>,
     items: &[Item],
+    drift: &Value,
     report: &mut Vec<String>,
 ) {
     let raw = fs::read_to_string(path).expect("read tags.rs");
@@ -1225,6 +1390,12 @@ fn update_tags_registry(
             .filter(|i| i.item["category"].as_str() == Some(cat))
             .map(|i| i.tag.clone())
             .collect();
+        // The legacy drift tags stay registered for output.
+        for extra in drift[cat].as_array().cloned().unwrap_or_default() {
+            if extra.is_string() && !tags.contains(&extra.to_string()) {
+                tags.push(extra.as_str().unwrap().to_string());
+            }
+        }
         tags.sort();
         sections.insert(cat.clone(), tags);
     }

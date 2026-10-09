@@ -11,7 +11,7 @@ pub use ranges::{BondDistance, BondMultiplicity};
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;
-use crate::data_dict::{CifTerm, LoopValueTerm};
+use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Numeric, Tag, Value};
 
 /// Loop columns of the `geom_bond` category (8 items).
@@ -56,6 +56,38 @@ impl LoopValueTerm for GeomBondLoopItem {
             GeomBondLoopItem::Multiplicity(v) => v.iter().cloned().map(Value::from).collect(),
             GeomBondLoopItem::Publ_flag(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value item of the `geom_bond` category.
+
+/// The single-value item of the `geom_bond` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum GeomBondTerms {
+    Id(CharString),
+}
+
+impl CifTerm for GeomBondTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            GeomBondTerms::Id(_) => "id",
+        };
+        Tag::new(format!("geom_bond_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for GeomBondTerms {
+    fn value(&self) -> Value {
+        match self {
+            GeomBondTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for GeomBondTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

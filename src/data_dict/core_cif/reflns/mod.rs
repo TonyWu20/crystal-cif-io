@@ -9,8 +9,8 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
-    grammar::{CharString, Number, Numeric, Tag, UnsignedInteger, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{CharString, Matrix, Number, Numeric, Tag, UnsignedInteger, Value},
 };
 
 /// The range-check and closed-set error of the `reflns` category.
@@ -86,9 +86,14 @@ impl From<FriedelFraction> for Value {
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ReflnsTerms {
+    /// The closed code set (yes, y, no, n) recorded in the shell
+    /// dictionary; the plain text form is kept.
+    Apply_dispersion_to_fcalc(CharString),
     Friedel_coverage(FriedelFraction),
     Friedel_fraction_full(FriedelFraction),
     Friedel_fraction_max(FriedelFraction),
+    Limit_max(Matrix),
+    Limit_min(Matrix),
     Number_gt(UnsignedInteger),
     Number_observed(UnsignedInteger),
     Number_total(UnsignedInteger),
@@ -100,9 +105,12 @@ pub enum ReflnsTerms {
 impl CifTerm for ReflnsTerms {
     fn tag(&self) -> Tag {
         let suffix = match self {
+            ReflnsTerms::Apply_dispersion_to_fcalc(_) => "apply_dispersion_to_fcalc",
             ReflnsTerms::Friedel_coverage(_) => "Friedel_coverage",
             ReflnsTerms::Friedel_fraction_full(_) => "Friedel_fraction_full",
             ReflnsTerms::Friedel_fraction_max(_) => "Friedel_fraction_max",
+            ReflnsTerms::Limit_max(_) => "limit_max",
+            ReflnsTerms::Limit_min(_) => "limit_min",
             ReflnsTerms::Number_gt(_) => "number_gt",
             ReflnsTerms::Number_observed(_) => "number_observed",
             ReflnsTerms::Number_total(_) => "number_total",
@@ -117,9 +125,11 @@ impl CifTerm for ReflnsTerms {
 impl SingleValueTerm for ReflnsTerms {
     fn value(&self) -> Value {
         match self {
+            ReflnsTerms::Apply_dispersion_to_fcalc(s) => Value::CharString(s.clone()),
             ReflnsTerms::Friedel_coverage(v)
             | ReflnsTerms::Friedel_fraction_full(v)
             | ReflnsTerms::Friedel_fraction_max(v) => (*v).into(),
+            ReflnsTerms::Limit_max(m) | ReflnsTerms::Limit_min(m) => matrix::to_value(m),
             ReflnsTerms::Number_gt(v)
             | ReflnsTerms::Number_observed(v)
             | ReflnsTerms::Number_total(v) => (*v).into(),
