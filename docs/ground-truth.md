@@ -23,6 +23,11 @@ is either a positive expected document or a negative expected error.
 A parsed CIF is encoded as JSON. This shape is the stable contract. A new
 parser must serialize into the same shape.
 
+The file carries `schema_version`. Version 1 is the historical CIF
+1.1 shape. Version 2 adds the `list` value kind for CIF 2.0 files;
+the generator picks the version from the fixture dialect
+(`CifDialect::detect`) and the harness accepts both.
+
 ```json
 {
   "schema_version": 1,
@@ -70,6 +75,12 @@ Each value object has a `kind`. The fields per kind are:
 | `numeric`     | `type` (`integer` or `float`), `value` (string), `std_uncertainty` (string or null) |
 | `char_string` | `style` (`unquoted`, `single_quoted`, `double_quoted`), `text` |
 | `text_field`  | `text` (the joined lines)                                     |
+| `list`        | `values` (a list of value objects; nested lists nest value objects) |
+
+The `list` kind only appears in schema version 2 (the CIF 2.0
+dialect, the `##CIF_2.0` magic code). A matrix-shaped list encodes
+as nested lists of `numeric` value objects; the shape is dictionary
+data, not schema data.
 
 Numeric values are stored as the shortest string form of the parsed number.
 For example `90.0` becomes `"90"` and `.5` becomes `"0.5"`. This normalizes

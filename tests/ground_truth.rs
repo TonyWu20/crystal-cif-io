@@ -5,10 +5,15 @@
 //! - `tests/fixtures/expected/*.json`  expected canonical IR
 //!
 //! The expected JSON for each fixture is either:
-//! - positive: `{"schema_version": 1, "fixture": "...", "blocks": [...]}`
-//! - negative: `{"schema_version": 1, "fixture": "...",
+//! - positive: `{"schema_version": 1|2, "fixture": "...", "blocks": [...]}`
+//! - negative: `{"schema_version": 1|2, "fixture": "...",
 //!    "expect_error": {"stage": "parse"|"validate",
 //!                     "violation": "...", "description": "..."}}`
+//!
+//! Schema version 1 is the CIF 1.1 shape. Schema version 2 adds the
+//! `list` value kind for CIF 2.0 fixtures. The harness accepts both
+//! versions and passes the read version to `canonical::document_json`
+//! so the actual tree carries the same `schema_version`.
 //!
 //! A positive fixture may carry `"known_gap": true`: the expected JSON
 //! is spec-correct, but the parser is known to disagree with it. The
@@ -74,10 +79,27 @@ fn ground_truth_verify() {
         let expected: Json =
             serde_json::from_str(&raw).expect("expected JSON must be valid: {expected_file:?}");
 
+        let schema_version = expected
+            .get("schema_version")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(1);
+        if schema_version != 1 && schema_version != 2 {
+            failures.push(format!(
+                "{name}: unsupported schema_version {schema_version} (expected 1 or 2)"
+            ));
+            continue;
+        }
         if expected.get("expect_error").is_some() {
             check_negative(&name, &content, &expected, &mut failures);
         } else {
-            check_positive(&name, &content, &expected, &mut failures, &mut gaps);
+            check_positive(
+                &name,
+                &content,
+                &expected,
+                schema_version as u32,
+                &mut failures,
+                &mut gaps,
+            );
         }
     }
     for gap in &gaps {
@@ -94,6 +116,7 @@ fn check_positive(
     name: &str,
     content: &str,
     expected: &Json,
+    schema_version: u32,
     failures: &mut Vec<String>,
     gaps: &mut Vec<String>,
 ) {
@@ -109,7 +132,7 @@ fn check_positive(
         }
         Ok(doc) => doc,
     };
-    let actual = canonical::document_json(&doc, name);
+    let actual = canonical::document_json(&doc, name, schema_version);
     // Compare the `blocks` tree only: `known_gap` / `known_gap_note` are
     // bookkeeping fields, not part of the canonical IR.
     let blocks_equal = canonical::trees_equal(&expected["blocks"], &actual["blocks"]);

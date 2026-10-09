@@ -1,5 +1,8 @@
 //! Regenerate `tests/fixtures/expected/*.json` from the current parser.
 //!
+//! Each expected file carries the `schema_version` of its fixture:
+//! 2 for a `##CIF_2.0` file (the CIF 2.0 dialect), 1 otherwise.
+//!
 //! Usage:
 //! - `cargo run --example gt_generate`
 //!   writes only **missing** expected files; existing files are left alone.
@@ -20,7 +23,7 @@ use std::path::PathBuf;
 
 use serde_json::{json, Value as Json};
 
-use crystal_cif_io::canonical;
+use crystal_cif_io::{canonical, CifDialect};
 
 fn fixture_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures")
@@ -39,9 +42,15 @@ fn parse_cif(content: &str) -> Result<crystal_cif_io::CifDocument, String> {
     }
 }
 
-fn expect_error(fixture: &str, stage: &str, violation: &str, description: &str) -> Json {
+fn expect_error(
+    fixture: &str,
+    stage: &str,
+    violation: &str,
+    description: &str,
+    schema_version: u32,
+) -> Json {
     json!({
-        "schema_version": 1,
+        "schema_version": schema_version,
         "fixture": fixture,
         "expect_error": {
             "stage": stage,
@@ -52,7 +61,12 @@ fn expect_error(fixture: &str, stage: &str, violation: &str, description: &str) 
 }
 
 /// Build the expected-body for one fixture from its current parse.
+///
+/// The `schema_version` follows the dialect of the fixture: a
+/// `##CIF_2.0` magic code at the file start (after any byte order
+/// mark) gives version 2; anything else stays version 1.
 fn regenerate(content: &str, fixture: &str) -> Json {
+    let schema_version = CifDialect::detect(content).schema_version();
     let parse = parse_cif(content);
     match parse {
         Err(msg) => expect_error(
@@ -61,13 +75,14 @@ fn regenerate(content: &str, fixture: &str) -> Json {
             "unparseable",
             &format!(
                 "parser rejects this file: {msg}. Spec: the file violates the \
-                 CIF 1.1 syntax rules recorded in docs/ground-truth.md."
+                 CIF syntax rules recorded in docs/ground-truth.md."
             ),
+            schema_version,
         ),
         Ok(doc) => {
             let violations = canonical::validate(&doc);
             if violations.is_empty() {
-                canonical::document_json(&doc, fixture)
+                canonical::document_json(&doc, fixture, schema_version)
             } else {
                 let code = violations[0].code().to_string();
                 let desc = violations
@@ -75,7 +90,7 @@ fn regenerate(content: &str, fixture: &str) -> Json {
                     .map(|v| v.to_string())
                     .collect::<Vec<_>>()
                     .join("; ");
-                expect_error(fixture, "validate", &code, &desc)
+                expect_error(fixture, "validate", &code, &desc, schema_version)
             }
         }
     }

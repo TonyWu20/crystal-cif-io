@@ -1,0 +1,10 @@
+# No ##CIF_2.0 magic code at the file start: this file stays in the
+# CIF 1.1 dialect, where square and curly brackets are plain
+# characters in unquoted values (roadmap section 13.6).
+data_brackets_stay_strings
+_cif1_square [1,2,3]
+_cif1_curly {a,b,c}
+loop_
+ _cif1_loop_square
+ [1,2,3]
+ [4,5,6]

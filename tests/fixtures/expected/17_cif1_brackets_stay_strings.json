@@ -1,0 +1,51 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "cif1_square",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "[1,2,3]"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cif1_curly",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "{a,b,c}"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "[1,2,3]"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "[4,5,6]"
+              }
+            ]
+          ],
+          "tags": [
+            "cif1_loop_square"
+          ]
+        }
+      ],
+      "name": "brackets_stay_strings"
+    }
+  ],
+  "fixture": "17_cif1_brackets_stay_strings.cif",
+  "schema_version": 1
+}

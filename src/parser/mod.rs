@@ -1,4 +1,11 @@
-//! CIF 1.1 parser built on `chumsky` and `ariadne`.
+//! CIF parser built on `chumsky` and `ariadne`.
+//!
+//! The grammar is the CIF 1.1 value rule, plus the CIF 2.0 list
+//! value when the file carries the `##CIF_2.0` magic code (see
+//! [`CifDialect`]). The 2.0 rules are scoped to the value layer:
+//! lists parse, and `[`, `]`, `{`, `}` are illegal inside unquoted
+//! values. Everything else (blocks, loops, save frames, text
+//! fields) is 1.1. See `docs/roadmap-dict-items.md` section 13.
 //!
 //! The design follows `castep_cell_fmt` in the `castep-cell-io`
 //! repository: one chumsky combinator per CIF production, a free
@@ -23,7 +30,13 @@
 use std::ops::Range;
 
 use ariadne::{Color, Label, Report, ReportKind, Source};
-use chumsky::{error::Rich, extra, input::Emitter, prelude::*};
+use chumsky::{
+    error::Rich,
+    extra,
+    input::Emitter,
+    prelude::*,
+    recursive::{recursive, Direct, Recursive},
+};
 
 use crate::grammar::{
     CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
@@ -34,18 +47,64 @@ use crate::grammar::{
 
 type Err<'src> = extra::Err<Rich<'src, char>>;
 
-/// Parse a CIF 1.1 document from a string.
+/// The value-rule dialect of a CIF file.
+///
+/// A file is 2.0 only when the magic code `##CIF_2.0` stands as the
+/// first characters of the file, after any byte order mark. In the
+/// 2.0 dialect the list value rule parses and `[`, `]`, `{`, `}`
+/// are illegal inside unquoted values. In the 1.1 dialect the magic
+/// code is an inert comment line and the four characters stay plain
+/// characters.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CifDialect {
+    /// CIF 1.1 value rules. The default for any file.
+    Cif1_1,
+    /// CIF 2.0 value rules: lists parse, brackets stay out of
+    /// unquoted values.
+    Cif2_0,
+}
+
+impl CifDialect {
+    /// Detect the dialect from the start of the file. A leading byte
+    /// order mark is skipped. Anything but the exact magic code
+    /// `##CIF_2.0` at position zero is 1.1.
+    pub fn detect(input: &str) -> Self {
+        let body = input.strip_prefix('\u{feff}').unwrap_or(input);
+        if body.starts_with("##CIF_2.0") {
+            Self::Cif2_0
+        } else {
+            Self::Cif1_1
+        }
+    }
+
+    /// The canonical JSON schema version for this dialect
+    /// (see `docs/ground-truth.md`).
+    pub fn schema_version(self) -> u32 {
+        match self {
+            Self::Cif1_1 => 1,
+            Self::Cif2_0 => 2,
+        }
+    }
+}
+
+/// Parse a CIF document from a string.
+///
+/// The dialect is detected from the file start: a `##CIF_2.0` magic
+/// code (after any byte order mark) enables the 2.0 value rules;
+/// anything else stays 1.1. A leading byte order mark is elided.
 ///
 /// `Ok` means the whole input was consumed. `Err` carries one `Rich`
 /// error per failure reached; render them with [`rich_error`].
 pub fn parse_cif<'a>(input: &'a str) -> Result<CifDocument, Vec<Rich<'a, char>>> {
-    match cif_file().parse(input).into_result() {
+    let source = input.strip_prefix('\u{feff}').unwrap_or(input);
+    let dialect = CifDialect::detect(source);
+    match cif_file(dialect).parse(source).into_result() {
         Ok(doc) => Ok(doc),
         Err(mut errors) => {
             // Re-derive the semantic diagnostics that the backtracked
             // `filter`s drop on rewind, so they reach the caller. A
             // successful parse is left untouched.
-            errors.extend(semantic_diagnoses(input));
+            errors.extend(semantic_diagnoses(source));
             Err(errors)
         }
     }
@@ -81,6 +140,10 @@ fn is_nonblank(c: char) -> bool {
 
 /// `<OrdinaryChar>`: printable ASCII except space, tab, and the
 /// special characters `#`, `$`, `"`, `'`, `;`, `[`, `]`, `_`.
+///
+/// The 1.1 unquoted rule widens this lead set with `[` and `]`
+/// (roadmap section 13.6: in 1.1 the brackets stay plain
+/// characters, fixture `17_cif1_brackets_stay_strings`).
 fn is_ordinary(c: char) -> bool {
     matches!(c as u8, 0x21..=0x7e) && !matches!(c, '#' | '$' | '"' | '\'' | ';' | '[' | ']' | '_')
 }
@@ -216,39 +279,57 @@ fn ws_region<'src>(starts_at_line_start: bool) -> impl Parser<'src, &'src str, u
 
 /// `<Inapplicable>`: a `.` standing as a whole token, anywhere in a
 /// value position (closes the known gap of the winnow parser,
-/// fixture 09).
-fn inapplicable<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
+/// fixture 09). In the 2.0 dialect the token also ends at the list
+/// closer `]` (see [`continues_value_token`]).
+fn inapplicable<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
     just('.')
-        .then(nonblank().not())
+        .then(
+            any()
+                .filter(move |&c| continues_value_token(dialect, c))
+                .not(),
+        )
         .map(|_| Value::Inapplicable)
 }
 
 /// `<Unknown>`: a `?` standing as a whole token, anywhere in a value
-/// position.
-fn unknown<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
-    just('?').then(nonblank().not()).map(|_| Value::Unknown)
+/// position. Token end is dialect-aware as in [`inapplicable`].
+fn unknown<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
+    just('?')
+        .then(
+            any()
+                .filter(move |&c| continues_value_token(dialect, c))
+                .not(),
+        )
+        .map(|_| Value::Unknown)
 }
 
 /// `<Numeric>` (spec Appendix A): an optional sign, a digit run with
 /// an optional decimal point and exponent, and an optional
 /// `( <UnsignedInteger> )` standard uncertainty.
 ///
-/// The whole non-blank token is consumed first; a token that is not a
+/// The whole value token is consumed first; a token that is not a
 /// valid CIF numeric literal (for example `1_445`, or a `#` glued to
 /// the digits) is not a number, so the choice falls through to the
 /// character-string production. This keeps the token boundary
-/// correct (fixtures `03` and `11`).
-fn numeric<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
+/// correct (fixtures `03` and `11`). In the 2.0 dialect the token
+/// also ends at the list closer `]` (see
+/// [`continues_value_token`]).
+fn numeric<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
     let lead = one_of::<&str, _, _>("+-.0123456789");
-    lead.then(nonblank().repeated().collect::<Vec<char>>())
-        .map(|(first, rest): (char, Vec<char>)| {
-            let mut token = String::with_capacity(rest.len() + 1);
-            token.push(first);
-            token.extend(rest);
-            token
-        })
-        .filter(|token: &String| is_numeric_literal(token))
-        .map(|token: String| numeric_value(&token))
+    lead.then(
+        any()
+            .filter(move |&c| continues_value_token(dialect, c))
+            .repeated()
+            .collect::<Vec<char>>(),
+    )
+    .map(|(first, rest): (char, Vec<char>)| {
+        let mut token = String::with_capacity(rest.len() + 1);
+        token.push(first);
+        token.extend(rest);
+        token
+    })
+    .filter(|token: &String| is_numeric_literal(token))
+    .map(|token: String| numeric_value(&token))
 }
 
 /// True when the token is a valid CIF numeric literal:
@@ -330,18 +411,52 @@ fn numeric_value(token: &str) -> Value {
     Value::Numeric(Numeric::new(number, std_uncertainty))
 }
 
-/// `<CharString>`: unquoted, single-quoted, or double-quoted.
-fn char_string<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
-    choice((single_quoted(), double_quoted(), unquoted())).map(Value::CharString)
+/// `<CharString>`: unquoted, single-quoted, or double-quoted. The
+/// unquoted and quoted forms are dialect-aware (see [`unquoted`],
+/// [`single_quoted`]).
+fn char_string<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
+    choice((
+        single_quoted(dialect),
+        double_quoted(dialect),
+        unquoted(dialect),
+    ))
+    .map(Value::CharString)
+}
+
+/// A content character of a quoted value, per dialect.
+///
+/// 1.1: any printable character except EOL; the value token runs to
+/// the end of the line and embedded blanks are legal (fixture 03).
+/// 2.0: values are separated by white space, so the run stops at a
+/// blank; and the list closer `]` ends the run, so a quoted value
+/// may sit flush against the closer of its list.
+fn quoted_content_char(dialect: CifDialect, c: char) -> bool {
+    if !is_printable(c) || is_eol(c) {
+        return false;
+    }
+    match dialect {
+        CifDialect::Cif1_1 => true,
+        CifDialect::Cif2_0 => !is_blank(c) && c != ']',
+    }
 }
 
 /// An unquoted character string: `<OrdinaryChar><NonBlankChar>*`,
 /// where the whole token is not a bare reserved word (spec para. 8,
 /// 11; fixture `neg_reserved_word_value`).
-fn unquoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> {
+///
+/// Dialect split (roadmap section 13.3):
+/// - 1.1: `[`, `]`, `{`, `}` are plain characters anywhere in the
+///   token, and `[` / `]` may also lead it.
+/// - 2.0: a token containing any of `[`, `]`, `{`, `}` is a parse
+///   error; the lead set stays the strict `<OrdinaryChar>` set.
+fn unquoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
     any()
-        .filter(|&c| is_ordinary(c))
-        .then(nonblank().repeated())
+        .filter(move |&c| is_unquoted_lead(dialect, c))
+        .then(
+            any()
+                .filter(move |&c| continues_value_token(dialect, c))
+                .repeated(),
+        )
         .to_slice()
         .validate(|token: &'src str, map, emit| {
             if is_reserved_word(token) {
@@ -357,25 +472,57 @@ fn unquoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> {
             }
             token
         })
-        .filter(|token| !is_reserved_word(token) && !starts_with_reserved_stem(token))
+        .filter(move |token| {
+            if is_reserved_word(token) || starts_with_reserved_stem(token) {
+                return false;
+            }
+            match dialect {
+                CifDialect::Cif1_1 => true,
+                CifDialect::Cif2_0 => !token.contains(['[', ']', '{', '}']),
+            }
+        })
         .map(|token| CharString::Unquoted(UnquotedString::new(token.to_string())))
+}
+
+/// A leading character of an unquoted value, per dialect.
+///
+/// 1.1: `<OrdinaryChar>` plus `[` and `]` (the brackets stay plain
+/// characters, fixture `17_cif1_brackets_stay_strings`). The other
+/// two special characters of the 2.0 restriction, `{` and `}`, are
+/// already ordinary. 2.0: the strict `<OrdinaryChar>` set only.
+fn is_unquoted_lead(dialect: CifDialect, c: char) -> bool {
+    if !is_ordinary(c) {
+        return matches!(c, '[' | ']') && dialect == CifDialect::Cif1_1;
+    }
+    true
+}
+
+/// True when `c` continues the current value token, per dialect.
+///
+/// 1.1: any `<NonBlankChar>` continues the token, as today. 2.0:
+/// the list closer `]` ends the token, so `[1 2 3]` tokenizes as
+/// three numeric values and a closer. A `[` still continues the
+/// token: it makes an unquoted value illegal (roadmap section
+/// 13.2), and a token that starts with `[` is a list candidate.
+fn continues_value_token(dialect: CifDialect, c: char) -> bool {
+    if !is_nonblank(c) {
+        return false;
+    }
+    matches!(dialect, CifDialect::Cif1_1) || c != ']'
 }
 
 /// A single-quoted character string (spec para. 15, 16). The content
 /// may hold any printable character, including embedded quotes (kept
 /// verbatim). The value token ends at the first white space or EOL;
 /// the last character of the token must be the closing quote.
-fn single_quoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> {
+fn single_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
     let run = any()
-        .filter(|&c| is_printable(c) && !is_eol(c))
+        .filter(move |&c| quoted_content_char(dialect, c))
         .repeated()
         .to_slice();
     just('\'')
         .then(run)
-        .map(|(_q, run): (char, &str)| {
-            run.trim_end_matches([' ', '\t'])
-                .to_string()
-        })
+        .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
         .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('\''))
         .map(|trimmed: String| {
             CharString::SingleQuoted(SingleQuotedString::new(
@@ -388,17 +535,14 @@ fn single_quoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> 
 /// printable character, including embedded quotes (kept verbatim).
 /// The value token ends at the first white space or EOL; the last
 /// character of the token must be the closing quote.
-fn double_quoted<'src>() -> impl Parser<'src, &'src str, CharString, Err<'src>> {
+fn double_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
     let run = any()
-        .filter(|&c| is_printable(c) && !is_eol(c))
+        .filter(move |&c| quoted_content_char(dialect, c))
         .repeated()
         .to_slice();
     just('"')
         .then(run)
-        .map(|(_q, run): (char, &str)| {
-            run.trim_end_matches([' ', '\t'])
-                .to_string()
-        })
+        .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
         .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('"'))
         .map(|trimmed: String| {
             CharString::DoubleQuoted(DoubleQuotedString::new(
@@ -457,7 +601,9 @@ fn tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
 
 /// `<DataItems>`, single-value form: a tag, white space (at least
 /// one character, spec para. 7), and a value.
-fn tag_value_items<'src>() -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
+fn tag_value_items<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
     tag()
         .then(ws_region(false))
         .validate(|(tag, n), map, emit| {
@@ -469,7 +615,7 @@ fn tag_value_items<'src>() -> impl Parser<'src, &'src str, DataItems, Err<'src>>
             }
             tag
         })
-        .then(value())
+        .then(value(dialect))
         .map(|(tag, value)| DataItems::SingleValue(SingleLineData::from_tag_value((tag, value))))
 }
 
@@ -486,13 +632,13 @@ fn loop_tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
         .map(|(_ws, tag)| tag)
 }
 
-fn loop_items<'src>() -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
+fn loop_items<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
     loop_prefix()
         .then(loop_tag().repeated().collect::<Vec<Tag>>())
         .then(
             ws_region(false)
                 .map(|_| ())
-                .then(value())
+                .then(value(dialect))
                 .map(|(_ws, v): (_, Value)| v)
                 .separated_by(ws_region(false).map(|_| ()))
                 .collect::<Vec<Value>>(),
@@ -516,25 +662,63 @@ fn loop_items<'src>() -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
 }
 
 /// A single-value data item, wrapped as a block member.
-fn tag_value<'src>() -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
-    tag_value_items().map(DataBlockMember::DataItems)
+fn tag_value<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
+    tag_value_items(dialect).map(DataBlockMember::DataItems)
 }
 
 /// A loop data item, wrapped as a block member.
-fn loop_struct<'src>() -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
-    loop_items().map(DataBlockMember::DataItems)
+fn loop_struct<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
+    loop_items(dialect).map(DataBlockMember::DataItems)
 }
 
 /// `<Value>`: one of inapplicable, unknown, numeric, text field,
-/// character string.
-fn value<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
-    choice((
-        inapplicable(),
-        unknown(),
-        numeric(),
-        text_field(),
-        char_string(),
-    ))
+/// character string. The 2.0 `list` production comes first
+/// (roadmap section 13.4: `list | <current choice>`).
+///
+/// The production is self-recursive: a list holds values, and a
+/// value may be a list. The body is therefore built with chumsky's
+/// `recursive` (one `Rc` per build, no per-token allocation). In the
+/// 1.1 dialect the trailing filter rejects the list production, so
+/// the 1.1 value rule stays the historical choice.
+fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
+    recursive(
+        move |rec: Recursive<Direct<'src, 'src, &'src str, Value, Err<'src>>>| {
+            // `<List>` (CIF 2.0 only, roadmap section 13.2): `[`, zero
+            // or more values separated by white space (which may span
+            // lines), and `]`. Lists may nest. An empty list is the
+            // empty `[]` form.
+            //
+            // The sub-parsers are `.boxed()` (chumsky's `Rc`-backed
+            // `Boxed`) so the recursive `choice` satisfies chumsky's
+            // `Clone` bound: the sibling productions are opaque `impl
+            // Parser` types, which rustc does not prove `Clone` through.
+            let list = just('[')
+                .then(
+                    ws_region(false)
+                        .boxed()
+                        .map(|_| ())
+                        .then(rec.clone())
+                        .map(|(_ws, v): (_, Value)| v)
+                        .separated_by(ws_region(false).boxed().map(|_| ()))
+                        .collect::<Vec<Value>>(),
+                )
+                .then(just(']'))
+                .map(|((_open, values), _close)| Value::List(values))
+                .filter(move |_: &Value| dialect == CifDialect::Cif2_0);
+            choice((
+                list,
+                inapplicable(dialect).boxed(),
+                unknown(dialect).boxed(),
+                numeric(dialect).boxed(),
+                text_field().boxed(),
+                char_string(dialect).boxed(),
+            ))
+        },
+    )
 }
 
 /// Transpose a flat loop body into per-tag columns (the loop body is
@@ -552,13 +736,15 @@ fn into_columns(tags: Vec<Tag>, values: Vec<Value>) -> LoopColumns {
 
 /// `<SaveFrame>`: `save_<code>`, inner data items (save frames do not
 /// nest, spec para. 6), closed by a bare `save_`.
-fn save_frame<'src>() -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
+fn save_frame<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
     save_prefix()
         .then(nonblank().repeated().at_least(1).to_slice())
         .then(
             ws_region(false)
                 .map(|_| ())
-                .then(inner_item())
+                .then(inner_item(dialect))
                 .map(|(_ws, item)| item)
                 .repeated()
                 .collect::<Vec<DataItems>>(),
@@ -582,23 +768,29 @@ fn save_frame<'src>() -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>
 /// nested save frames (spec para. 6).
 /// Members inside a save frame: single-value items and loops, as
 /// `<DataItems>` (save frames do not nest, spec para. 6).
-fn inner_item<'src>() -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
-    choice((loop_items(), tag_value_items()))
+fn inner_item<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
+    choice((loop_items(dialect), tag_value_items(dialect)))
 }
 
 /// Members of a data block: save frames, loops, and tag-value items.
-fn block_member<'src>() -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
-    choice((save_frame(), loop_struct(), tag_value()))
+fn block_member<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
+    choice((
+        save_frame(dialect),
+        loop_struct(dialect),
+        tag_value(dialect),
+    ))
 }
 
 /// `<DataBlock>`: a `data_` heading plus block members.
-fn data_block<'src>() -> impl Parser<'src, &'src str, DataBlock, Err<'src>> {
+fn data_block<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataBlock, Err<'src>> {
     data_prefix()
         .then(nonblank().repeated().at_least(1).to_slice())
         .then(
             ws_region(false)
                 .map(|_| ())
-                .then(block_member())
+                .then(block_member(dialect))
                 .map(|(_, m)| m)
                 .repeated()
                 .collect::<Vec<DataBlockMember>>(),
@@ -610,12 +802,14 @@ fn data_block<'src>() -> impl Parser<'src, &'src str, DataBlock, Err<'src>> {
 
 /// The top level: white space, a sequence of data blocks, trailing
 /// white space, and end of input. A `global_` line (forbidden, spec
-/// para. 33) and any other garbage fail the strict `end()`.
-fn cif_file<'src>() -> impl Parser<'src, &'src str, CifDocument, Err<'src>> {
+/// para. 33) and any other garbage fail the strict `end()`. The
+/// 1.1 magic-code line `##CIF_2.0` is an inert comment here; the
+/// 2.0 rules ride on the `dialect` flag.
+fn cif_file<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CifDocument, Err<'src>> {
     ws_region(true)
         .map(|_| ())
         .then(
-            data_block()
+            data_block(dialect)
                 .separated_by(ws_region(false).map(|_| ()))
                 .collect::<Vec<DataBlock>>(),
         )
@@ -702,10 +896,7 @@ fn tok_text<'s>(source: &'s str, t: &CifTok) -> &'s str {
 /// A reserved word or reserved stem standing where a data name's value
 /// belongs (spec para. 8, 11). High precision: only a stem token that
 /// immediately follows a data name on the same line is a value.
-fn reserved_word_as_value(
-    source: &str,
-    toks: &[CifTok],
-) -> Vec<(Range<usize>, String)> {
+fn reserved_word_as_value(source: &str, toks: &[CifTok]) -> Vec<(Range<usize>, String)> {
     let mut out: Vec<(Range<usize>, String)> = Vec::new();
     for k in 1..toks.len() {
         let t = &toks[k];
@@ -731,10 +922,7 @@ fn reserved_word_as_value(
 /// A `loop_` reserved word with no header tags (the clear empty-loop case,
 /// spec para. 7). The "tags but zero body values" sub-case is not detected:
 /// it needs a full parse and is unreachable in the current fixtures.
-fn loop_without_tags(
-    source: &str,
-    toks: &[CifTok],
-) -> Vec<(Range<usize>, String)> {
+fn loop_without_tags(source: &str, toks: &[CifTok]) -> Vec<(Range<usize>, String)> {
     let mut out: Vec<(Range<usize>, String)> = Vec::new();
     for k in 0..toks.len() {
         let t = &toks[k];
@@ -775,6 +963,21 @@ fn semantic_diagnoses<'a>(source: &'a str) -> Vec<Rich<'a, char>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The single-value item of `tag` in the first block that holds
+    /// it.
+    fn single_item<'a>(doc: &'a CifDocument, tag: &'a str) -> &'a Value {
+        for block in doc.data_blocks().expect("data blocks") {
+            for member in block.members() {
+                if let DataBlockMember::DataItems(DataItems::SingleValue(item)) = member {
+                    if item.tag().as_str() == tag {
+                        return item.value();
+                    }
+                }
+            }
+        }
+        panic!("tag {tag} not found")
+    }
 
     fn messages(source: &str) -> Vec<String> {
         semantic_diagnoses(source)
@@ -820,7 +1023,8 @@ mod tests {
         let src = "data_bad\nloop_ _x\nloop_\nsave_f\n _a 1\nSAVE_\n";
         let msgs = messages(src);
         assert!(
-            msgs.iter().any(|m| m.contains("a loop must name at least one tag")),
+            msgs.iter()
+                .any(|m| m.contains("a loop must name at least one tag")),
             "expected the empty-loop diagnostic, got {msgs:?}"
         );
     }
@@ -828,9 +1032,10 @@ mod tests {
     #[test]
     fn parse_cif_surfaces_the_custom_diagnostics() {
         let src = "data_d\n_a save_foo\n";
-        let errs = parse_cif(src).err().expect("must fail");
+        let errs = parse_cif(src).expect_err("must fail");
         assert!(
-            errs.iter().any(|e| e.reason().to_string().contains("may not begin a value")),
+            errs.iter()
+                .any(|e| e.reason().to_string().contains("may not begin a value")),
             "the custom diagnostic must reach the caller, got {errs:?}"
         );
     }
@@ -839,5 +1044,141 @@ mod tests {
     fn a_valid_document_stays_ok() {
         let src = "data_ok\n _a 1\n _b 2.5\n";
         assert!(parse_cif(src).is_ok(), "a valid document must parse");
+    }
+
+    #[test]
+    fn dialect_detection_reads_the_magic_code() {
+        assert_eq!(
+            CifDialect::detect("##CIF_2.0\ndata_d\n_a 1\n"),
+            CifDialect::Cif2_0
+        );
+        // The byte order mark precedes the magic code.
+        assert_eq!(
+            CifDialect::detect("\u{feff}##CIF_2.0\ndata_d\n_a 1\n"),
+            CifDialect::Cif2_0
+        );
+        // Anything else is 1.1, including a magic-code-looking line
+        // that is not at position zero.
+        assert_eq!(
+            CifDialect::detect("##CIF_1.1\ndata_d\n_a 1\n"),
+            CifDialect::Cif1_1
+        );
+        assert_eq!(CifDialect::detect("data_d\n_a 1\n"), CifDialect::Cif1_1);
+        assert_eq!(
+            CifDialect::detect("# a line\n##CIF_2.0\ndata_d\n_a 1\n"),
+            CifDialect::Cif1_1
+        );
+    }
+
+    #[test]
+    fn schema_versions_follow_the_dialect() {
+        assert_eq!(CifDialect::Cif1_1.schema_version(), 1);
+        assert_eq!(CifDialect::Cif2_0.schema_version(), 2);
+    }
+
+    #[test]
+    fn a_2_0_file_parses_lists() {
+        let src = "##CIF_2.0\ndata_d\n_flat [1 2.5 -3]\n_nested [[1 2] [3 4]]\n_matrix [[1 2 3] [4 5 6] [7 8 9]]\n_empty []\n_strings ['a' \"b\"]\n";
+        let doc = parse_cif(src).expect("2.0 lists parse");
+        match single_item(&doc, "empty") {
+            Value::List(values) => assert!(values.is_empty()),
+            other => panic!("expected an empty list, got {other:?}"),
+        }
+        match single_item(&doc, "nested") {
+            Value::List(rows) => {
+                assert_eq!(rows.len(), 2);
+                assert_eq!(rows[0].as_list().expect("row is a list").len(), 2);
+            }
+            other => panic!("expected a nested list, got {other:?}"),
+        }
+        match single_item(&doc, "matrix") {
+            Value::List(rows) => {
+                assert_eq!(rows.len(), 3);
+                for row in rows {
+                    assert_eq!(row.as_list().expect("row is a list").len(), 3);
+                }
+            }
+            other => panic!("expected a matrix list, got {other:?}"),
+        }
+        match single_item(&doc, "strings") {
+            Value::List(values) => {
+                assert_eq!(values.len(), 2);
+                assert_eq!(values[0].as_char_string().expect("quoted").as_ref(), "a");
+            }
+            other => panic!("expected a string list, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_2_0_file_rejects_brackets_in_unquoted_values() {
+        let src = "##CIF_2.0\ndata_d\n_v a[1,2]\n";
+        let errs = parse_cif(src).expect_err("a bracket in an unquoted 2.0 value must fail");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
+    }
+
+    #[test]
+    fn a_2_0_file_rejects_a_curly_brace_in_unquoted_values() {
+        let src = "##CIF_2.0\ndata_d\n_v a{x}\n";
+        assert!(
+            parse_cif(src).is_err(),
+            "a brace in an unquoted 2.0 value must fail"
+        );
+    }
+
+    #[test]
+    fn a_1_1_file_keeps_brackets_as_plain_characters() {
+        let src = "data_d\n_square [1,2,3]\n_curly {a}\n_lead ]x[\n";
+        let doc = parse_cif(src).expect("1.1 brackets stay plain characters");
+        for tag in ["square", "curly", "lead"] {
+            match single_item(&doc, tag) {
+                Value::CharString(cs) => assert!(
+                    matches!(cs, CharString::Unquoted(_)),
+                    "{tag} must stay an unquoted char string, got {cs:?}"
+                ),
+                other => panic!("expected an unquoted char string, got {other:?}"),
+            }
+        }
+        assert_eq!(
+            single_item(&doc, "square")
+                .as_char_string()
+                .expect("char string")
+                .as_ref(),
+            "[1,2,3]"
+        );
+    }
+
+    #[test]
+    fn the_magic_code_is_an_inert_comment_in_1_1() {
+        // The magic-code line after a comment line is not at position
+        // zero: the file stays 1.1 and the brackets stay characters.
+        let src = "# note\n##CIF_2.0\ndata_d\n_v [1,2,3]\n";
+        let doc = parse_cif(src).expect("an inert magic-code line must not flip the dialect");
+        assert_eq!(
+            single_item(&doc, "v")
+                .as_char_string()
+                .expect("char string")
+                .as_ref(),
+            "[1,2,3]"
+        );
+    }
+
+    #[test]
+    fn a_byte_order_mark_does_not_hide_the_magic_code() {
+        let src = "\u{feff}##CIF_2.0\ndata_d\n_v []\n";
+        let doc = parse_cif(src).expect("a BOM-prefixed 2.0 file must parse");
+        match single_item(&doc, "v") {
+            Value::List(values) => assert!(values.is_empty()),
+            other => panic!("expected a list, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_list_spanning_lines_in_2_0_parses() {
+        let src = "##CIF_2.0\ndata_d\n_v [1\n # a comment inside the list\n 2]\n";
+        let doc = parse_cif(src).expect("a multi-line 2.0 list must parse");
+        match single_item(&doc, "v") {
+            Value::List(values) => assert_eq!(values.len(), 2),
+            other => panic!("expected a two-element list, got {other:?}"),
+        }
     }
 }

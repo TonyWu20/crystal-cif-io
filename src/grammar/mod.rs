@@ -1,9 +1,10 @@
-//! CIF 1.1 intermediate representation (IR) types.
+//! Intermediate representation (IR) types for CIF files.
 //!
-//! The types in this module are built by the chumsky parser in
-//! [`crate::parser`] and encoded to the groundtruth JSON by
-//! [`crate::canonical`]. The old winnow parser is gone; see
-//! `docs/refactor-chumsky-ariadne.md`.
+//! The value grammar is the CIF 1.1 form, plus the CIF 2.0 list
+//! value (`Value::List`) for files in the 2.0 dialect. The types
+//! are built by the chumsky parser in [`crate::parser`] and encoded
+//! to the groundtruth JSON by [`crate::canonical`]. The old winnow
+//! parser is gone; see `docs/refactor-chumsky-ariadne.md`.
 
 use std::fmt::Display;
 
