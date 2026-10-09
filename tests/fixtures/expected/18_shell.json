@@ -1,0 +1,241 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "refln_id",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "REFL0001"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refln_fom",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.94"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refln_Lp_factor",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.87"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_11",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_12",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_13",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_21",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_22",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_23",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_31",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_32",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_matrix_33",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_vector_1",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_vector_2",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "atom_sites_fract_tran_vector_3",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "reflns_apply_dispersion_to_Fcalc",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "yes"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "reflns_shell_d_res_limits",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "20.00:2.50"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "10"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1200"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "98.2"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "2.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "980"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "95.1"
+              }
+            ]
+          ],
+          "tags": [
+            "reflns_shell_d_res_high",
+            "reflns_shell_d_res_low",
+            "reflns_shell_number_measured_all",
+            "reflns_shell_percent_possible_all"
+          ]
+        }
+      ],
+      "name": "shell_example"
+    }
+  ],
+  "fixture": "18_shell.cif",
+  "schema_version": 1
+}
