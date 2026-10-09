@@ -14,6 +14,13 @@
 //! - `char_string`             `{"style": "unquoted"|"single_quoted"|"double_quoted",
 //!   "text": "<content between delimiters, as written>"}`
 //! - `text_field`             `{"text": "<lines joined with \n>"}`
+//! - `list`                    `{"values": [ ... value objects ... ]}`;
+//!   nested lists hold nested value objects. Only in schema version 2
+//!   (the CIF 2.0 dialect).
+//!
+//! Schema versions: `schema_version` 1 is the historical shape (CIF
+//! 1.1 only). Schema version 2 adds the `list` value kind for the
+//! CIF 2.0 dialect. The harness accepts both.
 //!
 //! Loops are encoded as rows (transposed from the column-oriented IR).
 //! Tags are stored without the leading underscore. Comments and other
@@ -30,7 +37,11 @@ use crate::{
 };
 
 /// Serialize a parsed document into the canonical JSON shape.
-pub fn document_json(doc: &CifDocument, fixture: &str) -> Json {
+///
+/// `schema_version` is the schema generation of the expected file:
+/// 1 for CIF 1.1 fixtures, 2 for CIF 2.0 fixtures (the `list` value
+/// kind). See `docs/ground-truth.md`.
+pub fn document_json(doc: &CifDocument, fixture: &str, schema_version: u32) -> Json {
     let blocks = doc
         .data_blocks()
         .map(|blocks| {
@@ -46,7 +57,7 @@ pub fn document_json(doc: &CifDocument, fixture: &str) -> Json {
         })
         .unwrap_or_default();
     json!({
-        "schema_version": 1,
+        "schema_version": schema_version,
         "fixture": fixture,
         "blocks": blocks,
     })
@@ -122,6 +133,10 @@ fn value_json(value: &Value) -> Json {
             "kind": "text_field",
             "text": tf.raw_string(),
         }),
+        Value::List(values) => json!({
+            "kind": "list",
+            "values": values.iter().map(value_json).collect::<Vec<_>>(),
+        }),
     }
 }
 
@@ -163,7 +178,6 @@ impl Violation {
             Self::RaggedLoop { .. } => "ragged_loop",
         }
     }
-
 }
 
 impl std::fmt::Display for Violation {
