@@ -313,7 +313,8 @@ work) start only when D1 approves the shell scope.
 
 Wave status (2026-10-09, D8): the CIF 2.0 list-value parser work
 moved up from the T6 wave to branch `dict-items/d8` (based on
-`dev-0.2` at ab7db3f), section 13 scope: dialect detection from the
+`dev-0.2` at adb0b69, the orchestration commit), section 13
+scope: dialect detection from the
 `##CIF_2.0` magic code, `Value::List`, the 2.0 unquoted-value
 restriction, `Matrix::from_list`, the canonical `list` value kind
 and schema version 2, and the four section 13.6 fixtures. The T6
@@ -337,6 +338,24 @@ Matrix list constructor, the canonical list kind, and fixtures
 16, 17, neg_cif2_*. T6 owns the shell inventory, the 347-item
 set (D2: the _su items are skipped), the Matrix payload binding,
 and fixture 18_shell.cif.
+
+Shell wave status (2026-10-09, complete): D8 is merged into
+dev-0.2 (merge 14870bd). T6 is merged (merge 9169ab5). The
+shell inventory holds 1139 items in 91 categories, matching the
+roadmap pin. Two review sessions finished clean with no P0.
+The four P1 findings were fixed on dev-0.2 the same day:
+the 2.0 quoted run allows interior blanks, the 2.0 list allows
+a blank before the closer (both per the COMCIFS EBNF, pinned
+by fixture 16), the 1.1 bracket-lead deviation is recorded in
+13.3, and the shell generator closed-set corruption is fixed
+(audit_schema, diffrn_radiation_wavelength_determination).
+Accepted P2 notes: the T0 to T3 hand-extended modules keep
+plain values for some closed and range items. The codegen
+union rule keeps the standard inventory authoritative for
+closed sets. The MatrixError struct-to-enum change is a
+pre-1.0 breaking change. Reports:
+sessions/dict-items-review-d8/report.md,
+sessions/dict-items-review-t6/report.md.
 
 ## 11. Sources
 
@@ -474,7 +493,10 @@ In:
 
 1. Dialect detection from the file start. A `#\#CIF_2.0` magic
    code enables the 2.0 value rules. Anything else stays 1.1.
-   The 1.1 behavior is unchanged.
+   Two 1.1 extensions are recorded (review d8 P1-3, P2-1): the
+   unquoted lead set gains `[` and `]`, which deviates from the
+   1.1 spec paragraph 19 (fixture 17 pins it). BOM elision
+   applies to every dialect, not only 2.0 files.
 2. A `Value::List(Vec<Value>)` variant. Nested lists are legal.
 3. The 2.0 restriction on unquoted values. A `[`, `]`, `{`, or
    `}` inside an unquoted value is a parse error in the 2.0
@@ -530,7 +552,7 @@ encodes as a nested list of `numeric` values. No dedicated
 
 1. `parse_cif` reads every fixture in 13.6 into the canonical
    shape.
-2. All 12 existing 1.1 fixtures parse unchanged. Their expected
+2. All 21 pre-D8 fixtures parse unchanged. Their expected
    JSON is byte-identical.
 3. A 2.0 file with a `[` inside an unquoted value fails at the
    parse stage with a `Rich` error.
