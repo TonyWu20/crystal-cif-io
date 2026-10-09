@@ -1,7 +1,38 @@
+use std::fmt::Display;
+
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
-    grammar::{CharString, Numeric, Tag, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{CharString, Matrix, Numeric, Tag, Value},
 };
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum DiffrnStandardReflnTerms {
+    Hkl(Matrix),
+}
+
+impl CifTerm for DiffrnStandardReflnTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            DiffrnStandardReflnTerms::Hkl(_) => "hkl",
+        };
+        Tag::new(format!("diffrn_standard_refln_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for DiffrnStandardReflnTerms {
+    fn value(&self) -> Value {
+        match self {
+            DiffrnStandardReflnTerms::Hkl(m) => matrix::to_value(m),
+        }
+    }
+}
+
+impl Display for DiffrnStandardReflnTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
+    }
+}
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

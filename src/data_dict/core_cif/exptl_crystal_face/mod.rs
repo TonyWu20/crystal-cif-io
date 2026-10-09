@@ -5,8 +5,8 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
-    grammar::{Numeric, Tag, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{Matrix, Numeric, Tag, Value},
 };
 
 /// The loop items of the `exptl_crystal_face` category. Each variant
@@ -55,6 +55,40 @@ impl LoopValueTerm for ExptlCrystalFaceLoopItem {
                 v.iter().cloned().map(Value::from).collect()
             }
         }
+    }
+}
+
+// The T6 single-value item of the `exptl_crystal_face` category.
+
+/// The single-value item of the `exptl_crystal_face` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum ExptlCrystalFaceTerms {
+    /// The shell records a 3-vector (`_type.dimension` `[3]`);
+    /// the `Matrix` payload holds the row list.
+    Hkl(Matrix),
+}
+
+impl CifTerm for ExptlCrystalFaceTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            ExptlCrystalFaceTerms::Hkl(_) => "hkl",
+        };
+        Tag::new(format!("exptl_crystal_face_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for ExptlCrystalFaceTerms {
+    fn value(&self) -> Value {
+        match self {
+            ExptlCrystalFaceTerms::Hkl(m) => matrix::to_value(m),
+        }
+    }
+}
+
+impl Display for ExptlCrystalFaceTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

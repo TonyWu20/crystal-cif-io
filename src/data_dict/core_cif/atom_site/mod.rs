@@ -1,5 +1,7 @@
-use crate::data_dict::{CifTerm, LoopValueTerm};
-use crate::grammar::{CharString, Float, Numeric, Tag, Value};
+use std::fmt::Display;
+
+use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
+use crate::grammar::{CharString, Float, Matrix, Numeric, Tag, Value};
 
 use self::adp_type::AdpType;
 use self::calc_flag::CalcFlag;
@@ -131,6 +133,47 @@ impl CifTerm for AtomSiteLoopItem {
             AtomSiteLoopItem::Wyckoff_symbol(_) => "wyckoff_symbol",
         };
         Tag::new(format!("atom_site_{suffix}"))
+    }
+}
+
+// The T6 single-value items of the `atom_site` category.
+
+/// The single-value items of the `atom_site` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum AtomSiteTerms {
+    /// The shell records a 3-vector (`_type.dimension` `[3]`);
+    /// the `Matrix` payload holds the row list.
+    Cartn_xyz(Matrix),
+    Fract_symmform(CharString),
+    /// The shell records a 3-vector (`_type.dimension` `[3]`);
+    /// the `Matrix` payload holds the row list.
+    Fract_xyz(Matrix),
+}
+
+impl CifTerm for AtomSiteTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            AtomSiteTerms::Cartn_xyz(_) => "cartn_xyz",
+            AtomSiteTerms::Fract_symmform(_) => "fract_symmform",
+            AtomSiteTerms::Fract_xyz(_) => "fract_xyz",
+        };
+        Tag::new(format!("atom_site_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for AtomSiteTerms {
+    fn value(&self) -> Value {
+        match self {
+            AtomSiteTerms::Cartn_xyz(m) | AtomSiteTerms::Fract_xyz(m) => matrix::to_value(m),
+            AtomSiteTerms::Fract_symmform(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for AtomSiteTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

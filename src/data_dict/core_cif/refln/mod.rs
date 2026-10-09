@@ -7,8 +7,8 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
-    grammar::{CharString, Numeric, Tag, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{CharString, Matrix, Numeric, Tag, Value},
 };
 
 mod codes;
@@ -127,6 +127,63 @@ impl LoopValueTerm for ReflnLoopItem {
             ReflnLoopItem::Observed_status(v) => v.iter().cloned().map(Value::from).collect(),
             ReflnLoopItem::Refinement_status(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value items of the `refln` category.
+
+/// The single-value items of the `refln` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum ReflnTerms {
+    /// The dictionary contents are Complex; the value layer has
+    /// no complex type (roadmap section 9), so the item binds
+    /// the Numeric payload.
+    F_complex(Numeric),
+    Fom(Numeric),
+    /// The dictionary records a table; the value layer has no
+    /// table type (roadmap section 9), so the item binds the
+    /// Numeric payload.
+    Form_factor_table(Numeric),
+    /// The shell records a 3-vector (`_type.dimension` `[3]`);
+    /// the `Matrix` payload holds the row list.
+    Hkl(Matrix),
+    Id(CharString),
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `0.0:`); the plain numeric form is kept.
+    Lp_factor(Numeric),
+}
+
+impl CifTerm for ReflnTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            ReflnTerms::F_complex(_) => "F_complex",
+            ReflnTerms::Fom(_) => "fom",
+            ReflnTerms::Form_factor_table(_) => "form_factor_table",
+            ReflnTerms::Hkl(_) => "hkl",
+            ReflnTerms::Id(_) => "id",
+            ReflnTerms::Lp_factor(_) => "Lp_factor",
+        };
+        Tag::new(format!("refln_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for ReflnTerms {
+    fn value(&self) -> Value {
+        match self {
+            ReflnTerms::F_complex(n)
+            | ReflnTerms::Fom(n)
+            | ReflnTerms::Form_factor_table(n)
+            | ReflnTerms::Lp_factor(n) => Value::Numeric(*n),
+            ReflnTerms::Hkl(m) => matrix::to_value(m),
+            ReflnTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for ReflnTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

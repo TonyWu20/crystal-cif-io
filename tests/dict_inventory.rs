@@ -15,12 +15,24 @@
 //! from the dictionary in that version. They stay registered for
 //! legacy output and are listed in `KNOWN_DICTIONARY_DRIFT`. If an
 //! item reappears in the inventory, drop it from that list.
+//!
+//! The T6 step adds a second recorded inventory, the CIF_CORE shell
+//! dictionary (`tests/dict_inventory_shell.json`). A registry tag
+//! the standard inventory lacks is acceptable when the shell
+//! inventory records it: that is a T6 tag. The shell-side checks
+//! live in `tests/dict_inventory_shell.rs`.
 
 use std::collections::HashMap;
 use std::path::PathBuf;
 
 use crystal_cif_io::data_dict::tags;
 use serde_json::Value;
+
+fn shell_inventory() -> Option<Value> {
+    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/dict_inventory_shell.json");
+    let raw = std::fs::read_to_string(&path).ok()?;
+    serde_json::from_str(&raw).ok()
+}
 
 /// Implemented tags whose items the recorded dictionary no longer
 /// defines. The DDL1 archive changelog records the removal of
@@ -45,15 +57,37 @@ fn registry_tags_exist_in_inventory() {
         })
         .collect();
 
+    // The T6 step: a tag the standard inventory lacks may be
+    // recorded by the shell inventory.
+    let shell_items: std::collections::HashSet<String> = shell_inventory()
+        .map(|v| {
+            v["items"]
+                .as_array()
+                .expect("shell items array")
+                .iter()
+                .map(|i| i["name"].as_str().expect("item name").to_ascii_lowercase())
+                .collect()
+        })
+        .unwrap_or_default();
+
     let mut missing: Vec<String> = Vec::new();
+    let mut t6_tags: Vec<&str> = Vec::new();
     for tag in tags::ALL {
         let key = tag.to_ascii_lowercase();
         if !by_name.contains_key(&key) {
-            missing.push(tag.to_string());
+            if shell_items.contains(&key) {
+                t6_tags.push(tag);
+            } else {
+                missing.push(tag.to_string());
+            }
         }
     }
+    println!(
+        "T6 tags absent from the standard inventory (recorded by the shell): {}",
+        t6_tags.len()
+    );
 
-    // Every missing tag must be documented dictionary drift.
+    // Every other missing tag must be documented dictionary drift.
     let unexpected: Vec<&String> = missing
         .iter()
         .filter(|m| !KNOWN_DICTIONARY_DRIFT.contains(&m.as_str()))
@@ -83,14 +117,27 @@ fn print_coverage(categories: &[Value], by_name: &HashMap<String, &Value>) {
         .iter()
         .map(|c| c["name"].as_str().expect("category name"))
         .collect();
+    let shell_items: std::collections::HashSet<String> = shell_inventory()
+        .map(|v| {
+            v["items"]
+                .as_array()
+                .expect("shell items array")
+                .iter()
+                .map(|i| i["name"].as_str().expect("item name").to_ascii_lowercase())
+                .collect()
+        })
+        .unwrap_or_default();
     let mut implemented_in: HashMap<String, usize> = HashMap::new();
     let mut implemented = 0usize;
     for tag in tags::ALL {
+        let key = tag.to_ascii_lowercase();
+        if shell_items.contains(&key) && !by_name.contains_key(&key) {
+            continue; // a T6 tag: it belongs to the shell coverage table
+        }
         implemented += 1;
         // The recorded category is authoritative. Some items carry a
         // different category name prefix in their name, so prefer the
         // recorded category and fall back to the name-prefix rule.
-        let key = tag.to_ascii_lowercase();
         let cat = by_name
             .get(&key)
             .and_then(|v| v["category"].as_str())
@@ -117,7 +164,11 @@ fn print_coverage(categories: &[Value], by_name: &HashMap<String, &Value>) {
         .sum();
     let matched = tags::ALL
         .iter()
-        .filter(|t| by_name.contains_key(&t.to_ascii_lowercase()))
+        .filter(|t| {
+            let key = t.to_ascii_lowercase();
+            by_name.contains_key(&key)
+                || (shell_items.contains(&key) && !by_name.contains_key(&key))
+        })
         .count();
     println!(
         "{:<32} {:>9} {:>11} {:>8}",

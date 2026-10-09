@@ -5,7 +5,7 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{Numeric, Tag, Value},
 };
 
@@ -111,6 +111,43 @@ impl Display for ReflnsShellLoopItem {
             write!(f, " {value}")?;
         }
         Ok(())
+    }
+}
+
+// The T6 single-value item of the `reflns_shell` category.
+
+/// The single-value item of the `reflns_shell` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum ReflnsShellTerms {
+    /// The shell records a two-value list (min and max d). The
+    /// shape is noted from the shell `_type.dimension`; the read
+    /// path does not bound it.
+    D_res_limits(Vec<Numeric>),
+}
+
+impl CifTerm for ReflnsShellTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            ReflnsShellTerms::D_res_limits(_) => "d_res_limits",
+        };
+        Tag::new(format!("reflns_shell_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for ReflnsShellTerms {
+    fn value(&self) -> Value {
+        match self {
+            ReflnsShellTerms::D_res_limits(v) => {
+                Value::List(v.iter().cloned().map(Value::from).collect())
+            }
+        }
+    }
+}
+
+impl Display for ReflnsShellTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

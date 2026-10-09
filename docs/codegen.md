@@ -151,3 +151,62 @@ and `git diff` stays clean.
 - The registry tests (`tags::tests`) pin the section counts and the
   `ALL` total; the inventory test pins every registry tag to the
   recorded dictionary items.
+
+## The T6 step (dual inventory, matrix kind, drift table)
+
+T6 (the shell-dictionary tier) extends the same step with three
+additions. All of them are inert when
+`tests/dict_inventory_shell.json` is absent: a run over the standard
+inventory alone stays byte-identical to the T4/T5 behavior.
+
+1. **The dual-inventory union.** The generator loads
+   `tests/dict_inventory_shell.json` when the file exists. The item
+   set is the standard inventory plus the shell items whose
+   lowercased name is not in the standard inventory. Two naming
+   conventions:
+
+   - categories that the shell adds or extends are written
+     lowercased (for example `reflns_class`); the standard
+     inventory is authoritative for the case of the categories it
+     records;
+   - the `_su` items are excluded from the generated module and the
+     registry (decision D2: the uncertainty stays in the plain
+     `Numeric` value; the shell inventory records the skipped set in
+     `counts` and `items`).
+
+2. **The `matrix` annotation kind.** The annotation table adds
+   `matrix` as a value class, written as `("matrix", "numb")`: the
+   item must be `numb`, the Rust payload is the `Matrix` type from
+   `crate::grammar`, and no per-item type file is generated (the
+   `Matrix` type is shared). The writer binds the value through
+   `crate::data_dict::matrix::to_value` (the nested CIF 2.0 row
+   lists) or `Matrix::from_list` with the recorded dimension for
+   the numbered-family spelling. Two exceptions stay `numeric` with
+   a doc note: `refln_F_complex` (no Complex payload yet, roadmap
+   section 9) and `refln_form_factor_table` (no Table payload yet).
+
+3. **The drift table.** `codegen/annotations.json` may hold a
+   `drift` object: legacy registry tag strings, per category, for
+   items the recorded dictionaries no longer define. The generator
+   keeps them in the regenerated `tags.rs` sections. The recorded
+   drift today is `space_group_symop_sg_id` (the DDL1 changelog
+   records the removal; `space_group_id` stays a section-level tag
+   of the hand-maintained `space_group` module).
+
+Hand-maintained categories (the T0–T3 modules) are never annotated:
+the generator would overwrite their custom types. Their T6 items are
+added by hand to the module and to the existing `tags.rs` section;
+the generator preserves the hand-maintained sections on every run.
+
+The T6 verification set:
+
+- `cargo test --test dict_inventory_shell` — the recorded counts,
+  the tag coverage of the implemented T6 items, the `_su` exclusion,
+  and the no-extras check (the drift table is the only allowed
+  exception);
+- `cargo run --example dict_report -- --shell` — the per-category
+  T6 table (total, `_su` skipped, implemented, missing); the gate
+  passes at zero missing;
+- `tests/fixtures/18_shell.cif` and its generated expected JSON
+  (the shell items in the CIF 1.1 form, with the classic numbered
+  matrix family of the `atom_sites` category).

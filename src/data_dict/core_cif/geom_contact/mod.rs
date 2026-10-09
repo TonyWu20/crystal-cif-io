@@ -11,7 +11,7 @@ pub use ranges::ContactDistance;
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;
-use crate::data_dict::{CifTerm, LoopValueTerm};
+use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Tag, Value};
 
 /// Loop columns of the `geom_contact` category (6 items).
@@ -52,6 +52,38 @@ impl LoopValueTerm for GeomContactLoopItem {
             GeomContactLoopItem::Distance(v) => v.iter().cloned().map(Value::from).collect(),
             GeomContactLoopItem::Publ_flag(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value item of the `geom_contact` category.
+
+/// The single-value item of the `geom_contact` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum GeomContactTerms {
+    Id(CharString),
+}
+
+impl CifTerm for GeomContactTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            GeomContactTerms::Id(_) => "id",
+        };
+        Tag::new(format!("geom_contact_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for GeomContactTerms {
+    fn value(&self) -> Value {
+        match self {
+            GeomContactTerms::Id(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for GeomContactTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

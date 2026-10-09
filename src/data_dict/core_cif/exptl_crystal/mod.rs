@@ -8,7 +8,7 @@
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm},
+    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
     grammar::{CharString, Numeric, Tag, Value},
 };
 
@@ -111,6 +111,49 @@ impl LoopValueTerm for ExptlCrystalLoopItem {
             }
             ExptlCrystalLoopItem::Colour_primary(v) => v.iter().cloned().map(Value::from).collect(),
         }
+    }
+}
+
+// The T6 single-value items of the `exptl_crystal` category.
+
+/// The single-value items of the `exptl_crystal` category (T6).
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+pub enum ExptlCrystalTerms {
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `0.`); the plain numeric form is kept.
+    Mosaic_block_size(Numeric),
+    Mosaic_method(CharString),
+    /// The range constraint is recorded in the shell dictionary
+    /// (`_enumeration` `0.`); the plain numeric form is kept.
+    Mosaicity(Numeric),
+}
+
+impl CifTerm for ExptlCrystalTerms {
+    fn tag(&self) -> Tag {
+        let suffix = match self {
+            ExptlCrystalTerms::Mosaic_block_size(_) => "mosaic_block_size",
+            ExptlCrystalTerms::Mosaic_method(_) => "mosaic_method",
+            ExptlCrystalTerms::Mosaicity(_) => "mosaicity",
+        };
+        Tag::new(format!("exptl_crystal_{suffix}"))
+    }
+}
+
+impl SingleValueTerm for ExptlCrystalTerms {
+    fn value(&self) -> Value {
+        match self {
+            ExptlCrystalTerms::Mosaic_block_size(n) | ExptlCrystalTerms::Mosaicity(n) => {
+                Value::Numeric(*n)
+            }
+            ExptlCrystalTerms::Mosaic_method(s) => Value::CharString(s.clone()),
+        }
+    }
+}
+
+impl Display for ExptlCrystalTerms {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_single_value_data())
     }
 }
 

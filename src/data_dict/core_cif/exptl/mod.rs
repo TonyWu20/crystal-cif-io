@@ -170,6 +170,9 @@ pub enum ExptlTerms {
     Absorpt_correction_type(AbsorptCorrectionType),
     Absorpt_process_details(CharString),
     Crystals_number(CrystalCount),
+    Method(CharString),
+    Method_details(CharString),
+    Method_id_panet(CharString),
     Special_details(CharString),
     Transmission_factor_max(TransmissionFactor),
     Transmission_factor_min(TransmissionFactor),
@@ -182,6 +185,9 @@ impl CifTerm for ExptlTerms {
             ExptlTerms::Absorpt_correction_type(_) => "absorpt_correction_type",
             ExptlTerms::Absorpt_process_details(_) => "absorpt_process_details",
             ExptlTerms::Crystals_number(_) => "crystals_number",
+            ExptlTerms::Method(_) => "method",
+            ExptlTerms::Method_details(_) => "method_details",
+            ExptlTerms::Method_id_panet(_) => "method_id_panet",
             ExptlTerms::Special_details(_) => "special_details",
             ExptlTerms::Transmission_factor_max(_) => "transmission_factor_max",
             ExptlTerms::Transmission_factor_min(_) => "transmission_factor_min",
@@ -195,9 +201,11 @@ impl SingleValueTerm for ExptlTerms {
         match self {
             ExptlTerms::Absorpt_coefficient_mu(v) => (*v).into(),
             ExptlTerms::Absorpt_correction_type(c) => (*c).into(),
-            ExptlTerms::Absorpt_process_details(s) | ExptlTerms::Special_details(s) => {
-                Value::CharString(s.clone())
-            }
+            ExptlTerms::Absorpt_process_details(s)
+            | ExptlTerms::Special_details(s)
+            | ExptlTerms::Method(s)
+            | ExptlTerms::Method_details(s)
+            | ExptlTerms::Method_id_panet(s) => Value::CharString(s.clone()),
             ExptlTerms::Crystals_number(v) => (*v).into(),
             ExptlTerms::Transmission_factor_max(v) | ExptlTerms::Transmission_factor_min(v) => {
                 (*v).into()

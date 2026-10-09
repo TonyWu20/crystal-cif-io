@@ -5,6 +5,8 @@ mod laue_measured_fraction_full;
 mod laue_measured_fraction_max;
 mod point_group_measured_fraction_full;
 mod point_group_measured_fraction_max;
+mod point_measured_fraction_full;
+mod point_measured_fraction_max;
 mod reflns_number;
 mod resolution_full;
 mod resolution_max;
@@ -15,8 +17,8 @@ mod theta_min;
 use std::fmt::Display;
 
 use crate::{
-    data_dict::{CifTerm, LoopValueTerm, SingleValueTerm},
-    grammar::{CharString, Numeric, Tag, Value},
+    data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm},
+    grammar::{CharString, Matrix, Numeric, Tag, Value},
 };
 
 pub use self::av_r_equivalents::AvREquivalents;
@@ -26,6 +28,8 @@ pub use self::laue_measured_fraction_full::LaueMeasuredFractionFull;
 pub use self::laue_measured_fraction_max::LaueMeasuredFractionMax;
 pub use self::point_group_measured_fraction_full::PointGroupMeasuredFractionFull;
 pub use self::point_group_measured_fraction_max::PointGroupMeasuredFractionMax;
+pub use self::point_measured_fraction_full::PointMeasuredFractionFull;
+pub use self::point_measured_fraction_max::PointMeasuredFractionMax;
 pub use self::reflns_number::ReflnsNumber;
 pub use self::resolution_full::ResolutionFull;
 pub use self::resolution_max::ResolutionMax;
@@ -46,12 +50,18 @@ pub enum DiffrnReflnsTerms {
     AvSigmaIOverNetI(AvSigmaIOverNetI),
     /// range constraint recorded in the dictionary _enumeration
     AvUnetIOverNetI(AvUnetIOverNetI),
+    Limit_max(Matrix),
+    Limit_min(Matrix),
     /// range constraint recorded in the dictionary _enumeration
     ReflnsNumber(ReflnsNumber),
     /// range constraint recorded in the dictionary _enumeration
     Point_group_measured_fraction_full(PointGroupMeasuredFractionFull),
     /// range constraint recorded in the dictionary _enumeration
     Point_group_measured_fraction_max(PointGroupMeasuredFractionMax),
+    /// range constraint recorded in the dictionary _enumeration
+    Point_measured_fraction_full(PointMeasuredFractionFull),
+    /// range constraint recorded in the dictionary _enumeration
+    Point_measured_fraction_max(PointMeasuredFractionMax),
     Reduction_process(CharString),
     /// range constraint recorded in the dictionary _enumeration
     Resolution_full(ResolutionFull),
@@ -73,6 +83,8 @@ impl CifTerm for DiffrnReflnsTerms {
             DiffrnReflnsTerms::Av_R_equivalents(_) => "av_r_equivalents",
             DiffrnReflnsTerms::AvSigmaIOverNetI(_) => "av_sigmai/neti",
             DiffrnReflnsTerms::AvUnetIOverNetI(_) => "av_uneti/neti",
+            DiffrnReflnsTerms::Limit_max(_) => "limit_max",
+            DiffrnReflnsTerms::Limit_min(_) => "limit_min",
             DiffrnReflnsTerms::ReflnsNumber(_) => "number",
             DiffrnReflnsTerms::Point_group_measured_fraction_full(_) => {
                 "point_group_measured_fraction_full"
@@ -80,6 +92,8 @@ impl CifTerm for DiffrnReflnsTerms {
             DiffrnReflnsTerms::Point_group_measured_fraction_max(_) => {
                 "point_group_measured_fraction_max"
             }
+            DiffrnReflnsTerms::Point_measured_fraction_full(_) => "point_measured_fraction_full",
+            DiffrnReflnsTerms::Point_measured_fraction_max(_) => "point_measured_fraction_max",
             DiffrnReflnsTerms::Reduction_process(_) => "reduction_process",
             DiffrnReflnsTerms::Resolution_full(_) => "resolution_full",
             DiffrnReflnsTerms::Resolution_max(_) => "resolution_max",
@@ -99,15 +113,20 @@ impl SingleValueTerm for DiffrnReflnsTerms {
             DiffrnReflnsTerms::Av_R_equivalents(c) => Value::from(*c),
             DiffrnReflnsTerms::AvSigmaIOverNetI(b) => Value::from(*b),
             DiffrnReflnsTerms::AvUnetIOverNetI(t) => Value::from(*t),
+            DiffrnReflnsTerms::Limit_max(m) | DiffrnReflnsTerms::Limit_min(m) => {
+                matrix::to_value(m)
+            }
             DiffrnReflnsTerms::ReflnsNumber(u) => Value::from(*u),
             DiffrnReflnsTerms::Point_group_measured_fraction_full(w) => Value::from(*w),
             DiffrnReflnsTerms::Point_group_measured_fraction_max(x) => Value::from(*x),
+            DiffrnReflnsTerms::Point_measured_fraction_full(y) => Value::from(*y),
+            DiffrnReflnsTerms::Point_measured_fraction_max(z) => Value::from(*z),
             DiffrnReflnsTerms::Reduction_process(s) => Value::CharString(s.clone()),
-            DiffrnReflnsTerms::Resolution_full(y) => Value::from(*y),
-            DiffrnReflnsTerms::Resolution_max(z) => Value::from(*z),
-            DiffrnReflnsTerms::Theta_full(q) => Value::from(*q),
-            DiffrnReflnsTerms::Theta_max(r) => Value::from(*r),
-            DiffrnReflnsTerms::Theta_min(f) => Value::from(*f),
+            DiffrnReflnsTerms::Resolution_full(q) => Value::from(*q),
+            DiffrnReflnsTerms::Resolution_max(r) => Value::from(*r),
+            DiffrnReflnsTerms::Theta_full(f) => Value::from(*f),
+            DiffrnReflnsTerms::Theta_max(g) => Value::from(*g),
+            DiffrnReflnsTerms::Theta_min(h) => Value::from(*h),
         }
     }
 }

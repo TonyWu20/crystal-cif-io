@@ -6,6 +6,21 @@
       },
       "name": {
         "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "fax": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "id_orcid": {
+        "type": "string"
+      },
+      "phone": {
+        "type": "string"
       }
     },
     "audit_conform": {
@@ -16,6 +31,9 @@
         "type": "string"
       },
       "dict_version": {
+        "type": "string"
+      },
+      "dict_doi": {
         "type": "string"
       }
     },
@@ -33,6 +51,15 @@
         "type": "string"
       },
       "phone": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "id_iucr": {
+        "type": "string"
+      },
+      "id_orcid": {
         "type": "string"
       }
     },
@@ -129,6 +156,9 @@
       },
       "year": {
         "type": "numeric"
+      },
+      "url": {
+        "type": "string"
       }
     },
     "citation_author": {
@@ -150,6 +180,9 @@
         "type": "string"
       },
       "ordinal": {
+        "type": "string"
+      },
+      "citation_editor": {
         "type": "string"
       }
     },
@@ -173,6 +206,9 @@
         "type": "string"
       },
       "structure_solution": {
+        "type": "string"
+      },
+      "sample_tracking": {
         "type": "string"
       }
     },
@@ -337,6 +373,20 @@
       },
       "year": {
         "type": "string"
+      },
+      "journal.data_validation_number": {
+        "type": "string"
+      },
+      "paper_number": {
+        "type": "string"
+      },
+      "paper_pages": {
+        "type": "range",
+        "min": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "paper_url": {
+        "type": "string"
       }
     },
     "journal_index": {
@@ -347,6 +397,9 @@
         "type": "string"
       },
       "type": {
+        "type": "string"
+      },
+      "id": {
         "type": "string"
       }
     },
@@ -490,6 +543,15 @@
       },
       "name": {
         "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "id_audit": {
+        "type": "string"
+      },
+      "phone": {
+        "type": "string"
       }
     },
     "publ_body": {
@@ -599,6 +661,42 @@
       },
       "symmetry_description": {
         "type": "string"
+      },
+      "ambient_temp_details": {
+        "type": "string"
+      },
+      "ambient_temp_gt": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "ambient_temp_lt": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "crystal_support": {
+        "type": "string"
+      },
+      "flux_density": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "precession_semi_angle": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "total_dose": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "total_exposure_time": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
       }
     },
     "diffrn_attenuator": {
@@ -661,6 +759,50 @@
       },
       "specimen_support": {
         "type": "string"
+      },
+      "method_precession": {
+        "type": "closed",
+        "values": [
+          "yes",
+          "y",
+          "no",
+          "n"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "rotation_mode": {
+        "type": "closed",
+        "values": [
+          "rotation",
+          "stepwise"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "sample_tracking": {
+        "type": "closed",
+        "values": [
+          "yes",
+          "y",
+          "no",
+          "n"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "sample_tracking_method": {
+        "type": "string"
+      },
+      "specimen_attachment_type": {
+        "type": "closed",
+        "values": [
+          "epoxy",
+          "oil",
+          "grease",
+          "frozen_liquid",
+          "other",
+          "ice",
+          "mechanical"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
       }
     },
     "diffrn_orient_matrix": {
@@ -693,6 +835,9 @@
       },
       "type": {
         "type": "string"
+      },
+      "ubij": {
+        "type": "matrix"
       }
     },
     "diffrn_orient_refln": {
@@ -722,6 +867,9 @@
       },
       "index_l": {
         "type": "numeric"
+      },
+      "hkl": {
+        "type": "matrix"
       }
     },
     "diffrn_radiation": {
@@ -774,6 +922,14 @@
           "K-L~2,3~"
         ],
         "note": "closed code set recorded in the dictionary _enumeration"
+      },
+      "illumination_mode": {
+        "type": "closed",
+        "values": [
+          "convergent",
+          "parallel"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
       }
     },
     "diffrn_radiation_wavelength": {
@@ -800,6 +956,19 @@
         "min": 0.0,
         "max": 1.0,
         "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "type": {
+        "type": "string"
+      },
+      "xray_symbol": {
+        "type": "closed",
+        "values": [
+          "K-L~3~",
+          "K-L~2~",
+          "K-M~3~",
+          "K-L~2,3~"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
       }
     },
     "diffrn_refln": {
@@ -939,6 +1108,24 @@
       },
       "wavelength_id": {
         "type": "string"
+      },
+      "hkl": {
+        "type": "matrix"
+      },
+      "id": {
+        "type": "string"
+      },
+      "intensity_bg_1": {
+        "type": "numeric"
+      },
+      "intensity_bg_2": {
+        "type": "numeric"
+      },
+      "intensity_peak": {
+        "type": "numeric"
+      },
+      "intensity_total": {
+        "type": "numeric"
       }
     },
     "diffrn_reflns": {
@@ -1067,6 +1254,24 @@
       },
       "transf_matrix_33": {
         "type": "numeric"
+      },
+      "limit_max": {
+        "type": "matrix"
+      },
+      "limit_min": {
+        "type": "matrix"
+      },
+      "point_measured_fraction_full": {
+        "type": "range",
+        "min": 0.95,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "point_measured_fraction_max": {
+        "type": "range",
+        "min": 0.0,
+        "max": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
       }
     },
     "diffrn_reflns_class": {
@@ -1111,6 +1316,11 @@
         "note": "range constraint recorded in the dictionary _enumeration",
         "variant": "ReflnsClassNumber",
         "rust": "ReflnsClassNumber"
+      },
+      "av_ui_over_i": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
       }
     },
     "diffrn_scale_group": {
@@ -1175,6 +1385,40 @@
         "type": "range",
         "min": 0.0,
         "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "beamline": {
+        "type": "string"
+      },
+      "convergence_angle": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "device": {
+        "type": "closed",
+        "values": [
+          "tube",
+          "nuclear",
+          "spallation",
+          "elect-micro",
+          "rot-anode",
+          "synch"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "ed_diffracting_area_selection": {
+        "type": "closed",
+        "values": [
+          "probe",
+          "SAED"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "facility": {
+        "type": "string"
+      },
+      "make": {
+        "type": "string"
       }
     },
     "diffrn_standard_refln": {
@@ -1189,6 +1433,9 @@
       },
       "index_l": {
         "type": "numeric"
+      },
+      "hkl": {
+        "type": "matrix"
       }
     },
     "diffrn_standards": {
@@ -1226,6 +1473,529 @@
         "min": 0.0,
         "note": "range constraint recorded in the dictionary _enumeration"
       }
+    },
+    "atom_analytical": {
+      "analyte": {
+        "type": "string"
+      },
+      "analyte_mass_percent": {
+        "type": "range",
+        "min": 0.0,
+        "max": 100.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "chemical_species": {
+        "type": "string"
+      },
+      "chemical_species_mass_percent": {
+        "type": "range",
+        "min": 0.0,
+        "max": 100.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "id": {
+        "type": "string"
+      },
+      "meas_id": {
+        "type": "string"
+      }
+    },
+    "atom_analytical_mass_loss": {
+      "id": {
+        "type": "string"
+      },
+      "meas_id": {
+        "type": "string"
+      },
+      "percent": {
+        "type": "numeric"
+      },
+      "special_details": {
+        "type": "string"
+      },
+      "temperature": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "atom_analytical_source": {
+      "equipment_make": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "special_details": {
+        "type": "string"
+      },
+      "technique": {
+        "type": "string"
+      }
+    },
+    "atom_scat_versus_stol": {
+      "atom_type": {
+        "type": "string"
+      },
+      "scat_value": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "stol_value": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "atom_site_aniso": {
+      "atom_site.tensor_beta": {
+        "type": "matrix"
+      },
+      "beta_11": {
+        "type": "numeric"
+      },
+      "beta_12": {
+        "type": "numeric"
+      },
+      "beta_13": {
+        "type": "numeric"
+      },
+      "beta_22": {
+        "type": "numeric"
+      },
+      "beta_23": {
+        "type": "numeric"
+      },
+      "beta_33": {
+        "type": "numeric"
+      },
+      "matrix_b": {
+        "type": "matrix"
+      },
+      "matrix_u": {
+        "type": "matrix"
+      },
+      "symmform": {
+        "type": "string"
+      }
+    },
+    "atom_sites_cartn_transform": {
+      "matrix": {
+        "type": "matrix"
+      },
+      "vector": {
+        "type": "matrix"
+      }
+    },
+    "atom_sites_fract_transform": {
+      "axes": {
+        "type": "string"
+      },
+      "matrix": {
+        "type": "matrix"
+      },
+      "vector": {
+        "type": "matrix"
+      }
+    },
+    "atom_type_scat": {
+      "cromer_mann_as": {
+        "type": "numeric"
+      },
+      "cromer_mann_bs": {
+        "type": "numeric"
+      },
+      "dispersion": {
+        "type": "numeric"
+      },
+      "dispersion_imag_cu": {
+        "type": "numeric"
+      },
+      "dispersion_imag_mo": {
+        "type": "numeric"
+      },
+      "dispersion_real_cu": {
+        "type": "numeric"
+      },
+      "dispersion_real_mo": {
+        "type": "numeric"
+      },
+      "exponential_polynomial_coefs": {
+        "type": "numeric"
+      },
+      "exponential_polynomial_lower_limit": {
+        "type": "numeric"
+      },
+      "exponential_polynomial_upper_limit": {
+        "type": "numeric"
+      },
+      "gaussian_as": {
+        "type": "numeric"
+      },
+      "gaussian_bs": {
+        "type": "numeric"
+      },
+      "gaussian_c": {
+        "type": "numeric"
+      },
+      "gaussian_lower_limit": {
+        "type": "numeric"
+      },
+      "gaussian_upper_limit": {
+        "type": "numeric"
+      },
+      "hi_ang_fox_c0": {
+        "type": "numeric"
+      },
+      "hi_ang_fox_c1": {
+        "type": "numeric"
+      },
+      "hi_ang_fox_c2": {
+        "type": "numeric"
+      },
+      "hi_ang_fox_c3": {
+        "type": "numeric"
+      },
+      "hi_ang_fox_coefs": {
+        "type": "numeric"
+      },
+      "inv_mott_bethe_as": {
+        "type": "numeric"
+      },
+      "inv_mott_bethe_bs": {
+        "type": "numeric"
+      },
+      "inv_mott_bethe_c": {
+        "type": "numeric"
+      },
+      "inv_mott_bethe_lower_limit": {
+        "type": "numeric"
+      },
+      "inv_mott_bethe_upper_limit": {
+        "type": "numeric"
+      },
+      "symbol": {
+        "type": "string"
+      }
+    },
+    "audit_author_role": {
+      "id": {
+        "type": "string"
+      },
+      "role": {
+        "type": "closed",
+        "values": [
+          "design",
+          "synthesis",
+          "preparation",
+          "characterisation",
+          "measurement",
+          "analysis",
+          "software",
+          "submission",
+          "other"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "special_details": {
+        "type": "string"
+      }
+    },
+    "audit_support": {
+      "award_number": {
+        "type": "string"
+      },
+      "award_recipient": {
+        "type": "string"
+      },
+      "award_type": {
+        "type": "closed",
+        "values": [
+          "gift",
+          "grant",
+          "contract",
+          "studentship",
+          "other"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "funding_organization": {
+        "type": "string"
+      },
+      "funding_organization_doi": {
+        "type": "string"
+      },
+      "funding_organization_url": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "special_details": {
+        "type": "string"
+      }
+    },
+    "database_code": {
+      "amcsd": {
+        "type": "string"
+      },
+      "bincstrdb": {
+        "type": "string"
+      }
+    },
+    "database_related": {
+      "database_id": {
+        "type": "string"
+      },
+      "entry_code": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "relation": {
+        "type": "closed",
+        "values": [
+          "Identical",
+          "Subset",
+          "Superset",
+          "Derived",
+          "Common",
+          "Other"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "special_details": {
+        "type": "string"
+      }
+    },
+    "diffrn_component_pid": {
+      "details": {
+        "type": "string"
+      },
+      "framework": {
+        "type": "closed",
+        "values": [
+          "DataCite",
+          "ePIC"
+        ],
+        "note": "closed code set recorded in the dictionary _enumeration_set"
+      },
+      "pid": {
+        "type": "string"
+      }
+    },
+    "diffrn_reflns_transf_matrix": {
+      "tij": {
+        "type": "matrix"
+      }
+    },
+    "display_colour": {
+      "blue": {
+        "type": "numeric"
+      },
+      "green": {
+        "type": "numeric"
+      },
+      "hue": {
+        "type": "string"
+      },
+      "red": {
+        "type": "numeric"
+      },
+      "rgb": {
+        "type": "matrix",
+        "note": "list or array payload; the shape is recorded in the shell _type.dimension"
+      }
+    },
+    "exptl_absorpt": {
+      "special_details": {
+        "type": "string"
+      }
+    },
+    "function": {
+      "atomtype": {
+        "type": "string"
+      },
+      "closest": {
+        "type": "matrix"
+      },
+      "seitzfromjones": {
+        "type": "matrix"
+      },
+      "symequiv": {
+        "type": "matrix"
+      },
+      "symkey": {
+        "type": "range",
+        "min": 1.0,
+        "max": 192.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "symlat": {
+        "type": "matrix"
+      },
+      "symop": {
+        "type": "string"
+      }
+    },
+    "model_site": {
+      "adp_eigenvalues": {
+        "type": "matrix",
+        "note": "list or array payload; the shape is recorded in the shell _type.dimension"
+      },
+      "adp_eigenvectors": {
+        "type": "matrix",
+        "note": "list or array payload; the shape is recorded in the shell _type.dimension"
+      },
+      "adp_matrix_beta": {
+        "type": "matrix"
+      },
+      "cartn_xyz": {
+        "type": "matrix"
+      },
+      "display_colour": {
+        "type": "string"
+      },
+      "fract_xyz": {
+        "type": "matrix"
+      },
+      "id": {
+        "type": "string"
+      },
+      "index": {
+        "type": "range",
+        "min": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "label": {
+        "type": "string"
+      },
+      "mole_index": {
+        "type": "range",
+        "min": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "radius_bond": {
+        "type": "range",
+        "min": 0.1,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "radius_contact": {
+        "type": "range",
+        "min": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "symop": {
+        "type": "string"
+      },
+      "type_symbol": {
+        "type": "string"
+      }
+    },
+    "publ_contact_author": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "refine_diff": {
+      "potential_max": {
+        "type": "numeric"
+      },
+      "potential_min": {
+        "type": "numeric"
+      },
+      "potential_rms": {
+        "type": "numeric"
+      }
+    },
+    "refine_ls": {
+      "abs_structure_z_score": {
+        "type": "numeric"
+      },
+      "number_reflns_gt": {
+        "type": "range",
+        "min": 1.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "sample_shape_details": {
+        "type": "string"
+      },
+      "sample_shape_expression": {
+        "type": "string"
+      },
+      "sample_thickness": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "shift_over_su_max": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "shift_over_su_mean": {
+        "type": "range",
+        "min": 0.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      }
+    },
+    "space_group_generator": {
+      "id": {
+        "type": "string"
+      },
+      "xyz": {
+        "type": "string"
+      }
+    },
+    "space_group_wyckoff": {
+      "coords_xyz": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "letter": {
+        "type": "string"
+      },
+      "multiplicity": {
+        "type": "range",
+        "min": 1.0,
+        "max": 192.0,
+        "note": "range constraint recorded in the dictionary _enumeration"
+      },
+      "site_symmetry": {
+        "type": "string"
+      }
+    },
+    "space_group_symop": {
+      "operation_description": {
+        "type": "string"
+      },
+      "r": {
+        "type": "matrix"
+      },
+      "rt": {
+        "type": "matrix"
+      },
+      "seitz_matrix": {
+        "type": "matrix"
+      },
+      "t": {
+        "type": "matrix"
+      },
+      "id": {
+        "type": "string"
+      },
+      "operation_xyz": {
+        "type": "string"
+      }
     }
+  },
+  "drift": {
+    "space_group_symop": [
+      "space_group_symop_sg_id"
+    ]
   }
 }

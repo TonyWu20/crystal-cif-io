@@ -1,0 +1,50 @@
+## CIF_1.1
+#
+# T6 ground-truth fixture: the shell-dictionary items in the
+# CIF 1.1 form. Single-value T6 items of the refln category,
+# the classic numbered matrix family of the atom_sites
+# category, the T6 single items of the reflns category, and
+# the reflns_shell loop.
+#
+# The shell item _refln_hkl (the matrix form of the hkl
+# triplet) has no direct CIF 1.1 spelling. Its classic 1.1
+# spelling is the numbered index items, which this fixture
+# does not repeat.
+
+data_shell_example
+
+# T6 single-value items of the refln category
+_refln_id 'REFL0001'
+_refln_fom 0.94
+_refln_Lp_factor 0.87
+
+# The classic numbered matrix family (standard items; the
+# CIF 1.1 spelling of the shell _atom_sites_fract_transform_matrix
+# item)
+_atom_sites_fract_tran_matrix_11 1.000
+_atom_sites_fract_tran_matrix_12 0.000
+_atom_sites_fract_tran_matrix_13 0.000
+_atom_sites_fract_tran_matrix_21 0.000
+_atom_sites_fract_tran_matrix_22 1.000
+_atom_sites_fract_tran_matrix_23 0.000
+_atom_sites_fract_tran_matrix_31 0.000
+_atom_sites_fract_tran_matrix_32 0.000
+_atom_sites_fract_tran_matrix_33 1.000
+_atom_sites_fract_tran_vector_1 0.000
+_atom_sites_fract_tran_vector_2 0.000
+_atom_sites_fract_tran_vector_3 0.000
+
+# T6 single-value item of the reflns category
+_reflns_apply_dispersion_to_Fcalc 'yes'
+
+# The T6 _reflns_shell_d_res_limits item, recorded alongside
+# the reflns_shell loop
+_reflns_shell_d_res_limits 20.00:2.50
+
+loop_
+ _reflns_shell_d_res_high
+ _reflns_shell_d_res_low
+ _reflns_shell_number_measured_all
+ _reflns_shell_percent_possible_all
+  10.00  5.00  1200  98.2
+   5.00  2.50   980  95.1
