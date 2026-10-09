@@ -320,6 +320,15 @@ intermediate merge tree from the line-union merges) was repaired
 on the branch (38a4956) and verified by the reviews. Open P2
 notes: sessions/dict-items-review-t2..t5/report.md.
 
+Shell wave: approved by the user on 2026-10-09 (D1 shell scope
+confirmed). Started the same day as the shell-wave orchestration
+(orchestrate/orchestrate_shell.sh): D8 first, then T6, then two
+review sessions. D8 owns the parser dialect, Value::List, the
+Matrix list constructor, the canonical list kind, and fixtures
+16, 17, neg_cif2_*. T6 owns the shell inventory, the 347-item
+set (D2: the _su items are skipped), the Matrix payload binding,
+and fixture 18_shell.cif.
+
 ## 11. Sources
 
 - IUCr CIF 1.1 working specification (file syntax, common semantics):

@@ -30,3 +30,5 @@ orchestrate/tmp/
 orchestrate/STATE
 orchestrate/HOLD
 orchestrate/PID
+orchestrate/PID
+orchestrate/PID_SHELL
