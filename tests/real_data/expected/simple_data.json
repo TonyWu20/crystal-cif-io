@@ -1,0 +1,117 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "unknown_value",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "na_value",
+          "value": {
+            "kind": "inapplicable"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "unquoted_string",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "unquoted"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "sq_string",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "sq"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "dq_string",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "dq"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "text_string",
+          "value": {
+            "kind": "text_field",
+            "text": "text"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "numb_plain",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1250"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "numb_su",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "2",
+            "type": "float",
+            "value": "0.0625"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "numb_tz",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "17.125"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "numb_quoted",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "1.0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "query_quoted",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "dot_quoted",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "."
+          }
+        }
+      ],
+      "name": "simple_data"
+    }
+  ],
+  "fixture": "simple_data.cif",
+  "schema_version": 1
+}

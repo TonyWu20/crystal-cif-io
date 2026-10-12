@@ -13,10 +13,13 @@ Real crystallographic files are pinned by the real-data harness in
 [`tests/real_data`](tests/real_data/): IUCr published examples
 (`tests/real_data/iucr/`), Crystallography Open Database entries
 (`tests/real_data/cod/`, fetched via the COD REST API; see
-[`docs/cod-api.md`](docs/cod-api.md)), and one entry per
-space group 1..230 (`tests/real_data/cod_sg/`). Provenance lives
-in `tests/real_data/SOURCE.md` and the per-corpus `SOURCE.md`
-files.
+[`docs/cod-api.md`](docs/cod-api.md)), one entry per space group
+1..230 (`tests/real_data/cod_sg/`), and the 21 edge-case CIFs of
+the COMCIFS [`cif_api`](https://github.com/COMCIFS/cif_api)
+reference implementation (`tests/real_data/cif_api/`; provenance
+and license in `tests/real_data/cif_api/SOURCE.md`). Provenance
+lives in `tests/real_data/SOURCE.md` and the per-corpus
+`SOURCE.md` files.
 
 The suite is organized as axes: syntax ground truth, real-file
 pins, space-group coverage, lexical/structural feature coverage,

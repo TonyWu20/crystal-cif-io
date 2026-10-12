@@ -20,6 +20,7 @@ fn corpus_files() -> Vec<(String, String)> {
         "tests/real_data/iucr",
         "tests/real_data/cod",
         "tests/real_data/cod_sg",
+        "tests/real_data/cif_api",
         "tests/fixtures",
     ] {
         for entry in

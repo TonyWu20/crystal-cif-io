@@ -1,0 +1,127 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "v1"
+              },
+              {
+                "kind": "unknown"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              },
+              {
+                "kind": "text_field",
+                "text": "v2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "3"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "v3"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "12.5"
+              }
+            ]
+          ],
+          "tags": [
+            "col1",
+            "col2",
+            "col3"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "3"
+              }
+            ]
+          ],
+          "tags": [
+            "single"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "a"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "b"
+              }
+            ]
+          ],
+          "tags": [
+            "scalar_a",
+            "scalar_b"
+          ]
+        }
+      ],
+      "name": "simple_loops"
+    }
+  ],
+  "fixture": "simple_loops.cif",
+  "schema_version": 1
+}

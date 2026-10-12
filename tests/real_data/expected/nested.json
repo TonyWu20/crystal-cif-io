@@ -1,0 +1,11 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''n'' at 61..62 expected something else]. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "nested.cif",
+  "known_gap": true,
+  "known_gap_note": "COMCIFS spelling: the file's version line is '#\\#CIF_2.0' (escaped-hash form of the COMCIFS reference implementation); CifDialect::detect recognizes only the IUCr '##CIF_2.0' spelling, so the file is parsed as CIF 1.1. Grammar gap: nested save frames (a save frame inside a save frame) are not supported by the frame grammar.",
+  "schema_version": 1
+}

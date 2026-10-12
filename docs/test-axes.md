@@ -7,13 +7,13 @@ axes, their corpora, their tests, and their status.
 | axis | question it answers | corpus | test | status |
 |---|---|---|---|---|
 | syntax ground truth | does the grammar parse the spec-correct forms | `tests/fixtures/` | `ground_truth_verify` | done |
-| real-file pin | does the parse output stay stable on real files | `tests/real_data/iucr/`, `tests/real_data/cod/` | `real_data_verify` | done |
+| real-file pin | does the parse output stay stable on real files | `tests/real_data/iucr/`, `tests/real_data/cod/`, `tests/real_data/cif_api/` | `real_data_verify` | done |
 | space groups | can every one of the 230 groups parse, and is the group tag consistent | `tests/real_data/cod_sg/` | `space_group_coverage` | done |
-| lexical/structural features | does at least one corpus file pin each value form | iucr + cod + cod_sg + fixtures | `feature_coverage_guard` | done |
+| lexical/structural features | does at least one corpus file pin each value form | iucr + cod + cod_sg + cif_api + fixtures | `feature_coverage_guard` | done |
 | dictionary items | does the corpus exercise the recorded dictionary items | iucr + cod + cod_sg | `dictionary_item_coverage_gate` | done |
 | errors | are malformed inputs rejected with a useful report | `tests/fixtures/neg_*` | `ground_truth_verify` | done |
 | stress / size | does parsing hold on large files | cod `1542340` (120 KB), iucr `example_shelxl2013` | feature guard row `large file` | partial |
-| encoding | CRLF, BOM, UTF-8 handling | fixture 10 (CRLF), fixture 20 (UTF-8) | feature guard rows | partial |
+| encoding | CRLF, BOM, UTF-8 handling | fixture 10 (CRLF), fixture 20 (UTF-8), cif_api `bom.cif` (BOM), cif_api `unicode.cif` (UTF-8) | feature guard rows, real-data pins | partial |
 
 ## Corpus layout
 
@@ -27,6 +27,15 @@ axes, their corpora, their tests, and their status.
 - `tests/real_data/cod_sg/` – one COD entry per three-dimensional
   space group (230 files, ~1 MB), with `manifest.json`. Pinned by
   the lighter `space_group_coverage` test, not by a canonical IR.
+- `tests/real_data/cif_api/` – the 21 test-data CIFs of the
+  COMCIFS `cif_api` reference implementation (the upstream
+  project's own edge-case inputs: BOMs, empty files, 2.0 lists
+  and tables, triple-quoted strings, nested save frames,
+  Unicode, translated EOLs). Full canonical-IR pin in
+  `tests/real_data/expected/`; provenance, license, and the
+  per-file notes in `tests/real_data/cif_api/SOURCE.md`. The
+  seven files the parser rejects are `known_gap` pins; the gap
+  notes live in the expected JSON files.
 
 ## Axis 1: space groups (230)
 
@@ -96,9 +105,10 @@ The manifest records the H-M symbol per group for inspection.
 - Producer diversity: record the structure-refinement program in
   the manifest (`_computing_structure_refinement`) and guard the
   mix of SHELX, Jana, Olex2, and other producers.
-- BOM handling: the dialect detector skips a byte order mark; no
-  fixture carries one yet. Add `21_bom_utf8.cif` when the BOM
-  path is exercised.
+- BOM handling: covered by the cif_api corpus (`bom.cif`,
+  `bom_ver2.cif`), pinned by `real_data_verify`. A numbered
+  fixture (`21_bom_utf8.cif`) would pin the BOM path in the
+  ground-truth axis; the real-data pin covers the parse for now.
 - Save-frame-heavy reports: the IUCr corpus here carries no save
   frames; only fixture 06 does. Fetch a COD entry whose report
   uses `save_` frames and add it to the canonical corpus.

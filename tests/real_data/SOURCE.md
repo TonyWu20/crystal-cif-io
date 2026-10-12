@@ -29,3 +29,12 @@ self-consistency pin, not an independent ground truth.
 | `rietresultsxmpl.cif` | Rietveld refinement results |
 | `example_extra_table.cif` | report with an extra publ table |
 | `example_publcif.cif` | publication-category example |
+
+## cif_api corpus
+
+The files in `tests/real_data/cif_api/` are the test-data CIFs
+of the COMCIFS `cif_api` reference implementation, fetched from
+`https://github.com/COMCIFS/cif_api` at a pinned commit. Full
+provenance, the license notice (LGPL-3.0, copyright John C.
+Bollinger), the per-file table, and the sha256 manifest live in
+`tests/real_data/cif_api/SOURCE.md`.

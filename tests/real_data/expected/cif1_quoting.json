@@ -1,0 +1,29 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "sq",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "don't rock the boat"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "dq",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "What's this ab\\\"out?"
+          }
+        }
+      ],
+      "name": "cif1_quoting"
+    }
+  ],
+  "fixture": "cif1_quoting.cif",
+  "schema_version": 1
+}

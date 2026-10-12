@@ -8,8 +8,8 @@
 //!   writes only **missing** expected files; existing files are left alone.
 //! - `cargo run --example gt_generate -- --real-data`
 //!   writes `tests/real_data/expected/*.json` from the real-data
-//!   corpora in `tests/real_data/iucr/` and `tests/real_data/cod/`
-//!   (same guards as above).
+//!   corpora in `tests/real_data/iucr/`, `tests/real_data/cod/`,
+//!   and `tests/real_data/cif_api/` (same guards as above).
 //! - `cargo run --example gt_generate -- --force`
 //!   overwrites existing files, with two protections:
 //!   - a file containing `"known_gap": true` is never overwritten
@@ -189,7 +189,7 @@ fn main() {
 /// overwritten, existing files are skipped without `--force`.
 fn main_real_data(force: bool) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/real_data");
-    let dirs: Vec<PathBuf> = vec![root.join("iucr"), root.join("cod")];
+    let dirs: Vec<PathBuf> = vec![root.join("iucr"), root.join("cod"), root.join("cif_api")];
     let exp_dir = root.join("expected");
     fs::create_dir_all(&exp_dir).unwrap();
 

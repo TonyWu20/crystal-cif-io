@@ -7,6 +7,15 @@ Keep a Changelog.
 
 ### Added
 
+- A COMCIFS `cif_api` test-data corpus in
+  `tests/real_data/cif_api/`: the 21 edge-case CIFs of the
+  upstream reference implementation, pinned to commit `7882c12`
+  (provenance, license, and per-file notes in
+  `tests/real_data/cif_api/SOURCE.md`). Fourteen files pin the
+  parse output; seven are `known_gap` pins that record the
+  2.0 grammar gaps they expose (nested values, tables,
+  triple-quoted strings, nested save frames, non-ASCII values,
+  VT/FF line terminators).
 - A Crystallography Open Database (COD) test corpus in
   `tests/real_data/cod/` (six entries, fetched via the COD REST
   API). The real-data harness and the `gt_generate` generator now

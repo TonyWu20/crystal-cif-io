@@ -1,0 +1,11 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''\\''' at 26..27 expected ''s'', ''S'', ''l'', ''L'', ''_'', ''d'', ''D'', or end of input]. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "10.cif",
+  "known_gap": true,
+  "known_gap_note": "The file uses VT (0x0B) and FF (0x0C) as end-of-line characters (pre-1.1 'translated EOL' practice; CIF 1.1 removed both from the allowed set). Our lexer's EOL set is CR and LF only. The upstream parser drives this test with an explicit eol option.",
+  "schema_version": 1
+}
