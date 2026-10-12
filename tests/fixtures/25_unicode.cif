@@ -1,0 +1,6 @@
+##CIF_2.0
+data_ünïcode
+save_§9
+_αβγ Ω
+_π 𐘾ᚠ
+save_

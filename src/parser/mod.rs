@@ -572,14 +572,35 @@ fn unquoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharStrin
 /// A leading character of an unquoted value, per dialect.
 ///
 /// 1.1: `<OrdinaryChar>` plus `[` and `]` (the brackets stay plain
-/// characters, fixture `17_cif1_brackets_stay_strings`). The other
-/// two special characters of the 2.0 restriction, `{` and `}`, are
-/// already ordinary. 2.0: the strict `<OrdinaryChar>` set only.
+/// characters, fixture `17_cif1_brackets_stay_strings`). The 1.1
+/// character set is ASCII only (fixture 20 pins the rejection of
+/// non-ASCII values). 2.0: the `<OrdinaryChar>` set, and any
+/// non-ASCII character (roadmap section 14). The container
+/// delimiters stay excluded: the 2.0 token filter rejects a token
+/// that holds one.
 fn is_unquoted_lead(dialect: CifDialect, c: char) -> bool {
-    if !is_ordinary(c) {
-        return matches!(c, '[' | ']') && dialect == CifDialect::Cif1_1;
+    if is_ordinary(c) {
+        return true;
     }
-    true
+    match c {
+        '[' | ']' => dialect == CifDialect::Cif1_1,
+        _ => !c.is_ascii() && dialect == CifDialect::Cif2_0,
+    }
+}
+
+/// A character of a block code, a frame code, or a tag name, per
+/// dialect.
+///
+/// 1.1: the character set is ASCII only (roadmap section 14). 2.0:
+/// any `<NonBlankChar>`, non-ASCII included (roadmap section 14).
+fn is_name_char(dialect: CifDialect, c: char) -> bool {
+    if !is_nonblank(c) {
+        return false;
+    }
+    match dialect {
+        CifDialect::Cif1_1 => c.is_ascii(),
+        CifDialect::Cif2_0 => true,
+    }
 }
 
 /// True when `c` continues the current value token, per dialect.
@@ -765,10 +786,16 @@ fn text_field<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
 
 /// `<DataName>`: `_` followed by one or more non-blank characters.
 /// The stored tag name drops the leading underscore.
-fn tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
+fn tag<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Tag, Err<'src>> {
     just('_')
-        .then(nonblank().repeated().at_least(1).to_slice())
-        .map(|(_underscore, name)| Tag::new(name.to_string()))
+        .then(
+            any()
+                .filter(move |c: &char| is_name_char(dialect, *c))
+                .repeated()
+                .at_least(1)
+                .to_slice(),
+        )
+        .map(|(_underscore, name): (char, &'src str)| Tag::new(name.to_string()))
 }
 
 /// `<DataItems>`, single-value form: a tag, white space (at least
@@ -776,7 +803,7 @@ fn tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
 fn tag_value_items<'src>(
     dialect: CifDialect,
 ) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
-    tag()
+    tag(dialect)
         .then(ws_region(false))
         .validate(|(tag, n), map, emit| {
             if n == 0 {
@@ -797,16 +824,18 @@ fn tag_value_items<'src>(
 /// from the `loop_` reserved word or the previous tag (spec para. 7:
 /// a data name must be separated from the preceding token by white
 /// space).
-fn loop_tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
+fn loop_tag<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, Tag, Err<'src>> {
     ws_region(false)
         .map(|_| ())
-        .then(tag())
+        .then(tag(dialect))
         .map(|(_ws, tag)| tag)
 }
 
 fn loop_items<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
     loop_prefix()
-        .then(loop_tag().repeated().collect::<Vec<Tag>>())
+        .then(loop_tag(dialect).repeated().collect::<Vec<Tag>>())
         .then(
             ws_region(false)
                 .map(|_| ())
@@ -968,7 +997,14 @@ fn save_frame<'src>(
         move |rec: Recursive<Direct<'src, 'src, &'src str, SaveFrame, Err<'src>>>| {
             save_prefix()
                 .boxed()
-                .then(nonblank().repeated().at_least(1).to_slice().boxed())
+                .then(
+                    any()
+                        .filter(move |c: &char| is_name_char(dialect, *c))
+                        .repeated()
+                        .at_least(1)
+                        .to_slice()
+                        .boxed(),
+                )
                 .then(
                     ws_region(false)
                         .map(|_| ())
@@ -1041,7 +1077,13 @@ fn block_member<'src>(
 /// `<DataBlock>`: a `data_` heading plus block members.
 fn data_block<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataBlock, Err<'src>> {
     data_prefix()
-        .then(nonblank().repeated().at_least(1).to_slice())
+        .then(
+            any()
+                .filter(move |c: &char| is_name_char(dialect, *c))
+                .repeated()
+                .at_least(1)
+                .to_slice(),
+        )
         .then(
             ws_region(false)
                 .map(|_| ())
@@ -1445,6 +1487,22 @@ _a { 'zero':0 }
             }
             other => panic!("expected a save frame, got {other:?}"),
         }
+    }
+
+    #[test]
+    fn a_2_0_file_allows_unicode_in_codes_tags_and_values() {
+        let src = "##CIF_2.0\ndata_ünïcode\nsave_§\n_αβγ Ω\n_π 𐘾\nsave_\n";
+        let doc = parse_cif(src).expect("a 2.0 unicode file must parse");
+        let block = doc.data_blocks().expect("one block").first().expect("a block");
+        assert_eq!(block.heading(), "ünïcode");
+    }
+
+    #[test]
+    fn a_1_1_file_rejects_unicode_in_a_block_code() {
+        let src = "data_ñ\n_a x\n";
+        let errs =
+            parse_cif(src).expect_err("unicode in a 1.1 block code must fail");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
     }
 
     #[test]

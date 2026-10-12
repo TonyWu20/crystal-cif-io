@@ -1,11 +1,47 @@
 {
-  "expect_error": {
-    "description": "parser rejects this file: [found ''\u2212'' at 251..254 expected ''+'', ''-'', ''.'', ''0'', ''1'', ''2'', ''3'', ''4'', ''5'', ''6'', ''7'', ''8'', ''9'', ''['', ''?'', '';'', ''\\''', ''\"'', something else, ''l'', ''L'', ''_'', ''s'', or ''S'']. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
-    "stage": "parse",
-    "violation": "unparseable"
-  },
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "loop",
+              "rows": [
+                [
+                  {
+                    "kind": "char_string",
+                    "style": "single_quoted",
+                    "text": "C O2"
+                  },
+                  {
+                    "kind": "char_string",
+                    "style": "unquoted",
+                    "text": "−393.509"
+                  }
+                ]
+              ],
+              "tags": [
+                "formula",
+                "ΔHf"
+              ]
+            },
+            {
+              "kind": "item",
+              "tag": "uvalue",
+              "value": {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "𐘾ᚠ⠠"
+              }
+            }
+          ],
+          "name": "§1"
+        }
+      ],
+      "name": "Ŭnicöde→"
+    }
+  ],
   "fixture": "unicode.cif",
-  "known_gap": true,
-  "known_gap_note": "The file is detected as CIF 2.0 via the escaped version spelling. Grammar gap: non-ASCII characters in a data value (U+2212 minus sign, U+1063E, U+16A0, U+2820); the value grammar is ASCII-only.",
   "schema_version": 2
 }
