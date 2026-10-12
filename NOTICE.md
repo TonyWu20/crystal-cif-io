@@ -29,6 +29,54 @@ The six IUCr-notice files and their citations:
 | 2232341 | `tests/real_data/cod_sg/sg168_2232341.cif` | Golenia I. A., Boyko A. N., Kotova N. V., Haukka M., Kalibabchuk V. A. Acta Cryst. (2011). E, 67, m1596-m1597. DOI 10.1107/S1600536811043303 |
 | 1513328 | `tests/real_data/cod_sg/sg178_1513328.cif` | Moggach S. A., Allan D. R., Parsons S., Sawyer L., Warren J. E. J. Synchrotron Radiat. (2005). 12, 598-607. DOI 10.1107/S0909049505019850 |
 
+## Citing COD
+
+The COD wiki asks that users cite the project papers when they
+use the database, its search, its servers, or its data
+collections. The citing page is
+`https://wiki.crystallography.net/cod/citing/`.
+
+The recommended papers, in chronological order:
+
+1. Gražulis S., Chateigner D., Downs R. T., Yokochi A. T.,
+   Quiros M., Lutterotti L., Manakova E., Butkus J., Moeck P.
+   & Le Bail A. (2009). Crystallography Open Database – an
+   open-access collection of crystal structures. J. Appl. Cryst.
+   42, 726-729. DOI 10.1107/S0021889809016690
+2. Gražulis S., Daškevič A., Merkys A.,
+   Chateigner D., Lutterotti L., Quirós M., Serebryanaya N. R.,
+   Moeck P., Downs R. T. & LeBail A. (2012). Crystallography Open
+   Database (COD): an open-access collection of crystal structures
+   and platform for world-wide collaboration. Nucleic Acids
+   Research 40, D420-D427. DOI 10.1093/nar/gkr900
+3. Gražulis S., Merkys A., Vaitkus A. &
+   Okulič-Kazarinas M. (2015). Computing stoichiometric
+   molecular composition from crystal structures. J. Appl. Cryst.
+   48(1), 85-91. DOI 10.1107/S1600576714025904
+4. Merkys A., Vaitkus A., Butkus J., Okulič-Kazarinas M.,
+   Kairys V. & Gražulis S. (2016). COD::CIF::Parser: an
+   error-correcting CIF parser for the Perl language. J. Appl.
+   Cryst. 49(1), 292-301. DOI 10.1107/S1600576715022396
+5. Quirós M., Gražulis S., Girdzijauskaitė S.,
+   Merkys A. & Vaitkus A. (2018). Using SMILES strings for the
+   description of chemical connectivity in the Crystallography
+   Open Database. J. Cheminformatics 10.
+   DOI 10.1186/s13321-018-0279-6
+6. Vaitkus A., Merkys A. & Gražulis S. (2021). Validation of
+   the Crystallography Open Database using the Crystallographic
+   Information Framework. J. Appl. Cryst. 54(2), 661-672.
+   DOI 10.1107/S1600576720016532
+7. Vaitkus A., Merkys A., Sander T., Quirós M., Thiessen
+   P. A., Bolton E. E. & Gražulis S. (2023). A workflow for
+   deriving chemical entities from crystallographic data and its
+   application to the Crystallography Open Database. J.
+   Cheminformatics 15. DOI 10.1186/s13321-023-00780-2
+8. Merkys A., Vaitkus A., Grybauskas A., Konovalovas A.,
+   Quirós M. & Gražulis S. (2023). Graph
+   isomorphism-based algorithm for cross-checking chemical and
+   crystallographic descriptions. J. Cheminformatics 15.
+   DOI 10.1186/s13321-023-00692-1
+
 ## IUCr published CIF examples
 
 The files in `tests/real_data/iucr/` are the IUCr published CIF

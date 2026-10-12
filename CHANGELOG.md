@@ -22,6 +22,11 @@ Keep a Changelog.
   scan both `tests/real_data/iucr/` and `tests/real_data/cod/`.
 - `docs/cod-api.md`: the COD REST API summary and notes on the CIF
   file shape the parser meets.
+- `NOTICE.md`: third-party data attribution. The COD credit, the
+  public-domain and IUCr header notices, the six IUCr-notice
+  article citations, and the COD citation page
+  (https://wiki.crystallography.net/cod/citing/) with its eight
+  recommended papers.
 - The multi-axis test-suite design (`docs/test-axes.md`):
   - `tests/real_data/cod_sg/`: one COD entry per space group
     1..230 (230 files, ~1 MB), fetched by the reproducible

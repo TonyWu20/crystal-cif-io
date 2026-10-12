@@ -99,4 +99,7 @@ variants appear in the corpus headers:
   source article.
 
 The repo-level credit and the per-entry citations live in
-`NOTICE.md`.
+`NOTICE.md`. The COD project asks users to cite its papers when
+they use the database or its data. The citing page is
+`https://wiki.crystallography.net/cod/citing/`, and the paper
+list is recorded in `NOTICE.md`.
