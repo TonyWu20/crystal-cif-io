@@ -35,7 +35,7 @@ use ariadne::{Color, Label, Report, ReportKind, Source};
 use chumsky::{
     error::Rich,
     extra,
-    input::Emitter,
+    input::{Emitter, InputRef},
     prelude::*,
     recursive::{recursive, Direct, Recursive},
 };
@@ -238,11 +238,62 @@ fn save_prefix<'src>() -> impl Parser<'src, &'src str, (), Err<'src>> {
         .map(|_| ())
 }
 
-/// White space between CIF tokens: blanks, line endings, and comment
-/// lines.
+fn consume_ws<'src, 'parse>(
+    inp: &mut InputRef<'src, 'parse, &'src str, Err<'src>>,
+    starts_at_line_start: bool,
+    glued_comment_ok: bool,
+) -> usize {
+    let mut consumed = 0usize;
+    let mut at_line_start = starts_at_line_start;
+    loop {
+        // Blanks on the current line.
+        let mut blanks = 0usize;
+        while let Some(c) = inp.peek() {
+            if is_blank(c) {
+                inp.next();
+                blanks += 1;
+                consumed += 1;
+            } else {
+                break;
+            }
+        }
+        // A comment on this line: a `#` at line start, after the
+        // blanks just consumed, or, in a 2.0 container, glued to
+        // the opening delimiter (the COMCIFS reference scanner
+        // start condition after `[` or `{`; roadmap section 14).
+        if inp.peek() == Some('#')
+            && (at_line_start || blanks > 0 || (glued_comment_ok && consumed == 0))
+        {
+            while let Some(c) = inp.peek() {
+                if is_eol(c) {
+                    break;
+                }
+                inp.next();
+                consumed += 1;
+            }
+        }
+        match inp.peek() {
+            Some('\n') | Some('\r') | Some('\u{0b}') | Some('\u{0c}') => {
+                let is_cr = inp.peek() == Some('\r');
+                inp.next();
+                consumed += 1;
+                if is_cr && inp.peek() == Some('\n') {
+                    inp.next();
+                    consumed += 1;
+                }
+                at_line_start = true;
+            }
+            _ => break,
+        }
+    }
+    consumed
+}
+
+/// White space between CIF tokens: blanks, line endings, and
+/// comment lines.
 ///
-/// A `#` starts a comment only when it stands at the start of a line
-/// or immediately after at least one blank of the current line
+/// A `#` starts a comment only when it stands at the start of a
+/// line or immediately after at least one blank of the current line
 /// (spec para. 21, 45). A `#` glued to the token before the region
 /// is part of that token, not a comment (fixture
 /// `11_whitespace_edge`); the value parsers consume such a `#` as a
@@ -251,47 +302,24 @@ fn save_prefix<'src>() -> impl Parser<'src, &'src str, (), Err<'src>> {
 /// The parser never fails: it consumes the maximal such region and
 /// reports the number of characters consumed.
 fn ws_region<'src>(starts_at_line_start: bool) -> impl Parser<'src, &'src str, usize, Err<'src>> {
-    custom::<_, &'src str, usize, Err<'src>>(move |inp| {
-        let mut consumed = 0usize;
-        let mut at_line_start = starts_at_line_start;
-        loop {
-            // Blanks on the current line.
-            let mut blanks = 0usize;
-            while let Some(c) = inp.peek() {
-                if is_blank(c) {
-                    inp.next();
-                    blanks += 1;
-                    consumed += 1;
-                } else {
-                    break;
-                }
-            }
-            // A comment on this line: a `#` at line start, or after
-            // the blanks just consumed.
-            if inp.peek() == Some('#') && (at_line_start || blanks > 0) {
-                while let Some(c) = inp.peek() {
-                    if is_eol(c) {
-                        break;
-                    }
-                    inp.next();
-                    consumed += 1;
-                }
-            }
-            match inp.peek() {
-                Some('\n') | Some('\r') | Some('\u{0b}') | Some('\u{0c}') => {
-                    let is_cr = inp.peek() == Some('\r');
-                    inp.next();
-                    consumed += 1;
-                    if is_cr && inp.peek() == Some('\n') {
-                        inp.next();
-                        consumed += 1;
-                    }
-                    at_line_start = true;
-                }
-                _ => break,
-            }
-        }
-        Ok(consumed)
+    custom::<_, &'src str, usize, Err<'src>>(move |inp: &mut InputRef<'_, '_, &'src str, _>| {
+        Ok(consume_ws(
+            inp,
+            starts_at_line_start,
+            false,
+        ))
+    })
+}
+
+/// The white space region of a 2.0 container interior (after a list
+/// `[` or table `{`): the same region as [`ws_region`], except a `#`
+/// glued to the opening delimiter starts a comment with no leading
+/// blank (upstream CIF 2.0 scanner; roadmap section 14). In the 1.1
+/// dialect the region is the plain white space region.
+fn container_ws<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, usize, Err<'src>> {
+    let glued_comment_ok = matches!(dialect, CifDialect::Cif2_0);
+    custom::<_, &'src str, usize, Err<'src>>(move |inp: &mut InputRef<'_, '_, &'src str, _>| {
+        Ok(consume_ws(inp, false, glued_comment_ok))
     })
 }
 
@@ -785,20 +813,21 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
             // Parser` types, which rustc does not prove `Clone` through.
             // The EBNF list production allows optional white space
             // (blanks, comments, and new lines) before the closer,
-            // so `[1 ]` and `[ 1 ]` parse (review d8 P1-2).
+            // so `[1 ]` and `[ 1 ]` parse (review d8 P1-2). The first
+            // white space region is the container region: a `#` glued
+            // to the `[` starts a comment (roadmap section 14). A
+            // text field may stand as a list member (the `;` form of
+            // the value rule; the 1.1 list stays unchanged).
             let list = just('[')
+                .then(container_ws(dialect).boxed().map(|_| ()))
                 .then(
-                    ws_region(false)
-                        .boxed()
-                        .map(|_| ())
-                        .then(rec.clone())
-                        .map(|(_ws, v): (_, Value)| v)
-                        .separated_by(ws_region(false).boxed().map(|_| ()))
+                    rec.clone()
+                        .separated_by(container_ws(dialect).boxed().map(|_| ()))
                         .collect::<Vec<Value>>(),
                 )
-                .then(ws_region(false).boxed().map(|_| ()))
+                .then(container_ws(dialect).boxed().map(|_| ()))
                 .then(just(']'))
-                .map(|(((_open, values), _ws), _close)| Value::List(values))
+                .map(|((((_open, _lead), values), _tail), _close)| Value::List(values))
                 .filter(move |_: &Value| dialect == CifDialect::Cif2_0);
             choice((
                 list,
@@ -1230,6 +1259,29 @@ mod tests {
             parse_cif(src).is_err(),
             "a brace in an unquoted 2.0 value must fail"
         );
+    }
+
+    #[test]
+    fn a_2_0_list_allows_a_glued_comment_and_a_text_member() {
+        // Roadmap section 14: a `#` glued to the `[` starts a
+        // comment (fixture 24, pinned by `list_data.cif`). A
+        // semi-enclosed text field may stand as a list member.
+        let src = "##CIF_2.0\ndata_d\n_a [# comment\n 1\n]\n_b [ x\n;t\n;\n ?\n]\n";
+        let doc = parse_cif(src).expect("list comment and text member parse");
+        match single_item(&doc, "a") {
+            Value::List(values) => {
+                assert_eq!(values.len(), 1);
+                assert_eq!(values[0].as_numeric().expect("numeric"), &Numeric::from(1i32));
+            }
+            other => panic!("expected a list, got {other:?}"),
+        }
+        match single_item(&doc, "b") {
+            Value::List(values) => {
+                assert_eq!(values.len(), 3);
+                assert!(matches!(values[1], Value::TextField(_)));
+            }
+            other => panic!("expected a list, got {other:?}"),
+        }
     }
 
     #[test]
