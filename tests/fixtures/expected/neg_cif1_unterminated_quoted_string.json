@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "A single-quoted string must close before end of line: the closing quote is only a closer when followed by a blank, a line terminator, or end of input (spec para. 15). The quote opened on the _a line is not closed, so the file does not parse.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_cif1_unterminated_quoted_string.cif",
+  "schema_version": 1
+}

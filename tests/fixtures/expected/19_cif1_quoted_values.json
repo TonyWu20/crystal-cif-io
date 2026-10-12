@@ -1,0 +1,135 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "sq",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "don't rock the boat"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "dq",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "What's this ab\\\"out?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "embedded",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "a dog''s life"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty_single",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty_double",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "trailing_space",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "C19 H19 N O3"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "C"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "C"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.0033"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.0016"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "International Tables Vol C Tables 4.2.6.8 and 6.1.1.4"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "H"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "H"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "International Tables Vol C Tables 4.2.6.8 and 6.1.1.4"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_type_symbol",
+            "atom_type_description",
+            "atom_type_scat_dispersion_real",
+            "atom_type_scat_dispersion_imag",
+            "atom_type_scat_source"
+          ]
+        }
+      ],
+      "name": "cif1_quoted_values"
+    }
+  ],
+  "fixture": "19_cif1_quoted_values.cif",
+  "schema_version": 1
+}

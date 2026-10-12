@@ -1,0 +1,4 @@
+#\#CIF_1.1
+data_bad
+
+_a 'unterminated

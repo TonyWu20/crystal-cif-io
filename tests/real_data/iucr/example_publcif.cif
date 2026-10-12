@@ -1,0 +1,559 @@
+####################################################################
+##
+##   USE publCIF (publcif.iucr.org) FOR EASY REFERENCE CHECKING, 
+##   TEXT HANDLING and TABLE GENERATION
+##
+####################################################################
+
+data_global
+
+loop_
+_publ_body_element
+_publ_body_title
+_publ_body_contents
+
+ section . 
+;
+?
+;
+ section 
+;
+Introduction
+; 
+;\
+The dibenzo[<i>b</i>,<i>e</i>]azepine ring is an important pharmacophore in 
+drug discovery and many of its derivatives exhibit a broad spectrum of 
+biological activities (Van der Burg <i>et al.</i>, 1970; Brogden 
+<i>et al.</i>, 1978; Nickolson & Wieringa, 1981; Berger <i>et al.</i>, 1989; 
+De Boer <i>et al.</i>, 1996; Roeder <i>et al.</i>, 1998; 
+Andr\'es <i>et al.</i>, 2002; Wikstr\"om <i>et al.</i>, 2002). Consequently, 
+a significant number of synthetic methods have been developed for the 
+synthesis of new derivatives of this heterocyclic system (Moriconi & 
+Maniscalco, 1972; Sasakura & Sugasawa, 1981; Stappers <i>et al.</i>, 2002). 
+In this context, we have recently developed a simple and practical synthetic 
+route to obtain novel series of 6,11-dihydrodibenzo[<i>b</i>,<i>e</i>]azepines 
+from readily available 2-allyl-<i>N</i>-benzyl-substituted anilines (Palma 
+<i>et al.</i>, 2004, 2010). To broaden the scope of this route, and in 
+continuation of our research programme on the preparation of new potentially 
+bioactive molecules containing the dihydrodibenzo[<i>b</i>,<i>e</i>]azepine 
+nucleus, we have achieved a simple synthesis of three previously unknown
+5-acetyl-11-ethyl-6,11-dihydro-5<i>H</i>-dibenzo[<i>b</i>,<i>e</i>]azepine-6-\
+carboxylic acids. Here we report the molecular structures and supramolecular
+assembly of three closely related compounds, namely
+(6<i>R</i>*,11<i>R</i>*)-5-acetyl-11-ethyl-6,11-dihydro-5<i>H</i>-\
+dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid, (I) (Fig. 1),
+(6<i>RS</i>,11<i>SR</i>)-5-acetyl-11-ethyl-2-methyl-6,11-dihydro-5<i>H</i>-
+dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid, (II) (Fig. 2), and
+(6<i>RS</i>,11<i>SR</i>)-5-acetyl-11-ethyl-1,3-dimethyl-6,11-dihydro-
+5<i>H</i>-dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid, (III) (Fig. 3),
+the constitutions of which differ only in the presence of one methyl
+substituent in (II) and two in (III), while there are none in (I). The
+synthesis of compounds (I)--(III) was achieved by intramolecular
+Friedel--Crafts alkylation of the corresponding methyl
+2-[<i>N</i>-(2-allylaryl)acetamido]-2-phenylacetates using concentrated
+sulfuric acid at 373 K (see scheme).
+;
+ section Experimental 
+;
+?
+;
+ subsection 'Synthesis and crystallization'
+;
+For the synthesis of each of (I)--(III), a suspension of the appropriately
+substituted racemic methyl 2-[<i>N</i>-(2-allylaryl)acetamido]-2-phenylacetate
+(see scheme) (1.0 g) in concentrated sulfuric acid (3 ml) was stirred at 373 K
+for 7 min. The reaction mixture was cooled to ambient temperature by the
+addition of ice and then extracted with ethyl acetate (3 \\times 50 ml). The
+combined organic extracts were dried over anhydrous sodium sulfate and the
+solvent was removed under reduced pressure. The resulting crude products were
+subjected to column chromatographic purification over silica gel using
+heptane--ethyl acetate--acetic acid (1:2:0.04 <i>v</i>/<i>v</i>/<i>v</i>).
+Crystallization from ethyl acetate--ethanol (30:1 <i>v</i>/<i>v</i>) at
+ambient temperature and in the presence of air gave colourless crystals of
+(I)--(III), suitable for single-crystal X-ray diffraction. Compound (I): yield
+35%, m.p. 449--450 K, HRMS <i>m</i>/<i>z</i> [<i>M</i>]^+^ found 309.1366,
+C~19~H~19~NO~3~ requires 309.1365. Compound (II): yield 20%, m.p. 460--462 K,
+HRMS <i>m</i>/<i>z</i> [<i>M</i>]^+^ found 323.1525, C~20~H~21~NO~3~ requires
+323.1521. Compound (III): yield 41%, m.p. 497--499 K, HRMS <i>m</i>/<i>z</i>
+[<i>M</i>]^+^ found 337.1653, C~21~H~21~NO~3~ requires 337.1678.
+;
+
+ subsection Refinement
+;
+Crystal data, data collection and structure refinement details are summarized
+in Table 1. All H atoms were located in difference maps and subsequently
+treated as riding atoms. C-bound H atoms were permitted to ride in
+geometrically idealized positions, with C---H = 0.95 (aromatic), 0.98 (CH~3~),
+0.99 (CH~2~) or 1.00 \%A (aliphatic C---H), and with <i>U</i>~iso~(H) =
+<i>kU</i>~eq~(C), where <i>k</i> = 1.5 for the methyl groups, which were
+permitted to rotate but not to tilt, and 1.2 for all other C-bound H atoms.
+O-bound H atoms were permitted to ride at the positions located in difference
+maps with <i>U</i>~iso~(H) = 1.5<i>U</i>~eq~(O), giving the O---H distances
+shown in Table 3. Several low-angle reflections, which had been wholly or
+partially attenuated by the beam stop, were omitted from the final
+refinements. The value of the Flack <i>x</i> parameter (Flack, 1983)
+for (I)
+was indeterminate (Flack & Bernardinelli, 2000); accordingly,
+Friedel-equivalent reflections were merged prior to the final refinements.
+Examination of the refined structures using <i>PLATON</i> (Spek, 2009)
+showed
+the presence of two small cavities in the structure of (II), centred at (1/2,
+0, 1/2) and (1/2, 1/2, 0) and each of volume 24 \%A^3^; these cavities are far
+too small to contain any plausible solvent molecule but, nonetheless, the
+largest peak in the difference map, 0.68 e \%A^-3^ at (0.523, 0.482, 0.064),
+was very close to one of the cavities. However, application of the SQUEEZE
+procedure in <i>PLATON</i> revealed only one excess electron per cavity.
+Accordingly, we regard both the difference peak and the excess electron count
+as minor artefacts of the data.
+;
+
+ subsection 'Analysis of spectral data'
+;
+
+;
+
+
+ section 'Results and discussion'
+;
+;
+
+ subsection 'Stereogenic centres in the title compounds'
+;
+The molecules of (I)--(III) all contain two stereogenic centres at atoms C6 and
+C11 (Figs. 1--3). In (I), the exocyclcic substituents at atoms C6 and C11 have
+a <i>cis</i> arrangement relative to the azepine ring, while those in (II) and
+(III) have a <i>trans</i> arrangement. For each compound, the reference
+molecule was selected as one having the <i>R</i> configuration at atom C6. On
+this basis, the reference molecule of (I) has the <i>R</i> configuration at
+atom C11, while those of (II) and (III) have the <i>S</i> configuration at
+atom C11. Compounds (II) and (III) crystallize as racemic mixtures, as shown
+by the centrosymmetric space group, but (I) crystallizes in the Sohnke space
+group <i>P</i>2~1~. Hence in the absence of twinning, for which no evidence
+was found, each crystal of (I) contains only one enantiomorph. It was not
+possible to determine the absolute configuration of the molecules in the
+crystal of (I) which was selected for data collection, and hence the
+configuration of the reference molecule was set to have the <i>R</i>
+configuration at atom C6, just as for (II) and (III).
+;
+
+ subsection 'Three-dimensional structures of the title compounds'
+;
+The molecules of (III) are linked into a three-dimensional framework structure
+by a combination of O---H...O, C---H...O and C---H...\p(arene) hydrogen bonds
+(Table 3). The O---H...O hydrogen bond links molecules related by the
+<i>n</i>-glide plane at <i>y</i> = 3/4 to form a <i>C</i>(7) chain running
+parallel to the [101] direction (Fig. 6), and the C---H...O hydrogen bond
+links molecules related by a 2~1~ screw axis along (3/4, <i>y</i>, 1/4) to
+form a <i>C</i>(8) chain running parallel to the [010] direction (Fig. 6). The
+combination of these two chains generates a sheet lying parallel to (10\=1)
+and built from a single type of centrosymmetric <i>R</i>~4~^4^(30) ring (Fig.
+6). Sheets of this type are linked to form a continuous three-dimensional
+framework structure by the C---H...\p(arene) hydrogen bond, which links
+molecules related by translation along the [100] direction (Fig. 7). The
+combination of chains along [100], [010] and [101] is sufficient to form a
+three-dimensional structure.
+;
+ subsection 'Hydrogen bonding in the title compounds'
+;
+It is thus striking that none of (I)--(III) exhibits the <i>R</i>~2~^2^(8)
+dimer motif so characteristic of simple carboxylic acids. Instead, all utilize
+atom O51 of the <i>N</i>-acetyl group as acceptor in an O---H...O hydrogen
+bond, and it is of interest briefly to compare the substructures which can be
+identified in the supramolecular assemblies of (I)--(III). In each of the
+structures, a C(7) chain motif can be identified built from O---H...O hydrogen
+bonds. However, these chains differ in that those in (I) and (II) contain
+molecules related by a 2~1~ screw axis, whereas that in (III) contains
+molecules related by an <i>n</i>-glide plane. Similarly, sheets built from a
+combination of O---H...O and C---H...O hydrogen bonds can be identified in the
+structures of (I) and (III) (Figs. 5 and 6). Both sheets exhibit (4,4)
+topology (Batten & Robson, 1998). The ring sizes in the sheets in (I)
+and
+(III) differ, as do the numbers of hydrogen-bond acceptors within these rings,
+since in (I) amide atom O51 acts as a double acceptor of hydrogen bonds,
+unlike that in (III). However, within the sheet in (III) the constituent rings
+are centrosymmetric, while those in (I) are not centrosymmetric. Chain
+formation by means of O---H...O hydrogen bonds has been extensively studied in
+keto acids, where the chain motif follows directly from the mutual disposition
+of the carboxyl and keto groups. Thus, \g-keto-acids form <i>C</i>(7) chains
+(<i>e.g.</i> Thompson <i>et al.</i>, 2004; Malak <i>et al.</i>,
+2006), \d-keto
+acids form <i>C</i>(8) chains (<i>e.g.</i> Davison, Kikolski <i>et al.</i>,
+2004) and \e-keto acids form <i>C</i>(9) chains (<i>e.g.</i> Davison,
+Thompson
+<i>et al.</i>, 2004), while longer chain motifs are generated in
+steroidal
+keto acids (<i>e.g.</i> Kikolski <i>et al.</i>, 2006).
+;
+
+ section Conclusions
+;
+
+;
+
+#=============================================================
+
+_audit_creation_date        'June 17, 2013'
+_audit_creation_method      'from SHELXL-97'
+_audit_update_record
+;
+;
+
+#===================================================================
+# 1. SUBMISSION DETAILS
+
+_publ_contact_author_name       'Professor Christopher Glidewell'
+_publ_contact_author_address
+;
+University of St Andrews
+Fife KY16 9ST
+Scotland
+;
+
+_publ_contact_author_phone      '+1334-463839'
+_publ_contact_author_fax        '+1334-463808'
+_publ_contact_author_email      cg@st-andrews.ac.uk
+
+_publ_requested_journal         'Acta Crystallographica C'
+_publ_requested_category        FA
+_publ_requested_coeditor_name   ?
+
+_publ_contact_letter
+;
+January 30, 2014
+
+Please consider this CIF submission for publication in Acta Crystallographica
+Section C.  All authors have seen and approved this submission.
+
+The CIF has passed the Chester CHECKCIF routines and gives a 
+satisfactory PRINTCIF file.  
+
+Christopher Glidewell
+;
+
+#=====================================================================
+# 2. PROCESSING SUMMARY  (IUCr Office Use Only)
+
+_journal_date_recd_electronic     ?
+_journal_date_to_coeditor         ?
+_journal_date_from_coeditor       ?
+_journal_date_accepted            ?
+_journal_date_printers_first      ?
+_journal_date_printers_final      ?
+_journal_date_proofs_out          ?
+_journal_date_proofs_in           ?
+_journal_coeditor_name            ?
+_journal_coeditor_code            ?
+_journal_paper_doi                ?
+_journal_paper_category           FA
+_journal_coeditor_notes           ?
+_journal_techeditor_code          ?
+_iucr_compatibility_tag           ACTA95
+_journal_techeditor_notes         ?
+_journal_coden_ASTM               ACSCGG
+_journal_name_full                'Acta Crystallographica, Section C'
+_journal_year                     ?
+_journal_volume                   ?
+_journal_issue                    ?
+_journal_page_first               ?
+_journal_page_last                ?
+_journal_suppl_publ_number        ?
+_journal_suppl_publ_pages         ?
+
+#=====================================================================
+# 3. TITLE AND AUTHOR LIST
+
+_publ_section_title
+;
+Three closely related dibenzazepine carboxylic acids: hydrogen-bonded
+aggregation in one, two and three dimensions
+;
+
+loop_
+_publ_author_name
+_publ_author_address
+_publ_author_email
+_publ_author_footnote
+'Sanabr\'ia, Carlos M.'
+;  
+Laboratorio de S\'intesis Org\'anica
+Escuela de Qu\'imica
+Universidad Industrial de Santander
+AA 678 Bucaramanga
+Colombia
+;
+carmasasa@gmail.com
+?
+'Palma, Alirio'
+;
+Laboratorio de S\'intesis Org\'anica
+Escuela de Qu\'imica
+Universidad Industrial de Santander
+AA 678 Bucaramanga
+Colombia
+;
+apalma@uis.edu.co
+?
+'Cobo, Justo'
+;
+Departamento de Qu\'imica Inorg\'anica y Org\'anica
+Universidad de Ja\'en
+23071 Ja\'en
+Spain
+;
+jcobo@ujaen.es
+?
+'Glidewell, Christopher'
+;
+School of Chemistry
+University of St Andrews
+Fife KY16 9ST
+Scotland
+;
+cg@st-andrews.ac.uk
+?
+
+#======================================================================
+# 4. TEXT
+
+_publ_section_synopsis
+;\
+In three
+5-acetyl-11-ethyl-6,11-dihydro-5<i>H</i>-dibenzo[<i>b</i>,<i>e</i>]azepine-6-\
+carboxylic acids, which differ only in the presence of zero, one or two
+methyl substituents in one of the aryl rings, the hydrogen-bonded
+supramolecular aggregation is respectively, two-, one- and three-dimensional.
+;
+
+_publ_section_keywords
+;
+crystal structure, dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid,
+hydrogen bonding, hydrogen-bonded supramolecular aggregation
+;
+
+_publ_section_related_literature
+;
+For related literature, see: Allen <i>et al.</i> (1987);
+Andr\'es <i>et al.</i> (2002);
+Batten & Robson (1998);
+Berger <i>et al.</i> (1989);
+Bernstein <i>et al.</i> (1995);
+Bondi (1964);
+Brogden <i>et al.</i> (1978);
+Cremer & Pople (1975);
+Davison, Kikolski, Lalancette & Thompson (2004);
+Davison, Thompson & Lalancette (2004);
+De Boer, Nefkens, van Helvoirt & van Delft (1996);
+Entrena <i>et al.</i> (1997);
+Evans & Boeyens (1989);
+Ferguson <i>et al.</i> (1998<i>a</i>, 1998<i>b</i>);
+Flack (1983);
+Flack & Bernardinelli (2000);
+Gregson <i>et al.</i> (2000);
+Kikolski <i>et al.</i> (2006);
+Malak <i>et al.</i> (2006);
+Moriconi & Maniscalco (1972);
+Nickolson & Wieringa (1981);
+Palma <i>et al.</i> (2004, 2010);
+Roeder <i>et al.</i> (1998);
+Rowland & Taylor (1996);
+Sasakura & Sugasawa (1981);
+Spek (2009);
+Stappers <i>et al.</i> (2002);
+Thompson <i>et al.</i> (2004);
+Van der Burg, Bonta, Delobelle, Ramon & Vargaftig (1970);
+Wikstr\"om <i>et al.</i> (2002);
+Wood <i>et al.</i> (2009).
+;
+
+_publ_section_abstract
+;\
+In the structure of
+(6<i>R</i>*,11<i>R</i>*)-5-acetyl-11-ethyl-6,11-dihydro-5<i>H</i>-\
+dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid, C~19~H~19~NO~3~, (I),
+the molecules are linked into sheets by a combination of O---H...O and
+C---H...O hydrogen bonds; in the structure of the monomethyl analogue
+(6<i>RS</i>,11<i>SR</i>)-5-acetyl-11-ethyl-2-methyl-6,11-dihydro-5<i>H</i>-\
+dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid, C~20~H~21~NO~3~, (II),
+the molecules are linked into simple <i>C</i>(7) chains by O---H...O hydrogen
+bonds; and in the structure of the dimethyl analogue
+(6<i>RS</i>,11<i>SR</i>)-5-acetyl-11-ethyl-1,3-dimethyl-6,11-dihydro-\
+5<i>H</i>-dibenzo[<i>b</i>,<i>e</i>]azepine-6-carboxylic acid,
+C~21~H~23~NO~3~, (III), a combination of O---H...O, C---H...O and
+C---H...\p(arene) hydrogen bonds links the molecules into a three-dimensional
+framework structure. None of these structures exhibits the <i>R</i>~2~^2^(8)
+dimer motif characteristic of simple carboxylic acids.
+;
+
+_publ_section_references
+;
+Allen, F. H., Kennard, O., Watson, D. G., Brammer, L., Orpen, A. G. & 
+Taylor, R. (1987). <i>J. Chem. Soc. Perkin Trans. 2</i>, pp. S1--S19.
+
+Andr\'es, J. I., Alc\'azar, J., Alonso, J. M., D\'iaz, A., Fern\'andez, J.,
+Gil, P., Iturrino, L., Matesanz, E., Meert, T. F., Megens, A. & Sipido, 
+V. K. (2002). <i>Bioorg. Med. Chem. Lett.</i> <b>12</b>, 243--248.
+
+Batten, S. R. & Robson, R. (1998). <i>Angew. Chem. Int. Ed.</i> <b>37</b>,
+1460--1494.
+
+Berger, J. G., Chang, W. K., Clader, J. W., Hou, D., Chipkin, R. E. & McPhail,
+A. T. (1989). <i>J. Med. Chem.</i> <b>32</b>, 1913--1921.
+
+Bernstein, J., Davis, R. E., Shimoni, L. & Chang, N.-L. (1995). <i>Angew. 
+Chem. Int. Ed. Engl.</i> <b>34</b>, 1555--1573.
+
+Bondi, A. (1964). <i>J. Phys. Chem.</i> <b>68</b>, 441--451.
+
+Brogden, R. N., Heel, R. C., Speight, T. M. & Avery, G. S. (1978).
+<i>Drugs</i>, <b>16</b>, 273--301.
+
+Burla, M. C., Caliandro, R., Camalli, M., Carrozzini, B., Cascarano, G. L., 
+De Caro, L., Giacovazzo, C., Polidori, G. & Spagna, R. (2005). <i>J. Appl.
+Cryst.</i> <b>38</b>, 381--388.
+
+Cremer, D. & Pople, J. A. (1975). <i>J. Am. Chem. Soc.</i> <b>97</b>,
+1354--1358.
+
+Davison, M., Kikolski, E. M., Lalancette, R. A. & Thompson, H. W. (2004).
+<i>Acta Cryst.</i> C<b>60</b>, o449--o451.
+
+Davison, M., Thompson, H. W. & Lalancette, R. A. (2004). <i>Acta Cryst.</i>
+C<b>60</b>, o242--o244.
+
+De Boer, T. H., Nefkens, F., van Helvoirt, A. & van Delft, A. M. L. (1996).
+<i>J. Pharmacol. Exp. Ther.</i> <b>277</b>, 852--860.
+
+Duisenberg, A. J. M., Hooft, R. W. W., Schreurs, A. M. M. & Kroon, J. (2000).
+<i>J. Appl. Cryst.</i> <b>33</b>, 893--898.
+
+Duisenberg, A. J. M., Kroon-Batenburg, L. M. J. & Schreurs, A. M. M. (2003).
+<i>J. Appl. Cryst.</i> <b>36</b>, 220--229.
+
+Entrena, A., Campos, J., G\'omez, J. A., Gallo, M. A. & Espinosa, A. (1997).
+<i>J. Org. Chem.</i> <b>62</b>, 337--349.
+
+Evans, D. G. & Boeyens, J. C. A. (1989). <i>Acta Cryst.</i> B<b>45</b>,
+581--590.
+
+Ferguson, G., Glidewell, C., Gregson, R. M. & Meehan, P. R. (1998<i>a</i>).
+<i>Acta Cryst.</i> B<b>54</b>, 129--138.
+
+Ferguson, G., Glidewell, C., Gregson, R. M. & Meehan, P. R. (1998<i>b</i>).
+<i>Acta Cryst.</i> B<b>54</b>, 139--150.
+
+Flack, H. D. (1983). <i>Acta Cryst.</i> A<b>39</b>, 876--881.
+
+Flack, H. D. & Bernardinelli, G. (2000). <i>J. Appl. Cryst.</i> <b>33</b>,
+1143--1148.
+
+Gregson, R. M., Glidewell, C., Ferguson, G. & Lough, A. J. (2000). <i>Acta
+Cryst.</i> B<b>56</b>, 39--57.
+
+Kikolski, E. M., Thompson, H. W. & Lalancette, R. A. (2006). 
+<i>Acta Cryst.</i> C<b>62</b>, o397--o398.
+
+Malak, M. H., Baker, D., Brunskill, A. P. J., Thompson, H. W. & Lalancette, R.
+A. (2006). <i>Acta Cryst.</i> C<b>62</b>, o669--o670.
+
+Moriconi, E. J. & Maniscalco, I. A. (1972). <i>J. Org. Chem.</i> <b>37</b>,
+208--215.
+
+Nickolson, V. J. & Wieringa, J. H. (1981). <i>J. Pharm. Pharmacol.</i>
+<b>33</b>, 760--766.
+
+Nonius (1998). <i>COLLECT</i>. Nonius BV, Delft, The Netherlands.
+
+Palma, A., Galeano, N. & Bahsas, A. (2010). <i>Synthesis</i>, pp. 1291--1302.
+
+Palma, A., Jaimes-Barajas, J., Kouznetsov, V. V., Stashenko, E., Bahsas, A. &
+Amaro-Luis, J. (2004). <i>Synlett</i>, pp. 2721--2724.
+
+Roeder, T., Degen, J. & Gewecke, M. (1998). <i>Eur. J. Pharmacol.</i>
+<b>349</b>, 171--177.
+
+Rowland, R. S. & Taylor, R. (1996). <i>J. Phys. Chem.</i> <b>100</b>,
+7384--7391.
+
+Sasakura, K. & Sugasawa, T. (1981). <i>Heterocycles</i>, <b>15</b>, 421--425.
+
+Sheldrick, G. M. (2003). <i>SADABS</i>. University of G\"ottingen, Germany.
+
+Sheldrick, G. M. (2008). <i>Acta Cryst.</i> A<b>64</b>, 112--122.
+
+Spek, A. L. (2009). <i>Acta Cryst.</i> D<b>65</b>, 148--155.
+
+Stappers, F., Broeckx, R., Leurs, S., Van Den Bergh, L., Agten, J., 
+Lambrechts, A., Van den Heurel, D. & De Smaele, D. (2002). <i>Org. 
+Process Res. Dev.</i> <b>6</b>, 911--914.
+
+Thompson, H. W., Cot\'e, M. L. & Lalancette, R. A. (2004). <i>Acta Cryst.</i>
+C<b>60</b>, o727--o729.
+
+Van der Burg, W. J., Bonta, I. L., Delobelle, J., Ramon, C. & Vargaftig, B.
+(1970). <i>J. Med. Chem.</i> <b>13</b>, 35--39.
+
+Wikstr\"om, H. V., Mensonides-Harsema, M. M., Cremers, T. I. F. H., Moltzen, 
+E. K. & Arnt, J. (2002). <i>J. Med. Chem.</i> <b>45</b>, 3280--3285.
+
+Wood, P. A., Allen, F. H. & Pidcock, E. (2009). <i>CrystEngComm</i>, 
+<b>11</b>, 1563--1571.
+;
+
+
+_publ_section_figure_captions  
+;
+Fig. 1. The molecular structure of the (6<i>R</i>,11<i>R</i>) enantiomer of
+(I), showing the atom-labelling scheme. Displacement ellipsoids are drawn at
+the 30% probability level.
+
+Fig. 2. The molecular structure of the (6<i>R</i>,11<i>S</i>) enantiomer of
+(II), showing the atom-labelling scheme. Displacement ellipsoids are drawn at
+the 30% probability level.
+
+Fig. 3. The molecular structure of the (6<i>R</i>,11<i>S</i>) enantiomer of
+(III), showing the atom-labelling scheme. Displacement ellipsoids are drawn at
+the 30% probability level.
+
+Fig. 4. Part of the crystal structure of (II), showing the formation of a
+hydrogen-bonded (dashed lines) chain parallel to [010]. For the sake of
+clarity, H atoms not involved in the motifs shown have been omitted. Atoms
+marked with an asterisk (*), a hash (#), a dollar sign ($) or an ampersand (&)
+are at the symmetry positions (-<i>x</i>+1, <i>y</i>+1/2, -<i>z</i>+1/2), 
+(-<i>x</i>+1, <i>y</i>-1/2, -<i>z</i>+1/2), (<i>x</i>, <i>y</i>+1, <i>z</i>) 
+and (<i>x</i>, <i>y</i>-1, <i>z</i>), respectively.
+
+Fig. 5. A stereoview of part of the crystal structure of (I), showing the
+formation of a hydrogen-bonded (dashed lines) sheet parallel to (10\=1). 
+For the sake of clarity, H atoms not involved in the motifs shown have been
+omitted.
+
+Fig. 6. A stereoview of part of the crystal structure of (III), showing the
+formation of a hydrogen-bonded (dashed lines) sheet of <i>R</i>~4~^4^(30)
+rings parallel to (10\=1) and built from a combination of O---H...O and
+C---H...O hydrogen bonds. For the sake of clarity, H atoms not involved in the
+motifs shown have been omitted.
+
+Fig. 7. A stereoview of part of the crystal structure of (III), showing the
+formation of a chain parallel to [100] built from C---H...\p(arene) hydrogen
+bonds (dashed lines). For the sake of clarity, H atoms not involved in the
+motif shown have been omitted.
+;
+
+_publ_section_table_legends
+;
+Table 1.  Experimental details
+
+Table 2. Selected geometric parameters (\%A, \%) for (I)--(III)
+
+Table 3. Hydrogen bonds and short intermolecular contacts (\%A, \%) for 
+(I)--(III)
+;
+_publ_section_acknowledgements
+;
+The authors thank the Centro de Instrumentaci\'on Cient\'ifico-T\'ecnica of the
+Universidad de Ja\'en and the staff for the data collection. AP and CMS thank
+Colciencias for financial support (grant No. 1102-521-28229). JC thanks the
+Consejer\'ia de Innovaci\'on, Ciencia y Empresa (Junta de Andaluc\'ia, Spain)
+and the Universidad de Ja\'en for financial support.
+;
+

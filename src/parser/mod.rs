@@ -497,10 +497,12 @@ fn continues_value_token(dialect: CifDialect, c: char) -> bool {
 
 /// A single-quoted character string (spec para. 15, 16).
 ///
-/// 1.1: the content may hold any printable character, including
-/// embedded quotes (kept verbatim). The value token ends at the
-/// first white space or EOL, and the last character of the token
-/// must be the closing quote.
+/// 1.1: the content may hold any printable character. An embedded
+/// delimiter is legal (kept verbatim): a quote closes the string
+/// only when it is followed by a blank (SP/HT), a line terminator,
+/// or end of input; a quote followed by a non-blank character is
+/// content (spec para. 15). The empty form is a legal empty
+/// string.
 /// 2.0: the EBNF quote-content excludes only the closing quote, so
 /// blanks inside the quotes are legal (COMCIFS CIF2-EBNF,
 /// `quote-content`). The run stops at the first closing quote,
@@ -509,18 +511,33 @@ fn continues_value_token(dialect: CifDialect, c: char) -> bool {
 fn single_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
     match dialect {
         CifDialect::Cif1_1 => {
-            let run = any()
-                .filter(|&c| is_printable(c) && !is_eol(c))
-                .repeated()
-                .to_slice();
+            // An embedded quote (spec para. 15): a quote followed by
+            // a non-blank printable character is content. A quote
+            // followed by a blank (SP/HT), a line terminator, or end
+            // of input closes the string.
+            let embedded = just('\'')
+                .then(
+                    any()
+                        .filter(|&c| is_printable(c) && !is_eol(c) && !is_blank(c)),
+                )
+                .map(|(q, c): (char, char)| vec![q, c])
+                .boxed();
+            let content = choice((
+                any()
+                    .filter(|&c| is_printable(c) && !is_eol(c) && c != '\'')
+                    .map(|c: char| vec![c])
+                    .boxed(),
+                embedded,
+            ));
             just('\'')
-                .then(run)
-                .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
-                .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('\''))
-                .map(|trimmed: String| {
-                    CharString::SingleQuoted(SingleQuotedString::new(
-                        trimmed[..trimmed.len() - 1].to_string(),
-                    ))
+                .then(content.repeated().collect::<Vec<Vec<char>>>())
+                .then(just('\''))
+                .map(|((_, content), _): ((char, Vec<Vec<char>>), char)| {
+                    let mut s = String::new();
+                    for part in &content {
+                        s.extend(part);
+                    }
+                    CharString::SingleQuoted(SingleQuotedString::new(s))
                 })
                 .boxed()
         }
@@ -542,10 +559,12 @@ fn single_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Char
 
 /// A double-quoted character string.
 ///
-/// 1.1: the content may hold any printable character, including
-/// embedded quotes (kept verbatim). The value token ends at the
-/// first white space or EOL, and the last character of the token
-/// must be the closing quote.
+/// 1.1: the content may hold any printable character. An embedded
+/// delimiter is legal (kept verbatim): a double quote closes the
+/// string only when it is followed by a blank (SP/HT), a line
+/// terminator, or end of input; a double quote followed by a
+/// non-blank character is content (spec para. 15). The empty form
+/// is a legal empty string.
 /// 2.0: the EBNF quote-content excludes only the closing quote, so
 /// blanks inside the quotes are legal. The run stops at the first
 /// closing quote, which must be present. The empty form `""` is a
@@ -553,18 +572,33 @@ fn single_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Char
 fn double_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
     match dialect {
         CifDialect::Cif1_1 => {
-            let run = any()
-                .filter(|&c| is_printable(c) && !is_eol(c))
-                .repeated()
-                .to_slice();
+            // An embedded delimiter (spec para. 15): a `"` followed
+            // by a non-blank printable character is content. A `"`
+            // followed by a blank (SP/HT), a line terminator, or
+            // end of input closes the string.
+            let embedded = just('"')
+                .then(
+                    any()
+                        .filter(|&c| is_printable(c) && !is_eol(c) && !is_blank(c)),
+                )
+                .map(|(q, c): (char, char)| vec![q, c])
+                .boxed();
+            let content = choice((
+                any()
+                    .filter(|&c| is_printable(c) && !is_eol(c) && c != '"')
+                    .map(|c: char| vec![c])
+                    .boxed(),
+                embedded,
+            ));
             just('"')
-                .then(run)
-                .map(|(_q, run): (char, &str)| run.trim_end_matches([' ', '\t']).to_string())
-                .filter(|trimmed: &String| !trimmed.is_empty() && trimmed.ends_with('"'))
-                .map(|trimmed: String| {
-                    CharString::DoubleQuoted(DoubleQuotedString::new(
-                        trimmed[..trimmed.len() - 1].to_string(),
-                    ))
+                .then(content.repeated().collect::<Vec<Vec<char>>>())
+                .then(just('"'))
+                .map(|((_, content), _): ((char, Vec<Vec<char>>), char)| {
+                    let mut s = String::new();
+                    for part in &content {
+                        s.extend(part);
+                    }
+                    CharString::DoubleQuoted(DoubleQuotedString::new(s))
                 })
                 .boxed()
         }
@@ -1159,6 +1193,94 @@ mod tests {
         assert!(
             parse_cif(src).is_err(),
             "a brace in an unquoted 2.0 value must fail"
+        );
+    }
+
+    /// The `LoopColumns` of the first loop in the document.
+    fn first_loop<'a>(doc: &'a CifDocument) -> &'a LoopColumns {
+        for block in doc.data_blocks().expect("data blocks") {
+            for member in block.members() {
+                if let DataBlockMember::DataItems(items) = member {
+                    if let Some(columns) = items.as_multi_values() {
+                        return columns;
+                    }
+                }
+            }
+        }
+        panic!("no loop found in the document")
+    }
+
+    #[test]
+    fn a_cif1_1_loop_line_may_mix_quoted_and_bare_values() {
+        // IUCr `atom_type` loop shape: a line holds quoted values
+        // and bare values; the last column lands on its own line.
+        let src = "data_d\nloop_\n_a\n_b\n_c\n_d\n_e\n'1' '2' 3 4\n5\n";
+        let doc = parse_cif(src).expect("a mixed loop value line must parse");
+        let columns = first_loop(&doc);
+        let a = columns.find_loop_column_by_tag("a").expect("tag a");
+        assert_eq!(
+            a.as_ref()[0].as_char_string().expect("quoted").as_ref(),
+            "1",
+        );
+        let b = columns.find_loop_column_by_tag("b").expect("tag b");
+        assert_eq!(
+            b.as_ref()[0].as_char_string().expect("quoted").as_ref(),
+            "2",
+        );
+        let c = columns.find_loop_column_by_tag("c").expect("tag c");
+        assert!(c.as_ref()[0].as_numeric().is_some(), "tag c is bare");
+        let e = columns.find_loop_column_by_tag("e").expect("tag e");
+        assert!(e.as_ref()[0].as_numeric().is_some(), "tag e is bare");
+    }
+
+    #[test]
+    fn a_cif1_1_quoted_value_may_end_before_a_blank() {
+        let src = "data_d\n_x 'C19 H19 N O3' \n";
+        let doc = parse_cif(src).expect("a quoted value with a trailing blank must parse");
+        let value = single_item(&doc, "x");
+        assert_eq!(
+            value.as_char_string().expect("quoted").as_ref(),
+            "C19 H19 N O3",
+        );
+    }
+
+    #[test]
+    fn a_cif1_1_embedded_quote_is_kept_as_content() {
+        let src = "data_d\n_sq 'don't rock the boat'\n_dq \"He said \"\"hi\"\"\"\n";
+        let doc = parse_cif(src).expect("an embedded quote must parse");
+        assert_eq!(
+            single_item(&doc, "sq")
+                .as_char_string()
+                .expect("quoted")
+                .as_ref(),
+            "don't rock the boat",
+        );
+        // All four quotes are content except the final closer: the
+        // quote after `He said` is followed by a quote, and each
+        // inner quote is followed by a non-blank character.
+        assert_eq!(
+            single_item(&doc, "dq")
+                .as_char_string()
+                .expect("quoted")
+                .as_ref(),
+            "He said \"\"hi\"\"",
+        );
+    }
+
+    #[test]
+    fn a_cif1_1_empty_quoted_string_is_legal() {
+        let src = "data_d\n_a ''\n_b \"\"\n";
+        let doc = parse_cif(src).expect("empty quoted strings must parse");
+        assert_eq!(single_item(&doc, "a").as_char_string().expect("quoted").as_ref(), "");
+        assert_eq!(single_item(&doc, "b").as_char_string().expect("quoted").as_ref(), "");
+    }
+
+    #[test]
+    fn a_cif1_1_unterminated_quoted_string_fails_to_parse() {
+        let src = "data_d\n_x 'oops\n";
+        assert!(
+            parse_cif(src).is_err(),
+            "an unterminated quoted string must fail to parse",
         );
     }
 

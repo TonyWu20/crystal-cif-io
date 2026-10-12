@@ -6,6 +6,7 @@ See [`ground-truth.md`](ground-truth.md).
 Decision recorded 2026-10-06. Implementation recorded 2026-10-07.
 Post-review defect fix (unreachable semantic diagnostics) recorded
 2026-10-07. Chemrust layer removed 2026-10-07.
+CIF 1.1 quoted-string rule fix recorded 2026-10-12.
 
 ## Decision
 
@@ -202,3 +203,48 @@ two follow-up commits:
 > `cargo test ground_truth_verify` green for all fixtures plus
 > closure of the fixture `09` gap, per the binding criteria in that
 > document.
+
+## CIF 1.1 quoted-string value rule (2026-10-12)
+
+The IUCr published example files (`tests/real_data/iucr/`) failed to
+parse. The defect is the CIF 1.1 quoted character string value rule
+in `src/parser/mod.rs` (`single_quoted`, `double_quoted`).
+
+The old rule consumed the rest of the line as one string token and
+required the line to end with the closing quote. A loop line that
+holds several values (for example `'C' 'C' 0.0033 0.0016`) failed:
+the run reaches the end of line on a bare token and no value
+alternative matches.
+
+The corrected rule follows the IUCr CIF 1.1 specification (para. 15)
+and the COMCIFS reference scanner (`cif_api`, `scan_delim_string`):
+
+- A quote closes the string only when the next character is a blank
+  (SP/HT), a line terminator, or end of input.
+- A quote followed by a non-blank character is content. The embedded
+  quote stays in the value.
+- The empty forms `''` and `""` are legal empty strings.
+- An unterminated string at end of line fails to parse. This crate
+  stays strict. The COMCIFS C parser recovers the case with a
+  recoverable error. We report a parse error.
+
+The CIF 2.0 branches are unchanged. They already close at the first
+closing quote (COMCIFS CIF2-EBNF `quote-content`).
+
+Decisions (user confirmed 2026-10-12):
+
+| item | resolution |
+|---|---|
+| empty `''` / `""` in 1.1 | accept. The reference parser accepts them. |
+| unterminated string at end of line | reject. The parser stays strict. |
+
+Tests:
+
+- Unit tests in `mod tests` of `src/parser/mod.rs`: a mixed
+  quoted/bare loop value line, a quoted value that ends before a
+  blank, an embedded quote, empty quoted strings, and an
+  unterminated string.
+- Fixture `19_cif1_quoted_values.cif` (positive) and
+  `neg_cif1_unterminated_quoted_string.cif` (negative) with their
+  expected files.
+- `tests/real_data` passes for all IUCr example files.

@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''l'' at 20672..20673 expected ''s'', ''S'', something else, ''_'', ''d'', ''D'', or end of input]. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "example_extra_table.cif",
+  "schema_version": 1
+}
