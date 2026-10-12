@@ -175,6 +175,8 @@ log at the end of this document.
 | D6 | legacy `data_types` writer API | A: remove it. B: keep it aligned with `CifTerm` | A. The crate is pre-1.0. Nothing external uses it |
 | D7 | write-path float truncation (`{:<6.3}`) | A: format with the `f64` shortest-round-trip Display in T0. B: keep the truncation | A. The parse path already keeps full precision |
 | D8 | CIF 2.0 list values (`[...]`), the carrier for `Matrix` items | A: add dialect detection, a `Value::List` variant, and the 2.0 string restriction. B: keep the crate 1.1-only and skip list parsing | A, scoped to lists only (tables stay out). See section 13 |
+| D9 | CIF 2.0 syntax completion: the seven `known_gap` corpus files | A: implement every pinned feature (tables, triple-quoted strings, nested frames, Unicode, VT/FF). B: keep the `known_gap` pins and skip | A, scoped to the seven pinned cases, no new dictionary items. See section 14 |
+| D9a | VT/FF as 1.1 line terminators | A: accept both in every dialect, a recorded 1.1 deviation. B: accept in the 2.0 dialect only | A. It follows the bracket-lead precedent (13.3 item 2, fixture 17). Fixture 26 pins it |
 
 ## 6. Phases
 
@@ -307,6 +309,8 @@ Record decisions here as they are made.
 | D7 | write-path float truncation | A: format `Float` with the `f64` shortest-round-trip `Display` in T0 | 2026-10-08 |
 | D8 | CIF 2.0 list values | A: dialect detection, a `Value::List` variant, the 2.0 string restriction. Scoped to lists only (section 13). The parser work moved up from the T6 wave to its own branch, `dict-items/d8` (2026-10-09). T6 consumes it for the matrix items | 2026-10-08 |
 | D4a | codegen implementation | `examples/dict_codegen.rs` with `codegen/annotations.json` (JSON: the generator reuses the existing `serde_json`; no new dependencies). The format and the reuse path are documented in `docs/codegen.md`. The registry and pub-mod lists stay append-only. T4 carries no range items; its five closed sets become typed enums | 2026-10-08 |
+| D9 | CIF 2.0 syntax completion | A: all seven features (section 14). VT/FF line terminators in every dialect. Comments and `;` text members inside 2.0 containers. 2.0 table values. 2.0 triple-quoted strings. 2.0 nested save frames. 2.0 Unicode. The `1.25e+03` exponent form is already legal under the 1.1 `<Float>` production, so it needs no change. The seven `known_gap` pins flip to full IR pins. The iucr and cod pins stay byte-identical. The work lands on branch `dict-items/d9` (based on `dev-0.2`) | 2026-10-13 |
+| D9a | VT/FF in every dialect | A: accept VT (`0x0B`) and FF (`0x0C`) as line terminators in every dialect. A recorded 1.1 deviation: the 1.1 spec excludes both (paras. 22, 28). It follows the bracket-lead precedent (13.3 item 2). Fixture 26 pins the 1.1 behavior | 2026-10-13 |
 
 The current wave covers T0, T2, T3, T4, T5. T6 (and the D8 parser
 work) start only when D1 approves the shell scope.
@@ -320,6 +324,16 @@ restriction, `Matrix::from_list`, the canonical `list` value kind
 and schema version 2, and the four section 13.6 fixtures. The T6
 shell scope (the matrix items that consume the parser) still waits
 on D1 approval.
+
+Wave status (2026-10-13, D9): the CIF 2.0 syntax-completion work
+runs on branch `dict-items/d9` (based on `dev-0.2`), section 14
+scope: VT/FF line terminators (D9a), comments and text members
+inside 2.0 containers, 2.0 table values, 2.0 triple-quoted
+strings, 2.0 nested save frames, and 2.0 Unicode. The exponent
+form `1.25e+03` is already legal, so section 14 records it with
+no change. The seven `known_gap` pins flip to full IR pins. The
+iucr, cod, and cod_sg pins stay byte-identical. No push and no
+merge until the reviews finish.
 
 Wave status (2026-10-09): T0, T2, T3, T4, T5 are merged into
 dev-0.2 (final merge ab7db3f). All 734 items of the standard
