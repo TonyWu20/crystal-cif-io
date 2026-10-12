@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install the stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Fetch the cif_api corpus (pinned upstream commit)
+        run: python3 tests/real_data/cif_api/fetch.py
+
+      - name: Run the test suite
+        run: cargo test

@@ -17,7 +17,11 @@ Real crystallographic files are pinned by the real-data harness in
 1..230 (`tests/real_data/cod_sg/`), and the 21 edge-case CIFs of
 the COMCIFS [`cif_api`](https://github.com/COMCIFS/cif_api)
 reference implementation (`tests/real_data/cif_api/`; provenance
-and license in `tests/real_data/cif_api/SOURCE.md`). Provenance
+and license in `tests/real_data/cif_api/SOURCE.md`). Those CIFs
+are fetched at test time, not committed: the CI workflow
+(`.github/workflows/ci.yml`) and the local fetch script
+(`python3 tests/real_data/cif_api/fetch.py`) download them from
+a pinned upstream commit and verify the blob SHAs. Provenance
 lives in `tests/real_data/SOURCE.md` and the per-corpus
 `SOURCE.md` files.
 

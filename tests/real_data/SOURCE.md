@@ -34,8 +34,11 @@ self-consistency pin, not an independent ground truth.
 
 The files in `tests/real_data/cif_api/` are the test-data CIFs
 of the COMCIFS `cif_api` reference implementation, fetched from
-`https://github.com/COMCIFS/cif_api` at a pinned commit. Full
-provenance, the license notice (LGPL-3.0, copyright John C.
-Bollinger), the per-file table, and the sha256 manifest live in
-`tests/real_data/cif_api/SOURCE.md`. The credit entry lives in
-the top-level `NOTICE.md`.
+`https://github.com/COMCIFS/cif_api` at a pinned commit. The CIF
+files are not committed: `python3 tests/real_data/cif_api/fetch.py`
+downloads and verifies them (the CI workflow does this before
+`cargo test`). Full provenance, the license notice (LGPL-3.0,
+copyright John C. Bollinger), the per-file table, and the sha256
+manifest live in `tests/real_data/cif_api/SOURCE.md` and
+`tests/real_data/cif_api/manifest.json`. The credit entry lives
+in the top-level `NOTICE.md`.

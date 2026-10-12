@@ -32,3 +32,8 @@ orchestrate/HOLD
 orchestrate/PID
 orchestrate/PID
 orchestrate/PID_SHELL
+
+# cif_api corpus: the CIFs are fetched at test time (CI and locally)
+# by tests/real_data/cif_api/fetch.py from a pinned upstream commit.
+# The expected JSON pins in tests/real_data/expected/ are committed.
+tests/real_data/cif_api/*.cif

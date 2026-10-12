@@ -9,13 +9,18 @@ Keep a Changelog.
 
 - A COMCIFS `cif_api` test-data corpus in
   `tests/real_data/cif_api/`: the 21 edge-case CIFs of the
-  upstream reference implementation, pinned to commit `7882c12`
-  (provenance, license, and per-file notes in
-  `tests/real_data/cif_api/SOURCE.md`). Fourteen files pin the
-  parse output; seven are `known_gap` pins that record the
-  2.0 grammar gaps they expose (tables, comments inside lists,
-  triple-quoted strings, nested save frames, non-ASCII values,
-  VT/FF line terminators).
+  upstream reference implementation, pinned to commit `7882c12`.
+  The CIFs are fetched at test time, not committed: the
+  reproducible `tests/real_data/cif_api/fetch.py` (with a
+  `manifest.json` pin) downloads them and verifies the sha256
+  and git blob SHA of each file. The CI workflow
+  (`.github/workflows/ci.yml`) runs the fetch before `cargo
+  test`. Fourteen files pin the parse output; seven are
+  `known_gap` pins that record the 2.0 grammar gaps they expose
+  (tables, comments inside lists, triple-quoted strings, nested
+  save frames, non-ASCII values, VT/FF line terminators).
+  Provenance, license, and per-file notes live in
+  `tests/real_data/cif_api/SOURCE.md`.
 - A Crystallography Open Database (COD) test corpus in
   `tests/real_data/cod/` (six entries, fetched via the COD REST
   API). The real-data harness and the `gt_generate` generator now
@@ -44,6 +49,13 @@ Keep a Changelog.
     string.
 
 ### Changed
+
+- The `tests/real_data/cif_api/*.cif` files are no longer
+  committed; they are fetched by `tests/real_data/cif_api/fetch.py`
+  (CI runs it in `.github/workflows/ci.yml`). The expected JSON
+  pins in `tests/real_data/expected/` stay committed. The
+  `real_data_verify` harness prints a note and skips a corpus
+  directory that holds no `.cif` files.
 
 - `CifDialect::detect` accepts both spellings of the CIF 2.0
   version code: the IUCr `##CIF_2.0` and the escaped

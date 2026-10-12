@@ -31,9 +31,13 @@ axes, their corpora, their tests, and their status.
   COMCIFS `cif_api` reference implementation (the upstream
   project's own edge-case inputs: BOMs, empty files, 2.0 lists
   and tables, triple-quoted strings, nested save frames,
-  Unicode, translated EOLs). Full canonical-IR pin in
-  `tests/real_data/expected/`; provenance, license, and the
-  per-file notes in `tests/real_data/cif_api/SOURCE.md`. The
+  Unicode, translated EOLs). The CIFs are fetched at test time,
+  not committed: `python3 tests/real_data/cif_api/fetch.py`
+  (run by the CI workflow) downloads them from the pinned
+  commit and verifies them against
+  `tests/real_data/cif_api/manifest.json`. Full canonical-IR
+  pins in `tests/real_data/expected/`; provenance, license, and
+  the per-file notes in `tests/real_data/cif_api/SOURCE.md`. The
   seven files the parser rejects are `known_gap` pins; the gap
   notes live in the expected JSON files.
 

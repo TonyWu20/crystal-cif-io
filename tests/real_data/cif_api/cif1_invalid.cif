@@ -1,6 +1,0 @@
-#\#CIF_1.1
-
-data_d
-  # invalid in CIF 1:
-  _name ['k']
- 

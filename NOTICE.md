@@ -88,12 +88,14 @@ regression inputs. The provenance record is
 
 The 21 files in `tests/real_data/cif_api/` are the test-data CIFs
 of the COMCIFS `cif_api` project, a C reference implementation of
-the CIF 1.1 and 2.0 formats. Fetched from
+the CIF 1.1 and 2.0 formats. The files are fetched at test time
+and are not committed: `tests/real_data/cif_api/fetch.py` (run
+by the CI workflow `.github/workflows/ci.yml` and available
+locally) downloads them from
 `https://github.com/COMCIFS/cif_api` at commit
-`7882c1244bb4f69607561448ac82346f6637015f` (2026-10-13); the
-blob SHAs are verified against the GitHub contents API and
-recorded in `tests/real_data/cif_api/SOURCE.md` together with the
-sha256 manifest.
+`7882c1244bb4f69607561448ac82346f6637015f` and verifies each
+file against the sha256 and the git blob SHA recorded in
+`tests/real_data/cif_api/manifest.json`.
 
 Copyright 2014, 2015 John C. Bollinger, per the upstream
 `test-data/README` notice. The files are part of the CIF API

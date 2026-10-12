@@ -10,6 +10,11 @@ inputs for the parser (test axis: real-file pin).
 - fetched: 2026-10-13, with plain HTTP
   (`raw.githubusercontent.com`); blob SHAs verified against the
   GitHub contents API
+- the CIF files are not committed. `fetch.py` in this directory
+  downloads them from the pinned commit and checks both the
+  sha256 and the git blob SHA against `manifest.json`. The CI
+  workflow (`.github/workflows/ci.yml`) runs it before
+  `cargo test`; locally run `python3 fetch.py` first
 - copyright: 2014, 2015 John C. Bollinger, per the upstream
   `test-data/README` notice
 - license: GNU Lesser General Public License v3 or later, per the
