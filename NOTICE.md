@@ -35,3 +35,19 @@ The files in `tests/real_data/iucr/` are the IUCr published CIF
 example files, fetched 2026-10-12. They are used here as parser
 regression inputs. The provenance record is
 `tests/real_data/SOURCE.md`. The files are (c) IUCr.
+
+## COMCIFS cif_api test data
+
+The 21 files in `tests/real_data/cif_api/` are the test-data CIFs
+of the COMCIFS `cif_api` project, a C reference implementation of
+the CIF 1.1 and 2.0 formats. Fetched from
+`https://github.com/COMCIFS/cif_api` at commit
+`7882c1244bb4f69607561448ac82346f6637015f` (2026-10-13); the
+blob SHAs are verified against the GitHub contents API and
+recorded in `tests/real_data/cif_api/SOURCE.md` together with the
+sha256 manifest.
+
+Copyright 2014, 2015 John C. Bollinger, per the upstream
+`test-data/README` notice. The files are part of the CIF API
+distribution, licensed under the GNU Lesser General Public
+License v3 or later.
