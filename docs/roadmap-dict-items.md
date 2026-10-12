@@ -508,7 +508,9 @@ In:
 Out:
 
 1. Table values. No core dictionary item uses one.
+   (D9 covers them, section 14.)
 2. Triple-quoted strings (`"""`, `'''`), a 2.0 string form.
+   (D9 covers them, section 14.)
 3. Other 2.0 syntax. The magic code stays an inert comment line
    in 1.1 parsing.
 
@@ -567,3 +569,64 @@ four fixtures and their expected files are half a day.
 
 D8 is independent of T2–T5. It builds on the T0 base. T6 needs it
 only for reading 2.0 files or writing 2.0 targets.
+## 14. CIF 2.0 syntax completion (D9)
+
+### 14.1 Why
+
+The D8 wave (section 13) left seven `known_gap` pins in the
+`cif_api` corpus. Those files hold the upstream COMCIFS
+`cif_api` reference implementation's edge cases: translated EOLs,
+container comments, tables, triple-quoted strings, nested frames,
+and Unicode. D9 brings the parser to the full 2.0 syntax so every
+one of the 21 corpus files parses.
+
+### 14.2 The features and designs
+
+| feature | upstream source | design |
+|---|---|---|
+| VT/FF line terminators (every dialect, D9a) | `test_parse_10.c` drives `10.cif` with explicit extra-EOL options | `is_eol` accepts `\u{0b}` and `\u{0c}` in every dialect. A recorded 1.1 deviation, like the bracket-lead one (13.3 item 2, fixture 17). Fixture 26 pins it |
+| Comments and `;` text members in 2.0 containers | the scanner `BODY_POSTDELIM` start state after `[` or `{` | `container_ws(dialect)`: in 2.0 a `#` with no leading blank starts a comment. The list production restructures its three white space regions so chumsky backtracking cannot drop a consumed comment. A `;` text field stands as a list member. The 1.1 list stays unchanged. Fixture 24 |
+| 2.0 table values | the `KEY` token (a quoted string plus a colon) and the table-open and table-close tokens | a `Value::Table(Vec<(Value, Value)>)` variant. A table is `{`, white space separated pairs, `}`. A pair is a quoted key, a colon, and any value. The four container delimiters now end a 2.0 value token (the upstream tokenizes all four separately). In 1.1 the brace forms stay plain tokens. Fixture 21 |
+| 2.0 triple-quoted strings | the `SQ3`/`DQ3` delimiter and `NOTSQ3`/`NOTDQ3` content forms | a `'''` or `"""` production. The content runs to the first closing delimiter. Content keeps its quote runs (up to two delimiters) and holds line terminators. The empty six-delimiter form is legal. Canonical kind stays `char_string`, with two new styles. 1.1 falls through to the embedded-quote rule, unchanged. Triple-quoted table keys are legal. Fixture 22 |
+| 2.0 nested save frames | the C reference accepts nesting (`max_frame_depth = -1`); the bison EBNF drops it | a 2.0-only recursive frame content. The IR `SaveFrame` gains a `frames` list. The canonical frame object gains a `frames` array only when it is non-empty, so the iucr and cod pins stay byte-identical. `validate` extends its tag-scope and frame-code-scope checks recursively. 1.1 keeps spec para. 6 (no nesting). Fixture 23 |
+| 2.0 Unicode | the 2.0 character set is UTF-8 | non-ASCII is legal in 2.0 block codes, frame codes, tag names, values, and comments. 1.1 stays ASCII (fixture 20 pins value rejection; the name-character rule pins codes and tags). Fixture 25 |
+| the `1.25e+03` exponent form | the 1.1 `<Float>` production | already legal: the production is `{<Digit>}+'.'<Digit>+<Exponent>`. The crate accepts it and pins it as the float `1250` inside the `10.json` pin. No change |
+
+The nested-frame choice: the upstream bison skeleton dropped nesting
+from the EBNF ("dropped from CIF 2"), but the C reference accepts
+it, and the `nested.cif` corpus file pins it. This crate follows
+the C reference.
+
+### 14.3 Canonical JSON
+
+- The value kinds gain `table`:
+  `{"kind": "table", "pairs": [{"key": <value>, "value": <value>}]}`.
+  The pairs are an array, not an object, so key order survives.
+- The `char_string` style set gains `triple_single_quoted` and
+  `triple_double_quoted`.
+- A frame object gains a `frames` array only when it holds nested
+  frames. The array holds the same frame-object shape, so nesting
+  is recursive.
+- Every 2.0 pin carries `schema_version: 2`.
+
+### 14.4 Negative fixtures
+
+- `neg_cif1_table.cif`: a brace pair with spaces in a 1.1 file.
+  The space-separated tokens are not one value in 1.1.
+- `neg_cif2_unclosed_table.cif`: an unclosed `}`.
+- `neg_cif1_triple_quoted.cif`: a line-spanning triple-quoted
+  string in a 1.1 file. A 1.1 quoted string cannot cross a line.
+- `neg_cif1_unicode_block_code.cif`: a non-ASCII block code in a
+  1.1 file.
+- `neg_cif1_unicode_tag.cif`: a non-ASCII tag name in a 1.1 file.
+
+### 14.5 Acceptance criteria
+
+1. Every one of the 21 `cif_api` files parses. The `known_gap`
+   pins are gone.
+2. The iucr, cod, and cod_sg pins stay byte-identical after
+   regeneration.
+3. Fixtures 21, 22, 23, 24, and 25 parse to their pinned JSON.
+   The five 14.4 fixtures fail at the parse stage with a `Rich`
+   error.
+4. `cargo test` is green with no new warnings.

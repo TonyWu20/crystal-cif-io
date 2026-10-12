@@ -37,9 +37,9 @@ axes, their corpora, their tests, and their status.
   commit and verifies them against
   `tests/real_data/cif_api/manifest.json`. Full canonical-IR
   pins in `tests/real_data/expected/`; provenance, license, and
-  the per-file notes in `tests/real_data/cif_api/SOURCE.md`. The
-  seven files the parser rejects are `known_gap` pins; the gap
-  notes live in the expected JSON files.
+  the per-file notes in `tests/real_data/cif_api/SOURCE.md`. D9
+  (roadmap section 14) completed the 2.0 syntax, so the parser
+  now reads all 21 files. No `known_gap` pins remain.
 
 ## Axis 1: space groups (230)
 

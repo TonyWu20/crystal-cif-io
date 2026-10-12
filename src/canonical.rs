@@ -18,10 +18,15 @@
 //! - `list`                    `{"values": [ ... value objects ... ]}`;
 //!   nested lists hold nested value objects. Only in schema version 2
 //!   (the CIF 2.0 dialect).
+//! - `table`                   `{"pairs": [ {"key": <value object>,
+//!   "value": <value object>}, ... ]}`; an ordered array keeps the
+//!   key order. Only in schema version 2. A frame object gains a
+//!   `frames` array only when it holds nested frames (CIF 2.0).
 //!
 //! Schema versions: `schema_version` 1 is the historical shape (CIF
-//! 1.1 only). Schema version 2 adds the `list` value kind for the
-//! CIF 2.0 dialect. The harness accepts both.
+//! 1.1 only). Schema version 2 adds the `list` and `table` value
+//! kinds and the triple-quoted `char_string` styles for the CIF 2.0
+//! dialect. The harness accepts both.
 //!
 //! Loops are encoded as rows (transposed from the column-oriented IR).
 //! Tags are stored without the leading underscore. Comments and other
