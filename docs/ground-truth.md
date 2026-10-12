@@ -78,7 +78,9 @@ Each value object has a `kind`. The fields per kind are:
 | `list`        | `values` (a list of value objects; nested lists nest value objects) |
 
 The `list` kind only appears in schema version 2 (the CIF 2.0
-dialect, the `##CIF_2.0` magic code). A matrix-shaped list encodes
+dialect, the `##CIF_2.0` version code, or the escaped
+`#\#CIF_2.0` spelling used by the COMCIFS reference
+implementation). A matrix-shaped list encodes
 as nested lists of `numeric` value objects; the shape is dictionary
 data, not schema data.
 

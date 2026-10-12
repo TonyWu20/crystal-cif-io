@@ -13,7 +13,7 @@ Keep a Changelog.
   (provenance, license, and per-file notes in
   `tests/real_data/cif_api/SOURCE.md`). Fourteen files pin the
   parse output; seven are `known_gap` pins that record the
-  2.0 grammar gaps they expose (nested values, tables,
+  2.0 grammar gaps they expose (tables, comments inside lists,
   triple-quoted strings, nested save frames, non-ASCII values,
   VT/FF line terminators).
 - A Crystallography Open Database (COD) test corpus in
@@ -42,6 +42,19 @@ Keep a Changelog.
   - `tests/fixtures/20_utf8_nonascii.cif`: a UTF-8 fixture with
     accented names, a Greek letter, and a hash inside a quoted
     string.
+
+### Changed
+
+- `CifDialect::detect` accepts both spellings of the CIF 2.0
+  version code: the IUCr `##CIF_2.0` and the escaped
+  `#\#CIF_2.0` used by the COMCIFS `cif_api` reference
+  implementation. The thirteen `cif_api` files that carry the
+  escaped spelling now parse under the 2.0 value rules; their
+  expected files moved to schema version 2. Six of those files
+  still fail on 2.0-only syntax (tables, a comment inside a
+  list, triple-quoted strings, nested save frames, non-ASCII
+  values); their `known_gap` notes record the narrowed gaps.
+
 
 ## 0.2.0 (2026-10-09)
 

@@ -6,6 +6,6 @@
   },
   "fixture": "unicode.cif",
   "known_gap": true,
-  "known_gap_note": "COMCIFS spelling: the file's version line is '#\\#CIF_2.0' (escaped-hash form of the COMCIFS reference implementation); CifDialect::detect recognizes only the IUCr '##CIF_2.0' spelling, so the file is parsed as CIF 1.1. Grammar gap: non-ASCII characters in a data value (U+2212 minus sign, U+1063E, U+16A0, U+2820); the value grammar is ASCII-only.",
-  "schema_version": 1
+  "known_gap_note": "The file is detected as CIF 2.0 via the escaped version spelling. Grammar gap: non-ASCII characters in a data value (U+2212 minus sign, U+1063E, U+16A0, U+2820); the value grammar is ASCII-only.",
+  "schema_version": 2
 }

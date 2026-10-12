@@ -1,7 +1,9 @@
 //! CIF parser built on `chumsky` and `ariadne`.
 //!
-//! The grammar is the CIF 1.1 value rule, plus the CIF 2.0 list
-//! value when the file carries the `##CIF_2.0` magic code (see
+//! The grammar is the CIF 1.1 value rule, plus the CIF 2.0 value
+//! rules when the file carries a 2.0 version code, either the
+//! IUCr `##CIF_2.0` spelling or the escaped `#\#CIF_2.0`
+//! spelling of the COMCIFS reference implementation (see
 //! [`CifDialect`]). The 2.0 rules are scoped to the value layer:
 //! lists parse, and `[`, `]`, `{`, `}` are illegal inside unquoted
 //! values. Everything else (blocks, loops, save frames, text
@@ -49,12 +51,14 @@ type Err<'src> = extra::Err<Rich<'src, char>>;
 
 /// The value-rule dialect of a CIF file.
 ///
-/// A file is 2.0 only when the magic code `##CIF_2.0` stands as the
-/// first characters of the file, after any byte order mark. In the
-/// 2.0 dialect the list value rule parses and `[`, `]`, `{`, `}`
-/// are illegal inside unquoted values. In the 1.1 dialect the magic
-/// code is an inert comment line and the four characters stay plain
-/// characters.
+/// A file is 2.0 only when a 2.0 version code stands as the first
+/// characters of the file, after any byte order mark. Both
+/// spellings count: the IUCr `##CIF_2.0` and the escaped
+/// `#\#CIF_2.0` (the COMCIFS reference implementation spells the
+/// version comment with an escaped hash). In the 2.0 dialect the
+/// list value rule parses and `[`, `]`, `{`, `}` are illegal
+/// inside unquoted values. In the 1.1 dialect the version code is
+/// an inert comment line and the characters stay plain characters.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CifDialect {
     /// CIF 1.1 value rules. The default for any file.
@@ -66,11 +70,12 @@ pub enum CifDialect {
 
 impl CifDialect {
     /// Detect the dialect from the start of the file. A leading byte
-    /// order mark is skipped. Anything but the exact magic code
-    /// `##CIF_2.0` at position zero is 1.1.
+    /// order mark is skipped. Anything but a 2.0 version code at
+    /// position zero is 1.1. Both spellings of the 2.0 code count:
+    /// the IUCr `##CIF_2.0` and the escaped `#\#CIF_2.0`.
     pub fn detect(input: &str) -> Self {
         let body = input.strip_prefix('\u{feff}').unwrap_or(input);
-        if body.starts_with("##CIF_2.0") {
+        if body.starts_with("##CIF_2.0") || body.starts_with("#\\#CIF_2.0") {
             Self::Cif2_0
         } else {
             Self::Cif1_1
@@ -89,9 +94,11 @@ impl CifDialect {
 
 /// Parse a CIF document from a string.
 ///
-/// The dialect is detected from the file start: a `##CIF_2.0` magic
-/// code (after any byte order mark) enables the 2.0 value rules;
-/// anything else stays 1.1. A leading byte order mark is elided.
+/// The dialect is detected from the file start: a 2.0 version code
+/// (after any byte order mark) enables the 2.0 value rules. Both
+/// spellings count: the IUCr `##CIF_2.0` and the escaped
+/// `#\#CIF_2.0`. Anything else stays 1.1. A leading byte order
+/// mark is elided.
 ///
 /// `Ok` means the whole input was consumed. `Err` carries one `Rich`
 /// error per failure reached; render them with [`rich_error`].
@@ -1137,6 +1144,22 @@ mod tests {
         assert_eq!(CifDialect::detect("data_d\n_a 1\n"), CifDialect::Cif1_1);
         assert_eq!(
             CifDialect::detect("# a line\n##CIF_2.0\ndata_d\n_a 1\n"),
+            CifDialect::Cif1_1
+        );
+        // The escaped COMCIFS spelling of the 2.0 version code, with
+        // and without a byte order mark.
+        assert_eq!(
+            CifDialect::detect("#\\#CIF_2.0\ndata_d\n_a 1\n"),
+            CifDialect::Cif2_0
+        );
+        assert_eq!(
+            CifDialect::detect("\u{feff}#\\#CIF_2.0\ndata_d\n_a 1\n"),
+            CifDialect::Cif2_0
+        );
+        // The escaped 1.1 spelling stays 1.1, which the default
+        // already is.
+        assert_eq!(
+            CifDialect::detect("#\\#CIF_1.1\ndata_d\n_a 1\n"),
             CifDialect::Cif1_1
         );
     }
