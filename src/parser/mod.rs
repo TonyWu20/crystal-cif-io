@@ -954,38 +954,75 @@ fn into_columns(tags: Vec<Tag>, values: Vec<Value>) -> LoopColumns {
 
 /// `<SaveFrame>`: `save_<code>`, inner data items (save frames do not
 /// nest, spec para. 6), closed by a bare `save_`.
+/// `<SaveFrame>`: `save_<code>`, frame content (data items and, in
+/// CIF 2.0, nested frames), and the `save_` terminator.
+///
+/// Nested frames are a 2.0 production (roadmap section 14): the
+/// upstream C reference accepts them at unlimited depth, and the
+/// 1.1 spec forbids them (para. 6), so the nested-frame branch is
+/// filtered to the 2.0 dialect.
 fn save_frame<'src>(
     dialect: CifDialect,
-) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
-    save_prefix()
-        .then(nonblank().repeated().at_least(1).to_slice())
-        .then(
-            ws_region(false)
-                .map(|_| ())
-                .then(inner_item(dialect))
-                .map(|(_ws, item)| item)
-                .repeated()
-                .collect::<Vec<DataItems>>(),
-        )
-        .then(
-            ws_region(false)
-                .map(|_| ())
-                .then(save_prefix())
-                .then(nonblank().not())
-                .map(|_| ()),
-        )
-        .map(|((((), code), items), _close)| {
-            DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
-                SaveFrameHeading::new(code.to_string()),
-                items,
-            )))
-        })
+) -> impl Parser<'src, &'src str, SaveFrame, Err<'src>> {
+    recursive(
+        move |rec: Recursive<Direct<'src, 'src, &'src str, SaveFrame, Err<'src>>>| {
+            save_prefix()
+                .boxed()
+                .then(nonblank().repeated().at_least(1).to_slice().boxed())
+                .then(
+                    ws_region(false)
+                        .map(|_| ())
+                        .then(frame_member(dialect, rec))
+                        .map(|(_ws, member)| member)
+                        .repeated()
+                        .collect::<Vec<DataBlockMember>>()
+                        .boxed(),
+                )
+                .then(
+                    ws_region(false)
+                        .map(|_| ())
+                        .then(save_prefix().boxed())
+                        .then(nonblank().not())
+                        .map(|_| ())
+                        .boxed(),
+                )
+                .map(|((((), code), members), _close)| {
+                    let mut items: Vec<DataItems> = Vec::new();
+                    let mut frames: Vec<SaveFrame> = Vec::new();
+                    for member in members {
+                        match member {
+                            DataBlockMember::DataItems(items_member) => {
+                                items.push(items_member)
+                            }
+                            DataBlockMember::SaveFrame(frame) => frames.push(frame),
+                        }
+                    }
+                    SaveFrame::from_heading_items_frames((
+                        SaveFrameHeading::new(code.to_string()),
+                        items,
+                        frames,
+                    ))
+                })
+        },
+    )
 }
 
-/// Members inside a save frame: tag-value items and loops, but not
-/// nested save frames (spec para. 6).
+/// Frame content members: a `<DataItems>` unit or, in CIF 2.0 only,
+/// a nested save frame (roadmap section 14).
+fn frame_member<'src>(
+    dialect: CifDialect,
+    rec: Recursive<Direct<'src, 'src, &'src str, SaveFrame, Err<'src>>>,
+) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
+    choice((
+        inner_item(dialect).map(DataBlockMember::DataItems),
+        rec.clone()
+            .filter(move |_: &SaveFrame| dialect == CifDialect::Cif2_0)
+            .map(DataBlockMember::SaveFrame),
+    ))
+}
+
 /// Members inside a save frame: single-value items and loops, as
-/// `<DataItems>` (save frames do not nest, spec para. 6).
+/// `<DataItems>` (spec para. 6).
 fn inner_item<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
     choice((loop_items(dialect), tag_value_items(dialect)))
 }
@@ -995,7 +1032,7 @@ fn block_member<'src>(
     dialect: CifDialect,
 ) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
     choice((
-        save_frame(dialect),
+        save_frame(dialect).map(DataBlockMember::SaveFrame),
         loop_struct(dialect),
         tag_value(dialect),
     ))
@@ -1392,6 +1429,28 @@ _a { 'zero':0 }
 ";
         let errs =
             parse_cif(src).expect_err("a table in a 1.1 file must be rejected");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
+    }
+
+    #[test]
+    fn a_2_0_file_nests_save_frames() {
+        let src = "##CIF_2.0\ndata_t\nsave_a\nsave_b\nsave_\n_level 1\nsave_\n";
+        let doc = parse_cif(src).expect("a 2.0 nested frame must parse");
+        let block = doc.data_blocks().expect("one block").first().expect("a block");
+        match block.members().first().expect("one member") {
+            DataBlockMember::SaveFrame(frame) => {
+                assert_eq!(frame.data_items().len(), 1);
+                let child = frame.frames().first().expect("a nested frame");
+                assert!(child.frames().is_empty());
+            }
+            other => panic!("expected a save frame, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_1_1_file_rejects_nested_save_frames() {
+        let src = "data_t\nsave_a\nsave_b\nsave_\nsave_\n";
+        let errs = parse_cif(src).expect_err("a nested frame in a 1.1 file must fail");
         assert!(!errs.is_empty(), "a Rich error must reach the caller");
     }
 

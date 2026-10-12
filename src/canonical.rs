@@ -34,7 +34,8 @@ use std::convert::AsRef;
 use serde_json::{json, Map, Value as Json};
 
 use crate::{
-    CharString, CifDocument, DataBlockMember, DataItems, LoopColumns, Number, Numeric, Value,
+    CharString, CifDocument, DataBlockMember, DataItems, LoopColumns, Number, Numeric, SaveFrame,
+    Value,
 };
 
 /// Serialize a parsed document into the canonical JSON shape.
@@ -68,11 +69,36 @@ fn member_json(member: &DataBlockMember) -> Json {
     match member {
         DataBlockMember::DataItems(items) => items_json(items),
         DataBlockMember::SaveFrame(frame) => {
-            json!({
-                "kind": "save_frame",
-                "name": frame.heading().as_ref(),
-                "members": frame.data_items().iter().map(items_json).collect::<Vec<_>>(),
-            })
+            // The `frames` key appears only when the frame holds
+            // nested frames (CIF 2.0, roadmap section 14). Empty
+            // frames keep the 1.1 shape, so the iucr and cod pins
+            // stay byte-identical.
+            let mut object = serde_json::Map::new();
+            object.insert(
+                "kind".to_string(),
+                json!("save_frame"),
+            );
+            object.insert(
+                "name".to_string(),
+                json!(frame.heading().as_ref()),
+            );
+            object.insert(
+                "members".to_string(),
+                json!(frame.data_items().iter().map(items_json).collect::<Vec<_>>()),
+            );
+            if !frame.frames().is_empty() {
+                object.insert(
+                    "frames".to_string(),
+                    json!(
+                        frame
+                            .frames()
+                            .iter()
+                            .map(|child| member_json(&DataBlockMember::SaveFrame(child.clone())))
+                            .collect::<Vec<_>>()
+                    ),
+                );
+            }
+            Json::Object(object)
         }
     }
 }
@@ -250,23 +276,43 @@ pub fn validate(doc: &CifDocument) -> Vec<Violation> {
                             code: code.clone(),
                         });
                     }
-                    let mut frame_tags: HashSet<String> = HashSet::new();
-                    for item in frame.data_items() {
-                        match item {
-                            DataItems::SingleValue(single) => {
-                                record_tag(&mut out, &code, single.tag().as_str(), &mut frame_tags);
-                            }
-                            DataItems::MultiValues(lc) => {
-                                check_loop(&mut out, &code, lc, "save frame");
-                                record_tags(&mut out, &code, lc, &mut frame_tags);
-                            }
-                        }
-                    }
+                    validate_frame_contents(&mut out, &code, frame);
                 }
             }
         }
     }
     out
+}
+
+/// The tag scope and frame-code scope of one save frame's direct
+/// content, then the same for each nested frame (CIF 2.0, roadmap
+/// section 14). Frame codes must be unique among their siblings in
+/// one container; the container is the block at the top level and
+/// the parent frame below it.
+fn validate_frame_contents(out: &mut Vec<Violation>, scope: &str, frame: &SaveFrame) {
+    let mut frame_tags: HashSet<String> = HashSet::new();
+    for item in frame.data_items() {
+        match item {
+            DataItems::SingleValue(single) => {
+                record_tag(out, scope, single.tag().as_str(), &mut frame_tags);
+            }
+            DataItems::MultiValues(lc) => {
+                check_loop(out, scope, lc, "save frame");
+                record_tags(out, scope, lc, &mut frame_tags);
+            }
+        }
+    }
+    let mut seen_frame_codes: HashSet<String> = HashSet::new();
+    for child in frame.frames() {
+        let child_code = child.heading().as_ref().to_lowercase();
+        if !seen_frame_codes.insert(child_code.clone()) {
+            out.push(Violation::DuplicateSaveFrameCode {
+                block: scope.to_string(),
+                code: child_code.clone(),
+            });
+        }
+        validate_frame_contents(out, &child_code, child);
+    }
 }
 
 fn record_tag(out: &mut Vec<Violation>, scope: &str, tag: &str, seen: &mut HashSet<String>) {
