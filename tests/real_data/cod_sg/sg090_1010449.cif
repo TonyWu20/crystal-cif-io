@@ -1,0 +1,88 @@
+#------------------------------------------------------------------------------
+#$Date: 2022-09-14 18:07:06 +0300 (Wed, 14 Sep 2022) $
+#$Revision: 277832 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/01/04/1010449.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1010449
+loop_
+_publ_author_name
+'Markstein, G'
+'Nowotny, H'
+_publ_section_title
+;
+Die Kristallstrukturen von Bromostannaten A Sn Br~6~ (A= Cs, Rb, N
+H~4~, K )
+;
+_journal_coden_ASTM              ZEKGAX
+_journal_name_full
+;
+Zeitschrift fuer Kristallographie, Kristallgeometrie, Kristallphysik,
+Kristallchemie (-144,1977)
+;
+_journal_page_first              265
+_journal_page_last               271
+_journal_volume                  100
+_journal_year                    1938
+_chemical_formula_structural     'K2 Sn Br6'
+_chemical_formula_sum            'Br6 K2 Sn'
+_chemical_name_systematic        'Potassium hexabromostannate'
+_symmetry_cell_setting           tetragonal
+_symmetry_Int_Tables_number      90
+_symmetry_space_group_name_H-M   'C 4 2 21'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   7.43(1)
+_cell_length_b                   7.43(1)
+_cell_length_c                   10.61(2)
+_cell_volume                     585.7
+_cod_database_code               1010449
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+x,-y,-z
+-x,y,-z
+1/2+y,x,-z
+1/2+y,-x,z
+1/2-y,-x,-z
+1/2-y,x,z
+1/2+x,1/2+y,z
+1/2-x,1/2-y,z
+1/2+x,1/2-y,-z
+1/2-x,1/2+y,-z
+y,1/2+x,-z
+y,1/2-x,z
+-y,1/2-x,-z
+-y,1/2+x,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Sn1 Sn4+ 4 c 0.25 0.25 0.25 1. 0 d
+K1 K1+ 4 a 0. 0. 0. 1. 0 d
+K2 K1+ 4 b 0. 0. 0.5 1. 0 d
+Br1 Br1- 4 c 0.25 0.25 0.54 1. 0 d
+Br2 Br1- 4 c 0.25 0.25 -0.02 1. 0 d
+Br3 Br1- 16 g 0.22 0. 0.245 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Sn4+ 4.000
+K1+ 1.000
+Br1- -1.000

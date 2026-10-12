@@ -1,0 +1,64 @@
+#------------------------------------------------------------------------------
+#$Date: 2018-09-27 07:13:35 +0300 (Thu, 27 Sep 2018) $
+#$Revision: 211196 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/53/42/1534271.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1534271
+loop_
+_publ_author_name
+'Bjerkelund, E.'
+'Kjekshus, A.'
+_publ_section_title
+;
+ On the crystal structure of Ta Te4
+;
+_journal_name_full               'Journal of the Less-Common Metals'
+_journal_page_first              231
+_journal_page_last               234
+_journal_volume                  7
+_journal_year                    1964
+_chemical_formula_sum            'Ta Te4'
+_space_group_IT_number           103
+_symmetry_space_group_name_Hall  'P 4 -2c'
+_symmetry_space_group_name_H-M   'P 4 c c'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   6.514
+_cell_length_b                   6.514
+_cell_length_c                   6.809
+_cell_volume                     288.921
+_citation_journal_id_ASTM        JCOMAH
+_cod_data_source_file            Bjerkelund_JCOMAH_1964_965.cif
+_cod_data_source_block           Ta1Te4
+_cod_original_cell_volume        288.9208
+_cod_original_formula_sum        'Ta1 Te4'
+_cod_database_code               1534271
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-y,x,z
+-x,-y,z
+y,-x,z
+-x,y,z+1/2
+-y,-x,z+1/2
+x,-y,z+1/2
+y,x,z+1/2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+Ta1 Ta 0 0 0.2245 1 0.0
+Te1 Te 0.144 0.328 0 1 0.0

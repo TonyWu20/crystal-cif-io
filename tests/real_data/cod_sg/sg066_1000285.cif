@@ -1,0 +1,112 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/02/1000285.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1000285
+loop_
+_publ_author_name
+'Hervieu, M'
+'Michel, C'
+'Domenges, B'
+'Laligant, Y'
+'Lebail, A'
+'Ferey, G'
+'Raveau, B'
+_publ_section_title
+;
+Electron microscopy study of the superconductor "Bi~2~ Sr~2~ Ca Cu~2~
+O~8~"
+;
+_journal_coden_ASTM              MPLBET
+_journal_name_full               'Modern Physics Letters B'
+_journal_page_first              491
+_journal_page_last               500
+_journal_paper_doi               10.1142/S0217984988000060
+_journal_volume                  2
+_journal_year                    1988
+_chemical_formula_structural     'Bi2 Sr2 Ca Cu2 O8'
+_chemical_formula_sum            'Bi2 Ca Cu2 O8 Sr2'
+_chemical_name_systematic
+;
+Dibismuth distrontium calcium dicopper oxide
+;
+_space_group_IT_number           66
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      66
+_symmetry_space_group_name_Hall  '-A 2a 2'
+_symmetry_space_group_name_H-M   'A m a a'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   5.4054
+_cell_length_b                   5.4016
+_cell_length_c                   30.7152
+_cell_volume                     896.8
+_refine_ls_R_factor_all          0.08
+_cod_database_code               1000285
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+x,-y,-z
+1/2-x,y,-z
+1/2-x,-y,z
+-x,-y,-z
+-x,y,z
+1/2+x,-y,z
+1/2+x,y,-z
+x,1/2+y,1/2+z
+x,1/2-y,1/2-z
+1/2-x,1/2+y,1/2-z
+1/2-x,1/2-y,1/2+z
+-x,1/2-y,1/2-z
+-x,1/2+y,1/2+z
+1/2+x,1/2-y,1/2+z
+1/2+x,1/2+y,1/2-z
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_22
+_atom_site_aniso_U_23
+_atom_site_aniso_U_33
+Bi1 0.054 0. 0. 0.008 0. 0.033
+Sr1 0.095 0. 0. 0.01 0. 0.068
+Cu1 0. 0. 0. 0. 0. 0.096
+Ca1 0.099 0. 0. 0.03 0. 0.158
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Bi1 Bi3+ 16 m 0.052(3) 0.2745(7) 0.0524(2) 0.5 0 d
+Sr1 Sr2+ 8 l 0. 0.75 0.3597(4) 1. 0 d
+Cu1 Cu2+ 8 l 0.5 0.75 0.3033(6) 1. 0 d
+Ca1 Ca2+ 4 f 0.5 0.25 0.25 1. 0 d
+O1 O2- 8 h 0.75 0. 0.201(5) 1. 0 d
+O2 O2- 8 h 0.25 0.5 0.201(5) 1. 0 d
+O3 O2- 8 l 0. 0.25 0.385(2) 1. 0 d
+O4 O2- 8 l 0.5 0.27 0.0524 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Bi3+ 3.000
+Sr2+ 2.000
+Cu2+ 2.000
+Ca2+ 2.000
+O2- -2.000

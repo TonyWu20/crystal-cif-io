@@ -1,0 +1,4145 @@
+{
+ "source": "https://www.crystallography.net/cod/",
+ "api_doc": "https://wiki.crystallography.net/RESTful_API/",
+ "fetched": "2026-10-12",
+ "note": "one entry per three-dimensional space group 1..230; see tests/real_data/cod_sg/SOURCE.md",
+ "groups": [
+  {
+   "sg": 1,
+   "id": 1000459,
+   "file": "sg001_1000459.cif",
+   "candidates": [
+    1000459,
+    1001844,
+    1004039,
+    1007093,
+    1007133
+   ],
+   "bytes": 6718,
+   "url": "https://www.crystallography.net/cod/1000459.cif",
+   "sg_symbol": "P 1",
+   "hall": "P 1",
+   "formula": "- C H22 Al2 Ca4 O20 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 2,
+   "id": 1000004,
+   "file": "sg002_1000004.cif",
+   "candidates": [
+    1000004,
+    1000023,
+    1000034,
+    1000072,
+    1000094
+   ],
+   "bytes": 11194,
+   "url": "https://www.crystallography.net/cod/1000004.cif",
+   "sg_symbol": "P -1",
+   "hall": "-P 1",
+   "formula": "- C29 H30 Cu I P2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 3,
+   "id": 1008916,
+   "file": "sg003_1008916.cif",
+   "candidates": [
+    1008916,
+    1507320,
+    1513537,
+    1524549,
+    1525582
+   ],
+   "bytes": 2359,
+   "url": "https://www.crystallography.net/cod/1008916.cif",
+   "sg_symbol": "P 1 2 1",
+   "hall": "P 2y",
+   "formula": "- F7 K Yb2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 4,
+   "id": 1000131,
+   "file": "sg004_1000131.cif",
+   "candidates": [
+    1000131,
+    1000140,
+    1000373,
+    1001022,
+    1001234
+   ],
+   "bytes": 2952,
+   "url": "https://www.crystallography.net/cod/1000131.cif",
+   "sg_symbol": "P 1 21 1",
+   "hall": "P 2yb",
+   "formula": "- Al Ba F5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 5,
+   "id": 1000082,
+   "file": "sg005_1000082.cif",
+   "candidates": [
+    1000082,
+    1001329,
+    1001347,
+    1004008,
+    1008163
+   ],
+   "bytes": 2925,
+   "url": "https://www.crystallography.net/cod/1000082.cif",
+   "sg_symbol": "C 1 2 1",
+   "hall": "C 2y",
+   "formula": "- Al6 F21 Na Rb2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 6,
+   "id": 1010666,
+   "file": "sg006_1010666.cif",
+   "candidates": [
+    1010666,
+    1501475,
+    1501483,
+    1501484,
+    1501485
+   ],
+   "bytes": 1992,
+   "url": "https://www.crystallography.net/cod/1010666.cif",
+   "sg_symbol": "P 1 m 1",
+   "hall": "P -2y",
+   "formula": "- Co2 H30 N8 O13 S -",
+   "flags": ""
+  },
+  {
+   "sg": 7,
+   "id": 1000355,
+   "file": "sg007_1000355.cif",
+   "candidates": [
+    1000355,
+    1001004,
+    1007258,
+    1009030,
+    1009057
+   ],
+   "bytes": 3114,
+   "url": "https://www.crystallography.net/cod/1000355.cif",
+   "sg_symbol": "P 1 c 1",
+   "hall": "P -2yc",
+   "formula": "- Cr Cu P2 S6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 8,
+   "id": 1000145,
+   "file": "sg008_1000145.cif",
+   "candidates": [
+    1000145,
+    1000472,
+    1001332,
+    1001668,
+    1001719
+   ],
+   "bytes": 4262,
+   "url": "https://www.crystallography.net/cod/1000145.cif",
+   "sg_symbol": "C 1 m 1",
+   "hall": "C -2y",
+   "formula": "- H2 Na5 O15 P3 V2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 9,
+   "id": 1000036,
+   "file": "sg009_1000036.cif",
+   "candidates": [
+    1000036,
+    1000216,
+    1000341,
+    1000378,
+    1001253
+   ],
+   "bytes": 2807,
+   "url": "https://www.crystallography.net/cod/1000036.cif",
+   "sg_symbol": "C 1 c 1",
+   "hall": "C -2yc",
+   "formula": "- H2 Mg3 O12 Si4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 10,
+   "id": 1001173,
+   "file": "sg010_1001173.cif",
+   "candidates": [
+    1001173,
+    1001664,
+    1001678,
+    1008266,
+    1010770
+   ],
+   "bytes": 3177,
+   "url": "https://www.crystallography.net/cod/1001173.cif",
+   "sg_symbol": "P 1 2/m 1",
+   "hall": "-P 2y",
+   "formula": "- O22 P2 Rb0.45 W6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 11,
+   "id": 1000139,
+   "file": "sg011_1000139.cif",
+   "candidates": [
+    1000139,
+    1000146,
+    1000147,
+    1000208,
+    1000253
+   ],
+   "bytes": 2530,
+   "url": "https://www.crystallography.net/cod/1000139.cif",
+   "sg_symbol": "P 1 21/m 1",
+   "hall": "-P 2yb",
+   "formula": "- Ba F5 Ga H4 O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 12,
+   "id": 1000038,
+   "file": "sg012_1000038.cif",
+   "candidates": [
+    1000038,
+    1000046,
+    1000092,
+    1000111,
+    1000116
+   ],
+   "bytes": 3110,
+   "url": "https://www.crystallography.net/cod/1000038.cif",
+   "sg_symbol": "C 1 2/m 1",
+   "hall": "-C 2y",
+   "formula": "- Al Fe H2 K Mg2 O12 Si3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 13,
+   "id": 1000191,
+   "file": "sg013_1000191.cif",
+   "candidates": [
+    1000191,
+    1000192,
+    1000254,
+    1001159,
+    1001225
+   ],
+   "bytes": 3322,
+   "url": "https://www.crystallography.net/cod/1000191.cif",
+   "sg_symbol": "P 1 2/a 1",
+   "hall": "-P 2ya",
+   "formula": "- Ag0.5 Cr0.5 P S3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 14,
+   "id": 1000002,
+   "file": "sg014_1000002.cif",
+   "candidates": [
+    1000002,
+    1000003,
+    1000005,
+    1000061,
+    1000083
+   ],
+   "bytes": 3876,
+   "url": "https://www.crystallography.net/cod/1000002.cif",
+   "sg_symbol": "P 1 21/n 1",
+   "hall": "-P 2yn",
+   "formula": "- C3 D3 O7 Sr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 15,
+   "id": 1000007,
+   "file": "sg015_1000007.cif",
+   "candidates": [
+    1000007,
+    1000008,
+    1000009,
+    1000010,
+    1000011
+   ],
+   "bytes": 2629,
+   "url": "https://www.crystallography.net/cod/1000007.cif",
+   "sg_symbol": "C 1 2/c 1",
+   "hall": "-C 2yc",
+   "formula": "- Ca Mg O6 Si2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 16,
+   "id": 1522303,
+   "file": "sg016_1522303.cif",
+   "candidates": [
+    1522303,
+    1528186,
+    4002439,
+    4030759,
+    4030760
+   ],
+   "bytes": 2187,
+   "url": "https://www.crystallography.net/cod/1522303.cif",
+   "sg_symbol": "P 2 2 2",
+   "hall": "P 2 2",
+   "formula": "- O3 Pr0.2 W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 17,
+   "id": 1509714,
+   "file": "sg017_1509714.cif",
+   "candidates": [
+    1509714,
+    1511708,
+    1520103,
+    1520104,
+    1524363
+   ],
+   "bytes": 1949,
+   "url": "https://www.crystallography.net/cod/1509714.cif",
+   "sg_symbol": "P 2 2 21",
+   "hall": "P 2c 2",
+   "formula": "- Ag2 Se -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 18,
+   "id": 1000135,
+   "file": "sg018_1000135.cif",
+   "candidates": [
+    1000135,
+    1001698,
+    1004093,
+    1008454,
+    1010269
+   ],
+   "bytes": 4106,
+   "url": "https://www.crystallography.net/cod/1000135.cif",
+   "sg_symbol": "P 21 21 2",
+   "hall": "P 2 2ab",
+   "formula": "- F22 Sr5 Zr3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 19,
+   "id": 1000001,
+   "file": "sg019_1000001.cif",
+   "candidates": [
+    1000001,
+    1000006,
+    1000129,
+    1000136,
+    1000306
+   ],
+   "bytes": 29459,
+   "url": "https://www.crystallography.net/cod/1000001.cif",
+   "sg_symbol": "P 21 21 21",
+   "hall": "P 2ac 2ab",
+   "formula": "- C107 H142 N14 O26 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 20,
+   "id": 1000103,
+   "file": "sg020_1000103.cif",
+   "candidates": [
+    1000103,
+    1001010,
+    1001610,
+    1008237,
+    1008303
+   ],
+   "bytes": 4809,
+   "url": "https://www.crystallography.net/cod/1000103.cif",
+   "sg_symbol": "C 2 2 21",
+   "hall": "C 2c 2",
+   "formula": "- Al2 Ca F9 K -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 21,
+   "id": 1501805,
+   "file": "sg021_1501805.cif",
+   "candidates": [
+    1501805,
+    1509590,
+    1509928,
+    1511341,
+    1522039
+   ],
+   "bytes": 14426,
+   "url": "https://www.crystallography.net/cod/1501805.cif",
+   "sg_symbol": "C 2 2 2",
+   "hall": "C 2 2",
+   "formula": "- C9 H20 Cl N -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 22,
+   "id": 1509469,
+   "file": "sg022_1509469.cif",
+   "candidates": [
+    1509469,
+    1510973,
+    1521320,
+    1522001,
+    1526261
+   ],
+   "bytes": 2354,
+   "url": "https://www.crystallography.net/cod/1509469.cif",
+   "sg_symbol": "F 2 2 2",
+   "hall": "F 2 2",
+   "formula": "- Ag N2 Na O4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 23,
+   "id": 1509698,
+   "file": "sg023_1509698.cif",
+   "candidates": [
+    1509698,
+    1509717,
+    1518706,
+    1518707,
+    1527025
+   ],
+   "bytes": 2222,
+   "url": "https://www.crystallography.net/cod/1509698.cif",
+   "sg_symbol": "I 2 2 2",
+   "hall": "I 2 2",
+   "formula": "- Ag2 Ba Ge Se4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 24,
+   "id": 2013563,
+   "file": "sg024_2013563.cif",
+   "candidates": [
+    1572328,
+    2013563,
+    2210931,
+    4064467,
+    4104618
+   ],
+   "bytes": 11090,
+   "url": "https://www.crystallography.net/cod/2013563.cif",
+   "sg_symbol": "I 21 21 21",
+   "hall": "I 2b 2c",
+   "formula": "- C4 H6 Cl2 Cu N6 O -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 25,
+   "id": 1011092,
+   "file": "sg025_1011092.cif",
+   "candidates": [
+    1011092,
+    1509294,
+    1510040,
+    1510357,
+    1513880
+   ],
+   "bytes": 2249,
+   "url": "https://www.crystallography.net/cod/1011092.cif",
+   "sg_symbol": "P m 2 m",
+   "hall": "P -2 -2",
+   "formula": "- Ag3 Sb -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 26,
+   "id": 1000372,
+   "file": "sg026_1000372.cif",
+   "candidates": [
+    1000372,
+    1001712,
+    1006023,
+    1006024,
+    1100025
+   ],
+   "bytes": 2997,
+   "url": "https://www.crystallography.net/cod/1000372.cif",
+   "sg_symbol": "P m c 21",
+   "hall": "P 2c -2",
+   "formula": "- C Cu F K O3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 27,
+   "id": 1504039,
+   "file": "sg027_1504039.cif",
+   "candidates": [
+    1504039,
+    1508033,
+    1525872,
+    1545673,
+    1551238
+   ],
+   "bytes": 8993,
+   "url": "https://www.crystallography.net/cod/1504039.cif",
+   "sg_symbol": "P c c 2",
+   "hall": "P 2 -2c",
+   "formula": "- C8 H6 Br I -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 28,
+   "id": 1000194,
+   "file": "sg028_1000194.cif",
+   "candidates": [
+    1000194,
+    1001444,
+    1007179,
+    1008265,
+    1011091
+   ],
+   "bytes": 2789,
+   "url": "https://www.crystallography.net/cod/1000194.cif",
+   "sg_symbol": "P m 2 a",
+   "hall": "P -2a -2a",
+   "formula": "- Ca3 Mn3 O8.02 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 29,
+   "id": 1000113,
+   "file": "sg029_1000113.cif",
+   "candidates": [
+    1000113,
+    1007255,
+    1008257,
+    1009039,
+    1010203
+   ],
+   "bytes": 3580,
+   "url": "https://www.crystallography.net/cod/1000113.cif",
+   "sg_symbol": "P b 21 a",
+   "hall": "P -2a -2ab",
+   "formula": "- H5 N O6 P V -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 30,
+   "id": 1000104,
+   "file": "sg030_1000104.cif",
+   "candidates": [
+    1000104,
+    1000188,
+    1000224,
+    1001197,
+    1001711
+   ],
+   "bytes": 3555,
+   "url": "https://www.crystallography.net/cod/1000104.cif",
+   "sg_symbol": "P n c 2",
+   "hall": "P 2 -2bc",
+   "formula": "- Al Ba3 F9 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 31,
+   "id": 1005014,
+   "file": "sg031_1005014.cif",
+   "candidates": [
+    1005014,
+    1007079,
+    1007254,
+    1008756,
+    1008904
+   ],
+   "bytes": 2601,
+   "url": "https://www.crystallography.net/cod/1005014.cif",
+   "sg_symbol": "P m n 21",
+   "hall": "P 2ac -2",
+   "formula": "- N Na3 O3 W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 32,
+   "id": 1000162,
+   "file": "sg032_1000162.cif",
+   "candidates": [
+    1000162,
+    1515774,
+    1517296,
+    1518890,
+    1527628
+   ],
+   "bytes": 2949,
+   "url": "https://www.crystallography.net/cod/1000162.cif",
+   "sg_symbol": "P b a 2",
+   "hall": "P 2 -2ab",
+   "formula": "- F3 Fe K0.6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 33,
+   "id": 1000098,
+   "file": "sg033_1000098.cif",
+   "candidates": [
+    1000098,
+    1000298,
+    1000359,
+    1000442,
+    1001024
+   ],
+   "bytes": 4386,
+   "url": "https://www.crystallography.net/cod/1000098.cif",
+   "sg_symbol": "P n a 21",
+   "hall": "P 2c -2n",
+   "formula": "- Al F6 Na Sr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 34,
+   "id": 1000334,
+   "file": "sg034_1000334.cif",
+   "candidates": [
+    1000334,
+    1001171,
+    1001856,
+    1010670,
+    1100140
+   ],
+   "bytes": 2499,
+   "url": "https://www.crystallography.net/cod/1000334.cif",
+   "sg_symbol": "P n n 2",
+   "hall": "P 2 -2n",
+   "formula": "- Li2 O6 Te Ti -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 35,
+   "id": 1001582,
+   "file": "sg035_1001582.cif",
+   "candidates": [
+    1001582,
+    1001615,
+    1001761,
+    1001803,
+    1010008
+   ],
+   "bytes": 3150,
+   "url": "https://www.crystallography.net/cod/1001582.cif",
+   "sg_symbol": "B m 2 m",
+   "hall": "B -2 -2",
+   "formula": "- C Cu11 O28 Sr8 Y4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 36,
+   "id": 1000352,
+   "file": "sg036_1000352.cif",
+   "candidates": [
+    1000352,
+    1000421,
+    1000422,
+    1001009,
+    1001129
+   ],
+   "bytes": 3816,
+   "url": "https://www.crystallography.net/cod/1000352.cif",
+   "sg_symbol": "C m c 21",
+   "hall": "C 2c -2",
+   "formula": "- Ba3 F12 H4 Nb2 O4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 37,
+   "id": 1100046,
+   "file": "sg037_1100046.cif",
+   "candidates": [
+    1100046,
+    1506130,
+    1509508,
+    1517617,
+    1517928
+   ],
+   "bytes": 3245,
+   "url": "https://www.crystallography.net/cod/1100046.cif",
+   "sg_symbol": "C c c 2",
+   "hall": "C 2 -2c",
+   "formula": "- B Ca Ga O4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 38,
+   "id": 1001032,
+   "file": "sg038_1001032.cif",
+   "candidates": [
+    1001032,
+    1001725,
+    1001822,
+    1508068,
+    1509917
+   ],
+   "bytes": 3298,
+   "url": "https://www.crystallography.net/cod/1001032.cif",
+   "sg_symbol": "C m 2 m",
+   "hall": "C -2 -2",
+   "formula": "- Nb2 O6 Pb -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 39,
+   "id": 1001693,
+   "file": "sg039_1001693.cif",
+   "candidates": [
+    1001693,
+    1521862,
+    1522600,
+    1530969,
+    1539949
+   ],
+   "bytes": 2790,
+   "url": "https://www.crystallography.net/cod/1001693.cif",
+   "sg_symbol": "C m 2 a",
+   "hall": "C -2a -2a",
+   "formula": "- Bi1.77 Ca0.2 Fe2 O10 Sr3.8 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 40,
+   "id": 1000450,
+   "file": "sg040_1000450.cif",
+   "candidates": [
+    1000450,
+    1001508,
+    1101148,
+    1101149,
+    1101150
+   ],
+   "bytes": 3671,
+   "url": "https://www.crystallography.net/cod/1000450.cif",
+   "sg_symbol": "A m a 2",
+   "hall": "A 2 -2a",
+   "formula": "- C3 Eu Na3 O9 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 41,
+   "id": 1001438,
+   "file": "sg041_1001438.cif",
+   "candidates": [
+    1001438,
+    1001543,
+    1004029,
+    1011124,
+    1100858
+   ],
+   "bytes": 2895,
+   "url": "https://www.crystallography.net/cod/1001438.cif",
+   "sg_symbol": "C c 2 a",
+   "hall": "C -2ac -2ac",
+   "formula": "- La Mo7.7 O14 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 42,
+   "id": 1004050,
+   "file": "sg042_1004050.cif",
+   "candidates": [
+    1004050,
+    1008027,
+    1504381,
+    1504382,
+    1511172
+   ],
+   "bytes": 2687,
+   "url": "https://www.crystallography.net/cod/1004050.cif",
+   "sg_symbol": "F m m 2",
+   "hall": "F 2 -2",
+   "formula": "- H0.66 O3.33 W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 43,
+   "id": 1000358,
+   "file": "sg043_1000358.cif",
+   "candidates": [
+    1000358,
+    1001169,
+    1001520,
+    1008175,
+    1008193
+   ],
+   "bytes": 3374,
+   "url": "https://www.crystallography.net/cod/1000358.cif",
+   "sg_symbol": "F d d 2",
+   "hall": "F 2 -2d",
+   "formula": "- Ba F4 O V -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 44,
+   "id": 1000230,
+   "file": "sg044_1000230.cif",
+   "candidates": [
+    1000230,
+    1000231,
+    1004150,
+    1007155,
+    1007157
+   ],
+   "bytes": 2809,
+   "url": "https://www.crystallography.net/cod/1000230.cif",
+   "sg_symbol": "I m m 2",
+   "hall": "I 2 -2",
+   "formula": "- F5 Fe H4 Mn O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 45,
+   "id": 1100220,
+   "file": "sg045_1100220.cif",
+   "candidates": [
+    1100220,
+    1100406,
+    1502697,
+    1504391,
+    1511541
+   ],
+   "bytes": 3749,
+   "url": "https://www.crystallography.net/cod/1100220.cif",
+   "sg_symbol": "I b a 2",
+   "hall": "I 2 -2c",
+   "formula": "- C11 H12 Cl N O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 46,
+   "id": 1000040,
+   "file": "sg046_1000040.cif",
+   "candidates": [
+    1000040,
+    1200007,
+    1200009,
+    1509799,
+    1510732
+   ],
+   "bytes": 2669,
+   "url": "https://www.crystallography.net/cod/1000040.cif",
+   "sg_symbol": "I b m 2",
+   "hall": "I 2 -2b",
+   "formula": "- Al0.6 Ca2 Fe1.4 O5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 47,
+   "id": 1000030,
+   "file": "sg047_1000030.cif",
+   "candidates": [
+    1000030,
+    1000066,
+    1000234,
+    1000357,
+    1001055
+   ],
+   "bytes": 3156,
+   "url": "https://www.crystallography.net/cod/1000030.cif",
+   "sg_symbol": "P m m m",
+   "hall": "-P 2 2",
+   "formula": "- Ba2 Cu3 O6.9 Y -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 48,
+   "id": 1525956,
+   "file": "sg048_1525956.cif",
+   "candidates": [
+    1525956,
+    1553422,
+    1558598,
+    1564713,
+    1572095
+   ],
+   "bytes": 2582,
+   "url": "https://www.crystallography.net/cod/1525956.cif",
+   "sg_symbol": "P n n n :2",
+   "hall": "-P 2ab 2bc",
+   "formula": "- Bi0.395 Co1.105 O4.498 Sr2.5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 49,
+   "id": 1508062,
+   "file": "sg049_1508062.cif",
+   "candidates": [
+    1508062,
+    1508063,
+    1508064,
+    1521868,
+    1526676
+   ],
+   "bytes": 16967,
+   "url": "https://www.crystallography.net/cod/1508062.cif",
+   "sg_symbol": "P c c m",
+   "hall": "-P 2 2c",
+   "formula": "- C41 H20 N11 Zn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 50,
+   "id": 1000414,
+   "file": "sg050_1000414.cif",
+   "candidates": [
+    1000414,
+    1515077,
+    1516536,
+    1516567,
+    1516573
+   ],
+   "bytes": 2444,
+   "url": "https://www.crystallography.net/cod/1000414.cif",
+   "sg_symbol": "P n c b :1",
+   "hall": "P 2 2 -1bc",
+   "formula": "- La2 Ni O4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 51,
+   "id": 1001273,
+   "file": "sg051_1001273.cif",
+   "candidates": [
+    1001273,
+    1001417,
+    1001654,
+    1011125,
+    1509152
+   ],
+   "bytes": 2609,
+   "url": "https://www.crystallography.net/cod/1001273.cif",
+   "sg_symbol": "P b m m",
+   "hall": "-P 2 2b",
+   "formula": "- Ba0.15 O3 W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 52,
+   "id": 1000141,
+   "file": "sg052_1000141.cif",
+   "candidates": [
+    1000141,
+    1000142,
+    1001570,
+    1004072,
+    1005032
+   ],
+   "bytes": 2383,
+   "url": "https://www.crystallography.net/cod/1000141.cif",
+   "sg_symbol": "P n c n",
+   "hall": "-P 2ab 2n",
+   "formula": "- Li O3 Sb -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 53,
+   "id": 1005004,
+   "file": "sg053_1005004.cif",
+   "candidates": [
+    1005004,
+    1007016,
+    1008713,
+    1008760,
+    1010271
+   ],
+   "bytes": 2718,
+   "url": "https://www.crystallography.net/cod/1005004.cif",
+   "sg_symbol": "P m n a",
+   "hall": "-P 2ac 2",
+   "formula": "- Fe Nb Te2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 54,
+   "id": 1007092,
+   "file": "sg054_1007092.cif",
+   "candidates": [
+    1007092,
+    1502624,
+    1504687,
+    1508065,
+    1509458
+   ],
+   "bytes": 3099,
+   "url": "https://www.crystallography.net/cod/1007092.cif",
+   "sg_symbol": "P c c a",
+   "hall": "-P 2a 2ac",
+   "formula": "- Ag O9 P3 Zn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 55,
+   "id": 1000109,
+   "file": "sg055_1000109.cif",
+   "candidates": [
+    1000109,
+    1000202,
+    1000325,
+    1000388,
+    1001109
+   ],
+   "bytes": 2659,
+   "url": "https://www.crystallography.net/cod/1000109.cif",
+   "sg_symbol": "P b a m",
+   "hall": "-P 2 2ab",
+   "formula": "- Al2 F9 H5 K2 O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 56,
+   "id": 1000508,
+   "file": "sg056_1000508.cif",
+   "candidates": [
+    1000508,
+    1007082,
+    1008693,
+    1100655,
+    1100792
+   ],
+   "bytes": 4348,
+   "url": "https://www.crystallography.net/cod/1000508.cif",
+   "sg_symbol": "P c c n",
+   "hall": "-P 2ab 2ac",
+   "formula": "- C16 H26 O5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 57,
+   "id": 1000332,
+   "file": "sg057_1000332.cif",
+   "candidates": [
+    1000332,
+    1000394,
+    1000439,
+    1001080,
+    1001150
+   ],
+   "bytes": 2786,
+   "url": "https://www.crystallography.net/cod/1000332.cif",
+   "sg_symbol": "P b c m",
+   "hall": "-P 2c 2b",
+   "formula": "- Ba F4 O Ti -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 58,
+   "id": 1000335,
+   "file": "sg058_1000335.cif",
+   "candidates": [
+    1000335,
+    1000345,
+    1000451,
+    1001392,
+    1001407
+   ],
+   "bytes": 2554,
+   "url": "https://www.crystallography.net/cod/1000335.cif",
+   "sg_symbol": "P n n m",
+   "hall": "-P 2 2n",
+   "formula": "- H1.68 Li0.32 O6 Te Ti -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 59,
+   "id": 1000093,
+   "file": "sg059_1000093.cif",
+   "candidates": [
+    1000093,
+    1000456,
+    1000457,
+    1001201,
+    1001745
+   ],
+   "bytes": 2448,
+   "url": "https://www.crystallography.net/cod/1000093.cif",
+   "sg_symbol": "P m m n :2",
+   "hall": "-P 2ab 2a",
+   "formula": "- F1.6 O0.7 Sm -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 60,
+   "id": 1000067,
+   "file": "sg060_1000067.cif",
+   "candidates": [
+    1000067,
+    1000090,
+    1000225,
+    1000235,
+    1000326
+   ],
+   "bytes": 2539,
+   "url": "https://www.crystallography.net/cod/1000067.cif",
+   "sg_symbol": "P b c n",
+   "hall": "-P 2n 2ab",
+   "formula": "- Li O6 Sb W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 61,
+   "id": 1000047,
+   "file": "sg061_1000047.cif",
+   "candidates": [
+    1000047,
+    1000079,
+    1000080,
+    1000081,
+    1000099
+   ],
+   "bytes": 2751,
+   "url": "https://www.crystallography.net/cod/1000047.cif",
+   "sg_symbol": "P b c a",
+   "hall": "-P 2ac 2ab",
+   "formula": "- Mg2 O6 Si2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 62,
+   "id": 1000022,
+   "file": "sg062_1000022.cif",
+   "candidates": [
+    1000022,
+    1000033,
+    1000037,
+    1000064,
+    1000095
+   ],
+   "bytes": 3120,
+   "url": "https://www.crystallography.net/cod/1000022.cif",
+   "sg_symbol": "P b n m",
+   "hall": "-P 2c 2ab",
+   "formula": "- Ca O3 Ti -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 63,
+   "id": 1000027,
+   "file": "sg063_1000027.cif",
+   "candidates": [
+    1000027,
+    1000060,
+    1000077,
+    1000078,
+    1000085
+   ],
+   "bytes": 2374,
+   "url": "https://www.crystallography.net/cod/1000027.cif",
+   "sg_symbol": "C m c m",
+   "hall": "-C 2c 2",
+   "formula": "- Mg O4 S -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 64,
+   "id": 1000264,
+   "file": "sg064_1000264.cif",
+   "candidates": [
+    1000264,
+    1000265,
+    1000266,
+    1000280,
+    1000441
+   ],
+   "bytes": 2705,
+   "url": "https://www.crystallography.net/cod/1000264.cif",
+   "sg_symbol": "A b m a",
+   "hall": "-A 2ab 2ab",
+   "formula": "- Cu0.9 La2 Li0.1 O3.97 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 65,
+   "id": 1000031,
+   "file": "sg065_1000031.cif",
+   "candidates": [
+    1000031,
+    1000218,
+    1000267,
+    1000268,
+    1001056
+   ],
+   "bytes": 2713,
+   "url": "https://www.crystallography.net/cod/1000031.cif",
+   "sg_symbol": "A m m m",
+   "hall": "-A 2 2",
+   "formula": "- Ba2 Cu4 O8 Y -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 66,
+   "id": 1000285,
+   "file": "sg066_1000285.cif",
+   "candidates": [
+    1000285,
+    1008186,
+    1008677,
+    1512261,
+    1520924
+   ],
+   "bytes": 2981,
+   "url": "https://www.crystallography.net/cod/1000285.cif",
+   "sg_symbol": "A m a a",
+   "hall": "-A 2a 2",
+   "formula": "- Bi2 Ca Cu2 O8 Sr2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 67,
+   "id": 1001577,
+   "file": "sg067_1001577.cif",
+   "candidates": [
+    1001577,
+    1001583,
+    1001814,
+    1005016,
+    1005030
+   ],
+   "bytes": 3170,
+   "url": "https://www.crystallography.net/cod/1001577.cif",
+   "sg_symbol": "A b m m",
+   "hall": "-A 2b 2b",
+   "formula": "- C Bi1.5 Cu2 O11 Pb0.5 Sr3.5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 68,
+   "id": 1000073,
+   "file": "sg068_1000073.cif",
+   "candidates": [
+    1000073,
+    1000074,
+    1001000,
+    1008176,
+    1100628
+   ],
+   "bytes": 3221,
+   "url": "https://www.crystallography.net/cod/1000073.cif",
+   "sg_symbol": "C c c a :2",
+   "hall": "-C 2a 2ac",
+   "formula": "- F7 Li3 Th -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 69,
+   "id": 1001339,
+   "file": "sg069_1001339.cif",
+   "candidates": [
+    1001339,
+    1001409,
+    1001458,
+    1001527,
+    1001528
+   ],
+   "bytes": 2706,
+   "url": "https://www.crystallography.net/cod/1001339.cif",
+   "sg_symbol": "F m m m",
+   "hall": "-F 2 2",
+   "formula": "- Na2 O4 U -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 70,
+   "id": 1000360,
+   "file": "sg070_1000360.cif",
+   "candidates": [
+    1000360,
+    1000395,
+    1001143,
+    1001174,
+    1005023
+   ],
+   "bytes": 4548,
+   "url": "https://www.crystallography.net/cod/1000360.cif",
+   "sg_symbol": "F d d d :2",
+   "hall": "-F 2uv 2vw",
+   "formula": "- F32 Fe7 Na7 Sr2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 71,
+   "id": 1000071,
+   "file": "sg071_1000071.cif",
+   "candidates": [
+    1000071,
+    1000363,
+    1001157,
+    1001383,
+    1001459
+   ],
+   "bytes": 2548,
+   "url": "https://www.crystallography.net/cod/1000071.cif",
+   "sg_symbol": "I m m m",
+   "hall": "-I 2 2",
+   "formula": "- Ba2 O3 Pd -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 72,
+   "id": 1008080,
+   "file": "sg072_1008080.cif",
+   "candidates": [
+    1008080,
+    1008520,
+    1008521,
+    1008522,
+    1008523
+   ],
+   "bytes": 2447,
+   "url": "https://www.crystallography.net/cod/1008080.cif",
+   "sg_symbol": "I b a m",
+   "hall": "-I 2 2c",
+   "formula": "- Ge5 Ti6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 73,
+   "id": 1505897,
+   "file": "sg073_1505897.cif",
+   "candidates": [
+    1505897,
+    1511447,
+    1512847,
+    1514834,
+    1514835
+   ],
+   "bytes": 9357,
+   "url": "https://www.crystallography.net/cod/1505897.cif",
+   "sg_symbol": "I b c a",
+   "hall": "-I 2b 2c",
+   "formula": "- C12 H20 N4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 74,
+   "id": 1000227,
+   "file": "sg074_1000227.cif",
+   "candidates": [
+    1000227,
+    1000237,
+    1000247,
+    1000251,
+    1000257
+   ],
+   "bytes": 3048,
+   "url": "https://www.crystallography.net/cod/1000227.cif",
+   "sg_symbol": "I m m a",
+   "hall": "-I 2b 2",
+   "formula": "- F5 Fe H4 Mn O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 75,
+   "id": 1000480,
+   "file": "sg075_1000480.cif",
+   "candidates": [
+    1000480,
+    1001160,
+    1010208,
+    1010348,
+    1521986
+   ],
+   "bytes": 3741,
+   "url": "https://www.crystallography.net/cod/1000480.cif",
+   "sg_symbol": "P 4",
+   "hall": "P 4",
+   "formula": "- H8 N2 O8 P0.96 V2.04 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 76,
+   "id": 1001556,
+   "file": "sg076_1001556.cif",
+   "candidates": [
+    1001556,
+    1007166,
+    1007174,
+    1503273,
+    1504673
+   ],
+   "bytes": 3288,
+   "url": "https://www.crystallography.net/cod/1001556.cif",
+   "sg_symbol": "P 41",
+   "hall": "P 4w",
+   "formula": "- Ca2 O7 P2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 77,
+   "id": 1100490,
+   "file": "sg077_1100490.cif",
+   "candidates": [
+    1100490,
+    1508249,
+    1512379,
+    1528561,
+    1538550
+   ],
+   "bytes": 4272,
+   "url": "https://www.crystallography.net/cod/1100490.cif",
+   "sg_symbol": "P 42",
+   "hall": "P 4c",
+   "formula": "- C24 H20 Bi2 Cl2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 78,
+   "id": 1502908,
+   "file": "sg078_1502908.cif",
+   "candidates": [
+    1502908,
+    1503084,
+    1503622,
+    1506114,
+    1506703
+   ],
+   "bytes": 34825,
+   "url": "https://www.crystallography.net/cod/1502908.cif",
+   "sg_symbol": "P 43",
+   "hall": "P 4cw",
+   "formula": "- C36 H37 Ag Fe N3 O3 P S -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 79,
+   "id": 1502501,
+   "file": "sg079_1502501.cif",
+   "candidates": [
+    1502501,
+    1505132,
+    1506455,
+    1516011,
+    1517273
+   ],
+   "bytes": 16192,
+   "url": "https://www.crystallography.net/cod/1502501.cif",
+   "sg_symbol": "I 4",
+   "hall": "I 4",
+   "formula": "- C19 H27.25 N2 O9.63 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 80,
+   "id": 1501612,
+   "file": "sg080_1501612.cif",
+   "candidates": [
+    1501612,
+    1501613,
+    1504753,
+    1504773,
+    1509600
+   ],
+   "bytes": 23508,
+   "url": "https://www.crystallography.net/cod/1501612.cif",
+   "sg_symbol": "I 41",
+   "hall": "I 4bw",
+   "formula": "- C47 H64 N8 O8 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 81,
+   "id": 1001072,
+   "file": "sg081_1001072.cif",
+   "candidates": [
+    1001072,
+    1010013,
+    1010092,
+    1508548,
+    1510369
+   ],
+   "bytes": 2883,
+   "url": "https://www.crystallography.net/cod/1001072.cif",
+   "sg_symbol": "P -4",
+   "hall": "P -4",
+   "formula": "- Ca0.3333 Nb0.6667 O3 Sr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 82,
+   "id": 1001198,
+   "file": "sg082_1001198.cif",
+   "candidates": [
+    1001198,
+    1007061,
+    1007148,
+    1010142,
+    1010143
+   ],
+   "bytes": 3382,
+   "url": "https://www.crystallography.net/cod/1001198.cif",
+   "sg_symbol": "I -4",
+   "hall": "I -4",
+   "formula": "- O108 Rb21.79 W32.74 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 83,
+   "id": 1001688,
+   "file": "sg083_1001688.cif",
+   "candidates": [
+    1001688,
+    1001714,
+    1001854,
+    1010565,
+    1011329
+   ],
+   "bytes": 2864,
+   "url": "https://www.crystallography.net/cod/1001688.cif",
+   "sg_symbol": "P 4/m",
+   "hall": "-P 4",
+   "formula": "- Ba Cu5 La4 O13.16 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 84,
+   "id": 1000482,
+   "file": "sg084_1000482.cif",
+   "candidates": [
+    1000482,
+    1010964,
+    1011155,
+    1502707,
+    1502708
+   ],
+   "bytes": 2295,
+   "url": "https://www.crystallography.net/cod/1000482.cif",
+   "sg_symbol": "P 42/m",
+   "hall": "-P 4c",
+   "formula": "- La2 O5 Pd2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 85,
+   "id": 1010411,
+   "file": "sg085_1010411.cif",
+   "candidates": [
+    1010411,
+    1010933,
+    1100494,
+    1100495,
+    1100496
+   ],
+   "bytes": 2189,
+   "url": "https://www.crystallography.net/cod/1010411.cif",
+   "sg_symbol": "P 4/n :1",
+   "hall": "P 4ab -1ab",
+   "formula": "- Cl5 P -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 86,
+   "id": 1000076,
+   "file": "sg086_1000076.cif",
+   "candidates": [
+    1000076,
+    1008320,
+    1008634,
+    1008831,
+    1010153
+   ],
+   "bytes": 4732,
+   "url": "https://www.crystallography.net/cod/1000076.cif",
+   "sg_symbol": "P 42/n :2",
+   "hall": "-P 4bc",
+   "formula": "- Al5 F26 Na3 Sr4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 87,
+   "id": 1000091,
+   "file": "sg087_1000091.cif",
+   "candidates": [
+    1000091,
+    1001529,
+    1001810,
+    1004080,
+    1004104
+   ],
+   "bytes": 3103,
+   "url": "https://www.crystallography.net/cod/1000091.cif",
+   "sg_symbol": "I 4/m",
+   "hall": "-I 4",
+   "formula": "- Ca2.028 F7 Lu0.972 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 88,
+   "id": 1000322,
+   "file": "sg088_1000322.cif",
+   "candidates": [
+    1000322,
+    1001406,
+    1001684,
+    1001685,
+    1001750
+   ],
+   "bytes": 4286,
+   "url": "https://www.crystallography.net/cod/1000322.cif",
+   "sg_symbol": "I 41/a :2",
+   "hall": "-I 4ad",
+   "formula": "- F2 Ga4 H6 O16 P3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 89,
+   "id": 4002469,
+   "file": "sg089_4002469.cif",
+   "candidates": [
+    4002469,
+    4127349,
+    4326839,
+    4348944,
+    4518316
+   ],
+   "bytes": 2460,
+   "url": "https://www.crystallography.net/cod/4002469.cif",
+   "sg_symbol": "P 4 2 2",
+   "hall": "P 4 2",
+   "formula": "- Cu0.5 La0.5 O3.78 Sr1.5 Ti0.5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 90,
+   "id": 1010449,
+   "file": "sg090_1010449.cif",
+   "candidates": [
+    1010449,
+    1518909,
+    1548333,
+    1548334,
+    1548387
+   ],
+   "bytes": 2349,
+   "url": "https://www.crystallography.net/cod/1010449.cif",
+   "sg_symbol": "C 4 2 21",
+   "hall": null,
+   "formula": "- Br6 K2 Sn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 91,
+   "id": 1000123,
+   "file": "sg091_1000123.cif",
+   "candidates": [
+    1000123,
+    1517086,
+    1527272,
+    1531066,
+    1535560
+   ],
+   "bytes": 3105,
+   "url": "https://www.crystallography.net/cod/1000123.cif",
+   "sg_symbol": "P 41 2 2",
+   "hall": "P 4w 2c",
+   "formula": "- Fe4 Mo3.02 O20 V1.98 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 92,
+   "id": 1007250,
+   "file": "sg092_1007250.cif",
+   "candidates": [
+    1007250,
+    1008166,
+    1008189,
+    1010757,
+    1010938
+   ],
+   "bytes": 3013,
+   "url": "https://www.crystallography.net/cod/1007250.cif",
+   "sg_symbol": "P 41 21 2",
+   "hall": "P 4abw 2nw",
+   "formula": "- H6 O21 P6 Pb3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 93,
+   "id": 1556349,
+   "file": "sg093_1556349.cif",
+   "candidates": [
+    1556349,
+    4003151
+   ],
+   "bytes": 25213,
+   "url": "https://www.crystallography.net/cod/1556349.cif",
+   "sg_symbol": "P 42 2 2",
+   "hall": "P 4c 2",
+   "formula": "- C26 Cu O5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 94,
+   "id": 1511227,
+   "file": "sg094_1511227.cif",
+   "candidates": [
+    1511227,
+    1517910,
+    1528168,
+    1554749,
+    1558019
+   ],
+   "bytes": 2204,
+   "url": "https://www.crystallography.net/cod/1511227.cif",
+   "sg_symbol": "P 42 21 2",
+   "hall": "P 4n 2n",
+   "formula": "- B Li3 N2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 95,
+   "id": 1008093,
+   "file": "sg095_1008093.cif",
+   "candidates": [
+    1008093,
+    1530612,
+    1535562,
+    1544334,
+    1544336
+   ],
+   "bytes": 2443,
+   "url": "https://www.crystallography.net/cod/1008093.cif",
+   "sg_symbol": "P 43 2 2",
+   "hall": "P 4cw 2c",
+   "formula": "- Mn2 O4 Ti -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 96,
+   "id": 1100099,
+   "file": "sg096_1100099.cif",
+   "candidates": [
+    1100099,
+    1100162,
+    1100862,
+    1501566,
+    1502430
+   ],
+   "bytes": 2701,
+   "url": "https://www.crystallography.net/cod/1100099.cif",
+   "sg_symbol": "P 43 21 2",
+   "hall": "P 4nw 2abw",
+   "formula": "- H2 Mg3 O10 S2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 97,
+   "id": 1502564,
+   "file": "sg097_1502564.cif",
+   "candidates": [
+    1502564,
+    1528520,
+    1539547,
+    1548200,
+    1548201
+   ],
+   "bytes": 53076,
+   "url": "https://www.crystallography.net/cod/1502564.cif",
+   "sg_symbol": "I 4 2 2",
+   "hall": "I 4 2",
+   "formula": "- C108 H104 Cl2 N2 O2 P2 Pd2 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 98,
+   "id": 1508086,
+   "file": "sg098_1508086.cif",
+   "candidates": [
+    1508086,
+    1508087,
+    1508088,
+    1508089,
+    1508090
+   ],
+   "bytes": 13009,
+   "url": "https://www.crystallography.net/cod/1508086.cif",
+   "sg_symbol": "I 41 2 2",
+   "hall": "I 4bw 2bw",
+   "formula": "- C38 H8 Cu2 N2 O12 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 99,
+   "id": 1000233,
+   "file": "sg099_1000233.cif",
+   "candidates": [
+    1000233,
+    1009025,
+    1009026,
+    1501476,
+    1501477
+   ],
+   "bytes": 2552,
+   "url": "https://www.crystallography.net/cod/1000233.cif",
+   "sg_symbol": "P 4 m m",
+   "hall": "P 4 -2",
+   "formula": "- Ba Cu Fe O5 Y -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 100,
+   "id": 1000339,
+   "file": "sg100_1000339.cif",
+   "candidates": [
+    1000339,
+    1001731,
+    1007234,
+    1010621,
+    1511387
+   ],
+   "bytes": 3200,
+   "url": "https://www.crystallography.net/cod/1000339.cif",
+   "sg_symbol": "P 4 b m",
+   "hall": "P 4 -2ab",
+   "formula": "- K2 Nb2 O14 Si4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 101,
+   "id": 1528438,
+   "file": "sg101_1528438.cif",
+   "candidates": [
+    1528438,
+    1532684,
+    4070050,
+    4128540,
+    4344946
+   ],
+   "bytes": 2600,
+   "url": "https://www.crystallography.net/cod/1528438.cif",
+   "sg_symbol": "P 42 c m",
+   "hall": "P 4c -2c",
+   "formula": "- C7 H12 Cu2 N4 S3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 102,
+   "id": 1000239,
+   "file": "sg102_1000239.cif",
+   "candidates": [
+    1000239,
+    1000336,
+    1511560,
+    1528176,
+    1528334
+   ],
+   "bytes": 3001,
+   "url": "https://www.crystallography.net/cod/1000239.cif",
+   "sg_symbol": "P 42 n m",
+   "hall": "P 4n -2n",
+   "formula": "- F6 Fe2 Li -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 103,
+   "id": 1534271,
+   "file": "sg103_1534271.cif",
+   "candidates": [
+    1534271,
+    1539312,
+    1543638,
+    1544780,
+    7010625
+   ],
+   "bytes": 1913,
+   "url": "https://www.crystallography.net/cod/1534271.cif",
+   "sg_symbol": "P 4 c c",
+   "hall": "P 4 -2c",
+   "formula": "- Ta Te4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 104,
+   "id": 1525586,
+   "file": "sg104_1525586.cif",
+   "candidates": [
+    1525586,
+    1534196,
+    1546055,
+    1556606,
+    1573890
+   ],
+   "bytes": 3647,
+   "url": "https://www.crystallography.net/cod/1525586.cif",
+   "sg_symbol": "P 4 n c",
+   "hall": "P 4 -2n",
+   "formula": "- Al10.144 Ca19 Fe1.821 H9 Mg O78 Si18 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 105,
+   "id": 1005039,
+   "file": "sg105_1005039.cif",
+   "candidates": [
+    1005039,
+    4001940,
+    7222662,
+    7222663,
+    9007818
+   ],
+   "bytes": 3146,
+   "url": "https://www.crystallography.net/cod/1005039.cif",
+   "sg_symbol": "P 42 m c",
+   "hall": "P 4c -2",
+   "formula": "- Cu3 N5 Sr6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 106,
+   "id": 1502979,
+   "file": "sg106_1502979.cif",
+   "candidates": [
+    1502979,
+    1554938,
+    1568302,
+    1568304,
+    1568306
+   ],
+   "bytes": 11409,
+   "url": "https://www.crystallography.net/cod/1502979.cif",
+   "sg_symbol": "P 42 b c",
+   "hall": "P 4c -2ab",
+   "formula": "- C10 H13 F N2 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 107,
+   "id": 1001594,
+   "file": "sg107_1001594.cif",
+   "candidates": [
+    1001594,
+    1001595,
+    1004095,
+    1004098,
+    1510523
+   ],
+   "bytes": 3228,
+   "url": "https://www.crystallography.net/cod/1001594.cif",
+   "sg_symbol": "I 4 m m",
+   "hall": "I 4 -2",
+   "formula": "- Ba0.93 Cu3.01 O7 Pb0.99 Sr1.07 Y -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 108,
+   "id": 1000181,
+   "file": "sg108_1000181.cif",
+   "candidates": [
+    1000181,
+    1525512,
+    1532327,
+    1532330,
+    1535308
+   ],
+   "bytes": 3397,
+   "url": "https://www.crystallography.net/cod/1000181.cif",
+   "sg_symbol": "I 4 c m",
+   "hall": "I 4 -2c",
+   "formula": "- Al F5 H4 Hg2 O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 109,
+   "id": 1509364,
+   "file": "sg109_1509364.cif",
+   "candidates": [
+    1509364,
+    1510056,
+    1521083,
+    1530281,
+    1530282
+   ],
+   "bytes": 2359,
+   "url": "https://www.crystallography.net/cod/1509364.cif",
+   "sg_symbol": "I 41 m d",
+   "hall": "I 4bw -2",
+   "formula": "- Ag Gd Se2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 110,
+   "id": 1100825,
+   "file": "sg110_1100825.cif",
+   "candidates": [
+    1100825,
+    1100973,
+    1505514,
+    1508607,
+    1511473
+   ],
+   "bytes": 11379,
+   "url": "https://www.crystallography.net/cod/1100825.cif",
+   "sg_symbol": "I 41 c d",
+   "hall": "I 4bw -2c",
+   "formula": "- C23 H35 Si Y -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 111,
+   "id": 1010318,
+   "file": "sg111_1010318.cif",
+   "candidates": [
+    1010318,
+    1010459,
+    1010460,
+    1509418,
+    1521967
+   ],
+   "bytes": 2330,
+   "url": "https://www.crystallography.net/cod/1010318.cif",
+   "sg_symbol": "P -4 2 m",
+   "hall": "P -4 2",
+   "formula": "- Cu Fe S2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 112,
+   "id": 1509030,
+   "file": "sg112_1509030.cif",
+   "candidates": [
+    1509030,
+    1520109,
+    1525943,
+    1525945,
+    1525947
+   ],
+   "bytes": 2127,
+   "url": "https://www.crystallography.net/cod/1509030.cif",
+   "sg_symbol": "P -4 2 c",
+   "hall": "P -4 2c",
+   "formula": "- Ag0.735 Ge In Se4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 113,
+   "id": 1000048,
+   "file": "sg113_1000048.cif",
+   "candidates": [
+    1000048,
+    1000068,
+    1000069,
+    1007103,
+    1008775
+   ],
+   "bytes": 3196,
+   "url": "https://www.crystallography.net/cod/1000048.cif",
+   "sg_symbol": "P -4 21 m",
+   "hall": "P -4 2ab",
+   "formula": "- Al2 Ca2 O7 Si -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 114,
+   "id": 1010628,
+   "file": "sg114_1010628.cif",
+   "candidates": [
+    1010628,
+    1100130,
+    1100513,
+    1100572,
+    1501614
+   ],
+   "bytes": 2371,
+   "url": "https://www.crystallography.net/cod/1010628.cif",
+   "sg_symbol": "P -4 21 c",
+   "hall": "P -4 2n",
+   "formula": "- Ag2 H12 N4 O4 S -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 115,
+   "id": 1001478,
+   "file": "sg115_1001478.cif",
+   "bytes": 2905,
+   "candidates": [
+    1001478,
+    1001535,
+    1001541,
+    1001732,
+    1510024
+   ],
+   "url": "https://www.crystallography.net/cod/1001478.cif",
+   "sg_symbol": "P -4 m 2",
+   "hall": "P -4 -2",
+   "formula": "- K2 Na1.73 Nb8 O34 P5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 116,
+   "id": 1510863,
+   "file": "sg116_1510863.cif",
+   "candidates": [
+    1510863,
+    1511651,
+    1522877,
+    1523047,
+    1530134
+   ],
+   "bytes": 2948,
+   "url": "https://www.crystallography.net/cod/1510863.cif",
+   "sg_symbol": "P -4 c 2",
+   "hall": "P -4 -2c",
+   "formula": "- B24 Pr7 Re24 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 117,
+   "id": 1010312,
+   "file": "sg117_1010312.cif",
+   "candidates": [
+    1010312,
+    1510604,
+    1516319,
+    1516320,
+    1521399
+   ],
+   "bytes": 2568,
+   "url": "https://www.crystallography.net/cod/1010312.cif",
+   "sg_symbol": "C -4 2 b",
+   "hall": "P -4 -2ab (1/2*x+1/2*y,-1/2*x+1/2*y,z)",
+   "formula": "- Bi2 O3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 118,
+   "id": 1001569,
+   "file": "sg118_1001569.cif",
+   "candidates": [
+    1001569,
+    1010617,
+    1508183,
+    1523046,
+    1524662
+   ],
+   "bytes": 2603,
+   "url": "https://www.crystallography.net/cod/1001569.cif",
+   "sg_symbol": "P -4 n 2",
+   "hall": "P -4 -2n",
+   "formula": "- Ba4 Cu2 Nd2 O9 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 119,
+   "id": 1011075,
+   "file": "sg119_1011075.cif",
+   "candidates": [
+    1011075,
+    1509091,
+    1509281,
+    1509422,
+    1509473
+   ],
+   "bytes": 2404,
+   "url": "https://www.crystallography.net/cod/1011075.cif",
+   "sg_symbol": "I -4 m 2",
+   "hall": "I -4 -2",
+   "formula": "- Hg2 I2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 120,
+   "id": 1000106,
+   "file": "sg120_1000106.cif",
+   "candidates": [
+    1000106,
+    1000175,
+    1000199,
+    1000490,
+    1000491
+   ],
+   "bytes": 2731,
+   "url": "https://www.crystallography.net/cod/1000106.cif",
+   "sg_symbol": "I -4 c 2",
+   "hall": "I -4 -2c",
+   "formula": "- Al Cs F4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 121,
+   "id": 1001196,
+   "file": "sg121_1001196.cif",
+   "candidates": [
+    1001196,
+    1001611,
+    1008963,
+    1010030,
+    1010474
+   ],
+   "bytes": 2547,
+   "url": "https://www.crystallography.net/cod/1001196.cif",
+   "sg_symbol": "I -4 2 m",
+   "hall": "I -4 2",
+   "formula": "- Ge O8 Zr3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 122,
+   "id": 1001806,
+   "file": "sg122_1001806.cif",
+   "candidates": [
+    1001806,
+    1010458,
+    1010499,
+    1010576,
+    1010940
+   ],
+   "bytes": 3132,
+   "url": "https://www.crystallography.net/cod/1001806.cif",
+   "sg_symbol": "I -4 2 d",
+   "hall": "I -4 2bw",
+   "formula": "- Cs Mo8 O33 P4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 123,
+   "id": 1000198,
+   "file": "sg123_1000198.cif",
+   "candidates": [
+    1000198,
+    1000221,
+    1000222,
+    1000436,
+    1000437
+   ],
+   "bytes": 2367,
+   "url": "https://www.crystallography.net/cod/1000198.cif",
+   "sg_symbol": "P 4/m m m",
+   "hall": "-P 4 2",
+   "formula": "- Al F4 Tl -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 124,
+   "id": 1510373,
+   "file": "sg124_1510373.cif",
+   "candidates": [
+    1510373,
+    1510401,
+    1510440,
+    1533943,
+    1545338
+   ],
+   "bytes": 2150,
+   "url": "https://www.crystallography.net/cod/1510373.cif",
+   "sg_symbol": "P 4/m c c",
+   "hall": "-P 4 2c",
+   "formula": "- Au2 Cd F8 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 125,
+   "id": 1007099,
+   "file": "sg125_1007099.cif",
+   "candidates": [
+    1007099,
+    1008729,
+    1509850,
+    1509927,
+    1518203
+   ],
+   "bytes": 2467,
+   "url": "https://www.crystallography.net/cod/1007099.cif",
+   "sg_symbol": "P 4/n b m :2",
+   "hall": "-P 4a 2b",
+   "formula": "- Na2 O12 P4 Sr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 126,
+   "id": 1010270,
+   "file": "sg126_1010270.cif",
+   "candidates": [
+    1010270,
+    1011221,
+    1510658,
+    1512839,
+    1512840
+   ],
+   "bytes": 2732,
+   "url": "https://www.crystallography.net/cod/1010270.cif",
+   "sg_symbol": "P 4/n n c :1",
+   "hall": "P 4 2 -1n",
+   "formula": "- Ag Co H6 N6 O8 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 127,
+   "id": 1000125,
+   "file": "sg127_1000125.cif",
+   "candidates": [
+    1000125,
+    1000126,
+    1000127,
+    1000166,
+    1000207
+   ],
+   "bytes": 2783,
+   "url": "https://www.crystallography.net/cod/1000125.cif",
+   "sg_symbol": "P 4/m b m",
+   "hall": "-P 4 2ab",
+   "formula": "- Al F4 K -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 128,
+   "id": 1010667,
+   "file": "sg128_1010667.cif",
+   "candidates": [
+    1010667,
+    1010668,
+    1010669,
+    1010923,
+    1010937
+   ],
+   "bytes": 2114,
+   "url": "https://www.crystallography.net/cod/1010667.cif",
+   "sg_symbol": "P 4/m n c",
+   "hall": "-P 4 2n",
+   "formula": "- B2 H132 O141 W24 -",
+   "flags": ""
+  },
+  {
+   "sg": 129,
+   "id": 1000075,
+   "file": "sg129_1000075.cif",
+   "candidates": [
+    1000075,
+    1000110,
+    1001639,
+    1001834,
+    1005029
+   ],
+   "bytes": 2534,
+   "url": "https://www.crystallography.net/cod/1000075.cif",
+   "sg_symbol": "P 4/n m m :2",
+   "hall": "-P 4a 2a",
+   "formula": "- Bi Li O4 Pd2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 130,
+   "id": 1000365,
+   "file": "sg130_1000365.cif",
+   "candidates": [
+    1000365,
+    1000366,
+    1000367,
+    1000368,
+    1001414
+   ],
+   "bytes": 2543,
+   "url": "https://www.crystallography.net/cod/1000365.cif",
+   "sg_symbol": "P 4/n c c :2",
+   "hall": "-P 4a 2ac",
+   "formula": "- F7 Li3 Th -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 131,
+   "id": 1005001,
+   "file": "sg131_1005001.cif",
+   "candidates": [
+    1005001,
+    1008119,
+    1009031,
+    1011334,
+    1501627
+   ],
+   "bytes": 2330,
+   "url": "https://www.crystallography.net/cod/1005001.cif",
+   "sg_symbol": "P 42/m m c",
+   "hall": "-P 4c 2",
+   "formula": "- Ca N Ni -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 132,
+   "id": 1509333,
+   "file": "sg132_1509333.cif",
+   "candidates": [
+    1509333,
+    1518744,
+    1518745,
+    1533682,
+    1533685
+   ],
+   "bytes": 2224,
+   "url": "https://www.crystallography.net/cod/1509333.cif",
+   "sg_symbol": "P 42/m c m",
+   "hall": "-P 4c 2c",
+   "formula": "- Ag F6 Ta -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 133,
+   "id": 1511682,
+   "file": "sg133_1511682.cif",
+   "candidates": [
+    1511682,
+    1523963,
+    1526113,
+    1528174,
+    1528970
+   ],
+   "bytes": 2529,
+   "url": "https://www.crystallography.net/cod/1511682.cif",
+   "sg_symbol": "P 42/n b c :2",
+   "hall": "-P 4ac 2b",
+   "formula": "- B7 Li7.2 Se15 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 134,
+   "id": 1509667,
+   "file": "sg134_1509667.cif",
+   "candidates": [
+    1509667,
+    1509812,
+    1511565,
+    1525095,
+    1532748
+   ],
+   "bytes": 2177,
+   "url": "https://www.crystallography.net/cod/1509667.cif",
+   "sg_symbol": "P 42/n n m :2",
+   "hall": "-P 4ac 2bc",
+   "formula": "- Ag2 Li3 Si3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 135,
+   "id": 1000183,
+   "file": "sg135_1000183.cif",
+   "candidates": [
+    1000183,
+    1000275,
+    1005028,
+    1010994,
+    1519748
+   ],
+   "bytes": 2596,
+   "url": "https://www.crystallography.net/cod/1000183.cif",
+   "sg_symbol": "P 42/m b c",
+   "hall": "-P 4c 2ab",
+   "formula": "- Al F4 H4 N -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 136,
+   "id": 1000058,
+   "file": "sg136_1000058.cif",
+   "candidates": [
+    1000058,
+    1000062,
+    1000167,
+    1000178,
+    1001091
+   ],
+   "bytes": 2679,
+   "url": "https://www.crystallography.net/cod/1000058.cif",
+   "sg_symbol": "P 42/m n m",
+   "hall": null,
+   "formula": "- O2 Ru -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 137,
+   "id": 1000319,
+   "file": "sg137_1000319.cif",
+   "candidates": [
+    1000319,
+    1010063,
+    1010287,
+    1010643,
+    1011349
+   ],
+   "bytes": 3146,
+   "url": "https://www.crystallography.net/cod/1000319.cif",
+   "sg_symbol": "P 42/n m c :2",
+   "hall": "-P 4ac 2a",
+   "formula": "- Ba3 F12 O2 Ta2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 138,
+   "id": 1006027,
+   "file": "sg138_1006027.cif",
+   "candidates": [
+    1006027,
+    1006043,
+    1006058,
+    1006113,
+    1006114
+   ],
+   "bytes": 2596,
+   "url": "https://www.crystallography.net/cod/1006027.cif",
+   "sg_symbol": "P 42/n c m :2",
+   "hall": "-P 4ac 2ac",
+   "formula": "- Nd2 Ni O4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 139,
+   "id": 1000250,
+   "file": "sg139_1000250.cif",
+   "candidates": [
+    1000250,
+    1000347,
+    1000369,
+    1000392,
+    1000415
+   ],
+   "bytes": 3059,
+   "url": "https://www.crystallography.net/cod/1000250.cif",
+   "sg_symbol": "I 4/m m m",
+   "hall": "-I 4 2",
+   "formula": "- La1.9 Ni O3.93 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 140,
+   "id": 1000182,
+   "file": "sg140_1000182.cif",
+   "candidates": [
+    1000182,
+    1000273,
+    1000274,
+    1000276,
+    1000277
+   ],
+   "bytes": 2798,
+   "url": "https://www.crystallography.net/cod/1000182.cif",
+   "sg_symbol": "I 4/m c m",
+   "hall": "-I 4 2c",
+   "formula": "- Al F4 H4 N -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 141,
+   "id": 1000344,
+   "file": "sg141_1000344.cif",
+   "candidates": [
+    1000344,
+    1000351,
+    1000356,
+    1000485,
+    1001686
+   ],
+   "bytes": 3334,
+   "url": "https://www.crystallography.net/cod/1000344.cif",
+   "sg_symbol": "I 41/a m d :2",
+   "hall": "-I 4bd 2",
+   "formula": "- Cr H12 N4 O4 Pd -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 142,
+   "id": 1005049,
+   "file": "sg142_1005049.cif",
+   "candidates": [
+    1005049,
+    1008324,
+    1008661,
+    1008662,
+    1011123
+   ],
+   "bytes": 3606,
+   "url": "https://www.crystallography.net/cod/1005049.cif",
+   "sg_symbol": "I 41/a c d :2",
+   "hall": "-I 4bd 2c",
+   "formula": "- Ca3 Ga2 N4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 143,
+   "id": 1000429,
+   "file": "sg143_1000429.cif",
+   "candidates": [
+    1000429,
+    1001038,
+    1001210,
+    1004127,
+    1010151
+   ],
+   "bytes": 2778,
+   "url": "https://www.crystallography.net/cod/1000429.cif",
+   "sg_symbol": "P 3",
+   "hall": "P 3",
+   "formula": "- Ba0.83 Ca2.1 In6 O12 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 144,
+   "id": 1007083,
+   "file": "sg144_1007083.cif",
+   "candidates": [
+    1007083,
+    1501929,
+    1503120,
+    1503244,
+    1503336
+   ],
+   "bytes": 3098,
+   "url": "https://www.crystallography.net/cod/1007083.cif",
+   "sg_symbol": "P 31",
+   "hall": "P 31",
+   "formula": "- As Cr2 H K2 O10 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 145,
+   "id": 1010689,
+   "file": "sg145_1010689.cif",
+   "candidates": [
+    1010689,
+    1502807,
+    1502971,
+    1503389,
+    1504278
+   ],
+   "bytes": 1901,
+   "url": "https://www.crystallography.net/cod/1010689.cif",
+   "sg_symbol": "P 32",
+   "hall": "P 32",
+   "formula": "- H36 K4 O58 Si W12 -",
+   "flags": ""
+  },
+  {
+   "sg": 146,
+   "id": 1001370,
+   "file": "sg146_1001370.cif",
+   "candidates": [
+    1001370,
+    1001502,
+    1001503,
+    1001504,
+    1005011
+   ],
+   "bytes": 2546,
+   "url": "https://www.crystallography.net/cod/1001370.cif",
+   "sg_symbol": "R 3 :H",
+   "hall": "R 3",
+   "formula": "- Li2 O6 Te Zr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 147,
+   "id": 1001363,
+   "file": "sg147_1001363.cif",
+   "candidates": [
+    1001363,
+    1001626,
+    1007003,
+    1007004,
+    1007056
+   ],
+   "bytes": 3242,
+   "url": "https://www.crystallography.net/cod/1001363.cif",
+   "sg_symbol": "P -3",
+   "hall": "-P 3",
+   "formula": "- Mo4 O25 P6 Si2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 148,
+   "id": 1000243,
+   "file": "sg148_1000243.cif",
+   "candidates": [
+    1000243,
+    1000244,
+    1000354,
+    1000466,
+    1000500
+   ],
+   "bytes": 2561,
+   "url": "https://www.crystallography.net/cod/1000243.cif",
+   "sg_symbol": "R -3 :H",
+   "hall": "-R 3",
+   "formula": "- F6 Fe Nb -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 149,
+   "id": 1011216,
+   "file": "sg149_1011216.cif",
+   "candidates": [
+    1011216,
+    1011217,
+    1510798,
+    1522217,
+    1522219
+   ],
+   "bytes": 2279,
+   "url": "https://www.crystallography.net/cod/1011216.cif",
+   "sg_symbol": "P 3 1 2",
+   "hall": "P 3 2",
+   "formula": "- Fe2 N -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 150,
+   "id": 1000157,
+   "file": "sg150_1000157.cif",
+   "candidates": [
+    1000157,
+    1000184,
+    1000185,
+    1000186,
+    1000417
+   ],
+   "bytes": 2512,
+   "url": "https://www.crystallography.net/cod/1000157.cif",
+   "sg_symbol": "P 3 2 1",
+   "hall": "P 3 2\"",
+   "formula": "- Cr F6 Mn Na -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 151,
+   "id": 1008041,
+   "file": "sg151_1008041.cif",
+   "candidates": [
+    1008041,
+    1008168,
+    1100014,
+    1100015,
+    1100016
+   ],
+   "bytes": 1903,
+   "url": "https://www.crystallography.net/cod/1008041.cif",
+   "sg_symbol": "P 31 1 2",
+   "hall": "P 31 2 (0 0 4)",
+   "formula": "- Er F4 K -",
+   "flags": ""
+  },
+  {
+   "sg": 152,
+   "id": 1000295,
+   "file": "sg152_1000295.cif",
+   "candidates": [
+    1000295,
+    1000296,
+    1009000,
+    1009001,
+    1009002
+   ],
+   "bytes": 2769,
+   "url": "https://www.crystallography.net/cod/1000295.cif",
+   "sg_symbol": "P 31 2 1",
+   "hall": "P 31 2\"",
+   "formula": "- Cr F7 Mn Na2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 153,
+   "id": 1010575,
+   "file": "sg153_1010575.cif",
+   "candidates": [
+    1010575,
+    1507800,
+    1575644,
+    4132898,
+    4328221
+   ],
+   "bytes": 2293,
+   "url": "https://www.crystallography.net/cod/1010575.cif",
+   "sg_symbol": "P 32 1 2",
+   "hall": "P 32 2 (0 0 2)",
+   "formula": "- Cl3 Cr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 154,
+   "id": 1010918,
+   "file": "sg154_1010918.cif",
+   "candidates": [
+    1010918,
+    1011159,
+    1011176,
+    1502899,
+    1504279
+   ],
+   "bytes": 2708,
+   "url": "https://www.crystallography.net/cod/1010918.cif",
+   "sg_symbol": "P 32 2 1 S",
+   "hall": null,
+   "formula": "- Ca H O4.5 S -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 155,
+   "id": 1000052,
+   "file": "sg155_1000052.cif",
+   "candidates": [
+    1000052,
+    1000474,
+    1001481,
+    1001536,
+    1001859
+   ],
+   "bytes": 2944,
+   "url": "https://www.crystallography.net/cod/1000052.cif",
+   "sg_symbol": "R 3 2 :H",
+   "hall": "R 3 2\"",
+   "formula": "- C4 Ca Mg3 O12 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 156,
+   "id": 1509059,
+   "file": "sg156_1509059.cif",
+   "candidates": [
+    1509059,
+    1509937,
+    1526647,
+    1526649,
+    1527295
+   ],
+   "bytes": 2954,
+   "url": "https://www.crystallography.net/cod/1509059.cif",
+   "sg_symbol": "P 3 m 1",
+   "hall": "P 3 -2\"",
+   "formula": "- Ag0.96 Cu0.8 Te -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 157,
+   "id": 1001006,
+   "file": "sg157_1001006.cif",
+   "candidates": [
+    1001006,
+    1001007,
+    1001008,
+    1001328,
+    1509925
+   ],
+   "bytes": 1997,
+   "url": "https://www.crystallography.net/cod/1001006.cif",
+   "sg_symbol": "P 3 1 m",
+   "hall": "P 3 -2",
+   "formula": "- B2 K3 O12 Ta3 -",
+   "flags": ""
+  },
+  {
+   "sg": 158,
+   "id": 1520881,
+   "file": "sg158_1520881.cif",
+   "candidates": [
+    1520881,
+    1529476,
+    1529477,
+    1550828,
+    1550829
+   ],
+   "bytes": 2740,
+   "url": "https://www.crystallography.net/cod/1520881.cif",
+   "sg_symbol": "P 3 c 1",
+   "hall": "P 3 -2\"c",
+   "formula": "- Co4 O12 Sr5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 159,
+   "id": 1000029,
+   "file": "sg159_1000029.cif",
+   "candidates": [
+    1000029,
+    1001066,
+    1001238,
+    1001239,
+    1001240
+   ],
+   "bytes": 2921,
+   "url": "https://www.crystallography.net/cod/1000029.cif",
+   "sg_symbol": "P 3 1 c",
+   "hall": "P 3 -2c",
+   "formula": "- Al2.7 N15.1 O0.9 Si9.3 Y0.5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 160,
+   "id": 1000051,
+   "file": "sg160_1000051.cif",
+   "candidates": [
+    1000051,
+    1007244,
+    1008255,
+    1008468,
+    1008469
+   ],
+   "bytes": 2562,
+   "url": "https://www.crystallography.net/cod/1000051.cif",
+   "sg_symbol": "R 3 m :H",
+   "hall": "R 3 -2\"",
+   "formula": "- K N O3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 161,
+   "id": 1000070,
+   "file": "sg161_1000070.cif",
+   "candidates": [
+    1000070,
+    1001090,
+    1001505,
+    1004126,
+    1008224
+   ],
+   "bytes": 2566,
+   "url": "https://www.crystallography.net/cod/1000070.cif",
+   "sg_symbol": "R 3 c :H",
+   "hall": "R 3 -2\"c",
+   "formula": "- Li Nb O6 W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 162,
+   "id": 1008002,
+   "file": "sg162_1008002.cif",
+   "candidates": [
+    1008002,
+    1008003,
+    1008057,
+    1010069,
+    1011275
+   ],
+   "bytes": 2468,
+   "url": "https://www.crystallography.net/cod/1008002.cif",
+   "sg_symbol": "P -3 1 m",
+   "hall": "-P 3 2",
+   "formula": "- Cr2 O6 U -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 163,
+   "id": 1000229,
+   "file": "sg163_1000229.cif",
+   "candidates": [
+    1000229,
+    1001334,
+    1001368,
+    1001852,
+    1001853
+   ],
+   "bytes": 2829,
+   "url": "https://www.crystallography.net/cod/1000229.cif",
+   "sg_symbol": "P -3 1 c",
+   "hall": "-P 3 2c",
+   "formula": "- Ag0.5 In0.5 P S3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 164,
+   "id": 1000045,
+   "file": "sg164_1000045.cif",
+   "candidates": [
+    1000045,
+    1000054,
+    1000114,
+    1000461,
+    1000462
+   ],
+   "bytes": 2258,
+   "url": "https://www.crystallography.net/cod/1000045.cif",
+   "sg_symbol": "P -3 m 1",
+   "hall": "-P 3 2\"",
+   "formula": "- Ca H2 O2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 165,
+   "id": 1001001,
+   "file": "sg165_1001001.cif",
+   "candidates": [
+    1001001,
+    1001002,
+    1001118,
+    1001119,
+    1001120
+   ],
+   "bytes": 2779,
+   "url": "https://www.crystallography.net/cod/1001001.cif",
+   "sg_symbol": "P -3 c 1",
+   "hall": "-P 3 2\"c",
+   "formula": "- Ge4 O9 Rb2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 166,
+   "id": 1000065,
+   "file": "sg166_1000065.cif",
+   "candidates": [
+    1000065,
+    1000164,
+    1000165,
+    1000470,
+    1000489
+   ],
+   "bytes": 2796,
+   "url": "https://www.crystallography.net/cod/1000065.cif",
+   "sg_symbol": "R -3 m :H",
+   "hall": "-R 3 2\"",
+   "formula": "- C -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 167,
+   "id": 1000017,
+   "file": "sg167_1000017.cif",
+   "candidates": [
+    1000017,
+    1000032,
+    1000059,
+    1000179,
+    1000293
+   ],
+   "bytes": 3067,
+   "url": "https://www.crystallography.net/cod/1000017.cif",
+   "sg_symbol": "R -3 c :H",
+   "hall": "-R 3 2\"c",
+   "formula": "- Al2 O3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 168,
+   "id": 2232341,
+   "file": "sg168_2232341.cif",
+   "candidates": [
+    2232341,
+    4112377,
+    4133617,
+    4508195
+   ],
+   "bytes": 10760,
+   "url": "https://www.crystallography.net/cod/2232341.cif",
+   "sg_symbol": "P 6",
+   "hall": "P 6",
+   "formula": "- C18 H12 Co N3 O6 -",
+   "flags": "has coordinates,has Fobs"
+  },
+  {
+   "sg": 169,
+   "id": 1100441,
+   "file": "sg169_1100441.cif",
+   "candidates": [
+    1100441,
+    1100460,
+    1502209,
+    1502283,
+    1502374
+   ],
+   "bytes": 4354,
+   "url": "https://www.crystallography.net/cod/1100441.cif",
+   "sg_symbol": "P 61",
+   "hall": "P 61",
+   "formula": "- C15.32 H28.3 N O3.33 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 170,
+   "id": 1502817,
+   "file": "sg170_1502817.cif",
+   "candidates": [
+    1502817,
+    1504463,
+    1506258,
+    1506320,
+    1507335
+   ],
+   "bytes": 19604,
+   "url": "https://www.crystallography.net/cod/1502817.cif",
+   "sg_symbol": "P 65",
+   "hall": "P 65",
+   "formula": "- C32.55 H51.96 O4 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 171,
+   "id": 1508318,
+   "file": "sg171_1508318.cif",
+   "candidates": [
+    1508318,
+    1545609,
+    1553390,
+    1558956,
+    1564241
+   ],
+   "bytes": 16109,
+   "url": "https://www.crystallography.net/cod/1508318.cif",
+   "sg_symbol": "P 62",
+   "hall": "P 62",
+   "formula": "- C31 H24 O -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 172,
+   "id": 1515992,
+   "file": "sg172_1515992.cif",
+   "candidates": [
+    1515992,
+    1545612,
+    2205981,
+    4002907,
+    4035774
+   ],
+   "bytes": 17576,
+   "url": "https://www.crystallography.net/cod/1515992.cif",
+   "sg_symbol": "P 64",
+   "hall": "P 64",
+   "formula": "- C46 H52 N4 O18 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 173,
+   "id": 1001683,
+   "file": "sg173_1001683.cif",
+   "candidates": [
+    1001683,
+    1004012,
+    1005055,
+    1005056,
+    1007038
+   ],
+   "bytes": 3257,
+   "url": "https://www.crystallography.net/cod/1001683.cif",
+   "sg_symbol": "P 63",
+   "hall": "P 6c",
+   "formula": "- O19 P5 Si V3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 174,
+   "id": 1007062,
+   "file": "sg174_1007062.cif",
+   "candidates": [
+    1007062,
+    1008318,
+    1010319,
+    1010510,
+    1010602
+   ],
+   "bytes": 2392,
+   "url": "https://www.crystallography.net/cod/1007062.cif",
+   "sg_symbol": "P -6",
+   "hall": "P -6",
+   "formula": "- Ce H6 O12 P3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 175,
+   "id": 1010055,
+   "file": "sg175_1010055.cif",
+   "candidates": [
+    1010055,
+    1101086,
+    1507174,
+    1510574,
+    1510575
+   ],
+   "bytes": 2223,
+   "url": "https://www.crystallography.net/cod/1010055.cif",
+   "sg_symbol": "P 6/m",
+   "hall": "-P 6",
+   "formula": "- Br0.6666 Ni0.3333 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 176,
+   "id": 1000134,
+   "file": "sg176_1000134.cif",
+   "candidates": [
+    1000134,
+    1000353,
+    1000428,
+    1001003,
+    1001079
+   ],
+   "bytes": 2607,
+   "url": "https://www.crystallography.net/cod/1000134.cif",
+   "sg_symbol": "P 63/m",
+   "hall": "-P 6c",
+   "formula": "- Ba Hg O5 Ru -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 177,
+   "id": 1514748,
+   "file": "sg177_1514748.cif",
+   "candidates": [
+    1514748,
+    1514970,
+    1539827,
+    1569204,
+    2233730
+   ],
+   "bytes": 30301,
+   "url": "https://www.crystallography.net/cod/1514748.cif",
+   "sg_symbol": "P 6 2 2",
+   "hall": "P 6 2",
+   "formula": "- C160 H178 Cd3 N14 O27 Ti4 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 178,
+   "id": 1513328,
+   "file": "sg178_1513328.cif",
+   "candidates": [
+    1513328,
+    1513329,
+    1513330,
+    1513331,
+    1513332
+   ],
+   "bytes": 8236,
+   "url": "https://www.crystallography.net/cod/1513328.cif",
+   "sg_symbol": "P 61 2 2",
+   "hall": "P 61 2 (0 0 5)",
+   "formula": "- C6 H12 N2 O4 S2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 179,
+   "id": 1100704,
+   "file": "sg179_1100704.cif",
+   "candidates": [
+    1100704,
+    1505479,
+    1507696,
+    1534830,
+    1561440
+   ],
+   "bytes": 11247,
+   "url": "https://www.crystallography.net/cod/1100704.cif",
+   "sg_symbol": "P 65 2 2",
+   "hall": "P 65 2 (0 0 1)",
+   "formula": "- C20 H22 Ag2 Cl2 N4 O8 S2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 180,
+   "id": 1008170,
+   "file": "sg180_1008170.cif",
+   "candidates": [
+    1008170,
+    1008171,
+    1008172,
+    1008285,
+    1008286
+   ],
+   "bytes": 2401,
+   "url": "https://www.crystallography.net/cod/1008170.cif",
+   "sg_symbol": "P 62 2 2",
+   "hall": "P 62 2 (0 0 4)",
+   "formula": "- Mg2 Ni -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 181,
+   "id": 1518834,
+   "file": "sg181_1518834.cif",
+   "candidates": [
+    1518834,
+    1528542,
+    1531622,
+    1531625,
+    1532198
+   ],
+   "bytes": 11348,
+   "url": "https://www.crystallography.net/cod/1518834.cif",
+   "sg_symbol": "P 64 2 2",
+   "hall": "P 64 2 (0 0 2)",
+   "formula": "- B10 D10 Li2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 182,
+   "id": 1008015,
+   "file": "sg182_1008015.cif",
+   "candidates": [
+    1008015,
+    1008089,
+    1008833,
+    1010039,
+    1010976
+   ],
+   "bytes": 2343,
+   "url": "https://www.crystallography.net/cod/1008015.cif",
+   "sg_symbol": "P 63 2 2",
+   "hall": "P 6c 2c",
+   "formula": "- Mn2 N0.86 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 183,
+   "id": 1521343,
+   "file": "sg183_1521343.cif",
+   "candidates": [
+    1521343,
+    1525811,
+    1531689,
+    1532701,
+    1532702
+   ],
+   "bytes": 2363,
+   "url": "https://www.crystallography.net/cod/1521343.cif",
+   "sg_symbol": "P 6 m m",
+   "hall": "P 6 -2",
+   "formula": "- D6.17 La Ni4.8 Sn0.2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 184,
+   "id": 1521206,
+   "file": "sg184_1521206.cif",
+   "candidates": [
+    1521206,
+    1526663,
+    1530625,
+    1535817,
+    4332032
+   ],
+   "bytes": 2561,
+   "url": "https://www.crystallography.net/cod/1521206.cif",
+   "sg_symbol": "P 6 c c",
+   "hall": "P 6 -2c",
+   "formula": "- C0.2598 H0.6495 Al N0.0433 O4 P -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 185,
+   "id": 1000370,
+   "file": "sg185_1000370.cif",
+   "candidates": [
+    1000370,
+    1008751,
+    1008915,
+    1011023,
+    1510082
+   ],
+   "bytes": 3723,
+   "url": "https://www.crystallography.net/cod/1000370.cif",
+   "sg_symbol": "P 63 c m",
+   "hall": "P 6c -2",
+   "formula": "- Cs3 F9 Ga2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 186,
+   "id": 1000115,
+   "file": "sg186_1000115.cif",
+   "candidates": [
+    1000115,
+    1000155,
+    1000156,
+    1000196,
+    1000434
+   ],
+   "bytes": 3362,
+   "url": "https://www.crystallography.net/cod/1000115.cif",
+   "sg_symbol": "P 63 m c",
+   "hall": "P 6c -2c",
+   "formula": "- H14 O30 P8 Zn11 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 187,
+   "id": 1001348,
+   "file": "sg187_1001348.cif",
+   "candidates": [
+    1001348,
+    1010872,
+    1501516,
+    1501517,
+    1501518
+   ],
+   "bytes": 2979,
+   "url": "https://www.crystallography.net/cod/1001348.cif",
+   "sg_symbol": "P -6 m 2",
+   "hall": "P -6 2",
+   "formula": "- Ba Fe0.233 Mn0.767 O2.87 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 188,
+   "id": 1001065,
+   "file": "sg188_1001065.cif",
+   "candidates": [
+    1001065,
+    1001074,
+    1001075,
+    1001076,
+    1001077
+   ],
+   "bytes": 2603,
+   "url": "https://www.crystallography.net/cod/1001065.cif",
+   "sg_symbol": "P -6 c 2",
+   "hall": "P -6c 2",
+   "formula": "- Ba Ge2.5 O9 Si1.5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 189,
+   "id": 1000100,
+   "file": "sg189_1000100.cif",
+   "candidates": [
+    1000100,
+    1000397,
+    1001102,
+    1001103,
+    1001104
+   ],
+   "bytes": 3344,
+   "url": "https://www.crystallography.net/cod/1000100.cif",
+   "sg_symbol": "P -6 2 m",
+   "hall": "P -6 -2",
+   "formula": "- F12 Fe2 H6 Mn O3 Pb2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 190,
+   "id": 1001687,
+   "file": "sg190_1001687.cif",
+   "candidates": [
+    1001687,
+    1009043,
+    1010303,
+    1010958,
+    1100722
+   ],
+   "bytes": 2534,
+   "url": "https://www.crystallography.net/cod/1001687.cif",
+   "sg_symbol": "P -6 2 c",
+   "hall": "P -6c -2c",
+   "formula": "- Na O11 V6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 191,
+   "id": 1000025,
+   "file": "sg191_1000025.cif",
+   "candidates": [
+    1000025,
+    1000026,
+    1004057,
+    1005036,
+    1005037
+   ],
+   "bytes": 2169,
+   "url": "https://www.crystallography.net/cod/1000025.cif",
+   "sg_symbol": "P 6/m m m",
+   "hall": "-P 6 2",
+   "formula": "- La Ni5 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 192,
+   "id": 1001136,
+   "file": "sg192_1001136.cif",
+   "candidates": [
+    1001136,
+    1001137,
+    1001138,
+    1001139,
+    1001140
+   ],
+   "bytes": 2768,
+   "url": "https://www.crystallography.net/cod/1001136.cif",
+   "sg_symbol": "P 6/m c c",
+   "hall": "-P 6 2c",
+   "formula": "- Cu2 K2 Mg3 O30 Si12 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 193,
+   "id": 1001020,
+   "file": "sg193_1001020.cif",
+   "candidates": [
+    1001020,
+    1001021,
+    1001027,
+    1001028,
+    1001029
+   ],
+   "bytes": 2713,
+   "url": "https://www.crystallography.net/cod/1001020.cif",
+   "sg_symbol": "P 63/m c m",
+   "hall": "-P 6c 2",
+   "formula": "- O3 Rb0.28 W -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 194,
+   "id": 1000049,
+   "file": "sg194_1000049.cif",
+   "candidates": [
+    1000049,
+    1000343,
+    1000463,
+    1000464,
+    1000465
+   ],
+   "bytes": 2606,
+   "url": "https://www.crystallography.net/cod/1000049.cif",
+   "sg_symbol": "P 63/m m c",
+   "hall": "-P 6c 2c",
+   "formula": "- K2 O4 S -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 195,
+   "id": 1010043,
+   "file": "sg195_1010043.cif",
+   "candidates": [
+    1010043,
+    1510359,
+    1513863,
+    1522334,
+    1532078
+   ],
+   "bytes": 2514,
+   "url": "https://www.crystallography.net/cod/1010043.cif",
+   "sg_symbol": "P 2 3",
+   "hall": "P 2 2 3",
+   "formula": "- I4 Sn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 196,
+   "id": 1010581,
+   "file": "sg196_1010581.cif",
+   "candidates": [
+    1010581,
+    1511660,
+    1515517,
+    1523131,
+    1530960
+   ],
+   "bytes": 2902,
+   "url": "https://www.crystallography.net/cod/1010581.cif",
+   "sg_symbol": "F 2 3",
+   "hall": "F 2 2 3",
+   "formula": "- Cu2 Se -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 197,
+   "id": 1004061,
+   "file": "sg197_1004061.cif",
+   "candidates": [
+    1004061,
+    1004062,
+    1004068,
+    1004094,
+    1007081
+   ],
+   "bytes": 2728,
+   "url": "https://www.crystallography.net/cod/1004061.cif",
+   "sg_symbol": "I 2 3",
+   "hall": "I 2 2 3",
+   "formula": "- La4 O19 Ru6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 198,
+   "id": 1000396,
+   "file": "sg198_1000396.cif",
+   "candidates": [
+    1000396,
+    1001395,
+    1001396,
+    1001555,
+    1007058
+   ],
+   "bytes": 2538,
+   "url": "https://www.crystallography.net/cod/1000396.cif",
+   "sg_symbol": "P 21 3",
+   "hall": "P 2ac 2ab 3",
+   "formula": "- O8 W2 Zr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 199,
+   "id": 1000236,
+   "file": "sg199_1000236.cif",
+   "candidates": [
+    1000236,
+    1004122,
+    1010332,
+    1010333,
+    1010334
+   ],
+   "bytes": 3361,
+   "url": "https://www.crystallography.net/cod/1000236.cif",
+   "sg_symbol": "I 21 3",
+   "hall": "I 2b 2c 3",
+   "formula": "- Al2 Ca3 F14 Na2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 200,
+   "id": 1010349,
+   "file": "sg200_1010349.cif",
+   "candidates": [
+    1010349,
+    1010350,
+    1010351,
+    1010352,
+    1010353
+   ],
+   "bytes": 2265,
+   "url": "https://www.crystallography.net/cod/1010349.cif",
+   "sg_symbol": "P m -3",
+   "hall": "-P 2 2 3",
+   "formula": "- Hg N3 O6 Rb -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 201,
+   "id": 1001744,
+   "file": "sg201_1001744.cif",
+   "candidates": [
+    1001744,
+    1004040,
+    1004063,
+    1004066,
+    1004129
+   ],
+   "bytes": 2805,
+   "url": "https://www.crystallography.net/cod/1001744.cif",
+   "sg_symbol": "P n -3 :2",
+   "hall": "-P 2ab 2bc 3",
+   "formula": "- Fe H5 O6 Sn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 202,
+   "id": 1008029,
+   "file": "sg202_1008029.cif",
+   "candidates": [
+    1008029,
+    1010072,
+    1010135,
+    1010136,
+    1010137
+   ],
+   "bytes": 3642,
+   "url": "https://www.crystallography.net/cod/1008029.cif",
+   "sg_symbol": "F m -3",
+   "hall": "-F 2 2 3",
+   "formula": "- Cs2 Cu N6 O12 Pb -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 203,
+   "id": 1000096,
+   "file": "sg203_1000096.cif",
+   "candidates": [
+    1000096,
+    1100240,
+    1505693,
+    1505694,
+    1505695
+   ],
+   "bytes": 5118,
+   "url": "https://www.crystallography.net/cod/1000096.cif",
+   "sg_symbol": "F d -3 :2",
+   "hall": "-F 2uv 2vw 3",
+   "formula": "- Cl5.5 Cr H32 N6.5 Ni O6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 204,
+   "id": 1000189,
+   "file": "sg204_1000189.cif",
+   "candidates": [
+    1000189,
+    1000190,
+    1000279,
+    1000401,
+    1001354
+   ],
+   "bytes": 2771,
+   "url": "https://www.crystallography.net/cod/1000189.cif",
+   "sg_symbol": "I m -3",
+   "hall": "-I 2 2 3",
+   "formula": "- H Nb O3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 205,
+   "id": 1000039,
+   "file": "sg205_1000039.cif",
+   "candidates": [
+    1000039,
+    1000299,
+    1000327,
+    1000328,
+    1000342
+   ],
+   "bytes": 4221,
+   "url": "https://www.crystallography.net/cod/1000039.cif",
+   "sg_symbol": "P a -3",
+   "hall": "-P 2ac 2ab 3",
+   "formula": "- Al6 Ca9 O18 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 206,
+   "id": 1000297,
+   "file": "sg206_1000297.cif",
+   "candidates": [
+    1000297,
+    1001048,
+    1001551,
+    1001552,
+    1001689
+   ],
+   "bytes": 3496,
+   "url": "https://www.crystallography.net/cod/1000297.cif",
+   "sg_symbol": "I a -3",
+   "hall": "-I 2b 2c 3",
+   "formula": "- Ba Cu3 F12 Na4 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 207,
+   "id": 4104323,
+   "file": "sg207_4104323.cif",
+   "candidates": [
+    4002650,
+    4002651,
+    4104323,
+    4104324,
+    4117934
+   ],
+   "bytes": 20327,
+   "url": "https://www.crystallography.net/cod/4104323.cif",
+   "sg_symbol": "P 4 3 2",
+   "hall": "P 4 2 3",
+   "formula": "- C11.58 H15.25 B0.67 Li0.67 N5.67 O0.17 -",
+   "flags": "has coordinates,has disorder"
+  },
+  {
+   "sg": 208,
+   "id": 1010124,
+   "file": "sg208_1010124.cif",
+   "candidates": [
+    1010124,
+    1010125,
+    1010126,
+    1010127,
+    1010132
+   ],
+   "bytes": 2339,
+   "url": "https://www.crystallography.net/cod/1010124.cif",
+   "sg_symbol": "P 42 3 2",
+   "hall": "P 4n 2 3",
+   "formula": "- As2 Mg3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 209,
+   "id": 1508188,
+   "file": "sg209_1508188.cif",
+   "candidates": [
+    1508188,
+    1518254,
+    1528204,
+    1529321,
+    4105141
+   ],
+   "bytes": 18348,
+   "url": "https://www.crystallography.net/cod/1508188.cif",
+   "sg_symbol": "F 4 3 2",
+   "hall": "F 4 2 3",
+   "formula": "- C552 H408 N90 O92 Pd18 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 210,
+   "id": 1010954,
+   "file": "sg210_1010954.cif",
+   "candidates": [
+    1010954,
+    1515996,
+    1519433,
+    1529104,
+    1535483
+   ],
+   "bytes": 3591,
+   "url": "https://www.crystallography.net/cod/1010954.cif",
+   "sg_symbol": "F 41 3 2",
+   "hall": "F 4d 2 3",
+   "formula": "- O2 Si -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 211,
+   "id": 1008022,
+   "file": "sg211_1008022.cif",
+   "candidates": [
+    1008022,
+    1515552,
+    1537751,
+    1568928,
+    1568931
+   ],
+   "bytes": 3246,
+   "url": "https://www.crystallography.net/cod/1008022.cif",
+   "sg_symbol": "I 4 3 2",
+   "hall": "I 4 2 3",
+   "formula": "- F6 Mo -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 212,
+   "id": 1007066,
+   "file": "sg212_1007066.cif",
+   "candidates": [
+    1007066,
+    1007069,
+    1007070,
+    1007185,
+    1007256
+   ],
+   "bytes": 2642,
+   "url": "https://www.crystallography.net/cod/1007066.cif",
+   "sg_symbol": "P 43 3 2",
+   "hall": "P 4acd 2ab 3",
+   "formula": "- Li2 Mn3 O8 Zn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 213,
+   "id": 1509852,
+   "file": "sg213_1509852.cif",
+   "candidates": [
+    1509852,
+    1509861,
+    1509879,
+    1513174,
+    1521060
+   ],
+   "bytes": 2507,
+   "url": "https://www.crystallography.net/cod/1509852.cif",
+   "sg_symbol": "P 41 3 2",
+   "hall": "P 4bd 2ab 3",
+   "formula": "- Ag3.84 S8 Sn3 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 214,
+   "id": 1509884,
+   "file": "sg214_1509884.cif",
+   "candidates": [
+    1509884,
+    1509890,
+    1510455,
+    1516844,
+    1516845
+   ],
+   "bytes": 2775,
+   "url": "https://www.crystallography.net/cod/1509884.cif",
+   "sg_symbol": "I 41 3 2",
+   "hall": "I 4bd 2c 3",
+   "formula": "- Ag3 Au Se2 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 215,
+   "id": 1008127,
+   "file": "sg215_1008127.cif",
+   "candidates": [
+    1008127,
+    1010322,
+    1010323,
+    1010455,
+    1010634
+   ],
+   "bytes": 2484,
+   "url": "https://www.crystallography.net/cod/1008127.cif",
+   "sg_symbol": "P -4 3 m",
+   "hall": "P -4 2 3",
+   "formula": "- Br D4 N -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 216,
+   "id": 1008242,
+   "file": "sg216_1008242.cif",
+   "candidates": [
+    1008242,
+    1008243,
+    1008244,
+    1008284,
+    1008802
+   ],
+   "bytes": 3616,
+   "url": "https://www.crystallography.net/cod/1008242.cif",
+   "sg_symbol": "F -4 3 m",
+   "hall": "F -4 2 3",
+   "formula": "- Ga Mo4 S8 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 217,
+   "id": 1010134,
+   "file": "sg217_1010134.cif",
+   "candidates": [
+    1010134,
+    1010508,
+    1011248,
+    1100048,
+    1100057
+   ],
+   "bytes": 3036,
+   "url": "https://www.crystallography.net/cod/1010134.cif",
+   "sg_symbol": "I -4 3 m",
+   "hall": "I -4 2 3",
+   "formula": "- F4 Si -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 218,
+   "id": 1000028,
+   "file": "sg218_1000028.cif",
+   "candidates": [
+    1000028,
+    1007043,
+    1008496,
+    1010316,
+    1010317
+   ],
+   "bytes": 3025,
+   "url": "https://www.crystallography.net/cod/1000028.cif",
+   "sg_symbol": "P -4 3 n",
+   "hall": "P -4n 2 3",
+   "formula": "- Al6 Cl2 Na8 O24 Si6 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 219,
+   "id": 1008914,
+   "file": "sg219_1008914.cif",
+   "candidates": [
+    1008914,
+    1011284,
+    1511652,
+    1511653,
+    1511656
+   ],
+   "bytes": 3695,
+   "url": "https://www.crystallography.net/cod/1008914.cif",
+   "sg_symbol": "F -4 3 c",
+   "hall": "F -4a 2 3",
+   "formula": "- B7 Mg3 O12.65 S0.85 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 220,
+   "id": 1007091,
+   "file": "sg220_1007091.cif",
+   "candidates": [
+    1007091,
+    1007094,
+    1007108,
+    1007109,
+    1007110
+   ],
+   "bytes": 3312,
+   "url": "https://www.crystallography.net/cod/1007091.cif",
+   "sg_symbol": "I -4 3 d",
+   "hall": "I -4bd 2c 3",
+   "formula": "- Na O9 P3 Zn -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 221,
+   "id": 1000050,
+   "file": "sg221_1000050.cif",
+   "candidates": [
+    1000050,
+    1000055,
+    1000057,
+    1001054,
+    1001124
+   ],
+   "bytes": 2540,
+   "url": "https://www.crystallography.net/cod/1000050.cif",
+   "sg_symbol": "P m -3 m",
+   "hall": "-P 4 2 3",
+   "formula": "- Cl K -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 222,
+   "id": 1001073,
+   "file": "sg222_1001073.cif",
+   "candidates": [
+    1001073,
+    1008194,
+    1515962,
+    1531935,
+    1548271
+   ],
+   "bytes": 2931,
+   "url": "https://www.crystallography.net/cod/1001073.cif",
+   "sg_symbol": "P n -3 n :2",
+   "hall": "-P 4a 2bc 3",
+   "formula": "- Mo3 Nd5 O16 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 223,
+   "id": 1008074,
+   "file": "sg223_1008074.cif",
+   "candidates": [
+    1008074,
+    1008075,
+    1008076,
+    1008965,
+    1010032
+   ],
+   "bytes": 2720,
+   "url": "https://www.crystallography.net/cod/1008074.cif",
+   "sg_symbol": "P m -3 n",
+   "hall": "-P 4n 2 3",
+   "formula": "- O4 Pd3 Sr -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 224,
+   "id": 1000063,
+   "file": "sg224_1000063.cif",
+   "candidates": [
+    1000063,
+    1008010,
+    1008011,
+    1010311,
+    1010486
+   ],
+   "bytes": 2918,
+   "url": "https://www.crystallography.net/cod/1000063.cif",
+   "sg_symbol": "P n -3 m :1",
+   "hall": "P 4n 2 3 -1n",
+   "formula": "- Cu2 O -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 225,
+   "id": 1000041,
+   "file": "sg225_1000041.cif",
+   "candidates": [
+    1000041,
+    1000043,
+    1000044,
+    1000053,
+    1001094
+   ],
+   "bytes": 4597,
+   "url": "https://www.crystallography.net/cod/1000041.cif",
+   "sg_symbol": "F m -3 m",
+   "hall": "-F 4 2 3",
+   "formula": "- Cl Na -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 226,
+   "id": 1509630,
+   "file": "sg226_1509630.cif",
+   "candidates": [
+    1509630,
+    1509951,
+    1511650,
+    1515672,
+    1521123
+   ],
+   "bytes": 4785,
+   "url": "https://www.crystallography.net/cod/1509630.cif",
+   "sg_symbol": "F m -3 c",
+   "hall": "-F 4a 2 3",
+   "formula": "- Ag13 O6 Os -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 227,
+   "id": 1000086,
+   "file": "sg227_1000086.cif",
+   "candidates": [
+    1000086,
+    1000087,
+    1000163,
+    1000169,
+    1000170
+   ],
+   "bytes": 5485,
+   "url": "https://www.crystallography.net/cod/1000086.cif",
+   "sg_symbol": "F d -3 m :2",
+   "hall": "-F 4vw 2vw 3",
+   "formula": "- Al2 F3.24 H4.76 O3.76 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 228,
+   "id": 1010658,
+   "file": "sg228_1010658.cif",
+   "candidates": [
+    1010658,
+    1508098,
+    1512717,
+    1512718,
+    1512719
+   ],
+   "bytes": 4877,
+   "url": "https://www.crystallography.net/cod/1010658.cif",
+   "sg_symbol": "F d -3 c :2",
+   "hall": "-F 4ud 2vw 3",
+   "formula": "- F H38 Na7 O27 P2 -",
+   "flags": ""
+  },
+  {
+   "sg": 229,
+   "id": 1000418,
+   "file": "sg229_1000418.cif",
+   "candidates": [
+    1000418,
+    1001203,
+    1001619,
+    1001690,
+    1004073
+   ],
+   "bytes": 4230,
+   "url": "https://www.crystallography.net/cod/1000418.cif",
+   "sg_symbol": "I m -3 m",
+   "hall": "-I 4 2 3",
+   "formula": "- Al7 Ca4 F33 Na4.032 -",
+   "flags": "has coordinates"
+  },
+  {
+   "sg": 230,
+   "id": 1000176,
+   "file": "sg230_1000176.cif",
+   "candidates": [
+    1000176,
+    1000177,
+    1000209,
+    1000210,
+    1000211
+   ],
+   "bytes": 3827,
+   "url": "https://www.crystallography.net/cod/1000176.cif",
+   "sg_symbol": "I a -3 d",
+   "hall": "-I 4bd 2c 3",
+   "formula": "- F12 Li3 Na3 Sc2 -",
+   "flags": "has coordinates"
+  }
+ ],
+ "gaps": []
+}

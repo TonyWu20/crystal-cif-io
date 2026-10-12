@@ -1,0 +1,76 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-18 17:37:37 +0200 (Thu, 18 Feb 2016) $
+#$Revision: 176729 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/01/04/1010411.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1010411
+loop_
+_publ_author_name
+'Powell, H M'
+'Clark, D'
+'Wells, A F'
+_publ_section_title
+;
+Crystal Structure of Phosphorus Pentachloride
+;
+_journal_coden_ASTM              NATUAS
+_journal_name_full               'Nature (London)'
+_journal_page_first              149
+_journal_page_last               149
+_journal_volume                  145
+_journal_year                    1940
+_chemical_formula_structural     'P Cl5'
+_chemical_formula_sum            'Cl5 P'
+_chemical_name_systematic        'Phosphorus(V) chloride'
+_space_group_IT_number           85
+_symmetry_cell_setting           tetragonal
+_symmetry_space_group_name_Hall  'P 4ab -1ab'
+_symmetry_space_group_name_H-M   'P 4/n :1'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   9.2
+_cell_length_b                   9.2
+_cell_length_c                   7.4
+_cell_volume                     626.3
+_exptl_crystal_density_meas      2
+_cod_original_sg_symbol_H-M      'P 4/n S'
+_cod_database_code               1010411
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+1/2+x,1/2+y,-z
+1/2-x,1/2-y,-z
+-y,x,-z
+y,-x,-z
+1/2-y,1/2+x,z
+1/2+y,1/2-x,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+P1 P5+ 2 a 0. 0. 0. 1. 0 d
+P2 P5+ 2 c 0. 0.5 0.625 1. 0 d
+Cl1 Cl1- 4 f -1. -1. -1. 2. 0 dum
+Cl2 Cl1- 8 g -1. -1. -1. 1.5 0 dum
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+P5+ 5.000
+Cl1- -1.000

@@ -1,0 +1,343 @@
+#------------------------------------------------------------------------------
+#$Date: 2019-05-13 10:49:06 +0300 (Mon, 13 May 2019) $
+#$Revision: 215051 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/51/88/1518834.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1518834
+loop_
+_publ_author_name
+'Wu, Hui'
+'Tang, Wan Si'
+'Stavila, Vitalie'
+'Zhou, Wei'
+'Rush, John J.'
+'Udovic, Terrence J.'
+_publ_section_title
+;
+ Structural Behavior of Li2B10H10
+;
+_journal_name_full               'The Journal of Physical Chemistry C'
+_journal_page_first              150312100216002
+_journal_paper_doi               10.1021/acs.jpcc.5b00533
+_journal_year                    2015
+_chemical_formula_sum            'B10 D10 Li2'
+_chemical_formula_weight         142.12
+_space_group_IT_number           181
+_symmetry_cell_setting           hexagonal
+_symmetry_space_group_name_Hall  'P 64 2 (0 0 2)'
+_symmetry_space_group_name_H-M   'P 64 2 2'
+_audit_creation_date             2014-10-20T13:08
+_audit_creation_method           'from EXP file using GSAS2CIF'
+_cell_angle_alpha                90.0
+_cell_angle_beta                 90.0
+_cell_angle_gamma                120.0
+_cell_formula_units_Z            3
+_cell_length_a                   7.01187(14)
+_cell_length_b                   7.01187
+_cell_length_c                   14.8008(5)
+_cell_measurement_temperature    7
+_cell_volume                     630.21(2)
+_computing_structure_refinement  GSAS
+_diffrn_ambient_temperature      7
+_diffrn_radiation_probe          neutron
+_diffrn_radiation_wavelength     1.5398
+_exptl_absorpt_correction_T_max  1.00000
+_exptl_absorpt_correction_T_min  1.00000
+_pd_calc_method                  'Rietveld Refinement'
+_pd_meas_2theta_range_inc        0.05
+_pd_meas_2theta_range_max        167.75
+_pd_meas_2theta_range_min        3.0
+_pd_meas_number_of_points        3296
+_pd_phase_name                   Li2B10H10_P6422
+_pd_proc_2theta_range_inc        0.05
+_pd_proc_2theta_range_max        167.7378
+_pd_proc_2theta_range_min        2.9878
+_pd_proc_info_datetime           2014-10-20T13:08:59
+_pd_proc_ls_peak_cutoff          0.00500
+_pd_proc_ls_prof_R_factor        0.0341
+_pd_proc_ls_prof_wR_expected     0.0396
+_pd_proc_ls_prof_wR_factor       0.0416
+_pd_proc_number_of_points        3296
+_refine_ls_goodness_of_fit_all   1.06
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     43
+_refine_ls_number_restraints     17
+_refine_ls_R_Fsqd_factor         0.03857
+_refine_ls_shift/su_max          0.01
+_refine_ls_shift/su_mean         0.00
+_reflns_d_resolution_high        0.782
+_reflns_d_resolution_low         6.072
+_reflns_limit_h_max              7
+_reflns_limit_h_min              0
+_reflns_limit_k_max              4
+_reflns_limit_k_min              0
+_reflns_limit_l_max              18
+_reflns_limit_l_min              0
+_reflns_number_total             328
+_cod_data_source_file            jp5b00533_si_004.cif
+_cod_data_source_block           LI2B10D10_7K_publ
+_cod_depositor_comments
+;
+The following automatic conversions were performed:
+
+'_geom_bond_publ_flag' value 'N' changed to 'n' according to
+/usr/data/users/saulius/crontab/automatic-downloads/rss-feeds/ACS/lib/dictionaries/cif_core.dic
+dictionary named 'cif_core.dic' version 2.4.2 from 2011-04-26 (40
+times).
+
+'_geom_angle_publ_flag' value 'N' changed to 'n' according to
+/usr/data/users/saulius/crontab/automatic-downloads/rss-feeds/ACS/lib/dictionaries/cif_core.dic
+dictionary named 'cif_core.dic' version 2.4.2 from 2011-04-26 (134
+times).
+
+Automatic conversion script
+Id: cif_fix_values 3105 2015-03-04 15:46:00Z robertas 
+
+2019-04-10
+Z value and formula fixed to values more according to usual
+chemical conventions.                 miguel
+;
+_cod_original_formula_sum            'B5 D5 Li'
+_cod_original_formula_weight         71.06
+_cod_original_formula_units_Z            6
+_cod_original_cell_volume        630.205(29)
+_cod_database_code               1518834
+#BEGIN Tags that were not found in dictionaries:
+_gsas_exptl_extinct_corr_t_min   1.00000
+_gsas_exptl_extinct_corr_t_max   1.00000
+#END Tags that were not found in dictionaries
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 +x,+y,+z
+2 x-y,+x,+z+2/3
+3 -y,x-y,+z+1/3
+4 -x,-y,+z
+5 y-x,-x,+z+2/3
+6 +y,y-x,+z+1/3
+7 x-y,-y,-z
+8 +x,x-y,-z+2/3
+9 +y,+x,-z+1/3
+10 y-x,+y,-z
+11 -x,y-x,-z+2/3
+12 -y,-x,-z+1/3
+loop_
+_atom_site_type_symbol
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_thermal_displace_type
+_atom_site_U_iso_or_equiv
+_atom_site_symmetry_multiplicity
+Li Li1 0.5 0.5 0.4249(6) 1.0 Uiso 0.0097(18) 6
+B B1 0.69675(34) 0.34838(17) 0.33333 1.0 Uiso 0.00818(25) 6
+B B2 0.87562(25) 0.60842(25) 0.36662(11) 1.0 Uiso 0.00818(25) 12
+B B3 0.87742(24) 0.36827(24) 0.41449(11) 1.0 Uiso 0.00818(25) 12
+D D1 0.4999(5) 0.24997(26) 0.33333 1.0 Uiso 0.01902(33) 6
+D D2 0.8187(4) 0.7324(4) 0.39684(17) 1.0 Uiso 0.01902(33) 12
+D D3 0.8062(4) 0.2682(4) 0.48363(16) 1.0 Uiso 0.01902(33) 12
+loop_
+_atom_type_symbol
+_atom_type_number_in_cell
+_atom_type_scat_length_neutron
+_atom_type_scat_source
+D 30.0 0.6671 International_Tables_Vol_C
+B 30.0 0.6650 International_Tables_Vol_C
+Li 6.0 -0.2220 International_Tables_Vol_C
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+_geom_angle_site_symmetry_1
+_geom_angle_site_symmetry_3
+_geom_angle_publ_flag
+B1 D1 Li1 89.99(8) 1_555 1_555 n
+B1 D1 Li1 89.99(8) 1_555 8_555 n
+Li1 D1 Li1 180.00000(10) 1_555 8_555 n
+D1 B1 B2 129.98(18) 1_555 1_555 n
+D1 B1 B2 129.98(18) 1_555 8_555 n
+D1 B1 B3 130.19(7) 1_555 1_555 n
+D1 B1 B3 130.19(7) 1_555 8_555 n
+D1 B1 Li1 61.66(7) 1_555 1_555 n
+D1 B1 Li1 61.66(7) 1_555 8_555 n
+B2 B1 B2 99.97(15) 1_555 8_555 n
+B2 B1 B3 65.46(9) 1_555 1_555 n
+B2 B1 B3 65.51(9) 1_555 8_555 n
+B2 B1 Li1 69.82(6) 1_555 1_555 n
+B2 B1 Li1 162.82(18) 1_555 8_555 n
+B2 B1 B3 65.51(9) 8_555 1_555 n
+B2 B1 B3 65.47(9) 8_555 8_555 n
+B2 B1 Li1 162.81(18) 8_555 1_555 n
+B2 B1 Li1 69.82(6) 8_555 8_555 n
+B3 B1 B3 99.62(15) 1_555 8_555 n
+B3 B1 Li1 97.37(17) 1_555 1_555 n
+B3 B1 Li1 118.97(12) 1_555 8_555 n
+B3 B1 Li1 118.97(12) 8_555 1_555 n
+B3 B1 Li1 97.37(17) 8_555 8_555 n
+Li1 B1 Li1 123.33(14) 1_555 8_555 n
+B1 B2 B2 112.28(12) 1_555 11_765 n
+B1 B2 B3 57.55(7) 1_555 1_555 n
+B1 B2 B3 111.95(12) 1_555 4_765 n
+B1 B2 B3 57.53(8) 1_555 8_555 n
+B1 B2 D2 123.38(17) 1_555 1_555 n
+B1 B2 Li1 70.84(12) 1_555 1_555 n
+B2 B2 B3 101.90(8) 11_765 1_555 n
+B2 B2 B3 61.15(9) 11_765 4_765 n
+B2 B2 B3 59.36(9) 11_765 8_555 n
+B2 B2 D2 116.20(15) 11_765 1_555 n
+B2 B2 Li1 162.20(19) 11_765 1_555 n
+B3 B2 B3 58.89(10) 1_555 4_765 n
+B3 B2 B3 90.21(11) 1_555 8_555 n
+B3 B2 D2 132.38(17) 1_555 1_555 n
+B3 B2 Li1 94.44(12) 1_555 1_555 n
+B3 B2 B3 102.06(12) 4_765 8_555 n
+B3 B2 D2 115.93(17) 4_765 1_555 n
+B3 B2 Li1 135.27(22) 4_765 1_555 n
+B3 B2 D2 133.00(20) 8_555 1_555 n
+B3 B2 Li1 114.15(21) 8_555 1_555 n
+D2 B2 Li1 54.20(14) 1_555 1_555 n
+B1 B3 B2 56.98(8) 1_555 1_555 n
+B1 B3 B2 111.88(12) 1_555 4_765 n
+B1 B3 B2 56.96(8) 1_555 8_555 n
+B1 B3 B3 112.15(11) 1_555 4_765 n
+B1 B3 D3 118.67(16) 1_555 1_555 n
+B1 B3 Li1 142.56(8) 1_555 7_666 n
+B2 B3 B2 102.28(12) 1_555 4_765 n
+B2 B3 B2 89.78(11) 1_555 8_555 n
+B2 B3 B3 59.68(9) 1_555 4_765 n
+B2 B3 D3 132.47(18) 1_555 1_555 n
+B2 B3 Li1 100.62(10) 1_555 7_666 n
+B2 B3 B2 59.49(10) 4_765 8_555 n
+B2 B3 B3 61.43(9) 4_765 4_765 n
+B2 B3 D3 119.26(19) 4_765 1_555 n
+B2 B3 Li1 101.54(10) 4_765 7_666 n
+B2 B3 B3 102.52(8) 8_555 4_765 n
+B2 B3 D3 129.92(17) 8_555 1_555 n
+B2 B3 Li1 160.21(11) 8_555 7_666 n
+B3 B3 D3 120.57(14) 4_765 1_555 n
+B3 B3 Li1 69.41(8) 4_765 7_666 n
+D3 B3 Li1 51.69(15) 1_555 7_666 n
+B2 D2 Li1 97.14(19) 1_555 1_555 n
+B3 D3 Li1 100.66(24) 1_555 7_666 n
+D1 Li1 D1 104.6(4) 1_555 4_665 n
+D1 Li1 B1 28.35(10) 1_555 1_555 n
+D1 Li1 B1 102.81(33) 1_555 4_665 n
+D1 Li1 B2 67.25(17) 1_555 1_555 n
+D1 Li1 B2 88.00(22) 1_555 4_665 n
+D1 Li1 B3 148.24(27) 1_555 7_566 n
+D1 Li1 B3 107.14(12) 1_555 10_656 n
+D1 Li1 D2 94.26(25) 1_555 1_555 n
+D1 Li1 D2 71.18(18) 1_555 4_665 n
+D1 Li1 D3 172.07(22) 1_555 7_566 n
+D1 Li1 D3 80.00(6) 1_555 10_656 n
+D1 Li1 B1 102.81(33) 4_665 1_555 n
+D1 Li1 B1 28.35(10) 4_665 4_665 n
+D1 Li1 B2 88.00(22) 4_665 1_555 n
+D1 Li1 B2 67.25(17) 4_665 4_665 n
+D1 Li1 B3 107.14(12) 4_665 7_566 n
+D1 Li1 B3 148.24(27) 4_665 10_656 n
+D1 Li1 D2 71.18(18) 4_665 1_555 n
+D1 Li1 D2 94.26(25) 4_665 4_665 n
+D1 Li1 D3 80.00(6) 4_665 7_566 n
+D1 Li1 D3 172.07(22) 4_665 10_656 n
+B1 Li1 B1 114.9(4) 1_555 4_665 n
+B1 Li1 B2 39.34(9) 1_555 1_555 n
+B1 Li1 B2 113.72(29) 1_555 4_665 n
+B1 Li1 B3 137.56(22) 1_555 7_566 n
+B1 Li1 B3 105.65(12) 1_555 10_656 n
+B1 Li1 D2 67.41(15) 1_555 1_555 n
+B1 Li1 D2 99.53(22) 1_555 4_665 n
+B1 Li1 D3 144.86(12) 1_555 7_566 n
+B1 Li1 D3 84.33(6) 1_555 10_656 n
+B1 Li1 B2 113.72(29) 4_665 1_555 n
+B1 Li1 B2 39.34(9) 4_665 4_665 n
+B1 Li1 B3 105.65(12) 4_665 7_566 n
+B1 Li1 B3 137.56(22) 4_665 10_656 n
+B1 Li1 D2 99.53(22) 4_665 1_555 n
+B1 Li1 D2 67.41(15) 4_665 4_665 n
+B1 Li1 D3 84.33(6) 4_665 7_566 n
+B1 Li1 D3 144.86(12) 4_665 10_656 n
+B2 Li1 B2 139.7(4) 1_555 4_665 n
+B2 Li1 B3 112.39(20) 1_555 7_566 n
+B2 Li1 B3 105.34(18) 1_555 10_656 n
+B2 Li1 D2 28.66(8) 1_555 1_555 n
+B2 Li1 D2 137.52(35) 1_555 4_665 n
+B2 Li1 D3 106.87(12) 1_555 7_566 n
+B2 Li1 D3 99.80(11) 1_555 10_656 n
+B2 Li1 B3 105.34(18) 4_665 7_566 n
+B2 Li1 B3 112.39(20) 4_665 10_656 n
+B2 Li1 D2 137.52(35) 4_665 1_555 n
+B2 Li1 D2 28.66(8) 4_665 4_665 n
+B2 Li1 D3 99.80(11) 4_665 7_566 n
+B2 Li1 D3 106.87(12) 4_665 10_656 n
+B3 Li1 B3 41.19(16) 7_566 10_656 n
+B3 Li1 D2 94.67(23) 7_566 1_555 n
+B3 Li1 D2 107.38(27) 7_566 4_665 n
+B3 Li1 D3 27.65(14) 7_566 7_566 n
+B3 Li1 D3 68.63(28) 7_566 10_656 n
+B3 Li1 D2 107.38(27) 10_656 1_555 n
+B3 Li1 D2 94.67(23) 10_656 4_665 n
+B3 Li1 D3 68.63(28) 10_656 7_566 n
+B3 Li1 D3 27.65(14) 10_656 10_656 n
+D2 Li1 D2 156.6(5) 1_555 4_665 n
+D2 Li1 D3 81.00(14) 1_555 7_566 n
+D2 Li1 D3 115.31(21) 1_555 10_656 n
+D2 Li1 D3 115.31(21) 4_665 7_566 n
+D2 Li1 D3 81.00(14) 4_665 10_656 n
+D3 Li1 D3 96.2(4) 7_566 10_656 n
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+_geom_bond_publ_flag
+D1 B1 1.1952(33) 1_555 n
+D1 Li1 2.216(6) 1_555 n
+D1 Li1 2.216(6) 8_555 n
+B1 D1 1.1952(33) 1_555 n
+B1 B2 1.6893(18) 1_555 n
+B1 B2 1.6893(18) 8_555 n
+B1 B3 1.7001(18) 1_555 n
+B1 B3 1.7000(18) 8_555 n
+B1 Li1 2.517(5) 1_555 n
+B1 Li1 2.517(5) 8_555 n
+B2 B1 1.6893(18) 1_555 n
+B2 B2 1.8036(29) 11_765 n
+B2 B3 1.8327(20) 1_555 n
+B2 B3 1.8012(20) 4_765 n
+B2 B3 1.8338(20) 8_555 n
+B2 D2 1.2091(22) 1_555 n
+B2 Li1 2.501(4) 1_555 n
+B3 B1 1.7001(18) 1_555 n
+B3 B2 1.8327(20) 1_555 n
+B3 B2 1.8012(20) 4_765 n
+B3 B2 1.8338(20) 8_555 n
+B3 B3 1.7866(29) 4_765 n
+B3 D3 1.1992(26) 1_555 n
+B3 Li1 2.540(9) 7_666 n
+D2 B2 1.2091(22) 1_555 n
+D2 Li1 2.0445(31) 1_555 n
+D3 B3 1.1992(26) 1_555 n
+D3 Li1 2.028(7) 7_666 n
+Li1 D1 2.216(6) 1_555 n
+Li1 D1 2.216(6) 4_665 n
+Li1 B1 2.517(5) 1_555 n
+Li1 B1 2.517(5) 4_665 n
+Li1 B2 2.501(4) 1_555 n
+Li1 B2 2.501(4) 4_665 n
+Li1 B3 2.540(9) 7_566 n
+Li1 B3 2.540(9) 10_656 n
+Li1 D2 2.0445(31) 1_555 n
+Li1 D2 2.0445(31) 4_665 n
+Li1 D3 2.028(7) 7_566 n
+Li1 D3 2.028(7) 10_656 n

@@ -9,11 +9,27 @@ canonical-IR JSON, and the parser-agnostic harness) lives in
 current parser are documented in
 [`docs/ground-truth.md`](docs/ground-truth.md).
 
+Real crystallographic files are pinned by the real-data harness in
+[`tests/real_data`](tests/real_data/): IUCr published examples
+(`tests/real_data/iucr/`), Crystallography Open Database entries
+(`tests/real_data/cod/`, fetched via the COD REST API; see
+[`docs/cod-api.md`](docs/cod-api.md)), and one entry per
+space group 1..230 (`tests/real_data/cod_sg/`). Provenance lives
+in `tests/real_data/SOURCE.md` and the per-corpus `SOURCE.md`
+files.
+
+The suite is organized as axes: syntax ground truth, real-file
+pins, space-group coverage, lexical/structural feature coverage,
+and dictionary-item coverage. The design and the deferred axes
+are in [`docs/test-axes.md`](docs/test-axes.md).
+
 ```sh
 cargo test                                        # run everything
 cargo test ground_truth_verify                    # check parser against the groundtruth
+cargo test space_group_coverage feature_coverage dictionary_item_coverage
 cargo run --example gt_generate                   # write missing expected JSON
 cargo run --example gt_generate -- --force        # overwrite expected JSON (guarded)
+cargo run --example dict_coverage_gen             # re-record the dict-coverage baseline
 ```
 
 ## Roadmap

@@ -6,6 +6,10 @@
 //! Usage:
 //! - `cargo run --example gt_generate`
 //!   writes only **missing** expected files; existing files are left alone.
+//! - `cargo run --example gt_generate -- --real-data`
+//!   writes `tests/real_data/expected/*.json` from the real-data
+//!   corpora in `tests/real_data/iucr/` and `tests/real_data/cod/`
+//!   (same guards as above).
 //! - `cargo run --example gt_generate -- --force`
 //!   overwrites existing files, with two protections:
 //!   - a file containing `"known_gap": true` is never overwritten
@@ -97,7 +101,12 @@ fn regenerate(content: &str, fixture: &str) -> Json {
 }
 
 fn main() {
-    let force = std::env::args().any(|a| a == "--force");
+    let args: Vec<String> = std::env::args().collect();
+    let force = args.iter().any(|a| a == "--force");
+    if args.iter().any(|a| a == "--real-data") {
+        main_real_data(force);
+        return;
+    }
     let dir = fixture_dir();
     let mut fixtures: Vec<(String, String)> = Vec::new();
     let mut guarded: Vec<String> = Vec::new();
@@ -173,4 +182,64 @@ fn main() {
     if !guarded.is_empty() {
         eprintln!("note: guarded files keep their spec-corrected expectations.");
     }
+}
+
+/// Write expected files for the real-data corpus. Same guards as the
+/// fixture generator: a `"known_gap": true` file is never
+/// overwritten, existing files are skipped without `--force`.
+fn main_real_data(force: bool) {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/real_data");
+    let dirs: Vec<PathBuf> = vec![root.join("iucr"), root.join("cod")];
+    let exp_dir = root.join("expected");
+    fs::create_dir_all(&exp_dir).unwrap();
+
+    let mut files: Vec<(String, String)> = Vec::new();
+    for dir in &dirs {
+        files.extend(
+            fs::read_dir(dir)
+                .unwrap()
+                .filter_map(|e| e.ok())
+                .map(|e| e.path())
+                .filter(|p| p.extension().is_some_and(|x| x == "cif"))
+                .map(|p| {
+                    let name = p.file_name().unwrap().to_string_lossy().to_string();
+                    (name, fs::read_to_string(&p).unwrap())
+                }),
+        );
+    }
+    files.sort_by(|a, b| a.0.cmp(&b.0));
+
+    let mut written = 0u32;
+    let mut skipped = 0u32;
+    let mut guarded = Vec::new();
+    for (name, content) in &files {
+        let stem = name.trim_end_matches(".cif").to_string();
+        let expected = exp_dir.join(format!("{stem}.json"));
+        let fresh = regenerate(content, name);
+
+        let has_known_gap = expected
+            .is_file()
+            .then(|| fs::read_to_string(&expected).unwrap())
+            .map(|old| {
+                old.parse::<Json>()
+                    .map(|j| j.get("known_gap") == Some(&Json::Bool(true)))
+                    .unwrap_or(false)
+            })
+            .unwrap_or(false);
+
+        if has_known_gap {
+            guarded.push(name.clone());
+            eprintln!("  guard: kept {name} (known_gap file, never overwritten)");
+            continue;
+        }
+        if expected.is_file() && !force {
+            skipped += 1;
+            continue;
+        }
+
+        fs::write(&expected, serde_json::to_string_pretty(&fresh).unwrap() + "\n").unwrap();
+        written += 1;
+        println!("  wrote {name}");
+    }
+    println!("real-data: wrote {written}, skipped {skipped}, guarded {guarded:?}");
 }

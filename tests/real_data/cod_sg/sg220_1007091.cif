@@ -1,0 +1,123 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/70/1007091.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1007091
+loop_
+_publ_author_name
+'Averbuch-Pouchot, M T'
+'Durif, A'
+_publ_section_title
+;
+Crystal Chemistry of M(II) Ag (P O~3~)~3~ Polyphosphates for M(II) =
+Zn,Co,Ni,Mg and M(II)~4~ Na~4~ (P~4~ O~12~)~3~ Tetrametaphosphates for
+M(II)=Zn,Co,Ni: Crystal Structures of Zn Ag (P O~3~)~3~ and Zn~4~ Na~4~
+(P~4~ O~12~)~3~
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              341
+_journal_page_last               352
+_journal_paper_doi               10.1016/S0022-4596(83)80012-7
+_journal_volume                  49
+_journal_year                    1983
+_chemical_formula_structural     'Zn Na (P O3)3'
+_chemical_formula_sum            'Na O9 P3 Zn'
+_chemical_name_systematic        'Zinc sodium catena-phosphate'
+_space_group_IT_number           220
+_symmetry_cell_setting           cubic
+_symmetry_Int_Tables_number      220
+_symmetry_space_group_name_Hall  'I -4bd 2c 3'
+_symmetry_space_group_name_H-M   'I -4 3 d'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            16
+_cell_length_a                   14.58
+_cell_length_b                   14.58
+_cell_length_c                   14.58
+_cell_volume                     3099.4
+_refine_ls_R_factor_all          0.045
+_cod_database_code               1007091
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+1/2+x,1/2-y,-z
+-x,1/2+y,1/2-z
+1/2-x,-y,1/2+z
+1/4+x,1/4+z,1/4+y
+3/4+x,1/4-z,3/4-y
+1/4-x,3/4-z,3/4+y
+3/4-x,3/4+z,1/4-y
+y,z,x
+1/2-y,-z,1/2+x
+1/2+y,1/2-z,-x
+-y,1/2+z,1/2-x
+1/4+z,1/4+y,1/4+x
+1/4-z,3/4-y,3/4+x
+3/4-z,3/4+y,1/4-x
+3/4+z,1/4-y,3/4-x
+z,x,y
+-z,1/2+x,1/2-y
+1/2-z,-x,1/2+y
+1/2+z,1/2-x,-y
+1/4+y,1/4+x,1/4+z
+3/4-y,3/4+x,1/4-z
+3/4+y,1/4-x,3/4-z
+1/4-y,3/4-x,3/4+z
+1/2+x,1/2+y,1/2+z
+x,-y,1/2-z
+1/2-x,y,-z
+-x,1/2-y,z
+3/4+x,3/4+z,3/4+y
+1/4+x,3/4-z,1/4-y
+3/4-x,1/4-z,1/4+y
+1/4-x,1/4+z,3/4-y
+1/2+y,1/2+z,1/2+x
+-y,1/2-z,x
+y,-z,1/2-x
+1/2-y,z,-x
+3/4+z,3/4+y,3/4+x
+3/4-z,1/4-y,1/4+x
+1/4-z,1/4+y,3/4-x
+1/4+z,3/4-y,1/4-x
+1/2+z,1/2+x,1/2+y
+1/2-z,x,-y
+-z,1/2-x,y
+z,-x,1/2-y
+3/4+y,3/4+x,3/4+z
+1/4-y,1/4+x,3/4-z
+1/4+y,3/4-x,1/4-z
+3/4-y,1/4-x,1/4+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Zn1 Zn2+ 16 c 0.2350(2) 0.2350(2) 0.2350(2) 1. 0 d
+P1 P5+ 48 e 0.3281(1) 0.3914(1) 0.1140(1) 1. 0 d
+Na1 Na1+ 16 c 0.1097(8) 0.1097(8) 0.1097(8) 1. 0 d
+O1 O2- 48 e 0.0837(4) 0.0532(4) 0.4182(4) 1. 0 d
+O2 O2- 48 e 0.4767(4) 0.1096(4) 0.3838(4) 1. 0 d
+O3 O2- 48 e 0.2240(4) 0.4217(4) 0.0984(4) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Zn2+ 2.000
+P5+ 5.000
+Na1+ 1.000
+O2- -2.000

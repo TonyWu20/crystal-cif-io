@@ -1,0 +1,96 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/50/90/1509059.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1509059
+loop_
+_publ_author_name
+'Baranova, R.V.'
+'Pinsker, T.G.'
+'Avilov, A.S.'
+_publ_section_title
+;
+ Synthesis of the hexagonal telluride Cu(1-x) Ag(1-y) Te and
+ determinataion of its structure by electron diffraction
+;
+_journal_name_full               Kristallografiya
+_journal_page_first              89
+_journal_page_last               95
+_journal_volume                  21
+_journal_year                    1976
+_chemical_formula_sum            'Ag0.96 Cu0.8 Te'
+_chemical_name_systematic        'Copper silver telluride (0.8/0.96/1)'
+_space_group_IT_number           156
+_symmetry_space_group_name_Hall  'P 3 -2"'
+_symmetry_space_group_name_H-M   'P 3 m 1'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                120
+_cell_formula_units_Z            24
+_cell_length_a                   8.54
+_cell_length_b                   8.54
+_cell_length_c                   21.7
+_cell_volume                     1370.585
+_citation_journal_id_ASTM        KRISAJ
+_cod_data_source_file            silver0-1_190.cif
+_cod_data_source_block           Ag0.96Cu0.8Te1
+_cod_original_formula_sum        'Ag0.96 Cu0.8 Te1'
+_cod_database_code               1509059
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-y,x-y,z
+-x+y,-x,z
+-y,-x,z
+x,x-y,z
+-x+y,y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+Cu15 Cu+1 0 0 0.887 0.55
+Te10 Te-2 0.16 0.84 0.974 1
+Ag1 Ag+1 0.503 0.497 0.019 0.9
+Te7 Te-2 0.825 0.175 0.518 1
+Ag10 Ag+1 0.765 0.235 0.908 1
+Te4 Te-2 0.814 0.186 0.291 1
+Te3 Te-2 0.6667 0.3333 0.197 1
+Cu6 Cu+1 0.3333 0.6667 0.277 0.5
+Cu11 Cu+1 0 0 0.688 1
+Cu8 Cu+1 0.3333 0.6667 0.376 0.85
+Ag7 Ag+1 0 0 0.791 1
+Cu1 Cu+1 0 0 0.105 1
+Cu9 Cu+1 0.777 0.223 0.416 0.65
+Cu3 Cu+1 0.3333 0.6667 0.145 0.75
+Te1 Te-2 0.3333 0.6667 0.021 1
+Cu12 Cu+1 0.785 0.215 0.768 0.65
+Ag9 Ag+1 0.165 0.835 0.852 1
+Te5 Te-2 0.505 0.495 0.444 1
+Cu5 Cu+1 0.145 0.855 0.202 0.55
+Ag2 Ag+1 0.834 0.166 0.031 1
+Cu10 Cu+1 0.3333 0.6667 0.605 0.8
+Cu7 Cu+1 0 0 0.305 1
+Cu4 Cu+1 0.505 0.495 0.198 0.85
+Ag4 Ag+1 0.17 0.83 0.349 1
+Te6 Te-2 0.3333 0.6667 0.509 1
+Te8 Te-2 0.145 0.855 0.62 1
+Cu13 Cu+1 0.3333 0.6667 0.822 1
+Cu2 Cu+1 0.19 0.81 0.11 1
+Cu14 Cu+1 0.6667 0.3333 0.849 0.75
+Te9 Te-2 0.505 0.495 0.676 1
+Te2 Te-2 0.832 0.168 0.141 1
+Ag3 Ag+1 0.501 0.499 0.307 1
+Ag5 Ag+1 0 0 0.526 1
+Ag6 Ag+1 0.6667 0.3333 0.617 1
+Ag8 Ag+1 0.505 0.495 0.798 0.8

@@ -1,0 +1,110 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-13 21:28:24 +0200 (Sat, 13 Feb 2016) $
+#$Revision: 176429 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/52/55/1525586.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1525586
+loop_
+_publ_author_name
+'Armbruster, T.'
+'Gnos, E.'
+_publ_section_title
+;
+ "Rod" polytypism in vesuvianite: crystal structure of a low-temperature
+ P4nc vesuvianite with pronounced octahderal cation ordering
+;
+_journal_name_full
+;
+Schweizerische Mineralogische und Petrographische Mitteilungen
+;
+_journal_page_first              109
+_journal_page_last               116
+_journal_volume                  80
+_journal_year                    2000
+_chemical_formula_sum            'Al10.144 Ca19 Fe1.821 H9 Mg O78 Si18'
+_chemical_name_systematic        'Ca19 Al10.144 Mg Fe1.821 Si18 O69 (O H)9'
+_space_group_IT_number           104
+_symmetry_space_group_name_Hall  'P 4 -2n'
+_symmetry_space_group_name_H-M   'P 4 n c'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   15.569
+_cell_length_b                   15.569
+_cell_length_c                   11.841
+_cell_volume                     2870.185
+_citation_journal_id_ASTM        SMPTA8
+_cod_data_source_file            Armbruster_SMPTA8_2000_534.cif
+_cod_data_source_block           H9Al10.144Ca19Fe1.821Mg1O78Si18
+_cod_original_formula_sum        'H9 Al10.144 Ca19 Fe1.821 Mg1 O78 Si18'
+_cod_database_code               1525586
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-y,x,z
+-x,-y,z
+y,-x,z
+-x+1/2,y+1/2,z+1/2
+-y+1/2,-x+1/2,z+1/2
+x+1/2,-y+1/2,z+1/2
+y+1/2,x+1/2,z+1/2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+O11 O-2 0.5216 0.3746 0.0586 1 0.0
+O6 O-2 0.527 0.203 0.576 1 0.0
+Fe4 Fe+2 0.5 0.5 0.451 0.148 0.0
+Fe2 Fe+2 0.63859 0.13011 0.1277 0.12 0.0
+O4 O-2 0.3666 0.0899 0.2225 1 0.0
+Ca2 Ca+2 0.44021 0.20539 0.12123 1 0.0
+O1 O-2 0.5296 0.0779 0.0862 1 0.0
+Mg1 Mg+2 0.63859 0.13011 0.1277 0.25 0.0
+O12 O-2 0.4772 0.3658 0.4407 1 0.0
+Si2 Si+4 0.56886 0.20984 0.8713 1 0.0
+O3 O-2 0.5893 0.1327 0.7824 1 0.0
+Ca7 Ca+2 0.5 0.5 0.152 0.16 0.0
+Si1 Si+4 0.5 0 -0.0001 1 0.0
+Ca4 Ca+2 0.42877 0.3498 0.88125 1 0.0
+Ca5 Ca+2 0.85373 0.06447 0.10427 1 0.0
+O14 O-2 0.3058 0.4261 0.8187 1 0.0
+O16 O-2 0.3438 0.3116 0.0659 1 0.0
+Ca6 Ca+2 0.5 0.5 0.35 0.84 0.0
+O17 O-2 0.3977 0.3928 0.2509 1 0.0
+O7 O-2 0.6911 0.1433 0.4694 1 0.0
+Si3 Si+4 0.29117 0.0694 0.1281 1 0.0
+O15 O-2 0.661 0.3099 0.4323 1 0.0
+Si5 Si+4 0.33706 0.40085 0.1359 1 0.0
+Al1 Al+3 0.24955 0.24791 0.5014 1 0.0
+O21 O-2 0.7463 0.1921 0.137 1 0.0
+H3 H+1 0.789 0.214 0.197 1 0.0
+O9 O-2 0.5781 0.2405 0.1795 1 0.0
+O2 O-2 0.4699 0.0776 0.4143 1 0.0
+Fe3 Fe+2 0.5 0.5 0.034 0.817 0.0
+Si4 Si+4 0.40055 0.33026 0.3652 1 0.0
+Fe1 Fe+2 0.3628 0.12713 0.3749 0.094 0.0
+Al3 Al+3 0.63859 0.13011 0.1277 0.63 0.0
+Ca3 Ca+2 0.56184 0.20644 0.37966 1 0.0
+O8 O-2 0.314 0.1437 0.0304 1 0.0
+O18 O-2 0 0 0.3745 1 0.0
+O13 O-2 0.1938 0.0807 0.1751 1 0.0
+O20 O-2 0.2538 0.1858 0.366 1 0.0
+H2 H+1 0.27 0.219 0.297 1 0.0
+Ca1 Ca+2 0.5 0 0.2494 1 0.0
+O19 O-2 0 0 0.1414 1 0.0
+O5 O-2 0.4709 0.2016 -0.0752 1 0.0
+O10 O-2 0.419 0.2317 0.3217 1 0.0
+H1 H+1 0 0 0.226 1 0.0
+Al2 Al+3 0.3628 0.12713 0.3749 0.906 0.0

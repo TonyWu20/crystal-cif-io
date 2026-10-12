@@ -1,0 +1,114 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/04/1000480.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1000480
+loop_
+_publ_author_name
+'Ninclaus, C'
+'Retoux, R'
+'Riou, D'
+'Ferey, G'
+_publ_section_title
+;
+Synthesis and structure determination of the disordered V(V)-P compound
+(N H4)2 V(IV) O (V(V)2-x Px O7)
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              139
+_journal_page_last               142
+_journal_paper_doi               10.1006/jssc.1996.0093
+_journal_volume                  122
+_journal_year                    1996
+_chemical_formula_structural     '(N H4)2 V O (V1.04 P0.96 O7)'
+_chemical_formula_sum            'H8 N2 O8 P0.96 V2.04'
+_chemical_name_systematic
+;
+Ammonium vanadium(IV) vanadium phosphorus(V) oxide (2/1/1.04/0.96/8)
+;
+_space_group_IT_number           75
+_symmetry_cell_setting           tetragonal
+_symmetry_Int_Tables_number      75
+_symmetry_space_group_name_Hall  'P 4'
+_symmetry_space_group_name_H-M   'P 4'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   8.629(2)
+_cell_length_b                   8.629(2)
+_cell_length_c                   5.648(4)
+_cell_volume                     420.5
+_exptl_crystal_density_meas      2.35(2)
+_refine_ls_R_factor_all          0.049
+_cod_original_formula_sum        'H8 N2 O8 P.96 V2.04'
+_cod_database_code               1000480
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+y,-x,z
+-y,x,z
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_22
+_atom_site_aniso_U_23
+_atom_site_aniso_U_33
+V1 0.010(1) -0.002(1) .000(1) 0.010(1) 0.005(1) 0.017(1)
+P1 0.010(1) -0.002(1) .000(1) 0.010(1) 0.005(1) 0.017(1)
+V2 0.013(1) 0. 0. 0.013(1) 0. 0.017(1)
+V3 0.013(1) 0. 0. 0.013(1) 0. 0.019(1)
+O1 0.033(3) 0. 0. 0.033(3) 0. 0.023(4)
+O2 0.031(2) 0. 0. 0.031(2) 0. 0.021(4)
+O3 0.024(2) 0.004(1) 0.002(1) 0.024(2) 0.001(1) 0.020(2)
+O4 0.032(3) -0.012(3) 0. 0.082(6) 0. 0.018(2)
+O5 0.031(2) -0.004(1) -0.011(2) 0.012(1) .000(1) 0.035(2)
+O6 0.014(1) -0.007(1) .000(1) 0.027(2) 0.004(2) 0.031(2)
+N1 0.034(2) 0.018(2) .000(2) 0.038(2) .000(2) 0.018(2)
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+V1 V5+ 4 d 0.3694(1) 0.1308(1) 0.0077(6) 0.52(1) 0 d
+P1 P5+ 4 d 0.3694(1) 0.1308(1) 0.0077(6) 0.48(1) 0 d
+V2 V4+ 1 b 0.5 0.5 0. 1. 0 d
+V3 V4+ 1 a 0. 0. 0.0086(6) 1. 0 d
+O1 O2- 1 a 0. 0. 0.2928(16) 1. 0 d
+O2 O2- 1 b 0.5 0.5 0.2802(14) 1. 0 d
+O3 O2- 4 d 0.3698(5) 0.1302(5) 0.2857(8) 1. 0 d
+O4 O2- 2 c 0.5 0. -0.0922(12) 1. 0 d
+O5 O2- 4 d 0.4166(5) 0.2987(4) -0.0991(9) 1. 0 d
+O6 O2- 4 d 0.2018(4) 0.0830(5) -0.0985(9) 1. 0 d
+N1 N3- 4 d 0.1700(6) 0.3308(6) 0.5292(11) 1. 4 d
+H1 H1+ 4 d 0.2388(58) 0.2704(69) 0.4528(112) 1. 0 d
+H2 H1+ 4 d 0.0858(50) 0.3445(92) 0.4376(102) 1. 0 d
+H3 H1+ 4 d 0.2135(75) 0.4234(42) 0.5606(146) 1. 0 d
+H4 H1+ 4 d 0.1420(85) 0.2849(84) 0.6658(79) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+V5+ 5.000
+P5+ 5.000
+V4+ 4.000
+O2- -2.000
+N3- -3.000
+H1+ 1.000

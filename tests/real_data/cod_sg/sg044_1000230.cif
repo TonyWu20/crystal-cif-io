@@ -1,0 +1,89 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/02/1000230.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1000230
+loop_
+_publ_author_name
+'Laligant, Y'
+'Pannetier, J'
+'Ferey, G'
+_publ_section_title
+;
+Ordered magnetic frustration. VI. Crystal and magnetic structures of
+the inverse Weberites Zn Fe F~5~ (H~2~ O)~2~ and Mn Fe F~5~ (H~2~ O)~2~
+at 1.5K from powder neutron diffraction
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              242
+_journal_page_last               250
+_journal_paper_doi               10.1016/0022-4596(87)90193-9
+_journal_volume                  66
+_journal_year                    1987
+_chemical_formula_structural     'Mn Fe F5 (H2 O)2'
+_chemical_formula_sum            'F5 Fe H4 Mn O2'
+_chemical_name_systematic        'Manganese iron(III) fluoride dihydrate'
+_space_group_IT_number           44
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      44
+_symmetry_space_group_name_Hall  'I 2 -2'
+_symmetry_space_group_name_H-M   'I m m 2'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   7.475(1)
+_cell_length_b                   10.766(1)
+_cell_length_c                   6.594(1)
+_cell_volume                     530.7
+_refine_ls_R_factor_all          0.0374
+_cod_original_formula_sum        'H4 F5 Fe Mn O2'
+_cod_database_code               1000230
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+-x,y,z
+x,-y,z
+1/2+x,1/2+y,1/2+z
+1/2-x,1/2-y,1/2+z
+1/2-x,1/2+y,1/2+z
+1/2+x,1/2-y,1/2+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Mn1 Mn2+ 4 d 0. 0.75 0.75 1. 0 d
+Fe1 Fe3+ 4 c 0.25 0. 0. 1. 0 d
+F1 F1- 8 e 0.291(1) 0.873(1) 0.198(1) 1. 0 d
+F2 F1- 8 e 0.709(1) 0.626(1) 0.302(1) 1. 0 d
+F3 F1- 2 a 0. 0. 0.073(1) 1. 0 d
+F4 F1- 2 b 0. 0.5 0.427(4) 1. 0 d
+O1 O2- 4 d 0.5 0.321(2) 0.945(3) 1. 0 d
+O2 O2- 4 d 0.5 0.179(2) 0.554(4) 1. 0 d
+H1 H1+ 8 e 0.101(2) 0.840(4) 0.363(3) 1. 0 d
+H2 H1+ 8 e 0.897(2) 0.660(2) 0.138(3) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Mn2+ 2.000
+Fe3+ 3.000
+F1- -1.000
+O2- -2.000
+H1+ 1.000

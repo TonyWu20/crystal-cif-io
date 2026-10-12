@@ -3,6 +3,32 @@
 Notable changes to this project. The format follows
 Keep a Changelog.
 
+## Unreleased
+
+### Added
+
+- A Crystallography Open Database (COD) test corpus in
+  `tests/real_data/cod/` (six entries, fetched via the COD REST
+  API). The real-data harness and the `gt_generate` generator now
+  scan both `tests/real_data/iucr/` and `tests/real_data/cod/`.
+- `docs/cod-api.md`: the COD REST API summary and notes on the CIF
+  file shape the parser meets.
+- The multi-axis test-suite design (`docs/test-axes.md`):
+  - `tests/real_data/cod_sg/`: one COD entry per space group
+    1..230 (230 files, ~1 MB), fetched by the reproducible
+    `fetch.py` with a provenance manifest. Pinned by
+    `space_group_coverage` in `tests/space_groups.rs`.
+  - `tests/feature_coverage.rs`: a lexical/structural feature
+    guard over all corpora (13 features, each with at least one
+    evidence file).
+  - `tests/dict_coverage.rs` plus
+    `examples/dict_coverage_gen.rs`: a dictionary-item coverage
+    gate with a committed baseline (320 of 732 items at first
+    recording).
+  - `tests/fixtures/20_utf8_nonascii.cif`: a UTF-8 fixture with
+    accented names, a Greek letter, and a hash inside a quoted
+    string.
+
 ## 0.2.0 (2026-10-09)
 
 The dict-items roadmap is complete. All eight work units are

@@ -1,0 +1,183 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-20 00:18:51 +0200 (Sat, 20 Feb 2016) $
+#$Revision: 176760 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/2/01/13/2011331.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_2011331
+loop_
+_publ_author_name
+'Phan Thanh, S.'
+'Marrot, J.'
+'Renaudin, J.'
+'Maisonneuve, V.'
+_publ_section_title
+;
+[H~3~N(CH~2~)~5~NH~3~].AlP~2~O~8~H, a one-dimensional aluminophosphate
+;
+_journal_coeditor_code           GS1096
+_journal_issue                   9
+_journal_name_full               'Acta Crystallographica, Section C'
+_journal_page_first              1073
+_journal_page_last               1074
+_journal_paper_doi               10.1107/S0108270100008532
+_journal_volume                  56
+_journal_year                    2000
+_chemical_formula_moiety         '(C5 H16 N2 )[AlHP2 O8 ]'
+_chemical_formula_sum            'C5 H17 Al N2 O8 P2'
+_chemical_formula_weight         322.13
+_space_group_IT_number           14
+_symmetry_cell_setting           monoclinic
+_symmetry_space_group_name_Hall  '-P 2yn'
+_symmetry_space_group_name_H-M   'P 1 21/n 1'
+_cell_angle_alpha                90.00
+_cell_angle_beta                 95.1470(10)
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   7.8783(2)
+_cell_length_b                   10.46890(10)
+_cell_length_c                   16.0680(4)
+_cell_measurement_temperature    296(2)
+_cell_volume                     1319.90(5)
+_diffrn_ambient_temperature      296(2)
+_exptl_crystal_density_diffrn    1.621
+_cod_depositor_comments
+;
+The following automatic conversions were performed:
+'_symmetry_cell_setting' value 'Monoclinic' changed to 'monoclinic'
+according to '/home/saulius/struct/CIF-dictionaries/cif_core.dic'
+dictionary named 'cif_core.dic' version 2.4.1 from 2010-06-29.
+
+Automatic conversion script
+Id: cif_fix_enum 1527 2010-12-29 10:47:43Z saulius 
+;
+_cod_original_sg_symbol_H-M      'P 21/n'
+_cod_database_code               2011331
+loop_
+_symmetry_equiv_pos_as_xyz
+'x, y, z'
+'-x+1/2, y+1/2, -z+1/2'
+'-x, -y, -z'
+'x-1/2, -y-1/2, z-1/2'
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+P1 .0276(5) .0230(5) .0341(6) .0016(4) .0063(4) .0016(4)
+P2 .0259(5) .0418(6) .0193(5) -.0018(4) .0019(4) -.0034(4)
+Al1 .0218(6) .0289(6) .0233(6) .0004(4) .0024(4) -.0027(4)
+O1 .041(2) .048(2) .0262(15) .0047(14) .0096(12) -.0020(13)
+O2 .036(2) .0285(15) .049(2) .0033(12) .0141(13) -.0019(13)
+O3 .0279(15) .049(2) .037(2) -.0003(13) -.0009(12) -.0117(13)
+O4 .042(2) .060(2) .039(2) -.019(2) .0100(14) -.016(2)
+O5 .036(2) .046(2) .047(2) .0153(14) -.0034(14) -.0090(14)
+O6 .055(2) .032(2) .056(2) -.0010(14) .022(2) .0116(14)
+O7 .060(2) .073(2) .024(2) .015(2) .0098(14) .0063(15)
+O8 .045(2) .036(2) .038(2) -.0117(14) .0052(13) -.0015(13)
+N1 .067(3) .030(2) .037(2) -.006(2) .016(2) -.003(2)
+C1 .080(4) .070(4) .080(5) .012(3) .000(4) -.026(3)
+C2 .073(4) .123(7) .067(4) -.002(4) .008(3) -.005(4)
+C3 .097(6) .158(10) .077(5) -.056(6) .015(4) -.002(6)
+C4 .169(13) .130(10) .153(12) -.019(9) -.024(10) .010(8)
+C5 .099(6) .134(7) .063(4) -.075(5) .004(4) -.007(4)
+N2 .041(2) .052(2) .039(2) -.002(2) .006(2) .012(2)
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_thermal_displace_type
+_atom_site_calc_flag
+_atom_site_refinement_flags
+_atom_site_occupancy
+_atom_site_disorder_group
+_atom_site_type_symbol
+P1 .55909(13) .78402(9) .02396(7) .0280(3) Uani d . 1 . P
+P2 .09646(13) 1.05563(11) .13485(6) .0290(3) Uani d . 1 . P
+Al1 .24723(13) .95928(11) -.02995(7) .0246(4) Uani d . 1 . Al
+O1 .1684(4) .9724(3) .0667(2) .0379(7) Uani d . 1 . O
+O2 .6564(4) .7078(3) -.0386(2) .0373(7) Uani d . 1 . O
+H2 .7123 .7571 -.0649 .056 Uiso calc R 1 . H
+O3 .0882(4) .9116(3) -.1048(2) .0381(7) Uani d . 1 . O
+O4 .1982(4) 1.1793(3) .1459(2) .0467(9) Uani d . 1 . O
+O5 .4005(4) .8408(3) -.0252(2) .0435(8) Uani d . 1 . O
+O6 .5116(4) .6993(3) .0927(2) .0466(8) Uani d . 1 . O
+O7 .1067(5) .9814(4) .2149(2) .0521(9) Uani d . 1 . O
+O8 .6701(4) .8956(3) .0585(2) .0398(8) Uani d . 1 . O
+N1 .5653(6) .4525(4) .1464(2) .0438(10) Uani d . 1 . N
+H1A .4934 .4053 .1133 .066 Uiso calc R 1 . H
+H1B .5704 .5309 .1254 .066 Uiso calc R 1 . H
+H1C .5288 .4565 .1972 .066 Uiso calc R 1 . H
+C1 .7372(9) .3936(7) .1518(5) .077(2) Uani d D 1 . C
+H1D .7840 .4038 .0984 .092 Uiso calc R 1 . H
+H1E .7258 .3028 .1618 .092 Uiso calc R 1 . H
+C2 .8618(10) .4488(8) .2194(5) .088(2) Uani d D 1 . C
+H2A .8225 .4271 .2732 .105 Uiso calc R 1 . H
+H2B .9709 .4071 .2162 .105 Uiso calc R 1 . H
+C3 .8903(13) .5913(9) .2175(5) .110(3) Uani d D 1 . C
+H3A .7912 .6290 .2395 .132 Uiso calc R 1 . H
+H3B .9855 .6077 .2587 .132 Uiso calc R 1 . H
+C4 .9232(15) .6711(14) .1428(8) .153(5) Uani d D 1 . C
+H4A .8502 .6411 .0950 .184 Uiso calc R 1 . H
+H4B .8917 .7587 .1534 .184 Uiso calc R 1 . H
+C5 1.1025(11) .6688(10) .1213(5) .099(3) Uani d D 1 . C
+H5A 1.1363 .5802 .1162 .118 Uiso calc R 1 . H
+H5B 1.1062 .7081 .0669 .118 Uiso calc R 1 . H
+N2 1.2290(5) .7318(4) .1793(3) .0439(9) Uani d . 1 . N
+H2C 1.3301 .7296 .1586 .066 Uiso calc R 1 . H
+H2D 1.2357 .6916 .2283 .066 Uiso calc R 1 . H
+H2E 1.1984 .8127 .1863 .066 Uiso calc R 1 . H
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_site_symmetry_2
+_geom_bond_distance
+_geom_bond_publ_flag
+P1 O6 . 1.490(3) y
+P1 O8 . 1.533(3) y
+P1 O5 . 1.537(3) y
+P1 O2 . 1.539(3) y
+P2 O7 . 1.499(3) y
+P2 O4 . 1.525(3) y
+P2 O3 3_575 1.530(3) y
+P2 O1 . 1.546(3) y
+Al1 O5 . 1.727(3) y
+Al1 O1 . 1.729(3) y
+Al1 O8 3_675 1.731(3) y
+Al1 O3 . 1.731(3) y
+O2 H2 . .82 ?
+O3 P2 3_575 1.530(3) ?
+O8 Al1 3_675 1.731(3) ?
+N1 C1 . 1.483(8) y
+N1 H1A . .89 ?
+N1 H1B . .89 ?
+N1 H1C . .89 ?
+C1 C2 . 1.512(8) y
+C1 H1D . .97 ?
+C1 H1E . .97 ?
+C2 C3 . 1.509(9) y
+C2 H2A . .97 ?
+C2 H2B . .97 ?
+C3 C4 . 1.503(9) y
+C3 H3A . .97 ?
+C3 H3B . .97 ?
+C4 C5 . 1.484(9) y
+C4 H4A . .97 ?
+C4 H4B . .97 ?
+C5 N2 . 1.459(8) y
+C5 H5A . .97 ?
+C5 H5B . .97 ?
+N2 H2C . .89 ?
+N2 H2D . .89 ?
+N2 H2E . .89 ?

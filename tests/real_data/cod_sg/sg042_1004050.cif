@@ -1,0 +1,92 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/40/1004050.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1004050
+loop_
+_publ_author_name
+'Gerand, B'
+'Nowogrocki, G'
+'Figlarz, M'
+_publ_section_title
+;
+A new tungsten trioxide hydrate, W O~3~ (H~2~ O)~0.33~: Preparation,
+characterization and crystallographic study
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              312
+_journal_page_last               320
+_journal_paper_doi               10.1016/0022-4596(81)90062-1
+_journal_volume                  38
+_journal_year                    1981
+_chemical_formula_structural     'W O3 (H2 O)0.33'
+_chemical_formula_sum            'H0.66 O3.33 W'
+_chemical_name_systematic        'Tungsten oxide 0.3-hydrate'
+_space_group_IT_number           42
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      42
+_symmetry_space_group_name_Hall  'F 2 -2'
+_symmetry_space_group_name_H-M   'F m m 2'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            12
+_cell_length_a                   7.359(3)
+_cell_length_b                   12.513(6)
+_cell_length_c                   7.704(5)
+_cell_volume                     709.4
+_refine_ls_R_factor_all          0.057
+_cod_original_formula_sum        'H.66 O3.33 W'
+_cod_database_code               1004050
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+-x,y,z
+x,-y,z
+x,1/2+y,1/2+z
+1/2+x,y,1/2+z
+1/2+x,1/2+y,z
+-x,1/2-y,1/2+z
+1/2-x,-y,1/2+z
+1/2-x,1/2-y,z
+-x,1/2+y,1/2+z
+1/2-x,y,1/2+z
+1/2-x,1/2+y,z
+x,1/2-y,1/2+z
+1/2+x,-y,1/2+z
+1/2+x,1/2-y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+W1 W6+ 8 b 0.25 0.25 0. 1. 0 d
+W2 W6+ 4 a 0. 0. -0.06(4) 1. 0 d
+O1 O2- 8 c 0. 0.29(2) 0.04(5) 1. 0 d
+O2 O2- 16 e 0.17(2) 0.11(2) 0.01(4) 1. 0 d
+O3 O2- 8 b 0.25 0.25 0.25 1. 0 d
+O4 O2- 4 a 0. 0. 0.21(6) 1. 2 d
+O5 O2- 4 a 0. 0. 0.70(5) 1. 0 d
+H1 H1+ 16 e -1. -1. -1. 0.5 0 dum
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+W6+ 6.000
+O2- -2.000
+H1+ 1.000

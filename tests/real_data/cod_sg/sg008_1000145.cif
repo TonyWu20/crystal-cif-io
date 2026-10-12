@@ -1,0 +1,117 @@
+#------------------------------------------------------------------------------
+#$Date: 2022-11-09 16:44:48 +0200 (Wed, 09 Nov 2022) $
+#$Revision: 279153 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/01/1000145.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1000145
+loop_
+_publ_author_name
+'Le Bail, A'
+_publ_section_title              'On the structure of Na5 V2 P3 O14 . (H2 O)'
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              281
+_journal_page_last               282
+_journal_paper_doi               10.1006/jssc.1993.1033
+_journal_volume                  102
+_journal_year                    1993
+_chemical_formula_structural     'Na5 (P3 V2 O14) (H2 O)'
+_chemical_formula_sum            'H2 Na5 O15 P3 V2'
+_chemical_name_systematic
+;
+Pentasodium phyllo-triphosphatodivanadate(IV) hydrate
+;
+_space_group_IT_number           8
+_symmetry_cell_setting           monoclinic
+_symmetry_Int_Tables_number      8
+_symmetry_space_group_name_Hall  'C -2y'
+_symmetry_space_group_name_H-M   'C 1 m 1'
+_cell_angle_alpha                90
+_cell_angle_beta                 91.134(6)
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   6.3089(4)
+_cell_length_b                   20.10379(80)
+_cell_length_c                   5.1172(5)
+_cell_volume                     648.9
+_refine_ls_R_factor_all          0.025
+_cod_database_code               1000145
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+x,-y,z
+1/2+x,1/2+y,z
+1/2+x,1/2-y,z
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_22
+_atom_site_aniso_U_23
+_atom_site_aniso_U_33
+V1 0.0061(4) 0.0002(2) -0.0008(2) 0.0088(3) .0000(3) 0.0119(3)
+P1 0.0067(5) 0.0009(4) -0.0001(3) 0.0102(4) 0.0002(4) 0.0103(8)
+P2 0.0078(6) 0. -0.0008(5) 0.0098(6) 0. 0.0116(6)
+Na1 0.0497(14) -0.0063(8) 0.0019(9) 0.0186(9) 0.0002(7) 0.0182(9)
+Na2 0.0121(9) -0.0025(7) -0.0016(7) 0.0311(12) 0.0007(7) 0.0165(10)
+Na3 0.0103(15) 0. 0.0073(15) 0.0928(32) 0. 0.0425(24)
+O1 0.0147(32) 0. -0.0040(27) 0.2899(182) 0. 0.0313(40)
+O2 0.0120(15) -0.0001(10) -0.0010(11) 0.0179(14) 0.0008(11) 0.0095(14)
+O3 0.0176(18) 0.0030(12) 0.0004(14) 0.0215(16) -0.0003(12) 0.0160(16)
+O4 0.0082(17) -0.0001(10) -0.0010(13) 0.0145(14) 0.0024(11) 0.0190(18)
+O5 0.0138(13) -0.0023(11) -0.0013(10) 0.0097(12) 0.0010(11) 0.0112(14)
+O6 0.0083(16) -0.0011(10) -0.0016(13) 0.0126(13) 0.0023(11) 0.0148(16)
+O7 0.0099(13) 0.0011(10) 0.0020(11) 0.0099(12) 0.0033(12) 0.0225(15)
+O8 0.0043(17) 0. -0.0047(16) 0.019(2) 0. 0.0164(21)
+O9 0.0286(26) 0. 0.0057(21) 0.0214(22) 0. 0.0153(21)
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+V1 V4+ 4 b 0.5 0.84891(3) 0.5 1. 0 d
+P1 P5+ 4 b 0.0028(2) 0.81446(4) 0.5001(3) 1. 0 d
+P2 P5+ 2 a 0.3500(3) 0. 0.4582(3) 1. 0 d
+Na1 Na1+ 4 b 0.1687(5) 0.9142(1) 0.9905(5) 1. 0 d
+Na2 Na1+ 4 b 0.7458(3) 0.7599(1) 0.0239(4) 1. 0 d
+Na3 Na1+ 2 a 0.8213(5) 0. 0.4045(8) 1. 0 d
+O1 O2- 2 a 0.758(1) 0. 0.904(2) 1. 2 d
+O2 O2- 4 b 0.0147(5) 0.8112(1) 0.7948(7) 1. 0 d
+O3 O2- 4 b 0.5003(6) 0.8456(2) 0.8164(7) 1. 0 d
+O4 O2- 4 b 0.8059(5) 0.8524(1) 0.3985(7) 1. 0 d
+O5 O2- 4 b 0.4997(5) 0.7565(2) 0.3750(6) 1. 0 d
+O6 O2- 4 b 0.1961(5) 0.8504(1) 0.3887(7) 1. 0 d
+O7 O2- 4 b 0.4979(5) 0.9404(1) 0.3882(7) 1. 0 d
+O8 O2- 2 a 0.1531(7) 0. 0.2846(9) 1. 0 d
+O9 O2- 2 a 0.3044(9) 0. 0.746(1) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+V4+ 4.000
+P5+ 5.000
+Na1+ 1.000
+O2- -2.000
+loop_
+_cod_changelog_entry_id
+_cod_changelog_entry_author
+_cod_changelog_entry_date
+_cod_changelog_entry_text
+1 'Vaitkus, Antanas' 2022-11-09T16:40:00+02:00
+;
+ Removed the 'H1' dummy atom site since the hydrogen atoms which it represents
+ are already marked using the '_atom_site_attached_hydrogens' data item.
+;

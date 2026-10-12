@@ -1,0 +1,98 @@
+#------------------------------------------------------------------------------
+#$Date: 2017-09-01 19:50:41 +0300 (Fri, 01 Sep 2017) $
+#$Revision: 200074 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/15/1001556.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1001556
+loop_
+_publ_author_name
+'Boudin, S.'
+'Grandin, A.'
+'Borel, M. M.'
+'Leclaire, A.'
+'Raveau, B.'
+_publ_section_title
+;
+Redetermination of the \b-Ca~2~P~2~O~7~ structure
+;
+_journal_coden_ASTM              ACSCEE
+_journal_issue                   12
+_journal_name_full
+;
+ Acta Crystallographica, Section C: Crystal Structure Communications
+;
+_journal_page_first              2062
+_journal_page_last               2064
+_journal_paper_doi               10.1107/s0108270193005608
+_journal_volume                  49
+_journal_year                    1993
+_chemical_formula_structural     'Ca2 (P2 O7)'
+_chemical_formula_sum            'Ca2 O7 P2'
+_chemical_name_systematic        'Calcium diphosphate - \b'
+_space_group_IT_number           76
+_symmetry_cell_setting           tetragonal
+_symmetry_Int_Tables_number      76
+_symmetry_space_group_name_Hall  'P 4w'
+_symmetry_space_group_name_H-M   'P 41'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            8
+_cell_length_a                   6.6858(8)
+_cell_length_b                   6.6858(8)
+_cell_length_c                   24.147(3)
+_cell_volume                     1079.4
+_refine_ls_R_factor_all          0.031
+_cod_database_code               1001556
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,1/2+z
+-y,x,1/4+z
+y,-x,3/4+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Ca1 Ca2+ 4 a 0.1374(2) 0.2313(2) 0. 1. 0 d
+Ca2 Ca2+ 4 a 0.1591(2) 0.5447(2) 0.24262(5) 1. 0 d
+Ca3 Ca2+ 4 a 0.7895(2) 0.7337(2) 0.13802(4) 1. 0 d
+Ca4 Ca2+ 4 a 0.3627(2) 0.1054(2) 0.13548(4) 1. 0 d
+P1 P5+ 4 a 0.6213(2) 0.3078(2) 0.02345(6) 1. 0 d
+P2 P5+ 4 a 0.8673(2) 0.2534(2) 0.12431(5) 1. 0 d
+P3 P5+ 4 a 0.0463(2) 0.7148(2) 0.01863(6) 1. 0 d
+P4 P5+ 4 a 0.2873(2) 0.6462(2) 0.12074(5) 1. 0 d
+O1 O2- 4 a 0.4607(6) 0.1584(6) 0.0426(2) 1. 0 d
+O2 O2- 4 a 0.7727(6) 0.1984(6) -0.0133(2) 1. 0 d
+O3 O2- 4 a 0.5303(7) 0.4921(6) -0.0001(2) 1. 0 d
+O4 O2- 4 a 0.7395(6) 0.3776(6) 0.0789(2) 1. 0 d
+O5 O2- 4 a 0.7364(6) 0.0873(6) 0.1469(2) 1. 0 d
+O6 O2- 4 a 0.0519(6) 0.1769(6) 0.0953(2) 1. 0 d
+O7 O2- 4 a 0.8994(6) 0.4088(6) 0.1695(2) 1. 0 d
+O8 O2- 4 a 0.8537(6) 0.7907(6) 0.0433(2) 1. 0 d
+O9 O2- 4 a 0.1855(6) 0.8795(6) -0.0011(2) 1. 0 d
+O10 O2- 4 a 0.0229(6) 0.5542(6) -0.0249(2) 1. 0 d
+O11 O2- 4 a 0.1582(6) 0.5873(6) 0.0666(2) 1. 0 d
+O12 O2- 4 a 0.3450(7) 0.4526(6) 0.1474(2) 1. 0 d
+O13 O2- 4 a 0.4622(6) 0.7756(6) 0.1015(2) 1. 0 d
+O14 O2- 4 a 0.1474(6) 0.7722(6) 0.1572(2) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Ca2+ 2.000
+P5+ 5.000
+O2- -2.000

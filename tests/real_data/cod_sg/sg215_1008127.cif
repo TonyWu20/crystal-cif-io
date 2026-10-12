@@ -1,0 +1,98 @@
+#------------------------------------------------------------------------------
+#$Date: 2025-08-18 15:21:50 +0300 (Mon, 18 Aug 2025) $
+#$Revision: 301771 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/81/1008127.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1008127
+loop_
+_publ_author_name
+'Levy, H A'
+'Peterson, S W'
+_publ_section_title
+;
+Neutron Diffraction Determination of the Crystal Structure of Ammonium
+Bromide in Four Phases
+;
+_journal_coden_ASTM              JACSAT
+_journal_name_full               'Journal of the American Chemical Society'
+_journal_page_first              1536
+_journal_page_last               1542
+_journal_paper_doi               10.1021/ja01103a006
+_journal_volume                  75
+_journal_year                    1953
+_chemical_formula_structural     'N D4 Br'
+_chemical_formula_sum            'Br D4 N'
+_chemical_name_systematic        'Tetradeuterioammonium bromide - IV'
+_space_group_IT_number           215
+_symmetry_cell_setting           cubic
+_symmetry_Int_Tables_number      215
+_symmetry_space_group_name_Hall  'P -4 2 3'
+_symmetry_space_group_name_H-M   'P -4 3 m'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            1
+_cell_length_a                   4.
+_cell_length_b                   4.
+_cell_length_c                   4.
+_cell_volume                     64.0
+_cod_original_formula_sum        'D4 Br N'
+_cod_database_code               1008127
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+y,z,x
+z,x,y
+x,z,y
+y,x,z
+z,y,x
+x,-y,-z
+y,-z,-x
+z,-x,-y
+x,-z,-y
+y,-x,-z
+z,-y,-x
+-x,y,-z
+-y,z,-x
+-z,x,-y
+-x,z,-y
+-y,x,-z
+-z,y,-x
+-x,-y,z
+-y,-z,x
+-z,-x,y
+-x,-z,y
+-y,-x,z
+-z,-y,x
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+N1 N3- 1 a 0. 0. 0. 1. 0 d
+Br1 Br1- 1 b 0.5 0.5 0.5 1. 0 d
+D1 D1+ 4 e 0.148 0.148 0.148 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+N3- -3.000
+Br1- -1.000
+D1+ 1.000
+loop_
+_cod_related_entry_id
+_cod_related_entry_database
+_cod_related_entry_code
+1 PubChem 16211395

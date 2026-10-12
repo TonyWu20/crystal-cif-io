@@ -1,0 +1,60 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/01/06/1010689.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1010689
+loop_
+_publ_author_name
+'Kraus, O'
+_publ_section_title
+;
+Untersuchungen ueber das Kristallgitter von Heteropoly-saeuren und
+deren Salzen
+;
+_journal_coden_ASTM              ZEKGAX
+_journal_name_full
+;
+Zeitschrift fuer Kristallographie, Kristallgeometrie, Kristallphysik,
+Kristallchemie (-144,1977)
+;
+_journal_page_first              256
+_journal_page_last               279
+_journal_volume                  94
+_journal_year                    1936
+_chemical_formula_structural     'K4 Si W12 O40 (H2 O)18'
+_chemical_formula_sum            'H36 K4 O58 Si W12'
+_chemical_name_systematic        'Potassium dodecatungstoslilicate 18-hydrate'
+_space_group_IT_number           145
+_symmetry_cell_setting           trigonal
+_symmetry_Int_Tables_number      145
+_symmetry_space_group_name_Hall  'P 32'
+_symmetry_space_group_name_H-M   'P 32'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                120
+_cell_formula_units_Z            3
+_cell_length_a                   19.
+_cell_length_b                   19.
+_cell_length_c                   12.58
+_cell_volume                     3933.0
+_exptl_crystal_density_meas      4.23
+_cod_database_code               1010689
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-y,x-y,2/3+z
+y-x,-x,1/3+z
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+? ? ? ?

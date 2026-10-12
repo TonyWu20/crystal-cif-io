@@ -1,0 +1,85 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-13 21:28:24 +0200 (Sat, 13 Feb 2016) $
+#$Revision: 176429 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/52/12/1521206.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1521206
+loop_
+_publ_author_name
+'Ikeda, T.'
+'Miyazawa, K.'
+'Huang, Q.'
+'Izumi, F.'
+'Santoro, A.'
+_publ_section_title
+;
+ Structural study of the aluminophosphate (Al P O4)-5 by neutron powder
+ diffraction
+;
+_journal_name_full               'Journal of Physics and Chemistry of Solids'
+_journal_page_first              1531
+_journal_page_last               1535
+_journal_volume                  60
+_journal_year                    1999
+_chemical_formula_sum            'C0.2598 H0.6495 Al N0.0433 O4 P'
+_chemical_name_systematic        '(Al (P O4)) ((C2 H5)3 N)0.0433'
+_space_group_IT_number           184
+_symmetry_space_group_name_Hall  'P 6 -2c'
+_symmetry_space_group_name_H-M   'P 6 c c'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                120
+_cell_formula_units_Z            12
+_cell_length_a                   13.7258
+_cell_length_b                   13.7258
+_cell_length_c                   8.4031
+_cell_volume                     1371.025
+_citation_journal_id_ASTM        JPCSAW
+_cod_data_source_file            Ikeda_JPCSAW_1999_215.cif
+_cod_data_source_block           C0.2598H0.6495Al1N0.0433O4P1
+_cod_original_formula_sum        'C0.2598 H0.6495 Al1 N0.0433 O4 P1'
+_cod_database_code               1521206
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+x-y,x,z
+-y,x-y,z
+-x,-y,z
+-x+y,-x,z
+y,-x+y,z
+y,x,z+1/2
+-x+y,y,z+1/2
+-x,-x+y,z+1/2
+-y,-x,z+1/2
+x-y,-y,z+1/2
+x,x-y,z+1/2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+O2 O-2 0.487 0.357 0.169 0.5 0.0
+H2 H 0.06 0.077 0.22 0.13 0.0
+O1 O-2 0.422 0.224 -0.057 1 0.0
+C2 C 0.09 0.013 0.21 0.13 0.0
+H1 H 0.104 0 0.082 0.13 0.0
+O5 O-2 0.574 0.419 -0.058 1 0.0
+H5 H 0.179 0 0.408 0.13 0.0
+O4 O-2 0.37 0.365 -0.04 1 0.0
+Al1 Al+3 0.448 0.326 0.368 1 0.0
+O3 O-2 0.419 0.302 0.163 0.5 0.0
+H4 H 0.16 -0.04 0.4 0.13 0.0
+P1 P+5 0.457 0.337 0 1 0.0
+N1 N 0 0 0.453 0.26 0.0
+C1 C 0.094 -0.013 0.384 0.13 0.0
+H3 H 0.026 -0.07 0.26 0.13 0.0

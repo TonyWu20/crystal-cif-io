@@ -1,0 +1,93 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-18 17:37:37 +0200 (Thu, 18 Feb 2016) $
+#$Revision: 176729 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/51/08/1510863.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1510863
+loop_
+_publ_author_name
+'Zavalii, P.Yu.'
+'Kuz'ma, Yu.B.'
+'Mykhalenko, S.I.'
+_publ_section_title
+;
+ New incommensurate structures of the borides Pr41(Mn4B4)35 and
+ Pr7(Re4B4)6
+;
+_journal_name_full               'Journal of Alloys Compd.'
+_journal_page_first              55
+_journal_page_last               59
+_journal_paper_doi               10.1016/0925-8388(94)90714-5
+_journal_volume                  203
+_journal_year                    1994
+_chemical_formula_sum            'B24 Pr7 Re24'
+_chemical_name_systematic        'Pr7 Re24 B24'
+_space_group_IT_number           116
+_symmetry_space_group_name_Hall  'P -4 -2c'
+_symmetry_space_group_name_H-M   'P -4 c 2'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   10.566
+_cell_length_b                   10.566
+_cell_length_c                   25.22
+_cell_volume                     2815.570
+_citation_journal_id_ASTM        JALCEU
+_cod_data_source_file            boron_376.cif
+_cod_data_source_block           B24Pr7Re24
+_cod_original_cell_volume        2815.57
+_cod_database_code               1510863
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+y,-x,-z
+-x,-y,z
+-y,x,-z
+-x,y,z+1/2
+y,x,-z+1/2
+x,-y,z+1/2
+-y,-x,-z+1/2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+B8 B-3 0.3157 0.4983 0.1241 1 0.0
+B9 B-3 0.0017 0.1845 0.1268 1 0.0
+Pr1 Pr+3 0.25 0.25 0.75 1 0.0
+B3 B-3 0.3162 0.001 0.0838 1 0.0
+Pr3 Pr+3 0.252 0.252 0.4681 1 0.0
+Re2 Re+2 -0.009 0.1286 0.2066 1 0.0
+B12 B-3 0.9988 0.1839 0.4594 1 0.0
+Re9 Re+2 0.511 0.3722 0.459 1 0.0
+B5 B-3 0.3153 0.5006 0.2902 1 0.0
+Re6 Re+2 0.1277 0.489 0.4156 1 0.0
+Re4 Re+2 0.1282 0.49 0.0847 1 0.0
+Re5 Re+2 0.1282 0.4868 0.2496 1 0.0
+Re10 Re+2 0.3729 0.007 -0.0004 1 0.0
+Pr4 Pr+3 0.247 0.25 0.5972 1 0.0
+Re7 Re+2 0.489 0.3718 0.1239 1 0.0
+B10 B-3 0.3173 0.0016 0.2509 1 0.0
+Re11 Re+2 0.3726 -0.009 0.1674 1 0.0
+Pr2 Pr+3 0.249 0.252 0.323 1 0.0
+Re8 Re+2 0.506 0.3722 0.2927 1 0.0
+Re12 Re+2 0.3724 -0.009 0.3328 1 0.0
+B1 B-3 0.5002 0.1844 0.4993 1 0.0
+B2 B-3 0.3161 0.9988 0.9177 1 0.0
+Re3 Re+2 0.0164 0.1284 0.3772 1 0.0
+Re1 Re+2 -0.0183 0.1294 0.0407 1 0.0
+B7 B-3 0.5018 0.1834 0.333 1 0.0
+B4 B-3 0.9995 0.185 0.2928 1 0.0
+B11 B-3 0.3161 0.5013 0.453 1 0.0
+B6 B-3 0.4988 0.1835 0.6653 1 0.0
