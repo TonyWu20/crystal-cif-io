@@ -133,7 +133,11 @@ pub fn rich_error(e: &Rich<char>, source_name: &str, src: &str) {
 // --- character classes (spec Appendix A) ------------------------------------
 
 fn is_eol(c: char) -> bool {
-    matches!(c, '\n' | '\r')
+    // VT (0x0B) and FF (0x0C) end a line in every dialect (decision
+    // D9a, roadmap section 14). The CIF 1.1 spec excludes both from
+    // its character set (para. 22, 28); accepting them is a
+    // recorded 1.1 deviation, pinned by fixture 26.
+    matches!(c, '\n' | '\r' | '\u{0b}' | '\u{0c}')
 }
 
 fn is_blank(c: char) -> bool {
@@ -184,9 +188,18 @@ fn starts_with_reserved_stem(token: &str) -> bool {
 
 // --- low-level producers -----------------------------------------------------
 
-/// `<EOL>`: `\r\n`, `\n`, or `\r` (LF/CR line endings, spec para. 5).
+/// `<EOL>`: `\r\n`, `\n`, `\r`, VT, or FF. The line endings of spec
+/// para. 5, plus the VT and FF terminators of decision D9a (roadmap
+/// section 14, a recorded 1.1 deviation).
 fn eol<'src>() -> impl Parser<'src, &'src str, (), Err<'src>> {
-    choice((just("\r\n"), just("\n"), just("\r"))).map(|_: &str| ())
+    choice((
+        just("\r\n"),
+        just("\n"),
+        just("\r"),
+        just("\u{0b}"),
+        just("\u{0c}"),
+    ))
+    .map(|_: &str| ())
 }
 
 /// `<NonBlankChar>`: one non-white-space character.
@@ -265,7 +278,7 @@ fn ws_region<'src>(starts_at_line_start: bool) -> impl Parser<'src, &'src str, u
                 }
             }
             match inp.peek() {
-                Some('\n') | Some('\r') => {
+                Some('\n') | Some('\r') | Some('\u{0b}') | Some('\u{0c}') => {
                     let is_cr = inp.peek() == Some('\r');
                     inp.next();
                     consumed += 1;
@@ -1218,6 +1231,37 @@ mod tests {
             "a brace in an unquoted 2.0 value must fail"
         );
     }
+
+    #[test]
+    fn vt_and_ff_end_lines_in_a_1_1_file() {
+        // Decision D9a (roadmap section 14): VT (0x0B) and FF
+        // (0x0C) act as line terminators in every dialect. The 1.1
+        // spec excludes both characters (para. 22, 28); the crate
+        // accepts them, which fixture 26 pins.
+        let src = "data_26_vtff\u{0c}_a 'x'\u{0c}_b 1.5e+02\n_t \u{0c};first\n;\n\n_v\u{0b}\u{0b}7\n";
+        let doc = parse_cif(src).expect("VT and FF must end lines in 1.1");
+        assert_eq!(
+            single_item(&doc, "b")
+                .as_numeric()
+                .expect("a numeric value"),
+            &Numeric::from(150.0f64),
+            "the exponent form 1.5e+02 must parse as 150.0",
+        );
+        assert_eq!(
+            single_item(&doc, "t")
+                .as_text_field()
+                .expect("a text field")
+                .raw_string(),
+            "first",
+        );
+        assert_eq!(
+            single_item(&doc, "v")
+                .as_numeric()
+                .expect("a numeric value"),
+            &Numeric::from(7i32),
+        );
+    }
+
 
     /// The `LoopColumns` of the first loop in the document.
     fn first_loop<'a>(doc: &'a CifDocument) -> &'a LoopColumns {
