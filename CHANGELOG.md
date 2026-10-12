@@ -57,6 +57,14 @@ Keep a Changelog.
   `real_data_verify` harness prints a note and skips a corpus
   directory that holds no `.cif` files.
 
+- The five IUCr real-data expected files (`example_single`,
+  `example_multiple`, `example_shelxl2013`, `example_olex2`,
+  `example_extra_table`) are upgraded from recorded parser
+  rejections to full canonical-IR pins. The parser now parses
+  those files, so the old records were stale; the generator
+  rewrote them. As with all real-data pins, they are a
+  self-consistency pin, not an independent ground truth.
+
 - `CifDialect::detect` accepts both spellings of the CIF 2.0
   version code: the IUCr `##CIF_2.0` and the escaped
   `#\#CIF_2.0` used by the COMCIFS `cif_api` reference
