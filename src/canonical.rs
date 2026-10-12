@@ -137,6 +137,18 @@ fn value_json(value: &Value) -> Json {
             "kind": "list",
             "values": values.iter().map(value_json).collect::<Vec<_>>(),
         }),
+        Value::Table(pairs) => json!({
+            "kind": "table",
+            "pairs": pairs
+                .iter()
+                .map(|(key, value)| {
+                    json!({
+                        "key": value_json(key),
+                        "value": value_json(value),
+                    })
+                })
+                .collect::<Vec<_>>(),
+        }),
     }
 }
 

@@ -532,15 +532,19 @@ fn is_unquoted_lead(dialect: CifDialect, c: char) -> bool {
 /// True when `c` continues the current value token, per dialect.
 ///
 /// 1.1: any `<NonBlankChar>` continues the token, as today. 2.0:
-/// the list closer `]` ends the token, so `[1 2 3]` tokenizes as
-/// three numeric values and a closer. A `[` still continues the
-/// token: it makes an unquoted value illegal (roadmap section
-/// 13.2), and a token that starts with `[` is a list candidate.
+/// the container delimiters `[`, `]`, `{`, and `}` end the token
+/// (roadmap sections 13.2 and 14): the upstream scanner treats all
+/// four as separate tokens, so `[1 2 3]` tokenizes as three numeric
+/// values and a closer, and `{ 'k':. }` tokenizes a table pair
+/// with an inapplicable value.
 fn continues_value_token(dialect: CifDialect, c: char) -> bool {
     if !is_nonblank(c) {
         return false;
     }
-    matches!(dialect, CifDialect::Cif1_1) || c != ']'
+    match dialect {
+        CifDialect::Cif1_1 => true,
+        CifDialect::Cif2_0 => !matches!(c, '[' | ']' | '{' | '}'),
+    }
 }
 
 /// A single-quoted character string (spec para. 15, 16).
@@ -829,8 +833,46 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
                 .then(just(']'))
                 .map(|((((_open, _lead), values), _tail), _close)| Value::List(values))
                 .filter(move |_: &Value| dialect == CifDialect::Cif2_0);
+
+            // `<Table>` (CIF 2.0 only, roadmap section 14): `{`, zero
+            // or more white space separated pairs, and `}`. A pair is
+            // a quoted key (any quote style; the upstream KEY token),
+            // a colon, and a value of any kind. The value may sit
+            // directly after the colon, or after white space (which
+            // may hold a comment or a line break). The pairs keep
+            // their order; the key is stored as a value.
+            let table_key = choice((
+                single_quoted(dialect),
+                double_quoted(dialect),
+            ))
+            .map(Value::CharString);
+            let entry = table_key
+                .then(just(':'))
+                .then(
+                    choice((
+                        rec.clone(),
+                        ws_region(false)
+                            .map(|_| ())
+                            .then(rec.clone())
+                            .map(|(_ws, v): (_, Value)| v),
+                    )),
+                )
+                .map(|((key, _colon), value): ((Value, char), Value)| (key, value));
+            let table = just('{')
+                .then(container_ws(dialect).boxed().map(|_| ()))
+                .then(
+                    entry
+                        .separated_by(ws_region(false).boxed().map(|_| ()))
+                        .collect::<Vec<(Value, Value)>>(),
+                )
+                .then(ws_region(false).boxed().map(|_| ()))
+                .then(just('}'))
+                .map(|(((_open, pairs), _tail), _close)| Value::Table(pairs))
+                .filter(move |_: &Value| dialect == CifDialect::Cif2_0)
+                .boxed();
             choice((
                 list,
+                table,
                 inapplicable(dialect).boxed(),
                 unknown(dialect).boxed(),
                 numeric(dialect).boxed(),
@@ -1243,6 +1285,40 @@ mod tests {
             }
             other => panic!("expected a string list, got {other:?}"),
         }
+    }
+
+    #[test]
+    fn a_2_0_table_holds_key_value_pairs() {
+        let src = "##CIF_2.0
+data_t
+_a { 'zero':0 'one':. }
+_e {}
+";
+        let doc = parse_cif(src).expect("a 2.0 table must parse");
+        match single_item(&doc, "a") {
+            Value::Table(pairs) => {
+                assert_eq!(pairs.len(), 2);
+                match &pairs[0].0 {
+                    Value::CharString(cs) => assert_eq!(cs.as_ref(), "zero"),
+                    other => panic!("expected a key, got {other:?}"),
+                }
+            }
+            other => panic!("expected a table, got {other:?}"),
+        }
+        match single_item(&doc, "e") {
+            Value::Table(pairs) => assert!(pairs.is_empty()),
+            other => panic!("expected an empty table, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_1_1_file_rejects_a_table() {
+        let src = "data_t
+_a { 'zero':0 }
+";
+        let errs =
+            parse_cif(src).expect_err("a table in a 1.1 file must be rejected");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
     }
 
     #[test]
