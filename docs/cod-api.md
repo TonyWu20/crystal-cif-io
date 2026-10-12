@@ -90,6 +90,13 @@ suffix selects a revision. This works for `cif` and `hkl`.
 
 ## Terms
 
-Data are released to the scientific community. Attribution is
-required. Some entries carry a public-domain notice in the header
-comment block.
+Data are released to the scientific community. Two notice
+variants appear in the corpus headers:
+
+- a public-domain notice ("All data on this site have been
+  placed in the public domain by the contributors").
+- an IUCr Journals notice that requires attribution to the
+  source article.
+
+The repo-level credit and the per-entry citations live in
+`NOTICE.md`.

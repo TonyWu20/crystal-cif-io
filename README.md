@@ -23,6 +23,12 @@ pins, space-group coverage, lexical/structural feature coverage,
 and dictionary-item coverage. The design and the deferred axes
 are in [`docs/test-axes.md`](docs/test-axes.md).
 
+The real-data corpora are third-party data. The COD corpora come
+from the Crystallography Open Database
+(`https://www.crystallography.net/`), and the IUCr corpus holds
+IUCr published example files. The credit, the license notices,
+and the required article citations live in [`NOTICE.md`](NOTICE.md).
+
 ```sh
 cargo test                                        # run everything
 cargo test ground_truth_verify                    # check parser against the groundtruth

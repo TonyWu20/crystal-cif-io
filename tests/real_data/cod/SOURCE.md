@@ -11,9 +11,14 @@ Crystallography Open Database (COD), fetched over the COD REST API.
 - fetched: 2026-10-12, with plain HTTP (`curl`)
 - API summary: `docs/cod-api.md`
 
-COD terms: data are released for the scientific community with
-attribution (some entries carry a public-domain notice in the file
-header).
+Terms and attribution:
+
+- 4 of the 6 files carry the public-domain notice: "All data on
+  this site have been placed in the public domain by the
+  contributors."
+- 2 files (1000000, 1000001) carry the IUCr Journals notice. Use
+  requires attribution to the source article. The citations and
+  the repo-level credit live in `NOTICE.md`.
 
 | file | entry | why this file |
 |---|---|---|

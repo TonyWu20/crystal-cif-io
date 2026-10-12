@@ -24,8 +24,12 @@ Rerun notes:
 - `--only 1-50` limits the run to a range; a partial run adopts
   already-downloaded files on the next full run.
 
-Terms: see `docs/cod-api.md`. The files are used here as parser
-regression inputs.
+Terms and attribution: 226 files carry the public-domain notice.
+4 files (COD entries 1000001, 2013563, 2232341, 1513328) carry
+the IUCr Journals notice. That notice requires attribution to the
+source article. The citations and the repo-level credit live in
+`NOTICE.md`. The API notes live in `docs/cod-api.md`. The files
+are used here as parser regression inputs.
 
 The design and the test that pins this corpus live in
 `docs/test-axes.md` (`space_group_coverage` in
