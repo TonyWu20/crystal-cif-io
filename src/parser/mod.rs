@@ -43,8 +43,9 @@ use chumsky::{
 use crate::grammar::{
     CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
     DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns, Number, Numeric, SaveFrame,
-    SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField,
-    UnquotedString, UnsignedInteger, Value,
+    SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString,
+    TripleDoubleQuotedString, TripleSingleQuotedString, Tag, TextField, UnquotedString,
+    UnsignedInteger, Value,
 };
 
 type Err<'src> = extra::Err<Rich<'src, char>>;
@@ -462,8 +463,60 @@ fn numeric_value(token: &str) -> Value {
 /// `<CharString>`: unquoted, single-quoted, or double-quoted. The
 /// unquoted and quoted forms are dialect-aware (see [`unquoted`],
 /// [`single_quoted`]).
+/// A triple-quoted character string (CIF 2.0 only, roadmap section
+/// 14): an opening ''' or """ delimiter, then content up to the
+/// first closing delimiter. The content may hold line terminators
+/// and runs of up to two delimiters; a third delimiter closes the
+/// string. The empty form (six delimiters) is a legal empty string.
+/// The content is stored as written, without the delimiters.
+fn triple_quoted<'src>(
+    quote: char,
+    single: bool,
+) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
+    let q = just(quote);
+    let nonq = any().filter(move |c: &char| c != &quote);
+    // A chunk: up to two delimiters, then a non-delimiter character
+    // (the upstream NOTSQ3/NOTDQ3 form).
+    let chunk = choice((
+        nonq.clone().map(|c: char| c.to_string()),
+        q.clone()
+            .then(nonq.clone())
+            .map(|(d, c): (char, char)| d.to_string() + &c.to_string()),
+        q.clone()
+            .then(q)
+            .then(nonq)
+            .map(|((d1, d2), c): ((char, char), char)| {
+                d1.to_string() + &d2.to_string() + &c.to_string()
+            }),
+    ));
+    let open = q.clone().then(q.clone()).then(q);
+    let close = q.clone().then(q.clone()).then(q);
+    open
+        .map(|_o: ((char, char), char)| ())
+        .then(chunk.repeated().collect::<Vec<String>>())
+        .then(close.map(|_c: ((char, char), char)| ()))
+        .map(move |(((), chars), ())| {
+            let content: String = chars.concat();
+            if single {
+                CharString::TripleSingleQuoted(TripleSingleQuotedString::new(content))
+            } else {
+                CharString::TripleDoubleQuoted(TripleDoubleQuotedString::new(content))
+            }
+        })
+}
+
 fn char_string<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
+    // The triple-quoted form is a 2.0 production (roadmap section
+    // 14): in a 1.1 file the delimiters fall through to the single
+    // and double quote productions (embedded-quote runs).
+    let triple = choice((
+        triple_quoted('\'', true),
+        triple_quoted('"', false),
+    ))
+    .filter(move |_: &CharString| dialect == CifDialect::Cif2_0)
+    .boxed();
     choice((
+        triple,
         single_quoted(dialect),
         double_quoted(dialect),
         unquoted(dialect),
@@ -842,9 +895,12 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
             // may hold a comment or a line break). The pairs keep
             // their order; the key is stored as a value.
             let table_key = choice((
+        triple_quoted('\'', true),
+        triple_quoted('"', false),
                 single_quoted(dialect),
                 double_quoted(dialect),
             ))
+            .filter(move |_: &CharString| dialect == CifDialect::Cif2_0)
             .map(Value::CharString);
             let entry = table_key
                 .then(just(':'))
@@ -1308,6 +1364,24 @@ _e {}
         match single_item(&doc, "e") {
             Value::Table(pairs) => assert!(pairs.is_empty()),
             other => panic!("expected an empty table, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_2_0_triple_quoted_string_keeps_content_verbatim() {
+        let src = "##CIF_2.0\ndata_t\n_a '''first\nsecond'''\n_b ''''four'''\n_c ''''''\n";
+        let doc = parse_cif(src).expect("a 2.0 triple-quoted string must parse");
+        match single_item(&doc, "a") {
+            Value::CharString(cs) => assert_eq!(cs.as_ref(), "first\nsecond"),
+            other => panic!("expected a triple string, got {other:?}"),
+        }
+        match single_item(&doc, "b") {
+            Value::CharString(cs) => assert_eq!(cs.as_ref(), "'four"),
+            other => panic!("expected a triple string, got {other:?}"),
+        }
+        match single_item(&doc, "c") {
+            Value::CharString(cs) => assert_eq!(cs.as_ref(), ""),
+            other => panic!("expected an empty triple string, got {other:?}"),
         }
     }
 

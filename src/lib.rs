@@ -28,7 +28,8 @@ pub use grammar::{
     CIFDataType, CIFValue, CharString, CifDocument, Comments, DataBlock, DataBlockHeading,
     DataBlockMember, DataItems, DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns,
     LoopHeader, LoopUnit, Matrix, MatrixError, Number, Numeric, SaveFrame, SaveFrameHeading,
-    SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField, UnquotedString,
+    SemiColonTextField, SingleLineData, SingleQuotedString, Tag,
+    TripleDoubleQuotedString, TripleSingleQuotedString, TextField, UnquotedString,
     UnsignedInteger, Value,
 };
 

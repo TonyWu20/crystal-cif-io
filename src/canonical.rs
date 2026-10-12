@@ -11,7 +11,8 @@
 //! - `unknown`                 the `?` value
 //! - `numeric`                 `{"type": "integer"|"float", "value": "<shortest
 //!   form of the parsed value>", "std_uncertainty": "<digits>"|null}`
-//! - `char_string`             `{"style": "unquoted"|"single_quoted"|"double_quoted",
+//! - `char_string`             `{"style": "unquoted"|"single_quoted"|"double_quoted"
+//!                                |"triple_single_quoted"|"triple_double_quoted",
 //!   "text": "<content between delimiters, as written>"}`
 //! - `text_field`             `{"text": "<lines joined with \n>"}`
 //! - `list`                    `{"values": [ ... value objects ... ]}`;
@@ -122,6 +123,12 @@ fn value_json(value: &Value) -> Json {
                 CharString::Unquoted(u) => ("unquoted", u.as_ref().to_string()),
                 CharString::SingleQuoted(s) => ("single_quoted", s.as_ref().to_string()),
                 CharString::DoubleQuoted(d) => ("double_quoted", d.as_ref().to_string()),
+                CharString::TripleSingleQuoted(t) => {
+                    ("triple_single_quoted", t.as_ref().to_string())
+                }
+                CharString::TripleDoubleQuoted(t) => {
+                    ("triple_double_quoted", t.as_ref().to_string())
+                }
             };
             json!({
                 "kind": "char_string",
