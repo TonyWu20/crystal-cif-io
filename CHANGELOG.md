@@ -15,10 +15,11 @@ Keep a Changelog.
   `manifest.json` pin) downloads them and verifies the sha256
   and git blob SHA of each file. The CI workflow
   (`.github/workflows/ci.yml`) runs the fetch before `cargo
-  test`. Fourteen files pin the parse output; seven are
-  `known_gap` pins that record the 2.0 grammar gaps they expose
-  (tables, comments inside lists, triple-quoted strings, nested
-  save frames, non-ASCII values, VT/FF line terminators).
+  test`. Fourteen files pin the parse output. Seven more start
+  as `known_gap` pins that record the 2.0 grammar gaps they
+  expose (tables, comments inside lists, triple-quoted strings,
+  nested save frames, non-ASCII values, VT/FF line terminators).
+  The D9 entry below parses all 21. No `known_gap` pin remains.
   Provenance, license, and per-file notes live in
   `tests/real_data/cif_api/SOURCE.md`.
 - A Crystallography Open Database (COD) test corpus in
@@ -47,6 +48,24 @@ Keep a Changelog.
   - `tests/fixtures/20_utf8_nonascii.cif`: a UTF-8 fixture with
     accented names, a Greek letter, and a hash inside a quoted
     string.
+- CIF 2.0 syntax completion (roadmap decision D9,
+  `docs/roadmap-dict-items.md` section 14). The parser accepts
+  the 2.0 syntax that the `cif_api` corpus pins:
+  - 2.0 table values: a `Value::Table` variant and the
+    canonical `table` value kind.
+  - 2.0 triple-quoted strings: the `'''` and `"""` forms,
+    multiline.
+  - 2.0 nested save frames: a save frame may hold save frames.
+  - 2.0 list refinements: a comment between list values and a
+    `;` text field as a list member.
+  - 2.0 Unicode: non-ASCII in block codes, frame codes, item
+    names, values, and comments. The 1.1 dialect keeps the
+    ASCII set.
+  - VT/FF line terminators in every dialect (decision D9a, a
+    recorded 1.1 deviation).
+  All 21 `cif_api` files parse. The seven `known_gap` pins
+  flipped to full IR pins. Fixtures 21-26 plus five negative
+  fixtures pin the new rules.
 
 ### Changed
 
@@ -69,11 +88,12 @@ Keep a Changelog.
   version code: the IUCr `##CIF_2.0` and the escaped
   `#\#CIF_2.0` used by the COMCIFS `cif_api` reference
   implementation. The thirteen `cif_api` files that carry the
-  escaped spelling now parse under the 2.0 value rules; their
+  escaped spelling now parse under the 2.0 value rules. Their
   expected files moved to schema version 2. Six of those files
-  still fail on 2.0-only syntax (tables, a comment inside a
-  list, triple-quoted strings, nested save frames, non-ASCII
-  values); their `known_gap` notes record the narrowed gaps.
+  still fail on 2.0-only syntax at this step (tables, a comment
+  inside a list, triple-quoted strings, nested save frames,
+  non-ASCII values). The D9 entry below parses all of them. It
+  removes every `known_gap` pin.
 
 
 ## 0.2.0 (2026-10-09)
