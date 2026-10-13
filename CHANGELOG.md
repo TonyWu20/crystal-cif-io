@@ -7,6 +7,16 @@ Keep a Changelog.
 
 ### Changed
 
+- Breaking (roadmap D12h): the five `bon` builders now build the
+  typed document structs instead of their private ones. The builder
+  entry points (`Cell::builder`, `SpaceGroup::builder`,
+  `Symop::builder`, `AtomSite::builder`, `ChemicalFormula::builder`)
+  return `data_dict::core_cif::cell::Cell`,
+  `space_group::SpaceGroup`, `Vec<space_group_symop::Symop>`,
+  `Vec<atom_site::AtomSite>`, and
+  `chemical_formula::ChemicalFormula`. The builder-private structs
+  and their `to_data_items` paths are removed. The `CifCategory`
+  trait `to_members` is the materialization path now.
 - Split the workspace into two crates (roadmap D13).
   `crystal-cif-fmt` (new, 0.1.0) owns the parser, the IR value
   types, the term materialization traits, and the canonical JSON.
@@ -26,6 +36,20 @@ Keep a Changelog.
 
 ### Added
 
+- A typed document layer for five core categories (roadmap D12,
+  wave 1). The `CifCategory` trait in `data_dict::core_cif` reads
+  and writes `DataBlockMember` sets. One `Option`-field struct per
+  category: `cell::Cell`, `space_group::SpaceGroup`,
+  `space_group_symop::Symop`, `atom_site::AtomSite`, and
+  `chemical_formula::ChemicalFormula`. The `CoreCif` view in
+  `crystal_cif_io::core_cif` holds the five category groups and the
+  `extra` residue; `from_block`, `to_block`, and `validate` move
+  between the typed view and a data block. The `CifError` type
+  records value-class, shape, and missing-item mismatches.
+  Closed-set items type to enums; clamped items keep their newtypes
+  (`CellAngle`, `ITNumber`, `SymMultiplicity`, `FormulaWeight`).
+  Save frames and foreign tags stay in `extra`, order kept (roadmap
+  D12e).
 - A COMCIFS `cif_api` test-data corpus in
   `tests/real_data/cif_api/`: the 21 edge-case CIFs of the
   upstream reference implementation, pinned to commit `7882c12`.
