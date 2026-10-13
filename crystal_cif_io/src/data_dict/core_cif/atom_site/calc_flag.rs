@@ -45,3 +45,17 @@ impl From<CalcFlag> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+
+impl CalcFlag {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "d" => Some(Self::D),
+            "calc" => Some(Self::Calc),
+            "c" => Some(Self::C),
+            "dum" => Some(Self::Dum),
+            _ => None,
+        }
+    }
+}

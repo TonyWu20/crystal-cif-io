@@ -3,9 +3,11 @@
 //! The formula in its recorded forms (sum, structural, analytical,
 //! IUPAC, moiety) and the molar mass, with the measured companion.
 
+mod chemical_formula;
 mod ranges;
 
 pub use ranges::FormulaWeight;
+pub use chemical_formula::ChemicalFormula;
 
 use std::fmt::Display;
 

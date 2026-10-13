@@ -19,11 +19,7 @@
 
 use bon::bon;
 
-use crystal_cif_fmt::DataItems;
-use crate::data_dict::core_cif::cell::CellAngle;
-use crate::data_dict::CifTerm;
-use crate::data_dict::SingleValueTerm;
-use crate::data_dict::core_cif::cell::CellTerms;
+use crate::data_dict::core_cif::cell::{Cell, CellAngle};
 use crate::data_dict::core_cif::range_check::number_as_f64;
 use crystal_cif_fmt::grammar::{
     CharString, Float, Matrix, Number, Numeric, UnsignedInteger,
@@ -81,169 +77,6 @@ impl std::fmt::Display for CellError {
 }
 
 impl std::error::Error for CellError {}
-
-/// The materialized `cell` category.
-#[derive(Debug, Clone)]
-pub struct Cell {
-    length_a: Numeric,
-    length_b: Numeric,
-    length_c: Numeric,
-    angle_alpha: CellAngle,
-    angle_beta: CellAngle,
-    angle_gamma: CellAngle,
-    volume: Numeric,
-    vector_a: Matrix,
-    vector_b: Matrix,
-    vector_c: Matrix,
-    orthogonal_matrix: Matrix,
-    metric_tensor: Matrix,
-    reciprocal_vector_a: Matrix,
-    reciprocal_vector_b: Matrix,
-    reciprocal_vector_c: Matrix,
-    reciprocal_length_a: Numeric,
-    reciprocal_length_b: Numeric,
-    reciprocal_length_c: Numeric,
-    reciprocal_angle_alpha: CellAngle,
-    reciprocal_angle_beta: CellAngle,
-    reciprocal_angle_gamma: CellAngle,
-    reciprocal_metric_tensor: Matrix,
-    reciprocal_orthogonal_matrix: Matrix,
-    terms: Vec<CellTerms>,
-}
-
-impl Cell {
-    /// The optional recorded items, materialized as single-value
-    /// terms. Use `terms` for the full write set.
-    pub fn recorded_items(&self) -> Vec<CellTerms> {
-        const KEPT: &[&str] = &[
-            "cell_formula_units_z",
-            "cell_formula_units_Z_prime",
-            "cell_formula_units_Z_details",
-            "cell_formula_units_Z_prime_details",
-            "cell_special_details",
-            "cell_measurement_reflns_used",
-            "cell_measurement_temperature",
-            "cell_measurement_wavelength",
-            "cell_measurement_pressure",
-            "cell_measurement_radiation",
-            "cell_measurement_theta_min",
-            "cell_measurement_theta_max",
-        ];
-        self.terms
-            .iter()
-            .filter(|t| KEPT.contains(&t.tag().as_ref()))
-            .cloned()
-            .collect()
-    }
-}
-
-impl Cell {
-    pub fn length_a(&self) -> &Numeric {
-        &self.length_a
-    }
-
-    pub fn length_b(&self) -> &Numeric {
-        &self.length_b
-    }
-
-    pub fn length_c(&self) -> &Numeric {
-        &self.length_c
-    }
-
-    pub fn angle_alpha(&self) -> &CellAngle {
-        &self.angle_alpha
-    }
-
-    pub fn angle_beta(&self) -> &CellAngle {
-        &self.angle_beta
-    }
-
-    pub fn angle_gamma(&self) -> &CellAngle {
-        &self.angle_gamma
-    }
-
-    pub fn volume(&self) -> &Numeric {
-        &self.volume
-    }
-
-    pub fn vector_a(&self) -> &Matrix {
-        &self.vector_a
-    }
-
-    pub fn vector_b(&self) -> &Matrix {
-        &self.vector_b
-    }
-
-    pub fn vector_c(&self) -> &Matrix {
-        &self.vector_c
-    }
-
-    pub fn orthogonal_matrix(&self) -> &Matrix {
-        &self.orthogonal_matrix
-    }
-
-    pub fn metric_tensor(&self) -> &Matrix {
-        &self.metric_tensor
-    }
-
-    pub fn reciprocal_vector_a(&self) -> &Matrix {
-        &self.reciprocal_vector_a
-    }
-
-    pub fn reciprocal_vector_b(&self) -> &Matrix {
-        &self.reciprocal_vector_b
-    }
-
-    pub fn reciprocal_vector_c(&self) -> &Matrix {
-        &self.reciprocal_vector_c
-    }
-
-    pub fn reciprocal_length_a(&self) -> &Numeric {
-        &self.reciprocal_length_a
-    }
-
-    pub fn reciprocal_length_b(&self) -> &Numeric {
-        &self.reciprocal_length_b
-    }
-
-    pub fn reciprocal_length_c(&self) -> &Numeric {
-        &self.reciprocal_length_c
-    }
-
-    pub fn reciprocal_angle_alpha(&self) -> &CellAngle {
-        &self.reciprocal_angle_alpha
-    }
-
-    pub fn reciprocal_angle_beta(&self) -> &CellAngle {
-        &self.reciprocal_angle_beta
-    }
-
-    pub fn reciprocal_angle_gamma(&self) -> &CellAngle {
-        &self.reciprocal_angle_gamma
-    }
-
-    pub fn reciprocal_metric_tensor(&self) -> &Matrix {
-        &self.reciprocal_metric_tensor
-    }
-
-    pub fn reciprocal_orthogonal_matrix(&self) -> &Matrix {
-        &self.reciprocal_orthogonal_matrix
-    }
-
-    /// The single-value items of the built cell, in write order.
-    pub fn terms(&self) -> &[CellTerms] {
-        &self.terms
-    }
-
-    /// Materialize the items as `DataItems` through the
-    /// `SingleValueTerm` trait.
-    pub fn to_data_items(&self) -> Vec<DataItems> {
-        self.terms
-            .iter()
-            .map(|term| term.to_single_value_data())
-            .collect()
-    }
-}
 
 #[bon]
 impl Cell {
@@ -601,109 +434,43 @@ fn assemble_cell(inputs: CellInputs, geom: CellGeometry) -> Cell {
         measurement_theta_max,
     } = inputs;
 
-    let angle_terms = [
-        CellTerms::Angle_alpha(CellAngle::new(Float(angles[0]))),
-        CellTerms::Angle_beta(CellAngle::new(Float(angles[1]))),
-        CellTerms::Angle_gamma(CellAngle::new(Float(angles[2]))),
-    ];
-    let mut terms: Vec<CellTerms> = vec![
-        CellTerms::Length_a(Numeric::from(lengths[0])),
-        CellTerms::Length_b(Numeric::from(lengths[1])),
-        CellTerms::Length_c(Numeric::from(lengths[2])),
-        angle_terms[0].clone(),
-        angle_terms[1].clone(),
-        angle_terms[2].clone(),
-        CellTerms::Volume(Numeric::from(geom.volume)),
-        CellTerms::Vector_a(vector_matrix(geom.vectors[0])),
-        CellTerms::Vector_b(vector_matrix(geom.vectors[1])),
-        CellTerms::Vector_c(vector_matrix(geom.vectors[2])),
-        CellTerms::Orthogonal_matrix(matrix3(&geom.orthogonal)),
-        CellTerms::Metric_tensor(matrix3(&geom.metric)),
-        CellTerms::Reciprocal_vector_a(vector_matrix(
-            geom.reciprocal_vectors[0],
-        )),
-        CellTerms::Reciprocal_vector_b(vector_matrix(
-            geom.reciprocal_vectors[1],
-        )),
-        CellTerms::Reciprocal_vector_c(vector_matrix(
-            geom.reciprocal_vectors[2],
-        )),
-        CellTerms::Reciprocal_length_a(Numeric::from(geom.reciprocal_lengths[0])),
-        CellTerms::Reciprocal_length_b(Numeric::from(geom.reciprocal_lengths[1])),
-        CellTerms::Reciprocal_length_c(Numeric::from(geom.reciprocal_lengths[2])),
-        CellTerms::Reciprocal_angle_alpha(CellAngle::new(Float(
-            geom.reciprocal_angles[0],
-        ))),
-        CellTerms::Reciprocal_angle_beta(CellAngle::new(Float(
-            geom.reciprocal_angles[1],
-        ))),
-        CellTerms::Reciprocal_angle_gamma(CellAngle::new(Float(
-            geom.reciprocal_angles[2],
-        ))),
-        CellTerms::Reciprocal_metric_tensor(matrix3(&geom.reciprocal_metric)),
-        CellTerms::Reciprocal_orthogonal_matrix(matrix3(&geom.reciprocal_orthogonal)),
-    ];
-    if let Some(z) = formula_units_Z {
-        terms.push(CellTerms::Formula_units_Z(z));
-    }
-    if let Some(zp) = formula_units_Z_prime {
-        terms.push(CellTerms::Formula_units_z_prime(zp));
-    }
-    if let Some(zd) = &formula_units_Z_details {
-        terms.push(CellTerms::Formula_units_z_details(zd.clone()));
-    }
-    if let Some(zpd) = &formula_units_Z_prime_details {
-        terms.push(CellTerms::Formula_units_z_prime_details(zpd.clone()));
-    }
-    if let Some(sd) = &special_details {
-        terms.push(CellTerms::Special_details(sd.clone()));
-    }
-    if let Some(m) = measurement_reflns_used {
-        terms.push(CellTerms::Measurement_reflns_used(m));
-    }
-    if let Some(t) = measurement_temperature {
-        terms.push(CellTerms::Measurement_temperature(t));
-    }
-    if let Some(w) = measurement_wavelength {
-        terms.push(CellTerms::Measurement_wavelength(w));
-    }
-    if let Some(p) = measurement_pressure {
-        terms.push(CellTerms::Measurement_pressure(p));
-    }
-    if let Some(r) = &measurement_radiation {
-        terms.push(CellTerms::Measurement_radiation(r.clone()));
-    }
-    if let Some(tmin) = measurement_theta_min {
-        terms.push(CellTerms::Measurement_theta_min(tmin));
-    }
-    if let Some(tmax) = measurement_theta_max {
-        terms.push(CellTerms::Measurement_theta_max(tmax));
-    }
     Cell {
-        length_a: Numeric::from(lengths[0]),
-        length_b: Numeric::from(lengths[1]),
-        length_c: Numeric::from(lengths[2]),
-        angle_alpha: CellAngle::new(Float(angles[0])),
-        angle_beta: CellAngle::new(Float(angles[1])),
-        angle_gamma: CellAngle::new(Float(angles[2])),
-        volume: Numeric::from(geom.volume),
-        vector_a: vector_matrix(geom.vectors[0]),
-        vector_b: vector_matrix(geom.vectors[1]),
-        vector_c: vector_matrix(geom.vectors[2]),
-        orthogonal_matrix: matrix3(&geom.orthogonal),
-        metric_tensor: matrix3(&geom.metric),
-        reciprocal_vector_a: vector_matrix(geom.reciprocal_vectors[0]),
-        reciprocal_vector_b: vector_matrix(geom.reciprocal_vectors[1]),
-        reciprocal_vector_c: vector_matrix(geom.reciprocal_vectors[2]),
-        reciprocal_length_a: Numeric::from(geom.reciprocal_lengths[0]),
-        reciprocal_length_b: Numeric::from(geom.reciprocal_lengths[1]),
-        reciprocal_length_c: Numeric::from(geom.reciprocal_lengths[2]),
-        reciprocal_angle_alpha: CellAngle::new(Float(geom.reciprocal_angles[0])),
-        reciprocal_angle_beta: CellAngle::new(Float(geom.reciprocal_angles[1])),
-        reciprocal_angle_gamma: CellAngle::new(Float(geom.reciprocal_angles[2])),
-        reciprocal_metric_tensor: matrix3(&geom.reciprocal_metric),
-        reciprocal_orthogonal_matrix: matrix3(&geom.reciprocal_orthogonal),
-        terms,
+        length_a: Some(Numeric::from(lengths[0])),
+        length_b: Some(Numeric::from(lengths[1])),
+        length_c: Some(Numeric::from(lengths[2])),
+        angle_alpha: Some(CellAngle::new(Float(angles[0]))),
+        angle_beta: Some(CellAngle::new(Float(angles[1]))),
+        angle_gamma: Some(CellAngle::new(Float(angles[2]))),
+        volume: Some(Numeric::from(geom.volume)),
+        vector_a: Some(vector_matrix(geom.vectors[0])),
+        vector_b: Some(vector_matrix(geom.vectors[1])),
+        vector_c: Some(vector_matrix(geom.vectors[2])),
+        orthogonal_matrix: Some(matrix3(&geom.orthogonal)),
+        metric_tensor: Some(matrix3(&geom.metric)),
+        reciprocal_vector_a: Some(vector_matrix(geom.reciprocal_vectors[0])),
+        reciprocal_vector_b: Some(vector_matrix(geom.reciprocal_vectors[1])),
+        reciprocal_vector_c: Some(vector_matrix(geom.reciprocal_vectors[2])),
+        reciprocal_length_a: Some(Numeric::from(geom.reciprocal_lengths[0])),
+        reciprocal_length_b: Some(Numeric::from(geom.reciprocal_lengths[1])),
+        reciprocal_length_c: Some(Numeric::from(geom.reciprocal_lengths[2])),
+        reciprocal_angle_alpha: Some(CellAngle::new(Float(geom.reciprocal_angles[0]))),
+        reciprocal_angle_beta: Some(CellAngle::new(Float(geom.reciprocal_angles[1]))),
+        reciprocal_angle_gamma: Some(CellAngle::new(Float(geom.reciprocal_angles[2]))),
+        reciprocal_metric_tensor: Some(matrix3(&geom.reciprocal_metric)),
+        reciprocal_orthogonal_matrix: Some(matrix3(&geom.reciprocal_orthogonal)),
+        formula_units_z: formula_units_Z,
+        formula_units_z_prime: formula_units_Z_prime,
+        formula_units_z_details: formula_units_Z_details,
+        formula_units_z_prime_details: formula_units_Z_prime_details,
+        special_details,
+        measurement_reflns_used,
+        measurement_temperature,
+        measurement_wavelength,
+        measurement_pressure,
+        measurement_radiation,
+        measurement_theta_min,
+        measurement_theta_max,
+        ..Default::default()
     }
 }
 
@@ -1188,6 +955,7 @@ fn inverse_3x3(m: &[[f64; 3]; 3]) -> Option<[[f64; 3]; 3]> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::data_dict::core_cif::CifCategory;
     use crystal_cif_fmt::grammar::UnquotedString;
 
     fn direct_six() -> (Numeric, Numeric, Numeric, CellAngle, CellAngle, CellAngle) {
@@ -1229,35 +997,35 @@ mod tests {
     fn the_happy_path_builds_the_derived_values() {
         let cell = direct().expect("the orthorhombic cell builds");
         assert_eq!(
-            cell.volume().number().as_float().copied().map(|f| f.0),
+            cell.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
             Some(750.0),
             "the volume is the product of the six"
         );
-        assert_eq!(cell.orthogonal_matrix().shape(), (3, 3));
-        assert_eq!(cell.metric_tensor().shape(), (3, 3));
-        let g = cell.metric_tensor();
+        assert_eq!(cell.orthogonal_matrix.as_ref().expect("om").shape(), (3, 3));
+        assert_eq!(cell.metric_tensor.as_ref().expect("mt").shape(), (3, 3));
+        let g = cell.metric_tensor.as_ref().expect("mt");
         let g11 = g.rows()[0][0].as_float().copied().map(|f| f.0);
         assert_eq!(g11, Some(25.0), "the metric diagonal is the squared length");
-        assert!(cell.terms().iter().any(|t| t.tag().as_ref() == "cell_volume"));
-        assert_eq!(cell.to_data_items().len(), 23);
+        assert!(cell.volume.is_some(), "the derived volume is set");
+        assert_eq!(cell.to_members().len(), 23);
     }
 
     #[test]
     fn the_reciprocal_items_compute_from_the_direct_six() {
         let cell = direct().expect("builds");
         assert_eq!(
-            cell.reciprocal_length_a().number().as_float().copied().map(|f| f.0),
+            cell.reciprocal_length_a.as_ref().expect("reciprocal length").number().as_float().copied().map(|f| f.0),
             Some(1.0 / 5.0),
             "the reciprocal length is the inverse of a right cell"
         );
-        assert!((cell.reciprocal_angle_alpha().angle().0 - 90.0).abs() < 1e-9);
+        assert!((cell.reciprocal_angle_alpha.as_ref().expect("reciprocal angle").angle().0 - 90.0).abs() < 1e-9);
     }
 
     #[test]
     fn a_matching_supplied_volume_passes_the_cross_check() {
         let cell = direct_with_volume(Numeric::from(750.0)).expect("the volume matches");
         assert_eq!(
-            cell.volume().number().as_float().copied().map(|f| f.0),
+            cell.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
             Some(750.0)
         );
     }
@@ -1327,22 +1095,22 @@ mod tests {
     fn the_vectors_builder_computes_the_direct_six() {
         let cell = vectors().expect("the right vectors build");
         assert_eq!(
-            cell.length_a().number().as_float().copied().map(|f| f.0),
+            cell.length_a.as_ref().expect("length_a").number().as_float().copied().map(|f| f.0),
             Some(5.0)
         );
         assert_eq!(
-            cell.length_b().number().as_float().copied().map(|f| f.0),
+            cell.length_b.as_ref().expect("length_b").number().as_float().copied().map(|f| f.0),
             Some(10.0)
         );
         assert_eq!(
-            cell.length_c().number().as_float().copied().map(|f| f.0),
+            cell.length_c.as_ref().expect("length_c").number().as_float().copied().map(|f| f.0),
             Some(15.0)
         );
         assert_eq!(
-            cell.volume().number().as_float().copied().map(|f| f.0),
+            cell.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
             Some(750.0)
         );
-        assert!((cell.angle_alpha().angle().0 - 90.0).abs() < 1e-9);
+        assert!((cell.angle_alpha.as_ref().expect("angle_alpha").angle().0 - 90.0).abs() < 1e-9);
     }
 
     #[test]
@@ -1396,7 +1164,7 @@ mod tests {
             .build()
             .expect("0.2 is the reciprocal length of a = 5");
         assert_eq!(
-            ok.reciprocal_length_a().number().as_float().copied().map(|f| f.0),
+            ok.reciprocal_length_a.as_ref().expect("reciprocal length").number().as_float().copied().map(|f| f.0),
             Some(0.2)
         );
         let err = Cell::builder()
@@ -1440,7 +1208,7 @@ mod tests {
             .build()
             .expect("the relaxed tolerance passes");
         assert_eq!(
-            relaxed.volume().number().as_float().copied().map(|f| f.0),
+            relaxed.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
             Some(750.0),
             "the computed value stays the output"
         );
@@ -1461,15 +1229,9 @@ mod tests {
             .measurement_reflns_used(Numeric::from(5000))
             .build()
             .expect("builds");
-        let recorded: Vec<String> = cell
-            .recorded_items()
-            .iter()
-            .map(|t| t.tag().as_ref().to_string())
-            .collect();
-        assert_eq!(recorded.len(), 3, "{recorded:?}");
-        assert!(recorded.iter().any(|t| t == "cell_formula_units_z"));
-        assert!(recorded.iter().any(|t| t == "cell_special_details"));
-        assert!(recorded.iter().any(|t| t == "cell_measurement_reflns_used"));
-        assert_eq!(cell.to_data_items().len(), 26);
+        assert!(cell.formula_units_z.is_some(), "the recorded Z is set");
+        assert!(cell.special_details.is_some(), "the recorded details are set");
+        assert!(cell.measurement_reflns_used.is_some(), "the recorded count is set");
+        assert_eq!(cell.to_members().len(), 26);
     }
 }

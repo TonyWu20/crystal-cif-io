@@ -11,11 +11,15 @@ pub enum AdpType {
     Bani,
     Biso,
     Bovl,
+    Betaani,
 }
 
 impl Display for AdpType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let content = format!("{:?}", self);
+        let content = match self {
+            Self::Betaani => "betaani".to_string(),
+            other => format!("{other:?}"),
+        };
         write!(f, "{}", content)
     }
 }
@@ -35,5 +39,23 @@ impl From<AdpType> for CharString {
 impl From<AdpType> for Value {
     fn from(value: AdpType) -> Self {
         Value::CharString(CharString::from(value))
+    }
+}
+
+
+impl AdpType {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "Uani" => Some(Self::Uani),
+            "Uiso" => Some(Self::Uiso),
+            "Uovl" => Some(Self::Uovl),
+            "Umpe" => Some(Self::Umpe),
+            "Bani" => Some(Self::Bani),
+            "Biso" => Some(Self::Biso),
+            "Bovl" => Some(Self::Bovl),
+            "betaani" => Some(Self::Betaani),
+            _ => None,
+        }
     }
 }

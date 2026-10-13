@@ -9,10 +9,7 @@
 
 use bon::bon;
 
-use crystal_cif_fmt::DataItems;
-use crate::data_dict::core_cif::cell::CellTerms;
 use crate::data_dict::core_cif::range_check::number_as_f64;
-use crate::data_dict::SingleValueTerm;
 use crystal_cif_fmt::grammar::{Numeric, UnsignedInteger};
 
 use super::chemical_formula::composition;
@@ -70,34 +67,14 @@ impl std::fmt::Display for FormulaUnitsError {
 
 impl std::error::Error for FormulaUnitsError {}
 
-/// The materialized `formula_units` category.
+/// The derived `formula_units` category. The values fill the
+/// `cell` document fields `formula_units_z` and
+/// `formula_units_z_prime`.
 #[derive(Debug, Clone)]
 pub struct FormulaUnits {
-    z: UnsignedInteger,
-    z_prime: Numeric,
-    multiplicity: Numeric,
-    terms: Vec<CellTerms>,
-}
-
-impl FormulaUnits {
-    pub fn z(&self) -> &UnsignedInteger {
-        &self.z
-    }
-
-    pub fn z_prime(&self) -> &Numeric {
-        &self.z_prime
-    }
-
-    pub fn multiplicity(&self) -> &Numeric {
-        &self.multiplicity
-    }
-
-    pub fn to_data_items(&self) -> Vec<DataItems> {
-        self.terms
-            .iter()
-            .map(|term| term.to_single_value_data())
-            .collect()
-    }
+    pub z: UnsignedInteger,
+    pub z_prime: Numeric,
+    pub multiplicity: Numeric,
 }
 
 /// The structure Z from the structure-level quantities. The Z
@@ -156,15 +133,10 @@ pub fn structure_z(
             });
         }
     }
-    let terms = vec![
-        CellTerms::Formula_units_Z(z),
-        CellTerms::Formula_units_z_prime(z_prime),
-    ];
     Ok(FormulaUnits {
         z,
         z_prime,
         multiplicity,
-        terms,
     })
 }
 
@@ -184,15 +156,10 @@ impl FormulaUnits {
         z_prime: Numeric,
         multiplicity: Numeric,
     ) -> Result<FormulaUnits, FormulaUnitsError> {
-        let terms = vec![
-            CellTerms::Formula_units_Z(z),
-            CellTerms::Formula_units_z_prime(z_prime),
-        ];
         Ok(FormulaUnits {
             z,
             z_prime,
             multiplicity,
-            terms,
         })
     }
 }
@@ -212,9 +179,8 @@ mod tests {
             1e-3,
         )
         .expect("the Z computes");
-        assert_eq!(units.z().0, 1);
-        assert_eq!(number_as_f64(&units.z_prime().number()), 1.0);
-        assert_eq!(units.to_data_items().len(), 2);
+        assert_eq!(units.z.0, 1);
+        assert_eq!(number_as_f64(&units.z_prime.number()), 1.0);
     }
 
     #[test]
@@ -273,9 +239,9 @@ mod tests {
     fn the_multiplicity_scales_the_site_count() {
         let units = structure_z(2, "H2O", Numeric::from(6.0), Some(UnsignedInteger(4)), None, 1e-3)
             .expect("the Z computes");
-        assert_eq!(units.z().0, 4);
+        assert_eq!(units.z.0, 4);
         assert!(
-            (number_as_f64(&units.z_prime().number()) - 2.0 / 3.0).abs() < 1e-6,
+            (number_as_f64(&units.z_prime.number()) - 2.0 / 3.0).abs() < 1e-6,
             "the Z-prime is two thirds"
         );
     }

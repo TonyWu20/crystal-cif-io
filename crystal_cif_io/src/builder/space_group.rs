@@ -22,11 +22,7 @@ use crystallographic_group::database::{
 use crystallographic_group::SpaceGroup as Resolved;
 use crystallographic_group::SpaceGroupError as ResolveError;
 
-use crystal_cif_fmt::DataItems;
-use crate::data_dict::core_cif::space_group::{
-    CrystalSystemCif, ITNumber, SpaceGroupItem,
-};
-use crate::data_dict::SingleValueTerm;
+use crate::data_dict::core_cif::space_group::{CrystalSystemCif, ITNumber, SpaceGroup};
 use crate::data_dict::core_cif::range_check::number_as_f64;
 use crystal_cif_fmt::grammar::{CharString, Matrix, Number, Numeric};
 
@@ -95,69 +91,6 @@ impl std::fmt::Display for SpaceGroupError {
 }
 
 impl std::error::Error for SpaceGroupError {}
-
-/// The resolved `space_group` category. The computed items are
-/// outputs. The optional supplied items emit as given.
-#[derive(Debug, Clone)]
-pub struct SpaceGroup {
-    inner: Resolved,
-    it_number: ITNumber,
-    crystal_system: CrystalSystemCif,
-    bravais_type: String,
-    centring_type: String,
-    multiplicity: Numeric,
-    name_hall: String,
-    name_h_m: String,
-    terms: Vec<SpaceGroupItem>,
-}
-
-impl SpaceGroup {
-    /// The resolved group of the `crystallographic-group` crate.
-    pub fn inner(&self) -> &Resolved {
-        &self.inner
-    }
-
-    pub fn it_number(&self) -> ITNumber {
-        self.it_number
-    }
-
-    pub fn crystal_system(&self) -> CrystalSystemCif {
-        self.crystal_system
-    }
-
-    pub fn bravais_type(&self) -> &str {
-        &self.bravais_type
-    }
-
-    pub fn centring_type(&self) -> &str {
-        &self.centring_type
-    }
-
-    pub fn multiplicity(&self) -> Numeric {
-        self.multiplicity
-    }
-
-    pub fn name_hall(&self) -> &str {
-        &self.name_hall
-    }
-
-    pub fn name_h_m(&self) -> &str {
-        &self.name_h_m
-    }
-
-    /// The materialized single-value items, one `DataItems` each.
-    pub fn to_data_items(&self) -> Vec<DataItems> {
-        self.terms
-            .iter()
-            .map(|term| term.to_single_value_data())
-            .collect()
-    }
-
-    /// The materialized single-value terms.
-    pub fn terms(&self) -> &[SpaceGroupItem] {
-        &self.terms
-    }
-}
 
 impl SpaceGroup {
     /// One-step entry by International Tables number.
@@ -400,53 +333,26 @@ impl SpaceGroup {
         let bravais = bravais_code(system, letter)
             .ok_or_else(|| SpaceGroupError::UnresolvedHm(parts.hm.clone()))?;
 
-        let mut terms = vec![
-            SpaceGroupItem::Crystal_system(system_cif(system)),
-            SpaceGroupItem::IT_number(parts.it_number),
-            SpaceGroupItem::Name_Hall(parts.hall.clone()),
-            SpaceGroupItem::Bravais_type(unquoted(bravais)),
-            SpaceGroupItem::Centring_type(unquoted(&letter.to_string())),
-            SpaceGroupItem::Multiplicity(multiplicity_value),
-            SpaceGroupItem::Name_h_m_ref(unquoted(&parts.hall)),
-        ];
-        if let Some(v) = name_h_m_alt {
-            terms.push(SpaceGroupItem::Name_H_M_alt(v.content().to_string()));
-        }
-        if let Some(v) = name_schoenflies {
-            terms.push(SpaceGroupItem::Name_schoenflies(v.clone()));
-        }
-        if let Some(v) = patterson_name_h_m {
-            terms.push(SpaceGroupItem::Patterson_name_h_m(v.clone()));
-        }
-        if let Some(v) = point_group_h_m {
-            terms.push(SpaceGroupItem::Point_group_h_m(v.clone()));
-        }
-        if let Some(v) = laue_class {
-            terms.push(SpaceGroupItem::Laue_class(v.clone()));
-        }
-        if let Some(v) = reference_setting {
-            terms.push(SpaceGroupItem::Reference_setting(v.clone()));
-        }
-        if let Some(v) = it_coordinate_system_code {
-            terms.push(SpaceGroupItem::It_coordinate_system_code(v.clone()));
-        }
-        if let Some(v) = &transform_pp_abc {
-            terms.push(SpaceGroupItem::Transform_pp_abc(unquoted(&v.to_string())));
-        }
-        if let Some(v) = &transform_qq_xyz {
-            terms.push(SpaceGroupItem::Transform_qq_xyz(unquoted(&v.to_string())));
-        }
-
         Ok(SpaceGroup {
-            inner: parts.group,
-            it_number: parts.it_number,
-            crystal_system: system_cif(system),
-            bravais_type: bravais.to_string(),
-            centring_type: letter.to_string(),
-            multiplicity: multiplicity_value,
-            name_hall: parts.hall,
-            name_h_m: parts.hm,
-            terms,
+            bravais_type: Some(unquoted(bravais)),
+            centring_type: Some(unquoted(&letter.to_string())),
+            crystal_system: Some(system_cif(system)),
+            id: None,
+            it_number: Some(parts.it_number),
+            it_coordinate_system_code,
+            laue_class,
+            multiplicity: Some(multiplicity_value),
+            name_h_m_alt,
+            name_hall: Some(unquoted(&parts.hall)),
+            name_h_m_alt_description: None,
+            name_h_m_ref: Some(unquoted(&parts.hall)),
+            name_schoenflies,
+            patterson_name_h_m,
+            point_group_h_m,
+            reference_setting,
+            transform_pp_abc: transform_pp_abc.map(|m| unquoted(&m.to_string())),
+            transform_qq_xyz: transform_qq_xyz.map(|m| unquoted(&m.to_string())),
+            symmetry_name_h_m: None,
         })
     }
 }
@@ -454,7 +360,7 @@ impl SpaceGroup {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::data_dict::CifTerm;
+    use crate::data_dict::core_cif::CifCategory;
     use crystal_cif_fmt::grammar::{Float, UnquotedString};
 
     fn cs(text: &str) -> CharString {
@@ -464,33 +370,37 @@ mod tests {
     #[test]
     fn the_it_number_entry_resolves_the_category() {
         let group = SpaceGroup::by_it_number(ITNumber::from(14i32)).expect("P21/c resolves");
-        assert_eq!(group.it_number(), ITNumber::from(14i32));
-        assert_eq!(group.name_hall(), "-P 2ybc");
-        assert_eq!(group.name_h_m(), "P 1 21");
-        assert_eq!(group.crystal_system(), CrystalSystemCif::Monoclinic);
-        assert_eq!(group.bravais_type(), "mP");
-        assert_eq!(group.centring_type(), "P");
-        assert_eq!(number_as_f64(&group.multiplicity().number()), 4.0);
-        assert_eq!(group.to_data_items().len(), 7);
+        assert_eq!(group.it_number, Some(ITNumber::from(14i32)));
+        assert_eq!(group.name_hall.as_ref().expect("hall").content(), "-P 2ybc");
+        assert_eq!(group.crystal_system, Some(CrystalSystemCif::Monoclinic));
+        assert_eq!(group.bravais_type.as_ref().expect("bravais").content(), "mP");
+        assert_eq!(group.centring_type.as_ref().expect("centring").content(), "P");
+        assert_eq!(
+            number_as_f64(&group.multiplicity.as_ref().expect("multiplicity").number()),
+            4.0
+        );
+        assert_eq!(group.to_members().len(), 7);
     }
 
     #[test]
     fn the_hall_entry_resolves_the_category() {
         let group = SpaceGroup::by_name_hall("P 2 2").expect("P222 resolves");
-        assert_eq!(group.it_number(), ITNumber::from(16i32));
-        assert_eq!(group.name_h_m(), "P 2 2 2");
-        assert_eq!(group.crystal_system(), CrystalSystemCif::Orthorhombic);
-        assert_eq!(group.bravais_type(), "oP");
-        assert_eq!(number_as_f64(&group.multiplicity().number()), 4.0);
+        assert_eq!(group.it_number, Some(ITNumber::from(16i32)));
+        assert_eq!(group.crystal_system, Some(CrystalSystemCif::Orthorhombic));
+        assert_eq!(group.bravais_type.as_ref().expect("bravais").content(), "oP");
+        assert_eq!(
+            number_as_f64(&group.multiplicity.as_ref().expect("multiplicity").number()),
+            4.0
+        );
     }
 
     #[test]
     fn the_h_m_entry_resolves_the_category() {
         let group = SpaceGroup::by_name_h_m("P 4 2 2").expect("P422 resolves");
-        assert_eq!(group.it_number(), ITNumber::from(89i32));
-        assert_eq!(group.name_hall(), "P 4 2");
-        assert_eq!(group.crystal_system(), CrystalSystemCif::Tetragonal);
-        assert_eq!(group.bravais_type(), "tP");
+        assert_eq!(group.it_number, Some(ITNumber::from(89i32)));
+        assert_eq!(group.name_hall.as_ref().expect("hall").content(), "P 4 2");
+        assert_eq!(group.crystal_system, Some(CrystalSystemCif::Tetragonal));
+        assert_eq!(group.bravais_type.as_ref().expect("bravais").content(), "tP");
     }
 
     #[test]
@@ -503,7 +413,7 @@ mod tests {
                     .build()
             })
             .expect("the supplied system matches");
-        assert_eq!(ok.crystal_system(), CrystalSystemCif::Monoclinic);
+        assert_eq!(ok.crystal_system, Some(CrystalSystemCif::Monoclinic));
     }
 
     #[test]
@@ -557,7 +467,8 @@ mod tests {
             .name_h_m_ref(cs("-P 2ybc"))
             .build()
             .expect("the hall symbol is the reference");
-        assert!(ok.terms().iter().any(|t| t.tag().as_ref() == "space_group_name_h_m_ref"));
+        assert!(ok.name_h_m_ref.is_some(), "the reference spelling is set");
+        assert_eq!(ok.to_members().len(), 7);
     }
 
 
@@ -612,10 +523,8 @@ mod tests {
             .name_schoenflies(cs("C2h"))
             .build()
             .expect("builds");
-        let tags: Vec<String> =
-            group.terms().iter().map(|t| t.tag().as_ref().to_string()).collect();
-        assert!(tags.iter().any(|t| t == "space_group_name_H-M_alt"));
-        assert!(tags.iter().any(|t| t == "space_group_name_schoenflies"));
-        assert_eq!(group.to_data_items().len(), 9);
+        assert!(group.name_h_m_alt.is_some(), "the alt spelling is set");
+        assert!(group.name_schoenflies.is_some(), "the Schoenflies spelling is set");
+        assert_eq!(group.to_members().len(), 9);
     }
 }
