@@ -12,4 +12,6 @@ repository = "https://github.com/TonyWu20/crystal-cif-io"
 elements_rs = { version = "0.2.8", default-features = false }
 serde_json = "1"
 chumsky = "0.13"
+bon = "3.10"
+crystallographic-group = "0.4"
 ariadne = { version = "0.6", features = ["auto-color"] }

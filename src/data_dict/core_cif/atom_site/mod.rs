@@ -3,11 +3,11 @@ use std::fmt::Display;
 use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crate::grammar::{CharString, Float, Matrix, Numeric, Tag, Value};
 
-use self::adp_type::AdpType;
-use self::calc_flag::CalcFlag;
-use self::label_symbol::TypeSymbol;
-use self::refine_flags::{AdpRefineFlag, OccupancyRefineFlag, PosnRefineFlag, RefinementFlag};
-use self::symmetry_multiplicity::SymMultiplicity;
+pub use self::adp_type::AdpType;
+pub use self::calc_flag::CalcFlag;
+pub use self::label_symbol::{TypeSymbol, TypeSymbolCode};
+pub use self::refine_flags::{AdpRefineFlag, OccupancyRefineFlag, PosnRefineFlag, RefinementFlag};
+pub use self::symmetry_multiplicity::SymMultiplicity;
 
 mod adp_type;
 mod calc_flag;
