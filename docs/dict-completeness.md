@@ -347,20 +347,38 @@ Reading the spec tables:
 | loop | a separate loop struct (one `Vec` per loop item, equal lengths) |
 | enum | a closed set, typed as an `enum` per decision D4a |
 
+### Builder shape
+
+Equivalent minimum sets own their own builders. The crate adapts
+to different habits. One builder per minimum set. Wave 1 ships
+the `cell` as two builders (the direct six, three vectors). The
+`space_group` builder takes one unique identifier (`IT_number`,
+`name_Hall`, or `name_H-M`) and resolves the rest through the
+`crystallographic-group` crate (0.4). The table lookups by
+number, Hall symbol, or H-M symbol. `general_positions` gives
+the Seitz operation lists. Items the research marked `required`
+that the crate computes become builder outputs. The builder
+cross-checks them when the author supplies a value.
+
+`formula_units_Z` is not manual input. The structure-level
+computation derives it from the `atom_site` loop, the formula,
+and the `space_group` multiplicity.
+
 ### `cell` builder input
 
 | item | role | value |
 |---|---|---|
 | `length_a`, `length_b`, `length_c` | required | `Numeric` |
 | `angle_alpha`, `angle_beta`, `angle_gamma` | required | `CellAngle` (0:180) |
-| `formula_units_Z` | required | `Numeric` (range `0:`) |
+| `formula_units_Z` | optional (cross-check) | `Numeric` (range `0:`). The structure-level computation derives `Z` from the `atom_site` loop, the formula, and the `space_group` multiplicity |
 | `formula_units_Z_prime` | optional | `Numeric` (range `0:`) |
 | `formula_units_Z_details`, `formula_units_Z_prime_details`, `special_details` | optional | `CharString` |
 | `measurement_reflns_used` | optional | `Numeric` (range `3:`) |
 | `measurement_temperature`, `measurement_wavelength`, `measurement_pressure`, `measurement_radiation` | optional (deprecated) | `Numeric` / `CharString` |
 | `measurement_theta_min`, `measurement_theta_max` | optional | `Numeric` (0:90) |
 | `volume` | derived | triple product or closed form |
-| `vector_a/b/c`, `orthogonal_matrix`, `metric_tensor` | optional carriers | 3-row `Matrix` / 3x3 `Matrix` |
+| `vector_a/b/c` | input of the second `cell` builder | 3 x 3-row `Matrix` |
+| `orthogonal_matrix`, `metric_tensor` | derived, cross-check inputs | 3x3 `Matrix` |
 | `reciprocal_length_*`, `reciprocal_angle_*`, `reciprocal_vector_*`, `reciprocal_metric_tensor`, `reciprocal_orthogonal_matrix` | derived | from the mode chosen |
 | `convert_Uiso_to_Uij`, `convert_Uij_to_betaij` | derived | 3x3 `Matrix` |
 | `atomic_mass` | derived | from the `atom_type` loop |
@@ -374,22 +392,22 @@ the same loop.
 
 | item | role | value |
 |---|---|---|
-| `crystal_system` | required | enum (7) |
-| `Bravais_type` | required | enum (14) |
-| `centring_type` | required | enum (9) |
-| `IT_number` | required | `UnsignedInteger` (1:230) |
-| `name_Hall`, `name_H-M_ref`, `name_H-M_alt` | optional | `CharString` |
+| `crystal_system`, `Bravais_type`, `centring_type` | computed | enums, from the resolved group |
+| `IT_number`, `name_Hall`, `name_H-M` | one entry (any one of the three) | `UnsignedInteger` (1:230) / `CharString`. Each resolves uniquely through `crystallographic-group` |
+| `name_H-M_ref`, `name_H-M_alt` | optional | `CharString` |
 | `name_Schoenflies`, `Patterson_name_H_M`, `point_group_H_M`, `Laue_class` | optional | `CharString` / enum |
 | `IT_coordinate_system_code` | optional | enum (37) |
 | `reference_setting`, `transform_Pp_abc`, `transform_Qq_xyz`, `name_H_M_alt_description` | optional | `CharString` / 3x3 `Matrix` |
-| `multiplicity` | derived | symop loop row count |
+| `multiplicity` | computed | the core position set length of `general_positions` |
 | `symmetry.space_group_name_H-M` | optional (legacy) | `CharString`, dotted tag |
 
 ### `space_group_symop` loop input
 
-One loop struct. `operation_xyz` required per row. `id` is the
-row ordinal. `R`, `RT`, `T`, `Seitz_matrix` are derived from the
-Jones matrix of `operation_xyz`.
+One loop struct. `operation_xyz` is required per row. `id` is
+the row ordinal. The Seitz lists come from `general_positions`
+of the resolved group. `R`, `RT`, `T`, and `Seitz_matrix` derive
+from them. The builder cross-checks the row text against the
+Seitz list.
 
 ### `atom_site` loop input
 
@@ -410,7 +428,9 @@ Jones matrix of `operation_xyz`.
 | the `_su` twins | su | `Numeric` / `Matrix [3]` |
 
 The coordinate mode is exclusive: a row carries fractional or
-Cartesian coordinates, not both. The builder enforces this.
+Cartesian coordinates, not both. The builder enforces this. The
+aniso or iso displacement choice is one required enum field. The
+builder rejects a row without a displacement type.
 
 ### `chemical_formula` builder input
 
