@@ -11,11 +11,15 @@ pub enum AdpType {
     Bani,
     Biso,
     Bovl,
+    Betaani,
 }
 
 impl Display for AdpType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let content = format!("{:?}", self);
+        let content = match self {
+            Self::Betaani => "betaani".to_string(),
+            other => format!("{other:?}"),
+        };
         write!(f, "{}", content)
     }
 }
@@ -50,6 +54,7 @@ impl AdpType {
             "Bani" => Some(Self::Bani),
             "Biso" => Some(Self::Biso),
             "Bovl" => Some(Self::Bovl),
+            "betaani" => Some(Self::Betaani),
             _ => None,
         }
     }
