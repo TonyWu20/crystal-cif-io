@@ -23,22 +23,53 @@ Every snippet compiles against the current crate. The types are
 re-exported at the crate root, so the snippets need no module
 paths.
 
-The tour parses this file:
+The tour rides on a real file. The excerpt below is trimmed
+from `tests/real_data/cod/1000000.cif`, COD entry 1000000
+(IUCr Acta C 56, 1073, 2000). The full file is pinned in the
+test corpus. Save the excerpt as `1000000.cif`. The tour reads
+it from disk.
 
 ```cif
-##CIF_1.1
-data_cell
-    _cell_length_a         5.0
-    _cell_volume           123.4
+# This file is available in the Crystallography Open Database (COD),
+data_1000000
 loop_
-    _atom_site_label
-    _atom_site_type_symbol
-    _atom_site_fract_x
-    A1 C 0.1
-    B2 O 0.4
-save_protein
-    _cell_volume           99.0
-save_
+_publ_author_name
+'Phan Thanh, S.'
+'Marrot, J.'
+_publ_section_title
+;
+[H~3~N(CH~2~)~5~NH~3~].AlP~2~O~8~H, a one-dimensional aluminophosphate
+;
+_journal_name_full               'Acta Crystallographica, Section C'
+_chemical_formula_sum            'C5 H17 Al N2 O8 P2'
+_space_group_IT_number           14
+_symmetry_space_group_name_H-M   'P 1 21/n 1'
+_cell_angle_alpha                90.00
+_cell_angle_beta                 95.1470(10)
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   7.8783(2)
+_cell_length_b                   10.46890(10)
+_cell_length_c                   16.0680(4)
+_cell_measurement_reflns_used    5007
+_cell_measurement_temperature    296(2)
+_cell_measurement_theta_max      29.83
+_cell_measurement_theta_min      2.32
+_cell_volume                     1319.90(5)
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_thermal_displace_type
+_atom_site_calc_flag
+_atom_site_refinement_flags
+_atom_site_occupancy
+_atom_site_type_symbol
+P1 .55909(13) .78402(9) .02396(7) .0280(3) Uani d . 1 P
+P2 .09646(13) 1.05563(11) .13485(6) .0290(3) Uani d . 1 P
+Al1 .24723(13) .95928(11) -.02995(7) .0246(4) Uani d . 1 Al
 ```
 
 ### 1. Parsing and dialect
@@ -51,7 +82,7 @@ source text.
 ```rust
 use crystal_cif_io::{parse_cif, rich_error, CifDialect};
 
-let source = std::fs::read_to_string("data.cif").unwrap();
+let source = std::fs::read_to_string("1000000.cif").unwrap();
 
 match CifDialect::detect(&source) {
     CifDialect::Cif1_1 => println!("CIF 1.1 value rules"),
@@ -62,7 +93,7 @@ let doc = match parse_cif(&source) {
     Ok(doc) => doc,
     Err(errors) => {
         for error in &errors {
-            rich_error(error, "data.cif", &source);
+            rich_error(error, "1000000.cif", &source);
         }
         std::process::exit(1);
     }
@@ -71,13 +102,16 @@ let doc = match parse_cif(&source) {
 
 The dialect comes from the file start. The 2.0 magic code is
 `##CIF_2.0` or the escaped `#\#CIF_2.0` spelling. Anything else
-stays 1.1.
+stays 1.1. The excerpt carries no version code. It stays 1.1.
 
 ### 2. Document shape
 
 
 A document holds data blocks. A block holds members. A member is
-either data items or a save frame.
+either data items or a save frame. The excerpt parses to one
+block, `1000000`, with 19 members: keyword items and loops.
+Real 1.1 structures carry few save frames. Section 6 shows
+frames on a real 2.0 container file.
 
 ```rust
 use crystal_cif_io::{DataBlockMember, DataItems};
@@ -112,7 +146,7 @@ tag display adds the underscore.
 use crystal_cif_io::Value;
 
 let block = doc
-    .get_data_block_by_name("cell")
+    .get_data_block_by_name("1000000")
     .expect("the block is present");
 
 let line = block
@@ -120,6 +154,12 @@ let line = block
     .expect("the tag is present");
 
 println!("{} = {}", line.tag(), line.value());
+
+let it = block
+    .find_single_value_by_tag("space_group_IT_number")
+    .expect("the tag is present");
+
+println!("{}", it.value());
 ```
 
 The value is a `Value`. Pick the variant you need:
@@ -152,6 +192,26 @@ and the two triple-quoted 2.0 forms. `content()` returns the text
 between the delimiters for every form. `TextField::raw_string()`
 returns the lines joined with a newline.
 
+The excerpt spans the variants. `_cell_angle_beta` is
+`95.1470(10)`: a numeric with a standard uncertainty.
+`_chemical_formula_sum` is a quoted char string.
+`_publ_section_title` is a text field.
+
+```rust
+let beta = block.find_single_value_by_tag("cell_angle_beta").expect("present");
+let num = beta.value().as_numeric().expect("a numeric value");
+println!("{} esd={:?}", num, num.std_uncertainty());
+
+let formula = block.find_single_value_by_tag("chemical_formula_sum").expect("present");
+println!("{}", formula.value().as_char_string().expect("quoted").content());
+
+let title = block.find_single_value_by_tag("publ_section_title").expect("present");
+println!("{}", title.value().as_text_field().expect("a text field").raw_string());
+```
+
+`std_uncertainty` holds the esd in last-digit units. `95.1470(10)`
+stores `10`. The display keeps the shortest round-trip form.
+
 ### 5. Loops
 
 
@@ -168,7 +228,7 @@ let column = block
 
 println!("{} with {} rows", column.tag(), column.as_ref().len());
 for value in column.values() {
-    println!("{}", value.as_char_string().expect("a quoted label").content());
+    println!("{}", value.as_char_string().expect("a label").content());
 }
 ```
 
@@ -178,7 +238,9 @@ for a borrow and `find_loop_column_mut_by_tag` for a mutation.
 
 Row access across tags: a row `i` is `values[i]` of every
 column. The loop body stores the values row by row. The
-`LoopColumns` finders borrow instead of cloning.
+`LoopColumns` finders borrow instead of cloning. The walk
+counts every loop. Unrelated loops report 0. The excerpt's
+`atom_site` loop carries three rows: `P1`, `P2`, `Al1`.
 
 ```rust
 use crystal_cif_io::DataItems;
@@ -199,32 +261,75 @@ for member in block.members() {
 
 ### 6. Save frames
 
+Real 1.1 structures carry few save frames. The pinned 2.0 test
+file `tests/real_data/cif_api/simple_containers.cif` exercises
+them: three blocks, five frames, one nested frame. Save it as
+`simple_containers.cif`.
+
+```cif
+#\#CIF_2.0
+
+# Tests multiple blocks in the same CIF, save frames in blocks, and data and
+# save frame name scoping.
+
+data_block1
+
+save_s1
+_location 'block1/s1'
+save_
+
+_location 'block1'
+
+save_s2
+_location 'block1/s2'
+save_
+
+data_block2
+
+data_block3
+
+save_s1
+_location 'block3/s1'
+save_
+
+_location 'block3'
+
+save_s3
+save_
+```
 
 A save frame wraps items under a code. `heading()` returns the
-code, without the `save_` prefix. `data_items()` returns the
-items directly inside the frame. `frames()` returns nested
-frames, which parse only in the 2.0 dialect.
+frame code. Its display carries the `save_` prefix.
+`data_items()` returns the items directly inside the frame.
+`frames()` returns nested frames, which parse only in the 2.0
+dialect. Frame names scope per block: `block1` and `block3` each
+carry a `save_s1`.
 
 ```rust
-use crystal_cif_io::{DataBlockMember, SaveFrame};
+use crystal_cif_io::{parse_cif, DataBlockMember, SaveFrame};
+
+let cs = std::fs::read_to_string("simple_containers.cif").unwrap();
+let cdoc = parse_cif(&cs).expect("the container file parses");
 
 fn walk(frame: &SaveFrame, depth: usize) {
     let indent = "  ".repeat(depth);
     println!("{indent}frame {}", frame.heading());
-    for item in frame.data_items() {
-        // The same DataItems API as block-level members.
-    }
     for child in frame.frames() {
         walk(child, depth + 1);
     }
 }
 
-for member in block.members() {
-    if let DataBlockMember::SaveFrame(frame) = member {
-        walk(frame, 0);
+for block in cdoc.data_blocks().unwrap() {
+    for member in block.members() {
+        if let DataBlockMember::SaveFrame(frame) = member {
+            walk(frame, 0);
+        }
     }
 }
 ```
+
+The walk prints `save_s1` and `save_s2` under `block1`. It
+prints `save_s1` and `save_s3` under `block3`.
 
 ### 7. Building and writing
 
@@ -242,13 +347,13 @@ use crystal_cif_io::{
     CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopColumns,
 };
 
-let line = CellTerms::Length_a(5.0.into()).to_single_value_data();
+let line = CellTerms::Length_a(7.8783.into()).to_single_value_data();
 
 let h = MeasurementReflnLoopItem::Measurement_refln_index_h(vec![1.into(), 2.into()]);
 let loop_items = DataItems::MultiValues(LoopColumns::new(vec![h.to_loop_column()]));
 
 let block = DataBlock::from_heading_members((
-    DataBlockHeading::new("cell".into()),
+    DataBlockHeading::new("1000000".into()),
     vec![
         DataBlockMember::DataItems(line),
         DataBlockMember::DataItems(loop_items),
@@ -259,10 +364,12 @@ let doc = CifDocument::new(None, Some(vec![block]));
 println!("{doc}");
 ```
 
-The writer renders the 1.1 lexical form. The header is the
-escaped version-code spelling `#\#CIF_1.1`. Closed code sets and
-range checks live in the dictionary types. For example,
-`CellAngle` clamps to 0..180 on construction.
+The loop column stands in for the excerpt's 5007-row
+measurement loop. Two rows keep the example short. The writer
+renders the 1.1 lexical form. The header is the escaped
+version-code spelling `#\#CIF_1.1`. Closed code sets and range
+checks live in the dictionary types. For example, `CellAngle`
+clamps to 0..180 on construction.
 
 ### 8. Builders (compile-time completeness)
 
@@ -278,18 +385,23 @@ value within the relative tolerance. A mismatch rejects with a
 use crystal_cif_io::builder::cell::Cell;
 use crystal_cif_io::builder::space_group::SpaceGroup;
 use crystal_cif_io::data_dict::core_cif::space_group::ITNumber;
-use crystal_cif_io::{Matrix, Number};
+use crystal_cif_io::{Matrix, Number, UnsignedInteger};
 
+The direct-six example builds the excerpt's cell. Its
+supplied volume cross-checks against the computed value.
+
+```rust
 let cell = Cell::builder()
-    .length_a(10.2.into())
-    .length_b(8.6.into())
-    .length_c(7.4.into())
+    .length_a(7.8783.into())
+    .length_b(10.4689.into())
+    .length_c(16.0680.into())
     .angle_alpha(90.0.into())
-    .angle_beta(104.5.into())
+    .angle_beta(95.1470.into())
     .angle_gamma(90.0.into())
-    .volume(628.5.into())
+    .formula_units_Z(UnsignedInteger(4))
+    .volume(1319.90.into())
     .build()
-    .expect("a valid cell");
+    .expect("the COD cell is consistent");
 
 println!("volume {}", cell.volume());
 println!("{} items", cell.to_data_items().len());
@@ -322,9 +434,18 @@ let cell = Cell::vectors()
 
 println!("volume {}", cell.volume());
 
-let group = SpaceGroup::by_it_number(ITNumber::new(62))
+The group builder resolves the excerpt's space group. Group 14
+prints the H-M symbol `P 1 21` and the `P` centring type. The
+file's full symbol `P 1 21/n 1` adds the `n` glide.
+
+```rust
+let group = SpaceGroup::by_it_number(ITNumber::new(14))
     .expect("a valid group");
-println!("{} has {} symmetry operations", group.name_h_m(), group.multiplicity());
+println!(
+    "{} ({} centring) has {} operations",
+    group.name_h_m(),
+    group.centring_type()
+);
 ```
 
 The `cell` category ships two builders over the two minimum
@@ -381,7 +502,7 @@ violations.
 ```rust
 use crystal_cif_io::canonical;
 
-let json = canonical::document_json(&doc, "data.cif", 2);
+let json = canonical::document_json(&doc, "1000000.cif", 2);
 println!("{}", serde_json::to_string(&json).unwrap());
 
 for violation in canonical::validate(&doc) {
@@ -401,22 +522,54 @@ Lists, tables, triple-quoted strings, nested save frames, and
 non-ASCII text parse only in the 2.0 dialect. The 1.1 dialect
 keeps the ASCII character set.
 
-```rust
-let src = r#"#\#CIF_2.0
-data_t
-    _map { 'a':1 'b':2 }
-"#;
-let doc = parse_cif(src).expect("the 2.0 file parses");
-let block = doc.get_data_block_by_name("t").expect("the block is present");
-let line = block.find_single_value_by_tag("map").expect("the tag is present");
+The pinned 2.0 test file
+`tests/real_data/cif_api/complex_data.cif` mixes all three value
+containers. Save it as `complex_data.cif`.
 
-for (key, value) in line.value().as_table().expect("a table") {
-    println!("pair: {} = {}", key, value);
+```cif
+#\#CIF_2.0
+
+data_complex_data
+
+_list_of_lists [
+  []
+  [foo bar ]
+  [ x y z ]
+]
+
+_table_of_tables {
+  'English':{
+    'one':one
+    'two':two
+  }
+
+  'French':{
+    'one':'un'
+    'two':"deux"
+  }
+}
+
+_hodge_podge [
+  ?
+  { 'a':10 'b':11 'c':[? 12] }
+  [. . {} {'alice':Cambridge 'bob':Harvard 'charles':.}]
+]
+```
+
+```rust
+let cs = std::fs::read_to_string("complex_data.cif").unwrap();
+let xdoc = parse_cif(&cs).expect("the 2.0 file parses");
+let xblock = xdoc.get_data_block_by_name("complex_data").expect("present");
+let hodge = xblock.find_single_value_by_tag("hodge_podge").expect("present");
+
+for value in hodge.value().as_list().expect("a list") {
+    println!("{value}");
 }
 ```
 
-Table pairs keep their order. The key is a value, usually a
-char string.
+The mixed list prints `?`, a nested table, and a list of
+values. Table pairs keep their order. The key is a value,
+usually a char string.
 ## Features
 
 - CIF 1.1 file syntax (IUCr 2014 specification).
