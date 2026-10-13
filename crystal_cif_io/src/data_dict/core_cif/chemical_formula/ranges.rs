@@ -19,6 +19,12 @@ impl FormulaWeight {
     pub fn value(&self) -> Numeric {
         self.0
     }
+
+    /// Build without the range guard. The read path stores the
+    /// recorded value as written; the guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
+    }
 }
 
 impl From<FormulaWeight> for Value {

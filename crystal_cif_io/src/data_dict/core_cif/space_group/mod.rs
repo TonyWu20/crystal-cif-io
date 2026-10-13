@@ -3,9 +3,11 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, UnquotedString, Unsigne
 
 mod crystal_system;
 mod it_number;
+mod space_group;
 
 pub use crystal_system::CrystalSystemCif;
 pub use it_number::ITNumber;
+pub use space_group::SpaceGroup;
 
 #[allow(clippy::upper_case_acronyms, non_camel_case_types)]
 #[derive(Debug, Clone)]

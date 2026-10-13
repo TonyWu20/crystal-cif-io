@@ -14,5 +14,9 @@
 //!
 //! See `docs/typed-structs.md` (D13) for the split.
 
+pub mod core_cif;
 pub mod builder;
 pub mod data_dict;
+
+/// The typed document layer (roadmap D12). The block view and its error.
+pub use core_cif::{CifError, CoreCif};

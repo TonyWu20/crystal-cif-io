@@ -83,3 +83,40 @@ pub mod symmetry;
 pub mod symmetry_equiv;
 pub mod valence_param;
 pub mod valence_ref;
+
+// ---------------------------------------------------------------------------
+// The typed document layer (roadmap D12).
+//
+// The `CifCategory` trait is the read/write contract of one dictionary
+// category. A category struct fills its `Option` fields from a slice of
+// block members and emits the set members back. `from_members` consumes
+// only the tags of its own category and returns the unconsumed residue
+// (foreign tags, save frames) together with every value-class or shape
+// mismatch it finds. It never stops at the first mismatch.
+// ---------------------------------------------------------------------------
+
+pub mod convert;
+
+use crystal_cif_fmt::DataBlockMember;
+use crate::core_cif::CifError;
+
+/// One dictionary category of the typed document layer.
+///
+/// Implemented on the single-value category structs (`Cell`,
+/// `SpaceGroup`, `ChemicalFormula`) and on the loop-row groups
+/// (`Vec<Symop>`, `Vec<AtomSite>`). A category fills its fields from
+/// the members it owns and emits the set members.
+pub trait CifCategory: Default + Sized {
+    /// Emit the set members. A `None` field emits nothing.
+    fn to_members(&self) -> Vec<DataBlockMember>;
+
+    /// Fill the fields from the members of this category.
+    ///
+    /// Consumes only the category's own tags. Returns the unconsumed
+    /// residue (foreign tags, save frames) and every value-class or
+    /// shape mismatch found. The residue keeps the input order.
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>);
+}

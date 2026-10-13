@@ -1,7 +1,11 @@
 use std::fmt::Display;
 
 use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
+mod space_group_symop;
+
 use crystal_cif_fmt::grammar::{CharString, Matrix, Tag, Value};
+
+pub use space_group_symop::Symop;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

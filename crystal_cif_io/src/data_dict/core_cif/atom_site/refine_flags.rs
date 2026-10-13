@@ -219,3 +219,70 @@ impl From<PosnRefineFlag> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+
+impl RefinementFlag {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "." => Some(Self::NoConstraint),
+            "S" => Some(Self::S),
+            "G" => Some(Self::G),
+            "R" => Some(Self::R),
+            "D" => Some(Self::D),
+            "T" => Some(Self::T),
+            "U" => Some(Self::U),
+            "P" => Some(Self::P),
+            _ => None,
+        }
+    }
+}
+
+impl AdpRefineFlag {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "." => Some(Self::NoConstraint),
+            "T" => Some(Self::T),
+            "U" => Some(Self::U),
+            "TU" => Some(Self::TU),
+            _ => None,
+        }
+    }
+}
+
+impl OccupancyRefineFlag {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "." => Some(Self::NoConstraint),
+            "P" => Some(Self::P),
+            _ => None,
+        }
+    }
+}
+
+impl PosnRefineFlag {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "." => Some(Self::NoConstraint),
+            "D" => Some(Self::D),
+            "G" => Some(Self::G),
+            "R" => Some(Self::R),
+            "S" => Some(Self::S),
+            "DG" => Some(Self::DG),
+            "DR" => Some(Self::DR),
+            "DS" => Some(Self::DS),
+            "GR" => Some(Self::GR),
+            "GS" => Some(Self::GS),
+            "RS" => Some(Self::RS),
+            "DGR" => Some(Self::DGR),
+            "DGS" => Some(Self::DGS),
+            "DRS" => Some(Self::DRS),
+            "GRS" => Some(Self::GRS),
+            "DGRS" => Some(Self::DGRS),
+            _ => None,
+        }
+    }
+}
