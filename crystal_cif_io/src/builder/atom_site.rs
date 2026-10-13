@@ -18,13 +18,11 @@ use std::str::FromStr;
 use bon::bon;
 use elements_rs::Element;
 
-use crystal_cif_fmt::DataItems;
 use crate::data_dict::core_cif::atom_site::{
-    AdpType, AtomSiteLoopItem, CalcFlag, OccupancyRefineFlag, PosnRefineFlag, AdpRefineFlag,
+    AdpType, AtomSite, CalcFlag, OccupancyRefineFlag, PosnRefineFlag, AdpRefineFlag,
     TypeSymbol, TypeSymbolCode,
 };
-use crate::data_dict::LoopValueTerm;
-use crystal_cif_fmt::grammar::{CharString, Float, LoopColumns, Numeric};
+use crystal_cif_fmt::grammar::{CharString, Float, Numeric};
 
 /// The exclusive coordinate mode of one `atom_site` row. A row
 /// carries fractional or Cartesian coordinates, not both.
@@ -111,189 +109,25 @@ impl std::fmt::Display for RowError {
 
 impl std::error::Error for RowError {}
 
-/// One materialized `atom_site` loop row.
-#[derive(Debug, Clone)]
-pub struct AtomSiteRow {
-    type_symbol: TypeSymbol,
-    coordinates: Coordinates,
-    adp_type: AdpType,
-    displacement: Displacement,
-    label: Option<CharString>,
-    label_components: Vec<Option<CharString>>,
-    occupancy: Float,
-    aniso_label: Option<CharString>,
-    aniso_ratio: Option<Numeric>,
-    aniso_type_symbol: Option<TypeSymbol>,
-    calc_flag: Option<CalcFlag>,
-    refinement_flags_posn: Option<PosnRefineFlag>,
-    refinement_flags_adp: Option<AdpRefineFlag>,
-    refinement_flags_occupancy: Option<OccupancyRefineFlag>,
-    description: Option<CharString>,
-    constraints: Option<CharString>,
-    restraints: Option<CharString>,
-    disorder_group: Option<CharString>,
-    disorder_assembly: Option<CharString>,
-    attached_hydrogens: Option<Numeric>,
-    wyckoff_symbol: Option<CharString>,
-}
-
-impl AtomSiteRow {
-    pub fn type_symbol(&self) -> &TypeSymbol {
-        &self.type_symbol
-    }
-
-    pub fn coordinates(&self) -> &Coordinates {
-        &self.coordinates
-    }
-
-    pub fn adp_type(&self) -> AdpType {
-        self.adp_type
-    }
-
-    pub fn displacement(&self) -> &Displacement {
-        &self.displacement
-    }
-
-    /// The `occupancy` value. The row records `1.0` when the
-    /// author supplied none.
-    pub fn occupancy(&self) -> Float {
-        self.occupancy
-    }
-
-    /// The row materialized as one `MultiValues` item per loop
-    /// item the row carries, one column value each.
-    pub fn to_data_items(&self) -> Vec<DataItems> {
-        let mut columns: Vec<AtomSiteLoopItem> = Vec::new();
-        if let Some(label) = &self.label {
-            columns.push(AtomSiteLoopItem::Label(vec![label.clone()]));
-        }
-        for (index, component) in self.label_components.iter().enumerate() {
-            if let Some(component) = component {
-                let item = match index {
-                    0 => AtomSiteLoopItem::Label_component_0(vec![component.clone()]),
-                    1 => AtomSiteLoopItem::Label_component_1(vec![component.clone()]),
-                    2 => AtomSiteLoopItem::Label_component_2(vec![component.clone()]),
-                    3 => AtomSiteLoopItem::Label_component_3(vec![component.clone()]),
-                    4 => AtomSiteLoopItem::Label_component_4(vec![component.clone()]),
-                    5 => AtomSiteLoopItem::Label_component_5(vec![component.clone()]),
-                    6 => AtomSiteLoopItem::Label_component_6(vec![component.clone()]),
-                    _ => unreachable!("the label components stop at 6"),
-                };
-                columns.push(item);
-            }
-        }
-        columns.push(AtomSiteLoopItem::Type_symbol(vec![
-            self.type_symbol.clone(),
-        ]));
-        match &self.coordinates {
-            Coordinates::Fract { x, y, z } => {
-                columns.push(AtomSiteLoopItem::Fract_x(vec![*x]));
-                columns.push(AtomSiteLoopItem::Fract_y(vec![*y]));
-                columns.push(AtomSiteLoopItem::Fract_z(vec![*z]));
-            }
-            Coordinates::Cartn { x, y, z } => {
-                columns.push(AtomSiteLoopItem::Cartn_x(vec![*x]));
-                columns.push(AtomSiteLoopItem::Cartn_y(vec![*y]));
-                columns.push(AtomSiteLoopItem::Cartn_z(vec![*z]));
-            }
-        }
-        columns.push(AtomSiteLoopItem::Adp_type(vec![self.adp_type]));
-        match &self.displacement {
-            Displacement::Uani {
-                u_11,
-                u_12,
-                u_13,
-                u_22,
-                u_23,
-                u_33,
-            } => {
-                columns.push(AtomSiteLoopItem::Aniso_U_11(vec![*u_11]));
-                columns.push(AtomSiteLoopItem::Aniso_U_12(vec![*u_12]));
-                columns.push(AtomSiteLoopItem::Aniso_U_13(vec![*u_13]));
-                columns.push(AtomSiteLoopItem::Aniso_U_22(vec![*u_22]));
-                columns.push(AtomSiteLoopItem::Aniso_U_23(vec![*u_23]));
-                columns.push(AtomSiteLoopItem::Aniso_U_33(vec![*u_33]));
-            }
-            Displacement::Bani {
-                b_11,
-                b_12,
-                b_13,
-                b_22,
-                b_23,
-                b_33,
-            } => {
-                columns.push(AtomSiteLoopItem::Aniso_B_11(vec![*b_11]));
-                columns.push(AtomSiteLoopItem::Aniso_B_12(vec![*b_12]));
-                columns.push(AtomSiteLoopItem::Aniso_B_13(vec![*b_13]));
-                columns.push(AtomSiteLoopItem::Aniso_B_22(vec![*b_22]));
-                columns.push(AtomSiteLoopItem::Aniso_B_23(vec![*b_23]));
-                columns.push(AtomSiteLoopItem::Aniso_B_33(vec![*b_33]));
-            }
-            Displacement::Uiso { u_iso } => {
-                columns.push(AtomSiteLoopItem::U_iso_or_equiv(vec![*u_iso]));
-            }
-            Displacement::Biso { b_iso } => {
-                columns.push(AtomSiteLoopItem::B_iso_or_equiv(vec![*b_iso]));
-            }
-        }
-        columns.push(AtomSiteLoopItem::Occupancy(vec![self.occupancy]));
-        if let Some(v) = &self.aniso_label {
-            columns.push(AtomSiteLoopItem::Aniso_label(vec![v.clone()]));
-        }
-        if let Some(v) = &self.aniso_ratio {
-            columns.push(AtomSiteLoopItem::Aniso_ratio(vec![*v]));
-        }
-        if let Some(v) = &self.aniso_type_symbol {
-            columns.push(AtomSiteLoopItem::Aniso_type_symbol(vec![v.clone()]));
-        }
-        if let Some(v) = self.calc_flag {
-            columns.push(AtomSiteLoopItem::Calc_flag(vec![v]));
-        }
-        if let Some(v) = self.refinement_flags_posn {
-            columns.push(AtomSiteLoopItem::Refinement_flags_posn(vec![v]));
-        }
-        if let Some(v) = self.refinement_flags_adp {
-            columns.push(AtomSiteLoopItem::Refinement_flags_adp(vec![v]));
-        }
-        if let Some(v) = self.refinement_flags_occupancy {
-            columns.push(AtomSiteLoopItem::Refinement_flags_occupancy(vec![v]));
-        }
-        if let Some(v) = &self.description {
-            columns.push(AtomSiteLoopItem::Description(vec![v.clone()]));
-        }
-        if let Some(v) = &self.constraints {
-            columns.push(AtomSiteLoopItem::Constraints(vec![v.clone()]));
-        }
-        if let Some(v) = &self.restraints {
-            columns.push(AtomSiteLoopItem::Restraints(vec![v.clone()]));
-        }
-        if let Some(v) = &self.disorder_group {
-            columns.push(AtomSiteLoopItem::Disorder_group(vec![v.clone()]));
-        }
-        if let Some(v) = &self.disorder_assembly {
-            columns.push(AtomSiteLoopItem::Disorder_assembly(vec![v.clone()]));
-        }
-        if let Some(v) = &self.attached_hydrogens {
-            columns.push(AtomSiteLoopItem::Attached_hydrogens(vec![*v]));
-        }
-        if let Some(v) = &self.wyckoff_symbol {
-            columns.push(AtomSiteLoopItem::Wyckoff_symbol(vec![v.clone()]));
-        }
-        columns
-            .into_iter()
-            .map(|item| DataItems::MultiValues(LoopColumns::new(vec![item.to_loop_column()])))
-            .collect()
+fn displacement_name(displacement: &Displacement) -> &'static str {
+    match displacement {
+        Displacement::Uani { .. } => "Uani",
+        Displacement::Bani { .. } => "Bani",
+        Displacement::Uiso { .. } => "Uiso",
+        Displacement::Biso { .. } => "Biso",
     }
 }
 
-#[cfg(test)]
-fn unquoted(text: &str) -> CharString {
-    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(text.to_string()))
+fn displacement_pairs(adp_type: AdpType, displacement: &Displacement) -> bool {
+    match (adp_type, displacement) {
+        (AdpType::Uiso, Displacement::Uiso { .. }) => true,
+        (AdpType::Biso, Displacement::Biso { .. }) => true,
+        (AdpType::Uani | AdpType::Uovl | AdpType::Umpe, Displacement::Uani { .. }) => true,
+        (AdpType::Bani | AdpType::Bovl, Displacement::Bani { .. }) => true,
+        _ => false,
+    }
 }
 
-/// Parse a `type_symbol` text into the `TypeSymbol` value. The
-/// element code is the leading symbol; the optional charge is the
-/// trailing sign and digit, e.g. `Fe2+` and `Cl-`.
 pub fn type_symbol_from_str(text: &str) -> Result<TypeSymbol, RowError> {
     let charge: Vec<char> = text.chars().filter(|c| c.is_ascii_digit() || matches!(c, '+' | '-')).collect();
     let code: String = text.chars().filter(|c| c.is_ascii_alphabetic()).collect();
@@ -315,25 +149,6 @@ pub fn type_symbol_from_str(text: &str) -> Result<TypeSymbol, RowError> {
     ))
 }
 
-fn displacement_name(displacement: &Displacement) -> &'static str {
-    match displacement {
-        Displacement::Uani { .. } => "Uani",
-        Displacement::Bani { .. } => "Bani",
-        Displacement::Uiso { .. } => "Uiso",
-        Displacement::Biso { .. } => "Biso",
-    }
-}
-
-fn displacement_pairs(adp_type: AdpType, displacement: &Displacement) -> bool {
-    match (adp_type, displacement) {
-        (AdpType::Uiso, Displacement::Uiso { .. }) => true,
-        (AdpType::Biso, Displacement::Biso { .. }) => true,
-        (AdpType::Uani | AdpType::Uovl | AdpType::Umpe, Displacement::Uani { .. }) => true,
-        (AdpType::Bani | AdpType::Bovl, Displacement::Bani { .. }) => true,
-        _ => false,
-    }
-}
-
 fn non_negative(name: &'static str, value: &Numeric) -> Result<(), RowError> {
     let f = crate::data_dict::core_cif::range_check::number_as_f64(&value.number());
     if f < 0.0 {
@@ -343,13 +158,13 @@ fn non_negative(name: &'static str, value: &Numeric) -> Result<(), RowError> {
 }
 
 #[bon]
-impl AtomSiteRow {
+impl AtomSite {
     /// The `type_symbol`, the coordinate mode, the `adp_type`, and
     /// the displacement are needed at the `build()` call. The
     /// coordinate mode is exclusive by type. The displacement type
     /// cross-checks against the `adp_type`. The `occupancy`
     /// records `1.0` when absent.
-    #[builder(start_fn = builder, builder_type = AtomSiteRowBuilder, finish_fn = build)]
+    #[builder(start_fn = builder, builder_type = AtomSiteBuilder, finish_fn = build)]
     pub fn build_row(
         type_symbol: TypeSymbol,
         coordinates: Coordinates,
@@ -378,17 +193,20 @@ impl AtomSiteRow {
         disorder_assembly: Option<CharString>,
         attached_hydrogens: Option<Numeric>,
         wyckoff_symbol: Option<CharString>,
-    ) -> Result<AtomSiteRow, RowError> {
-        let label_components = vec![
-            label_component_0,
-            label_component_1,
-            label_component_2,
-            label_component_3,
-            label_component_4,
-            label_component_5,
-            label_component_6,
-        ];
-        if label.is_none() && label_components.iter().all(Option::is_none) {
+    ) -> Result<AtomSite, RowError> {
+        let no_label = label.is_none()
+            && [
+                &label_component_0,
+                &label_component_1,
+                &label_component_2,
+                &label_component_3,
+                &label_component_4,
+                &label_component_5,
+                &label_component_6,
+            ]
+            .iter()
+            .all(|c| c.is_none());
+        if no_label {
             return Err(RowError::NoLabel);
         }
         if !displacement_pairs(adp_type, &displacement) {
@@ -445,17 +263,54 @@ impl AtomSiteRow {
             }
         }
 
-        Ok(AtomSiteRow {
-            type_symbol,
-            coordinates,
-            adp_type,
-            displacement,
+        let (fract_x, fract_y, fract_z, cartn_x, cartn_y, cartn_z) = match &coordinates {
+            Coordinates::Fract { x, y, z } => (Some(*x), Some(*y), Some(*z), None, None, None),
+            Coordinates::Cartn { x, y, z } => (None, None, None, Some(*x), Some(*y), Some(*z)),
+        };
+        let (
+            aniso_u_11, aniso_u_12, aniso_u_13, aniso_u_22, aniso_u_23, aniso_u_33,
+            aniso_b_11, aniso_b_12, aniso_b_13, aniso_b_22, aniso_b_23, aniso_b_33,
+            u_iso_or_equiv, b_iso_or_equiv,
+        ) = match &displacement {
+            Displacement::Uani {
+                u_11, u_12, u_13, u_22, u_23, u_33,
+            } => (
+                Some(*u_11), Some(*u_12), Some(*u_13), Some(*u_22), Some(*u_23), Some(*u_33),
+                None, None, None, None, None, None, None, None,
+            ),
+            Displacement::Bani {
+                b_11, b_12, b_13, b_22, b_23, b_33,
+            } => (
+                None, None, None, None, None, None,
+                Some(*b_11), Some(*b_12), Some(*b_13), Some(*b_22), Some(*b_23), Some(*b_33),
+                None, None,
+            ),
+            Displacement::Uiso { u_iso } => (
+                None, None, None, None, None, None,
+                None, None, None, None, None, None,
+                Some(Numeric::from(u_iso.0)), None,
+            ),
+            Displacement::Biso { b_iso } => (
+                None, None, None, None, None, None,
+                None, None, None, None, None, None,
+                None, Some(*b_iso),
+            ),
+        };
+
+        Ok(AtomSite {
+            type_symbol: Some(CharString::from(type_symbol)),
+            fract_x, fract_y, fract_z, cartn_x, cartn_y, cartn_z,
+            adp_type: Some(adp_type),
+            aniso_u_11, aniso_u_12, aniso_u_13, aniso_u_22, aniso_u_23, aniso_u_33,
+            aniso_b_11, aniso_b_12, aniso_b_13, aniso_b_22, aniso_b_23, aniso_b_33,
+            u_iso_or_equiv, b_iso_or_equiv,
             label,
-            label_components,
-            occupancy,
+            label_component_0, label_component_1, label_component_2, label_component_3,
+            label_component_4, label_component_5, label_component_6,
+            occupancy: Some(Numeric::from(occupancy.0)),
             aniso_label,
             aniso_ratio,
-            aniso_type_symbol,
+            aniso_type_symbol: aniso_type_symbol.map(CharString::from),
             calc_flag,
             refinement_flags_posn,
             refinement_flags_adp,
@@ -467,20 +322,28 @@ impl AtomSiteRow {
             disorder_assembly,
             attached_hydrogens,
             wyckoff_symbol,
+            ..Default::default()
         })
     }
 }
 
 #[cfg(test)]
+fn unquoted(text: &str) -> CharString {
+    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(text.to_string()))
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
+    use crate::data_dict::core_cif::CifCategory;
+    use crate::data_dict::core_cif::range_check::number_as_f64;
 
     fn symbol(text: &str) -> TypeSymbol {
         type_symbol_from_str(text).expect("the symbol parses")
     }
 
-    fn uiso_row() -> Result<AtomSiteRow, RowError> {
-        AtomSiteRow::builder()
+    fn uiso_row() -> Result<AtomSite, RowError> {
+        AtomSite::builder()
             .type_symbol(symbol("Ba"))
             .coordinates(Coordinates::Fract {
                 x: Numeric::from(0.0),
@@ -494,31 +357,25 @@ mod tests {
     }
 
     #[test]
-    fn the_uiso_row_materializes_the_columns() {
+    fn the_uiso_row_carries_the_document_fields() {
         let row = uiso_row().expect("the row builds");
-        let items = row.to_data_items();
-        let tags: Vec<String> = items
-            .iter()
-            .map(|item| {
-                item.as_multi_values()
-                    .expect("a loop item")
-                    .columns()[0]
-                    .tag()
-                    .as_ref()
-                    .to_string()
-            })
-            .collect();
-        assert!(tags.iter().any(|t| t == "atom_site_label"));
-        assert!(tags.iter().any(|t| t == "atom_site_fract_x"));
-        assert!(tags.iter().any(|t| t == "atom_site_adp_type"));
-        assert!(tags.iter().any(|t| t == "atom_site_u_iso_or_equiv"));
-        assert!(tags.iter().any(|t| t == "atom_site_occupancy"));
-        assert_eq!(row.occupancy().0, 1.0);
+        assert!(row.label.is_some(), "the label is set");
+        assert!(row.fract_x.is_some(), "the fractional x is set");
+        assert!(row.adp_type.is_some(), "the adp_type is set");
+        assert!(row.u_iso_or_equiv.is_some(), "the iso displacement is set");
+        assert!(row.occupancy.is_some(), "the occupancy is set");
+        assert_eq!(
+            number_as_f64(&row.occupancy.as_ref().expect("occupancy").number()),
+            1.0,
+            "the default occupancy is 1.0"
+        );
+        let members = vec![row].to_members();
+        assert_eq!(members.len(), 1, "one row is one loop member");
     }
 
     #[test]
     fn a_missing_label_rejects() {
-        let err = AtomSiteRow::builder()
+        let err = AtomSite::builder()
             .type_symbol(symbol("Ba"))
             .coordinates(Coordinates::Fract {
                 x: Numeric::from(0.0),
@@ -534,7 +391,7 @@ mod tests {
 
     #[test]
     fn a_mismatching_displacement_type_rejects() {
-        let err = AtomSiteRow::builder()
+        let err = AtomSite::builder()
             .type_symbol(symbol("Ba"))
             .coordinates(Coordinates::Fract {
                 x: Numeric::from(0.0),
@@ -564,7 +421,7 @@ mod tests {
 
     #[test]
     fn an_out_of_range_occupancy_rejects() {
-        let err = AtomSiteRow::builder()
+        let err = AtomSite::builder()
             .type_symbol(symbol("Ba"))
             .coordinates(Coordinates::Fract {
                 x: Numeric::from(0.0),
@@ -582,7 +439,7 @@ mod tests {
 
     #[test]
     fn a_negative_displacement_value_rejects() {
-        let err = AtomSiteRow::builder()
+        let err = AtomSite::builder()
             .type_symbol(symbol("Ba"))
             .coordinates(Coordinates::Fract {
                 x: Numeric::from(0.0),
@@ -617,8 +474,8 @@ mod tests {
     }
 
     #[test]
-    fn the_cartn_mode_materializes_the_cartn_columns() {
-        let row = AtomSiteRow::builder()
+    fn the_cartn_mode_carries_the_cartn_fields() {
+        let row = AtomSite::builder()
             .type_symbol(symbol("O"))
             .coordinates(Coordinates::Cartn {
                 x: Numeric::from(1.0),
@@ -630,19 +487,8 @@ mod tests {
             .label(unquoted("O1"))
             .build()
             .expect("the row builds");
-        let items = row.to_data_items();
-        let tags: Vec<String> = items
-            .iter()
-            .map(|item| {
-                item.as_multi_values()
-                    .expect("a loop item")
-                    .columns()[0]
-                    .tag()
-                    .as_ref()
-                    .to_string()
-            })
-            .collect();
-        assert!(tags.iter().any(|t| t == "atom_site_cartn_x"));
-        assert!(tags.iter().any(|t| t == "atom_site_b_iso_or_equiv"));
+        assert!(row.cartn_x.is_some(), "the Cartesian x is set");
+        assert!(row.fract_x.is_none(), "the fractional x stays absent");
+        assert!(row.b_iso_or_equiv.is_some(), "the iso B is set");
     }
 }

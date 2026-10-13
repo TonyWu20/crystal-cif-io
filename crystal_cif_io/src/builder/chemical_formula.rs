@@ -11,12 +11,10 @@ use bon::bon;
 use elements_rs::Element;
 use std::str::FromStr;
 
-use crystal_cif_fmt::DataItems;
 use crate::data_dict::core_cif::chemical_formula::{
-    ChemicalFormulaItem, FormulaWeight,
+    ChemicalFormula, FormulaWeight,
 };
 use crate::data_dict::core_cif::range_check::number_as_f64;
-use crate::data_dict::SingleValueTerm;
 use crystal_cif_fmt::grammar::{CharString, Numeric};
 
 use super::cell::DEFAULT_TOLERANCE;
@@ -74,30 +72,6 @@ impl std::fmt::Display for FormulaError {
 }
 
 impl std::error::Error for FormulaError {}
-
-/// The materialized `chemical_formula` category.
-#[derive(Debug, Clone)]
-pub struct ChemicalFormula {
-    structural: CharString,
-    terms: Vec<ChemicalFormulaItem>,
-}
-
-impl ChemicalFormula {
-    pub fn structural(&self) -> &CharString {
-        &self.structural
-    }
-
-    pub fn to_data_items(&self) -> Vec<DataItems> {
-        self.terms
-            .iter()
-            .map(|term| term.to_single_value_data())
-            .collect()
-    }
-
-    pub fn terms(&self) -> &[ChemicalFormulaItem] {
-        &self.terms
-    }
-}
 
 #[cfg(test)]
 fn unquoted(text: &str) -> CharString {
@@ -308,25 +282,14 @@ impl ChemicalFormula {
         iupac: Option<CharString>,
         weight_meas: Option<FormulaWeight>,
     ) -> Result<ChemicalFormula, FormulaError> {
-        let mut terms = vec![ChemicalFormulaItem::Structural(structural.clone())];
-        if let Some(v) = &moiety {
-            terms.push(ChemicalFormulaItem::Moiety(v.clone()));
-        }
-        if let Some(v) = &sum {
-            terms.push(ChemicalFormulaItem::Sum(v.clone()));
-        }
-        if let Some(v) = &analytical {
-            terms.push(ChemicalFormulaItem::Analytical(v.clone()));
-        }
-        if let Some(v) = &iupac {
-            terms.push(ChemicalFormulaItem::Iupac(v.clone()));
-        }
-        if let Some(v) = &weight_meas {
-            terms.push(ChemicalFormulaItem::Weight_meas(*v));
-        }
         Ok(ChemicalFormula {
-            structural,
-            terms,
+            structural: Some(structural),
+            moiety,
+            sum,
+            analytical,
+            iupac,
+            weight_meas,
+            ..Default::default()
         })
     }
 }
@@ -334,25 +297,21 @@ impl ChemicalFormula {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::data_dict::CifTerm;
+    use crate::data_dict::core_cif::CifCategory;
 
     fn cs(text: &str) -> CharString {
         unquoted(text)
     }
 
     #[test]
-    fn the_builder_emits_the_spoken_spellings() {
+    fn the_builder_returns_the_document_struct() {
         let formula = ChemicalFormula::builder()
             .structural(cs("H2O"))
             .build()
             .expect("the formula builds");
-        let tags: Vec<String> = formula
-            .terms()
-            .iter()
-            .map(|t| t.tag().as_ref().to_string())
-            .collect();
-        assert!(tags.iter().any(|t| t == "chemical_formula_structural"));
-        assert_eq!(formula.to_data_items().len(), 1);
+        assert!(formula.structural.is_some(), "the structural spelling is set");
+        assert!(formula.moiety.is_none(), "the unset spellings stay absent");
+        assert_eq!(formula.to_members().len(), 1);
     }
 
     #[test]
@@ -367,7 +326,7 @@ mod tests {
             .weight_meas(weight)
             .build()
             .expect("the formula builds");
-        assert_eq!(formula.to_data_items().len(), 6);
+        assert_eq!(formula.to_members().len(), 6);
     }
 
     #[test]

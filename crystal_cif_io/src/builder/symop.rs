@@ -13,15 +13,10 @@
 
 use bon::bon;
 use crystallographic_group::SeitzMatrix;
+use crystallographic_group::SpaceGroup as Resolved;
 
-use crystal_cif_fmt::DataItems;
-use crate::data_dict::core_cif::space_group_symop::{
-    SpaceGroupSymopLoopItem, SpaceGroupSymopTerms,
-};
-use crate::data_dict::LoopValueTerm;
-use crystal_cif_fmt::grammar::{CharString, Float, LoopColumns, Matrix, Number, UnquotedString};
-
-use super::space_group::SpaceGroup;
+use crate::data_dict::core_cif::space_group_symop::Symop;
+use crystal_cif_fmt::grammar::{CharString, Float, Matrix, Number, UnquotedString};
 
 /// A build failure of the `symop` builder.
 #[derive(Debug, Clone, PartialEq)]
@@ -49,86 +44,6 @@ impl std::fmt::Display for SymopError {
 }
 
 impl std::error::Error for SymopError {}
-
-/// The materialized `space_group_symop` category: the general
-/// positions and the per-row derived matrices.
-#[derive(Debug, Clone)]
-pub struct SymopSet {
-    group: SpaceGroup,
-    operations: Vec<String>,
-    ids: Vec<String>,
-    r_matrices: Vec<Matrix>,
-    rt_matrices: Vec<Matrix>,
-    t_matrices: Vec<Matrix>,
-    seitz_matrices: Vec<Matrix>,
-    terms: Vec<SpaceGroupSymopTerms>,
-}
-
-impl SymopSet {
-    /// The resolved group the rows come from.
-    pub fn group(&self) -> &SpaceGroup {
-        &self.group
-    }
-
-    /// The `operation_xyz` row text, in list order.
-    pub fn operations(&self) -> &[String] {
-        &self.operations
-    }
-
-    /// The row ordinals, one per row.
-    pub fn ids(&self) -> &[String] {
-        &self.ids
-    }
-
-    /// The per-row 3 x 3 rotation matrices.
-    pub fn r_matrices(&self) -> &[Matrix] {
-        &self.r_matrices
-    }
-
-    /// The per-row transposed rotation matrices.
-    pub fn rt_matrices(&self) -> &[Matrix] {
-        &self.rt_matrices
-    }
-
-    /// The per-row 3 x 1 translation columns. The entries are
-    /// fractions of the 12-fold translation base, held as `Float`.
-    pub fn t_matrices(&self) -> &[Matrix] {
-        &self.t_matrices
-    }
-
-    /// The per-row 4 x 4 Seitz matrices. The translation part is
-    /// divided by the 12-fold base.
-    pub fn seitz_matrices(&self) -> &[Matrix] {
-        &self.seitz_matrices
-    }
-
-    /// The per-row single-value terms: `operation_description`,
-    /// `r`, `rt`, `t`, and `seitz_matrix`.
-    pub fn terms(&self) -> &[SpaceGroupSymopTerms] {
-        &self.terms
-    }
-
-    /// The loop, materialized as one `MultiValues` item over the
-    /// `id` and `operation_xyz` columns.
-    pub fn to_data_items(&self) -> Vec<DataItems> {
-        vec![DataItems::MultiValues(LoopColumns::new(vec![
-            SpaceGroupSymopLoopItem::Id(
-                self.ids
-                    .iter()
-                    .map(|id| unquoted(id))
-                    .collect(),
-            )
-            .to_loop_column(),
-            SpaceGroupSymopLoopItem::Operation_xyz(
-                self.operations
-                    .iter()
-                    .map(|op| unquoted(op))
-                    .collect(),
-            )
-            .to_loop_column(),
-        ]))]
-    }
-}
 
 fn unquoted(text: &str) -> CharString {
     CharString::Unquoted(UnquotedString::new(text.to_string()))
@@ -166,17 +81,17 @@ fn seitz4(m: &SeitzMatrix) -> Matrix {
 }
 
 #[bon]
-impl SymopSet {
+impl Symop {
     /// The group is needed at the `build()` call. The rows and the
     /// per-row matrices compute from its general positions. The
     /// supplied `operation_xyz` cross-checks row by row. Whitespace
     /// is ignored in the comparison.
     #[builder(start_fn = builder, builder_type = SymopBuilder, finish_fn = build)]
     pub fn build_symops(
-        group: SpaceGroup,
+        group: Resolved,
         operation_xyz: Option<Vec<CharString>>,
-    ) -> Result<SymopSet, SymopError> {
-        let positions = group.inner().general_positions();
+    ) -> Result<Vec<Symop>, SymopError> {
+        let positions = group.general_positions();
         let full: Vec<SeitzMatrix> = positions
             .derive_full_sets()
             .into_iter()
@@ -211,11 +126,7 @@ impl SymopSet {
             }
         }
 
-        let mut r_matrices = Vec::with_capacity(full.len());
-        let mut rt_matrices = Vec::with_capacity(full.len());
-        let mut t_matrices = Vec::with_capacity(full.len());
-        let mut seitz_matrices = Vec::with_capacity(full.len());
-        let mut terms = Vec::with_capacity(full.len() * 5);
+        let mut rows = Vec::with_capacity(full.len());
         for (i, m) in full.iter().enumerate() {
             let rotation = m.rotation_part();
             let r = matrix3([[
@@ -247,105 +158,107 @@ impl SymopSet {
             let tr = m.translation_part();
             let t = t_column([tr[(0, 0)], tr[(1, 0)], tr[(2, 0)]]);
             let seitz = seitz4(m);
-            r_matrices.push(r.clone());
-            rt_matrices.push(rt.clone());
-            t_matrices.push(t.clone());
-            seitz_matrices.push(seitz.clone());
-            terms.push(SpaceGroupSymopTerms::Operation_description(unquoted(&operations[i])));
-            terms.push(SpaceGroupSymopTerms::R(r));
-            terms.push(SpaceGroupSymopTerms::Rt(rt));
-            terms.push(SpaceGroupSymopTerms::T(t));
-            terms.push(SpaceGroupSymopTerms::Seitz_matrix(seitz));
+            rows.push(Symop {
+                id: Some(unquoted(&ids[i])),
+                operation_description: Some(unquoted(&operations[i])),
+                operation_xyz: Some(unquoted(&operations[i])),
+                r: Some(r),
+                rt: Some(rt),
+                seitz_matrix: Some(seitz),
+                t: Some(t),
+                ..Default::default()
+            });
         }
 
-        Ok(SymopSet {
-            group,
-            operations,
-            ids,
-            r_matrices,
-            rt_matrices,
-            t_matrices,
-            seitz_matrices,
-            terms,
-        })
+        Ok(rows)
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::data_dict::core_cif::space_group::ITNumber;
-    use crate::data_dict::CifTerm;
+    use crate::data_dict::core_cif::CifCategory;
+    use crystal_cif_fmt::DataBlockMember;
+    use crystallographic_group::database::PER_NUMBER_SPACE_GROUP_SYMBOLS;
 
-    fn entry(number: i32) -> SpaceGroup {
-        SpaceGroup::by_it_number(ITNumber::from(number)).expect("the group resolves")
+    fn entry(number: i32) -> Resolved {
+        let row = (number - 1) as usize;
+        let hall = PER_NUMBER_SPACE_GROUP_SYMBOLS[2][row];
+        Resolved::try_from_str(hall).expect("the group resolves")
     }
 
     #[test]
     fn the_p1_rows_are_the_identity() {
-        let set = SymopSet::builder()
+        let set = Symop::builder()
             .group(entry(1))
             .build()
             .expect("the rows build");
-        assert_eq!(set.operations(), &["x,y,z".to_string()]);
-        assert_eq!(set.ids(), &["1".to_string()]);
-        let r = &set.r_matrices()[0];
+        assert_eq!(set.len(), 1);
+        assert_eq!(set[0].operation_xyz.as_ref().expect("xyz").content(), "x,y,z");
+        assert_eq!(set[0].id.as_ref().expect("id").content(), "1");
+        let r = set[0].r.as_ref().expect("r");
         assert_eq!(
             r.rows()[0].iter().map(|n| n.to_string()).collect::<Vec<_>>(),
             vec!["1", "0", "0"],
         );
-        let t = &set.t_matrices()[0];
+        let t = set[0].t.as_ref().expect("t");
         assert_eq!(
             t.rows()[0].iter().map(|n| n.to_string()).collect::<Vec<_>>(),
             vec!["0"],
         );
-        assert_eq!(set.to_data_items().len(), 1);
+        assert_eq!(set.to_members().len(), 1);
     }
 
     #[test]
     fn the_p2_rows_carry_the_inversion() {
-        let set = SymopSet::builder()
+        let set = Symop::builder()
             .group(entry(2))
             .build()
             .expect("the rows build");
-        assert_eq!(
-            set.operations(),
-            &["x,y,z".to_string(), "-x,-y,-z".to_string()],
-        );
-        assert_eq!(set.r_matrices().len(), 2);
-        let second = &set.rt_matrices()[1];
+        let xyz: Vec<&str> = set
+            .iter()
+            .map(|row| row.operation_xyz.as_ref().expect("xyz").content())
+            .collect();
+        assert_eq!(xyz, ["x,y,z", "-x,-y,-z"]);
+        assert_eq!(set.len(), 2);
+        let second = set[1].rt.as_ref().expect("rt");
         assert_eq!(second.shape(), (3, 3));
-        assert_eq!(set.seitz_matrices()[0].shape(), (4, 4));
-        let items = set.to_data_items();
-        let loop_columns = items
-            .first()
-            .and_then(|item| item.as_multi_values())
-            .expect("one loop item");
-        assert_eq!(loop_columns.columns().len(), 2);
-        assert_eq!(
-            loop_columns.columns()[0].tag().as_ref(),
-            "space_group_symop_id"
+        assert_eq!(set[0].seitz_matrix.as_ref().expect("seitz").shape(), (4, 4));
+        let members = set.to_members();
+        let loop_columns = match &members[0] {
+            DataBlockMember::DataItems(items) => items.as_multi_values().expect("one loop item"),
+            other => panic!("expected a loop member, got {other:?}"),
+        };
+        let has_column = |name: &str| loop_columns
+            .columns()
+            .iter()
+            .any(|c| c.tag().as_ref() == name);
+        assert!(has_column("space_group_symop_id"), "the id column is present");
+        assert!(
+            has_column("space_group_symop_operation_xyz"),
+            "the operation column is present"
         );
-        assert_eq!(
-            loop_columns.columns()[1].tag().as_ref(),
-            "space_group_symop_operation_xyz"
-        );
-        assert_eq!(loop_columns.columns()[0].values().len(), 2);
+        let id_col = loop_columns
+            .columns()
+            .iter()
+            .find(|c| c.tag().as_ref() == "space_group_symop_id")
+            .expect("the id column is present");
+        assert_eq!(id_col.values().len(), 2);
     }
 
     #[test]
     fn a_supplied_row_text_cross_checks() {
-        let set = SymopSet::builder()
+        let set = Symop::builder()
             .group(entry(2))
             .operation_xyz(vec![unquoted("x, y, z"), unquoted("-x,-y,-z")])
             .build()
             .expect("whitespace does not break the check");
-        assert_eq!(set.operations().len(), 2);
+        assert_eq!(set.len(), 2);
     }
 
     #[test]
     fn a_mismatching_row_text_rejects() {
-        let err = SymopSet::builder()
+        let err = Symop::builder()
             .group(entry(2))
             .operation_xyz(vec![unquoted("-x,-y,-z"), unquoted("x,y,z")])
             .build()
@@ -358,7 +271,7 @@ mod tests {
 
     #[test]
     fn a_wrong_row_count_rejects() {
-        let err = SymopSet::builder()
+        let err = Symop::builder()
             .group(entry(2))
             .operation_xyz(vec![unquoted("x,y,z")])
             .build()
@@ -374,29 +287,23 @@ mod tests {
 
     #[test]
     fn the_p21c_rows_match_the_seitz_list() {
-        let set = SymopSet::builder()
+        let set = Symop::builder()
             .group(entry(14))
             .build()
             .expect("the rows build");
-        assert_eq!(set.operations().len(), 4);
-        let joined: Vec<&str> = set.operations().iter().map(|s| s.as_str()).collect();
-        assert!(joined.iter().any(|op| op.contains("+1/2")), "the glide carries a half shift");
-        assert_eq!(set.terms().len(), 20);
-        let tags: Vec<String> = set
-            .terms()
+        assert_eq!(set.len(), 4);
+        let ops: Vec<&str> = set
             .iter()
-            .take(5)
-            .map(|t| t.tag().as_ref().to_string())
+            .map(|row| row.operation_xyz.as_ref().expect("xyz").content())
             .collect();
-        assert_eq!(
-            tags,
-            vec![
-                "space_group_symop_operation_description".to_string(),
-                "space_group_symop_r".to_string(),
-                "space_group_symop_rt".to_string(),
-                "space_group_symop_t".to_string(),
-                "space_group_symop_seitz_matrix".to_string(),
-            ],
+        assert!(
+            ops.iter().any(|op| op.contains("+1/2")),
+            "the glide carries a half shift"
         );
+        for row in &set {
+            assert!(row.r.is_some(), "the rotation matrix is set");
+            assert!(row.seitz_matrix.is_some(), "the Seitz matrix is set");
+        }
+        assert_eq!(set.to_members().len(), 1);
     }
 }
