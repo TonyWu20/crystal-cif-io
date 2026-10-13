@@ -61,6 +61,11 @@ let doc = CifDocument::new(None, Some(vec![block]));
 print!("{doc}");
 ```
 
+The API guide (`docs/api-guide.md`) walks through the public
+surface. It covers keyword fields, loop columns, save frames,
+value variants, typed dictionary items, matrices, canonical JSON,
+and the CIF 2.0 specifics.
+
 ## Features
 
 - CIF 1.1 file syntax (IUCr 2014 specification).
@@ -130,6 +135,7 @@ The CI workflow runs the fetch before `cargo test`
 
 | document | topic |
 |---|---|
+| `docs/api-guide.md` | the public API tour |
 | `docs/refactor-chumsky-ariadne.md` | parser design (`chumsky` + `ariadne`) |
 | `docs/ground-truth.md` | the ground-truth harness and JSON schema |
 | `docs/roadmap-dict-items.md` | the dictionary item roadmap |
