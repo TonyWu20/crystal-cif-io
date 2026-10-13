@@ -1,0 +1,87 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "empty",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "double",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "simple"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "four",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "''four"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "embed",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "\"\"\"x\"\"\""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "multiline",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "first\nsecond"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "table",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "triple_single_quoted",
+                  "text": "k"
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "1"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "name": "triple"
+    }
+  ],
+  "fixture": "22_triple.cif",
+  "schema_version": 2
+}

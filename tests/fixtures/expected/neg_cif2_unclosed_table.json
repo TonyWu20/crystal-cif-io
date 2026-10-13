@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found end of input at 28..28 expected ''\\''', ''\"'', or ''}'']. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_cif2_unclosed_table.cif",
+  "schema_version": 2
+}

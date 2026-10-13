@@ -1,0 +1,35 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "αβγ",
+              "value": {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ω"
+              }
+            },
+            {
+              "kind": "item",
+              "tag": "π",
+              "value": {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "𐘾ᚠ"
+              }
+            }
+          ],
+          "name": "§9"
+        }
+      ],
+      "name": "ünïcode"
+    }
+  ],
+  "fixture": "25_unicode.cif",
+  "schema_version": 2
+}

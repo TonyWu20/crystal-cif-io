@@ -1,0 +1,50 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "frames": [
+            {
+              "kind": "save_frame",
+              "members": [
+                {
+                  "kind": "item",
+                  "tag": "level",
+                  "value": {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "3"
+                  }
+                }
+              ],
+              "name": "deep"
+            },
+            {
+              "kind": "save_frame",
+              "members": [],
+              "name": "mid"
+            }
+          ],
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "level",
+              "value": {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              }
+            }
+          ],
+          "name": "outer"
+        }
+      ],
+      "name": "frames"
+    }
+  ],
+  "fixture": "23_nested_frames.cif",
+  "schema_version": 2
+}

@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "sq_string",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "x"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "num",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "150"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "text",
+          "value": {
+            "kind": "text_field",
+            "text": "first"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "vt_value",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "7"
+          }
+        }
+      ],
+      "name": "26_vtff"
+    }
+  ],
+  "fixture": "26_vtff.cif",
+  "schema_version": 1
+}

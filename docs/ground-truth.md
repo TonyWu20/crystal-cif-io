@@ -24,9 +24,11 @@ A parsed CIF is encoded as JSON. This shape is the stable contract. A new
 parser must serialize into the same shape.
 
 The file carries `schema_version`. Version 1 is the historical CIF
-1.1 shape. Version 2 adds the `list` value kind for CIF 2.0 files;
-the generator picks the version from the fixture dialect
-(`CifDialect::detect`) and the harness accepts both.
+1.1 shape. Version 2 adds the `list` and `table` value kinds, the
+triple-quoted `char_string` styles, and a conditional `frames`
+array in frame objects, for CIF 2.0 files; the generator picks the
+version from the fixture dialect (`CifDialect::detect`) and the
+harness accepts both.
 
 ```json
 {
@@ -59,8 +61,12 @@ Rules for the encoding:
 - A `tag` is the data name without the leading underscore.
 - A `loop` stores `tags` (the column headers) and `rows`. Each row is a list
   of values, one per column, in column order.
-- A `save_frame` mirrors a block: `name` plus `members`. Save frames do not
-  nest (spec para. 6).
+- A `save_frame` mirrors a block: `name` plus `members`. In the 1.1
+  dialect, save frames do not nest (spec para. 6). In the 2.0
+  dialect, a frame object gains a `frames` array when it holds
+  nested frames (roadmap section 14). The array holds frame
+  objects of the same shape. It is omitted when a frame holds no
+  nested frames, so the version 1 pins keep their shape.
 - Comments and other white space are elided. The spec says comments carry no
   machine-readable content (para. 45).
 
@@ -73,16 +79,17 @@ Each value object has a `kind`. The fields per kind are:
 | `inapplicable`| none (the `.` value)                                          |
 | `unknown`     | none (the `?` value)                                          |
 | `numeric`     | `type` (`integer` or `float`), `value` (string), `std_uncertainty` (string or null) |
-| `char_string` | `style` (`unquoted`, `single_quoted`, `double_quoted`), `text` |
+| `char_string` | `style` (`unquoted`, `single_quoted`, `double_quoted`, `triple_single_quoted`, `triple_double_quoted`), `text` |
 | `text_field`  | `text` (the joined lines)                                     |
 | `list`        | `values` (a list of value objects; nested lists nest value objects) |
+| `table`       | `pairs` (an ordered array of `{"key": <value>, "value": <value>}` objects; an array keeps key order) |
 
-The `list` kind only appears in schema version 2 (the CIF 2.0
-dialect, the `##CIF_2.0` version code, or the escaped
-`#\#CIF_2.0` spelling used by the COMCIFS reference
-implementation). A matrix-shaped list encodes
-as nested lists of `numeric` value objects; the shape is dictionary
-data, not schema data.
+The `list` and `table` kinds, and the triple-quoted `char_string`
+styles, only appear in schema version 2 (the CIF 2.0 dialect, the
+`##CIF_2.0` version code, or the escaped `#\#CIF_2.0` spelling
+used by the COMCIFS reference implementation). A matrix-shaped
+list encodes as nested lists of `numeric` value objects; the shape
+is dictionary data, not schema data.
 
 Numeric values are stored as the shortest string form of the parsed number.
 For example `90.0` becomes `"90"` and `.5` becomes `"0.5"`. This normalizes

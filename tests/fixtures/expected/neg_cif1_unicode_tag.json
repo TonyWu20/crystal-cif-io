@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''ñ'' at 10..12 expected ''+'', ''-'', ''.'', ''0'', ''1'', ''2'', ''3'', ''4'', ''5'', ''6'', ''7'', ''8'', ''9'', something else, ''['', ''{'', ''?'', '';'', ''\\''', or ''\"'']. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_cif1_unicode_tag.cif",
+  "schema_version": 1
+}

@@ -35,7 +35,7 @@ use ariadne::{Color, Label, Report, ReportKind, Source};
 use chumsky::{
     error::Rich,
     extra,
-    input::Emitter,
+    input::{Emitter, InputRef},
     prelude::*,
     recursive::{recursive, Direct, Recursive},
 };
@@ -43,8 +43,9 @@ use chumsky::{
 use crate::grammar::{
     CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
     DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns, Number, Numeric, SaveFrame,
-    SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField,
-    UnquotedString, UnsignedInteger, Value,
+    SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString,
+    TripleDoubleQuotedString, TripleSingleQuotedString, Tag, TextField, UnquotedString,
+    UnsignedInteger, Value,
 };
 
 type Err<'src> = extra::Err<Rich<'src, char>>;
@@ -133,7 +134,11 @@ pub fn rich_error(e: &Rich<char>, source_name: &str, src: &str) {
 // --- character classes (spec Appendix A) ------------------------------------
 
 fn is_eol(c: char) -> bool {
-    matches!(c, '\n' | '\r')
+    // VT (0x0B) and FF (0x0C) end a line in every dialect (decision
+    // D9a, roadmap section 14). The CIF 1.1 spec excludes both from
+    // its character set (para. 22, 28); accepting them is a
+    // recorded 1.1 deviation, pinned by fixture 26.
+    matches!(c, '\n' | '\r' | '\u{0b}' | '\u{0c}')
 }
 
 fn is_blank(c: char) -> bool {
@@ -184,9 +189,18 @@ fn starts_with_reserved_stem(token: &str) -> bool {
 
 // --- low-level producers -----------------------------------------------------
 
-/// `<EOL>`: `\r\n`, `\n`, or `\r` (LF/CR line endings, spec para. 5).
+/// `<EOL>`: `\r\n`, `\n`, `\r`, VT, or FF. The line endings of spec
+/// para. 5, plus the VT and FF terminators of decision D9a (roadmap
+/// section 14, a recorded 1.1 deviation).
 fn eol<'src>() -> impl Parser<'src, &'src str, (), Err<'src>> {
-    choice((just("\r\n"), just("\n"), just("\r"))).map(|_: &str| ())
+    choice((
+        just("\r\n"),
+        just("\n"),
+        just("\r"),
+        just("\u{0b}"),
+        just("\u{0c}"),
+    ))
+    .map(|_: &str| ())
 }
 
 /// `<NonBlankChar>`: one non-white-space character.
@@ -225,11 +239,62 @@ fn save_prefix<'src>() -> impl Parser<'src, &'src str, (), Err<'src>> {
         .map(|_| ())
 }
 
-/// White space between CIF tokens: blanks, line endings, and comment
-/// lines.
+fn consume_ws<'src, 'parse>(
+    inp: &mut InputRef<'src, 'parse, &'src str, Err<'src>>,
+    starts_at_line_start: bool,
+    glued_comment_ok: bool,
+) -> usize {
+    let mut consumed = 0usize;
+    let mut at_line_start = starts_at_line_start;
+    loop {
+        // Blanks on the current line.
+        let mut blanks = 0usize;
+        while let Some(c) = inp.peek() {
+            if is_blank(c) {
+                inp.next();
+                blanks += 1;
+                consumed += 1;
+            } else {
+                break;
+            }
+        }
+        // A comment on this line: a `#` at line start, after the
+        // blanks just consumed, or, in a 2.0 container, glued to
+        // the opening delimiter (the COMCIFS reference scanner
+        // start condition after `[` or `{`; roadmap section 14).
+        if inp.peek() == Some('#')
+            && (at_line_start || blanks > 0 || (glued_comment_ok && consumed == 0))
+        {
+            while let Some(c) = inp.peek() {
+                if is_eol(c) {
+                    break;
+                }
+                inp.next();
+                consumed += 1;
+            }
+        }
+        match inp.peek() {
+            Some('\n') | Some('\r') | Some('\u{0b}') | Some('\u{0c}') => {
+                let is_cr = inp.peek() == Some('\r');
+                inp.next();
+                consumed += 1;
+                if is_cr && inp.peek() == Some('\n') {
+                    inp.next();
+                    consumed += 1;
+                }
+                at_line_start = true;
+            }
+            _ => break,
+        }
+    }
+    consumed
+}
+
+/// White space between CIF tokens: blanks, line endings, and
+/// comment lines.
 ///
-/// A `#` starts a comment only when it stands at the start of a line
-/// or immediately after at least one blank of the current line
+/// A `#` starts a comment only when it stands at the start of a
+/// line or immediately after at least one blank of the current line
 /// (spec para. 21, 45). A `#` glued to the token before the region
 /// is part of that token, not a comment (fixture
 /// `11_whitespace_edge`); the value parsers consume such a `#` as a
@@ -238,47 +303,24 @@ fn save_prefix<'src>() -> impl Parser<'src, &'src str, (), Err<'src>> {
 /// The parser never fails: it consumes the maximal such region and
 /// reports the number of characters consumed.
 fn ws_region<'src>(starts_at_line_start: bool) -> impl Parser<'src, &'src str, usize, Err<'src>> {
-    custom::<_, &'src str, usize, Err<'src>>(move |inp| {
-        let mut consumed = 0usize;
-        let mut at_line_start = starts_at_line_start;
-        loop {
-            // Blanks on the current line.
-            let mut blanks = 0usize;
-            while let Some(c) = inp.peek() {
-                if is_blank(c) {
-                    inp.next();
-                    blanks += 1;
-                    consumed += 1;
-                } else {
-                    break;
-                }
-            }
-            // A comment on this line: a `#` at line start, or after
-            // the blanks just consumed.
-            if inp.peek() == Some('#') && (at_line_start || blanks > 0) {
-                while let Some(c) = inp.peek() {
-                    if is_eol(c) {
-                        break;
-                    }
-                    inp.next();
-                    consumed += 1;
-                }
-            }
-            match inp.peek() {
-                Some('\n') | Some('\r') => {
-                    let is_cr = inp.peek() == Some('\r');
-                    inp.next();
-                    consumed += 1;
-                    if is_cr && inp.peek() == Some('\n') {
-                        inp.next();
-                        consumed += 1;
-                    }
-                    at_line_start = true;
-                }
-                _ => break,
-            }
-        }
-        Ok(consumed)
+    custom::<_, &'src str, usize, Err<'src>>(move |inp: &mut InputRef<'_, '_, &'src str, _>| {
+        Ok(consume_ws(
+            inp,
+            starts_at_line_start,
+            false,
+        ))
+    })
+}
+
+/// The white space region of a 2.0 container interior (after a list
+/// `[` or table `{`): the same region as [`ws_region`], except a `#`
+/// glued to the opening delimiter starts a comment with no leading
+/// blank (upstream CIF 2.0 scanner; roadmap section 14). In the 1.1
+/// dialect the region is the plain white space region.
+fn container_ws<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, usize, Err<'src>> {
+    let glued_comment_ok = matches!(dialect, CifDialect::Cif2_0);
+    custom::<_, &'src str, usize, Err<'src>>(move |inp: &mut InputRef<'_, '_, &'src str, _>| {
+        Ok(consume_ws(inp, false, glued_comment_ok))
     })
 }
 
@@ -421,8 +463,60 @@ fn numeric_value(token: &str) -> Value {
 /// `<CharString>`: unquoted, single-quoted, or double-quoted. The
 /// unquoted and quoted forms are dialect-aware (see [`unquoted`],
 /// [`single_quoted`]).
+/// A triple-quoted character string (CIF 2.0 only, roadmap section
+/// 14): an opening ''' or """ delimiter, then content up to the
+/// first closing delimiter. The content may hold line terminators
+/// and runs of up to two delimiters; a third delimiter closes the
+/// string. The empty form (six delimiters) is a legal empty string.
+/// The content is stored as written, without the delimiters.
+fn triple_quoted<'src>(
+    quote: char,
+    single: bool,
+) -> impl Parser<'src, &'src str, CharString, Err<'src>> {
+    let q = just(quote);
+    let nonq = any().filter(move |c: &char| c != &quote);
+    // A chunk: up to two delimiters, then a non-delimiter character
+    // (the upstream NOTSQ3/NOTDQ3 form).
+    let chunk = choice((
+        nonq.clone().map(|c: char| c.to_string()),
+        q.clone()
+            .then(nonq.clone())
+            .map(|(d, c): (char, char)| d.to_string() + &c.to_string()),
+        q.clone()
+            .then(q)
+            .then(nonq)
+            .map(|((d1, d2), c): ((char, char), char)| {
+                d1.to_string() + &d2.to_string() + &c.to_string()
+            }),
+    ));
+    let open = q.clone().then(q.clone()).then(q);
+    let close = q.clone().then(q.clone()).then(q);
+    open
+        .map(|_o: ((char, char), char)| ())
+        .then(chunk.repeated().collect::<Vec<String>>())
+        .then(close.map(|_c: ((char, char), char)| ()))
+        .map(move |(((), chars), ())| {
+            let content: String = chars.concat();
+            if single {
+                CharString::TripleSingleQuoted(TripleSingleQuotedString::new(content))
+            } else {
+                CharString::TripleDoubleQuoted(TripleDoubleQuotedString::new(content))
+            }
+        })
+}
+
 fn char_string<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'src>> {
+    // The triple-quoted form is a 2.0 production (roadmap section
+    // 14): in a 1.1 file the delimiters fall through to the single
+    // and double quote productions (embedded-quote runs).
+    let triple = choice((
+        triple_quoted('\'', true),
+        triple_quoted('"', false),
+    ))
+    .filter(move |_: &CharString| dialect == CifDialect::Cif2_0)
+    .boxed();
     choice((
+        triple,
         single_quoted(dialect),
         double_quoted(dialect),
         unquoted(dialect),
@@ -478,28 +572,53 @@ fn unquoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CharStrin
 /// A leading character of an unquoted value, per dialect.
 ///
 /// 1.1: `<OrdinaryChar>` plus `[` and `]` (the brackets stay plain
-/// characters, fixture `17_cif1_brackets_stay_strings`). The other
-/// two special characters of the 2.0 restriction, `{` and `}`, are
-/// already ordinary. 2.0: the strict `<OrdinaryChar>` set only.
+/// characters, fixture `17_cif1_brackets_stay_strings`). The 1.1
+/// character set is ASCII only (fixture 20 pins the rejection of
+/// non-ASCII values). 2.0: the `<OrdinaryChar>` set, and any
+/// non-ASCII character (roadmap section 14). The container
+/// delimiters stay excluded: the 2.0 token filter rejects a token
+/// that holds one.
 fn is_unquoted_lead(dialect: CifDialect, c: char) -> bool {
-    if !is_ordinary(c) {
-        return matches!(c, '[' | ']') && dialect == CifDialect::Cif1_1;
+    if is_ordinary(c) {
+        return true;
     }
-    true
+    match c {
+        '[' | ']' => dialect == CifDialect::Cif1_1,
+        _ => !c.is_ascii() && dialect == CifDialect::Cif2_0,
+    }
+}
+
+/// A character of a block code, a frame code, or a tag name, per
+/// dialect.
+///
+/// 1.1: the character set is ASCII only (roadmap section 14). 2.0:
+/// any `<NonBlankChar>`, non-ASCII included (roadmap section 14).
+fn is_name_char(dialect: CifDialect, c: char) -> bool {
+    if !is_nonblank(c) {
+        return false;
+    }
+    match dialect {
+        CifDialect::Cif1_1 => c.is_ascii(),
+        CifDialect::Cif2_0 => true,
+    }
 }
 
 /// True when `c` continues the current value token, per dialect.
 ///
 /// 1.1: any `<NonBlankChar>` continues the token, as today. 2.0:
-/// the list closer `]` ends the token, so `[1 2 3]` tokenizes as
-/// three numeric values and a closer. A `[` still continues the
-/// token: it makes an unquoted value illegal (roadmap section
-/// 13.2), and a token that starts with `[` is a list candidate.
+/// the container delimiters `[`, `]`, `{`, and `}` end the token
+/// (roadmap sections 13.2 and 14): the upstream scanner treats all
+/// four as separate tokens, so `[1 2 3]` tokenizes as three numeric
+/// values and a closer, and `{ 'k':. }` tokenizes a table pair
+/// with an inapplicable value.
 fn continues_value_token(dialect: CifDialect, c: char) -> bool {
     if !is_nonblank(c) {
         return false;
     }
-    matches!(dialect, CifDialect::Cif1_1) || c != ']'
+    match dialect {
+        CifDialect::Cif1_1 => true,
+        CifDialect::Cif2_0 => !matches!(c, '[' | ']' | '{' | '}'),
+    }
 }
 
 /// A single-quoted character string (spec para. 15, 16).
@@ -667,10 +786,16 @@ fn text_field<'src>() -> impl Parser<'src, &'src str, Value, Err<'src>> {
 
 /// `<DataName>`: `_` followed by one or more non-blank characters.
 /// The stored tag name drops the leading underscore.
-fn tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
+fn tag<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Tag, Err<'src>> {
     just('_')
-        .then(nonblank().repeated().at_least(1).to_slice())
-        .map(|(_underscore, name)| Tag::new(name.to_string()))
+        .then(
+            any()
+                .filter(move |c: &char| is_name_char(dialect, *c))
+                .repeated()
+                .at_least(1)
+                .to_slice(),
+        )
+        .map(|(_underscore, name): (char, &'src str)| Tag::new(name.to_string()))
 }
 
 /// `<DataItems>`, single-value form: a tag, white space (at least
@@ -678,7 +803,7 @@ fn tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
 fn tag_value_items<'src>(
     dialect: CifDialect,
 ) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
-    tag()
+    tag(dialect)
         .then(ws_region(false))
         .validate(|(tag, n), map, emit| {
             if n == 0 {
@@ -699,16 +824,18 @@ fn tag_value_items<'src>(
 /// from the `loop_` reserved word or the previous tag (spec para. 7:
 /// a data name must be separated from the preceding token by white
 /// space).
-fn loop_tag<'src>() -> impl Parser<'src, &'src str, Tag, Err<'src>> {
+fn loop_tag<'src>(
+    dialect: CifDialect,
+) -> impl Parser<'src, &'src str, Tag, Err<'src>> {
     ws_region(false)
         .map(|_| ())
-        .then(tag())
+        .then(tag(dialect))
         .map(|(_ws, tag)| tag)
 }
 
 fn loop_items<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
     loop_prefix()
-        .then(loop_tag().repeated().collect::<Vec<Tag>>())
+        .then(loop_tag(dialect).repeated().collect::<Vec<Tag>>())
         .then(
             ws_region(false)
                 .map(|_| ())
@@ -772,23 +899,65 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
             // Parser` types, which rustc does not prove `Clone` through.
             // The EBNF list production allows optional white space
             // (blanks, comments, and new lines) before the closer,
-            // so `[1 ]` and `[ 1 ]` parse (review d8 P1-2).
+            // so `[1 ]` and `[ 1 ]` parse (review d8 P1-2). The first
+            // white space region is the container region: a `#` glued
+            // to the `[` starts a comment (roadmap section 14). A
+            // text field may stand as a list member (the `;` form of
+            // the value rule; the 1.1 list stays unchanged).
             let list = just('[')
+                .then(container_ws(dialect).boxed().map(|_| ()))
                 .then(
-                    ws_region(false)
-                        .boxed()
-                        .map(|_| ())
-                        .then(rec.clone())
-                        .map(|(_ws, v): (_, Value)| v)
-                        .separated_by(ws_region(false).boxed().map(|_| ()))
+                    rec.clone()
+                        .separated_by(container_ws(dialect).boxed().map(|_| ()))
                         .collect::<Vec<Value>>(),
                 )
-                .then(ws_region(false).boxed().map(|_| ()))
+                .then(container_ws(dialect).boxed().map(|_| ()))
                 .then(just(']'))
-                .map(|(((_open, values), _ws), _close)| Value::List(values))
+                .map(|((((_open, _lead), values), _tail), _close)| Value::List(values))
                 .filter(move |_: &Value| dialect == CifDialect::Cif2_0);
+
+            // `<Table>` (CIF 2.0 only, roadmap section 14): `{`, zero
+            // or more white space separated pairs, and `}`. A pair is
+            // a quoted key (any quote style; the upstream KEY token),
+            // a colon, and a value of any kind. The value may sit
+            // directly after the colon, or after white space (which
+            // may hold a comment or a line break). The pairs keep
+            // their order; the key is stored as a value.
+            let table_key = choice((
+        triple_quoted('\'', true),
+        triple_quoted('"', false),
+                single_quoted(dialect),
+                double_quoted(dialect),
+            ))
+            .filter(move |_: &CharString| dialect == CifDialect::Cif2_0)
+            .map(Value::CharString);
+            let entry = table_key
+                .then(just(':'))
+                .then(
+                    choice((
+                        rec.clone(),
+                        ws_region(false)
+                            .map(|_| ())
+                            .then(rec.clone())
+                            .map(|(_ws, v): (_, Value)| v),
+                    )),
+                )
+                .map(|((key, _colon), value): ((Value, char), Value)| (key, value));
+            let table = just('{')
+                .then(container_ws(dialect).boxed().map(|_| ()))
+                .then(
+                    entry
+                        .separated_by(ws_region(false).boxed().map(|_| ()))
+                        .collect::<Vec<(Value, Value)>>(),
+                )
+                .then(ws_region(false).boxed().map(|_| ()))
+                .then(just('}'))
+                .map(|(((_open, pairs), _tail), _close)| Value::Table(pairs))
+                .filter(move |_: &Value| dialect == CifDialect::Cif2_0)
+                .boxed();
             choice((
                 list,
+                table,
                 inapplicable(dialect).boxed(),
                 unknown(dialect).boxed(),
                 numeric(dialect).boxed(),
@@ -814,38 +983,82 @@ fn into_columns(tags: Vec<Tag>, values: Vec<Value>) -> LoopColumns {
 
 /// `<SaveFrame>`: `save_<code>`, inner data items (save frames do not
 /// nest, spec para. 6), closed by a bare `save_`.
+/// `<SaveFrame>`: `save_<code>`, frame content (data items and, in
+/// CIF 2.0, nested frames), and the `save_` terminator.
+///
+/// Nested frames are a 2.0 production (roadmap section 14): the
+/// upstream C reference accepts them at unlimited depth, and the
+/// 1.1 spec forbids them (para. 6), so the nested-frame branch is
+/// filtered to the 2.0 dialect.
 fn save_frame<'src>(
     dialect: CifDialect,
-) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
-    save_prefix()
-        .then(nonblank().repeated().at_least(1).to_slice())
-        .then(
-            ws_region(false)
-                .map(|_| ())
-                .then(inner_item(dialect))
-                .map(|(_ws, item)| item)
-                .repeated()
-                .collect::<Vec<DataItems>>(),
-        )
-        .then(
-            ws_region(false)
-                .map(|_| ())
-                .then(save_prefix())
-                .then(nonblank().not())
-                .map(|_| ()),
-        )
-        .map(|((((), code), items), _close)| {
-            DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
-                SaveFrameHeading::new(code.to_string()),
-                items,
-            )))
-        })
+) -> impl Parser<'src, &'src str, SaveFrame, Err<'src>> {
+    recursive(
+        move |rec: Recursive<Direct<'src, 'src, &'src str, SaveFrame, Err<'src>>>| {
+            save_prefix()
+                .boxed()
+                .then(
+                    any()
+                        .filter(move |c: &char| is_name_char(dialect, *c))
+                        .repeated()
+                        .at_least(1)
+                        .to_slice()
+                        .boxed(),
+                )
+                .then(
+                    ws_region(false)
+                        .map(|_| ())
+                        .then(frame_member(dialect, rec))
+                        .map(|(_ws, member)| member)
+                        .repeated()
+                        .collect::<Vec<DataBlockMember>>()
+                        .boxed(),
+                )
+                .then(
+                    ws_region(false)
+                        .map(|_| ())
+                        .then(save_prefix().boxed())
+                        .then(nonblank().not())
+                        .map(|_| ())
+                        .boxed(),
+                )
+                .map(|((((), code), members), _close)| {
+                    let mut items: Vec<DataItems> = Vec::new();
+                    let mut frames: Vec<SaveFrame> = Vec::new();
+                    for member in members {
+                        match member {
+                            DataBlockMember::DataItems(items_member) => {
+                                items.push(items_member)
+                            }
+                            DataBlockMember::SaveFrame(frame) => frames.push(frame),
+                        }
+                    }
+                    SaveFrame::from_heading_items_frames((
+                        SaveFrameHeading::new(code.to_string()),
+                        items,
+                        frames,
+                    ))
+                })
+        },
+    )
 }
 
-/// Members inside a save frame: tag-value items and loops, but not
-/// nested save frames (spec para. 6).
+/// Frame content members: a `<DataItems>` unit or, in CIF 2.0 only,
+/// a nested save frame (roadmap section 14).
+fn frame_member<'src>(
+    dialect: CifDialect,
+    rec: Recursive<Direct<'src, 'src, &'src str, SaveFrame, Err<'src>>>,
+) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
+    choice((
+        inner_item(dialect).map(DataBlockMember::DataItems),
+        rec.clone()
+            .filter(move |_: &SaveFrame| dialect == CifDialect::Cif2_0)
+            .map(DataBlockMember::SaveFrame),
+    ))
+}
+
 /// Members inside a save frame: single-value items and loops, as
-/// `<DataItems>` (save frames do not nest, spec para. 6).
+/// `<DataItems>` (spec para. 6).
 fn inner_item<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataItems, Err<'src>> {
     choice((loop_items(dialect), tag_value_items(dialect)))
 }
@@ -855,7 +1068,7 @@ fn block_member<'src>(
     dialect: CifDialect,
 ) -> impl Parser<'src, &'src str, DataBlockMember, Err<'src>> {
     choice((
-        save_frame(dialect),
+        save_frame(dialect).map(DataBlockMember::SaveFrame),
         loop_struct(dialect),
         tag_value(dialect),
     ))
@@ -864,7 +1077,13 @@ fn block_member<'src>(
 /// `<DataBlock>`: a `data_` heading plus block members.
 fn data_block<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataBlock, Err<'src>> {
     data_prefix()
-        .then(nonblank().repeated().at_least(1).to_slice())
+        .then(
+            any()
+                .filter(move |c: &char| is_name_char(dialect, *c))
+                .repeated()
+                .at_least(1)
+                .to_slice(),
+        )
         .then(
             ws_region(false)
                 .map(|_| ())
@@ -1204,6 +1423,96 @@ mod tests {
     }
 
     #[test]
+    fn a_2_0_table_holds_key_value_pairs() {
+        let src = "##CIF_2.0
+data_t
+_a { 'zero':0 'one':. }
+_e {}
+";
+        let doc = parse_cif(src).expect("a 2.0 table must parse");
+        match single_item(&doc, "a") {
+            Value::Table(pairs) => {
+                assert_eq!(pairs.len(), 2);
+                match &pairs[0].0 {
+                    Value::CharString(cs) => assert_eq!(cs.as_ref(), "zero"),
+                    other => panic!("expected a key, got {other:?}"),
+                }
+            }
+            other => panic!("expected a table, got {other:?}"),
+        }
+        match single_item(&doc, "e") {
+            Value::Table(pairs) => assert!(pairs.is_empty()),
+            other => panic!("expected an empty table, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_2_0_triple_quoted_string_keeps_content_verbatim() {
+        let src = "##CIF_2.0\ndata_t\n_a '''first\nsecond'''\n_b ''''four'''\n_c ''''''\n";
+        let doc = parse_cif(src).expect("a 2.0 triple-quoted string must parse");
+        match single_item(&doc, "a") {
+            Value::CharString(cs) => assert_eq!(cs.as_ref(), "first\nsecond"),
+            other => panic!("expected a triple string, got {other:?}"),
+        }
+        match single_item(&doc, "b") {
+            Value::CharString(cs) => assert_eq!(cs.as_ref(), "'four"),
+            other => panic!("expected a triple string, got {other:?}"),
+        }
+        match single_item(&doc, "c") {
+            Value::CharString(cs) => assert_eq!(cs.as_ref(), ""),
+            other => panic!("expected an empty triple string, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_1_1_file_rejects_a_table() {
+        let src = "data_t
+_a { 'zero':0 }
+";
+        let errs =
+            parse_cif(src).expect_err("a table in a 1.1 file must be rejected");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
+    }
+
+    #[test]
+    fn a_2_0_file_nests_save_frames() {
+        let src = "##CIF_2.0\ndata_t\nsave_a\nsave_b\nsave_\n_level 1\nsave_\n";
+        let doc = parse_cif(src).expect("a 2.0 nested frame must parse");
+        let block = doc.data_blocks().expect("one block").first().expect("a block");
+        match block.members().first().expect("one member") {
+            DataBlockMember::SaveFrame(frame) => {
+                assert_eq!(frame.data_items().len(), 1);
+                let child = frame.frames().first().expect("a nested frame");
+                assert!(child.frames().is_empty());
+            }
+            other => panic!("expected a save frame, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_2_0_file_allows_unicode_in_codes_tags_and_values() {
+        let src = "##CIF_2.0\ndata_ünïcode\nsave_§\n_αβγ Ω\n_π 𐘾\nsave_\n";
+        let doc = parse_cif(src).expect("a 2.0 unicode file must parse");
+        let block = doc.data_blocks().expect("one block").first().expect("a block");
+        assert_eq!(block.heading(), "ünïcode");
+    }
+
+    #[test]
+    fn a_1_1_file_rejects_unicode_in_a_block_code() {
+        let src = "data_ñ\n_a x\n";
+        let errs =
+            parse_cif(src).expect_err("unicode in a 1.1 block code must fail");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
+    }
+
+    #[test]
+    fn a_1_1_file_rejects_nested_save_frames() {
+        let src = "data_t\nsave_a\nsave_b\nsave_\nsave_\n";
+        let errs = parse_cif(src).expect_err("a nested frame in a 1.1 file must fail");
+        assert!(!errs.is_empty(), "a Rich error must reach the caller");
+    }
+
+    #[test]
     fn a_2_0_file_rejects_brackets_in_unquoted_values() {
         let src = "##CIF_2.0\ndata_d\n_v a[1,2]\n";
         let errs = parse_cif(src).expect_err("a bracket in an unquoted 2.0 value must fail");
@@ -1218,6 +1527,60 @@ mod tests {
             "a brace in an unquoted 2.0 value must fail"
         );
     }
+
+    #[test]
+    fn a_2_0_list_allows_a_glued_comment_and_a_text_member() {
+        // Roadmap section 14: a `#` glued to the `[` starts a
+        // comment (fixture 24, pinned by `list_data.cif`). A
+        // semi-enclosed text field may stand as a list member.
+        let src = "##CIF_2.0\ndata_d\n_a [# comment\n 1\n]\n_b [ x\n;t\n;\n ?\n]\n";
+        let doc = parse_cif(src).expect("list comment and text member parse");
+        match single_item(&doc, "a") {
+            Value::List(values) => {
+                assert_eq!(values.len(), 1);
+                assert_eq!(values[0].as_numeric().expect("numeric"), &Numeric::from(1i32));
+            }
+            other => panic!("expected a list, got {other:?}"),
+        }
+        match single_item(&doc, "b") {
+            Value::List(values) => {
+                assert_eq!(values.len(), 3);
+                assert!(matches!(values[1], Value::TextField(_)));
+            }
+            other => panic!("expected a list, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn vt_and_ff_end_lines_in_a_1_1_file() {
+        // Decision D9a (roadmap section 14): VT (0x0B) and FF
+        // (0x0C) act as line terminators in every dialect. The 1.1
+        // spec excludes both characters (para. 22, 28); the crate
+        // accepts them, which fixture 26 pins.
+        let src = "data_26_vtff\u{0c}_a 'x'\u{0c}_b 1.5e+02\n_t \u{0c};first\n;\n\n_v\u{0b}\u{0b}7\n";
+        let doc = parse_cif(src).expect("VT and FF must end lines in 1.1");
+        assert_eq!(
+            single_item(&doc, "b")
+                .as_numeric()
+                .expect("a numeric value"),
+            &Numeric::from(150.0f64),
+            "the exponent form 1.5e+02 must parse as 150.0",
+        );
+        assert_eq!(
+            single_item(&doc, "t")
+                .as_text_field()
+                .expect("a text field")
+                .raw_string(),
+            "first",
+        );
+        assert_eq!(
+            single_item(&doc, "v")
+                .as_numeric()
+                .expect("a numeric value"),
+            &Numeric::from(7i32),
+        );
+    }
+
 
     /// The `LoopColumns` of the first loop in the document.
     fn first_loop<'a>(doc: &'a CifDocument) -> &'a LoopColumns {

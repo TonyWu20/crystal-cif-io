@@ -15,6 +15,12 @@ pub enum Value {
     /// A CIF 2.0 list value (`[...]`). The elements are any `Value`s,
     /// and a list may nest. Parsed only in the 2.0 dialect.
     List(Vec<Value>),
+    /// A CIF 2.0 table value (`{...}`). The ordered pairs hold a key
+    /// and a value; the key is a value (the parser produces a
+    /// char_string key). Parsed only in the 2.0 dialect (roadmap
+    /// section 14). No core dictionary item uses a table (roadmap
+    /// section 13.3).
+    Table(Vec<(Value, Value)>),
 }
 
 impl Value {
@@ -50,6 +56,15 @@ impl Value {
             None
         }
     }
+
+    /// The ordered key-value pairs of a `Value::Table`.
+    pub fn as_table(&self) -> Option<&Vec<(Value, Value)>> {
+        if let Self::Table(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
 }
 
 pub trait CIFValue {}
@@ -68,6 +83,7 @@ impl crate::grammar::SyntacticUnit for Value {
             Value::CharString(char_string) => char_string.to_string(),
             Value::TextField(text_field) => text_field.to_string(),
             Value::List(values) => list_text(values),
+            Value::Table(pairs) => table_text(pairs),
         }
     }
 }
@@ -92,8 +108,21 @@ impl Display for Value {
             Value::CharString(cs) => write!(f, "{cs}"),
             Value::TextField(tf) => write!(f, "{tf}"),
             Value::List(values) => write!(f, "{}", list_text(values)),
+            Value::Table(pairs) => write!(f, "{}", table_text(pairs)),
         }
     }
+}
+
+/// Render a table value as CIF 2.0 text: `{`, the pairs joined by a
+/// blank, and `}`. Each pair is `key:value`. An empty table renders
+/// as `{}`.
+fn table_text(pairs: &[(Value, Value)]) -> String {
+    let items = pairs
+        .iter()
+        .map(|(k, v)| format!("{}:{}", k.formatted_output(), v.formatted_output()))
+        .collect::<Vec<_>>()
+        .join(" ");
+    format!("{{{items}}}")
 }
 
 #[cfg(test)]
@@ -112,6 +141,20 @@ mod tests {
         assert_eq!(value.to_string(), "[1 abc [?]]");
         let empty = Value::List(Vec::new());
         assert_eq!(empty.to_string(), "[]");
+    }
+
+    #[test]
+    fn table_display_round_trips() {
+        let pairs = vec![(
+            Value::CharString(CharString::SingleQuoted(crate::grammar::SingleQuotedString::new(
+                "zero".to_string(),
+            ))),
+            Value::Numeric(Numeric::from(0i32)),
+        )];
+        let value = Value::Table(pairs);
+        assert_eq!(value.to_string(), "{'zero':0}");
+        let empty = Value::Table(Vec::new());
+        assert_eq!(empty.to_string(), "{}");
     }
 
     #[test]

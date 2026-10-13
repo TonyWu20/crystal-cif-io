@@ -19,8 +19,8 @@ mod whitespace_comments;
 pub use matrix::{Matrix, MatrixError};
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
 pub use strings_textfields::{
-    CharString, DoubleQuotedString, SemiColonTextField, SingleQuotedString, TextField,
-    UnquotedString,
+    CharString, DoubleQuotedString, SemiColonTextField, SingleQuotedString,
+    TripleDoubleQuotedString, TripleSingleQuotedString, TextField, UnquotedString,
 };
 pub use structures::{
     CIFDataType, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopColumn, LoopColumns,

@@ -1,0 +1,87 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "glued",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "spaced",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "mixed_list",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Mary"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "had"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "little"
+              },
+              {
+                "kind": "unknown"
+              },
+              {
+                "kind": "text_field",
+                "text": "A text member"
+              },
+              {
+                "kind": "unknown"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "24_list_features"
+    }
+  ],
+  "fixture": "24_list_features.cif",
+  "schema_version": 2
+}

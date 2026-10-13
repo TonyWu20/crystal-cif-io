@@ -1,11 +1,92 @@
 {
-  "expect_error": {
-    "description": "parser rejects this file: [found ''\\''' at 35..36 expected ''s'', ''S'', ''l'', ''L'', ''_'', ''d'', ''D'', or end of input]. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
-    "stage": "parse",
-    "violation": "unparseable"
-  },
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "empty1",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty2",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "simple",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "simple"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tricky1",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "'tricky"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tricky2",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": "\"\"tricky"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "embedded",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "\"\"\"embedded\"\"\""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "multiline1",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": "first line\nsecond line"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "multiline2",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "\nsecond line [of 3]\n"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "ml_embed",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": "\n_not_a_name\n;embedded\n;\n"
+          }
+        }
+      ],
+      "name": "triple"
+    }
+  ],
   "fixture": "triple.cif",
-  "known_gap": true,
-  "known_gap_note": "The file is detected as CIF 2.0 via the escaped version spelling. Grammar gap: triple-quoted strings (single and double, including multiline forms) are not supported.",
   "schema_version": 2
 }

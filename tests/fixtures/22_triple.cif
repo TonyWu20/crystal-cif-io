@@ -1,0 +1,10 @@
+##CIF_2.0
+data_triple
+_empty ''''''
+_double """"""
+_single '''simple'''
+_four '''''four'''
+_embed '''"""x"""'''
+_multiline '''first
+second'''
+_table { '''k''':1 }

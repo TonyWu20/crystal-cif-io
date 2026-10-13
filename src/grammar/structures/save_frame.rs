@@ -8,6 +8,9 @@ use crate::grammar::structures::data_items::DataItems;
 pub struct SaveFrame {
     heading: SaveFrameHeading,
     data_items: Vec<DataItems>,
+    /// Nested save frames (CIF 2.0 only, roadmap section 14). Empty
+    /// in every 1.1 file.
+    frames: Vec<SaveFrame>,
 }
 
 #[derive(Debug, Clone)]
@@ -28,6 +31,20 @@ impl SaveFrame {
         Self {
             heading,
             data_items,
+            frames: Vec::new(),
+        }
+    }
+
+    /// Build a frame with its items and its nested frames (CIF 2.0
+    /// only, roadmap section 14). The items and frames are the
+    /// frame content, split by kind.
+    pub fn from_heading_items_frames(
+        (heading, data_items, frames): (SaveFrameHeading, Vec<DataItems>, Vec<SaveFrame>),
+    ) -> Self {
+        Self {
+            heading,
+            data_items,
+            frames,
         }
     }
 
@@ -42,19 +59,39 @@ impl SaveFrame {
     pub fn data_items_mut(&mut self) -> &mut Vec<DataItems> {
         &mut self.data_items
     }
+
+    /// The nested frames of this frame (empty in 1.1 files).
+    pub fn frames(&self) -> &[SaveFrame] {
+        &self.frames
+    }
 }
 
 impl crate::grammar::SyntacticUnit for SaveFrame {
     type FormatOutput = String;
 
     fn formatted_output(&self) -> Self::FormatOutput {
+        // The items come before the nested frames. Both splits
+        // re-parse to the same frame, so the round trip is stable.
         let items = self
             .data_items
             .iter()
             .map(|item| item.to_string())
             .collect::<Vec<String>>()
             .join("\n");
-        format!("save_{}\n{}\nsave_", self.heading.as_ref(), items)
+        let frames = self
+            .frames
+            .iter()
+            .map(|frame| frame.to_string())
+            .collect::<Vec<String>>()
+            .join("\n");
+        let mut body = items;
+        if !frames.is_empty() {
+            if !body.is_empty() {
+                body.push_str("\n");
+            }
+            body.push_str(&frames);
+        }
+        format!("save_{}\n{}\nsave_", self.heading.as_ref(), body)
     }
 }
 
