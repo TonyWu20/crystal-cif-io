@@ -280,8 +280,16 @@ one entry per required item.
 | wave | categories | items | note |
 |---|---|---|---|
 | D12 wave 1 | `cell`, `space_group`, `space_group_symop`, `atom_site`, `chemical_formula` | ~164 | the D11 five, the reviewed spec tables |
-| D12 wave 2+ | the remaining T2-T5 categories | ~504 | a codegen target over `depends.json` plus annotations |
-| D12 wave 3 | the shell-only categories (T6) | ~350 | after the T6 term wave |
+| D12 wave 2+ | the remaining 57 standard categories (T2 to T5) | ~568 | a codegen target over `depends.json` plus annotations |
+| shell categories | 29 categories the shell adds | out of scope per D12i. Reopen only if the shell scope is wanted |
+
+The five categories of wave 1 are the rollout slice, not the
+bound of the layer. The scope is the IUCr category view of the
+CIF 1.1 standard dictionary: 732 items in 62 categories (D12i).
+Categories fall into three shapes: a single-value struct (11),
+a loop row struct held in a `Vec` (40), and a mix of both (11).
+Wave 1 proves the shape on the reviewed set. The codegen target
+carries the remaining 57. The rollout order is open (D12j).
 
 Wave 1 leaves the `atom_site_aniso` and
 `atom_sites_cartn_transform` loops in `extra`. They join wave 2.
@@ -319,6 +327,8 @@ below need a call.
 | D12g | the block view name | A: `CoreCif`. B: `CifDataBlock`. C: `DataBlockDoc` | A. It names the dictionary the structs follow |
 | D12h | builder outputs | A: the builders return the doc structs. The builder-local structs go. B: the doc structs wrap the builder outputs | A. One struct per category, no shadow copy |
 | D13 | the crate split | A: a repo-root workspace, two subdirectory crates. B: two sibling repos | A, the castep mirror. Open detail D13a-D13d in section 10 |
+| D12i | the final scope of the struct layer | A: all 91 shell categories (1139 items). B: the 62 standard categories (732 items). C: a domain subset the user names | **B (user, 2026-10-17)**. The IUCr category view of the CIF 1.1 standard dictionary is the scope authority. The official list pins in `crystal_cif_io/tests/dict_categories_official.json`. The `dict_categories_official` test gates drift. Shell-only categories stay out of the struct layer |
+| D12j | the rollout order after wave 1 | A: the roadmap tiers T2 to T6. B: the user application domain first. C: the real-data coverage data first | B if one application drives the need, A if the library drives it. Open, 2026-10-17 |
 
 ## 10. The crate split (D13)
 
