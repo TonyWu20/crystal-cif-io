@@ -2,8 +2,8 @@
 """Extract the item dependency data from the two pinned dictionaries.
 
 Reads:
-  tests/dict/cif_core.dic        DDL1 core dictionary
-  tests/dict/cif_core_shell.dic  DDL2 (CIF 2.0) core shell
+  crystal_cif_io/tests/dict/cif_core.dic        DDL1 core dictionary
+  crystal_cif_io/tests/dict/cif_core_shell.dic  DDL2 (CIF 2.0) core shell
 
 Writes codegen/depends.json. Per category it records the DDL1 item
 groups (the `loop_ _name` families) and, per item, the source class,
@@ -25,8 +25,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-DDL1_DEFAULT = REPO_ROOT / "tests" / "dict" / "cif_core.dic"
-SHELL_DEFAULT = REPO_ROOT / "tests" / "dict" / "cif_core_shell.dic"
+DDL1_DEFAULT = REPO_ROOT / "crystal_cif_io" / "tests" / "dict" / "cif_core.dic"
+SHELL_DEFAULT = REPO_ROOT / "crystal_cif_io" / "tests" / "dict" / "cif_core_shell.dic"
 OUT_DEFAULT = REPO_ROOT / "codegen" / "depends.json"
 
 # ---------------------------------------------------------------------------
@@ -849,14 +849,14 @@ def main():
         "generated_by": "codegen/extract_depends.py",
         "sources": {
             "ddl1": {
-                "file": "tests/dict/cif_core.dic",
+                "file": "crystal_cif_io/tests/dict/cif_core.dic",
                 "sha256": sha256_of(ddl1_path),
                 "dictionary_name": ddl1["meta"].get("_dictionary_name") if ddl1["meta"] else None,
                 "dictionary_version": ddl1["meta"].get("_dictionary_version") if ddl1["meta"] else None,
                 "dictionary_update": ddl1["meta"].get("_dictionary_update") if ddl1["meta"] else None,
             },
             "shell": {
-                "file": "tests/dict/cif_core_shell.dic",
+                "file": "crystal_cif_io/tests/dict/cif_core_shell.dic",
                 "sha256": sha256_of(shell_path),
                 "dictionary_version": shell["meta"].get("_dictionary.version"),
                 "dictionary_date": shell["meta"].get("_dictionary.date"),

@@ -5,6 +5,25 @@ Keep a Changelog.
 
 ## Unreleased
 
+### Changed
+
+- Split the workspace into two crates (roadmap D13).
+  `crystal-cif-fmt` (new, 0.1.0) owns the parser, the IR value
+  types, the term materialization traits, and the canonical JSON.
+  `crystal-cif-io` (0.3.0) keeps `data_dict` and `builder` and
+  depends on `crystal-cif-fmt` by path.
+- Breaking: `parse_cif`, `rich_error`, `CifDialect`, and all IR
+  types (`Tag`, `Value`, `DataBlock`, `DataItems`, `SaveFrame`,
+  `Matrix`, the numeric and string value types) moved from
+  `crystal-cif-io` to `crystal-cif-fmt`. The term traits
+  (`CifTerm`, `SingleValueTerm`, `LoopValueTerm`) now live in
+  `crystal-cif-fmt`; `crystal_cif_io::data_dict` re-exports them.
+- The test corpora moved with their crate. `tests/real_data` and
+  `tests/fixtures` live with the parser crate. The dictionary
+  inventories and the pinned `.dic` files live with the io crate.
+  The CI fetch step and `codegen/extract_depends.py` use the new
+  paths. `codegen/depends.json` regenerated over the new paths.
+
 ### Added
 
 - A COMCIFS `cif_api` test-data corpus in

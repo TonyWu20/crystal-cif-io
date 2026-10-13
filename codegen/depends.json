@@ -57714,14 +57714,14 @@
       "dictionary_name": "cif_core.dic",
       "dictionary_update": "2024-08-28",
       "dictionary_version": "2.5.0-dev.1",
-      "file": "tests/dict/cif_core.dic",
+      "file": "crystal_cif_io/tests/dict/cif_core.dic",
       "sha256": "56fd2d078706c97a4013a45c316339dd720010e6e7247a1a20d084c8c00e73d2"
     },
     "shell": {
       "ddl_conformance": "4.2.0",
       "dictionary_date": "2026-09-11",
       "dictionary_version": "3.4.0-dev",
-      "file": "tests/dict/cif_core_shell.dic",
+      "file": "crystal_cif_io/tests/dict/cif_core_shell.dic",
       "sha256": "9036f4aea461bcb47a1445cd287e71431c8a98ff25fa74057dfd8a60272dfa73"
     }
   }

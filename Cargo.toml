@@ -1,17 +1,6 @@
-[package]
-name = "crystal-cif-io"
-version = "0.2.0"
-edition = "2021"
-author = "TonyWu20"
-description = "A library to parse and write crystallography `cif` format."
-keywords = ["chemistry", "crystallography"]
-license = "MIT"
-repository = "https://github.com/TonyWu20/crystal-cif-io"
-
-[dependencies]
-elements_rs = { version = "0.2.8", default-features = false }
-serde_json = "1"
-chumsky = "0.13"
-bon = "3.10"
-crystallographic-group = "0.4"
-ariadne = { version = "0.6", features = ["auto-color"] }
+[workspace]
+members = [
+    "crystal_cif_fmt",
+    "crystal_cif_io",
+]
+resolver = "2"

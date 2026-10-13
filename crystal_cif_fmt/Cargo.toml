@@ -1,0 +1,14 @@
+[package]
+name = "crystal-cif-fmt"
+version = "0.1.0"
+edition = "2021"
+author = "TonyWu20"
+description = "Parser and IR for the IUCr crystallography `cif` format."
+keywords = ["chemistry", "crystallography"]
+license = "MIT"
+repository = "https://github.com/TonyWu20/crystal-cif-io"
+
+[dependencies]
+chumsky = "0.13"
+ariadne = { version = "0.6", features = ["auto-color"] }
+serde_json = "1"

@@ -1,8 +1,10 @@
 # crystal-cif-io
 
 Parse and write crystallographic CIF (Crystallographic Information
-File) data in Rust. The crate handles the IUCr CIF 1.1 file syntax
-and the CIF 2.0 value rules. It also provides a typed dictionary
+File) data in Rust. The workspace carries two crates.
+`crystal-cif-fmt` handles the IUCr CIF 1.1 file syntax and the
+CIF 2.0 value rules. It owns the parser, the IR types, and the
+canonical JSON. `crystal-cif-io` provides the typed dictionary
 layer for the IUCr core CIF dictionary. It also ships a
 per-category builder layer. Each builder needs the required
 items of one category. A missing item fails to compile at
@@ -14,17 +16,18 @@ Add the dependency:
 
 ```toml
 [dependencies]
-crystal-cif-io = "0.2"
+crystal-cif-fmt = "0.1"
+crystal-cif-io = "0.3"
 ```
 
 The API tour below carries over across snippets. `doc` comes from
 the parsing step. `block` comes from the keyword-fields step.
-Every snippet compiles against the current crate. The types are
-re-exported at the crate root, so the snippets need no module
-paths.
+Every snippet compiles against the current crates. Parser and IR
+types live in `crystal-cif-fmt`. Dictionary and builder types live
+in `crystal-cif-io`. Each snippet shows its own imports.
 
 The tour rides on a real file. The excerpt below is trimmed
-from `tests/real_data/cod/1000000.cif`, COD entry 1000000
+from `crystal_cif_fmt/tests/real_data/cod/1000000.cif`, COD entry 1000000
 (IUCr Acta C 56, 1073, 2000). The full file is pinned in the
 test corpus. Save the excerpt as `1000000.cif`. The tour reads
 it from disk.
@@ -80,7 +83,7 @@ consumed the whole input. Errors are a `Vec<Rich<char>>`.
 source text.
 
 ```rust
-use crystal_cif_io::{parse_cif, rich_error, CifDialect};
+use crystal_cif_fmt::{parse_cif, rich_error, CifDialect};
 
 let source = std::fs::read_to_string("1000000.cif").unwrap();
 
@@ -114,7 +117,7 @@ Real 1.1 structures carry few save frames. Section 6 shows
 frames on a real 2.0 container file.
 
 ```rust
-use crystal_cif_io::{DataBlockMember, DataItems};
+use crystal_cif_fmt::{DataBlockMember, DataItems};
 
 for block in doc.data_blocks().unwrap() {
     println!("block {}", block.heading());
@@ -143,7 +146,7 @@ Look up by the item name, without the leading underscore. The
 tag display adds the underscore.
 
 ```rust
-use crystal_cif_io::Value;
+use crystal_cif_fmt::Value;
 
 let block = doc
     .get_data_block_by_name("1000000")
@@ -220,7 +223,7 @@ A `loop_` section parses to `DataItems::MultiValues`. The type is
 per loop row, in row order.
 
 ```rust
-use crystal_cif_io::Value;
+use crystal_cif_fmt::Value;
 
 let column = block
     .find_loop_column_by_tag("atom_site_label")
@@ -243,7 +246,7 @@ counts every loop. Unrelated loops report 0. The excerpt's
 `atom_site` loop carries three rows: `P1`, `P2`, `Al1`.
 
 ```rust
-use crystal_cif_io::DataItems;
+use crystal_cif_fmt::DataItems;
 
 for member in block.members() {
     if let DataBlockMember::DataItems(items) = member {
@@ -306,7 +309,7 @@ dialect. Frame names scope per block: `block1` and `block3` each
 carry a `save_s1`.
 
 ```rust
-use crystal_cif_io::{parse_cif, DataBlockMember, SaveFrame};
+use crystal_cif_fmt::{parse_cif, DataBlockMember, SaveFrame};
 
 let cs = std::fs::read_to_string("simple_containers.cif").unwrap();
 let cdoc = parse_cif(&cs).expect("the container file parses");
@@ -343,7 +346,7 @@ use crystal_cif_io::data_dict::core_cif::cell::{
     CellTerms, MeasurementReflnLoopItem,
 };
 use crystal_cif_io::data_dict::{LoopValueTerm, SingleValueTerm};
-use crystal_cif_io::{
+use crystal_cif_fmt::{
     CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopColumns,
 };
 
@@ -385,7 +388,7 @@ value within the relative tolerance. A mismatch rejects with a
 use crystal_cif_io::builder::cell::Cell;
 use crystal_cif_io::builder::space_group::SpaceGroup;
 use crystal_cif_io::data_dict::core_cif::space_group::ITNumber;
-use crystal_cif_io::{Matrix, Number, UnsignedInteger};
+use crystal_cif_fmt::{Matrix, Number, UnsignedInteger};
 
 The direct-six example builds the excerpt's cell. Its
 supplied volume cross-checks against the computed value.
@@ -470,7 +473,7 @@ in `docs/dict-completeness.md` and `codegen/depends.json`.
 rows or from a parsed 2.0 list value.
 
 ```rust
-use crystal_cif_io::{Matrix, Value};
+use crystal_cif_fmt::{Matrix, Value};
 
 let matrix = Matrix::try_new(vec![
     vec![1.into(), 2.into()],
@@ -500,7 +503,7 @@ IR. `validate` runs the spec-level checks and returns the
 violations.
 
 ```rust
-use crystal_cif_io::canonical;
+use crystal_cif_fmt::canonical;
 
 let json = canonical::document_json(&doc, "1000000.cif", 2);
 println!("{}", serde_json::to_string(&json).unwrap());
@@ -580,7 +583,7 @@ usually a char string.
 - A parser built on `chumsky` and `ariadne`. Errors render as
   ariadne reports with the source text labeled.
 - A canonical IR (`CifDocument`) and a canonical JSON encoder
-  (`crystal_cif_io::canonical`) with spec-level checks.
+  (`crystal_cif_fmt::canonical`) with spec-level checks.
 - `Value::List` for the CIF 2.0 list value, including nested
   lists.
 - `Matrix` for matrix-shaped values, with dictionary shape checks.
