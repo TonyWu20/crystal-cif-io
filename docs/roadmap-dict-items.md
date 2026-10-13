@@ -177,6 +177,7 @@ log at the end of this document.
 | D8 | CIF 2.0 list values (`[...]`), the carrier for `Matrix` items | A: add dialect detection, a `Value::List` variant, and the 2.0 string restriction. B: keep the crate 1.1-only and skip list parsing | A, scoped to lists only (tables stay out). See section 13 |
 | D9 | CIF 2.0 syntax completion: the seven `known_gap` corpus files | A: implement every pinned feature (tables, triple-quoted strings, nested frames, Unicode, VT/FF). B: keep the `known_gap` pins and skip | A, scoped to the seven pinned cases, no new dictionary items. See section 14 |
 | D9a | VT/FF as 1.1 line terminators | A: accept both in every dialect, a recorded 1.1 deviation. B: accept in the 2.0 dialect only | A. It follows the bracket-lead precedent (13.3 item 2, fixture 17). Fixture 26 pins it |
+| D10 | dictionary completeness: research plus a builder layer | A: research the item dependencies into `docs/dict-completeness.md`, then a per-category builder on the `bon` crate. B: skip the research, hand-pick profiles. C: read-side validation only, no builder | A. The user chose the `bon` builder with compile-time required-field checking. The builder wave (D11) waits for the research review |
 
 ## 6. Phases
 
@@ -311,6 +312,7 @@ Record decisions here as they are made.
 | D4a | codegen implementation | `examples/dict_codegen.rs` with `codegen/annotations.json` (JSON: the generator reuses the existing `serde_json`; no new dependencies). The format and the reuse path are documented in `docs/codegen.md`. The registry and pub-mod lists stay append-only. T4 carries no range items; its five closed sets become typed enums | 2026-10-08 |
 | D9 | CIF 2.0 syntax completion | A: all seven features (section 14). VT/FF line terminators in every dialect. Comments and `;` text members inside 2.0 containers. 2.0 table values. 2.0 triple-quoted strings. 2.0 nested save frames. 2.0 Unicode. The `1.25e+03` exponent form is already legal under the 1.1 `<Float>` production, so it needs no change. The seven `known_gap` pins flip to full IR pins. The iucr and cod pins stay byte-identical. The work lands on branch `dict-items/d9` (based on `dev-0.2`) | 2026-10-13 |
 | D9a | VT/FF in every dialect | A: accept VT (`0x0B`) and FF (`0x0C`) as line terminators in every dialect. A recorded 1.1 deviation: the 1.1 spec excludes both (paras. 22, 28). It follows the bracket-lead precedent (13.3 item 2). Fixture 26 pins the 1.1 behavior | 2026-10-13 |
+| D10 | dictionary completeness guard | A: research first (`docs/dict-completeness.md`, the `cell` worked example, the core structure categories, a `codegen/depends.json` extractor), then a per-category builder on the `bon` crate (3.x). The builder enforces the required set at compile time. New code style rule: no redundant comments where the code states the intent. Research runs on branch `dict-items/d10` (based on `dev-0.2`), mission `orchestrate/mission_d10.sh` | 2026-10-13 |
 
 The current wave covers T0, T2, T3, T4, T5. T6 (and the D8 parser
 work) start only when D1 approves the shell scope.
