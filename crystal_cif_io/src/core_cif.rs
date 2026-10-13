@@ -144,11 +144,14 @@ impl CoreCif {
                 });
             }
         }
-        // `space_group`: the resolved identifier.
-        if self.space_group.it_number.is_none() {
+        // `space_group`: one identifier (any of the three names).
+        let identified = self.space_group.it_number.is_some()
+            || self.space_group.name_hall.is_some()
+            || self.space_group.symmetry_name_h_m.is_some();
+        if !identified {
             errors.push(CifError::Missing {
                 category: "space_group",
-                item: "it_number",
+                item: "it_number, name_hall, or symmetry_name_h_m",
             });
         }
         // `chemical_formula`: the required spelling.

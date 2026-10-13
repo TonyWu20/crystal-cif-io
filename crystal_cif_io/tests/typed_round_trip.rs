@@ -6,7 +6,9 @@
 //! foreign tags land in `extra`, order kept.
 
 use crystal_cif_fmt::grammar::{Numeric, UnquotedString};
-use crystal_cif_fmt::{CharString, DataBlock, DataItems, DataBlockMember, parse_cif};
+use crystal_cif_fmt::{
+    CharString, DataBlock, DataItems, DataBlockMember, SaveFrame, SaveFrameHeading, parse_cif,
+};
 
 use crystal_cif_io::core_cif::{CifError, CoreCif};
 use crystal_cif_io::data_dict::core_cif::cell::CellAngle;
@@ -172,7 +174,7 @@ fn removing_one_required_item_reports_exactly_one_missing() {
 
 #[test]
 fn save_frames_and_foreign_tags_are_the_extra_residue() {
-    // A block with a typed item, a foreign tag, and a save frame. The
+    // A block with a typed item, a save frame, and a foreign tag. The
     // typed item types; the other two are the residue, order kept.
     let members = vec![
         DataBlockMember::DataItems(DataItems::SingleValue(
@@ -181,6 +183,15 @@ fn save_frames_and_foreign_tags_are_the_extra_residue() {
                 crystal_cif_fmt::grammar::Value::Numeric(Numeric::from(5.0)),
             )),
         )),
+        DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
+            SaveFrameHeading::new("reflns".to_string()),
+            vec![DataItems::SingleValue(
+                crystal_cif_fmt::grammar::SingleLineData::from_tag_value((
+                    crystal_cif_fmt::grammar::Tag::new("refln_FH".to_string()),
+                    crystal_cif_fmt::grammar::Value::Numeric(Numeric::from(10.0)),
+                ))
+            )],
+        ))),
         DataBlockMember::DataItems(DataItems::SingleValue(
             crystal_cif_fmt::grammar::SingleLineData::from_tag_value((
                 crystal_cif_fmt::grammar::Tag::new("audit_author_name".to_string()),
@@ -196,8 +207,18 @@ fn save_frames_and_foreign_tags_are_the_extra_residue() {
     ));
     let doc = CoreCif::from_block(&block).expect("the read is clean");
     assert!(doc.cell.length_a.is_some(), "the typed cell item types");
-    assert_eq!(doc.extra.len(), 1, "the foreign tag is the residue");
-    if let DataBlockMember::DataItems(DataItems::SingleValue(sv)) = &doc.extra[0] {
+    assert_eq!(
+        doc.extra.len(),
+        2,
+        "the save frame and the foreign tag are the residue"
+    );
+    match (&doc.extra[0], &doc.extra[1]) {
+        (DataBlockMember::SaveFrame(frame), DataBlockMember::DataItems(_)) => {
+            assert_eq!(frame.heading().as_ref(), "reflns", "the frame survives");
+        }
+        _ => panic!("the residue keeps the save frame before the foreign tag"),
+    }
+    if let DataBlockMember::DataItems(DataItems::SingleValue(sv)) = &doc.extra[1] {
         assert_eq!(sv.tag().as_ref(), "audit_author_name");
     } else {
         panic!("the residue is the foreign single-value item");
@@ -205,13 +226,31 @@ fn save_frames_and_foreign_tags_are_the_extra_residue() {
 }
 
 #[test]
-fn the_structure_block_validates_the_two_absent_required_items() {
+fn the_structure_block_validates_the_one_absent_required_item() {
     let block = first_block(&fixture("09_realistic_structure.cif"));
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
-    let errors = doc.validate().expect_err("two required items are absent");
-    assert_eq!(errors.len(), 2, "the two absent required items report");
+    let errors = doc.validate().expect_err("one required item is absent");
+    assert_eq!(errors.len(), 1, "the one absent required item reports");
     assert!(errors.iter().all(|e| matches!(e, CifError::Missing { .. })),
         "every report is a missing item");
+}
+
+#[test]
+fn the_real_file_symmetry_tags_fill_the_space_group_fields() {
+    let block = first_block(&fixture("09_realistic_structure.cif"));
+    let doc = CoreCif::from_block(&block).expect("the typed read is clean");
+    assert!(
+        doc.space_group.name_hall.is_some(),
+        "the DDL1 Hall tag fills name_hall"
+    );
+    assert!(
+        doc.space_group.symmetry_name_h_m.is_some(),
+        "the DDL1 H-M tag fills symmetry_name_h_m"
+    );
+    assert!(
+        doc.space_group.it_number.is_none(),
+        "the fixture carries no IT number"
+    );
 }
 
 #[test]

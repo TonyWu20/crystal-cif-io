@@ -185,7 +185,7 @@ impl CifCategory for SpaceGroup {
                             Err(e) => errors.push(e),
                         }
                     }
-                    "space_group_it_number" => {
+                    "space_group_it_number" | "symmetry_int_tables_number" => {
                         match convert::read_it_number("space_group_it_number", value) {
                             Ok(v) => self.it_number = v,
                             Err(e) => errors.push(e),
@@ -215,7 +215,7 @@ impl CifCategory for SpaceGroup {
                             Err(e) => errors.push(e),
                         }
                     }
-                    "space_group_name_hall" => {
+                    "space_group_name_hall" | "symmetry_space_group_name_hall" => {
                         match convert::read_char("space_group_name_hall", value) {
                             Ok(v) => self.name_hall = v,
                             Err(e) => errors.push(e),
@@ -269,8 +269,8 @@ impl CifCategory for SpaceGroup {
                             Err(e) => errors.push(e),
                         }
                     }
-                    "symmetry.space_group_name_h-m" => {
-                        match convert::read_char("symmetry.space_group_name_h-m", value) {
+                    "symmetry.space_group_name_h-m" | "symmetry_space_group_name_h-m" => {
+                        match convert::read_char("symmetry_space_group_name_h-m", value) {
                             Ok(v) => self.symmetry_name_h_m = v,
                             Err(e) => errors.push(e),
                         }
