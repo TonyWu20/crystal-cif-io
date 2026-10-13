@@ -21,7 +21,9 @@ impl FormulaWeight {
     }
 
     /// Build without the range guard. The read path stores the
-    /// recorded value as written; the guard applies at the write.
+    /// recorded value as written. The builder write path applies the
+    /// guard. The document `to_members` writes the stored value as
+    /// is.
     pub fn from_numeric(value: Numeric) -> Self {
         Self(value)
     }

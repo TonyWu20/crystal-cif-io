@@ -106,7 +106,9 @@ pub(crate) fn read_it_number(tag: &str, v: &Value) -> Result<Option<ITNumber>, C
 /// Read an unsigned-integer item.
 pub(crate) fn read_unsigned(tag: &str, v: &Value) -> Result<Option<UnsignedInteger>, CifError> {
     let n = read_numeric(tag, v)?;
-    Ok(n.map(|n| UnsignedInteger(number_to_u64(&n) as u32)))
+    // Saturate before the `u32` cast so a huge value reads as the
+    // max instead of wrapping low.
+    Ok(n.map(|n| UnsignedInteger(number_to_u64(&n).min(u32::MAX as u64) as u32)))
 }
 
 /// Read a `SymMultiplicity` item. The value is an integer in `1:192`.

@@ -16,7 +16,7 @@ Keep a Changelog.
   `Vec<atom_site::AtomSite>`, and
   `chemical_formula::ChemicalFormula`. The builder-private structs
   and their `to_data_items` paths are removed. The `CifCategory`
-  trait `to_members` is the materialization path now.
+  trait `to_members` is the materialization path now. `Symop::builder` now takes the resolved `crystallographic_group::SpaceGroup` in place of the removed builder-local `SpaceGroup`.
 - Split the workspace into two crates (roadmap D13).
   `crystal-cif-fmt` (new, 0.1.0) owns the parser, the IR value
   types, the term materialization traits, and the canonical JSON.

@@ -6,10 +6,10 @@
 //! computed list. A mismatch rejects with a `Result`, never a
 //! panic.
 //!
-//! `to_data_items` materializes the loop (the `id` and
-//! `operation_xyz` columns). The per-row single-value terms
+//! `Symop` materializes the loop through `CifCategory::to_members`
+//! (the `id` and `operation_xyz` columns). The per-row fields
 //! (`r`, `rt`, `t`, `seitz_matrix`, `operation_description`) are
-//! available from `terms` through `SingleValueTerm`.
+//! plain struct fields.
 
 use bon::bon;
 use crystallographic_group::SeitzMatrix;
