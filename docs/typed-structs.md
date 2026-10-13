@@ -328,7 +328,7 @@ below need a call.
 | D12h | builder outputs | A: the builders return the doc structs. The builder-local structs go. B: the doc structs wrap the builder outputs | A. One struct per category, no shadow copy |
 | D13 | the crate split | A: a repo-root workspace, two subdirectory crates. B: two sibling repos | A, the castep mirror. Open detail D13a-D13d in section 10 |
 | D12i | the final scope of the struct layer | A: all 91 shell categories (1139 items). B: the 62 standard categories (732 items). C: a domain subset the user names | **B (user, 2026-10-17)**. The IUCr category view of the CIF 1.1 standard dictionary is the scope authority. The official list pins in `crystal_cif_io/tests/dict_categories_official.json`. The `dict_categories_official` test gates drift. Shell-only categories stay out of the struct layer |
-| D12j | the rollout order after wave 1 | A: the roadmap tiers T2 to T6. B: the user application domain first. C: the real-data coverage data first | B if one application drives the need, A if the library drives it. Open, 2026-10-17 |
+| D12j | the rollout order after wave 1 | A: the roadmap tiers T2 to T6. B: the user application domain first. C: the real-data coverage data first | **A (user, 2026-10-17)**. The 57 remaining standard categories proceed in roadmap tier order, tiers 2 through 5. Tier 6 is out of scope per D12i |
 
 ## 10. The crate split (D13)
 
