@@ -1,0 +1,56 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "bracket_mid",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "Fc^*^=kFc[1+0.001xFc^2^\\l^3^/sin(2\\q)]^-1/4^"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "bracket_end",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "a[42]"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "brace_begin",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "{foo}bar"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "brace_mid",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "bar{foo}bar"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "brace_end",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "bar{foo}"
+          }
+        }
+      ],
+      "name": "cif11_unquoted"
+    }
+  ],
+  "fixture": "cif11_unquoted.cif",
+  "schema_version": 1
+}

@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''ě'' at 129..131 expected something else, or ''\\''']. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "20_utf8_nonascii.cif",
+  "schema_version": 1
+}

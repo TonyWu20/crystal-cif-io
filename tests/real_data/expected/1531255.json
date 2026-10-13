@@ -1,0 +1,567 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Boullay, P."
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Teneze, N."
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Trolliard, G."
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Mercurio, D."
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Perez-Mato, J.M."
+              }
+            ]
+          ],
+          "tags": [
+            "publ_author_name"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_title",
+          "value": {
+            "kind": "text_field",
+            "text": "\n Superspace description of the hexagonal perovskites in the system (Ba5\n Nb4 O15) - (Ba Ti O3) as modulated layered structures"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_name_full",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Journal of Solid State Chemistry"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_page_first",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "209"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_page_last",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "220"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_volume",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "174"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_year",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "2003"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_sum",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Ba Nb0.667 O3 Ti0.167"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_name_systematic",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Ba (Ti0.167 Nb0.667) O3"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "space_group_IT_number",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "164"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_space_group_name_Hall",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "-P 3 2\""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_space_group_name_H-M",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "P -3 m 1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_alpha",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_beta",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_gamma",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "120"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_formula_units_Z",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.7777"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_b",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.7777"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_c",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "2.3571"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_volume",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "68.143"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "citation_journal_id_ASTM",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "JSSCBI"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cod_data_source_file",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "Boullay_JSSCBI_2003_1628.cif"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cod_data_source_block",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "Ba1Nb0.667O3Ti0.167"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cod_original_cell_volume",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "68.14259"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cod_original_formula_sum",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Ba1 Nb0.667 O3 Ti0.167"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cod_database_code",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1531255"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x,y,z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-y,x-y,z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x+y,-x,z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y,x,-z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x,-x+y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x-y,-y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x,-y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y,-x+y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x-y,x,-z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-y,-x,z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x,x-y,z"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x+y,y,z"
+              }
+            ]
+          ],
+          "tags": [
+            "symmetry_equiv_pos_as_xyz"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Nb1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Nb+5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.667"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O-2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ba1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ba+2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ti1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ti+4"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.167"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_site_label",
+            "atom_site_type_symbol",
+            "atom_site_fract_x",
+            "atom_site_fract_y",
+            "atom_site_fract_z",
+            "atom_site_occupancy",
+            "atom_site_U_iso_or_equiv"
+          ]
+        }
+      ],
+      "name": "1531255"
+    }
+  ],
+  "fixture": "1531255.cif",
+  "schema_version": 1
+}

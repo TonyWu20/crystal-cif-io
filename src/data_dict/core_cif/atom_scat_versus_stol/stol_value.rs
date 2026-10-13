@@ -1,0 +1,44 @@
+use std::fmt::Display;
+
+use crate::grammar::{Float, Number, Numeric, Value};
+
+/// The write-time range check for `_atom_scat_versus_stol_stol_value`. `new` clamps the value
+/// to [0.0, +infinity), matching the dictionary `_enumeration`.
+///
+/// range constraint recorded in the dictionary _enumeration
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+pub struct StolValue(Float);
+
+impl StolValue {
+    pub fn new(float: Float) -> Self {
+        Self(Float(float.max(0.0)))
+    }
+
+    pub fn value(&self) -> Float {
+        self.0
+    }
+}
+
+impl Display for StolValue {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl From<StolValue> for Value {
+    fn from(value: StolValue) -> Self {
+        Value::Numeric(Numeric::new(Number::Float(value.value()), None))
+    }
+}
+
+impl From<f64> for StolValue {
+    fn from(value: f64) -> Self {
+        Self::new(Float(value))
+    }
+}
+
+impl From<f32> for StolValue {
+    fn from(value: f32) -> Self {
+        Self::new(Float(value as f64))
+    }
+}

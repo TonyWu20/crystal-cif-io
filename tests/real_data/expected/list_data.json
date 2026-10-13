@@ -1,0 +1,285 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "empty_list1",
+          "value": {
+            "kind": "list",
+            "values": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty_list2",
+          "value": {
+            "kind": "list",
+            "values": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty_list3",
+          "value": {
+            "kind": "list",
+            "values": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_na1",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "inapplicable"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_na2",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "inapplicable"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_na3",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "inapplicable"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_unk",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "unknown"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_string1",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "bare"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_string2",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "sq"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_string3",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "double_quoted",
+                "text": "[ not a list ]"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_numb1",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_numb2",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "-10"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "digit_list",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "3"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "4"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "6"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "7"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "8"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "9"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "string_list",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "one"
+              },
+              {
+                "kind": "char_string",
+                "style": "double_quoted",
+                "text": "two"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "\"three\""
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "mixed_list",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Mary"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "had"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "little"
+              },
+              {
+                "kind": "unknown"
+              },
+              {
+                "kind": "text_field",
+                "text": "Its fleece...."
+              }
+            ]
+          }
+        }
+      ],
+      "name": "list_data"
+    }
+  ],
+  "fixture": "list_data.cif",
+  "schema_version": 2
+}

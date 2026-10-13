@@ -1,0 +1,19 @@
+#\#CIF_1.1
+#
+# Character string value forms (spec Appendix A <CharString>):
+# unquoted strings, single-quoted and double-quoted strings,
+# embedded delimiter characters not followed by white space
+# (spec para. 15), backslashes without escape meaning (para. 16),
+# quoted numerics interpreted as character strings (para. 13).
+data_strings
+
+_unquoted_plain        rm
+_unquoted_underscore   1_445
+_unquoted_unknownish   ?ii
+_single_quoted_space   'P 1'
+_single_quoted_chem    'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
+_single_quoted_embed   'a dog''s life'
+_double_quoted_embed   "He said ""hi"""
+_double_quoted_back    "\f scans, and \w scans"
+_quoted_numeric        '12'
+_quoted_reserved_word  'loop_'

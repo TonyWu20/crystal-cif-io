@@ -1,0 +1,99 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "plain1",
+          "value": {
+            "kind": "text_field",
+            "text": "\\\\\nline 2\\\nline 3    "
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "plain2",
+          "value": {
+            "kind": "text_field",
+            "text": ";\\"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "terminators",
+          "value": {
+            "kind": "text_field",
+            "text": "line 1\nline 2\nline 3\nend"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "folded1",
+          "value": {
+            "kind": "text_field",
+            "text": "\\\nA (not so) long\\\n line.\nA normal line.\nNOT a long line.\\"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "folded2",
+          "value": {
+            "kind": "text_field",
+            "text": "\\   \nline 1  \nline \\ \n2"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "prefixed1",
+          "value": {
+            "kind": "text_field",
+            "text": " \\\n _embedded\n ;\n ;"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "prefixed2",
+          "value": {
+            "kind": "text_field",
+            "text": "pfx>\\  \npfx>_embedded\npfx>;\npfx>;"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pfx_folded",
+          "value": {
+            "kind": "text_field",
+            "text": "> \\\\  \n> line 1 \\\n> is folded\\\n>  twice."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "folded_empty",
+          "value": {
+            "kind": "text_field",
+            "text": "\\"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "prefixed_empty",
+          "value": {
+            "kind": "text_field",
+            "text": ">>\\"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pfx_fold_empty",
+          "value": {
+            "kind": "text_field",
+            "text": "πφχ\\\\"
+          }
+        }
+      ],
+      "name": "text_fields"
+    }
+  ],
+  "fixture": "text_fields.cif",
+  "schema_version": 2
+}

@@ -1,0 +1,81 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/50/94/1509469.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1509469
+loop_
+_publ_author_name
+'Gordadze, E.G.'
+'Soboleva, L.V.'
+'Sanadze, V.V.'
+_publ_section_title
+;
+ The decoding of the crystal structure of sodium silver nitrite Na Ag (N
+ O2)2
+;
+_journal_name_full               'Soobshcheniya Akademii Nauk Gruzinskoi SSR'
+_journal_page_first              281
+_journal_page_last               284
+_journal_volume                  112
+_journal_year                    1983
+_chemical_formula_sum            'Ag N2 Na O4'
+_chemical_name_systematic        'Na Ag (N O2)2'
+_space_group_IT_number           22
+_symmetry_space_group_name_Hall  'F 2 2'
+_symmetry_space_group_name_H-M   'F 2 2 2'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            8
+_cell_length_a                   7.899
+_cell_length_b                   10.847
+_cell_length_c                   10.697
+_cell_volume                     916.524
+_citation_journal_id_ASTM        SAKNAH
+_cod_data_source_file            silver1-2_436.cif
+_cod_data_source_block           Ag1N2Na1O4
+_cod_original_cell_volume        916.5238
+_cod_original_formula_sum        'Ag1 N2 Na1 O4'
+_cod_database_code               1509469
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+x,-y,-z
+-x,y,-z
+x,y+1/2,z+1/2
+-x,-y+1/2,z+1/2
+x,-y+1/2,-z+1/2
+-x,y+1/2,-z+1/2
+x+1/2,y,z+1/2
+-x+1/2,-y,z+1/2
+x+1/2,-y,-z+1/2
+-x+1/2,y,-z+1/2
+x+1/2,y+1/2,z
+-x+1/2,-y+1/2,z
+x+1/2,-y+1/2,-z
+-x+1/2,y+1/2,-z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+O1 O-2 0.2907 0.1594 0.0426 1 0.0
+Ag2 Ag+1 0.25 0.25 0.25 1 0.0
+N1 N+3 0.25 0.25 0.5187 1 0.0
+Na2 Na+1 0.25 0.25 0.75 1 0.0
+O2 O-2 0.0361 0.0958 0.7355 1 0.0
+Na1 Na+1 0 0 0.5 1 0.0
+Ag1 Ag+1 0 0 0 1 0.0
+N2 N+3 0 0 0.7941 1 0.0

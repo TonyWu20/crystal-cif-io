@@ -1,0 +1,13 @@
+#\#CIF_1.1
+#
+# Multiple data blocks in one CIF (spec para. 4, 6): a file is a
+# sequence of data blocks. Block codes must be unique within the file.
+data_alpha
+
+_cell_length_a          4.10
+_symmetry_cell_setting  cubic
+
+data_beta
+
+_cell_length_a          5.90
+_symmetry_cell_setting  hexagonal

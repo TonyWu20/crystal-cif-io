@@ -1,0 +1,248 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "empty_table1",
+          "value": {
+            "kind": "table",
+            "pairs": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty_table2",
+          "value": {
+            "kind": "table",
+            "pairs": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty_table3",
+          "value": {
+            "kind": "table",
+            "pairs": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "singleton_table1",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "zero"
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "0"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "singleton_table2",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "text"
+                },
+                "value": {
+                  "kind": "text_field",
+                  "text": "text"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "singleton_table3",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": ""
+                },
+                "value": {
+                  "kind": "char_string",
+                  "style": "unquoted",
+                  "text": "empty_key"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "digit3_map",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "zero"
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "0"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "one"
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "1"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "two"
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "space_keys",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": ""
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "0"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": " "
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "1"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "   "
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": null,
+                  "type": "integer",
+                  "value": "3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "type_examples",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": "char"
+                },
+                "value": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": "char"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": "unknown"
+                },
+                "value": {
+                  "kind": "unknown"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": "N/A"
+                },
+                "value": {
+                  "kind": "inapplicable"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "double_quoted",
+                  "text": "numb"
+                },
+                "value": {
+                  "kind": "numeric",
+                  "std_uncertainty": "5",
+                  "type": "float",
+                  "value": "-1234000000000000000000000000000000000000000000000000000000000000000000"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "name": "table_data"
+    }
+  ],
+  "fixture": "table_data.cif",
+  "schema_version": 2
+}

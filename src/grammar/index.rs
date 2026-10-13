@@ -371,5 +371,5 @@ mod private {
     impl Sealed for usize {}
     impl Sealed for str {}
     impl Sealed for String {}
-    impl<'a, T> Sealed for &'a T where T: ?Sized + Sealed {}
+    impl<T> Sealed for &T where T: ?Sized + Sealed {}
 }

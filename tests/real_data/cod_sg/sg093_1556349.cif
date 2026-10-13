@@ -1,0 +1,820 @@
+#------------------------------------------------------------------------------
+#$Date: 2019-11-28 19:04:03 +0200 (Thu, 28 Nov 2019) $
+#$Revision: 244375 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/55/63/1556349.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1556349
+loop_
+_publ_author_name
+'Zheng, Min'
+'Liu, Yan'
+'Wang, Cheng'
+'Liu, Shubin'
+'Lin, Wenbin'
+_publ_section_title
+;
+ Cavity-induced enantioselectivity reversal in a chiral metal--organic
+ framework Br\/onsted acid catalyst
+;
+_journal_issue                   8
+_journal_name_full               'Chemical Science'
+_journal_page_first              2623
+_journal_paper_doi               10.1039/c2sc20379k
+_journal_volume                  3
+_journal_year                    2012
+_chemical_formula_sum            'C26 Cu O5'
+_chemical_formula_weight         455.80
+_space_group_IT_number           93
+_space_group_name_Hall           'P 4c 2'
+_space_group_name_H-M_alt        'P 42 2 2'
+_symmetry_cell_setting           tetragonal
+_symmetry_space_group_name_H-M   'P 42 2 2'
+_atom_sites_solution_hydrogens   none
+_atom_sites_solution_primary     direct
+_atom_sites_solution_secondary   difmap
+_audit_creation_method           SHELXL-97
+_cell_angle_alpha                90.00
+_cell_angle_beta                 90.00
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   18.7440(8)
+_cell_length_b                   18.7440(8)
+_cell_length_c                   29.2590(12)
+_cell_measurement_temperature    296(2)
+_cell_volume                     10279.8(8)
+_computing_structure_refinement  'SHELXL-97 (Sheldrick, 1997)'
+_computing_structure_solution    'SHELXS-97 (Sheldrick, 1990)'
+_diffrn_ambient_temperature      296(2)
+_diffrn_measured_fraction_theta_full 0.970
+_diffrn_measured_fraction_theta_max 0.970
+_diffrn_radiation_monochromator  graphite
+_diffrn_radiation_source         'fine-focus sealed tube'
+_diffrn_radiation_type           CuK\a
+_diffrn_radiation_wavelength     1.54178
+_diffrn_reflns_av_R_equivalents  0.0564
+_diffrn_reflns_av_sigmaI/netI    0.0487
+_diffrn_reflns_limit_h_max       11
+_diffrn_reflns_limit_h_min       -10
+_diffrn_reflns_limit_k_max       11
+_diffrn_reflns_limit_k_min       -6
+_diffrn_reflns_limit_l_max       17
+_diffrn_reflns_limit_l_min       -16
+_diffrn_reflns_number            4967
+_diffrn_reflns_theta_full        28.79
+_diffrn_reflns_theta_max         28.79
+_diffrn_reflns_theta_min         2.36
+_exptl_absorpt_coefficient_mu    0.363
+_exptl_absorpt_correction_T_max  0.8684
+_exptl_absorpt_correction_T_min  0.8117
+_exptl_absorpt_correction_type   multi-scan
+_exptl_absorpt_process_details   SADABS
+_exptl_crystal_colour            green
+_exptl_crystal_density_diffrn    0.295
+_exptl_crystal_density_method    'not measured'
+_exptl_crystal_description       block
+_exptl_crystal_F_000             900
+_exptl_crystal_size_max          0.60
+_exptl_crystal_size_mid          0.40
+_exptl_crystal_size_min          0.40
+_refine_diff_density_max         0.223
+_refine_diff_density_min         -0.143
+_refine_diff_density_rms         0.040
+_refine_ls_abs_structure_details 'Flack H D (1983), Acta Cryst. A39, 876-881'
+_refine_ls_abs_structure_Flack   0.5(3)
+_refine_ls_extinction_method     none
+_refine_ls_goodness_of_fit_ref   1.276
+_refine_ls_hydrogen_treatment    none
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     99
+_refine_ls_number_reflns         1281
+_refine_ls_number_restraints     107
+_refine_ls_restrained_S_all      1.300
+_refine_ls_R_factor_all          0.2003
+_refine_ls_R_factor_gt           0.1640
+_refine_ls_shift/su_max          0.003
+_refine_ls_shift/su_mean         0.001
+_refine_ls_structure_factor_coef Fsqd
+_refine_ls_weighting_details
+'calc w=1/[\s^2^(Fo^2^)+(0.2000P)^2^+0.0000P] where P=(Fo^2^+2Fc^2^)/3'
+_refine_ls_weighting_scheme      calc
+_refine_ls_wR_factor_gt          0.4129
+_refine_ls_wR_factor_ref         0.4380
+_reflns_number_gt                555
+_reflns_number_total             1281
+_reflns_threshold_expression     >2sigma(I)
+_cod_data_source_file            c2sc20379k.txt
+_cod_data_source_block           CMOF3
+_cod_depositor_comments
+;
+The following automatic conversions were performed:
+
+data item '_symmetry_cell_setting' value 'Tetragonal' was changed to
+'tetragonal' in accordance with the
+/home/saulius/struct/COD-crude-data/automatic-downloads/DataCite-retrospective/RSC/depositions/lib/dictionaries/cif_core.dic
+dictionary named 'cif_core.dic' version 2.4.2 last updated on
+2011-04-26.
+
+Automatic conversion script
+Id: cif_fix_values 6909 2019-04-08 15:41:33Z antanas 
+;
+_cod_original_sg_symbol_H-M      P4(2)22
+_cod_database_code               1556349
+loop_
+_symmetry_equiv_pos_as_xyz
+'x, y, z'
+'-x, -y, z'
+'-y, x, z+1/2'
+'y, -x, z+1/2'
+'-x, y, -z'
+'x, -y, -z'
+'y, x, -z+1/2'
+'-y, -x, -z+1/2'
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+_atom_site_symmetry_multiplicity
+_atom_site_calc_flag
+_atom_site_refinement_flags
+Cu1 Cu 1.0000 0.5402(8) 0.0000 0.342(9) Uiso 0.50 2 d SPDU
+C1A C 0.5902(15) 0.5173(14) 0.2404(12) 0.43(2) Uiso 0.50 1 d PGDU
+C2A C 0.6420(17) 0.5144(14) 0.2065(10) 0.42(2) Uiso 0.50 1 d PGDU
+C3A C 0.6814(15) 0.4524(18) 0.2001(9) 0.42(2) Uiso 0.50 1 d PGDU
+C4A C 0.6690(19) 0.3933(14) 0.2276(13) 0.42(3) Uiso 0.50 1 d PGDU
+C5A C 0.6172(19) 0.3962(15) 0.2616(11) 0.43(2) Uiso 0.50 1 d PGDU
+C6A C 0.5778(13) 0.4582(18) 0.2680(9) 0.38(2) Uiso 0.50 1 d PGDU
+C23B C 0.8982(19) 0.443(2) 0.0582(13) 0.31(2) Uiso 0.50 1 d PDU
+C24B C 0.4652(19) 0.104(2) 0.4341(12) 0.27(2) Uiso 0.50 1 d PDU
+C7A C 0.7376(13) 0.444(2) 0.1612(8) 0.35(2) Uiso 0.50 1 d PGDU
+C8A C 0.7654(19) 0.5072(15) 0.1433(12) 0.35(2) Uiso 0.50 1 d PGDU
+C9A C 0.8151(18) 0.5044(15) 0.1081(12) 0.29(2) Uiso 0.50 1 d PGDU
+C10A C 0.8370(13) 0.439(2) 0.0908(8) 0.280(18) Uiso 0.50 1 d PGDU
+C11A C 0.8092(16) 0.3761(15) 0.1088(10) 0.318(19) Uiso 0.50 1 d PGDU
+C12A C 0.7594(16) 0.3789(16) 0.1440(11) 0.34(2) Uiso 0.50 1 d PGDU
+C19N C 0.520(2) 0.461(2) 0.2994(15) 0.42(2) Uiso 0.50 1 d PDU
+C20N C 0.500(2) 0.406(2) 0.3298(12) 0.35(2) Uiso 0.50 1 d PDU
+C21N C 0.540(2) 0.343(2) 0.3238(12) 0.41(2) Uiso 0.50 1 d PDU
+C22N C 0.594(2) 0.340(2) 0.2915(16) 0.40(3) Uiso 0.50 1 d PDU
+C13A C 0.505(2) 0.2712(16) 0.3403(9) 0.39(2) Uiso 0.50 1 d PGDU
+C14A C 0.5577(14) 0.224(2) 0.3546(12) 0.36(2) Uiso 0.50 1 d PGDU
+C15A C 0.5400(16) 0.1678(18) 0.3837(12) 0.35(2) Uiso 0.50 1 d PGDU
+C16A C 0.4700(19) 0.1592(15) 0.3983(9) 0.249(18) Uiso 0.50 1 d PGDU
+C17A C 0.4176(13) 0.2067(18) 0.3840(9) 0.312(18) Uiso 0.50 1 d PGDU
+C18A C 0.4352(17) 0.2626(15) 0.3549(10) 0.276(17) Uiso 0.50 1 d PGDU
+C25E C 0.645(4) 0.585(3) 0.1445(15) 0.46(3) Uiso 0.50 1 d PDU
+C26E C 0.589(4) 0.635(4) 0.124(2) 0.61(4) Uiso 0.50 1 d PDU
+O1B O 0.917(3) 0.508(2) 0.0442(14) 0.32(2) Uiso 0.50 1 d PDU
+O2B O 0.9247(16) 0.3872(17) 0.0369(10) 0.323(15) Uiso 0.50 1 d PDU
+O3B O 0.5255(17) 0.071(2) 0.4451(13) 0.252(17) Uiso 0.50 1 d PDU
+O4B O 0.4090(14) 0.0775(13) 0.4523(8) 0.282(14) Uiso 0.50 1 d PDU
+O6E O 0.6570(16) 0.5833(15) 0.1930(13) 0.414(17) Uiso 0.50 1 d PDU
+O5H O 1.0000 0.660(4) 0.0000 0.37(3) Uiso 0.50 2 d SPDU
+Cu1B Cu 1.0000 0.6122(12) 0.0000 0.348(9) Uiso 0.50 2 d SPU
+O5B O 1.0000 0.736(3) 0.0000 0.40(2) Uiso 0.50 2 d SPU
+loop_
+_atom_type_symbol
+_atom_type_description
+_atom_type_scat_dispersion_real
+_atom_type_scat_dispersion_imag
+_atom_type_scat_source
+C C 0.0181 0.0091 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+Cu Cu -1.9646 0.5888 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+O O 0.0492 0.0322 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+_geom_angle_site_symmetry_1
+_geom_angle_site_symmetry_3
+Cu1B Cu1 Cu1 179.998(1) . 2_765
+Cu1B Cu1 O3B 97.5(10) . 7_655
+Cu1 Cu1 O3B 82.5(10) 2_765 7_655
+Cu1B Cu1 O3B 97.5(10) . 3_654
+Cu1 Cu1 O3B 82.5(10) 2_765 3_654
+O3B Cu1 O3B 165(2) 7_655 3_654
+Cu1B Cu1 O1B 106.8(12) . .
+Cu1 Cu1 O1B 73.2(12) 2_765 .
+O3B Cu1 O1B 87.6(9) 7_655 .
+O3B Cu1 O1B 88.1(10) 3_654 .
+Cu1B Cu1 O1B 106.8(12) . 5_755
+Cu1 Cu1 O1B 73.2(12) 2_765 5_755
+O3B Cu1 O1B 88.1(10) 7_655 5_755
+O3B Cu1 O1B 87.6(9) 3_654 5_755
+O1B Cu1 O1B 146(2) . 5_755
+Cu1B Cu1 O1B 113.9(11) . 2_765
+Cu1 Cu1 O1B 66.1(11) 2_765 2_765
+O3B Cu1 O1B 19.4(16) 7_655 2_765
+O3B Cu1 O1B 146.8(17) 3_654 2_765
+O1B Cu1 O1B 92(2) . 2_765
+O1B Cu1 O1B 74(2) 5_755 2_765
+Cu1B Cu1 O1B 113.9(11) . 6_565
+Cu1 Cu1 O1B 66.1(11) 2_765 6_565
+O3B Cu1 O1B 146.8(17) 7_655 6_565
+O3B Cu1 O1B 19.4(16) 3_654 6_565
+O1B Cu1 O1B 74(2) . 6_565
+O1B Cu1 O1B 92(2) 5_755 6_565
+O1B Cu1 O1B 132(2) 2_765 6_565
+Cu1B Cu1 O4B 64.7(8) . 4_664
+Cu1 Cu1 O4B 115.3(8) 2_765 4_664
+O3B Cu1 O4B 97.2(14) 7_655 4_664
+O3B Cu1 O4B 89.2(14) 3_654 4_664
+O1B Cu1 O4B 170.7(18) . 4_664
+O1B Cu1 O4B 42.3(11) 5_755 4_664
+O1B Cu1 O4B 94.7(13) 2_765 4_664
+O1B Cu1 O4B 105.4(12) 6_565 4_664
+Cu1B Cu1 O4B 64.7(8) . 8_665
+Cu1 Cu1 O4B 115.3(8) 2_765 8_665
+O3B Cu1 O4B 89.2(14) 7_655 8_665
+O3B Cu1 O4B 97.2(14) 3_654 8_665
+O1B Cu1 O4B 42.3(11) . 8_665
+O1B Cu1 O4B 170.7(18) 5_755 8_665
+O1B Cu1 O4B 105.4(12) 2_765 8_665
+O1B Cu1 O4B 94.7(13) 6_565 8_665
+O4B Cu1 O4B 129.4(17) 4_664 8_665
+Cu1B Cu1 O2B 52.6(10) . 2_765
+Cu1 Cu1 O2B 127.4(10) 2_765 2_765
+O3B Cu1 O2B 46.6(11) 7_655 2_765
+O3B Cu1 O2B 147.8(16) 3_654 2_765
+O1B Cu1 O2B 110.1(14) . 2_765
+O1B Cu1 O2B 90.4(15) 5_755 2_765
+O1B Cu1 O2B 61.4(10) 2_765 2_765
+O1B Cu1 O2B 166.3(19) 6_565 2_765
+O4B Cu1 O2B 68.4(9) 4_664 2_765
+O4B Cu1 O2B 81.3(10) 8_665 2_765
+Cu1B Cu1 O2B 52.6(10) . 6_565
+Cu1 Cu1 O2B 127.5(10) 2_765 6_565
+O3B Cu1 O2B 147.8(16) 7_655 6_565
+O3B Cu1 O2B 46.6(11) 3_654 6_565
+O1B Cu1 O2B 90.4(15) . 6_565
+O1B Cu1 O2B 110.1(14) 5_755 6_565
+O1B Cu1 O2B 166.3(19) 2_765 6_565
+O1B Cu1 O2B 61.4(10) 6_565 6_565
+O4B Cu1 O2B 81.3(10) 4_664 6_565
+O4B Cu1 O2B 68.4(9) 8_665 6_565
+O2B Cu1 O2B 105(2) 2_765 6_565
+C2A C1A C6A 120.0 . .
+C2A C1A C19N 83(2) . 8_665
+C6A C1A C19N 88(2) . 8_665
+C2A C1A C1A 134(2) . 7
+C6A C1A C1A 105(2) . 7
+C19N C1A C1A 95(2) 8_665 7
+C2A C1A C6A 101.1(16) . 8_665
+C6A C1A C6A 44.8(18) . 8_665
+C19N C1A C6A 44.1(16) 8_665 8_665
+C1A C1A C6A 109.2(15) 7 8_665
+C21N C2A O6E 118(3) 8_665 .
+C21N C2A C3A 35(3) 8_665 .
+O6E C2A C3A 130(2) . .
+C21N C2A C1A 129(2) 8_665 .
+O6E C2A C1A 108(3) . .
+C3A C2A C1A 120.0 . .
+C21N C2A C20N 60.8(19) 8_665 8_665
+O6E C2A C20N 96(3) . 8_665
+C3A C2A C20N 94(3) . 8_665
+C1A C2A C20N 95(3) . 8_665
+C21N C3A C22N 99(6) 8_665 8_665
+C21N C3A C2A 71(4) 8_665 .
+C22N C3A C2A 119(3) 8_665 .
+C21N C3A C4A 122(4) 8_665 .
+C22N C3A C4A 24(4) 8_665 .
+C2A C3A C4A 120.0 . .
+C21N C3A C7A 77(3) 8_665 .
+C22N C3A C7A 112(3) 8_665 .
+C2A C3A C7A 123(2) . .
+C4A C3A C7A 117(2) . .
+C21N C3A C13A 67(3) 8_665 8_665
+C22N C3A C13A 144(4) 8_665 8_665
+C2A C3A C13A 89(2) . 8_665
+C4A C3A C13A 151(2) . 8_665
+C7A C3A C13A 34(2) . 8_665
+C22N C4A C5A 91(6) 8_665 8_665
+C22N C4A C5A 116(5) 8_665 .
+C5A C4A C5A 33(3) 8_665 .
+C22N C4A C3A 40(6) 8_665 .
+C5A C4A C3A 115.2(19) 8_665 .
+C5A C4A C3A 120.0 . .
+C22N C4A C21N 19(5) 8_665 8_665
+C5A C4A C21N 101(3) 8_665 8_665
+C5A C4A C21N 116.4(16) . 8_665
+C3A C4A C21N 21.2(15) . 8_665
+C5A C5A C4A 82(6) 8_665 8_665
+C5A C5A C4A 65(3) 8_665 .
+C4A C5A C4A 104(3) 8_665 .
+C5A C5A C6A 102.7(6) 8_665 .
+C4A C5A C6A 133(2) 8_665 .
+C4A C5A C6A 120.0 . .
+C5A C5A C22N 102(4) 8_665 .
+C4A C5A C22N 26(4) 8_665 .
+C4A C5A C22N 128(3) . .
+C6A C5A C22N 112(3) . .
+C5A C5A C6A 51.7(15) 8_665 8_665
+C4A C5A C6A 106(4) 8_665 8_665
+C4A C5A C6A 103(2) . 8_665
+C6A C5A C6A 52.9(13) . 8_665
+C22N C5A C6A 106(3) . 8_665
+C5A C5A C22N 53(4) 8_665 8_665
+C4A C5A C22N 113(4) 8_665 8_665
+C4A C5A C22N 19(2) . 8_665
+C6A C5A C22N 106.1(18) . 8_665
+C22N C5A C22N 138(3) . 8_665
+C6A C5A C22N 84(3) 8_665 8_665
+C5A C6A C1A 120.0 . .
+C5A C6A C19N 122(3) . .
+C1A C6A C19N 118(3) . .
+C5A C6A C6A 75.79(19) . 8_665
+C1A C6A C6A 92(2) . 8_665
+C19N C6A C6A 98(3) . 8_665
+C5A C6A C5A 25.6(19) . 8_665
+C1A C6A C5A 108(2) . 8_665
+C19N C6A C5A 125(3) . 8_665
+C6A C6A C5A 51.3(18) 8_665 8_665
+C5A C6A C1A 94.4(19) . 8_665
+C1A C6A C1A 116(2) . 8_665
+C19N C6A C1A 55(2) . 8_665
+C6A C6A C1A 43.5(17) 8_665 8_665
+C5A C6A C1A 79.6(17) 8_665 8_665
+O3B C23B O2B 104(4) 8_665 .
+O3B C23B O1B 30(5) 8_665 .
+O2B C23B O1B 119(3) . .
+O3B C23B C10A 130(5) 8_665 .
+O2B C23B C10A 124(3) . .
+O1B C23B C10A 116(3) . .
+O3B C23B C24B 48(3) 8_665 8_665
+O2B C23B C24B 149(3) . 8_665
+O1B C23B C24B 31(2) . 8_665
+C10A C23B C24B 87(2) . 8_665
+O1B C24B O4B 90(4) 8_665 .
+O1B C24B O3B 32(4) 8_665 .
+O4B C24B O3B 114(3) . .
+O1B C24B C16A 141(5) 8_665 .
+O4B C24B C16A 128(3) . .
+O3B C24B C16A 117(3) . .
+O1B C24B C23B 49(3) 8_665 8_665
+O4B C24B C23B 139(3) . 8_665
+O3B C24B C23B 28(2) . 8_665
+C16A C24B C23B 93(2) . 8_665
+O1B C24B C9A 127(7) 8_665 8_665
+O4B C24B C9A 141(7) . 8_665
+O3B C24B C9A 105(7) . 8_665
+C16A C24B C9A 14(7) . 8_665
+C23B C24B C9A 80(7) 8_665 8_665
+C14A C7A C13A 100(10) 8_665 8_665
+C14A C7A C8A 61(10) 8_665 .
+C13A C7A C8A 38(3) 8_665 .
+C14A C7A C12A 61(10) 8_665 .
+C13A C7A C12A 155(3) 8_665 .
+C8A C7A C12A 120.0 . .
+C14A C7A C3A 165(10) 8_665 .
+C13A C7A C3A 80(3) 8_665 .
+C8A C7A C3A 117(2) . .
+C12A C7A C3A 123(2) . .
+C14A C7A C21N 162(10) 8_665 8_665
+C13A C7A C21N 71(3) 8_665 8_665
+C8A C7A C21N 107(3) . 8_665
+C12A C7A C21N 123(3) . 8_665
+C3A C7A C21N 31(2) . 8_665
+C13A C8A C18A 83(4) 8_665 8_665
+C13A C8A C14A 81(5) 8_665 8_665
+C18A C8A C14A 163(10) 8_665 8_665
+C13A C8A C9A 158(4) 8_665 .
+C18A C8A C9A 111(4) 8_665 .
+C14A C8A C9A 84(5) 8_665 .
+C13A C8A C7A 43(4) 8_665 .
+C18A C8A C7A 125(4) 8_665 .
+C14A C8A C7A 38(6) 8_665 .
+C9A C8A C7A 120.0 . .
+C13A C8A C17A 136(10) 8_665 8_665
+C18A C8A C17A 54(7) 8_665 8_665
+C14A C8A C17A 142(10) 8_665 8_665
+C9A C8A C17A 59(8) . 8_665
+C7A C8A C17A 173(7) . 8_665
+C13A C8A C15A 133(6) 8_665 8_665
+C18A C8A C15A 143(4) 8_665 8_665
+C14A C8A C15A 53(8) 8_665 8_665
+C9A C8A C15A 32(3) . 8_665
+C7A C8A C15A 91(3) . 8_665
+C17A C8A C15A 89(6) 8_665 8_665
+C13A C8A C16A 174(10) 8_665 8_665
+C18A C8A C16A 99(7) 8_665 8_665
+C14A C8A C16A 97(10) 8_665 8_665
+C9A C8A C16A 17(7) . 8_665
+C7A C8A C16A 135(7) . 8_665
+C17A C8A C16A 44.8(14) 8_665 8_665
+C15A C8A C16A 45(5) 8_665 8_665
+C16A C9A C15A 116(10) 8_665 8_665
+C16A C9A C8A 129(10) 8_665 .
+C15A C9A C8A 94(9) 8_665 .
+C16A C9A C10A 108(10) 8_665 .
+C15A C9A C10A 37(10) 8_665 .
+C8A C9A C10A 120.0 . .
+C16A C9A C17A 65(10) 8_665 8_665
+C15A C9A C17A 155(10) 8_665 8_665
+C8A C9A C17A 71(3) . 8_665
+C10A C9A C17A 167(5) . 8_665
+C16A C9A C14A 154(10) 8_665 8_665
+C15A C9A C14A 52(2) 8_665 8_665
+C8A C9A C14A 44(7) . 8_665
+C10A C9A C14A 76(7) . 8_665
+C17A C9A C14A 115(9) 8_665 8_665
+C16A C9A C24B 31(10) 8_665 8_665
+C15A C9A C24B 99(8) 8_665 8_665
+C8A C9A C24B 160(2) . 8_665
+C10A C9A C24B 79(2) . 8_665
+C17A C9A C24B 91(3) 8_665 8_665
+C14A C9A C24B 151(7) 8_665 8_665
+C15A C10A C11A 91(6) 8_665 .
+C15A C10A C9A 40(10) 8_665 .
+C11A C10A C9A 120.0 . .
+C15A C10A C23B 128(9) 8_665 .
+C11A C10A C23B 125(3) . .
+C9A C10A C23B 115(3) . .
+C15A C10A C16A 52(10) 8_665 8_665
+C11A C10A C16A 141(4) . 8_665
+C9A C10A C16A 23(5) . 8_665
+C23B C10A C16A 92(5) . 8_665
+C15A C10A C14A 38(5) 8_665 8_665
+C11A C10A C14A 60(5) . 8_665
+C9A C10A C14A 60(5) . 8_665
+C23B C10A C14A 165(5) . 8_665
+C16A C10A C14A 81(9) 8_665 8_665
+C12A C11A C10A 120.0 . .
+C12A C11A C15A 92(6) . 8_665
+C10A C11A C15A 31(5) . 8_665
+C12A C11A C14A 44(2) . 8_665
+C10A C11A C14A 76.3(17) . 8_665
+C15A C11A C14A 48(6) 8_665 8_665
+C14A C12A C11A 84(7) 8_665 .
+C14A C12A C7A 38(8) 8_665 .
+C11A C12A C7A 120.0 . .
+C20N C19N C6A 126(3) . .
+C20N C19N C19N 122(3) . 2_665
+C6A C19N C19N 113(3) . 2_665
+C20N C19N C1A 85(3) . 8_665
+C6A C19N C1A 81(3) . 8_665
+C19N C19N C1A 109(3) 2_665 8_665
+C19N C20N C21N 114(3) . .
+C19N C20N C2A 93(3) . 8_665
+C21N C20N C2A 58(3) . 8_665
+C19N C20N C25E 143(4) . 8_665
+C21N C20N C25E 93(3) . 8_665
+C2A C20N C25E 80(3) 8_665 8_665
+C3A C21N C2A 73(5) 8_665 8_665
+C3A C21N C22N 45(4) 8_665 .
+C2A C21N C22N 97(3) 8_665 .
+C3A C21N C20N 130(6) 8_665 .
+C2A C21N C20N 61(4) 8_665 .
+C22N C21N C20N 120(3) . .
+C3A C21N C13A 83(4) 8_665 .
+C2A C21N C13A 94(3) 8_665 .
+C22N C21N C13A 119(3) . .
+C20N C21N C13A 118(3) . .
+C3A C21N C7A 72(5) 8_665 8_665
+C2A C21N C7A 121(4) 8_665 8_665
+C22N C21N C7A 91(3) . 8_665
+C20N C21N C7A 149(3) . 8_665
+C13A C21N C7A 35(2) . 8_665
+C3A C21N C4A 37(3) 8_665 8_665
+C2A C21N C4A 90(4) 8_665 8_665
+C22N C21N C4A 9(3) . 8_665
+C20N C21N C4A 121(3) . 8_665
+C13A C21N C4A 114(3) . 8_665
+C7A C21N C4A 89(3) 8_665 8_665
+C4A C22N C3A 116(10) 8_665 8_665
+C4A C22N C21N 152(7) 8_665 .
+C3A C22N C21N 37(5) 8_665 .
+C4A C22N C5A 63(6) 8_665 .
+C3A C22N C5A 135(6) 8_665 .
+C21N C22N C5A 127(3) . .
+C4A C22N C5A 45(5) 8_665 8_665
+C3A C22N C5A 120(6) 8_665 8_665
+C21N C22N C5A 131(3) . 8_665
+C5A C22N C5A 25(2) . 8_665
+C8A C13A C7A 99(10) 8_665 8_665
+C8A C13A C14A 61(10) 8_665 .
+C7A C13A C14A 38(3) 8_665 .
+C8A C13A C18A 59(10) 8_665 .
+C7A C13A C18A 157(3) 8_665 .
+C14A C13A C18A 120.0 . .
+C8A C13A C21N 163(10) 8_665 .
+C7A C13A C21N 74(3) 8_665 .
+C14A C13A C21N 110(2) . .
+C18A C13A C21N 126(2) . .
+C8A C13A C3A 159(10) 8_665 8_665
+C7A C13A C3A 66(3) 8_665 8_665
+C14A C13A C3A 103(3) . 8_665
+C18A C13A C3A 136(3) . 8_665
+C21N C13A C3A 30(3) . 8_665
+C7A C14A C12A 81(5) 8_665 8_665
+C7A C14A C8A 81(6) 8_665 8_665
+C12A C14A C8A 155(10) 8_665 8_665
+C7A C14A C15A 162(4) 8_665 .
+C12A C14A C15A 114(6) 8_665 .
+C8A C14A C15A 82(4) 8_665 .
+C7A C14A C13A 43(4) 8_665 .
+C12A C14A C13A 122(7) 8_665 .
+C8A C14A C13A 38(4) 8_665 .
+C15A C14A C13A 120.0 . .
+C7A C14A C11A 131(6) 8_665 8_665
+C12A C14A C11A 52(7) 8_665 8_665
+C8A C14A C11A 137(5) 8_665 8_665
+C15A C14A C11A 62(3) . 8_665
+C13A C14A C11A 156(5) . 8_665
+C7A C14A C9A 131(10) 8_665 8_665
+C12A C14A C9A 137(10) 8_665 8_665
+C8A C14A C9A 52(4) 8_665 8_665
+C15A C14A C9A 32(7) . 8_665
+C13A C14A C9A 89(8) . 8_665
+C11A C14A C9A 87(6) 8_665 8_665
+C7A C14A C10A 158(7) 8_665 8_665
+C12A C14A C10A 95(10) 8_665 8_665
+C8A C14A C10A 95(3) 8_665 8_665
+C15A C14A C10A 22(5) . 8_665
+C13A C14A C10A 130(6) . 8_665
+C11A C14A C10A 44(4) 8_665 8_665
+C9A C14A C10A 43(2) 8_665 8_665
+C10A C15A C9A 103(10) 8_665 8_665
+C10A C15A C14A 120(7) 8_665 .
+C9A C15A C14A 96(6) 8_665 .
+C10A C15A C16A 99(10) 8_665 .
+C9A C15A C16A 27(6) 8_665 .
+C14A C15A C16A 120.0 . .
+C10A C15A C11A 58(10) 8_665 8_665
+C9A C15A C11A 137(10) 8_665 8_665
+C14A C15A C11A 70(5) . 8_665
+C16A C15A C11A 153(4) . 8_665
+C10A C15A C8A 136(10) 8_665 8_665
+C9A C15A C8A 53(10) 8_665 8_665
+C14A C15A C8A 45(4) . 8_665
+C16A C15A C8A 75(4) . 8_665
+C11A C15A C8A 111(5) 8_665 8_665
+C9A C16A C15A 37(10) 8_665 .
+C9A C16A C17A 88(10) 8_665 .
+C15A C16A C17A 120.0 . .
+C9A C16A C24B 135(10) 8_665 .
+C15A C16A C24B 111(3) . .
+C17A C16A C24B 128(3) . .
+C9A C16A C10A 50(10) 8_665 8_665
+C15A C16A C10A 29(3) . 8_665
+C17A C16A C10A 136(5) . 8_665
+C24B C16A C10A 88(4) . 8_665
+C9A C16A C8A 34(10) 8_665 8_665
+C15A C16A C8A 61(6) . 8_665
+C17A C16A C8A 59(6) . 8_665
+C24B C16A C8A 170(7) . 8_665
+C10A C16A C8A 82(4) 8_665 8_665
+C18A C17A C16A 120.0 . .
+C18A C17A C9A 94(2) . 8_665
+C16A C17A C9A 27(3) . 8_665
+C18A C17A C8A 44(6) . 8_665
+C16A C17A C8A 76(6) . 8_665
+C9A C17A C8A 51(5) 8_665 8_665
+C8A C18A C17A 82(2) 8_665 .
+C8A C18A C13A 38(2) 8_665 .
+C17A C18A C13A 120.0 . .
+C8A C18A C25E 128(6) 8_665 8_665
+C17A C18A C25E 133(3) . 8_665
+C13A C18A C25E 95(3) . 8_665
+O6E C25E C26E 120(4) . .
+O6E C25E C18A 81(5) . 8_665
+C26E C25E C18A 144(7) . 8_665
+O6E C25E C20N 72(3) . 8_665
+C26E C25E C20N 107(6) . 8_665
+C18A C25E C20N 107(6) 8_665 8_665
+O3B O1B C24B 108(7) 8_665 8_665
+O3B O1B C23B 35(5) 8_665 .
+C24B O1B C23B 100(4) 8_665 .
+O3B O1B O4B 143(8) 8_665 8_665
+C24B O1B O4B 55(3) 8_665 8_665
+C23B O1B O4B 155(4) . 8_665
+O3B O1B Cu1 106(6) 8_665 .
+C24B O1B Cu1 126(4) 8_665 .
+C23B O1B Cu1 130(3) . .
+O4B O1B Cu1 72.9(19) 8_665 .
+O3B O1B Cu1 72(5) 8_665 2_765
+C24B O1B Cu1 161(6) 8_665 2_765
+C23B O1B Cu1 90(2) . 2_765
+O4B O1B Cu1 113(3) 8_665 2_765
+Cu1 O1B Cu1 40.7(13) . 2_765
+C23B O2B O3B 28(2) . 8_665
+C23B O2B Cu1B 126(3) . 2_765
+O3B O2B Cu1B 98(2) 8_665 2_765
+C23B O2B Cu1 89(2) . 2_765
+O3B O2B Cu1 62.4(15) 8_665 2_765
+Cu1B O2B Cu1 37.1(8) 2_765 2_765
+O1B O3B C23B 116(9) 8_665 8_665
+O1B O3B C24B 40(4) 8_665 .
+C23B O3B C24B 104(4) 8_665 .
+O1B O3B O2B 131(7) 8_665 8_665
+C23B O3B O2B 48(3) 8_665 8_665
+C24B O3B O2B 149(3) . 8_665
+O1B O3B Cu1 89(5) 8_665 4_565
+C23B O3B Cu1 116(4) 8_665 4_565
+C24B O3B Cu1 126(3) . 4_565
+O2B O3B Cu1 70.9(17) 8_665 4_565
+O1B O3B Cu1 57(5) 8_665 3_645
+C23B O3B Cu1 145(5) 8_665 3_645
+C24B O3B Cu1 89(2) . 3_645
+O2B O3B Cu1 108(2) 8_665 3_645
+Cu1 O3B Cu1 38.1(10) 4_565 3_645
+C24B O4B O1B 35(2) . 8_665
+C24B O4B Cu1B 136(3) . 3_645
+O1B O4B Cu1B 101(2) 8_665 3_645
+C24B O4B Cu1 99(2) . 3_645
+O1B O4B Cu1 64.8(18) 8_665 3_645
+Cu1B O4B Cu1 36.5(7) 3_645 3_645
+C2A O6E C25E 106(3) . .
+Cu1B O5H O5B 180.000(13) . .
+Cu1B O5H Cu1 0.000(4) . .
+O5B O5H Cu1 180.000(6) . .
+O5H Cu1B Cu1 180.000(12) . .
+O5H Cu1B O2B 89.6(14) . 2_765
+Cu1 Cu1B O2B 90.4(14) . 2_765
+O5H Cu1B O2B 89.6(14) . 6_565
+Cu1 Cu1B O2B 90.4(14) . 6_565
+O2B Cu1B O2B 179(3) 2_765 6_565
+O5H Cu1B O4B 101.2(10) . 4_664
+Cu1 Cu1B O4B 78.8(10) . 4_664
+O2B Cu1B O4B 81.5(10) 2_765 4_664
+O2B Cu1B O4B 98.6(10) 6_565 4_664
+O5H Cu1B O4B 101.2(10) . 8_665
+Cu1 Cu1B O4B 78.8(10) . 8_665
+O2B Cu1B O4B 98.6(10) 2_765 8_665
+O2B Cu1B O4B 81.5(10) 6_565 8_665
+O4B Cu1B O4B 158(2) 4_664 8_665
+O5H Cu1B O5B 0.000(14) . .
+Cu1 Cu1B O5B 180.000(8) . .
+O2B Cu1B O5B 89.6(14) 2_765 .
+O2B Cu1B O5B 89.6(14) 6_565 .
+O4B Cu1B O5B 101.2(10) 4_664 .
+O4B Cu1B O5B 101.2(10) 8_665 .
+O5H Cu1B Cu1 179.999(10) . 2_765
+Cu1 Cu1B Cu1 0.0 . 2_765
+O2B Cu1B Cu1 90.4(14) 2_765 2_765
+O2B Cu1B Cu1 90.4(14) 6_565 2_765
+O4B Cu1B Cu1 78.8(10) 4_664 2_765
+O4B Cu1B Cu1 78.8(10) 8_665 2_765
+O5B Cu1B Cu1 179.999(3) . 2_765
+O5H O5B Cu1B 0.000(7) . .
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+Cu1 Cu1B 1.350(16) .
+Cu1 Cu1 1.51(3) 2_765
+Cu1 O3B 2.10(3) 7_655
+Cu1 O3B 2.10(3) 3_654
+Cu1 O1B 2.11(4) .
+Cu1 O1B 2.11(4) 5_755
+Cu1 O1B 2.21(4) 2_765
+Cu1 O1B 2.21(4) 6_565
+Cu1 O4B 2.23(3) 4_664
+Cu1 O4B 2.23(3) 8_665
+Cu1 O2B 2.24(3) 2_765
+Cu1 O2B 2.24(3) 6_565
+C1A C2A 1.3900 .
+C1A C6A 1.3900 .
+C1A C19N 1.67(5) 8_665
+C1A C1A 2.01(5) 7
+C1A C6A 2.02(4) 8_665
+C2A C21N 1.38(5) 8_665
+C2A O6E 1.38(2) .
+C2A C3A 1.3900 .
+C2A C20N 1.42(4) 8_665
+C3A C21N 0.84(6) 8_665
+C3A C22N 0.99(6) 8_665
+C3A C4A 1.3900 .
+C3A C7A 1.56(2) .
+C3A C13A 1.68(4) 8_665
+C4A C22N 0.63(7) 8_665
+C4A C5A 1.28(4) 8_665
+C4A C5A 1.3900 .
+C4A C21N 1.97(6) 8_665
+C5A C5A 0.76(7) 8_665
+C5A C4A 1.28(6) 8_665
+C5A C6A 1.3900 .
+C5A C22N 1.44(2) .
+C5A C6A 1.73(3) 8_665
+C5A C22N 1.76(6) 8_665
+C6A C19N 1.42(3) .
+C6A C6A 1.42(5) 8_665
+C6A C5A 1.73(4) 8_665
+C6A C1A 2.02(5) 8_665
+C23B O3B 0.84(6) 8_665
+C23B O2B 1.31(3) .
+C23B O1B 1.33(3) .
+C23B C10A 1.50(2) .
+C23B C24B 1.74(5) 8_665
+C24B O1B 0.91(6) 8_665
+C24B O4B 1.28(2) .
+C24B O3B 1.33(3) .
+C24B C16A 1.47(2) .
+C24B C23B 1.74(5) 8_665
+C24B C9A 2.03(7) 8_665
+C7A C14A 0.86(15) 8_665
+C7A C13A 0.96(6) 8_665
+C7A C8A 1.3900 .
+C7A C12A 1.3900 .
+C7A C21N 1.59(5) 8_665
+C8A C13A 0.87(5) 8_665
+C8A C18A 1.2(2) 8_665
+C8A C14A 1.23(18) 8_665
+C8A C9A 1.3900 .
+C8A C17A 1.70(13) 8_665
+C8A C15A 1.7(2) 8_665
+C8A C16A 1.91(11) 8_665
+C9A C16A 0.70(10) 8_665
+C9A C15A 0.9(2) 8_665
+C9A C10A 1.3900 .
+C9A C17A 1.5(3) 8_665
+C9A C14A 1.75(4) 8_665
+C9A C24B 2.03(5) 8_665
+C10A C15A 0.8(2) 8_665
+C10A C11A 1.3900 .
+C10A C16A 1.7(2) 8_665
+C10A C14A 1.96(13) 8_665
+C11A C12A 1.3900 .
+C11A C15A 1.64(18) 8_665
+C11A C14A 1.8(2) 8_665
+C12A C14A 1.23(15) 8_665
+C19N C20N 1.41(3) .
+C19N C19N 1.64(6) 2_665
+C19N C1A 1.67(5) 8_665
+C20N C21N 1.42(3) .
+C20N C2A 1.42(8) 8_665
+C20N C25E 2.01(6) 8_665
+C21N C3A 0.84(8) 8_665
+C21N C2A 1.38(7) 8_665
+C21N C22N 1.39(3) .
+C21N C13A 1.56(2) .
+C21N C7A 1.59(5) 8_665
+C21N C4A 1.97(6) 8_665
+C22N C4A 0.63(8) 8_665
+C22N C3A 0.99(6) 8_665
+C22N C5A 1.76(6) 8_665
+C13A C8A 0.87(6) 8_665
+C13A C7A 0.96(6) 8_665
+C13A C14A 1.3900 .
+C13A C18A 1.3900 .
+C13A C3A 1.68(4) 8_665
+C14A C7A 0.86(5) 8_665
+C14A C12A 1.23(16) 8_665
+C14A C8A 1.2(2) 8_665
+C14A C15A 1.3900 .
+C14A C11A 1.8(2) 8_665
+C14A C9A 1.75(7) 8_665
+C14A C10A 1.96(14) 8_665
+C15A C10A 0.8(2) 8_665
+C15A C9A 0.9(2) 8_665
+C15A C16A 1.3900 .
+C15A C11A 1.64(18) 8_665
+C15A C8A 1.73(18) 8_665
+C16A C9A 0.70(10) 8_665
+C16A C17A 1.3900 .
+C16A C10A 1.7(2) 8_665
+C16A C8A 1.91(6) 8_665
+C17A C18A 1.3900 .
+C17A C9A 1.5(2) 8_665
+C17A C8A 1.70(12) 8_665
+C18A C8A 1.2(2) 8_665
+C18A C25E 1.77(6) 8_665
+C25E O6E 1.44(3) .
+C25E C26E 1.54(3) .
+C25E C18A 1.77(19) 8_665
+C25E C20N 2.01(6) 8_665
+O1B O3B 0.73(6) 8_665
+O1B C24B 0.91(6) 8_665
+O1B O4B 1.57(4) 8_665
+O1B Cu1 2.21(4) 2_765
+O2B O3B 1.72(4) 8_665
+O2B Cu1B 1.78(3) 2_765
+O2B Cu1 2.24(3) 2_765
+O3B O1B 0.73(6) 8_665
+O3B C23B 0.84(6) 8_665
+O3B O2B 1.72(4) 8_665
+O3B Cu1 2.10(3) 4_565
+O3B Cu1 2.42(4) 3_645
+O4B O1B 1.57(4) 8_665
+O4B Cu1B 2.05(3) 3_645
+O4B Cu1 2.23(3) 3_645
+O5H Cu1B 0.90(7) .
+O5H O5B 1.43(6) .
+Cu1B O2B 1.78(3) 2_765
+Cu1B O2B 1.78(3) 6_565
+Cu1B O4B 2.05(3) 4_664
+Cu1B O4B 2.05(3) 8_665
+Cu1B O5B 2.32(5) .
+Cu1B Cu1 2.86(3) 2_765

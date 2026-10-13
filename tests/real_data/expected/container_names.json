@@ -1,0 +1,35 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "item1",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "hello"
+          }
+        },
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "item2",
+              "value": {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "world"
+              }
+            }
+          ],
+          "name": "with{2}"
+        }
+      ],
+      "name": "with[1]"
+    }
+  ],
+  "fixture": "container_names.cif",
+  "schema_version": 2
+}

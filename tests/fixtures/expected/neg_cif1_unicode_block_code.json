@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''ñ'' at 5..7 expected something else]. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_cif1_unicode_block_code.cif",
+  "schema_version": 1
+}

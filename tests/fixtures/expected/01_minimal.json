@@ -1,0 +1,113 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "audit_author_name",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Tony Wu"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.365"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_b",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.365"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_c",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.365"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_alpha",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_beta",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_gamma",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_volume",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "4",
+            "type": "float",
+            "value": "154.9"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_cell_setting",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "monoclinic"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_squares_weighted",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_email",
+          "value": {
+            "kind": "inapplicable"
+          }
+        }
+      ],
+      "name": "I"
+    }
+  ],
+  "fixture": "01_minimal.cif",
+  "schema_version": 1
+}

@@ -1,0 +1,89 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/80/1008080.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1008080
+loop_
+_publ_author_name
+'Spinat, P'
+'Fruchart, R'
+_publ_section_title
+;
+Structure des phase binaires V~6~ Si~5~ et Ti~6~ Ge~5~
+;
+_journal_coden_ASTM              BUFCAE
+_journal_name_full
+;
+Bulletin de la Societe Francaise de Mineralogie et de Cristallographie
+(72,1949-100,1977)
+;
+_journal_page_first              23
+_journal_page_last               36
+_journal_volume                  93
+_journal_year                    1970
+_chemical_formula_structural     'Ti6 Ge5'
+_chemical_formula_sum            'Ge5 Ti6'
+_chemical_name_systematic        'Titanium germanium (6/5)'
+_space_group_IT_number           72
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      72
+_symmetry_space_group_name_Hall  '-I 2 2c'
+_symmetry_space_group_name_H-M   'I b a m'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   16.915
+_cell_length_b                   7.954
+_cell_length_c                   5.233
+_cell_volume                     704.1
+_refine_ls_R_factor_all          0.082
+_cod_database_code               1008080
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+-x,y,1/2-z
+x,-y,1/2-z
+-x,-y,-z
+x,y,-z
+x,-y,1/2+z
+-x,y,1/2+z
+1/2+x,1/2+y,1/2+z
+1/2-x,1/2-y,1/2+z
+1/2-x,1/2+y,-z
+1/2+x,1/2-y,-z
+1/2-x,1/2-y,1/2-z
+1/2+x,1/2+y,1/2-z
+1/2+x,1/2-y,z
+1/2-x,1/2+y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Ti1 Ti0 8 j 0.1413 0.1149 0. 1. 0 d
+Ti2 Ti0 8 j 0.4375 0.2424 0. 1. 0 d
+Ti3 Ti0 8 j 0.3086 0. 0.25 1. 0 d
+Ge1 Ge0 8 j 0.289 0.2993 0. 1. 0 d
+Ge2 Ge0 8 j 0.0679 0.4041 0. 1. 0 d
+Ge3 Ge0 4 a 0. 0. 0.25 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Ti0 0.000
+Ge0 0.000

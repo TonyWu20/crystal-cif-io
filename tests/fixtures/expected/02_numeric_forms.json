@@ -1,0 +1,171 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "int_plain",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "482"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "int_negative",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "-482"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "int_positive",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "482"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "int_zero",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "0"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_decimal",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.365"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_leading_dot",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.5"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_trailing_dot",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_exp_plain",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "350"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_exp_lower",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.0005"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_trailing_exp",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "500"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_sign_exp",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "15000000000"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_neg_exp",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "-0.00025"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "int_with_exp",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5000"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "int_uncertainty",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "9",
+            "type": "integer",
+            "value": "482"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "float_uncertainty",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "3",
+            "type": "float",
+            "value": "5.365"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "zero_uncertainty",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "0",
+            "type": "integer",
+            "value": "12"
+          }
+        }
+      ],
+      "name": "numbers"
+    }
+  ],
+  "fixture": "02_numeric_forms.cif",
+  "schema_version": 1
+}

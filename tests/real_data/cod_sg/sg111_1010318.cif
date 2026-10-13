@@ -1,0 +1,86 @@
+#------------------------------------------------------------------------------
+#$Date: 2025-10-31 18:24:25 +0200 (Fri, 31 Oct 2025) $
+#$Revision: 303120 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/01/03/1010318.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1010318
+loop_
+_publ_author_name
+'Gross, R'
+'Gross, N'
+_publ_section_title
+;
+Die Atomanordnung des Kupferkieses und die Struktur der
+Beruehrungsflaechen gesetzmaessig verwachsener
+Kristalle
+;
+_journal_coden_ASTM              NJMBLA
+_journal_name_full
+;
+Neues Jahrbuch fuer Mineralogie, Geologie und Palaeontologie. Beilage (-
+1925)
+;
+_journal_page_first              113
+_journal_page_last               135
+_journal_volume                  48
+_journal_year                    1923
+_chemical_formula_structural     'Cu Fe S2'
+_chemical_formula_sum            'Cu Fe S2'
+_chemical_name_systematic        'Copper iron sulfide'
+_space_group_IT_number           111
+_symmetry_cell_setting           tetragonal
+_symmetry_Int_Tables_number      111
+_symmetry_space_group_name_Hall  'P -4 2'
+_symmetry_space_group_name_H-M   'P -4 2 m'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   5.27
+_cell_length_b                   5.27
+_cell_length_c                   5.194
+_cell_volume                     144.3
+_cod_database_code               1010318
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+-x,y,-z
+x,-y,-z
+-y,x,-z
+y,-x,-z
+y,x,z
+-y,-x,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Cu1 Cu2+ 1 a 0. 0. 0. 1. 0 d
+Cu2 Cu2+ 1 d 0.5 0.5 0. 1. 0 d
+Fe1 Fe2+ 2 f 0.5 0. 0.5 1. 0 d
+S1 S2- 4 n 0.25 0.25 0.19(1) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Cu2+ 2.000
+Fe2+ 2.000
+S2- -2.000
+loop_
+_cod_related_entry_id
+_cod_related_entry_database
+_cod_related_entry_code
+1 ROD 3500269

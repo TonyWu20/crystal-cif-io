@@ -1,0 +1,12 @@
+##CIF_2.0
+data_cif2_lists
+# CIF 2.0 value rules are in effect: the list value parses, and a
+# list may hold numbers, quoted strings, or nested lists.
+_list_flat [1 2.5 -3]
+_list_nested [[1 2] [3 4]]
+_list_matrix [[1 2 3] [4 5 6] [7 8 9]]
+_list_empty []
+_list_strings ['alpha' 'beta' "gamma"]
+_list_blank_quoted ['alpha beta' 'gamma']
+_list_empty_quoted ['']
+_list_trail_blank [1 2 ]

@@ -1,11 +1,8 @@
 use std::fmt::Display;
 
-use winnow::Parser;
+use crate::grammar::SyntacticUnit;
 
-use crate::{
-    data_dict::CifTerm,
-    grammar::{tags_values::Value, SyntacticUnit, Tag},
-};
+use crate::grammar::tags_values::Tag;
 
 pub use self::{body::LoopBody, header::LoopHeader};
 
@@ -78,16 +75,8 @@ impl LoopUnit {
     }
 }
 
-impl SyntacticUnit for LoopUnit {
-    type ParseResult = Self;
-
+impl crate::grammar::SyntacticUnit for LoopUnit {
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        (LoopHeader::parser, LoopBody::parser)
-            .map(|(header, body)| LoopUnit::new(header, body))
-            .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         let body_output = self
@@ -114,6 +103,10 @@ impl Display for LoopUnit {
 }
 
 impl LoopColumns {
+    pub fn new(columns: Vec<LoopColumn>) -> Self {
+        Self { columns }
+    }
+
     pub fn find_loop_column_by_tag<T: AsRef<str>>(&self, tag: T) -> Option<&LoopColumn> {
         self.columns
             .iter()
@@ -167,45 +160,6 @@ impl From<LoopUnit> for LoopColumns {
                     LoopColumn::new(tag.clone(), value.body.nth_column_values(i, column_width))
                 })
                 .collect::<Vec<LoopColumn>>(),
-        }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use crate::grammar::SyntacticUnit;
-
-    use super::LoopUnit;
-
-    #[test]
-    fn loop_data_parsing() {
-        let mut input = r#"loop_
- _atom_type_symbol
- _atom_type_description
- _atom_type_scat_dispersion_real
- _atom_type_scat_dispersion_imag
- _atom_type_scat_source
- 'C'  'C'   0.0033(9)   0.0000
- 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
- 'H'  'H'   0.0000   0.0000
- 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
- 'N'  'N'   0.0061   0.0000
- 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
- 'O'  'O'   0.0106   0.0000
- 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
-
-_symmetry_cell_setting            triclinic
-_symmetry_space_group_name_H-M    'P 1'
-_symmetry_space_group_name_Hall   'P 1'
-"#;
-        let parse_result = LoopUnit::parser(&mut input);
-        match parse_result {
-            Ok(l) => {
-                l.body.values().iter().for_each(|v| println!("{v:?}"));
-            }
-            Err(e) => {
-                dbg!(e);
-            }
         }
     }
 }

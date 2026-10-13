@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "loop_ is a reserved word and may not occur as an unquoted data value (spec para. 8, 11). The value position after _some_tag cannot parse.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_reserved_word_value.cif",
+  "schema_version": 1
+}

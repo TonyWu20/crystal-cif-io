@@ -1,0 +1,2755 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "cif_core.dic"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "ftp://ftp.iucr.org/pub/cif_core.dic"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "cif_pd.dic"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "ftp://ftp.iucr.org/pub/cif_pd.dic"
+              }
+            ]
+          ],
+          "tags": [
+            "audit_conform_dict_name",
+            "audit_conform_dict_version",
+            "audit_conform_dict_location"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_author_name",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Dr Peter Y. Zavalij"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_author_address",
+          "value": {
+            "kind": "text_field",
+            "text": "\n      Materials Research Center\n      State University of New York at Binghamton\n      Binghamton, NY 13902-6016\n      USA"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_author_email",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "med@iucr.org"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_author_fax",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "607 777 4623"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_author_phone",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "607 777 4623"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_requested_journal",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Acta Cryst. C"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_requested_category",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "FI"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_contact_letter",
+          "value": {
+            "kind": "text_field",
+            "text": " Please consider this CIF submission for publication as a full paper in Acta\n  Cryst. Section C. The figures, Transfer of Copyright Agreement form and\n  powder profile will be sent on receipt of your acknowledgment letter."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_recd_electronic",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "97-04-14"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_to_coeditor",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_from_coeditor",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "97-06-30"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_accepted",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "97-06-30"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_printers_first",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "97-09-18"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_printers_final",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_proofs_out",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "97-10-06"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_date_proofs_in",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "97-10-14"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_coeditor_name",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_coeditor_code",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "BR1188"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_coeditor_notes",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_techeditor_code",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "C970970"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_paper_category",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "FI"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "iucr_compatibility_tag",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_techeditor_notes",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_coden_ASTM",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "ACSCEE"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_name_full",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Acta Crystallographica, Section C"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_year",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1997"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_volume",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "C53"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_issue",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "DEC97"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_page_first",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1738"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_page_last",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1739"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_suppl_publ_number",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "journal_suppl_publ_pages",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_title",
+          "value": {
+            "kind": "text_field",
+            "text": "\nExample CIF - Not for publication"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Zavalij, Peter Y."
+              },
+              {
+                "kind": "text_field",
+                "text": "     Materials Research Center\n      State University of New York at Binghamton\n      Binghamton, NY 13902-6016\n      USA"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Zhang, Fan"
+              },
+              {
+                "kind": "text_field",
+                "text": "     Materials Research Center\n      State University of New York at Binghamton\n      Binghamton, NY 13902-6016\n      USA"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "Whittingham, M. Stanley"
+              },
+              {
+                "kind": "text_field",
+                "text": "     Materials Research Center\n      State University of New York at Binghamton\n      Binghamton, NY 13902-6016\n      USA"
+              }
+            ]
+          ],
+          "tags": [
+            "publ_author_name",
+            "publ_author_address"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_synopsis",
+          "value": {
+            "kind": "text_field",
+            "text": "\nRietveld refinement of a new zinc divanadate, Zn~3~(OH)~2~V~2~O~7~.2H~2~O, \nshows that it has a porous framework structure assembled from layers of \nZn--O octahedra joined by pyrovanadate groups. Water molecules fill the \nlarge cavities."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_abstract",
+          "value": {
+            "kind": "text_field",
+            "text": " Hydrothermally prepared zinc dihydroxide divanadate dihydrate crystallizes \nin the trigonal system (space group P\\=3m1). Its structure was solved ..."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_comment",
+          "value": {
+            "kind": "text_field",
+            "text": " Recently, mild hydrothermal reactions driven by template cations\nsuch as ..."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_exptl_prep",
+          "value": {
+            "kind": "text_field",
+            "text": " The title compound was prepared by hydrothermal treatment of ZnCl~2~,\nV~2~O~5~ and tetramethylammonium hydroxide, [N(CH~3~)~4~]OH, in a 1:1:3 \nmolar ratio at pH = 5.6. The reaction mixture was heated in a Teflon-lined \nParr reactor for 2.5 d at 438 K. White crystalline powder resulted."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_exptl_refinement",
+          "value": {
+            "kind": "text_field",
+            "text": "\nThe powder diffraction pattern was indexed in a hexagonal system ..."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_references",
+          "value": {
+            "kind": "text_field",
+            "text": "\nAkselrud, L. G., Zavalij, P. Y., Grin, Yu. N., Pecharskii, V. K., \nBaumgartner, B. & Wolfel, E. (1993). Mater. Sci. Forum, 133/136, 335-340.\n\nBasso, R., Palenzona, A. & Zefiro, L. (1988). Neues Jahrb. Miner. \npp. 385-394.\n\n...\n"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_figure_captions",
+          "value": {
+            "kind": "text_field",
+            "text": " Fig. 1. Polyhedral representation of Zn~3~(OH)~2~V~2~O~7~.2H~2~O.\n\nFig. 2. Comparison of observed (circles) and calculated (solid line) \nintensities for Zn~3~(OH)~2~V~2~O~7~.2H~2~O. The difference pattern \nappears below."
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "publ_section_acknowledgements",
+          "value": {
+            "kind": "text_field",
+            "text": " The work at Binghamton was supported by the National Science Foundation\nthrough grant DMR 9422667."
+          }
+        }
+      ],
+      "name": "znvo"
+    },
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "chemical_name_systematic",
+          "value": {
+            "kind": "text_field",
+            "text": "\nzinc dihydroxide divanadate dihydrate"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_name_common",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_moiety",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "H2 O9 V2 Zn3, 2(H2 O)"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_structural",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Zn3 (O H)2 (V2 O7) (H2 O)2"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_analytical",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_iupac",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Zn3 (O H)2 V2 O7 ,2H2 O"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_sum",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "H6 O11 V2 Zn3"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_formula_weight",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "480.05"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_melting_point",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "chemical_compound_source",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "-1.612"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.678"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "International Tables for Crystallography (Vol. IV)"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.035"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "2.11"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "International Tables for Crystallography (Vol. IV)"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.047"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.032"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "International Tables for Crystallography (Vol. IV)"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "International Tables for Crystallography (Vol. IV)"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_type_symbol",
+            "atom_type_description",
+            "atom_type_scat_dispersion_real",
+            "atom_type_scat_dispersion_imag",
+            "atom_type_scat_source"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "space_group_crystal_system",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "trigonal"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "space_group_name_H-M_alt",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "P -3 m 1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "space_group_name_Hall",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "-P 3 2\""
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x,y,z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-y,x-y,z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "3"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x+y,-x,z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "4"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-y,-x,z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "5"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x+y,y,z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "6"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x,x-y,z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "7"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x,-y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "8"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y,-x+y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "9"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x-y,x,-z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "10"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "y,x,-z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "11"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "x-y,-y,-z"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "12"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "-x,-x+y,-z"
+              }
+            ]
+          ],
+          "tags": [
+            "symmetry_equiv_pos_site_id",
+            "symmetry_equiv_pos_as_xyz"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "5",
+            "type": "float",
+            "value": "6.05098"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_b",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "5",
+            "type": "float",
+            "value": "6.05098"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_length_c",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "9",
+            "type": "float",
+            "value": "7.19498"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_alpha",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_beta",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "90"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_angle_gamma",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "120"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_volume",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "7",
+            "type": "float",
+            "value": "228.145"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_formula_units_Z",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_measurement_temperature",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "295"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_calibration_special_details",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "cell_special_details",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_crystal_density_diffrn",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": "1",
+            "type": "float",
+            "value": "3.4937"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_crystal_density_meas",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_crystal_density_method",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "not measured"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_crystal_F_000",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "230"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_spec_size_axial",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "25"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_spec_size_equat",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "25"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_spec_size_thick",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_spec_mounting",
+          "value": {
+            "kind": "text_field",
+            "text": " packed powder pellet"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_spec_mount_mode",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "reflection"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_spec_shape",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "flat_sheet"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_char_particle_morphology",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "plate-like"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_char_colour",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "white"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_prep_cool_rate",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_prep_pressure",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_prep_temperature",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "438"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_absorpt_coefficient_mu",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "27.4"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_absorpt_correction_type",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_absorpt_correction_T_min",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_absorpt_correction_T_max",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "exptl_special_details",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_instr_location",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_ambient_temperature",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "295"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_source",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "sealed X-ray tube"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_source_target",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "Cu"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_source_type",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_measurement_device_type",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Scintag XDS2000"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_detector",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "Ge solid-state"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_detector_type",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_scan_method",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "step"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_special_details",
+          "value": {
+            "kind": "text_field",
+            "text": "  ?"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "CuK\\a~1~"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1.54056"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "CuK\\a~2~"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1.54439"
+              }
+            ]
+          ],
+          "tags": [
+            "diffrn_radiation_type",
+            "diffrn_radiation_wavelength"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "diffrn_radiation_monochromator",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "none"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_number_of_points",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "3667"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_2theta_range_min",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "10"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_2theta_range_max",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "120"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_2theta_range_inc",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.03"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_instr_dist_src/spec",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_instr_dist_spec/detc",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_meas_2theta_fixed",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_data_collection",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "DMS software (Scintag Inc., 1994)"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_cell_refinement",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "CSD (Akselrud et al., 1993)"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_data_reduction",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "CSD"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_structure_solution",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "CSD"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_structure_refinement",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "CSD"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_molecular_graphics",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "STRUVIR [VRML version of STRUPLO (Fisher, 1985) created by A. LeBail]"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "computing_publication_material",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "CSD"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_special_details",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_profile_function",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "pseudo-Voigt"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_background_function",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "square polynomial for each range"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_pref_orient_corr",
+          "value": {
+            "kind": "text_field",
+            "text": " I~corr~ = I~obs~/[1 + (\\t^2^-1)sin^2^\\f]^1/2^, \n   axis (001), \\t = 0.702(5), \n   (Pecharskii et al., 1987)"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_prof_R_factor",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.052"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_prof_wR_factor",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.085"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_ls_prof_wR_expected",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.02"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_special_details",
+          "value": {
+            "kind": "text_field",
+            "text": " ?"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_structure_factor_coef",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "Inet"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_matrix_type",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "fullcycle"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_weighting_scheme",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "sigma"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_weighting_details",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "1/[Y~i~+\\s(Y~i~)]"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_hydrogen_treatment",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "noref"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_extinction_method",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "none"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_extinction_coef",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_number_parameters",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "18"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_number_restraints",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_number_constraints",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_goodness_of_fit_all",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1.3"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_R_I_factor",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.053"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_restrained_S_all",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_shift/su_max",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.01"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "refine_ls_shift/su_mean",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_2theta_range_min",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "10"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_2theta_range_max",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "120"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_2theta_range_inc",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "0.03"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1.540562"
+              }
+            ],
+            [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1.54439"
+              }
+            ]
+          ],
+          "tags": [
+            "pd_proc_wavelength"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "pd_block_diffractogram_id",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "znvoprofile"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_info_excluded_regions",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "pd_proc_info_data_reduction",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "5",
+                "type": "float",
+                "value": "0.021"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uani"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "0.2525"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "5",
+                "type": "float",
+                "value": "0.0112"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uani"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.66667"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.33333"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "7",
+                "type": "float",
+                "value": "0.8823"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "0.011"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "3",
+                "type": "float",
+                "value": "0.1534"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "6",
+                "type": "float",
+                "value": "0.3068"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "4",
+                "type": "float",
+                "value": "0.8219"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "11",
+                "type": "float",
+                "value": "0.0141"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O3"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "0.031"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ow"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "0.736"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "10",
+                "type": "float",
+                "value": "0.368"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "0.491"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "3",
+                "type": "float",
+                "value": "0.012"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.3333"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.66667"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.33333"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.75"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.07599"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Uiso"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_site_label",
+            "atom_site_fract_x",
+            "atom_site_fract_y",
+            "atom_site_fract_z",
+            "atom_site_U_iso_or_equiv",
+            "atom_site_adp_type",
+            "atom_site_occupancy",
+            "atom_site_type_symbol"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "6",
+                "type": "float",
+                "value": "0.0198"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "7",
+                "type": "float",
+                "value": "0.0163"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "7",
+                "type": "float",
+                "value": "0.0256"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "3",
+                "type": "float",
+                "value": "0.0082"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "10",
+                "type": "float",
+                "value": "0.0009"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "0.002"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "7",
+                "type": "float",
+                "value": "0.0144"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "7",
+                "type": "float",
+                "value": "0.0144"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "8",
+                "type": "float",
+                "value": "0.0049"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "3",
+                "type": "float",
+                "value": "0.0072"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "0"
+              }
+            ]
+          ],
+          "tags": [
+            "atom_site_aniso_label",
+            "atom_site_aniso_U_11",
+            "atom_site_aniso_U_22",
+            "atom_site_aniso_U_33",
+            "atom_site_aniso_U_12",
+            "atom_site_aniso_U_13",
+            "atom_site_aniso_U_23"
+          ]
+        },
+        {
+          "kind": "item",
+          "tag": "geom_special_details",
+          "value": {
+            "kind": "unknown"
+          }
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "1_554"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "1.941"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "7_656"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "1.941"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "2_654"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "2.226"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "3_554"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "2.226"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "8_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "2.226"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Zn"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "9_656"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "2.226"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "7_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "1.695"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "8_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "1.695"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "9_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "1.695"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O3"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "1",
+                "type": "float",
+                "value": "1.781"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "yes"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H1"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.952"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ]
+          ],
+          "tags": [
+            "geom_bond_atom_site_label_1",
+            "geom_bond_atom_site_label_2",
+            "geom_bond_site_symmetry_2",
+            "geom_bond_distance",
+            "geom_bond_publ_flag"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "7_556"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "8_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "12",
+                "type": "float",
+                "value": "110.52"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "7_556"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "9_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "12",
+                "type": "float",
+                "value": "110.52"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O3"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "7_556"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "9",
+                "type": "float",
+                "value": "108.4"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "8_556"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "9_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "12",
+                "type": "float",
+                "value": "110.52"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O3"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "8_556"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "9",
+                "type": "float",
+                "value": "108.4"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O2"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O3"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "9_556"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "9",
+                "type": "float",
+                "value": "108.4"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ],
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O3"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "V"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "7_556"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "3",
+                "type": "float",
+                "value": "180"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "no"
+              }
+            ]
+          ],
+          "tags": [
+            "geom_angle_atom_site_label_1",
+            "geom_angle_atom_site_label_2",
+            "geom_angle_atom_site_label_3",
+            "geom_angle_site_symmetry_1",
+            "geom_angle_site_symmetry_3",
+            "geom_angle",
+            "geom_angle_publ_flag"
+          ]
+        },
+        {
+          "kind": "loop",
+          "rows": [
+            [
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "O1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "H1"
+              },
+              {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "Ow"
+              },
+              {
+                "kind": "inapplicable"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "0.95"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "1.9"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": "2",
+                "type": "float",
+                "value": "2.84"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "169"
+              }
+            ]
+          ],
+          "tags": [
+            "geom_hbond_atom_site_label_D",
+            "geom_hbond_atom_site_label_H",
+            "geom_hbond_atom_site_label_A",
+            "geom_hbond_site_symmetry_A",
+            "geom_hbond_distance_DH",
+            "geom_hbond_distance_HA",
+            "geom_hbond_distance_DA",
+            "geom_hbond_angle_DHA"
+          ]
+        }
+      ],
+      "name": "znvodata"
+    }
+  ],
+  "fixture": "rietresultsxmpl.cif",
+  "schema_version": 1
+}

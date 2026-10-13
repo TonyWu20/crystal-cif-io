@@ -1,0 +1,245 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "list_flat",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "2.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "-3"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_nested",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "list",
+                "values": [
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "1"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "2"
+                  }
+                ]
+              },
+              {
+                "kind": "list",
+                "values": [
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "3"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "4"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_matrix",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "list",
+                "values": [
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "1"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "2"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "3"
+                  }
+                ]
+              },
+              {
+                "kind": "list",
+                "values": [
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "4"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "5"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "6"
+                  }
+                ]
+              },
+              {
+                "kind": "list",
+                "values": [
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "7"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "8"
+                  },
+                  {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "9"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_empty",
+          "value": {
+            "kind": "list",
+            "values": []
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_strings",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "alpha"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "beta"
+              },
+              {
+                "kind": "char_string",
+                "style": "double_quoted",
+                "text": "gamma"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_blank_quoted",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "alpha beta"
+              },
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "gamma"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_empty_quoted",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "list_trail_blank",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "2"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "cif2_lists"
+    }
+  ],
+  "fixture": "16_cif2_lists.cif",
+  "schema_version": 2
+}

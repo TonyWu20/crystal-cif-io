@@ -1,0 +1,83 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/00/1000067.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1000067
+loop_
+_publ_author_name
+'Le Bail, A'
+'Duroy, H'
+'Fourquet, J L'
+_publ_section_title
+;
+Ab-initio structure determination of Li Sb W O~6~ by X-ray powder
+diffraction
+;
+_journal_coden_ASTM              MRBUAC
+_journal_name_full               'Materials Research Bulletin'
+_journal_page_first              447
+_journal_page_last               452
+_journal_paper_doi               10.1016/0025-5408(88)90019-0
+_journal_volume                  23
+_journal_year                    1988
+_chemical_formula_structural     'Li Sb W O6'
+_chemical_formula_sum            'Li O6 Sb W'
+_chemical_name_systematic        'Lithium antimony(V) tungstate'
+_space_group_IT_number           60
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      60
+_symmetry_space_group_name_Hall  '-P 2n 2ab'
+_symmetry_space_group_name_H-M   'P b c n'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   4.6664(1)
+_cell_length_b                   17.4435(5)
+_cell_length_c                   4.9941(2)
+_cell_volume                     406.5
+_exptl_crystal_density_meas      6.68
+_refine_ls_R_factor_all          0.0516
+_cod_database_code               1000067
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+1/2-x,1/2-y,1/2+z
+1/2+x,1/2-y,-z
+-x,y,1/2-z
+-x,-y,-z
+1/2+x,1/2+y,1/2-z
+1/2-x,1/2+y,z
+x,-y,1/2+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Li1 Li1+ 4 c 0. 0.0569(14) 0.25 1. 0 d
+Sb1 Sb5+ 4 c 0. 0.7184(1) 0.25 1. 0 d
+W1 W6+ 4 c 0. 0.3980(1) 0.25 1. 0 d
+O1 O2- 8 d 0.2146(14) 0.3652(5) 0.5684(14) 1. 0 d
+O2 O2- 8 d 0.2379(11) 0.0413(5) 0.6065(14) 1. 0 d
+O3 O2- 8 d 0.2562(16) 0.2069(5) 0.5755(14) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Li1+ 1.000
+Sb5+ 5.000
+W6+ 6.000
+O2- -2.000

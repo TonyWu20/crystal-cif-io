@@ -1,4 +1,6 @@
 pub mod core_cif;
+pub mod matrix;
+pub mod tags;
 
 use crate::grammar::{DataItems, LoopColumn, SingleLineData, Tag, Value};
 

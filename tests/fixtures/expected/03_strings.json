@@ -1,0 +1,101 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "unquoted_plain",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "rm"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "unquoted_underscore",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "1_445"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "unquoted_unknownish",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "?ii"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_quoted_space",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "P 1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_quoted_chem",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "single_quoted_embed",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "a dog''s life"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "double_quoted_embed",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "He said \"\"hi\"\""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "double_quoted_back",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "\\f scans, and \\w scans"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "quoted_numeric",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "12"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "quoted_reserved_word",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "loop_"
+          }
+        }
+      ],
+      "name": "strings"
+    }
+  ],
+  "fixture": "03_strings.cif",
+  "schema_version": 1
+}

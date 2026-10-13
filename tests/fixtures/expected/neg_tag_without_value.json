@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "A data name must be followed by a value (spec para. 7, Appendix A <DataItems>). _second_tag starts with '_' and cannot be a value, so _first_tag has no value; the file does not parse.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_tag_without_value.cif",
+  "schema_version": 1
+}

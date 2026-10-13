@@ -1,0 +1,92 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "empty1",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty2",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": ""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "simple",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "simple"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tricky1",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "'tricky"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "tricky2",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": "\"\"tricky"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "embedded",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "\"\"\"embedded\"\"\""
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "multiline1",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": "first line\nsecond line"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "multiline2",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_single_quoted",
+            "text": "\nsecond line [of 3]\n"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "ml_embed",
+          "value": {
+            "kind": "char_string",
+            "style": "triple_double_quoted",
+            "text": "\n_not_a_name\n;embedded\n;\n"
+          }
+        }
+      ],
+      "name": "triple"
+    }
+  ],
+  "fixture": "triple.cif",
+  "schema_version": 2
+}

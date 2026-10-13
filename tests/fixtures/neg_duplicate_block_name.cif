@@ -1,0 +1,9 @@
+#\#CIF_1.1
+# NEGATIVE: within a single CIF, no two data blocks may have the same
+# name, and block codes are case-insensitive (spec para. 6, 26). The
+# parse succeeds; spec validation must reject the file.
+data_I
+_a 1
+
+data_i
+_b 2

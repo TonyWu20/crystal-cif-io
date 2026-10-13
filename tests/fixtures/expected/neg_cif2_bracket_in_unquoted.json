@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "parser rejects this file: [found ''a'' at 204..205 expected ''+'', ''-'', ''.'', ''0'', ''1'', ''2'', ''3'', ''4'', ''5'', ''6'', ''7'', ''8'', ''9'', ''['', ''?'', '';'', ''\\''', ''\"'', or something else]. Spec: the file violates the CIF syntax rules recorded in docs/ground-truth.md.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_cif2_bracket_in_unquoted.cif",
+  "schema_version": 2
+}

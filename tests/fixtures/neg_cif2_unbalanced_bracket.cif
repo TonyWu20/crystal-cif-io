@@ -1,0 +1,5 @@
+##CIF_2.0
+data_bad
+# NEGATIVE: a list value opens with '[' but is never closed by ']'.
+# Parsing must fail (roadmap section 13.6).
+_list [1 2 3

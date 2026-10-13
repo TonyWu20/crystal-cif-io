@@ -1,0 +1,21 @@
+# UTF-8 content with non-ASCII characters and a hash inside a
+# quoted string value.
+data_20_utf8_nonascii
+_publ_author_name
+'Štěpán Müller'
+'Aïcha O'Brien'
+_publ_section_title
+;
+Structure of the β-NaCl phase, sample #3, measured at low
+temperature; the text field carries accented author names and a
+Greek letter.
+;
+_chemical_formula_sum 'Na1 Cl1'
+_exptl_crystal_description 'sample #3, colorless'
+_symmetry_space_group_name_H-M 'F m -3 m'
+_cell_length_a 5.640
+_cell_length_b 5.640
+_cell_length_c 5.640
+_cell_angle_alpha 90
+_cell_angle_beta 90
+_cell_angle_gamma 90

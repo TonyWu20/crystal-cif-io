@@ -1,17 +1,6 @@
-use std::fmt::{Display, Write};
+use std::fmt::Display;
 
-use winnow::{
-    combinator::{alt, opt, peek, preceded, terminated},
-    PResult, Parser,
-};
-
-use crate::grammar::{
-    character_sets::Eol,
-    numeric_values::Numeric,
-    strings_textfields::{CharString, TextField},
-    whitespace_comments::WhiteSpace,
-    SyntacticUnit,
-};
+use crate::grammar::{CharString, Numeric, SyntacticUnit, TextField};
 
 #[derive(Debug, Clone, Default)]
 pub enum Value {
@@ -23,6 +12,15 @@ pub enum Value {
     Numeric(Numeric),
     CharString(CharString),
     TextField(TextField),
+    /// A CIF 2.0 list value (`[...]`). The elements are any `Value`s,
+    /// and a list may nest. Parsed only in the 2.0 dialect.
+    List(Vec<Value>),
+    /// A CIF 2.0 table value (`{...}`). The ordered pairs hold a key
+    /// and a value; the key is a value (the parser produces a
+    /// char_string key). Parsed only in the 2.0 dialect (roadmap
+    /// section 14). No core dictionary item uses a table (roadmap
+    /// section 13.3).
+    Table(Vec<(Value, Value)>),
 }
 
 impl Value {
@@ -49,43 +47,33 @@ impl Value {
             None
         }
     }
+
+    /// The element list of a `Value::List`.
+    pub fn as_list(&self) -> Option<&Vec<Value>> {
+        if let Self::List(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    /// The ordered key-value pairs of a `Value::Table`.
+    pub fn as_table(&self) -> Option<&Vec<(Value, Value)>> {
+        if let Self::Table(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
 }
 
 pub trait CIFValue {}
 
 impl CIFValue for Numeric {}
-impl CIFValue for CharString {}
 impl CIFValue for TextField {}
 
-/// Parse value '?' when the it does not have trailing chars.
-fn unknown_parser(input: &mut &str) -> PResult<Value> {
-    terminated('?', peek(Eol::parser))
-        .map(|_| Value::Unknown)
-        .parse_next(input)
-}
-
-/// Parse value '.' when the it does not have trailing chars.
-fn inapplicable_parser(input: &mut &str) -> PResult<Value> {
-    terminated('.', peek(Eol::parser))
-        .map(|_| Value::Inapplicable)
-        .parse_next(input)
-}
-
-impl SyntacticUnit for Value {
-    type ParseResult = Self;
-
+impl crate::grammar::SyntacticUnit for Value {
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        alt((
-            preceded(opt(WhiteSpace::parser), unknown_parser),
-            preceded(opt(WhiteSpace::parser), inapplicable_parser),
-            preceded(opt(WhiteSpace::parser), Numeric::parser).map(Self::Numeric),
-            TextField::parser.map(Self::TextField),
-            CharString::parser.map(Self::CharString),
-        ))
-        .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
@@ -94,65 +82,88 @@ impl SyntacticUnit for Value {
             Value::Numeric(numeric) => numeric.to_string(),
             Value::CharString(char_string) => char_string.to_string(),
             Value::TextField(text_field) => text_field.to_string(),
+            Value::List(values) => list_text(values),
+            Value::Table(pairs) => table_text(pairs),
         }
     }
+}
+
+/// Render a list value as CIF 2.0 text: `[`, the values joined by a
+/// blank, and `]`. An empty list renders as `[]`.
+fn list_text(values: &[Value]) -> String {
+    let items = values
+        .iter()
+        .map(|v| v.formatted_output())
+        .collect::<Vec<_>>()
+        .join(" ");
+    format!("[{items}]")
 }
 
 impl Display for Value {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Value::Inapplicable => f.write_char('.'),
-            Value::Unknown => f.write_char('?'),
+            Value::Inapplicable => write!(f, "."),
+            Value::Unknown => write!(f, "?"),
             Value::Numeric(n) => write!(f, "{n}"),
             Value::CharString(cs) => write!(f, "{cs}"),
             Value::TextField(tf) => write!(f, "{tf}"),
+            Value::List(values) => write!(f, "{}", list_text(values)),
+            Value::Table(pairs) => write!(f, "{}", table_text(pairs)),
         }
     }
 }
 
-#[cfg(test)]
-mod test {
-    use crate::grammar::SyntacticUnit;
+/// Render a table value as CIF 2.0 text: `{`, the pairs joined by a
+/// blank, and `}`. Each pair is `key:value`. An empty table renders
+/// as `{}`.
+fn table_text(pairs: &[(Value, Value)]) -> String {
+    let items = pairs
+        .iter()
+        .map(|(k, v)| format!("{}:{}", k.formatted_output(), v.formatted_output()))
+        .collect::<Vec<_>>()
+        .join(" ");
+    format!("{{{items}}}")
+}
 
-    use super::Value;
+#[cfg(test)]
+mod tests {
+    use super::*;
 
     #[test]
-    fn value_test() {
-        let mut inputs = [
-            " ;
-PROBLEM: _A ADDSYM Suggests Possible Pseudo/New Spacegroup       P-1          
-RESPONSE: .See above
-;
-",
-            " 'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
-",
-            "   482.66
-",
-            " rm
-",
-            " ?ii
-",
-            "   ?
-",
-            "?
-",
-            " .
-",
-            "     .
-",
-            "'P 1'
-",
-            " 662.31(12) ",
-            "8456
-",
-            "  MoK\\a
-",
-            "MoK\\a
-",
-            "1_445",
-        ];
-        inputs.iter_mut().map(Value::parser).for_each(|res| {
-            res.map(|v| println!("{v:?}")).unwrap();
-        })
+    fn list_display_round_trips() {
+        let value = Value::List(vec![
+            Value::Numeric(Numeric::from(1i32)),
+            Value::CharString(CharString::Unquoted(crate::grammar::UnquotedString::new(
+                "abc".to_string(),
+            ))),
+            Value::List(vec![Value::Unknown]),
+        ]);
+        assert_eq!(value.to_string(), "[1 abc [?]]");
+        let empty = Value::List(Vec::new());
+        assert_eq!(empty.to_string(), "[]");
+    }
+
+    #[test]
+    fn table_display_round_trips() {
+        let pairs = vec![(
+            Value::CharString(CharString::SingleQuoted(crate::grammar::SingleQuotedString::new(
+                "zero".to_string(),
+            ))),
+            Value::Numeric(Numeric::from(0i32)),
+        )];
+        let value = Value::Table(pairs);
+        assert_eq!(value.to_string(), "{'zero':0}");
+        let empty = Value::Table(Vec::new());
+        assert_eq!(empty.to_string(), "{}");
+    }
+
+    #[test]
+    fn as_list_returns_the_elements() {
+        let value = Value::List(vec![Value::Inapplicable, Value::Unknown]);
+        match value.as_list() {
+            Some(elements) => assert_eq!(elements.len(), 2),
+            None => panic!("as_list must return the element list"),
+        }
+        assert!(Value::Inapplicable.as_list().is_none());
     }
 }

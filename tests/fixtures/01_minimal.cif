@@ -1,0 +1,19 @@
+#\#CIF_1.1
+#
+# Minimal CIF: one data block, plain single-value data items.
+# Exercises: version-identification comment (spec para. 34), data block
+# header, single-value data items, integer / float / quoted string /
+# unknown / inapplicable values.
+data_I
+
+_audit_author_name           'Tony Wu'
+_cell_length_a               5.365
+_cell_length_b               5.365
+_cell_length_c               5.365
+_cell_angle_alpha            90.0
+_cell_angle_beta             90.0
+_cell_angle_gamma            90.0
+_cell_volume                 154.9(4)
+_symmetry_cell_setting       monoclinic
+_refine_ls_squares_weighted  ?
+_publ_contact_email          .

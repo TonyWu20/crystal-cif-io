@@ -1,0 +1,83 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-18 17:37:37 +0200 (Thu, 18 Feb 2016) $
+#$Revision: 176729 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/13/1001370.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1001370
+loop_
+_publ_author_name
+'Choisnet, J'
+'Rulmont, A'
+'Tarte, P'
+_publ_section_title
+;
+Les tellurates mixtes Li~2~ Zr Te O~6~ et Li~2~ Hf Te O~6~: un nouveau
+phenomene d'ordre dans la famille corindon
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              124
+_journal_page_last               135
+_journal_paper_doi               10.1016/0022-4596(88)90309-X
+_journal_volume                  75
+_journal_year                    1988
+_chemical_formula_structural     'Li2 Zr Te O6'
+_chemical_formula_sum            'Li2 O6 Te Zr'
+_chemical_name_systematic        'Dilithium zirconium tellurium oxide'
+_space_group_IT_number           146
+_symmetry_cell_setting           trigonal
+_symmetry_space_group_name_Hall  'R 3'
+_symmetry_space_group_name_H-M   'R 3 :H'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                120
+_cell_formula_units_Z            3
+_cell_length_a                   5.172(2)
+_cell_length_b                   5.172(2)
+_cell_length_c                   13.847(6)
+_cell_volume                     320.8
+_refine_ls_R_factor_all          0.043
+_cod_original_sg_symbol_H-M      'R 3 H'
+_cod_database_code               1001370
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-y,x-y,z
+y-x,-x,z
+1/3+x,2/3+y,2/3+z
+2/3+x,1/3+y,1/3+z
+1/3-y,2/3+x-y,2/3+z
+2/3-y,1/3+x-y,1/3+z
+1/3-x+y,2/3-x,2/3+z
+2/3-x+y,1/3-x,1/3+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Li1 Li1+ 3 a 0. 0. 0.29(1) 1. 0 d
+Li2 Li1+ 3 a 0. 0. 0.76(1) 1. 0 d
+Zr1 Zr4+ 3 a 0. 0. 0.993(1) 1. 0 d
+Te1 Te6+ 3 a 0. 0. 0.500(1) 1. 0 d
+O1 O2- 9 b 0.049(2) 0.355(3) 0.077(4) 1. 0 d
+O2 O2- 9 b 0.652(2) 0.962(2) 0.576(4) 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Li1+ 1.000
+Zr4+ 4.000
+Te6+ 6.000
+O2- -2.000

@@ -1,0 +1,106 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "text_field",
+          "value": {
+            "kind": "table",
+            "pairs": [
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "English"
+                },
+                "value": {
+                  "kind": "char_string",
+                  "style": "unquoted",
+                  "text": "hello"
+                }
+              },
+              {
+                "key": {
+                  "kind": "char_string",
+                  "style": "single_quoted",
+                  "text": "French"
+                },
+                "value": {
+                  "kind": "char_string",
+                  "style": "unquoted",
+                  "text": "salut"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "number",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "float",
+                "value": "2.5"
+              },
+              {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "-3"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "nested",
+          "value": {
+            "kind": "list",
+            "values": [
+              {
+                "kind": "table",
+                "pairs": [
+                  {
+                    "key": {
+                      "kind": "char_string",
+                      "style": "single_quoted",
+                      "text": "inner"
+                    },
+                    "value": {
+                      "kind": "numeric",
+                      "std_uncertainty": null,
+                      "type": "integer",
+                      "value": "1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "empty",
+          "value": {
+            "kind": "table",
+            "pairs": []
+          }
+        }
+      ],
+      "name": "tables"
+    }
+  ],
+  "fixture": "21_tables.cif",
+  "schema_version": 2
+}

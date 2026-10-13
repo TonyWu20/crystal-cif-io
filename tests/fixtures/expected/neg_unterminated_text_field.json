@@ -1,0 +1,9 @@
+{
+  "expect_error": {
+    "description": "A text field is bounded by <eol>; ... ; (spec para. 17, Appendix A <SemiColonTextField>). The opening ; has no closing ;, so the file does not parse.",
+    "stage": "parse",
+    "violation": "unparseable"
+  },
+  "fixture": "neg_unterminated_text_field.cif",
+  "schema_version": 1
+}

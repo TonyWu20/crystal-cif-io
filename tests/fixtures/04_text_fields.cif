@@ -1,0 +1,31 @@
+#\#CIF_1.1
+#
+# Semicolon-delimited text fields (spec para. 17-20, Appendix A
+# <SemiColonTextField>): single-line field, multi-line field with
+# significant leading white space, embedded '#' and mid-line ';',
+# empty text field, and a line lead with a reserved bracket.
+data_text_fields
+
+_tf_single_line
+;
+foo
+;
+
+_tf_multi_line
+;  foo
+  bar
+;
+
+_tf_hash_and_semicolon
+;
+a;b # not a comment inside a text field
+;
+
+_tf_empty
+;
+;
+
+_tf_bracket_lead
+;
+[reserved bracket lead]
+;

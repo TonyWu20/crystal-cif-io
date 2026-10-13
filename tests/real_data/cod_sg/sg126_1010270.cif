@@ -1,0 +1,99 @@
+#------------------------------------------------------------------------------
+#$Date: 2025-08-18 15:29:48 +0300 (Mon, 18 Aug 2025) $
+#$Revision: 301772 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/01/02/1010270.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1010270
+loop_
+_publ_author_name
+'Wells, A. F.'
+_publ_section_title
+;
+ The Crystal Structure of Silver Diammino-Tetranitro- cobaltiate
+ (Ag(Co(NH~3~)~2~(N O~2~)~4~))
+;
+_journal_coden_ASTM              ZEKGAX
+_journal_name_full
+;
+Zeitschrift fuer Kristallographie, Kristallgeometrie, Kristallphysik,
+Kristallchemie (-144,1977)
+;
+_journal_page_first              74
+_journal_page_last               82
+_journal_paper_doi               10.1524/zkri.1936.95.1.74
+_journal_volume                  95
+_journal_year                    1936
+_chemical_formula_structural     'Ag (Co (N H3)2 (N O2)4)'
+_chemical_formula_sum            'Ag Co H6 N6 O8'
+_chemical_name_systematic        'Silver diamminetetranitrocobaltate'
+_space_group_IT_number           126
+_symmetry_cell_setting           tetragonal
+_symmetry_space_group_name_Hall  'P 4 2 -1n'
+_symmetry_space_group_name_H-M   'P 4/n n c :1'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   6.97
+_cell_length_b                   6.97
+_cell_length_c                   10.43
+_cell_volume                     506.7
+_exptl_crystal_density_meas      2.54
+_cod_original_sg_symbol_H-M      'P 4/n n c S'
+_cod_original_formula_sum        'H6 Ag Co N6 O8'
+_cod_database_code               1010270
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,-y,z
+1/2+x,1/2+y,1/2-z
+1/2-x,1/2-y,1/2-z
+-x,y,-z
+x,-y,-z
+1/2-x,1/2+y,1/2+z
+1/2+x,1/2-y,1/2+z
+-y,x,z
+y,-x,z
+1/2-y,1/2+x,1/2-z
+1/2+y,1/2-x,1/2-z
+-y,-x,-z
+y,x,-z
+1/2-y,1/2-x,1/2+z
+1/2+y,1/2+x,1/2+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Ag1 Ag1+ 2 a 0. 0. 0. 1. 0 d
+Co1 Co3+ 2 b 0.5 0.5 0. 1. 0 d
+N1 N3- 4 e 0. 0. 0.22 1. 3 d
+N2 N3+ 8 h 0.195 0.195 0. 1. 0 d
+O1 O2- 16 k 0.31 0.22 0.09 1. 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Ag1+ 1.000
+Co3+ 3.000
+N3- -3.000
+N3+ 3.000
+O2- -2.000
+H1+ 1.000
+loop_
+_cod_related_entry_id
+_cod_related_entry_database
+_cod_related_entry_code
+1 PubChem 168302176

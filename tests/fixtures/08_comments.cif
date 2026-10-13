@@ -1,0 +1,13 @@
+#\#CIF_1.1
+#
+# Comments (spec para. 21, 45): a comment starts with an unquoted '#'
+# and runs to the end of the line. It carries no machine-readable
+# content, so it is elided from the canonical IR.
+data_commented
+
+# a full-line comment before the first item
+_cell_length_a          5.365   # trailing comment on the same line
+_cell_length_b          5.365
+
+# a full-line comment between items
+_cell_length_c          5.365

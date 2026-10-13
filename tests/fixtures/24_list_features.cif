@@ -1,0 +1,19 @@
+#\#CIF_2.0
+
+data_24_list_features
+
+_glued [# comment glued to [
+ 1
+ 2
+]
+
+_spaced [ # comment after a blank
+ 3
+]
+
+_mixed_list [
+ Mary had 1 little ?
+;A text member
+;
+ ?
+]

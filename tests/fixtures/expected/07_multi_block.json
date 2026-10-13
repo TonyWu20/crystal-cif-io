@@ -1,0 +1,54 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "cell_length_a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "4.1"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_cell_setting",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "cubic"
+          }
+        }
+      ],
+      "name": "alpha"
+    },
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "cell_length_a",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "5.9"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "symmetry_cell_setting",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "hexagonal"
+          }
+        }
+      ],
+      "name": "beta"
+    }
+  ],
+  "fixture": "07_multi_block.cif",
+  "schema_version": 1
+}

@@ -1,0 +1,543 @@
+##############################################################################
+### CIF submission form for results of Rietveld refinements (IUCr journals)###
+###                                              Version 10 February 2005  ###
+##############################################################################
+
+# This is an electronic "form" for submitting the results of a Rietveld 
+# refinement of a model against powder diffraction data to an
+# IUCr journal as a Crystallographic Information File (CIF). Full details  
+# of the CIF format are given in the paper "The Crystallographic Information 
+# File (CIF): a New Standard Archive File for Crystallography" by S. R. Hall,
+# F. H. Allen and I. D. Brown [Acta Cryst. (1991), A47, 655-685]. 
+#
+# The current version of the powder CIF dictionary, which contains definitions
+# of the terms staring _pd_,  may be obtained from
+# http://www.iucr.org/iucr-top/cif/pd/index.html. Other terms are defined in
+# the core CIF dictionary at http://www.iucr.org/iucr-top/cif/core/index.html.
+#
+# Note that all fields should be numeric or character type EXCEPT those which
+# are flagged as 'text' - free-form text of any length may be included in
+# these latter fields provided the text block begins and ends with a semicolon
+# as the first character of a new line.  Note also that the query marks
+# '?' are significant as placeholders, and should not be deleted where a data
+# item is not given, UNLESS the accompanying data name is also deleted.
+# Lines should not exceed 80 characters in length.  The comments following
+# a hash symbol '#' may be deleted if wished.
+  
+#=============================================================================
+data_znvo
+#=============================================================================
+
+loop_
+  _audit_conform_dict_name
+  _audit_conform_dict_version
+  _audit_conform_dict_location
+     cif_core.dic .  ftp://ftp.iucr.org/pub/cif_core.dic
+     cif_pd.dic .  ftp://ftp.iucr.org/pub/cif_pd.dic
+
+# 1. SUBMISSION DETAILS
+
+_publ_contact_author_name         'Dr Peter Y. Zavalij'
+_publ_contact_author_address
+;
+      Materials Research Center
+      State University of New York at Binghamton
+      Binghamton, NY 13902-6016
+      USA
+;
+_publ_contact_author_email        med@iucr.org
+_publ_contact_author_fax          '607 777 4623'
+_publ_contact_author_phone        '607 777 4623'
+
+_publ_requested_journal           'Acta Cryst. C'
+_publ_requested_category          FI
+
+_publ_contact_letter
+; Please consider this CIF submission for publication as a full paper in Acta
+  Cryst. Section C. The figures, Transfer of Copyright Agreement form and
+  powder profile will be sent on receipt of your acknowledgment letter.
+;
+
+#=============================================================================
+
+# 2. PROCESSING SUMMARY (IUCr Office Use Only)
+
+_journal_date_recd_electronic     97-04-14
+_journal_date_to_coeditor         ?
+_journal_date_from_coeditor       97-06-30
+_journal_date_accepted            97-06-30
+_journal_date_printers_first      97-09-18
+_journal_date_printers_final      ?
+_journal_date_proofs_out          97-10-06
+_journal_date_proofs_in           97-10-14
+_journal_coeditor_name            ?
+_journal_coeditor_code            BR1188
+_journal_coeditor_notes
+; ?
+;
+_journal_techeditor_code          C970970
+_journal_paper_category           FI
+_iucr_compatibility_tag           ?
+_journal_techeditor_notes
+; ?
+;
+_journal_coden_ASTM               ACSCEE
+_journal_name_full                'Acta Crystallographica, Section C'
+_journal_year                     1997 
+_journal_volume                   C53
+_journal_issue                    DEC97
+_journal_page_first               1738 
+_journal_page_last                1739
+_journal_suppl_publ_number        ?
+_journal_suppl_publ_pages         ?
+
+#==============================================================================
+
+# 3. TITLE AND AUTHOR LIST
+
+_publ_section_title
+;
+Example CIF - Not for publication
+;
+
+# The loop structure below should contain the names and addresses of all
+# authors, in the required order of publication. Repeat as necessary. 
+
+loop_
+    _publ_author_name
+    _publ_author_address
+    'Zavalij, Peter Y.'
+;     Materials Research Center
+      State University of New York at Binghamton
+      Binghamton, NY 13902-6016
+      USA
+;
+    'Zhang, Fan'
+;     Materials Research Center
+      State University of New York at Binghamton
+      Binghamton, NY 13902-6016
+      USA
+;
+    'Whittingham, M. Stanley'
+;     Materials Research Center
+      State University of New York at Binghamton
+      Binghamton, NY 13902-6016
+      USA
+;
+
+#==============================================================================
+
+# 4. TEXT
+
+_publ_section_synopsis
+;
+Rietveld refinement of a new zinc divanadate, Zn~3~(OH)~2~V~2~O~7~.2H~2~O, 
+shows that it has a porous framework structure assembled from layers of 
+Zn--O octahedra joined by pyrovanadate groups. Water molecules fill the 
+large cavities.
+;
+
+_publ_section_abstract                           
+; Hydrothermally prepared zinc dihydroxide divanadate dihydrate crystallizes 
+in the trigonal system (space group P\=3m1). Its structure was solved ...
+;
+
+_publ_section_comment
+; Recently, mild hydrothermal reactions driven by template cations
+such as ...
+;
+_publ_section_exptl_prep     
+; The title compound was prepared by hydrothermal treatment of ZnCl~2~,
+V~2~O~5~ and tetramethylammonium hydroxide, [N(CH~3~)~4~]OH, in a 1:1:3 
+molar ratio at pH = 5.6. The reaction mixture was heated in a Teflon-lined 
+Parr reactor for 2.5 d at 438 K. White crystalline powder resulted.
+;
+
+_publ_section_exptl_refinement  
+;
+The powder diffraction pattern was indexed in a hexagonal system ...
+;
+_publ_section_references   
+;
+Akselrud, L. G., Zavalij, P. Y., Grin, Yu. N., Pecharskii, V. K., 
+Baumgartner, B. & Wolfel, E. (1993). Mater. Sci. Forum, 133/136, 335-340.
+
+Basso, R., Palenzona, A. & Zefiro, L. (1988). Neues Jahrb. Miner. 
+pp. 385-394.
+
+...
+
+;
+_publ_section_figure_captions
+; Fig. 1. Polyhedral representation of Zn~3~(OH)~2~V~2~O~7~.2H~2~O.
+
+Fig. 2. Comparison of observed (circles) and calculated (solid line) 
+intensities for Zn~3~(OH)~2~V~2~O~7~.2H~2~O. The difference pattern 
+appears below.
+;
+_publ_section_acknowledgements
+; The work at Binghamton was supported by the National Science Foundation
+through grant DMR 9422667.
+;
+
+#==============================================================================
+
+# If more than one structure is reported, sections 5-10 should be filled in
+# per structure. For each data set, replace the '?' in the data_? line below
+# by a unique identifier.
+
+#==============================================================================
+
+data_znvodata
+
+# 5. CHEMICAL DATA
+
+_chemical_name_systematic                           
+;
+zinc dihydroxide divanadate dihydrate
+;
+_chemical_name_common             ?
+_chemical_formula_moiety          'H2 O9 V2 Zn3, 2(H2 O)'
+_chemical_formula_structural      'Zn3 (O H)2 (V2 O7) (H2 O)2'
+_chemical_formula_analytical      ?
+_chemical_formula_iupac           'Zn3 (O H)2 V2 O7 ,2H2 O'  
+_chemical_formula_sum             'H6 O11 V2 Zn3'
+_chemical_formula_weight          480.05
+_chemical_melting_point           ?
+_chemical_compound_source         ?
+
+loop_
+    _atom_type_symbol
+    _atom_type_description
+    _atom_type_scat_dispersion_real
+    _atom_type_scat_dispersion_imag
+    _atom_type_scat_source
+    Zn Zn -1.612  .678 'International Tables for Crystallography (Vol. IV)'
+    V V  .035 2.110 'International Tables for Crystallography (Vol. IV)'
+    O O  .047  .032 'International Tables for Crystallography (Vol. IV)'
+    H H  .000  .000 'International Tables for Crystallography (Vol. IV)'
+
+#==============================================================================
+
+# 6. POWDER SPECIMEN AND CRYSTAL DATA
+
+_space_group_crystal_system             trigonal      
+_space_group_name_H-M_alt               'P -3 m 1'
+_space_group_name_Hall                  '-P 3 2"'
+
+loop_                                            
+    _symmetry_equiv_pos_site_id
+    _symmetry_equiv_pos_as_xyz
+    1    x,y,z
+    2    -y,x-y,z
+    3    -x+y,-x,z
+    4    -y,-x,z
+    5    -x+y,y,z
+    6    x,x-y,z
+    7    -x,-y,-z
+    8    y,-x+y,-z
+    9    x-y,x,-z
+   10    y,x,-z
+   11    x-y,-y,-z
+   12    -x,-x+y,-z
+
+_cell_length_a     6.05098(5)                
+_cell_length_b     6.05098(5)                 
+_cell_length_c     7.19498(9)                
+_cell_angle_alpha  90.0                      
+_cell_angle_beta   90.0                       
+_cell_angle_gamma  120.0                     
+_cell_volume       228.145(7)                
+_cell_formula_units_Z     1                  
+_cell_measurement_temperature     295        
+
+_pd_calibration_special_details      
+; ?
+;
+_cell_special_details
+; ?
+;
+
+_exptl_crystal_density_diffrn     3.4937(1)
+_exptl_crystal_density_meas        ?
+_exptl_crystal_density_method     'not measured'
+_exptl_crystal_F_000               230
+
+# The next three fields give the specimen dimensions in mm.  The equatorial 
+# plane contains the incident and diffracted beam.
+_pd_spec_size_axial               25       # perpendicular to 
+                                           # equatorial plane
+
+_pd_spec_size_equat               25       # parallel to 
+                                           # scattering vector 
+                                           # in transmission
+
+_pd_spec_size_thick                1       # parallel to 
+                                           # scattering vector 
+                                           # in reflection
+
+# The next five fields are character fields that describe the specimen.
+
+_pd_spec_mounting                          
+; packed powder pellet
+;
+_pd_spec_mount_mode         reflection    # options are 'reflection' 
+                                          # or 'transmission'
+
+_pd_spec_shape              flat_sheet    # options are 'cylinder',
+                                          # 'flat_sheet' or 'irregular'
+						       
+
+_pd_char_particle_morphology      plate-like                      
+_pd_char_colour              white        # use ICDD colour descriptions
+
+# The following three fields describe the preparation of the specimen. 
+# The cooling rate is in K/min.  The pressure at which the sample was
+# prepared is in kPa.  The temperature of preparation is in K.
+ 
+
+
+_pd_prep_cool_rate                ?        
+_pd_prep_pressure                 ?       
+_pd_prep_temperature            438        
+
+
+
+# The next four fields are normally only needed for transmission experiments.
+_exptl_absorpt_coefficient_mu     27.4
+_exptl_absorpt_correction_type    ?        
+_exptl_absorpt_correction_T_min   ?        
+_exptl_absorpt_correction_T_max   ?     
+
+#=======================================================================
+
+# 7. EXPERIMENTAL DATA
+
+_exptl_special_details
+; ?
+;
+
+# This following item is used to identify the equipment used to record the
+# powder pattern when the diffractogram was measured at a laboratory
+# other than the authors' home institution, e.g. when neutron or synchrotron
+# radiation is used.
+
+_pd_instr_location
+; ?
+;
+
+_diffrn_ambient_temperature     295                    
+_diffrn_source              'sealed X-ray tube'        
+_diffrn_source_target            Cu                                     
+_diffrn_source_type               ?
+_diffrn_measurement_device_type  'Scintag XDS2000'       
+_diffrn_detector               'Ge solid-state'               
+_diffrn_detector_type             ?        
+_pd_meas_scan_method              step        # options are 'step', 'cont',
+                                              # 'tof', 'fixed' or
+                                              # 'disp' (= dispersive)
+_pd_meas_special_details
+;  ?
+;
+
+# The following six items are used for angular dispersive measurements only.
+
+loop_
+    _diffrn_radiation_type                   
+    _diffrn_radiation_wavelength             
+       CuK\a~1~ 1.54056
+       CuK\a~2~ 1.54439
+_diffrn_radiation_monochromator   none                 
+
+# The following four items give details of the measured (not processed)
+# powder pattern.  Angles are in degrees.
+
+_pd_meas_number_of_points       3667                                     
+_pd_meas_2theta_range_min         10                   
+_pd_meas_2theta_range_max        120                   
+_pd_meas_2theta_range_inc          0.03
+
+# The following three items are used for time-of-flight measurements only.
+
+_pd_instr_dist_src/spec           ?                    
+_pd_instr_dist_spec/detc          ?                    
+_pd_meas_2theta_fixed             ?                    
+
+# The following fields are used to identify the programs used.
+
+_computing_data_collection        'DMS software (Scintag Inc., 1994)'
+_computing_cell_refinement        'CSD (Akselrud et al., 1993)'
+_computing_data_reduction         'CSD'
+_computing_structure_solution     'CSD'
+_computing_structure_refinement   'CSD'
+_computing_molecular_graphics
+   'STRUVIR [VRML version of STRUPLO (Fisher, 1985) created by A. LeBail]'
+_computing_publication_material   'CSD'
+
+#==============================================================================
+
+# 8. REFINEMENT DATA
+
+# Use the next field to give any special details about the fitting of the
+# powder pattern.
+
+_pd_proc_ls_special_details
+; ?
+;
+
+# The next three items are given as text
+_pd_proc_ls_profile_function      pseudo-Voigt   
+_pd_proc_ls_background_function   'square polynomial for each range'     
+_pd_proc_ls_pref_orient_corr                      
+; I~corr~ = I~obs~/[1 + (\t^2^-1)sin^2^\f]^1/2^, 
+   axis (001), \t = 0.702(5), 
+   (Pecharskii et al., 1987)
+;
+
+_pd_proc_ls_prof_R_factor         0.052          
+_pd_proc_ls_prof_wR_factor        0.085         
+_pd_proc_ls_prof_wR_expected      0.020         
+
+_refine_special_details
+; ?
+;
+
+_refine_ls_structure_factor_coef     Inet
+_refine_ls_matrix_type               fullcycle
+_refine_ls_weighting_scheme          sigma
+_refine_ls_weighting_details          '1/[Y~i~+\s(Y~i~)]'
+_refine_ls_hydrogen_treatment        noref
+_refine_ls_extinction_method         none        
+_refine_ls_extinction_coef           ?           
+_refine_ls_number_parameters         18
+_refine_ls_number_restraints         ?
+_refine_ls_number_constraints        ?
+
+# The following item is the same as CHI, the square root of 'CHI squared'
+_refine_ls_goodness_of_fit_all       1.30      
+
+_refine_ls_R_I_factor                 .053
+_refine_ls_restrained_S_all          ?           
+_refine_ls_shift/su_max               .01
+_refine_ls_shift/su_mean             ?
+
+
+# The following four items apply to angular dispersive measurements.
+# 2theta minimum, maximum and increment (in degrees) are for the 
+# intensities used in the refinement.
+_pd_proc_2theta_range_min         10             
+_pd_proc_2theta_range_max        120             
+_pd_proc_2theta_range_inc          0.03
+
+loop_
+      _pd_proc_wavelength       1.540562    1.544390   
+
+# Each refinement must be accompanied by a listing of the powder data
+# in CIF format.  Each listing should be sent as a separate file consisting 
+# of one data block containing a single powder profile. The value of 
+# _pd_block_diffractogram_id is used to associate each refinement with 
+# its corresponding powder profile, since it must match the value
+# of _pd_block_id in the file containing the powder data. 
+
+_pd_block_diffractogram_id      znvoprofile    
+
+# Give appropriate details in the next two text fields.
+_pd_proc_info_excluded_regions    ?             
+_pd_proc_info_data_reduction      ?
+
+#==============================================================================
+
+# 9. ATOMIC COORDINATES AND DISPLACEMENT PARAMETERS
+
+loop_
+    _atom_site_label               
+    _atom_site_fract_x             
+    _atom_site_fract_y             
+    _atom_site_fract_z             
+    _atom_site_U_iso_or_equiv      
+    _atom_site_adp_type
+    _atom_site_occupancy           
+    _atom_site_type_symbol
+    Zn  .5       0         0         .0210(5)  Uani 1     Zn
+    V   0        0         .2525(2)  .0112(5)  Uani 1     V
+    O1  .66667   .33333    .8823(7)  .011(2)   Uiso 1     O
+    O2  .1534(3) .3068(6)  .8219(4)  .0141(11) Uiso 1     O
+    O3  0        0         .5        .031(2)   Uiso 1     O 
+    Ow  .736(2)  .3680(10) .491(2)   .012(3)   Uiso .3333 O
+    H1  .66667   .33333    .75000    .07599    Uiso 1     H
+loop_
+    _atom_site_aniso_label
+    _atom_site_aniso_U_11
+    _atom_site_aniso_U_22
+    _atom_site_aniso_U_33
+    _atom_site_aniso_U_12
+    _atom_site_aniso_U_13
+    _atom_site_aniso_U_23
+    Zn  .0198(6)  .0163(7)  .0256(7)  .0082(3)  .0009(10)  .002(2)
+    V  .0144(7)  .0144(7)  .0049(8)  .0072(3) 0 0
+
+#==============================================================================
+
+# 10. MOLECULAR GEOMETRY
+
+_geom_special_details             ?
+
+loop_
+    _geom_bond_atom_site_label_1
+    _geom_bond_atom_site_label_2
+    _geom_bond_site_symmetry_2
+    _geom_bond_distance
+    _geom_bond_publ_flag
+    Zn O1 1_554 1.941(2)    yes
+    Zn O1 7_656 1.941(2)    yes
+    Zn O2 2_654 2.226(2)    yes
+    Zn O2 3_554 2.226(2)    yes
+    Zn O2 8_556 2.226(2)    yes
+    Zn O2 9_656 2.226(2)    yes
+    V  O2 7_556 1.695(2)    yes
+    V  O2 8_556 1.695(2)    yes
+    V  O2 9_556 1.695(2)    yes
+    V  O3 .     1.781(1)  yes
+    O1 H1 .      .952       no
+
+loop_
+    _geom_angle_atom_site_label_1
+    _geom_angle_atom_site_label_2
+    _geom_angle_atom_site_label_3
+    _geom_angle_site_symmetry_1
+    _geom_angle_site_symmetry_3
+    _geom_angle
+    _geom_angle_publ_flag
+    O2 V  O2 7_556 8_556 110.52(12) no
+    O2 V  O2 7_556 9_556 110.52(12) no
+    O2 V  O3 7_556 .     108.40(9)  no
+    O2 V  O2 8_556 9_556 110.52(12) no
+    O2 V  O3 8_556 .     108.40(9)  no
+    O2 V  O3 9_556 .     108.40(9)  no
+    V  O3 V  .     7_556 180.00(3)  no
+
+loop_
+    _geom_hbond_atom_site_label_D
+    _geom_hbond_atom_site_label_H
+    _geom_hbond_atom_site_label_A
+    _geom_hbond_site_symmetry_A
+    _geom_hbond_distance_DH
+    _geom_hbond_distance_HA
+    _geom_hbond_distance_DA
+    _geom_hbond_angle_DHA
+    O1 H1 Ow   .  .95 1.90 2.84(2) 169
+
+#==============================================================================
+# Additional structures (sections 5-10 and associated data_? identifiers)
+# may be added at this point.
+#==============================================================================
+
+# The following lines are used to test the character set of files sent by
+# network email or other means. They are not part of the CIF data set.
+# abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+# !@#$%^&*()_+{}:"~<>?|\-=[];'`,./                 
+
+
+
+
+

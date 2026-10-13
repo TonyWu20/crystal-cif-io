@@ -1,0 +1,71 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "nesting_level",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "0"
+          }
+        },
+        {
+          "frames": [
+            {
+              "kind": "save_frame",
+              "members": [
+                {
+                  "kind": "item",
+                  "tag": "nesting_level",
+                  "value": {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "2"
+                  }
+                }
+              ],
+              "name": "nested"
+            },
+            {
+              "kind": "save_frame",
+              "members": [
+                {
+                  "kind": "item",
+                  "tag": "nesting_level",
+                  "value": {
+                    "kind": "numeric",
+                    "std_uncertainty": null,
+                    "type": "integer",
+                    "value": "2"
+                  }
+                }
+              ],
+              "name": "sibling"
+            }
+          ],
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "nesting_level",
+              "value": {
+                "kind": "numeric",
+                "std_uncertainty": null,
+                "type": "integer",
+                "value": "1"
+              }
+            }
+          ],
+          "name": "nested"
+        }
+      ],
+      "name": "nested"
+    }
+  ],
+  "fixture": "nested.cif",
+  "schema_version": 2
+}

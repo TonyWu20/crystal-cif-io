@@ -1,43 +1,40 @@
+//! Intermediate representation (IR) types for CIF files.
+//!
+//! The value grammar is the CIF 1.1 form, plus the CIF 2.0 list
+//! value (`Value::List`) for files in the 2.0 dialect. The types
+//! are built by the chumsky parser in [`crate::parser`] and encoded
+//! to the groundtruth JSON by [`crate::canonical`]. The old winnow
+//! parser is gone; see `docs/refactor-chumsky-ariadne.md`.
+
 use std::fmt::Display;
 
-use winnow::{
-    combinator::{opt, preceded, repeat, terminated},
-    PResult, Parser,
-};
-
-pub use self::whitespace_comments::{Comments, WhiteSpace};
-
-mod character_sets;
+mod index;
+mod matrix;
 mod numeric_values;
-mod reserved_words;
 mod strings_textfields;
 mod structures;
 mod tags_values;
 mod whitespace_comments;
 
-mod index;
-
-#[cfg(feature = "chemrust-core")]
-pub mod chemrust_impl;
-
+pub use matrix::{Matrix, MatrixError};
 pub use numeric_values::{Float, Integer, Number, Numeric, UnsignedInteger};
 pub use strings_textfields::{
-    CharString, DoubleQuotedString, SingleQuotedString, TextField, UnquotedString,
+    CharString, DoubleQuotedString, SemiColonTextField, SingleQuotedString,
+    TripleDoubleQuotedString, TripleSingleQuotedString, TextField, UnquotedString,
 };
 pub use structures::{
-    CIFDataType, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopBody, LoopColumn,
-    LoopColumns, LoopHeader, LoopUnit, SaveFrame, SaveFrameHeading, SingleLineData,
+    CIFDataType, DataBlock, DataBlockHeading, DataBlockMember, DataItems, LoopColumn, LoopColumns,
+    LoopHeader, LoopUnit, SaveFrame, SaveFrameHeading, SingleLineData,
 };
 pub use tags_values::{CIFValue, Tag, Value};
+pub use whitespace_comments::Comments;
 
+/// Uniform writer hook over the IR types: each syntactic unit knows
+/// how to render itself back to CIF text (the `Display` impls of the
+/// types delegate to `formatted_output`).
 pub trait SyntacticUnit {
-    type ParseResult;
     type FormatOutput: Display;
-    fn parser(input: &mut &str) -> PResult<Self::ParseResult>;
     fn formatted_output(&self) -> Self::FormatOutput;
-    fn add_to_document(&self, doc: &mut CifDocument) {
-        unimplemented!()
-    }
 }
 
 #[derive(Debug, Clone)]
@@ -69,40 +66,11 @@ impl CifDocument {
     pub fn data_blocks_mut(&mut self) -> &mut Option<Vec<DataBlock>> {
         &mut self.data_blocks
     }
-
-    pub fn parse_from_str(input: &mut &str) -> PResult<CifDocument> {
-        CifDocument::parser(input)
-    }
 }
 
-impl SyntacticUnit for CifDocument {
-    type ParseResult = Self;
-
-    type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> PResult<Self::ParseResult> {
-        let comments = opt(Comments::parser).parse_next(input)?;
-        opt(WhiteSpace::parser).parse_next(input)?;
-        let data_blocks_parsing = |input: &mut &str| -> PResult<Vec<DataBlock>> {
-            terminated(
-                (
-                    DataBlock::parser,
-                    repeat(0.., preceded(WhiteSpace::parser, DataBlock::parser)),
-                ),
-                opt(WhiteSpace::parser),
-            )
-            .map(|(first, mut others): (DataBlock, Vec<DataBlock>)| {
-                others.insert(0, first);
-                others
-            })
-            .parse_next(input)
-        };
-
-        let data_blocks = opt(data_blocks_parsing).parse_next(input)?;
-        Ok(Self::new(comments, data_blocks))
-    }
-
-    fn formatted_output(&self) -> Self::FormatOutput {
+impl CifDocument {
+    /// Render the document back to CIF text.
+    pub fn formatted_output(&self) -> String {
         let comment = match &self.comments {
             Some(c) => c.to_string(),
             None => "#\\#CIF_1.1".to_string(),
@@ -122,36 +90,5 @@ impl SyntacticUnit for CifDocument {
 impl Display for CifDocument {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.formatted_output())
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use std::fs::{read_to_string, write};
-
-    use crate::DataItems;
-
-    use super::{CifDocument, SyntacticUnit};
-
-    #[test]
-    fn cif_doc_parsing() {
-        let home = std::env::var("HOME").unwrap();
-        let example = format!("{home}/Downloads/example.cif");
-        let content = read_to_string(example).expect("Reading error");
-        match CifDocument::parser(&mut content.as_str()) {
-            Ok(cif) => {
-                let output_path = "cif_parse_test.cif";
-                dbg!(&cif["global"]["audit_creation_date"]);
-                dbg!(&cif["I"]["cell_length_a"]);
-                dbg!(&cif["I"]["cell_length_b"]);
-                if let DataItems::MultiValues(atom_loop) = &cif["I"]["atom_site_label"] {
-                    dbg!(&atom_loop["atom_site_fract_x"]);
-                }
-                write(output_path, cif.to_string()).expect("Error during writing test output.")
-            }
-            Err(e) => {
-                dbg!(e);
-            }
-        }
     }
 }

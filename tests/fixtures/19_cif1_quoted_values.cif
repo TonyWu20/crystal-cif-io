@@ -1,0 +1,26 @@
+#\#CIF_1.1
+#
+# CIF 1.1 quoted character strings (spec para. 15): a closing
+# quote is only a closer when it is followed by a blank, a line
+# terminator, or end of input; a quote followed by a non-blank
+# character is content. A loop line may hold several values of
+# different forms.
+data_cif1_quoted_values
+
+_sq 'don't rock the boat'
+_dq "What's this ab\"out?"
+_embedded 'a dog''s life'
+_empty_single ''
+_empty_double ""
+_trailing_space 'C19 H19 N O3' 
+
+loop_
+_atom_type_symbol
+_atom_type_description
+_atom_type_scat_dispersion_real
+_atom_type_scat_dispersion_imag
+_atom_type_scat_source
+'C' 'C' 0.0033 0.0016
+'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+'H' 'H' 0.0000 0.0000
+'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'

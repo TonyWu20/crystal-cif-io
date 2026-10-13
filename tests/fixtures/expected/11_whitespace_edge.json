@@ -1,0 +1,50 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "tab_sep_value",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "7"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "hash_attached",
+          "value": {
+            "kind": "char_string",
+            "style": "unquoted",
+            "text": "123#"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "trailing_comment",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "456"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "indented_tag",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "integer",
+            "value": "42"
+          }
+        }
+      ],
+      "name": "ws"
+    }
+  ],
+  "fixture": "11_whitespace_edge.cif",
+  "schema_version": 1
+}

@@ -1,0 +1,55 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "sq_string",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "sq"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "dq_string",
+          "value": {
+            "kind": "char_string",
+            "style": "double_quoted",
+            "text": "dq"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "text_string",
+          "value": {
+            "kind": "text_field",
+            "text": "text"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "translated_eol",
+          "value": {
+            "kind": "text_field",
+            "text": "line1 ;\nline2"
+          }
+        },
+        {
+          "kind": "item",
+          "tag": "numb_plain",
+          "value": {
+            "kind": "numeric",
+            "std_uncertainty": null,
+            "type": "float",
+            "value": "1250"
+          }
+        }
+      ],
+      "name": "10"
+    }
+  ],
+  "fixture": "10.cif",
+  "schema_version": 1
+}

@@ -1,0 +1,82 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-13 21:28:24 +0200 (Sat, 13 Feb 2016) $
+#$Revision: 176429 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/52/13/1521343.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1521343
+loop_
+_publ_author_name
+'Joubert, J.M.'
+'Yvon, K.'
+'Latroche, M.'
+'Cerny, R.'
+'Percheron-Guegan, A.'
+'Bowman, R.C.jr.'
+_publ_section_title
+;
+ Crystallographic study of La Ni5-x Snx (0.2<x<0.5) compounds and their
+ hydrides
+;
+_journal_name_full               'Journal of Alloys Compd.'
+_journal_page_first              124
+_journal_page_last               129
+_journal_volume                  293
+_journal_year                    1999
+_chemical_formula_sum            'D6.17 La Ni4.8 Sn0.2'
+_chemical_name_systematic        'La Ni4.8 Sn0.2 D6.17'
+_space_group_IT_number           183
+_symmetry_space_group_name_Hall  'P 6 -2'
+_symmetry_space_group_name_H-M   'P 6 m m'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                120
+_cell_formula_units_Z            1
+_cell_length_a                   5.399
+_cell_length_b                   5.399
+_cell_length_c                   4.307
+_cell_volume                     108.726
+_citation_journal_id_ASTM        JALCEU
+_cod_data_source_file            Joubert_JALCEU_1999_40.cif
+_cod_data_source_block           D6.17La1Ni4.8Sn0.2
+_cod_original_cell_volume        108.7257
+_cod_original_formula_sum        'D6.17 La1 Ni4.8 Sn0.2'
+_cod_database_code               1521343
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+x-y,x,z
+-y,x-y,z
+-x,-y,z
+-x+y,-x,z
+y,-x+y,z
+y,x,z
+-x+y,y,z
+-x,-x+y,z
+-y,-x,z
+x-y,-y,z
+x,x-y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_U_iso_or_equiv
+D4 D 0.47 0 0.89 0.022 0.0
+D5 D 0.21 0.42 0.34 0.027 0.0
+D1 D 0.3333 0.6667 0.62 0.275 0.0
+Sn1 Sn 0.5 0 0.5 0.067 0.0
+D3 D 0.47 0 0.11 0.442 0.0
+D2 D 0.14 0.28 0.5 0.323 0.0
+Ni1 Ni 0.3333 0.6667 0 1 0.0
+D6 D 0.21 0.42 0.66 0.122 0.0
+Ni2 Ni 0.5 0 0.5 0.933 0.0
+La1 La 0 0 0 1 0.0

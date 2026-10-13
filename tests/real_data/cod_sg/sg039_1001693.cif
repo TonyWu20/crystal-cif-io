@@ -1,0 +1,92 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/16/1001693.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1001693
+loop_
+_publ_author_name
+'Hervieu, M'
+'Pelloquin, D'
+'Michel, C'
+'Caldes, M T'
+'Raveau, B'
+_publ_section_title
+;
+The ferrites Bi(n+1) Sr2(n+2) Ba(n-1) Fe(n+1) O6(n+4): a series of
+intergrowths of the 2201 and 0201 structures
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              227
+_journal_page_last               240
+_journal_paper_doi               10.1006/jssc.1995.1338
+_journal_volume                  118
+_journal_year                    1995
+_chemical_formula_structural     'Bi1.77 (Sr1.8 Ca0.2) Sr2 Fe2 O10'
+_chemical_formula_sum            'Bi1.77 Ca0.2 Fe2 O10 Sr3.8'
+_chemical_name_systematic
+;
+Bismuth strontium calcium iron oxide (1.8/3.8/0.2/2/10)
+;
+_space_group_IT_number           39
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      39
+_symmetry_space_group_name_Hall  'C -2a -2a'
+_symmetry_space_group_name_H-M   'C m 2 a'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            2
+_cell_length_a                   5.414(2)
+_cell_length_b                   5.414(2)
+_cell_length_c                   18.52399(100)
+_cell_volume                     543.0
+_refine_ls_R_factor_all          0.096
+_cod_original_formula_sum        'Bi1.77 Ca.2 Fe2 O10 Sr3.8'
+_cod_database_code               1001693
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,y,-z
+1/2+x,y,-z
+1/2-x,y,z
+1/2+x,1/2+y,z
+1/2-x,1/2+y,-z
+x,1/2+y,-z
+-x,1/2+y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Bi1 Bi3+ 4 c 0.25 0. 0.4185(2) 0.885(5) 0 d
+Sr1 Sr2+ 4 c 0.25 0.535(3) 0.2652(3) 0.900(15) 0 d
+Ca1 Ca2+ 4 c 0.25 0.535(3) 0.2652(3) 0.100(15) 0 d
+Sr2 Sr2+ 4 c 0.25 0.5 0.0697(4) 1. 0 d
+Fe1 Fe3+ 4 c 0.25 0. 0.1606(5) 1. 0 d
+O1 O2- 4 c 0.25 0. 0.060(1) 1. 0 d
+O2 O2- 8 d 0. 0.25 0.1615(11) 1. 0 d
+O3 O2- 4 c 0.25 0. 0.297(1) 1. 0 d
+O4 O2- 8 d 0.381(6) 0.631(6) 0.392(2) 0.5 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Bi3+ 3.390
+Sr2+ 2.000
+Ca2+ 2.000
+Fe3+ 3.000
+O2- -2.000

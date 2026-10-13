@@ -1,0 +1,60 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "item",
+          "tag": "atom_site_label",
+          "value": {
+            "kind": "text_field",
+            "text": "\nThe atom site label."
+          }
+        },
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "atom_site_label_category",
+              "value": {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "A"
+              }
+            },
+            {
+              "kind": "item",
+              "tag": "atom_site_label_type",
+              "value": {
+                "kind": "char_string",
+                "style": "unquoted",
+                "text": "String"
+              }
+            },
+            {
+              "kind": "item",
+              "tag": "atom_site_label_examples",
+              "value": {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "C1, C2, O1"
+              }
+            }
+          ],
+          "name": "atom_site_label"
+        },
+        {
+          "kind": "item",
+          "tag": "atom_site_occupancy",
+          "value": {
+            "kind": "text_field",
+            "text": "\nThe site occupancy."
+          }
+        }
+      ],
+      "name": "dict"
+    }
+  ],
+  "fixture": "06_save_frames.cif",
+  "schema_version": 1
+}

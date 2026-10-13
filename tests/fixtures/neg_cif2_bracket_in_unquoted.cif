@@ -1,0 +1,6 @@
+##CIF_2.0
+data_bad
+# NEGATIVE: a '[' inside an unquoted value is a parse error in the
+# 2.0 dialect. The 1.1 dialect keeps the same token as a plain
+# character string (roadmap section 13.6).
+_some_value a[1,2,3]

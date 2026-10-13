@@ -1,19 +1,19 @@
 use std::fmt::Display;
 
-use castep_periodic_table::element::ElementSymbol;
+use elements_rs::Element;
 
 use crate::grammar::{CharString, UnquotedString, Value};
 
 #[derive(Debug, Clone)]
 pub enum TypeSymbolCode {
-    ElementSymbol(ElementSymbol),
+    Element(Element),
     Custom(String),
 }
 
 impl Display for TypeSymbolCode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            TypeSymbolCode::ElementSymbol(symbol) => write!(f, "{symbol}"),
+            TypeSymbolCode::Element(element) => write!(f, "{element}"),
             TypeSymbolCode::Custom(code) => write!(f, "{}", code),
         }
     }

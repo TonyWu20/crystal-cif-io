@@ -1,0 +1,104 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/18/1001806.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1001806
+loop_
+_publ_author_name
+'Hoareau, T'
+'Leclaire, A'
+'Borel, M M'
+'Provost, J'
+'Raveau, B'
+_publ_section_title
+;
+A mixed valent molybdenum monophosphate with an original cage structure
+Cs Mo6 O10 (Mo2 O7) (P O4)4
+;
+_journal_coden_ASTM              JSSCBI
+_journal_name_full               'Journal of Solid State Chemistry'
+_journal_page_first              233
+_journal_page_last               240
+_journal_paper_doi               10.1006/jssc.1996.7195
+_journal_volume                  128
+_journal_year                    1997
+_chemical_formula_structural     'Cs (Mo6 O10 (Mo2 O7) (P O4)4)'
+_chemical_formula_sum            'Cs Mo8 O33 P4'
+_chemical_name_systematic
+;
+Caesium hexamolybdenum decaoxide dimolybdate tetrakis(phosphate(V))
+;
+_space_group_IT_number           122
+_symmetry_cell_setting           tetragonal
+_symmetry_Int_Tables_number      122
+_symmetry_space_group_name_Hall  'I -4 2bw'
+_symmetry_space_group_name_H-M   'I -4 2 d'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   9.953(2)
+_cell_length_b                   9.953(2)
+_cell_length_c                   26.41299(400)
+_cell_volume                     2616.5
+_refine_ls_R_factor_all          0.041
+_cod_database_code               1001806
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,1/2+y,1/4-z
+-x,-y,z
+x,1/2-y,1/4-z
+-y,x,-z
+y,1/2+x,1/4+z
+y,-x,-z
+-y,1/2-x,1/4+z
+1/2+x,1/2+y,1/2+z
+1/2-x,y,3/4-z
+1/2-x,1/2-y,1/2+z
+1/2+x,-y,3/4-z
+1/2-y,1/2+x,1/2-z
+1/2+y,x,3/4+z
+1/2+y,1/2-x,1/2-z
+1/2-y,-x,3/4+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Mo1 Mo6+ 16 e 0.1809(2) 0.1847(2) 0.00729(4) 1. 0 d
+Mo2 Mo5+ 16 e 0.4785(4) 0.504(2) 0.10915(6) 0.5 0 d
+Mo3 Mo6+ 16 e 0.1412(2) 0.6237(3) 0.11410(8) 0.5 0 d
+Cs1 Cs1+ 8 c 0. 0.5 0.09897(9) 0.5 0 d
+P1 P5+ 16 e 0.4905(5) 0.2192(3) 0.0420(1) 1. 0 d
+O1 O2- 16 e 0.002(2) 0.1824(9) -0.0126(3) 1. 0 d
+O2 O2- 16 e 0.169(1) 0.226(1) 0.0684(3) 1. 0 d
+O3 O2- 16 e 0.198(1) 0.374(1) -0.0213(4) 1. 0 d
+O4 O2- 16 e 0.385(1) 0.180(1) 0.0029(3) 1. 0 d
+O5 O2- 16 e 0.215(1) 0.131(1) -0.0754(4) 1. 0 d
+O6 O2- 16 e 0.4700(9) 0.3660(9) 0.0574(3) 1. 0 d
+O7 O2- 16 e 0.305(1) 0.545(1) 0.1101(3) 1. 0 d
+O8 O2- 16 e 0.532(1) 0.633(1) 0.1606(4) 1. 0 d
+O9 O2- 8 c 0. 0.5 0.09897(9) 0.5 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Mo6+ 5.750
+Mo5+ 5.000
+Cs1+ 1.000
+P5+ 5.000
+O2- -2.000

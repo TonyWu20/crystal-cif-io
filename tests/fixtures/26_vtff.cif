@@ -1,0 +1,6 @@
+
+data_26_vtff_sq_string  'x'_num 1.5e+02
+_text ;first
+;
+
+_vt_value7

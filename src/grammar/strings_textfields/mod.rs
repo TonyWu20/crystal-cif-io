@@ -1,23 +1,21 @@
 use std::fmt::Display;
 
-use winnow::{
-    combinator::{alt, opt, preceded},
-    Parser,
-};
+use crate::grammar::SyntacticUnit;
 
-use self::unquoted_string::pure_unquoted;
-
-use super::{reserved_words::ReservedWords, whitespace_comments::WhiteSpace, SyntacticUnit, Value};
+use super::CIFValue;
 
 mod double_quoted_string;
 mod single_quoted_string;
 mod text_field;
+mod triple_double_quoted_string;
+mod triple_single_quoted_string;
 mod unquoted_string;
-
-pub use text_field::TextField;
 
 pub use double_quoted_string::DoubleQuotedString;
 pub use single_quoted_string::SingleQuotedString;
+pub use text_field::{SemiColonTextField, TextField};
+pub use triple_double_quoted_string::TripleDoubleQuotedString;
+pub use triple_single_quoted_string::TripleSingleQuotedString;
 pub use unquoted_string::UnquotedString;
 
 #[derive(Debug, Clone)]
@@ -25,6 +23,10 @@ pub enum CharString {
     Unquoted(UnquotedString),
     SingleQuoted(SingleQuotedString),
     DoubleQuoted(DoubleQuotedString),
+    /// A CIF 2.0 triple-apostrophe-quoted string (`'''`).
+    TripleSingleQuoted(TripleSingleQuotedString),
+    /// A CIF 2.0 triple-quote-quoted string (`"""`).
+    TripleDoubleQuoted(TripleDoubleQuotedString),
 }
 
 impl AsRef<str> for CharString {
@@ -33,39 +35,30 @@ impl AsRef<str> for CharString {
             CharString::Unquoted(u) => u.as_ref(),
             CharString::SingleQuoted(s) => s.as_ref(),
             CharString::DoubleQuoted(d) => d.as_ref(),
+            CharString::TripleSingleQuoted(t) => t.as_ref(),
+            CharString::TripleDoubleQuoted(t) => t.as_ref(),
         }
     }
 }
 
-impl SyntacticUnit for CharString {
-    type ParseResult = Self;
-
-    type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        alt((
-            preceded(opt(WhiteSpace::parser), SingleQuotedString::parser)
-                .map(CharString::SingleQuoted),
-            preceded(opt(WhiteSpace::parser), DoubleQuotedString::parser)
-                .map(CharString::DoubleQuoted),
-            alt((
-                preceded(opt(WhiteSpace::parser), pure_unquoted),
-                UnquotedString::parser,
-            ))
-            .verify(|u| {
-                let mut input = u.as_ref();
-                ReservedWords::not_reserved_words(&mut input)
-            })
-            .map(CharString::Unquoted),
-        ))
-        .parse_next(input)
+impl CharString {
+    /// The character string content, as written between the
+    /// delimiters.
+    pub fn content(&self) -> &str {
+        self.as_ref()
     }
+}
+
+impl super::SyntacticUnit for CharString {
+    type FormatOutput = String;
 
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {
             CharString::Unquoted(s) => format!("{s}"),
             CharString::SingleQuoted(s) => format!("{s}"),
-            CharString::DoubleQuoted(s) => format!("{s}"),
+            CharString::DoubleQuoted(d) => format!("{d}"),
+            CharString::TripleSingleQuoted(t) => format!("{t}"),
+            CharString::TripleDoubleQuoted(t) => format!("{t}"),
         }
     }
 }
@@ -76,26 +69,10 @@ impl Display for CharString {
     }
 }
 
-impl From<CharString> for Value {
+impl From<CharString> for crate::Value {
     fn from(value: CharString) -> Self {
-        Value::CharString(value)
+        crate::Value::CharString(value)
     }
 }
 
-#[cfg(test)]
-mod test {
-    use crate::grammar::{strings_textfields::CharString, SyntacticUnit};
-
-    #[test]
-    fn char_string() {
-        let mut input = "'C16 H38 N4 2+, C4 H4 O5 2-, 2C H4 O'
-";
-        let mut input_2 = "    rm
-";
-        let mut input_3 = "_symmetry_cell_setting
-";
-        dbg!(CharString::parser(&mut input).unwrap());
-        dbg!(CharString::parser(&mut input_2).unwrap());
-        dbg!(CharString::parser(&mut input_3).unwrap());
-    }
-}
+impl CIFValue for CharString {}

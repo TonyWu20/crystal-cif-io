@@ -1,11 +1,6 @@
 use std::fmt::Display;
 
-use winnow::{
-    combinator::{preceded, repeat},
-    Parser,
-};
-
-use crate::grammar::{character_sets::NonBlankChar, SyntacticUnit};
+use crate::grammar::SyntacticUnit;
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct Tag {
@@ -20,6 +15,8 @@ impl AsRef<str> for Tag {
 }
 
 impl Tag {
+    /// Create a tag from its data name, without the leading
+    /// underscore.
     pub fn new(name: String) -> Self {
         Self { name }
     }
@@ -39,15 +36,7 @@ impl Tag {
 }
 
 impl SyntacticUnit for Tag {
-    type ParseResult = Self;
-
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        preceded('_', repeat(1.., NonBlankChar::parser))
-            .map(Tag::new)
-            .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         format!("_{}", self.name)

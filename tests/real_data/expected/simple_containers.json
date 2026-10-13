@@ -1,0 +1,88 @@
+{
+  "blocks": [
+    {
+      "members": [
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "location",
+              "value": {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "block1/s1"
+              }
+            }
+          ],
+          "name": "s1"
+        },
+        {
+          "kind": "item",
+          "tag": "location",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "block1"
+          }
+        },
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "location",
+              "value": {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "block1/s2"
+              }
+            }
+          ],
+          "name": "s2"
+        }
+      ],
+      "name": "block1"
+    },
+    {
+      "members": [],
+      "name": "block2"
+    },
+    {
+      "members": [
+        {
+          "kind": "save_frame",
+          "members": [
+            {
+              "kind": "item",
+              "tag": "location",
+              "value": {
+                "kind": "char_string",
+                "style": "single_quoted",
+                "text": "block3/s1"
+              }
+            }
+          ],
+          "name": "s1"
+        },
+        {
+          "kind": "item",
+          "tag": "location",
+          "value": {
+            "kind": "char_string",
+            "style": "single_quoted",
+            "text": "block3"
+          }
+        },
+        {
+          "kind": "save_frame",
+          "members": [],
+          "name": "s3"
+        }
+      ],
+      "name": "block3"
+    }
+  ],
+  "fixture": "simple_containers.cif",
+  "schema_version": 2
+}

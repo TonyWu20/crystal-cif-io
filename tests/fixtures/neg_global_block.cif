@@ -1,0 +1,8 @@
+#\#CIF_1.1
+# NEGATIVE: the global_ block of STAR is expressly forbidden in CIF
+# 1.1 (spec para. 33). Parsing must fail.
+global_
+_global_tag 1
+
+data_I
+_a 2

@@ -1,0 +1,6 @@
+##CIF_2.0
+data_tables
+_text_field { 'English':hello 'French':salut }
+_number [1 2.5 -3]
+_nested [{ 'inner':1 }]
+_empty {}

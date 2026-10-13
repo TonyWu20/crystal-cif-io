@@ -1,9 +1,8 @@
-use crate::{grammar::tags_values::Value, LoopColumn};
 use std::fmt::Display;
 
-use winnow::{combinator::alt, error::StrContext, Parser};
-
 use crate::grammar::SyntacticUnit;
+
+use crate::LoopColumn;
 
 use super::{
     loop_struct::{LoopColumns, LoopUnit},
@@ -60,23 +59,8 @@ impl DataItems {
     }
 }
 
-impl SyntacticUnit for DataItems {
-    type ParseResult = Self;
-
+impl crate::grammar::SyntacticUnit for DataItems {
     type FormatOutput = String;
-
-    fn parser(input: &mut &str) -> winnow::prelude::PResult<Self::ParseResult> {
-        alt((
-            SingleLineData::parser
-                .map(DataItems::SingleValue)
-                .context(StrContext::Label("Single line data")),
-            LoopUnit::parser
-                .map(LoopColumns::from)
-                .map(DataItems::MultiValues)
-                .context(StrContext::Label("Loop")),
-        ))
-        .parse_next(input)
-    }
 
     fn formatted_output(&self) -> Self::FormatOutput {
         match self {

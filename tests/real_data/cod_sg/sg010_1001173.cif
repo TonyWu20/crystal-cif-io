@@ -1,0 +1,96 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-14 16:26:36 +0200 (Sun, 14 Feb 2016) $
+#$Revision: 176435 $
+#$URL: file:///home/coder/svn-repositories/_RELOADED_COD/cod-reloaded/cif/1/00/11/1001173.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1001173
+loop_
+_publ_author_name
+'Giroult, J P'
+'Goreaud, M'
+'Labbe, P'
+'Raveau, B'
+_publ_section_title
+;
+Bronzes with a Tunnel Structure Rb~x~ P~8~ W~8n~ O~24n+16~. II. The
+Third Term of the Series: Rb~x~ P~8~ W~24~ O~88~
+;
+_journal_coden_ASTM              ACBCAR
+_journal_name_full               'Acta Crystallographica B (24,1968-38,1982)'
+_journal_page_first              1163
+_journal_page_last               1166
+_journal_paper_doi               10.1107/S0567740881005426
+_journal_volume                  37
+_journal_year                    1981
+_chemical_formula_structural     'Rb.45 P2 W6 O22'
+_chemical_formula_sum            'O22 P2 Rb0.45 W6'
+_chemical_name_systematic
+;
+Rubidium diphosphorus hexatungsten oxide (.5/2/6/22)
+;
+_space_group_IT_number           10
+_symmetry_cell_setting           monoclinic
+_symmetry_Int_Tables_number      10
+_symmetry_space_group_name_Hall  '-P 2y'
+_symmetry_space_group_name_H-M   'P 1 2/m 1'
+_cell_angle_alpha                90
+_cell_angle_beta                 114.22(1)
+_cell_angle_gamma                90
+_cell_formula_units_Z            1
+_cell_length_a                   13.991(3)
+_cell_length_b                   3.7650(5)
+_cell_length_c                   8.561(1)
+_cell_volume                     411.3
+_refine_ls_R_factor_all          0.039
+_cod_original_formula_sum        'O22 P2 Rb.45 W6'
+_cod_database_code               1001173
+loop_
+_symmetry_equiv_pos_as_xyz
+x,y,z
+-x,y,-z
+-x,-y,-z
+x,-y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+_atom_site_calc_flag
+Rb1 Rb1+ 1 a 0. 0. 0. 0.45(3) 0 d
+P1 P5+ 4 o 0.0839(7) 0.5885(27) 0.3527(14) 0.5 0 d
+W1 W6+ 2 n 0.30461(11) 0.5 0.27793(26) 1. 0 d
+W2 W6+ 2 n 0.56167(16) 0.5 0.24099(31) 1. 0 d
+W3 W6+ 2 n 0.8220(1) 0.5 0.20926(22) 1. 0 d
+O1 O2- 4 o 0.1612(22) 0.438(10) 0.2784(41) 0.5 0 d
+O2 O2- 2 n 0.3644(17) 0.5 0.5128(34) 1. 0 d
+O3 O2- 4 o 0.2265(23) 0.451(12) 0.0189(45) 0.5 0 d
+O4 O2- 2 n 0.4249(15) 0.5 0.2442(34) 1. 0 d
+O5 O2- 2 j 0.5 0.442(26) 0. 0.5 0 d
+O6 O2- 4 o 0.6998(22) 0.444(16) 0.2211(45) 0.5 0 d
+O7 O2- 4 o 0.8925(22) 0.585(10) 0.4736(42) 0.5 0 d
+O8 O2- 4 o 0.9781(23) 0.463(15) 0.2322(43) 0.5 0 d
+O9 O2- 2 m 0.1091(32) 0. 0.3941(67) 0.5 0 d
+O10 O2- 2 m 0.2796(36) 0. 0.2501(69) 0.5 0 d
+O11 O2- 2 m 0.3179(37) 0. 0.2938(67) 0.5 0 d
+O12 O2- 2 m 0.5658(24) 0. 0.2505(44) 1. 0 d
+O13 O2- 2 m 0.8243(47) 0. 0.2178(84) 0.5 0 d
+O14 O2- 2 m 0.8599(42) 0. 0.2584(80) 0.5 0 d
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Rb1+ 1.000
+P5+ 5.000
+W6+ 5.570
+O2- -2.000
