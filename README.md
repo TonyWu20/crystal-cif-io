@@ -3,7 +3,10 @@
 Parse and write crystallographic CIF (Crystallographic Information
 File) data in Rust. The crate handles the IUCr CIF 1.1 file syntax
 and the CIF 2.0 value rules. It also provides a typed dictionary
-layer for the IUCr core CIF dictionary.
+layer for the IUCr core CIF dictionary. It also ships a
+per-category builder layer. Each builder needs the required
+items of one category. A missing item fails to compile at
+the `build()` call.
 
 ## Usage
 
@@ -261,7 +264,85 @@ escaped version-code spelling `#\#CIF_1.1`. Closed code sets and
 range checks live in the dictionary types. For example,
 `CellAngle` clamps to 0..180 on construction.
 
-### 8. Matrices
+### 8. Builders (compile-time completeness)
+
+The builder layer takes a complete category as input. The
+builder materializes `DataItems` through the dictionary traits.
+Needed fields are checked at compile time: a missing field
+fails to build at the `build()` call. Derived items are not
+input. The builder computes them and cross-checks a supplied
+value within the relative tolerance. A mismatch rejects with a
+`Result`, never a panic.
+
+```rust
+use crystal_cif_io::builder::cell::Cell;
+use crystal_cif_io::builder::space_group::SpaceGroup;
+use crystal_cif_io::data_dict::core_cif::space_group::ITNumber;
+use crystal_cif_io::{Matrix, Number};
+
+let cell = Cell::builder()
+    .length_a(10.2.into())
+    .length_b(8.6.into())
+    .length_c(7.4.into())
+    .angle_alpha(90.0.into())
+    .angle_beta(104.5.into())
+    .angle_gamma(90.0.into())
+    .volume(628.5.into())
+    .build()
+    .expect("a valid cell");
+
+println!("volume {}", cell.volume());
+println!("{} items", cell.to_data_items().len());
+
+let va = Matrix::try_new(vec![vec![
+    Number::Float(5.959.into()),
+    Number::Float(0.0.into()),
+    Number::Float(0.0.into()),
+]])
+.expect("a 1 x 3 matrix");
+let vb = Matrix::try_new(vec![vec![
+    Number::Float(0.0.into()),
+    Number::Float(14.956.into()),
+    Number::Float(0.0.into()),
+]])
+.expect("a 1 x 3 matrix");
+let vc = Matrix::try_new(vec![vec![
+    Number::Float(0.0.into()),
+    Number::Float(0.0.into()),
+    Number::Float(19.737.into()),
+]])
+.expect("a 1 x 3 matrix");
+
+let cell = Cell::vectors()
+    .vector_a(va)
+    .vector_b(vb)
+    .vector_c(vc)
+    .build()
+    .expect("a valid cell");
+
+println!("volume {}", cell.volume());
+
+let group = SpaceGroup::by_it_number(ITNumber::new(62))
+    .expect("a valid group");
+println!("{} has {} symmetry operations", group.name_h_m(), group.multiplicity());
+```
+
+The `cell` category ships two builders over the two minimum
+entry sets. The direct six. The three lattice vectors. The
+`space_group` builder takes one of three unique identifiers.
+The group resolves through the `crystallographic-group` crate.
+
+The remaining builders follow the same shape. The
+`space_group_symop` loop builder cross-checks the row text
+against the Seitz lists. The `atom_site` row builder takes one
+coordinate mode per row. It needs a displacement type. The
+`chemical_formula` builder needs `structural`. The structure-level
+`Z` helper derives the formula units count.
+
+The per-category input spec and the item dependency map live
+in `docs/dict-completeness.md` and `codegen/depends.json`.
+
+### 9. Matrices
 
 
 `Matrix` is the dictionary value for matrix items. Build it from
@@ -290,7 +371,7 @@ let matrix = Matrix::from_list(list.as_list().expect("a list"), Some((1, 2)))
 `as_3x3` and `as_vector` return `None` when the shape does not
 fit. Errors are `MatrixError`.
 
-### 9. Canonical JSON and validation
+### 10. Canonical JSON and validation
 
 
 `canonical::document_json` encodes a document as the canonical
@@ -313,7 +394,7 @@ document carries 2.0 kinds (`list`, `table`, the triple-quote
 char-string styles, the frame `frames` array). The `validate`
 checks flag duplicate block names and duplicate tags.
 
-### 10. CIF 2.0 specifics
+### 11. CIF 2.0 specifics
 
 
 Lists, tables, triple-quoted strings, nested save frames, and
@@ -356,17 +437,26 @@ char string.
   T6). Decision D2 skips the 191 `_su` items.
 - Closed code sets and range checks for the dictionary items the
   dictionary constrains.
+- A per-category builder layer (`crystal_cif_io::builder`).
+  One builder per equivalent minimum set. Needed fields are
+  checked at compile time. Derived items compute at build and
+  cross-check a supplied value. The space group resolves through
+  the `crystallographic-group` crate.
+- The dictionary completeness study (`docs/dict-completeness.md`).
+  The item dependency map lives in `codegen/depends.json` (94
+  categories, 1185 items).
 
 ## Status
 
-Version 0.2.0. The dictionary item roadmap is complete.
-`docs/roadmap-dict-items.md` records the shell wave completion
-(2026-10-09).
+Version 0.2.0 released 2026-10-13 (the `dev-0.2` to `main`
+merge). The CIF 2.0 syntax gaps closed on the dev line
+(decision D9). The seven `known_gap` pins flip to full IR
+pins. The `docs/roadmap-dict-items.md` log records the shell
+wave completion (2026-10-09).
 
-Seven CIFs in the `cif_api` corpus expose known 2.0 grammar gaps.
-The gaps: tables, comments inside lists, triple-quoted strings,
-nested save frames, non-ASCII values, VT/FF line terminators. The
-`known_gap` pins live in `tests/real_data/expected/`.
+The dictionary roadmap continues on `dev-0.2`. D10a records the
+completeness study. D11a ships the builder wave 1, which this
+document covers.
 
 ## Testing
 
@@ -410,6 +500,7 @@ The CI workflow runs the fetch before `cargo test`
 | `docs/roadmap-dict-items.md` | the dictionary item roadmap |
 | `docs/test-axes.md` | the test-suite axes |
 | `docs/codegen.md` | the code generation step |
+| `docs/dict-completeness.md` | the dictionary completeness study (D10a) |
 | `docs/cod-api.md` | the COD REST API notes |
 
 Third-party data attribution lives in `NOTICE.md`.
