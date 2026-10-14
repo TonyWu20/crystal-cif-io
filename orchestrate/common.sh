@@ -115,6 +115,23 @@ merge_union() {
   return $rc
 }
 
+# poke <session> <workdir> <msg...> : re-poke a session from the
+# correct working directory. <workdir> is the session's worktree
+# (the sessions/ symlink) or $MAIN. The session dir resolves
+# against the cwd. A bare dir would start a stray session
+# instance, so the guard refuses it. Blocking: background it
+# when the call would outlive the caller.
+poke() {
+  local name="$1" dir="$2"
+  shift 2
+  if [ ! -e "$dir/sessions" ]; then
+    log "FATAL: poke $name: $dir has no sessions/ link; refusing"
+    return 1
+  fi
+  log "POKE $name from $dir"
+  (cd "$dir" && rushi run "$name" "$*")
+}
+
 # cargo_gate <stage> : cargo test in the main worktree. 0 = green.
 cargo_gate() {
   local stage="$1"

@@ -9,7 +9,7 @@ See `rushi docs headless-missions` for the pattern this follows.
 | path | role |
 |---|---|
 | `orchestrate.sh` | the master orchestrator (resumable, freezable) |
-| `common.sh` | shared helpers: ping, state, mission, wait, merge_union, cargo gate |
+| `common.sh` | shared helpers: ping, state, mission, wait, merge_union, cargo gate, poke |
 | `mission_<tier>.sh` | one mission per impl tier: provisions the git worktree, then `exec rushi run dict-items-<tier>` |
 | `mission_review-<tier>.sh` | one mission per review tier: `exec rushi run dict-items-review-<tier>` in the main worktree |
 | `tasks/*.md` | the self-contained task text each mission execs (sessions start from zero context) |
@@ -40,6 +40,35 @@ so build artifacts and session logs live in the main tree.
   merged; rerun `orchestrate.sh` to resume from `STATE`.
 - The review sessions run in parallel on one target dir; cargo's
   lock serializes their builds.
+
+## Session root rule
+
+`rushi run <session>` resolves the session dir against
+the cwd. The session root is the repo root `sessions/`
+dir. The mission worktrees symlink `sessions/` to it.
+
+- Run `rushi run` only from a dir whose `sessions/`
+  is the canonical root: the repo root, or a mission
+  worktree with the symlink. Never from
+  `orchestrate/`.
+- A poke from the wrong dir starts a fresh session
+  instance under that dir (for example
+  `orchestrate/sessions/<name>`). It carries no
+  history. Its loop works in the wrong tree.
+- To resume a dead loop: cd into the session
+  worktree (or the repo root), then poke. Check the
+  `dir` field of `loop.meta`. It must name the
+  canonical session dir.
+- Use the `poke <session> <workdir> <msg...>`
+  helper from `common.sh`. It refuses a dir without
+  a `sessions/` link.
+
+Incident (2026-10-14): a resume poke ran from
+`orchestrate/`. It started a stray
+`orchestrate/sessions/dict-items-w2` in the main
+tree. The stray loop was killed, the dir removed,
+and the canonical session re-poked from the w2
+worktree.
 
 ## Ping design
 
