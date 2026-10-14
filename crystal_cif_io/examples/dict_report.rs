@@ -115,7 +115,7 @@ fn main() {
         total.saturating_sub(matched as u64)
     );
     println!(
-        "coverage: {implemented} of {total} inventory items ({:.1}%)",
+        "coverage: {matched} of {total} inventory items covered ({:.1}%); {implemented} registered (incl. T6 shell)",
         100.0 * matched as f64 / total as f64
     );
     if !drifted.is_empty() {

@@ -7,6 +7,30 @@ Keep a Changelog.
 
 ### Added
 
+- Added typed document structs for the T3, T4, and T5 tiers
+  (roadmap D12j): the thirteen T3 structure and chemistry
+  categories, the sixteen T4 metadata and publication categories,
+  and the sixteen T5 raw-diffraction categories. Each category
+  keeps its own directory. The row groups type to `Vec` row
+  structs. `CoreCif` carries one group per category.
+- Added the closed-set parses of the T3, T4, and T5 waves. The
+  wave-1 enums gain the dictionary codes. The five T4 closed
+  code sets type as enums.
+- Added the read-path tolerances the real-data corpora need
+  (roadmap D12k, D12l, D12m). The text-field items
+  (`chemical_name_systematic`, `geom_special_details`,
+  `refine_special_details`) read through `read_char_text`. The
+  `<N` assertion of `refine_ls_shift/su_max` records in the
+  dedicated less-than field. The `AbsorptCorrectionType` set
+  gains the real-data code `semi-empirical` (recorded in D12m).
+
+### Changed
+
+- The union-merged wave merges repaired on `dev-0.2` (the
+  dropped delimiters of `lib.rs`, `convert.rs`, `core_cif.rs`,
+  and the import block). The post-merge `cargo test` gate
+  caught each.
+
 - Added typed document structs for the twelve categories of the T2
   tier (roadmap D12j). The categories: `exptl`, `exptl_crystal`,
   `exptl_crystal_face`, `refln`, `reflns`, `reflns_class`,

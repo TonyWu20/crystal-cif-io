@@ -1,14 +1,10 @@
 //! The typed block view of one data block (roadmap D12).
 //!
-//! `CoreCif` is the typed document: the single-value category groups, the
-//! loop-row groups, and the `extra` residue. No typed category consumed
-//! the residue (foreign tags, save frames); it keeps their order and bytes.
-//! The guarantee is IR round-trip, not byte round-trip.
-//! `CoreCif` is the typed document: the wave 1 category groups, the
-//! twelve T2 tier category groups, and the `extra` residue. No typed
-//! category consumed the residue (foreign tags, save frames); it keeps
-//! their order and bytes. The guarantee is IR round-trip, not byte
-//! round-trip.
+//! `CoreCif` is the typed document: the category groups of the D12
+//! waves (wave 1 and the T2 through T5 tiers), and the `extra` residue.
+//! No typed category consumes the residue (foreign tags, save frames);
+//! it keeps their order and bytes. The guarantee is IR round-trip, not
+//! byte round-trip.
 
 use std::fmt;
 

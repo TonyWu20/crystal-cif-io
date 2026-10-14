@@ -11,8 +11,6 @@
 //! the inventory and not listed there as dictionary drift fails the
 //! test.
 
-/// `atom_site` category tags (54).
-
 /// `atom_analytical` category tags (6).
 pub mod atom_analytical {
     pub const TAGS: &[&str] = &[

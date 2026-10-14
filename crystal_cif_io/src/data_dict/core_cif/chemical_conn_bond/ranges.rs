@@ -12,7 +12,7 @@ pub struct BondAtomNumber(Numeric);
 impl BondAtomNumber {
     pub fn try_new(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(1.0), None)
-            .map_err(|e| RangeError::new(format!("chemical_conn_bond_atom_number: {e}")))?;
+            .map_err(|e| RangeError::new(format!("chemical_conn_bond_atom_1 / _atom_2: {e}")))?;
         Ok(Self(value))
     }
 

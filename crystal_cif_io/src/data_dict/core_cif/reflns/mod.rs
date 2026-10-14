@@ -61,7 +61,6 @@ impl FriedelFraction {
         Ok(Self(value))
     }
 
-
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0

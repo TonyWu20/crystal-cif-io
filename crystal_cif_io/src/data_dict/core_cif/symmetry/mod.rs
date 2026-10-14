@@ -60,7 +60,6 @@ impl IntTablesNumber {
         Ok(Self(value))
     }
 
-
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0

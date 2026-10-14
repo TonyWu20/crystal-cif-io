@@ -46,7 +46,6 @@ impl NonNeg {
         Ok(Self(value))
     }
 
-
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
@@ -90,7 +89,6 @@ impl Flack {
         Ok(Self(value))
     }
 
-
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
@@ -133,7 +131,6 @@ impl Rogers {
         }
         Ok(Self(value))
     }
-
 
     /// The held value.
     pub fn numeric(&self) -> &Numeric {

@@ -449,7 +449,7 @@ fn number_to_u64(n: &Numeric) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crystal_cif_fmt::grammar::{SemiColonTextField, TextField, UnquotedString};
+    use crystal_cif_fmt::grammar::UnquotedString;
 
     fn char_value(text: &str) -> Value {
         Value::CharString(CharString::Unquoted(UnquotedString::new(text.to_string())))

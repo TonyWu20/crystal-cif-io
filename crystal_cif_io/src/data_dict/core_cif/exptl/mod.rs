@@ -64,7 +64,6 @@ impl AbsorptCoefficient {
         Ok(Self(value))
     }
 
-
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
@@ -108,7 +107,6 @@ impl TransmissionFactor {
         }
         Ok(Self(value))
     }
-
 
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
@@ -157,7 +155,6 @@ impl CrystalCount {
         }
         Ok(Self(value))
     }
-
 
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
