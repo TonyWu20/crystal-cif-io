@@ -42,6 +42,8 @@ pub use data_dict::core_cif::{
     geom_torsion::{GeomTorsion, GeomTorsionRow},
     valence_param::{ValenceParam, ValenceParamRow},
     valence_ref::ValenceRefRow,
+};
+
 /// The T5 wave category structs of tier T5 (roadmap D12).
 pub use data_dict::core_cif::{
     cell_measurement_refln::CellMeasurementRefln,

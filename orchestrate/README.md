@@ -40,6 +40,10 @@ so build artifacts and session logs live in the main tree.
   merged; rerun `orchestrate.sh` to resume from `STATE`.
 - The review sessions run in parallel on one target dir; cargo's
   lock serializes their builds.
+- A union merge can drop the closing delimiter of a block that
+  both sides append (the w3+w5 merge broke `lib.rs` and
+  `convert.rs`). The post-merge gate catches it. The repair
+  lands on `dev-0.2`.
 
 ## Session root rule
 

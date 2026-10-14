@@ -9,7 +9,7 @@
 //! set records a [`CifError::ValueClass`].
 
 use crystal_cif_fmt::grammar::{
-    CharString, Float, Matrix, MatrixError, Number, Numeric, UnsignedInteger, Value,
+    CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString, UnsignedInteger, Value,
 };
 
 use crate::data_dict::core_cif::cell::CellAngle;
@@ -56,13 +56,18 @@ pub(crate) fn read_numeric(tag: &str, v: &Value) -> Result<Option<Numeric>, CifE
     }
 }
 
-/// Read a character item. A missing value reads as `None`.
+/// Read a character item. A missing value reads as `None`. A multi-line
+/// text field folds into a single-quoted char string. The content
+/// passes through.
 pub(crate) fn read_char(tag: &str, v: &Value) -> Result<Option<CharString>, CifError> {
     if is_absent(v) {
         return Ok(None);
     }
     match v {
         Value::CharString(c) => Ok(Some(c.clone())),
+        Value::TextField(t) => Ok(Some(
+            CharString::SingleQuoted(SingleQuotedString::new(t.raw_string())),
+        )),
         other => Err(value_class_error(tag, "CharString", other)),
     }
 }
@@ -294,6 +299,7 @@ pub(crate) fn read_hbond_distance(
 ) -> Result<Option<HbondDistance>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(HbondDistance::from_numeric))
+}
 
 /// Read a ranged newtype item. The value is a number; the entry
 /// constructor applies the dictionary clamp at the read.
@@ -356,7 +362,7 @@ fn number_to_u64(n: &Numeric) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crystal_cif_fmt::grammar::UnquotedString;
+    use crystal_cif_fmt::grammar::{SemiColonTextField, TextField, UnquotedString};
 
     fn char_value(text: &str) -> Value {
         Value::CharString(CharString::Unquoted(UnquotedString::new(text.to_string())))
@@ -381,6 +387,16 @@ mod tests {
             CifError::ValueClass { .. }
         ));
         assert!(read_char("t", &Value::Unknown).unwrap().is_none());
+    }
+
+    #[test]
+    fn read_char_folds_a_text_field_into_a_char_string() {
+        let t = TextField::SemiColonTextField(SemiColonTextField::new(vec![
+            "line one".to_string(),
+            "line two".to_string(),
+        ]));
+        let c = read_char("t", &Value::TextField(t)).unwrap();
+        assert_eq!(c.as_ref().map(|c| c.content()), Some("line one\nline two"));
     }
 
     #[test]
