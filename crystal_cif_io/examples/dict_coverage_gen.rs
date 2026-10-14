@@ -56,12 +56,10 @@ fn collect_item_tags(items: &DataItems, out: &mut BTreeSet<String>) {
 
 fn main() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let inventory: serde_json::Value =
-        serde_json::from_str(
-            &fs::read_to_string(root.join("tests/dict_inventory.json"))
-                .expect("read dict inventory"),
-        )
-        .expect("dict inventory must be valid JSON");
+    let inventory: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join("tests/dict_inventory.json")).expect("read dict inventory"),
+    )
+    .expect("dict inventory must be valid JSON");
     let items = inventory["items"].as_array().expect("items array");
     let expected: BTreeSet<String> = items
         .iter()
@@ -91,10 +89,7 @@ fn main() {
     }
 
     let distinct = used.len();
-    let covered: BTreeSet<String> = used
-        .into_iter()
-        .filter(|t| expected.contains(t))
-        .collect();
+    let covered: BTreeSet<String> = used.into_iter().filter(|t| expected.contains(t)).collect();
     let baseline = serde_json::json!({
         "schema_version": 1,
         "note": "Dictionary-item coverage of the real-data corpora, \
@@ -108,8 +103,11 @@ fn main() {
         "distinct_tags_used": distinct,
     });
     let out_path = root.join("tests/dict_coverage_baseline.json");
-    fs::write(&out_path, serde_json::to_string_pretty(&baseline).unwrap() + "\n")
-        .unwrap();
+    fs::write(
+        &out_path,
+        serde_json::to_string_pretty(&baseline).unwrap() + "\n",
+    )
+    .unwrap();
     println!(
         "wrote {out_path:?}: {files} files, {}/{} items covered",
         covered.len(),

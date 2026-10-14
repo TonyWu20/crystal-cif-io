@@ -4,11 +4,11 @@ use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Float, Matrix, Numeric, Tag, Value};
 
 pub use self::adp_type::AdpType;
-pub use atom_site::AtomSite;
 pub use self::calc_flag::CalcFlag;
 pub use self::label_symbol::{TypeSymbol, TypeSymbolCode};
 pub use self::refine_flags::{AdpRefineFlag, OccupancyRefineFlag, PosnRefineFlag, RefinementFlag};
 pub use self::symmetry_multiplicity::SymMultiplicity;
+pub use atom_site::AtomSite;
 
 mod adp_type;
 mod atom_site;

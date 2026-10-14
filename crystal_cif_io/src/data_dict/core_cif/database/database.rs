@@ -6,10 +6,10 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Database {
@@ -24,39 +24,52 @@ impl CifCategory for Database {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.csd_history {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("database_csd_history".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("database_csd_history".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.code_depnum_ccdc_archive {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("database_code_depnum_ccdc_archive".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("database_code_depnum_ccdc_archive".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.code_depnum_ccdc_fiz {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("database_code_depnum_ccdc_fiz".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("database_code_depnum_ccdc_fiz".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.code_depnum_ccdc_journal {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("database_code_depnum_ccdc_journal".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("database_code_depnum_ccdc_journal".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.dataset_doi {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("database_dataset_doi".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("database_dataset_doi".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -133,7 +146,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_cas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_cas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_cod.is_some()) {
             let values: Vec<Value> = self
@@ -143,7 +159,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_cod".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_cod".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_csd.is_some()) {
             let values: Vec<Value> = self
@@ -153,7 +172,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_csd".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_csd".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_icsd.is_some()) {
             let values: Vec<Value> = self
@@ -163,7 +185,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_icsd".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_icsd".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_mdf.is_some()) {
             let values: Vec<Value> = self
@@ -173,7 +198,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_mdf".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_mdf".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_nbs.is_some()) {
             let values: Vec<Value> = self
@@ -183,7 +211,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_nbs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_nbs".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_pdb.is_some()) {
             let values: Vec<Value> = self
@@ -193,7 +224,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_pdb".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_pdb".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code_pdf.is_some()) {
             let values: Vec<Value> = self
@@ -203,7 +237,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_code_pdf".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_code_pdf".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.journal_astm.is_some()) {
             let values: Vec<Value> = self
@@ -213,7 +250,10 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_journal_astm".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_journal_astm".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.journal_csd.is_some()) {
             let values: Vec<Value> = self
@@ -223,15 +263,23 @@ impl CifCategory for Vec<DatabaseRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("database_journal_csd".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("database_journal_csd".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -272,7 +320,10 @@ impl CifCategory for Vec<DatabaseRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<DatabaseRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![DatabaseRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_cas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_cas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_cas", v) {
                 Ok(val) => rows[i].code_cas = val,
@@ -280,7 +331,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_cod") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_cod")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_cod", v) {
                 Ok(val) => rows[i].code_cod = val,
@@ -288,7 +342,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_csd") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_csd")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_csd", v) {
                 Ok(val) => rows[i].code_csd = val,
@@ -296,7 +353,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_icsd") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_icsd")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_icsd", v) {
                 Ok(val) => rows[i].code_icsd = val,
@@ -304,7 +364,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_mdf") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_mdf")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_mdf", v) {
                 Ok(val) => rows[i].code_mdf = val,
@@ -312,7 +375,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_nbs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_nbs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_nbs", v) {
                 Ok(val) => rows[i].code_nbs = val,
@@ -320,7 +386,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_pdb") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_pdb")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_pdb", v) {
                 Ok(val) => rows[i].code_pdb = val,
@@ -328,7 +397,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_code_pdf") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_code_pdf")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_code_pdf", v) {
                 Ok(val) => rows[i].code_pdf = val,
@@ -336,7 +408,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_journal_astm") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_journal_astm")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_journal_astm", v) {
                 Ok(val) => rows[i].journal_astm = val,
@@ -344,7 +419,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Dat
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "database_journal_csd") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "database_journal_csd")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("database_journal_csd", v) {
                 Ok(val) => rows[i].journal_csd = val,

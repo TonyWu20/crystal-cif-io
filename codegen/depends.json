@@ -11638,7 +11638,6 @@
         {
           "closed_values": [
             "Base",
-            "'Space",
             "Entry",
             "Custom",
             "Local"
@@ -11665,7 +11664,6 @@
             "enumeration_range": null,
             "enumeration_states": [
               "Base",
-              "'Space",
               "Entry",
               "Custom",
               "Local"
@@ -26443,11 +26441,8 @@
         {
           "closed_values": [
             "fundamental",
-            "'Fundamental",
             "estimated",
-            "'Estimated,",
-            "refined",
-            "'Refined"
+            "refined"
           ],
           "container": "Single",
           "container_basis": "shell",
@@ -26486,11 +26481,8 @@
             "enumeration_range": null,
             "enumeration_states": [
               "fundamental",
-              "'Fundamental",
               "estimated",
-              "'Estimated,",
-              "refined",
-              "'Refined"
+              "refined"
             ],
             "expression": null,
             "import_spec": null,
@@ -51300,15 +51292,7 @@
         {
           "closed_values": [
             "o",
-            ";",
-            "satisfies",
-            "observed",
-            ";",
             "<",
-            ";",
-            "satisfies",
-            "unobserved",
-            ";",
             "-",
             "x",
             "h",

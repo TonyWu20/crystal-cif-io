@@ -6,11 +6,11 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
+use crate::core_cif::CifError;
 use crate::data_dict::core_cif::publ::RequestedCategory;
 use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Publ {
@@ -35,99 +35,132 @@ impl CifCategory for Publ {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.contact_author {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_address {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_address".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_address".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_email {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_email".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_email".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_fax {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_fax".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_fax".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_id_iucr {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_id_iucr".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_id_iucr".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_id_orcid {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_id_orcid".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_id_orcid".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_name {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_name".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_name".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_author_phone {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_author_phone".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_author_phone".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_letter {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_contact_letter".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_contact_letter".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.manuscript_creation {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_manuscript_creation".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_manuscript_creation".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.manuscript_processed {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_manuscript_processed".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_manuscript_processed".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.manuscript_text {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_manuscript_text".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_manuscript_text".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.requested_category {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_requested_category".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_requested_category".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.requested_coeditor_name {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_requested_coeditor_name".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_requested_coeditor_name".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.requested_journal {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("publ_requested_journal".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("publ_requested_journal".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -208,7 +241,12 @@ impl CifCategory for Publ {
                         }
                     }
                     "publ_requested_category" => {
-                        match convert::read_closed_set("publ_requested_category", value, RequestedCategory::parse, "RequestedCategory") {
+                        match convert::read_closed_set(
+                            "publ_requested_category",
+                            value,
+                            RequestedCategory::parse,
+                            "RequestedCategory",
+                        ) {
                             Ok(v) => self.requested_category = v,
                             Err(e) => errors.push(e),
                         }
@@ -271,7 +309,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_abstract".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_abstract".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_acknowledgements.is_some()) {
             let values: Vec<Value> = self
@@ -281,7 +322,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_acknowledgements".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_acknowledgements".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_comment.is_some()) {
             let values: Vec<Value> = self
@@ -291,7 +335,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_comment".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_comment".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_discussion.is_some()) {
             let values: Vec<Value> = self
@@ -301,7 +348,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_discussion".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_discussion".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_experimental.is_some()) {
             let values: Vec<Value> = self
@@ -311,7 +361,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_experimental".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_experimental".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_exptl_prep.is_some()) {
             let values: Vec<Value> = self
@@ -321,7 +374,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_exptl_prep".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_exptl_prep".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_exptl_refinement.is_some()) {
             let values: Vec<Value> = self
@@ -331,7 +387,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_exptl_refinement".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_exptl_refinement".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_exptl_solution.is_some()) {
             let values: Vec<Value> = self
@@ -341,7 +400,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_exptl_solution".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_exptl_solution".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_figure_captions.is_some()) {
             let values: Vec<Value> = self
@@ -351,7 +413,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_figure_captions".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_figure_captions".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_introduction.is_some()) {
             let values: Vec<Value> = self
@@ -361,7 +426,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_introduction".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_introduction".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_keywords.is_some()) {
             let values: Vec<Value> = self
@@ -371,7 +439,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_keywords".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_keywords".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_references.is_some()) {
             let values: Vec<Value> = self
@@ -381,7 +452,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_references".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_references".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_related_literature.is_some()) {
             let values: Vec<Value> = self
@@ -391,7 +465,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_related_literature".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_related_literature".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_synopsis.is_some()) {
             let values: Vec<Value> = self
@@ -401,7 +478,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_synopsis".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_synopsis".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_table_legends.is_some()) {
             let values: Vec<Value> = self
@@ -411,7 +491,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_table_legends".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_table_legends".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_title.is_some()) {
             let values: Vec<Value> = self
@@ -421,7 +504,10 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_title".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_title".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.section_title_footnote.is_some()) {
             let values: Vec<Value> = self
@@ -431,15 +517,23 @@ impl CifCategory for Vec<PublRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_section_title_footnote".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_section_title_footnote".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -487,7 +581,10 @@ impl CifCategory for Vec<PublRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<PublRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![PublRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_abstract") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_abstract")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_abstract", v) {
                 Ok(val) => rows[i].section_abstract = val,
@@ -495,7 +592,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_acknowledgements") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_acknowledgements")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_acknowledgements", v) {
                 Ok(val) => rows[i].section_acknowledgements = val,
@@ -503,7 +603,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_comment") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_comment")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_comment", v) {
                 Ok(val) => rows[i].section_comment = val,
@@ -511,7 +614,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_discussion") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_discussion")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_discussion", v) {
                 Ok(val) => rows[i].section_discussion = val,
@@ -519,7 +625,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_experimental") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_experimental")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_experimental", v) {
                 Ok(val) => rows[i].section_experimental = val,
@@ -527,7 +636,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_exptl_prep") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_exptl_prep")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_exptl_prep", v) {
                 Ok(val) => rows[i].section_exptl_prep = val,
@@ -535,7 +647,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_exptl_refinement") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_exptl_refinement")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_exptl_refinement", v) {
                 Ok(val) => rows[i].section_exptl_refinement = val,
@@ -543,7 +658,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_exptl_solution") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_exptl_solution")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_exptl_solution", v) {
                 Ok(val) => rows[i].section_exptl_solution = val,
@@ -551,7 +669,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_figure_captions") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_figure_captions")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_figure_captions", v) {
                 Ok(val) => rows[i].section_figure_captions = val,
@@ -559,7 +680,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_introduction") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_introduction")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_introduction", v) {
                 Ok(val) => rows[i].section_introduction = val,
@@ -567,7 +691,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_keywords") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_keywords")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_keywords", v) {
                 Ok(val) => rows[i].section_keywords = val,
@@ -575,7 +702,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_references") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_references")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_references", v) {
                 Ok(val) => rows[i].section_references = val,
@@ -583,7 +713,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_related_literature") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_related_literature")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_related_literature", v) {
                 Ok(val) => rows[i].section_related_literature = val,
@@ -591,7 +724,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_synopsis") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_synopsis")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_synopsis", v) {
                 Ok(val) => rows[i].section_synopsis = val,
@@ -599,7 +735,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_table_legends") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_table_legends")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_table_legends", v) {
                 Ok(val) => rows[i].section_table_legends = val,
@@ -607,7 +746,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_title") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_title")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_title", v) {
                 Ok(val) => rows[i].section_title = val,
@@ -615,7 +757,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_section_title_footnote") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_section_title_footnote")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_section_title_footnote", v) {
                 Ok(val) => rows[i].section_title_footnote = val,

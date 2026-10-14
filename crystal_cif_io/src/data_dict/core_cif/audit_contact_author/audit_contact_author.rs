@@ -5,10 +5,10 @@
 //! Char items read leniently: the tier corpus records them as text
 //! fields. The closed sets keep the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct AuditContactAuthor {
@@ -26,57 +26,76 @@ impl CifCategory for AuditContactAuthor {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.address {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_address".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_address".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.email {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_email".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_email".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.fax {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_fax".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_fax".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.id {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_id".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_id".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.id_iucr {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_id_iucr".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_id_iucr".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.id_orcid {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_id_orcid".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_id_orcid".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.name {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_name".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_name".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.phone {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_contact_author_phone".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_contact_author_phone".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {

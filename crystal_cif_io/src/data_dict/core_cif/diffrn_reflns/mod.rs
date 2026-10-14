@@ -23,6 +23,7 @@ use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 pub use self::av_r_equivalents::AvREquivalents;
 pub use self::av_sigma_i_over_net_i::AvSigmaIOverNetI;
 pub use self::av_unet_i_over_net_i::AvUnetIOverNetI;
+pub use self::diffrn_reflns::{DiffrnReflns, DiffrnReflnsRow};
 pub use self::laue_measured_fraction_full::LaueMeasuredFractionFull;
 pub use self::laue_measured_fraction_max::LaueMeasuredFractionMax;
 pub use self::point_group_measured_fraction_full::PointGroupMeasuredFractionFull;
@@ -35,7 +36,6 @@ pub use self::resolution_max::ResolutionMax;
 pub use self::theta_full::ThetaFull;
 pub use self::theta_max::ThetaMax;
 pub use self::theta_min::ThetaMin;
-pub use self::diffrn_reflns::{DiffrnReflns, DiffrnReflnsRow};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

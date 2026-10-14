@@ -3,10 +3,10 @@
 //! The `ValenceRefRow` loop row of the valence-model reference
 //! loop.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct ValenceRefRow {
@@ -16,10 +16,7 @@ pub struct ValenceRefRow {
 
 /// The loop tags of the category. A loop is the own loop of
 /// the category when it carries one of these tags.
-const LOOP_TAGS: &[&str] = &[
-    "valence_ref_id",
-    "valence_ref_reference",
-];
+const LOOP_TAGS: &[&str] = &["valence_ref_id", "valence_ref_reference"];
 
 impl CifCategory for Vec<ValenceRefRow> {
     fn to_members(&self) -> Vec<DataBlockMember> {
@@ -35,7 +32,10 @@ impl CifCategory for Vec<ValenceRefRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("valence_ref_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("valence_ref_id".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.reference.is_some()) {
             let values: Vec<Value> = self
@@ -45,15 +45,23 @@ impl CifCategory for Vec<ValenceRefRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("valence_ref_reference".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("valence_ref_reference".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -79,7 +87,10 @@ impl CifCategory for Vec<ValenceRefRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ValenceRefRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ValenceRefRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "valence_ref_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "valence_ref_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("valence_ref_id", v) {
                 Ok(val) => rows[i].id = val,
@@ -87,7 +98,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Val
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "valence_ref_reference") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "valence_ref_reference")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("valence_ref_reference", v) {
                 Ok(val) => rows[i].reference = val,

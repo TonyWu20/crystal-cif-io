@@ -21,9 +21,7 @@ use bon::bon;
 
 use crate::data_dict::core_cif::cell::{Cell, CellAngle};
 use crate::data_dict::core_cif::range_check::number_as_f64;
-use crystal_cif_fmt::grammar::{
-    CharString, Float, Matrix, Number, Numeric, UnsignedInteger,
-};
+use crystal_cif_fmt::grammar::{CharString, Float, Matrix, Number, Numeric, UnsignedInteger};
 
 /// The default relative tolerance of the derived-value cross-check.
 pub const DEFAULT_TOLERANCE: f64 = 1e-3;
@@ -139,13 +137,21 @@ impl Cell {
             .with_volume(volume)
             .with_orthogonal_matrix(orthogonal_matrix)
             .with_metric_tensor(metric_tensor)
-            .with_reciprocal_lengths(reciprocal_length_a, reciprocal_length_b, reciprocal_length_c)
+            .with_reciprocal_lengths(
+                reciprocal_length_a,
+                reciprocal_length_b,
+                reciprocal_length_c,
+            )
             .with_reciprocal_angles(
                 reciprocal_angle_alpha,
                 reciprocal_angle_beta,
                 reciprocal_angle_gamma,
             )
-            .with_reciprocal_vectors(reciprocal_vector_a, reciprocal_vector_b, reciprocal_vector_c)
+            .with_reciprocal_vectors(
+                reciprocal_vector_a,
+                reciprocal_vector_b,
+                reciprocal_vector_c,
+            )
             .with_reciprocal_metric_tensor(reciprocal_metric_tensor)
             .with_reciprocal_orthogonal_matrix(reciprocal_orthogonal_matrix);
         cross_check_cell(&geom, tol, &checks)?;
@@ -228,13 +234,21 @@ impl Cell {
             .with_metric_tensor(metric_tensor)
             .with_lengths(length_a, length_b, length_c)
             .with_angles(angle_alpha, angle_beta, angle_gamma)
-            .with_reciprocal_lengths(reciprocal_length_a, reciprocal_length_b, reciprocal_length_c)
+            .with_reciprocal_lengths(
+                reciprocal_length_a,
+                reciprocal_length_b,
+                reciprocal_length_c,
+            )
             .with_reciprocal_angles(
                 reciprocal_angle_alpha,
                 reciprocal_angle_beta,
                 reciprocal_angle_gamma,
             )
-            .with_reciprocal_vectors(reciprocal_vector_a, reciprocal_vector_b, reciprocal_vector_c)
+            .with_reciprocal_vectors(
+                reciprocal_vector_a,
+                reciprocal_vector_b,
+                reciprocal_vector_c,
+            )
             .with_reciprocal_metric_tensor(reciprocal_metric_tensor)
             .with_reciprocal_orthogonal_matrix(reciprocal_orthogonal_matrix);
         cross_check_cell(&geom, tol, &checks)?;
@@ -492,12 +506,10 @@ struct CellGeometry {
 }
 
 impl CellGeometry {
-    fn from_lengths_and_angles(
-        lengths: [f64; 3],
-        angles_deg: [f64; 3],
-    ) -> Result<Self, CellError> {
-        for (item, &length) in
-            ["length_a", "length_b", "length_c"].into_iter().zip(&lengths)
+    fn from_lengths_and_angles(lengths: [f64; 3], angles_deg: [f64; 3]) -> Result<Self, CellError> {
+        for (item, &length) in ["length_a", "length_b", "length_c"]
+            .into_iter()
+            .zip(&lengths)
         {
             if length <= 0.0 {
                 return Err(CellError::Degenerate(format!(
@@ -541,8 +553,10 @@ impl CellGeometry {
 
     fn from_vectors(raw: [Vec<f64>; 3]) -> Result<Self, CellError> {
         let mut vectors = [[0.0; 3]; 3];
-        for (index, (item, v)) in
-            ["vector_a", "vector_b", "vector_c"].into_iter().zip(&raw).enumerate()
+        for (index, (item, v)) in ["vector_a", "vector_b", "vector_c"]
+            .into_iter()
+            .zip(&raw)
+            .enumerate()
         {
             let norm = v.iter().map(|x| x * x).sum::<f64>().sqrt();
             if norm <= 0.0 {
@@ -578,32 +592,28 @@ impl CellGeometry {
     ) -> Self {
         // The orthogonal matrix carries the vectors in its columns.
         // The shell expression: `vector_a = orthogonal_matrix * [1,0,0]`.
-        let orthogonal = [[
-            vectors[0][0],
-            vectors[1][0],
-            vectors[2][0],
-        ], [
-            vectors[0][1],
-            vectors[1][1],
-            vectors[2][1],
-        ], [
-            vectors[0][2],
-            vectors[1][2],
-            vectors[2][2],
-        ]];
-        let metric = [[
-            dot(&vectors[0], &vectors[0]),
-            dot(&vectors[0], &vectors[1]),
-            dot(&vectors[0], &vectors[2]),
-        ], [
-            dot(&vectors[1], &vectors[0]),
-            dot(&vectors[1], &vectors[1]),
-            dot(&vectors[1], &vectors[2]),
-        ], [
-            dot(&vectors[2], &vectors[0]),
-            dot(&vectors[2], &vectors[1]),
-            dot(&vectors[2], &vectors[2]),
-        ]];
+        let orthogonal = [
+            [vectors[0][0], vectors[1][0], vectors[2][0]],
+            [vectors[0][1], vectors[1][1], vectors[2][1]],
+            [vectors[0][2], vectors[1][2], vectors[2][2]],
+        ];
+        let metric = [
+            [
+                dot(&vectors[0], &vectors[0]),
+                dot(&vectors[0], &vectors[1]),
+                dot(&vectors[0], &vectors[2]),
+            ],
+            [
+                dot(&vectors[1], &vectors[0]),
+                dot(&vectors[1], &vectors[1]),
+                dot(&vectors[1], &vectors[2]),
+            ],
+            [
+                dot(&vectors[2], &vectors[0]),
+                dot(&vectors[2], &vectors[1]),
+                dot(&vectors[2], &vectors[2]),
+            ],
+        ];
         let reciprocal_vectors = [
             cross(&vectors[1], &vectors[2]),
             cross(&vectors[2], &vectors[0]),
@@ -620,12 +630,12 @@ impl CellGeometry {
             angle_between(&reciprocal_vectors[0], &reciprocal_vectors[2]),
             angle_between(&reciprocal_vectors[0], &reciprocal_vectors[1]),
         ];
-        let reciprocal_metric = inverse_3x3(&metric)
-            .expect("a non-degenerate cell gives an invertible metric tensor");
+        let reciprocal_metric =
+            inverse_3x3(&metric).expect("a non-degenerate cell gives an invertible metric tensor");
         // The shell expression: the reciprocal orthogonal matrix is the
         // inverse of the transpose of the orthogonal matrix.
-        let reciprocal_orthogonal =
-            inverse_3x3(&transpose(&orthogonal)).expect("a non-degenerate cell gives an invertible orthogonal matrix");
+        let reciprocal_orthogonal = inverse_3x3(&transpose(&orthogonal))
+            .expect("a non-degenerate cell gives an invertible orthogonal matrix");
         Self {
             lengths,
             angles: angles_deg,
@@ -661,12 +671,7 @@ fn read_vector(m: &Matrix, item: &'static str) -> Result<Vec<f64>, CellError> {
 
 fn cross_check_cell(geom: &CellGeometry, tol: f64, checks: &CellChecks) -> Result<(), CellError> {
     if let Some(v) = &checks.volume {
-        cross_check_value(
-            "volume",
-            number_as_f64(&v.number()),
-            geom.volume,
-            tol,
-        )?;
+        cross_check_value("volume", number_as_f64(&v.number()), geom.volume, tol)?;
     }
     if let Some(m) = &checks.orthogonal_matrix {
         cross_check_matrix("orthogonal_matrix", &m, &geom.orthogonal, tol)?;
@@ -675,28 +680,13 @@ fn cross_check_cell(geom: &CellGeometry, tol: f64, checks: &CellChecks) -> Resul
         cross_check_matrix("metric_tensor", &m, &geom.metric, tol)?;
     }
     if let Some(l) = &checks.length_a {
-        cross_check_value(
-            "length_a",
-            number_as_f64(&l.number()),
-            geom.lengths[0],
-            tol,
-        )?;
+        cross_check_value("length_a", number_as_f64(&l.number()), geom.lengths[0], tol)?;
     }
     if let Some(l) = &checks.length_b {
-        cross_check_value(
-            "length_b",
-            number_as_f64(&l.number()),
-            geom.lengths[1],
-            tol,
-        )?;
+        cross_check_value("length_b", number_as_f64(&l.number()), geom.lengths[1], tol)?;
     }
     if let Some(l) = &checks.length_c {
-        cross_check_value(
-            "length_c",
-            number_as_f64(&l.number()),
-            geom.lengths[2],
-            tol,
-        )?;
+        cross_check_value("length_c", number_as_f64(&l.number()), geom.lengths[2], tol)?;
     }
     if let Some(a) = &checks.angle_alpha {
         cross_check_value("angle_alpha", a.angle().0, geom.angles[0], tol)?;
@@ -765,12 +755,7 @@ fn cross_check_cell(geom: &CellGeometry, tol: f64, checks: &CellChecks) -> Resul
         cross_check_vector("reciprocal_vector_c", &v, &geom.reciprocal_vectors[2], tol)?;
     }
     if let Some(m) = &checks.reciprocal_metric_tensor {
-        cross_check_matrix(
-            "reciprocal_metric_tensor",
-            m,
-            &geom.reciprocal_metric,
-            tol,
-        )?;
+        cross_check_matrix("reciprocal_metric_tensor", m, &geom.reciprocal_metric, tol)?;
     }
     if let Some(m) = &checks.reciprocal_orthogonal_matrix {
         cross_check_matrix(
@@ -809,12 +794,7 @@ fn cross_check_vector(
 ) -> Result<(), CellError> {
     let supplied = read_vector(supplied, item)?;
     for (i, (s, c)) in supplied.iter().zip(computed).enumerate() {
-        cross_check_value(
-            item,
-            *s,
-            *c,
-            tol,
-        )?;
+        cross_check_value(item, *s, *c, tol)?;
         let _ = i;
     }
     Ok(())
@@ -863,9 +843,11 @@ fn vector_matrix(v: [f64; 3]) -> Matrix {
 }
 
 fn matrix3(m: &[[f64; 3]; 3]) -> Matrix {
-    Matrix::try_new((0..3)
-        .map(|i| (0..3).map(|j| Number::Float(Float(m[i][j]))).collect())
-        .collect())
+    Matrix::try_new(
+        (0..3)
+            .map(|i| (0..3).map(|j| Number::Float(Float(m[i][j]))).collect())
+            .collect(),
+    )
     .expect("a 3 x 3 matrix")
 }
 
@@ -901,13 +883,11 @@ fn determinant(m: &[[f64; 3]; 3]) -> f64 {
 }
 
 fn transpose(m: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
-    [[
-        m[0][0], m[1][0], m[2][0],
-    ], [
-        m[0][1], m[1][1], m[2][1],
-    ], [
-        m[0][2], m[1][2], m[2][2],
-    ]]
+    [
+        [m[0][0], m[1][0], m[2][0]],
+        [m[0][1], m[1][1], m[2][1]],
+        [m[0][2], m[1][2], m[2][2]],
+    ]
 }
 
 fn inverse_3x3(m: &[[f64; 3]; 3]) -> Option<[[f64; 3]; 3]> {
@@ -936,19 +916,11 @@ fn inverse_3x3(m: &[[f64; 3]; 3]) -> Option<[[f64; 3]; 3]> {
         let sign = if (i + j) % 2 == 0 { 1.0 } else { -1.0 };
         sign * determinant(&minor)
     };
-    let adj = [[
-        cofactor(0, 0),
-        cofactor(1, 0),
-        cofactor(2, 0),
-    ], [
-        cofactor(0, 1),
-        cofactor(1, 1),
-        cofactor(2, 1),
-    ], [
-        cofactor(0, 2),
-        cofactor(1, 2),
-        cofactor(2, 2),
-    ]];
+    let adj = [
+        [cofactor(0, 0), cofactor(1, 0), cofactor(2, 0)],
+        [cofactor(0, 1), cofactor(1, 1), cofactor(2, 1)],
+        [cofactor(0, 2), cofactor(1, 2), cofactor(2, 2)],
+    ];
     Some(adj.map(|row| row.map(|v| v / det)))
 }
 
@@ -997,7 +969,13 @@ mod tests {
     fn the_happy_path_builds_the_derived_values() {
         let cell = direct().expect("the orthorhombic cell builds");
         assert_eq!(
-            cell.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
+            cell.volume
+                .as_ref()
+                .expect("volume")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(750.0),
             "the volume is the product of the six"
         );
@@ -1014,18 +992,40 @@ mod tests {
     fn the_reciprocal_items_compute_from_the_direct_six() {
         let cell = direct().expect("builds");
         assert_eq!(
-            cell.reciprocal_length_a.as_ref().expect("reciprocal length").number().as_float().copied().map(|f| f.0),
+            cell.reciprocal_length_a
+                .as_ref()
+                .expect("reciprocal length")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(1.0 / 5.0),
             "the reciprocal length is the inverse of a right cell"
         );
-        assert!((cell.reciprocal_angle_alpha.as_ref().expect("reciprocal angle").angle().0 - 90.0).abs() < 1e-9);
+        assert!(
+            (cell
+                .reciprocal_angle_alpha
+                .as_ref()
+                .expect("reciprocal angle")
+                .angle()
+                .0
+                - 90.0)
+                .abs()
+                < 1e-9
+        );
     }
 
     #[test]
     fn a_matching_supplied_volume_passes_the_cross_check() {
         let cell = direct_with_volume(Numeric::from(750.0)).expect("the volume matches");
         assert_eq!(
-            cell.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
+            cell.volume
+                .as_ref()
+                .expect("volume")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(750.0)
         );
     }
@@ -1095,19 +1095,43 @@ mod tests {
     fn the_vectors_builder_computes_the_direct_six() {
         let cell = vectors().expect("the right vectors build");
         assert_eq!(
-            cell.length_a.as_ref().expect("length_a").number().as_float().copied().map(|f| f.0),
+            cell.length_a
+                .as_ref()
+                .expect("length_a")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(5.0)
         );
         assert_eq!(
-            cell.length_b.as_ref().expect("length_b").number().as_float().copied().map(|f| f.0),
+            cell.length_b
+                .as_ref()
+                .expect("length_b")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(10.0)
         );
         assert_eq!(
-            cell.length_c.as_ref().expect("length_c").number().as_float().copied().map(|f| f.0),
+            cell.length_c
+                .as_ref()
+                .expect("length_c")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(15.0)
         );
         assert_eq!(
-            cell.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
+            cell.volume
+                .as_ref()
+                .expect("volume")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(750.0)
         );
         assert!((cell.angle_alpha.as_ref().expect("angle_alpha").angle().0 - 90.0).abs() < 1e-9);
@@ -1124,7 +1148,10 @@ mod tests {
             .unwrap_err();
         assert!(matches!(
             err,
-            CellError::Mismatch { item: "length_a", .. }
+            CellError::Mismatch {
+                item: "length_a",
+                ..
+            }
         ));
     }
 
@@ -1164,7 +1191,13 @@ mod tests {
             .build()
             .expect("0.2 is the reciprocal length of a = 5");
         assert_eq!(
-            ok.reciprocal_length_a.as_ref().expect("reciprocal length").number().as_float().copied().map(|f| f.0),
+            ok.reciprocal_length_a
+                .as_ref()
+                .expect("reciprocal length")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(0.2)
         );
         let err = Cell::builder()
@@ -1208,7 +1241,14 @@ mod tests {
             .build()
             .expect("the relaxed tolerance passes");
         assert_eq!(
-            relaxed.volume.as_ref().expect("volume").number().as_float().copied().map(|f| f.0),
+            relaxed
+                .volume
+                .as_ref()
+                .expect("volume")
+                .number()
+                .as_float()
+                .copied()
+                .map(|f| f.0),
             Some(750.0),
             "the computed value stays the output"
         );
@@ -1230,8 +1270,14 @@ mod tests {
             .build()
             .expect("builds");
         assert!(cell.formula_units_z.is_some(), "the recorded Z is set");
-        assert!(cell.special_details.is_some(), "the recorded details are set");
-        assert!(cell.measurement_reflns_used.is_some(), "the recorded count is set");
+        assert!(
+            cell.special_details.is_some(),
+            "the recorded details are set"
+        );
+        assert!(
+            cell.measurement_reflns_used.is_some(),
+            "the recorded count is set"
+        );
         assert_eq!(cell.to_members().len(), 26);
     }
 }

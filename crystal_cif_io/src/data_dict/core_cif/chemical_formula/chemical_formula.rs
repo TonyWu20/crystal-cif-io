@@ -4,11 +4,11 @@
 //! registry item. `weight` and `weight_meas` keep the `FormulaWeight`
 //! range guard.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
-use {crate::data_dict::core_cif::chemical_formula::FormulaWeight};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::chemical_formula::FormulaWeight;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct ChemicalFormula {
@@ -25,51 +25,68 @@ impl CifCategory for ChemicalFormula {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.analytical {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_analytical".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_analytical".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.iupac {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_iupac".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_iupac".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.moiety {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_moiety".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_moiety".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.structural {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_structural".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_structural".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.sum {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_sum".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_sum".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.weight {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_weight".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_weight".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.weight_meas {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_formula_weight_meas".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_formula_weight_meas".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {

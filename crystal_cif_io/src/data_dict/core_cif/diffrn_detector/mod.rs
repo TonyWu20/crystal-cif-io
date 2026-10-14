@@ -9,9 +9,9 @@ use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::area_resol_mean::AreaResolMean;
+pub use self::diffrn_detector::DiffrnDetector;
 pub use self::diffrn_radiation_detector_dtime::DiffrnRadiationDetectorDtime;
 pub use self::dtime::Dtime;
-pub use self::diffrn_detector::DiffrnDetector;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

@@ -7,19 +7,22 @@
 
 use crystal_cif_fmt::grammar::{Numeric, UnquotedString};
 use crystal_cif_fmt::{
-    CharString, DataBlock, DataItems, DataBlockMember, SaveFrame, SaveFrameHeading, parse_cif,
+    parse_cif, CharString, DataBlock, DataBlockMember, DataItems, SaveFrame, SaveFrameHeading,
 };
 
 use crystal_cif_io::core_cif::{CifError, CoreCif};
-use crystal_cif_io::data_dict::core_cif::cell::CellAngle;
-use crystal_cif_io::data_dict::core_cif::space_group::ITNumber;
-use crystal_cif_io::data_dict::core_cif::atom_site::AtomSite;
 use crystal_cif_io::data_dict::core_cif::atom_site::AdpType;
+use crystal_cif_io::data_dict::core_cif::atom_site::AtomSite;
+use crystal_cif_io::data_dict::core_cif::cell::CellAngle;
 use crystal_cif_io::data_dict::core_cif::range_check::number_as_f64;
+use crystal_cif_io::data_dict::core_cif::space_group::ITNumber;
 
 fn fixture(name: &str) -> String {
-    let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../crystal_cif_fmt/tests/fixtures/")
-        .to_string()
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../crystal_cif_fmt/tests/fixtures/"
+    )
+    .to_string()
         + name;
     std::fs::read_to_string(&path).expect("the fixture reads")
 }
@@ -52,11 +55,12 @@ fn fingerprint(doc: &CoreCif) -> String {
             .map(|c| c.content().to_string())
             .unwrap_or_else(|| "absent".to_string())
     };
-    let weight = |o: &Option<crystal_cif_io::data_dict::core_cif::chemical_formula::FormulaWeight>| {
-        o.as_ref()
-            .map(|w| format!("{:.6}", number_as_f64(&w.value().number())))
-            .unwrap_or_else(|| "absent".to_string())
-    };
+    let weight =
+        |o: &Option<crystal_cif_io::data_dict::core_cif::chemical_formula::FormulaWeight>| {
+            o.as_ref()
+                .map(|w| format!("{:.6}", number_as_f64(&w.value().number())))
+                .unwrap_or_else(|| "absent".to_string())
+        };
     s += &format!(
         "cell[a={} b={} c={} A={} B={} G={} V={}]\n",
         num(&doc.cell.length_a),
@@ -81,7 +85,10 @@ fn fingerprint(doc: &CoreCif) -> String {
             "atom[{}|{}|{}]\n",
             char_of(&row.label),
             char_of(&row.type_symbol),
-            row.adp_type.as_ref().map(|a| a.to_string()).unwrap_or_else(|| "absent".to_string()),
+            row.adp_type
+                .as_ref()
+                .map(|a| a.to_string())
+                .unwrap_or_else(|| "absent".to_string()),
         );
     }
     s += &format!(
@@ -106,7 +113,11 @@ fn the_acetonitrile_block_round_trips_the_formula_category() {
     );
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
-    assert_eq!(fingerprint(&doc), fingerprint(&again), "the IR round-trip is stable");
+    assert_eq!(
+        fingerprint(&doc),
+        fingerprint(&again),
+        "the IR round-trip is stable"
+    );
     // Every member of this block types: the wave-1 formula items
     // and the T3 structure and chemistry categories. The residue
     // is empty.
@@ -129,7 +140,11 @@ fn the_structure_block_round_trips_cell_and_atom_site() {
     );
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
-    assert_eq!(fingerprint(&doc), fingerprint(&again), "the IR round-trip is stable");
+    assert_eq!(
+        fingerprint(&doc),
+        fingerprint(&again),
+        "the IR round-trip is stable"
+    );
 }
 
 fn a_valid_document() -> CoreCif {
@@ -194,15 +209,15 @@ fn save_frames_and_foreign_tags_are_the_extra_residue() {
                 crystal_cif_fmt::grammar::SingleLineData::from_tag_value((
                     crystal_cif_fmt::grammar::Tag::new("refln_FH".to_string()),
                     crystal_cif_fmt::grammar::Value::Numeric(Numeric::from(10.0)),
-                ))
+                )),
             )],
         ))),
         DataBlockMember::DataItems(DataItems::SingleValue(
             crystal_cif_fmt::grammar::SingleLineData::from_tag_value((
                 crystal_cif_fmt::grammar::Tag::new("audit_author_name".to_string()),
-                crystal_cif_fmt::grammar::Value::CharString(
-                    CharString::Unquoted(UnquotedString::new("author".to_string())),
-                ),
+                crystal_cif_fmt::grammar::Value::CharString(CharString::Unquoted(
+                    UnquotedString::new("author".to_string()),
+                )),
             )),
         )),
     ];
@@ -236,8 +251,10 @@ fn the_structure_block_validates_the_one_absent_required_item() {
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
     let errors = doc.validate().expect_err("one required item is absent");
     assert_eq!(errors.len(), 1, "the one absent required item reports");
-    assert!(errors.iter().all(|e| matches!(e, CifError::Missing { .. })),
-        "every report is a missing item");
+    assert!(
+        errors.iter().all(|e| matches!(e, CifError::Missing { .. })),
+        "every report is a missing item"
+    );
 }
 
 #[test]
@@ -264,8 +281,10 @@ fn the_acetonitrile_block_validates_the_eight_absent_required_items() {
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
     let errors = doc.validate().expect_err("eight required items are absent");
     assert_eq!(errors.len(), 8, "the eight absent required items report");
-    assert!(errors.iter().all(|e| matches!(e, CifError::Missing { .. })),
-        "every report is a missing item");
+    assert!(
+        errors.iter().all(|e| matches!(e, CifError::Missing { .. })),
+        "every report is a missing item"
+    );
 }
 
 #[test]
@@ -296,4 +315,3 @@ fn the_cell_builder_fills_the_document_fields() {
     let members = cell.to_members();
     assert!(!members.is_empty(), "the set items emit");
 }
-

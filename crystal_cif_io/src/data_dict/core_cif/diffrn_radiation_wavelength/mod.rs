@@ -11,9 +11,9 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::determination::Determination;
 pub use self::diffrn_radiation_wavelength::DiffrnRadiationWavelength;
+pub use self::diffrn_radiation_wavelength_row::DiffrnRadiationWavelengthRow;
 pub use self::wt::Wt;
 pub use self::xray_symbol::XraySymbol;
-pub use self::diffrn_radiation_wavelength_row::DiffrnRadiationWavelengthRow;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

@@ -4,11 +4,14 @@
 //! temperatures, and the enantiomeric-excess items) and the
 //! `ChemicalRow` loop row (the temperature range companions).
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
-use {crate::data_dict::core_cif::chemical::{AbsoluteConfiguration, Enantioexcess, EnantioexcessBulkTechnique, EnantioexcessCrystalTechnique, Temperature}};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::chemical::{
+    AbsoluteConfiguration, Enantioexcess, EnantioexcessBulkTechnique,
+    EnantioexcessCrystalTechnique, Temperature,
+};
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Chemical {
@@ -37,123 +40,164 @@ impl CifCategory for Chemical {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.absolute_configuration {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_absolute_configuration".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_absolute_configuration".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.compound_source {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_compound_source".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_compound_source".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.enantioexcess_bulk {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_enantioexcess_bulk".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_enantioexcess_bulk".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.enantioexcess_bulk_technique {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_enantioexcess_bulk_technique".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_enantioexcess_bulk_technique".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.enantioexcess_crystal {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_enantioexcess_crystal".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_enantioexcess_crystal".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.enantioexcess_crystal_technique {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_enantioexcess_crystal_technique".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_enantioexcess_crystal_technique".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.identifier_inchi {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_identifier_inchi".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_identifier_inchi".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.identifier_inchi_key {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_identifier_inchi_key".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_identifier_inchi_key".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.identifier_inchi_version {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_identifier_inchi_version".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_identifier_inchi_version".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.melting_point {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_melting_point".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_melting_point".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.name_common {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_name_common".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_name_common".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.name_mineral {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_name_mineral".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_name_mineral".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.name_structure_type {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_name_structure_type".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_name_structure_type".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.name_systematic {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_name_systematic".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_name_systematic".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.optical_rotation {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_optical_rotation".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_optical_rotation".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.properties_biological {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_properties_biological".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_properties_biological".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.properties_physical {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_properties_physical".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_properties_physical".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.temperature_decomposition {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_temperature_decomposition".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_temperature_decomposition".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.temperature_sublimation {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("chemical_temperature_sublimation".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("chemical_temperature_sublimation".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -162,7 +206,12 @@ impl CifCategory for Chemical {
                 let value = sv.value();
                 match tag.as_str() {
                     "chemical_absolute_configuration" => {
-                        match convert::read_closed_set("chemical_absolute_configuration", value, AbsoluteConfiguration::parse, "AbsoluteConfiguration") {
+                        match convert::read_closed_set(
+                            "chemical_absolute_configuration",
+                            value,
+                            AbsoluteConfiguration::parse,
+                            "AbsoluteConfiguration",
+                        ) {
                             Ok(v) => self.absolute_configuration = v,
                             Err(e) => errors.push(e),
                         }
@@ -180,7 +229,12 @@ impl CifCategory for Chemical {
                         }
                     }
                     "chemical_enantioexcess_bulk_technique" => {
-                        match convert::read_closed_set("chemical_enantioexcess_bulk_technique", value, EnantioexcessBulkTechnique::parse, "EnantioexcessBulkTechnique") {
+                        match convert::read_closed_set(
+                            "chemical_enantioexcess_bulk_technique",
+                            value,
+                            EnantioexcessBulkTechnique::parse,
+                            "EnantioexcessBulkTechnique",
+                        ) {
                             Ok(v) => self.enantioexcess_bulk_technique = v,
                             Err(e) => errors.push(e),
                         }
@@ -192,7 +246,12 @@ impl CifCategory for Chemical {
                         }
                     }
                     "chemical_enantioexcess_crystal_technique" => {
-                        match convert::read_closed_set("chemical_enantioexcess_crystal_technique", value, EnantioexcessCrystalTechnique::parse, "EnantioexcessCrystalTechnique") {
+                        match convert::read_closed_set(
+                            "chemical_enantioexcess_crystal_technique",
+                            value,
+                            EnantioexcessCrystalTechnique::parse,
+                            "EnantioexcessCrystalTechnique",
+                        ) {
                             Ok(v) => self.enantioexcess_crystal_technique = v,
                             Err(e) => errors.push(e),
                         }
@@ -264,7 +323,8 @@ impl CifCategory for Chemical {
                         }
                     }
                     "chemical_temperature_decomposition" => {
-                        match convert::read_temperature("chemical_temperature_decomposition", value) {
+                        match convert::read_temperature("chemical_temperature_decomposition", value)
+                        {
                             Ok(v) => self.temperature_decomposition = v,
                             Err(e) => errors.push(e),
                         }
@@ -320,7 +380,10 @@ impl CifCategory for Vec<ChemicalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_melting_point_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_melting_point_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.melting_point_lt.is_some()) {
             let values: Vec<Value> = self
@@ -330,9 +393,15 @@ impl CifCategory for Vec<ChemicalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_melting_point_lt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_melting_point_lt".to_string()),
+                values,
+            ));
         }
-        if self.iter().any(|r| r.temperature_decomposition_gt.is_some()) {
+        if self
+            .iter()
+            .any(|r| r.temperature_decomposition_gt.is_some())
+        {
             let values: Vec<Value> = self
                 .iter()
                 .map(|r| match &r.temperature_decomposition_gt {
@@ -340,9 +409,15 @@ impl CifCategory for Vec<ChemicalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_temperature_decomposition_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_temperature_decomposition_gt".to_string()),
+                values,
+            ));
         }
-        if self.iter().any(|r| r.temperature_decomposition_lt.is_some()) {
+        if self
+            .iter()
+            .any(|r| r.temperature_decomposition_lt.is_some())
+        {
             let values: Vec<Value> = self
                 .iter()
                 .map(|r| match &r.temperature_decomposition_lt {
@@ -350,7 +425,10 @@ impl CifCategory for Vec<ChemicalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_temperature_decomposition_lt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_temperature_decomposition_lt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.temperature_sublimation_gt.is_some()) {
             let values: Vec<Value> = self
@@ -360,7 +438,10 @@ impl CifCategory for Vec<ChemicalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_temperature_sublimation_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_temperature_sublimation_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.temperature_sublimation_lt.is_some()) {
             let values: Vec<Value> = self
@@ -370,15 +451,23 @@ impl CifCategory for Vec<ChemicalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_temperature_sublimation_lt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_temperature_sublimation_lt".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -404,7 +493,10 @@ impl CifCategory for Vec<ChemicalRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ChemicalRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ChemicalRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_melting_point_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_melting_point_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_temperature("chemical_melting_point_gt", v) {
                 Ok(val) => rows[i].melting_point_gt = val,
@@ -412,7 +504,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_melting_point_lt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_melting_point_lt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_temperature("chemical_melting_point_lt", v) {
                 Ok(val) => rows[i].melting_point_lt = val,
@@ -420,7 +515,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_decomposition_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_decomposition_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_temperature("chemical_temperature_decomposition_gt", v) {
                 Ok(val) => rows[i].temperature_decomposition_gt = val,
@@ -428,7 +526,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_decomposition_lt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_decomposition_lt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_temperature("chemical_temperature_decomposition_lt", v) {
                 Ok(val) => rows[i].temperature_decomposition_lt = val,
@@ -436,7 +537,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_sublimation_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_sublimation_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_temperature("chemical_temperature_sublimation_gt", v) {
                 Ok(val) => rows[i].temperature_sublimation_gt = val,
@@ -444,7 +548,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_sublimation_lt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_temperature_sublimation_lt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_temperature("chemical_temperature_sublimation_lt", v) {
                 Ok(val) => rows[i].temperature_sublimation_lt = val,

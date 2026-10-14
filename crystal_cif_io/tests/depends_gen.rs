@@ -27,18 +27,17 @@ fn repo_root() -> PathBuf {
 }
 
 fn load(path: &std::path::Path) -> Value {
-    let raw = std::fs::read_to_string(path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).unwrap_or_else(|e| panic!("parse {}: {e}", path.display()))
 }
 
 fn inventory_names(which: &str) -> HashSet<String> {
-    let path = manifest()
-        .join(if which == "shell" {
-            "tests/dict_inventory_shell.json"
-        } else {
-            "tests/dict_inventory.json"
-        });
+    let path = manifest().join(if which == "shell" {
+        "tests/dict_inventory_shell.json"
+    } else {
+        "tests/dict_inventory.json"
+    });
     load(&path)["items"]
         .as_array()
         .cloned()
@@ -81,10 +80,18 @@ fn depends_names() -> (HashSet<String>, HashSet<String>) {
     let mut exceptions = HashSet::new();
     for cat in doc["categories"].as_array().expect("categories array") {
         for item in cat["items"].as_array().expect("items array") {
-            names.insert(item["name"].as_str().expect("item name").to_ascii_lowercase());
+            names.insert(
+                item["name"]
+                    .as_str()
+                    .expect("item name")
+                    .to_ascii_lowercase(),
+            );
         }
     }
-    for exc in doc["naming_exceptions"].as_array().expect("exceptions array") {
+    for exc in doc["naming_exceptions"]
+        .as_array()
+        .expect("exceptions array")
+    {
         exceptions.insert(
             exc["inventory_name"]
                 .as_str()
@@ -105,10 +112,7 @@ fn rerun_produces_the_committed_file() {
         .current_dir(&repo_root())
         .status()
         .unwrap_or_else(|e| panic!("run python3 {script:?}: {e}"));
-    assert!(
-        status.success(),
-        "extract_depends.py failed: {status}"
-    );
+    assert!(status.success(), "extract_depends.py failed: {status}");
     let fresh = std::fs::read_to_string(&tmp).expect("read rerun output");
     let committed =
         std::fs::read_to_string(repo_root().join("codegen/depends.json")).expect("read committed");
@@ -149,7 +153,10 @@ fn the_committed_file_covers_both_inventories() {
     );
     // Every exception must point at an item that is in the file.
     let doc = load(&repo_root().join("codegen/depends.json"));
-    for exc in doc["naming_exceptions"].as_array().expect("exceptions array") {
+    for exc in doc["naming_exceptions"]
+        .as_array()
+        .expect("exceptions array")
+    {
         let item = exc["item"].as_str().expect("item").to_ascii_lowercase();
         assert!(
             names.contains(&item),
@@ -175,7 +182,10 @@ fn the_counts_are_consistent() {
     );
     assert_eq!(
         counts["categories"].as_u64().expect("categories"),
-        doc["categories"].as_array().expect("categories array").len() as u64,
+        doc["categories"]
+            .as_array()
+            .expect("categories array")
+            .len() as u64,
         "the recorded category count moved"
     );
 }

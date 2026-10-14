@@ -4,8 +4,8 @@ mod i_net;
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
-pub use self::i_net::INet;
 pub use self::diffrn_scale_group::DiffrnScaleGroup;
+pub use self::i_net::INet;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

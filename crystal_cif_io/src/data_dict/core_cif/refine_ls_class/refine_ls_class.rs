@@ -5,10 +5,10 @@
 //! group: it emits one `MultiValues` loop and fills the rows from the
 //! columns.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct RefineLsClass {
@@ -36,7 +36,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.d_res_high.is_some()) {
             let values: Vec<Value> = self
@@ -46,7 +49,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_d_res_high".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_d_res_high".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.d_res_low.is_some()) {
             let values: Vec<Value> = self
@@ -56,7 +62,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_d_res_low".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_d_res_low".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.r_factor_all.is_some()) {
             let values: Vec<Value> = self
@@ -66,7 +75,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_R_factor_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_R_factor_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.r_factor_gt.is_some()) {
             let values: Vec<Value> = self
@@ -76,7 +88,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_R_factor_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_R_factor_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.r_fsqd_factor.is_some()) {
             let values: Vec<Value> = self
@@ -86,7 +101,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_R_Fsqd_factor".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_R_Fsqd_factor".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.r_i_factor.is_some()) {
             let values: Vec<Value> = self
@@ -96,7 +114,10 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_R_I_factor".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_R_I_factor".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.wr_factor_all.is_some()) {
             let values: Vec<Value> = self
@@ -106,15 +127,23 @@ impl CifCategory for Vec<RefineLsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refine_ls_class_wR_factor_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refine_ls_class_wR_factor_all".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -150,10 +179,16 @@ impl CifCategory for Vec<RefineLsClass> {
     }
 }
 
-fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<RefineLsClass> {
+fn refinelsclass_rows_from_columns(
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) -> Vec<RefineLsClass> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![RefineLsClass::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("refine_ls_class_code", v) {
                 Ok(val) => rows[i].code = val,
@@ -161,7 +196,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_d_res_high") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_d_res_high")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_d_res_high", v) {
                 Ok(val) => rows[i].d_res_high = val,
@@ -169,7 +207,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_d_res_low") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_d_res_low")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_d_res_low", v) {
                 Ok(val) => rows[i].d_res_low = val,
@@ -177,7 +218,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_factor_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_factor_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_r_factor_all", v) {
                 Ok(val) => rows[i].r_factor_all = val,
@@ -185,7 +229,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_factor_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_factor_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_r_factor_gt", v) {
                 Ok(val) => rows[i].r_factor_gt = val,
@@ -193,7 +240,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_fsqd_factor") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_fsqd_factor")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_r_fsqd_factor", v) {
                 Ok(val) => rows[i].r_fsqd_factor = val,
@@ -201,7 +251,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_i_factor") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_r_i_factor")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_r_i_factor", v) {
                 Ok(val) => rows[i].r_i_factor = val,
@@ -209,7 +262,10 @@ fn refinelsclass_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifErro
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_wr_factor_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_ls_class_wr_factor_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_ls_class_wr_factor_all", v) {
                 Ok(val) => rows[i].wr_factor_all = val,

@@ -1,13 +1,13 @@
-mod paper_pages;
 mod journal;
+mod paper_pages;
 
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
-pub use self::paper_pages::PaperPages;
 pub use self::journal::{Journal, JournalRow};
+pub use self::paper_pages::PaperPages;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

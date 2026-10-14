@@ -5,11 +5,11 @@
 //! `MultiValues` loop and fills the rows from the columns. The status
 //! closed sets keep the typed enums.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
+use crate::core_cif::CifError;
 use crate::data_dict::core_cif::refln::{IncludeStatus, ObservedStatus, RefinementStatus};
 use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct Refln {
@@ -60,7 +60,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_A_calc".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_A_calc".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.a_meas.is_some()) {
             let values: Vec<Value> = self
@@ -70,7 +73,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_A_meas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_A_meas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.b_calc.is_some()) {
             let values: Vec<Value> = self
@@ -80,7 +86,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_B_calc".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_B_calc".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.b_meas.is_some()) {
             let values: Vec<Value> = self
@@ -90,7 +99,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_B_meas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_B_meas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.class_code.is_some()) {
             let values: Vec<Value> = self
@@ -100,7 +112,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_class_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_class_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.crystal_id.is_some()) {
             let values: Vec<Value> = self
@@ -110,7 +125,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_crystal_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_crystal_id".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.d_spacing.is_some()) {
             let values: Vec<Value> = self
@@ -120,7 +138,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_d_spacing".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_d_spacing".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.f_calc.is_some()) {
             let values: Vec<Value> = self
@@ -130,7 +151,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_F_calc".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_F_calc".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.f_meas.is_some()) {
             let values: Vec<Value> = self
@@ -140,7 +164,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_F_meas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_F_meas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.f_sigma.is_some()) {
             let values: Vec<Value> = self
@@ -150,7 +177,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_F_sigma".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_F_sigma".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.f_squared_calc.is_some()) {
             let values: Vec<Value> = self
@@ -160,7 +190,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_F_squared_calc".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_F_squared_calc".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.f_squared_meas.is_some()) {
             let values: Vec<Value> = self
@@ -170,7 +203,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_F_squared_meas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_F_squared_meas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.f_squared_sigma.is_some()) {
             let values: Vec<Value> = self
@@ -180,7 +216,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_F_squared_sigma".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_F_squared_sigma".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.include_status.is_some()) {
             let values: Vec<Value> = self
@@ -190,7 +229,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_include_status".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_include_status".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_h.is_some()) {
             let values: Vec<Value> = self
@@ -200,7 +242,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_index_h".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_index_h".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_k.is_some()) {
             let values: Vec<Value> = self
@@ -210,7 +255,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_index_k".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_index_k".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_l.is_some()) {
             let values: Vec<Value> = self
@@ -220,7 +268,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_index_l".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_index_l".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.intensity_calc.is_some()) {
             let values: Vec<Value> = self
@@ -230,7 +281,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_intensity_calc".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_intensity_calc".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.intensity_meas.is_some()) {
             let values: Vec<Value> = self
@@ -240,7 +294,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_intensity_meas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_intensity_meas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.intensity_sigma.is_some()) {
             let values: Vec<Value> = self
@@ -250,7 +307,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_intensity_sigma".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_intensity_sigma".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.mean_path_length_tbar.is_some()) {
             let values: Vec<Value> = self
@@ -260,7 +320,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_mean_path_length_tbar".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_mean_path_length_tbar".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.observed_status.is_some()) {
             let values: Vec<Value> = self
@@ -270,7 +333,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_observed_status".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_observed_status".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.phase_calc.is_some()) {
             let values: Vec<Value> = self
@@ -280,7 +346,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_phase_calc".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_phase_calc".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.phase_meas.is_some()) {
             let values: Vec<Value> = self
@@ -290,7 +359,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_phase_meas".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_phase_meas".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.refinement_status.is_some()) {
             let values: Vec<Value> = self
@@ -300,7 +372,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_refinement_status".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_refinement_status".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scale_group_code.is_some()) {
             let values: Vec<Value> = self
@@ -310,7 +385,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_scale_group_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_scale_group_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.sint_lambda.is_some()) {
             let values: Vec<Value> = self
@@ -320,7 +398,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_sint/lambda".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_sint/lambda".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.symmetry_epsilon.is_some()) {
             let values: Vec<Value> = self
@@ -330,7 +411,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_symmetry_epsilon".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_symmetry_epsilon".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.symmetry_multiplicity.is_some()) {
             let values: Vec<Value> = self
@@ -340,7 +424,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_symmetry_multiplicity".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_symmetry_multiplicity".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.wavelength.is_some()) {
             let values: Vec<Value> = self
@@ -350,7 +437,10 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_wavelength".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_wavelength".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.wavelength_id.is_some()) {
             let values: Vec<Value> = self
@@ -360,15 +450,23 @@ impl CifCategory for Vec<Refln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("refln_wavelength_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("refln_wavelength_id".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -430,7 +528,10 @@ impl CifCategory for Vec<Refln> {
 fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Refln> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![Refln::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_a_calc") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_a_calc")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_a_calc", v) {
                 Ok(val) => rows[i].a_calc = val,
@@ -438,7 +539,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_a_meas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_a_meas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_a_meas", v) {
                 Ok(val) => rows[i].a_meas = val,
@@ -446,7 +550,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_b_calc") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_b_calc")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_b_calc", v) {
                 Ok(val) => rows[i].b_calc = val,
@@ -454,7 +561,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_b_meas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_b_meas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_b_meas", v) {
                 Ok(val) => rows[i].b_meas = val,
@@ -462,7 +572,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_class_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_class_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("refln_class_code", v) {
                 Ok(val) => rows[i].class_code = val,
@@ -470,7 +583,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_crystal_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_crystal_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("refln_crystal_id", v) {
                 Ok(val) => rows[i].crystal_id = val,
@@ -478,7 +594,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_d_spacing") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_d_spacing")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_d_spacing", v) {
                 Ok(val) => rows[i].d_spacing = val,
@@ -486,7 +605,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_f_calc") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_f_calc")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_f_calc", v) {
                 Ok(val) => rows[i].f_calc = val,
@@ -494,7 +616,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_f_meas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_f_meas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_f_meas", v) {
                 Ok(val) => rows[i].f_meas = val,
@@ -502,7 +627,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_f_sigma") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_f_sigma")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_f_sigma", v) {
                 Ok(val) => rows[i].f_sigma = val,
@@ -510,7 +638,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_f_squared_calc") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_f_squared_calc")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_f_squared_calc", v) {
                 Ok(val) => rows[i].f_squared_calc = val,
@@ -518,7 +649,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_f_squared_meas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_f_squared_meas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_f_squared_meas", v) {
                 Ok(val) => rows[i].f_squared_meas = val,
@@ -526,7 +660,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_f_squared_sigma") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_f_squared_sigma")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_f_squared_sigma", v) {
                 Ok(val) => rows[i].f_squared_sigma = val,
@@ -534,15 +671,26 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_include_status") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_include_status")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_closed_set("refln_include_status", v, |c| IncludeStatus::try_from(c).ok(), "IncludeStatus") {
+            match convert::read_closed_set(
+                "refln_include_status",
+                v,
+                |c| IncludeStatus::try_from(c).ok(),
+                "IncludeStatus",
+            ) {
                 Ok(val) => rows[i].include_status = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_index_h") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_index_h")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_index_h", v) {
                 Ok(val) => rows[i].index_h = val,
@@ -550,7 +698,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_index_k") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_index_k")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_index_k", v) {
                 Ok(val) => rows[i].index_k = val,
@@ -558,7 +709,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_index_l") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_index_l")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_index_l", v) {
                 Ok(val) => rows[i].index_l = val,
@@ -566,7 +720,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_intensity_calc") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_intensity_calc")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_intensity_calc", v) {
                 Ok(val) => rows[i].intensity_calc = val,
@@ -574,7 +731,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_intensity_meas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_intensity_meas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_intensity_meas", v) {
                 Ok(val) => rows[i].intensity_meas = val,
@@ -582,7 +742,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_intensity_sigma") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_intensity_sigma")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_intensity_sigma", v) {
                 Ok(val) => rows[i].intensity_sigma = val,
@@ -590,7 +753,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_mean_path_length_tbar") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_mean_path_length_tbar")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_mean_path_length_tbar", v) {
                 Ok(val) => rows[i].mean_path_length_tbar = val,
@@ -598,15 +764,26 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_observed_status") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_observed_status")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_closed_set("refln_observed_status", v, |c| ObservedStatus::try_from(c).ok(), "ObservedStatus") {
+            match convert::read_closed_set(
+                "refln_observed_status",
+                v,
+                |c| ObservedStatus::try_from(c).ok(),
+                "ObservedStatus",
+            ) {
                 Ok(val) => rows[i].observed_status = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_phase_calc") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_phase_calc")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_phase_calc", v) {
                 Ok(val) => rows[i].phase_calc = val,
@@ -614,7 +791,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_phase_meas") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_phase_meas")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_phase_meas", v) {
                 Ok(val) => rows[i].phase_meas = val,
@@ -622,15 +802,26 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_refinement_status") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_refinement_status")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_closed_set("refln_refinement_status", v, |c| RefinementStatus::try_from(c).ok(), "RefinementStatus") {
+            match convert::read_closed_set(
+                "refln_refinement_status",
+                v,
+                |c| RefinementStatus::try_from(c).ok(),
+                "RefinementStatus",
+            ) {
                 Ok(val) => rows[i].refinement_status = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_scale_group_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_scale_group_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("refln_scale_group_code", v) {
                 Ok(val) => rows[i].scale_group_code = val,
@@ -638,7 +829,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_sint/lambda") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_sint/lambda")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_sint/lambda", v) {
                 Ok(val) => rows[i].sint_lambda = val,
@@ -646,7 +840,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_symmetry_epsilon") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_symmetry_epsilon")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_symmetry_epsilon", v) {
                 Ok(val) => rows[i].symmetry_epsilon = val,
@@ -654,7 +851,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_symmetry_multiplicity") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_symmetry_multiplicity")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_symmetry_multiplicity", v) {
                 Ok(val) => rows[i].symmetry_multiplicity = val,
@@ -662,7 +862,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_wavelength") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_wavelength")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refln_wavelength", v) {
                 Ok(val) => rows[i].wavelength = val,
@@ -670,7 +873,10 @@ fn refln_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> V
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refln_wavelength_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refln_wavelength_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("refln_wavelength_id", v) {
                 Ok(val) => rows[i].wavelength_id = val,

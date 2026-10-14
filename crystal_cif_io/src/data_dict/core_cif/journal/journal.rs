@@ -6,11 +6,11 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
+use crate::core_cif::CifError;
 use crate::data_dict::core_cif::journal::PaperPages;
 use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Journal {
@@ -24,33 +24,44 @@ impl CifCategory for Journal {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.journal_data_validation_number {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("journal.data_validation_number".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("journal.data_validation_number".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.paper_number {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("journal_paper_number".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("journal_paper_number".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.paper_pages {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("journal_paper_pages".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("journal_paper_pages".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.paper_url {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("journal_paper_url".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("journal_paper_url".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -149,7 +160,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coden_astm".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coden_astm".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coden_cambridge.is_some()) {
             let values: Vec<Value> = self
@@ -159,7 +173,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coden_cambridge".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coden_cambridge".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_address.is_some()) {
             let values: Vec<Value> = self
@@ -169,7 +186,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_address".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_address".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_code.is_some()) {
             let values: Vec<Value> = self
@@ -179,7 +199,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_email.is_some()) {
             let values: Vec<Value> = self
@@ -189,7 +212,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_email".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_email".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_fax.is_some()) {
             let values: Vec<Value> = self
@@ -199,7 +225,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_fax".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_fax".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_name.is_some()) {
             let values: Vec<Value> = self
@@ -209,7 +238,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_name".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_name".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_notes.is_some()) {
             let values: Vec<Value> = self
@@ -219,7 +251,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_notes".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_notes".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.coeditor_phone.is_some()) {
             let values: Vec<Value> = self
@@ -229,7 +264,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_coeditor_phone".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_coeditor_phone".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.data_validation_number.is_some()) {
             let values: Vec<Value> = self
@@ -239,7 +277,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_data_validation_number".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_data_validation_number".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_accepted.is_some()) {
             let values: Vec<Value> = self
@@ -249,7 +290,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_accepted".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_accepted".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_from_coeditor.is_some()) {
             let values: Vec<Value> = self
@@ -259,7 +303,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_from_coeditor".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_from_coeditor".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_printers_final.is_some()) {
             let values: Vec<Value> = self
@@ -269,7 +316,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_printers_final".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_printers_final".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_printers_first.is_some()) {
             let values: Vec<Value> = self
@@ -279,7 +329,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_printers_first".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_printers_first".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_proofs_in.is_some()) {
             let values: Vec<Value> = self
@@ -289,7 +342,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_proofs_in".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_proofs_in".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_proofs_out.is_some()) {
             let values: Vec<Value> = self
@@ -299,7 +355,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_proofs_out".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_proofs_out".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_recd_copyright.is_some()) {
             let values: Vec<Value> = self
@@ -309,7 +368,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_recd_copyright".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_recd_copyright".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_recd_electronic.is_some()) {
             let values: Vec<Value> = self
@@ -319,7 +381,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_recd_electronic".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_recd_electronic".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_recd_hard_copy.is_some()) {
             let values: Vec<Value> = self
@@ -329,7 +394,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_recd_hard_copy".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_recd_hard_copy".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.date_to_coeditor.is_some()) {
             let values: Vec<Value> = self
@@ -339,7 +407,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_date_to_coeditor".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_date_to_coeditor".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.issue.is_some()) {
             let values: Vec<Value> = self
@@ -349,7 +420,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_issue".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_issue".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.language.is_some()) {
             let values: Vec<Value> = self
@@ -359,7 +433,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_language".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_language".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.name_full.is_some()) {
             let values: Vec<Value> = self
@@ -369,7 +446,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_name_full".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_name_full".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.page_first.is_some()) {
             let values: Vec<Value> = self
@@ -379,7 +459,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_page_first".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_page_first".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.page_last.is_some()) {
             let values: Vec<Value> = self
@@ -389,7 +472,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_page_last".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_page_last".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.paper_category.is_some()) {
             let values: Vec<Value> = self
@@ -399,7 +485,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_paper_category".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_paper_category".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.paper_doi.is_some()) {
             let values: Vec<Value> = self
@@ -409,7 +498,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_paper_doi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_paper_doi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.suppl_publ_number.is_some()) {
             let values: Vec<Value> = self
@@ -419,7 +511,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_suppl_publ_number".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_suppl_publ_number".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.suppl_publ_pages.is_some()) {
             let values: Vec<Value> = self
@@ -429,7 +524,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_suppl_publ_pages".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_suppl_publ_pages".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_address.is_some()) {
             let values: Vec<Value> = self
@@ -439,7 +537,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_address".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_address".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_code.is_some()) {
             let values: Vec<Value> = self
@@ -449,7 +550,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_email.is_some()) {
             let values: Vec<Value> = self
@@ -459,7 +563,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_email".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_email".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_fax.is_some()) {
             let values: Vec<Value> = self
@@ -469,7 +576,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_fax".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_fax".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_name.is_some()) {
             let values: Vec<Value> = self
@@ -479,7 +589,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_name".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_name".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_notes.is_some()) {
             let values: Vec<Value> = self
@@ -489,7 +602,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_notes".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_notes".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.techeditor_phone.is_some()) {
             let values: Vec<Value> = self
@@ -499,7 +615,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_techeditor_phone".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_techeditor_phone".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.volume.is_some()) {
             let values: Vec<Value> = self
@@ -509,7 +628,10 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_volume".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_volume".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.year.is_some()) {
             let values: Vec<Value> = self
@@ -519,15 +641,23 @@ impl CifCategory for Vec<JournalRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("journal_year".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("journal_year".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -596,7 +726,10 @@ impl CifCategory for Vec<JournalRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<JournalRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![JournalRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coden_astm") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coden_astm")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coden_astm", v) {
                 Ok(val) => rows[i].coden_astm = val,
@@ -604,7 +737,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coden_cambridge") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coden_cambridge")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coden_cambridge", v) {
                 Ok(val) => rows[i].coden_cambridge = val,
@@ -612,7 +748,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_address") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_address")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_address", v) {
                 Ok(val) => rows[i].coeditor_address = val,
@@ -620,7 +759,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_code", v) {
                 Ok(val) => rows[i].coeditor_code = val,
@@ -628,7 +770,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_email") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_email")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_email", v) {
                 Ok(val) => rows[i].coeditor_email = val,
@@ -636,7 +781,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_fax") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_fax")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_fax", v) {
                 Ok(val) => rows[i].coeditor_fax = val,
@@ -644,7 +792,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_name") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_name")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_name", v) {
                 Ok(val) => rows[i].coeditor_name = val,
@@ -652,7 +803,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_notes") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_notes")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_notes", v) {
                 Ok(val) => rows[i].coeditor_notes = val,
@@ -660,7 +814,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_phone") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_coeditor_phone")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_coeditor_phone", v) {
                 Ok(val) => rows[i].coeditor_phone = val,
@@ -668,7 +825,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_data_validation_number") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_data_validation_number")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_data_validation_number", v) {
                 Ok(val) => rows[i].data_validation_number = val,
@@ -676,7 +836,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_accepted") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_accepted")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_accepted", v) {
                 Ok(val) => rows[i].date_accepted = val,
@@ -684,7 +847,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_from_coeditor") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_from_coeditor")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_from_coeditor", v) {
                 Ok(val) => rows[i].date_from_coeditor = val,
@@ -692,7 +858,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_printers_final") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_printers_final")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_printers_final", v) {
                 Ok(val) => rows[i].date_printers_final = val,
@@ -700,7 +869,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_printers_first") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_printers_first")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_printers_first", v) {
                 Ok(val) => rows[i].date_printers_first = val,
@@ -708,7 +880,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_proofs_in") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_proofs_in")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_proofs_in", v) {
                 Ok(val) => rows[i].date_proofs_in = val,
@@ -716,7 +891,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_proofs_out") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_proofs_out")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_proofs_out", v) {
                 Ok(val) => rows[i].date_proofs_out = val,
@@ -724,7 +902,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_recd_copyright") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_recd_copyright")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_recd_copyright", v) {
                 Ok(val) => rows[i].date_recd_copyright = val,
@@ -732,7 +913,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_recd_electronic") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_recd_electronic")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_recd_electronic", v) {
                 Ok(val) => rows[i].date_recd_electronic = val,
@@ -740,7 +924,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_recd_hard_copy") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_recd_hard_copy")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_recd_hard_copy", v) {
                 Ok(val) => rows[i].date_recd_hard_copy = val,
@@ -748,7 +935,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_date_to_coeditor") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_date_to_coeditor")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_date_to_coeditor", v) {
                 Ok(val) => rows[i].date_to_coeditor = val,
@@ -756,7 +946,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_issue") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_issue")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_issue", v) {
                 Ok(val) => rows[i].issue = val,
@@ -764,7 +957,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_language") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_language")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_language", v) {
                 Ok(val) => rows[i].language = val,
@@ -772,7 +968,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_name_full") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_name_full")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_name_full", v) {
                 Ok(val) => rows[i].name_full = val,
@@ -780,7 +979,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_page_first") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_page_first")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_page_first", v) {
                 Ok(val) => rows[i].page_first = val,
@@ -788,7 +990,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_page_last") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_page_last")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_page_last", v) {
                 Ok(val) => rows[i].page_last = val,
@@ -796,7 +1001,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_paper_category") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_paper_category")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_paper_category", v) {
                 Ok(val) => rows[i].paper_category = val,
@@ -804,7 +1012,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_paper_doi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_paper_doi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_paper_doi", v) {
                 Ok(val) => rows[i].paper_doi = val,
@@ -812,7 +1023,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_suppl_publ_number") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_suppl_publ_number")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_suppl_publ_number", v) {
                 Ok(val) => rows[i].suppl_publ_number = val,
@@ -820,7 +1034,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_suppl_publ_pages") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_suppl_publ_pages")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_suppl_publ_pages", v) {
                 Ok(val) => rows[i].suppl_publ_pages = val,
@@ -828,7 +1045,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_address") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_address")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_address", v) {
                 Ok(val) => rows[i].techeditor_address = val,
@@ -836,7 +1056,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_code", v) {
                 Ok(val) => rows[i].techeditor_code = val,
@@ -844,7 +1067,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_email") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_email")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_email", v) {
                 Ok(val) => rows[i].techeditor_email = val,
@@ -852,7 +1078,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_fax") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_fax")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_fax", v) {
                 Ok(val) => rows[i].techeditor_fax = val,
@@ -860,7 +1089,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_name") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_name")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_name", v) {
                 Ok(val) => rows[i].techeditor_name = val,
@@ -868,7 +1100,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_notes") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_notes")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_notes", v) {
                 Ok(val) => rows[i].techeditor_notes = val,
@@ -876,7 +1111,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_phone") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_techeditor_phone")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_techeditor_phone", v) {
                 Ok(val) => rows[i].techeditor_phone = val,
@@ -884,7 +1122,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_volume") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_volume")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_volume", v) {
                 Ok(val) => rows[i].volume = val,
@@ -892,7 +1133,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Jou
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "journal_year") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "journal_year")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("journal_year", v) {
                 Ok(val) => rows[i].year = val,

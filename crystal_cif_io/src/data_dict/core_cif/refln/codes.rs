@@ -31,6 +31,11 @@ impl std::error::Error for ReflnCifError {}
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum IncludeStatus {
     Observed,
+    LessThan,
+    Absent,
+    Unreliable,
+    NotSatisfyHigh,
+    NotSatisfyLow,
 }
 
 impl IncludeStatus {
@@ -38,6 +43,11 @@ impl IncludeStatus {
     pub fn dictionary_value(&self) -> &str {
         match self {
             Self::Observed => "o",
+            Self::LessThan => "<",
+            Self::Absent => "-",
+            Self::Unreliable => "x",
+            Self::NotSatisfyHigh => "h",
+            Self::NotSatisfyLow => "l",
         }
     }
 }
@@ -72,6 +82,11 @@ impl TryFrom<&str> for IncludeStatus {
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
             "o" => Ok(Self::Observed),
+            "<" => Ok(Self::LessThan),
+            "-" => Ok(Self::Absent),
+            "x" => Ok(Self::Unreliable),
+            "h" => Ok(Self::NotSatisfyHigh),
+            "l" => Ok(Self::NotSatisfyLow),
             other => Err(ReflnCifError::new(format!(
                 "'{other}' is not a value of the _refln_include_status closed set"
             ))),
@@ -93,6 +108,11 @@ impl TryFrom<String> for IncludeStatus {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ObservedStatus {
     Observed,
+    LessThan,
+    Absent,
+    Unreliable,
+    NotSatisfyHigh,
+    NotSatisfyLow,
 }
 
 impl ObservedStatus {
@@ -100,6 +120,11 @@ impl ObservedStatus {
     pub fn dictionary_value(&self) -> &str {
         match self {
             Self::Observed => "o",
+            Self::LessThan => "<",
+            Self::Absent => "-",
+            Self::Unreliable => "x",
+            Self::NotSatisfyHigh => "h",
+            Self::NotSatisfyLow => "l",
         }
     }
 }
@@ -134,6 +159,11 @@ impl TryFrom<&str> for ObservedStatus {
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
             "o" => Ok(Self::Observed),
+            "<" => Ok(Self::LessThan),
+            "-" => Ok(Self::Absent),
+            "x" => Ok(Self::Unreliable),
+            "h" => Ok(Self::NotSatisfyHigh),
+            "l" => Ok(Self::NotSatisfyLow),
             other => Err(ReflnCifError::new(format!(
                 "'{other}' is not a value of the _refln_observed_status closed set"
             ))),
@@ -243,8 +273,9 @@ mod tests {
 
     #[test]
     fn closed_sets_reject_unknown_values() {
-        assert!(IncludeStatus::try_from("x").is_err());
-        assert!(ObservedStatus::try_from("x").is_err());
-        assert!(RefinementStatus::try_from("x").is_err());
+        // `z` is outside every closed set of this category.
+        assert!(IncludeStatus::try_from("z").is_err());
+        assert!(ObservedStatus::try_from("z").is_err());
+        assert!(RefinementStatus::try_from("z").is_err());
     }
 }

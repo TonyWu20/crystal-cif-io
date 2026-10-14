@@ -4,10 +4,10 @@
 //! registry column. `CifCategory` is on the `Vec<ReflnsShell>` group:
 //! it emits one `MultiValues` loop and fills the rows from the columns.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct ReflnsShell {
@@ -50,7 +50,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_d_res_high".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_d_res_high".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.d_res_low.is_some()) {
             let values: Vec<Value> = self
@@ -60,7 +63,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_d_res_low".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_d_res_low".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meani_over_sigi_all.is_some()) {
             let values: Vec<Value> = self
@@ -70,7 +76,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_meanI_over_sigI_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_meanI_over_sigI_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meani_over_sigi_gt.is_some()) {
             let values: Vec<Value> = self
@@ -80,7 +89,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_meanI_over_sigI_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_meanI_over_sigI_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meani_over_sigi_obs.is_some()) {
             let values: Vec<Value> = self
@@ -90,7 +102,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_meanI_over_sigI_obs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_meanI_over_sigI_obs".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meani_over_ui_all.is_some()) {
             let values: Vec<Value> = self
@@ -100,7 +115,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_meanI_over_uI_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_meanI_over_uI_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meani_over_ui_gt.is_some()) {
             let values: Vec<Value> = self
@@ -110,7 +128,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_meanI_over_uI_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_meanI_over_uI_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_measured_all.is_some()) {
             let values: Vec<Value> = self
@@ -120,7 +141,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_measured_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_measured_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_measured_gt.is_some()) {
             let values: Vec<Value> = self
@@ -130,7 +154,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_measured_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_measured_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_measured_obs.is_some()) {
             let values: Vec<Value> = self
@@ -140,7 +167,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_measured_obs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_measured_obs".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_possible.is_some()) {
             let values: Vec<Value> = self
@@ -150,7 +180,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_possible".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_possible".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_unique_all.is_some()) {
             let values: Vec<Value> = self
@@ -160,7 +193,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_unique_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_unique_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_unique_gt.is_some()) {
             let values: Vec<Value> = self
@@ -170,7 +206,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_unique_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_unique_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number_unique_obs.is_some()) {
             let values: Vec<Value> = self
@@ -180,7 +219,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_number_unique_obs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_number_unique_obs".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.percent_possible_all.is_some()) {
             let values: Vec<Value> = self
@@ -190,7 +232,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_percent_possible_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_percent_possible_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.percent_possible_gt.is_some()) {
             let values: Vec<Value> = self
@@ -200,7 +245,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_percent_possible_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_percent_possible_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.percent_possible_obs.is_some()) {
             let values: Vec<Value> = self
@@ -210,7 +258,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_percent_possible_obs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_percent_possible_obs".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.rmerge_f_all.is_some()) {
             let values: Vec<Value> = self
@@ -220,7 +271,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_Rmerge_F_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_Rmerge_F_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.rmerge_f_gt.is_some()) {
             let values: Vec<Value> = self
@@ -230,7 +284,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_Rmerge_F_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_Rmerge_F_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.rmerge_f_obs.is_some()) {
             let values: Vec<Value> = self
@@ -240,7 +297,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_Rmerge_F_obs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_Rmerge_F_obs".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.rmerge_i_all.is_some()) {
             let values: Vec<Value> = self
@@ -250,7 +310,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_Rmerge_I_all".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_Rmerge_I_all".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.rmerge_i_gt.is_some()) {
             let values: Vec<Value> = self
@@ -260,7 +323,10 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_Rmerge_I_gt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_Rmerge_I_gt".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.rmerge_i_obs.is_some()) {
             let values: Vec<Value> = self
@@ -270,15 +336,23 @@ impl CifCategory for Vec<ReflnsShell> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_shell_Rmerge_I_obs".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_shell_Rmerge_I_obs".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -329,10 +403,16 @@ impl CifCategory for Vec<ReflnsShell> {
     }
 }
 
-fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ReflnsShell> {
+fn reflnsshell_rows_from_columns(
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) -> Vec<ReflnsShell> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ReflnsShell::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_d_res_high") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_d_res_high")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_d_res_high", v) {
                 Ok(val) => rows[i].d_res_high = val,
@@ -340,7 +420,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_d_res_low") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_d_res_low")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_d_res_low", v) {
                 Ok(val) => rows[i].d_res_low = val,
@@ -348,7 +431,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_sigi_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_sigi_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_meani_over_sigi_all", v) {
                 Ok(val) => rows[i].meani_over_sigi_all = val,
@@ -356,7 +442,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_sigi_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_sigi_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_meani_over_sigi_gt", v) {
                 Ok(val) => rows[i].meani_over_sigi_gt = val,
@@ -364,7 +453,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_sigi_obs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_sigi_obs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_meani_over_sigi_obs", v) {
                 Ok(val) => rows[i].meani_over_sigi_obs = val,
@@ -372,7 +464,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_ui_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_ui_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_meani_over_ui_all", v) {
                 Ok(val) => rows[i].meani_over_ui_all = val,
@@ -380,7 +475,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_ui_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_meani_over_ui_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_meani_over_ui_gt", v) {
                 Ok(val) => rows[i].meani_over_ui_gt = val,
@@ -388,7 +486,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_measured_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_measured_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_measured_all", v) {
                 Ok(val) => rows[i].number_measured_all = val,
@@ -396,7 +497,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_measured_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_measured_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_measured_gt", v) {
                 Ok(val) => rows[i].number_measured_gt = val,
@@ -404,7 +508,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_measured_obs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_measured_obs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_measured_obs", v) {
                 Ok(val) => rows[i].number_measured_obs = val,
@@ -412,7 +519,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_possible") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_possible")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_possible", v) {
                 Ok(val) => rows[i].number_possible = val,
@@ -420,7 +530,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_unique_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_unique_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_unique_all", v) {
                 Ok(val) => rows[i].number_unique_all = val,
@@ -428,7 +541,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_unique_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_unique_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_unique_gt", v) {
                 Ok(val) => rows[i].number_unique_gt = val,
@@ -436,7 +552,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_unique_obs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_number_unique_obs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_number_unique_obs", v) {
                 Ok(val) => rows[i].number_unique_obs = val,
@@ -444,7 +563,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_percent_possible_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_percent_possible_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_percent_possible_all", v) {
                 Ok(val) => rows[i].percent_possible_all = val,
@@ -452,7 +574,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_percent_possible_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_percent_possible_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_percent_possible_gt", v) {
                 Ok(val) => rows[i].percent_possible_gt = val,
@@ -460,7 +585,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_percent_possible_obs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_percent_possible_obs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_percent_possible_obs", v) {
                 Ok(val) => rows[i].percent_possible_obs = val,
@@ -468,7 +596,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_f_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_f_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_rmerge_f_all", v) {
                 Ok(val) => rows[i].rmerge_f_all = val,
@@ -476,7 +607,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_f_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_f_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_rmerge_f_gt", v) {
                 Ok(val) => rows[i].rmerge_f_gt = val,
@@ -484,7 +618,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_f_obs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_f_obs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_rmerge_f_obs", v) {
                 Ok(val) => rows[i].rmerge_f_obs = val,
@@ -492,7 +629,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_i_all") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_i_all")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_rmerge_i_all", v) {
                 Ok(val) => rows[i].rmerge_i_all = val,
@@ -500,7 +640,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_i_gt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_i_gt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_rmerge_i_gt", v) {
                 Ok(val) => rows[i].rmerge_i_gt = val,
@@ -508,7 +651,10 @@ fn reflnsshell_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_i_obs") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_shell_rmerge_i_obs")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_shell_rmerge_i_obs", v) {
                 Ok(val) => rows[i].rmerge_i_obs = val,

@@ -4,11 +4,11 @@
 //! transform axes) and the `AtomSitesRow` loop row (the numbered
 //! transform-matrix and transform-vector families).
 
-use crystal_cif_fmt::grammar::{Tag, Numeric, CharString, Value};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
-use {crate::data_dict::core_cif::atom_sites::SolutionMethod};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::atom_sites::SolutionMethod;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct AtomSites {
@@ -23,39 +23,52 @@ impl CifCategory for AtomSites {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.cartn_transform_axes {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("atom_sites_Cartn_transform_axes".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("atom_sites_Cartn_transform_axes".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.solution_hydrogens {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("atom_sites_solution_hydrogens".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("atom_sites_solution_hydrogens".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.solution_primary {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("atom_sites_solution_primary".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("atom_sites_solution_primary".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.solution_secondary {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("atom_sites_solution_secondary".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("atom_sites_solution_secondary".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.special_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("atom_sites_special_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("atom_sites_special_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -70,19 +83,34 @@ impl CifCategory for AtomSites {
                         }
                     }
                     "atom_sites_solution_hydrogens" => {
-                        match convert::read_closed_set("atom_sites_solution_hydrogens", value, SolutionMethod::parse, "SolutionMethod") {
+                        match convert::read_closed_set(
+                            "atom_sites_solution_hydrogens",
+                            value,
+                            SolutionMethod::parse,
+                            "SolutionMethod",
+                        ) {
                             Ok(v) => self.solution_hydrogens = v,
                             Err(e) => errors.push(e),
                         }
                     }
                     "atom_sites_solution_primary" => {
-                        match convert::read_closed_set("atom_sites_solution_primary", value, SolutionMethod::parse, "SolutionMethod") {
+                        match convert::read_closed_set(
+                            "atom_sites_solution_primary",
+                            value,
+                            SolutionMethod::parse,
+                            "SolutionMethod",
+                        ) {
                             Ok(v) => self.solution_primary = v,
                             Err(e) => errors.push(e),
                         }
                     }
                     "atom_sites_solution_secondary" => {
-                        match convert::read_closed_set("atom_sites_solution_secondary", value, SolutionMethod::parse, "SolutionMethod") {
+                        match convert::read_closed_set(
+                            "atom_sites_solution_secondary",
+                            value,
+                            SolutionMethod::parse,
+                            "SolutionMethod",
+                        ) {
                             Ok(v) => self.solution_secondary = v,
                             Err(e) => errors.push(e),
                         }
@@ -174,7 +202,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_11".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_11".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_12.is_some()) {
             let values: Vec<Value> = self
@@ -184,7 +215,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_12".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_12".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_13.is_some()) {
             let values: Vec<Value> = self
@@ -194,7 +228,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_13".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_13".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_21.is_some()) {
             let values: Vec<Value> = self
@@ -204,7 +241,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_21".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_21".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_22.is_some()) {
             let values: Vec<Value> = self
@@ -214,7 +254,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_22".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_22".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_23.is_some()) {
             let values: Vec<Value> = self
@@ -224,7 +267,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_23".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_23".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_31.is_some()) {
             let values: Vec<Value> = self
@@ -234,7 +280,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_31".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_31".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_32.is_some()) {
             let values: Vec<Value> = self
@@ -244,7 +293,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_32".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_32".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_matrix_33.is_some()) {
             let values: Vec<Value> = self
@@ -254,7 +306,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_matrix_33".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_matrix_33".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_vector_1.is_some()) {
             let values: Vec<Value> = self
@@ -264,7 +319,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_vector_1".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_vector_1".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_vector_2.is_some()) {
             let values: Vec<Value> = self
@@ -274,7 +332,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_vector_2".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_vector_2".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.cartn_tran_vector_3.is_some()) {
             let values: Vec<Value> = self
@@ -284,7 +345,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_Cartn_tran_vector_3".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_Cartn_tran_vector_3".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_11.is_some()) {
             let values: Vec<Value> = self
@@ -294,7 +358,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_11".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_11".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_12.is_some()) {
             let values: Vec<Value> = self
@@ -304,7 +371,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_12".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_12".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_13.is_some()) {
             let values: Vec<Value> = self
@@ -314,7 +384,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_13".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_13".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_21.is_some()) {
             let values: Vec<Value> = self
@@ -324,7 +397,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_21".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_21".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_22.is_some()) {
             let values: Vec<Value> = self
@@ -334,7 +410,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_22".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_22".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_23.is_some()) {
             let values: Vec<Value> = self
@@ -344,7 +423,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_23".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_23".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_31.is_some()) {
             let values: Vec<Value> = self
@@ -354,7 +436,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_31".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_31".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_32.is_some()) {
             let values: Vec<Value> = self
@@ -364,7 +449,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_32".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_32".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_matrix_33.is_some()) {
             let values: Vec<Value> = self
@@ -374,7 +462,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_matrix_33".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_matrix_33".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_vector_1.is_some()) {
             let values: Vec<Value> = self
@@ -384,7 +475,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_vector_1".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_vector_1".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_vector_2.is_some()) {
             let values: Vec<Value> = self
@@ -394,7 +488,10 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_vector_2".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_vector_2".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.fract_tran_vector_3.is_some()) {
             let values: Vec<Value> = self
@@ -404,15 +501,23 @@ impl CifCategory for Vec<AtomSitesRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("atom_sites_fract_tran_vector_3".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("atom_sites_fract_tran_vector_3".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -438,7 +543,10 @@ impl CifCategory for Vec<AtomSitesRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<AtomSitesRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![AtomSitesRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_11") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_11")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_11", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_11 = val,
@@ -446,7 +554,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_12") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_12")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_12", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_12 = val,
@@ -454,7 +565,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_13") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_13")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_13", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_13 = val,
@@ -462,7 +576,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_21") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_21")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_21", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_21 = val,
@@ -470,7 +587,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_22") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_22")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_22", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_22 = val,
@@ -478,7 +598,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_23") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_23")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_23", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_23 = val,
@@ -486,7 +609,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_31") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_31")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_31", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_31 = val,
@@ -494,7 +620,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_32") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_32")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_32", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_32 = val,
@@ -502,7 +631,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_33") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_matrix_33")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_matrix_33", v) {
                 Ok(val) => rows[i].cartn_tran_matrix_33 = val,
@@ -510,7 +642,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_vector_1") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_vector_1")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_vector_1", v) {
                 Ok(val) => rows[i].cartn_tran_vector_1 = val,
@@ -518,7 +653,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_vector_2") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_vector_2")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_vector_2", v) {
                 Ok(val) => rows[i].cartn_tran_vector_2 = val,
@@ -526,7 +664,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_vector_3") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_cartn_tran_vector_3")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_cartn_tran_vector_3", v) {
                 Ok(val) => rows[i].cartn_tran_vector_3 = val,
@@ -534,7 +675,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_11") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_11")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_11", v) {
                 Ok(val) => rows[i].fract_tran_matrix_11 = val,
@@ -542,7 +686,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_12") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_12")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_12", v) {
                 Ok(val) => rows[i].fract_tran_matrix_12 = val,
@@ -550,7 +697,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_13") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_13")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_13", v) {
                 Ok(val) => rows[i].fract_tran_matrix_13 = val,
@@ -558,7 +708,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_21") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_21")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_21", v) {
                 Ok(val) => rows[i].fract_tran_matrix_21 = val,
@@ -566,7 +719,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_22") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_22")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_22", v) {
                 Ok(val) => rows[i].fract_tran_matrix_22 = val,
@@ -574,7 +730,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_23") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_23")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_23", v) {
                 Ok(val) => rows[i].fract_tran_matrix_23 = val,
@@ -582,7 +741,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_31") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_31")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_31", v) {
                 Ok(val) => rows[i].fract_tran_matrix_31 = val,
@@ -590,7 +752,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_32") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_32")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_32", v) {
                 Ok(val) => rows[i].fract_tran_matrix_32 = val,
@@ -598,7 +763,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_33") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_matrix_33")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_matrix_33", v) {
                 Ok(val) => rows[i].fract_tran_matrix_33 = val,
@@ -606,7 +774,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_vector_1") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_vector_1")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_vector_1", v) {
                 Ok(val) => rows[i].fract_tran_vector_1 = val,
@@ -614,7 +785,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_vector_2") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_vector_2")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_vector_2", v) {
                 Ok(val) => rows[i].fract_tran_vector_2 = val,
@@ -622,7 +796,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Ato
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_vector_3") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "atom_sites_fract_tran_vector_3")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("atom_sites_fract_tran_vector_3", v) {
                 Ok(val) => rows[i].fract_tran_vector_3 = val,

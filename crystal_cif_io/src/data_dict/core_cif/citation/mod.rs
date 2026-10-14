@@ -1,13 +1,13 @@
-mod coordinate_linkage;
 mod citation;
+mod coordinate_linkage;
 
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 
-pub use self::coordinate_linkage::CoordinateLinkage;
 pub use self::citation::{Citation, CitationRow};
+pub use self::coordinate_linkage::CoordinateLinkage;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

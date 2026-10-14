@@ -25,20 +25,30 @@ pub enum SymopError {
     /// general-position list.
     RowCount { expected: usize, supplied: usize },
     /// A supplied row text misses the computed operation.
-    Mismatch { row: usize, supplied: String, computed: String },
+    Mismatch {
+        row: usize,
+        supplied: String,
+        computed: String,
+    },
 }
 
 impl std::fmt::Display for SymopError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::RowCount { expected, supplied } => {
-                write!(f, "the supplied column holds {supplied} rows, the list holds {expected}")
+                write!(
+                    f,
+                    "the supplied column holds {supplied} rows, the list holds {expected}"
+                )
             }
             Self::Mismatch {
                 row,
                 supplied,
                 computed,
-            } => write!(f, "row {row} is {supplied:?}, the list computes {computed:?}"),
+            } => write!(
+                f,
+                "row {row} is {supplied:?}, the list computes {computed:?}"
+            ),
         }
     }
 }
@@ -63,9 +73,11 @@ fn matrix3(rows: [[i32; 3]; 3]) -> Matrix {
 }
 
 fn t_column(translation: [i32; 3]) -> Matrix {
-    Matrix::try_new((0..3)
-        .map(|i| vec![Number::Float(Float(translation[i] as f64 / 12.0))])
-        .collect::<Vec<_>>())
+    Matrix::try_new(
+        (0..3)
+            .map(|i| vec![Number::Float(Float(translation[i] as f64 / 12.0))])
+            .collect::<Vec<_>>(),
+    )
     .expect("a 3 x 1 column builds")
 }
 
@@ -92,11 +104,7 @@ impl Symop {
         operation_xyz: Option<Vec<CharString>>,
     ) -> Result<Vec<Symop>, SymopError> {
         let positions = group.general_positions();
-        let full: Vec<SeitzMatrix> = positions
-            .derive_full_sets()
-            .into_iter()
-            .flatten()
-            .collect();
+        let full: Vec<SeitzMatrix> = positions.derive_full_sets().into_iter().flatten().collect();
         let operations: Vec<String> = positions.formulas();
         if full.len() != operations.len() {
             return Err(SymopError::RowCount {
@@ -113,8 +121,7 @@ impl Symop {
                     supplied: supplied.len(),
                 });
             }
-            for (row, (supplied_row, computed_row)) in
-                supplied.iter().zip(&operations).enumerate()
+            for (row, (supplied_row, computed_row)) in supplied.iter().zip(&operations).enumerate()
             {
                 if squeeze(supplied_row.content()) != squeeze(computed_row) {
                     return Err(SymopError::Mismatch {
@@ -129,32 +136,16 @@ impl Symop {
         let mut rows = Vec::with_capacity(full.len());
         for (i, m) in full.iter().enumerate() {
             let rotation = m.rotation_part();
-            let r = matrix3([[
-                rotation[(0, 0)],
-                rotation[(0, 1)],
-                rotation[(0, 2)],
-            ], [
-                rotation[(1, 0)],
-                rotation[(1, 1)],
-                rotation[(1, 2)],
-            ], [
-                rotation[(2, 0)],
-                rotation[(2, 1)],
-                rotation[(2, 2)],
-            ]]);
-            let rt = matrix3([[
-                rotation[(0, 0)],
-                rotation[(1, 0)],
-                rotation[(2, 0)],
-            ], [
-                rotation[(0, 1)],
-                rotation[(1, 1)],
-                rotation[(2, 1)],
-            ], [
-                rotation[(0, 2)],
-                rotation[(1, 2)],
-                rotation[(2, 2)],
-            ]]);
+            let r = matrix3([
+                [rotation[(0, 0)], rotation[(0, 1)], rotation[(0, 2)]],
+                [rotation[(1, 0)], rotation[(1, 1)], rotation[(1, 2)]],
+                [rotation[(2, 0)], rotation[(2, 1)], rotation[(2, 2)]],
+            ]);
+            let rt = matrix3([
+                [rotation[(0, 0)], rotation[(1, 0)], rotation[(2, 0)]],
+                [rotation[(0, 1)], rotation[(1, 1)], rotation[(2, 1)]],
+                [rotation[(0, 2)], rotation[(1, 2)], rotation[(2, 2)]],
+            ]);
             let tr = m.translation_part();
             let t = t_column([tr[(0, 0)], tr[(1, 0)], tr[(2, 0)]]);
             let seitz = seitz4(m);
@@ -194,16 +185,25 @@ mod tests {
             .build()
             .expect("the rows build");
         assert_eq!(set.len(), 1);
-        assert_eq!(set[0].operation_xyz.as_ref().expect("xyz").content(), "x,y,z");
+        assert_eq!(
+            set[0].operation_xyz.as_ref().expect("xyz").content(),
+            "x,y,z"
+        );
         assert_eq!(set[0].id.as_ref().expect("id").content(), "1");
         let r = set[0].r.as_ref().expect("r");
         assert_eq!(
-            r.rows()[0].iter().map(|n| n.to_string()).collect::<Vec<_>>(),
+            r.rows()[0]
+                .iter()
+                .map(|n| n.to_string())
+                .collect::<Vec<_>>(),
             vec!["1", "0", "0"],
         );
         let t = set[0].t.as_ref().expect("t");
         assert_eq!(
-            t.rows()[0].iter().map(|n| n.to_string()).collect::<Vec<_>>(),
+            t.rows()[0]
+                .iter()
+                .map(|n| n.to_string())
+                .collect::<Vec<_>>(),
             vec!["0"],
         );
         assert_eq!(set.to_members().len(), 1);
@@ -229,11 +229,16 @@ mod tests {
             DataBlockMember::DataItems(items) => items.as_multi_values().expect("one loop item"),
             other => panic!("expected a loop member, got {other:?}"),
         };
-        let has_column = |name: &str| loop_columns
-            .columns()
-            .iter()
-            .any(|c| c.tag().as_ref() == name);
-        assert!(has_column("space_group_symop_id"), "the id column is present");
+        let has_column = |name: &str| {
+            loop_columns
+                .columns()
+                .iter()
+                .any(|c| c.tag().as_ref() == name)
+        };
+        assert!(
+            has_column("space_group_symop_id"),
+            "the id column is present"
+        );
         assert!(
             has_column("space_group_symop_operation_xyz"),
             "the operation column is present"
@@ -263,10 +268,7 @@ mod tests {
             .operation_xyz(vec![unquoted("-x,-y,-z"), unquoted("x,y,z")])
             .build()
             .unwrap_err();
-        assert!(matches!(
-            err,
-            SymopError::Mismatch { row: 0, .. }
-        ));
+        assert!(matches!(err, SymopError::Mismatch { row: 0, .. }));
     }
 
     #[test]

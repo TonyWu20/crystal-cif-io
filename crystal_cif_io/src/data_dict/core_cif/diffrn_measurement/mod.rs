@@ -9,11 +9,11 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+pub use self::diffrn_measurement::DiffrnMeasurement;
 pub use self::method_precession::MethodPrecession;
 pub use self::rotation_mode::RotationMode;
 pub use self::sample_tracking::SampleTracking;
 pub use self::specimen_attachment_type::SpecimenAttachmentType;
-pub use self::diffrn_measurement::DiffrnMeasurement;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

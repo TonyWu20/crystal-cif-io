@@ -9,28 +9,31 @@
 //! set records a [`CifError::ValueClass`].
 
 use crystal_cif_fmt::grammar::{
-    CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString, UnsignedInteger, Value,
+    CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString, UnsignedInteger,
+    Value,
 };
 
+use crate::core_cif::CifError;
+use crate::data_dict::core_cif::atom_type::{
+    AnalyticalMass, NumberInCell, OxidationNumber, Radius,
+};
 use crate::data_dict::core_cif::cell::CellAngle;
-use crate::data_dict::core_cif::atom_type::{AnalyticalMass, NumberInCell, OxidationNumber, Radius};
 use crate::data_dict::core_cif::chemical::{Enantioexcess, Temperature};
 use crate::data_dict::core_cif::chemical_conn_atom::{
     ConnAtomCharge, ConnAtomCount, ConnAtomDisplay, ConnAtomNumber,
 };
 use crate::data_dict::core_cif::chemical_conn_bond::BondAtomNumber;
 use crate::data_dict::core_cif::chemical_formula::FormulaWeight;
+use crate::data_dict::core_cif::exptl::{AbsorptCoefficient, CrystalCount, TransmissionFactor};
 use crate::data_dict::core_cif::geom_bond::{BondDistance, BondMultiplicity};
 use crate::data_dict::core_cif::geom_contact::ContactDistance;
 use crate::data_dict::core_cif::geom_hbond::HbondDistance;
 use crate::data_dict::core_cif::journal::PaperPages;
-use crate::data_dict::core_cif::exptl::{AbsorptCoefficient, CrystalCount, TransmissionFactor};
 use crate::data_dict::core_cif::refine::{Flack, NonNeg, Rogers};
 use crate::data_dict::core_cif::reflns::FriedelFraction;
 use crate::data_dict::core_cif::space_group::ITNumber;
 use crate::data_dict::core_cif::symmetry::IntTablesNumber;
 use crate::data_dict::matrix;
-use crate::core_cif::CifError;
 
 /// The value class name used in a [`CifError::ValueClass`] report.
 pub(crate) fn value_class_name(v: &Value) -> &'static str {
@@ -205,7 +208,10 @@ pub(crate) fn read_number_in_cell(tag: &str, v: &Value) -> Result<Option<NumberI
 
 /// Read a guarded range-payload item. The recorded value stores as
 /// written; the range guard applies at the write.
-pub(crate) fn read_oxidation_number(tag: &str, v: &Value) -> Result<Option<OxidationNumber>, CifError> {
+pub(crate) fn read_oxidation_number(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<OxidationNumber>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(OxidationNumber::from_numeric))
 }
@@ -310,10 +316,7 @@ pub(crate) fn read_contact_distance(
 
 /// Read a guarded range-payload item. The recorded value stores as
 /// written; the range guard applies at the write.
-pub(crate) fn read_hbond_distance(
-    tag: &str,
-    v: &Value,
-) -> Result<Option<HbondDistance>, CifError> {
+pub(crate) fn read_hbond_distance(tag: &str, v: &Value) -> Result<Option<HbondDistance>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(HbondDistance::from_numeric))
 }
@@ -347,10 +350,7 @@ pub(crate) fn read_absorpt_coefficient(
 
 /// Read a `CrystalCount` item. The recorded value stores as written;
 /// the range guard applies at the write.
-pub(crate) fn read_crystal_count(
-    tag: &str,
-    v: &Value,
-) -> Result<Option<CrystalCount>, CifError> {
+pub(crate) fn read_crystal_count(tag: &str, v: &Value) -> Result<Option<CrystalCount>, CifError> {
     read_numeric(tag, v).map(|n| n.map(CrystalCount::from_numeric))
 }
 
@@ -457,7 +457,9 @@ mod tests {
 
     #[test]
     fn read_numeric_reads_a_number_and_flags_a_wrong_class() {
-        assert!(read_numeric("t", &Value::Numeric(Numeric::from(1.5))).unwrap().is_some());
+        assert!(read_numeric("t", &Value::Numeric(Numeric::from(1.5)))
+            .unwrap()
+            .is_some());
         assert!(matches!(
             read_numeric("t", &char_value("x")).unwrap_err(),
             CifError::ValueClass { .. }
@@ -478,9 +480,16 @@ mod tests {
 
     #[test]
     fn read_matrix_checks_the_shape_and_the_class() {
-        let row = |vals: [f64; 3]| Value::List(vals.map(|v| Value::Numeric(Numeric::from(v))).into());
-        let good = Value::List(vec![row([1.0, 0.0, 0.0]), row([0.0, 1.0, 0.0]), row([0.0, 0.0, 1.0])]);
-        let m = read_matrix("t", &good, (3, 3)).unwrap().expect("the matrix reads");
+        let row =
+            |vals: [f64; 3]| Value::List(vals.map(|v| Value::Numeric(Numeric::from(v))).into());
+        let good = Value::List(vec![
+            row([1.0, 0.0, 0.0]),
+            row([0.0, 1.0, 0.0]),
+            row([0.0, 0.0, 1.0]),
+        ]);
+        let m = read_matrix("t", &good, (3, 3))
+            .unwrap()
+            .expect("the matrix reads");
         assert_eq!(m.shape(), (3, 3));
         let short = Value::List(vec![row([1.0, 0.0, 0.0]), row([0.0, 1.0, 0.0])]);
         assert!(matches!(
@@ -504,7 +513,11 @@ mod tests {
             read_closed_set("t", &char_value("nope"), AdpType::parse, "AdpType").unwrap_err(),
             CifError::ValueClass { .. }
         ));
-        assert!(read_closed_set("t", &Value::Inapplicable, AdpType::parse, "AdpType").unwrap().is_none());
+        assert!(
+            read_closed_set("t", &Value::Inapplicable, AdpType::parse, "AdpType")
+                .unwrap()
+                .is_none()
+        );
     }
 
     #[test]
@@ -512,14 +525,12 @@ mod tests {
         let s = read_char_text("t", &char_value("ab")).unwrap();
         assert_eq!(s.as_ref().map(|c| c.content()), Some("ab"));
         // A semicolon text field reads into the shared string type.
-        let tf = Value::TextField(
-            crystal_cif_fmt::grammar::TextField::SemiColonTextField(
-                crystal_cif_fmt::grammar::SemiColonTextField::new(vec![
-                    "line one".to_string(),
-                    "line two".to_string(),
-                ]),
-            ),
-        );
+        let tf = Value::TextField(crystal_cif_fmt::grammar::TextField::SemiColonTextField(
+            crystal_cif_fmt::grammar::SemiColonTextField::new(vec![
+                "line one".to_string(),
+                "line two".to_string(),
+            ]),
+        ));
         let s = read_char_text("t", &tf).unwrap();
         assert_eq!(s.as_ref().map(|c| c.content()), Some("line one\nline two"));
         assert!(matches!(
@@ -531,33 +542,55 @@ mod tests {
 
     #[test]
     fn the_guarded_newtypes_clamp_at_the_read() {
-        let angle = read_cell_angle("t", &Value::Numeric(Numeric::from(200.0f64))).unwrap().expect("reads");
+        let angle = read_cell_angle("t", &Value::Numeric(Numeric::from(200.0f64)))
+            .unwrap()
+            .expect("reads");
         assert_eq!(angle.angle().0, 180.0, "the angle clamps to 180");
-        let it = read_it_number("t", &Value::Numeric(Numeric::from(300.0f64))).unwrap().expect("reads");
+        let it = read_it_number("t", &Value::Numeric(Numeric::from(300.0f64)))
+            .unwrap()
+            .expect("reads");
         assert_eq!(it.to_string(), "230", "the IT number clamps to 230");
-        let mult = read_sym_multiplicity("t", &Value::Numeric(Numeric::from(300.0f64))).unwrap().expect("reads");
+        let mult = read_sym_multiplicity("t", &Value::Numeric(Numeric::from(300.0f64)))
+            .unwrap()
+            .expect("reads");
         assert_eq!(mult.to_string(), "192", "the multiplicity clamps to 192");
     }
-
 
     #[test]
     fn the_ranged_newtype_read_applies_the_constructor() {
         use crate::data_dict::core_cif::diffrn_source::TakeOffAngle;
-        let good = read_ranged_newtype("t", &Value::Numeric(Numeric::from(45.0)), TakeOffAngle::new).unwrap();
+        let good =
+            read_ranged_newtype("t", &Value::Numeric(Numeric::from(45.0)), TakeOffAngle::new)
+                .unwrap();
         assert_eq!(good.unwrap().value().0, 45.0, "the value reads");
-        let clamped = read_ranged_newtype("t", &Value::Numeric(Numeric::from(120.0)), TakeOffAngle::new).unwrap();
-        assert_eq!(clamped.unwrap().value().0, 90.0, "the out-of-range value clamps");
+        let clamped = read_ranged_newtype(
+            "t",
+            &Value::Numeric(Numeric::from(120.0)),
+            TakeOffAngle::new,
+        )
+        .unwrap();
+        assert_eq!(
+            clamped.unwrap().value().0,
+            90.0,
+            "the out-of-range value clamps"
+        );
         assert!(matches!(
             read_ranged_newtype("t", &char_value("x"), TakeOffAngle::new).unwrap_err(),
             CifError::ValueClass { .. }
         ));
-        assert!(read_ranged_newtype("t", &Value::Inapplicable, TakeOffAngle::new).unwrap().is_none());
+        assert!(
+            read_ranged_newtype("t", &Value::Inapplicable, TakeOffAngle::new)
+                .unwrap()
+                .is_none()
+        );
     }
 
     #[test]
     fn the_formula_weight_read_keeps_the_recorded_value() {
         let n = crate::data_dict::core_cif::range_check::number_as_f64;
-        let w = read_formula_weight("t", &Value::Numeric(Numeric::from(0.5f64))).unwrap().expect("reads");
+        let w = read_formula_weight("t", &Value::Numeric(Numeric::from(0.5f64)))
+            .unwrap()
+            .expect("reads");
         // The range guard applies at the write, not the read. A recorded
         // value below the `1.0:` floor stores as written.
         assert_eq!(n(&w.value().number()), 0.5);
@@ -569,8 +602,7 @@ mod tests {
             BravaisType, CentringType, ItCoordinateSystemCode,
         };
         for code in [
-            "aP", "mP", "mS", "oP", "oS", "oI", "oF", "tP", "tI", "hP", "hR",
-            "cP", "cI", "cF",
+            "aP", "mP", "mS", "oP", "oS", "oI", "oF", "tP", "tI", "hP", "hR", "cP", "cI", "cF",
         ] {
             assert_eq!(
                 BravaisType::parse(code).unwrap().to_string(),
@@ -585,11 +617,23 @@ mod tests {
                 "centring {code}"
             );
         }
-        assert_eq!(ItCoordinateSystemCode::parse("b1").unwrap().to_string(), "b1");
-        assert_eq!(ItCoordinateSystemCode::parse("-cba").unwrap().to_string(), "-cba");
-        assert_eq!(ItCoordinateSystemCode::parse("2ba-c").unwrap().to_string(), "2ba-c");
+        assert_eq!(
+            ItCoordinateSystemCode::parse("b1").unwrap().to_string(),
+            "b1"
+        );
+        assert_eq!(
+            ItCoordinateSystemCode::parse("-cba").unwrap().to_string(),
+            "-cba"
+        );
+        assert_eq!(
+            ItCoordinateSystemCode::parse("2ba-c").unwrap().to_string(),
+            "2ba-c"
+        );
         assert_eq!(ItCoordinateSystemCode::parse("r").unwrap().to_string(), "r");
-        assert!(BravaisType::parse("aQ").is_none(), "the code is not in the set");
+        assert!(
+            BravaisType::parse("aQ").is_none(),
+            "the code is not in the set"
+        );
         assert!(CentringType::parse("Q").is_none());
         assert!(ItCoordinateSystemCode::parse("b9").is_none());
     }

@@ -6,10 +6,10 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Computing {
@@ -20,15 +20,20 @@ impl CifCategory for Computing {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.sample_tracking {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("computing_sample_tracking".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("computing_sample_tracking".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -78,7 +83,10 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_cell_refinement".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_cell_refinement".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.data_collection.is_some()) {
             let values: Vec<Value> = self
@@ -88,7 +96,10 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_data_collection".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_data_collection".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.data_reduction.is_some()) {
             let values: Vec<Value> = self
@@ -98,7 +109,10 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_data_reduction".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_data_reduction".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.molecular_graphics.is_some()) {
             let values: Vec<Value> = self
@@ -108,7 +122,10 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_molecular_graphics".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_molecular_graphics".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.publication_material.is_some()) {
             let values: Vec<Value> = self
@@ -118,7 +135,10 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_publication_material".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_publication_material".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.structure_refinement.is_some()) {
             let values: Vec<Value> = self
@@ -128,7 +148,10 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_structure_refinement".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_structure_refinement".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.structure_solution.is_some()) {
             let values: Vec<Value> = self
@@ -138,15 +161,23 @@ impl CifCategory for Vec<ComputingRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("computing_structure_solution".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("computing_structure_solution".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -184,7 +215,10 @@ impl CifCategory for Vec<ComputingRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ComputingRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ComputingRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_cell_refinement") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_cell_refinement")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_cell_refinement", v) {
                 Ok(val) => rows[i].cell_refinement = val,
@@ -192,7 +226,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Com
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_data_collection") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_data_collection")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_data_collection", v) {
                 Ok(val) => rows[i].data_collection = val,
@@ -200,7 +237,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Com
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_data_reduction") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_data_reduction")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_data_reduction", v) {
                 Ok(val) => rows[i].data_reduction = val,
@@ -208,7 +248,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Com
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_molecular_graphics") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_molecular_graphics")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_molecular_graphics", v) {
                 Ok(val) => rows[i].molecular_graphics = val,
@@ -216,7 +259,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Com
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_publication_material") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_publication_material")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_publication_material", v) {
                 Ok(val) => rows[i].publication_material = val,
@@ -224,7 +270,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Com
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_structure_refinement") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_structure_refinement")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_structure_refinement", v) {
                 Ok(val) => rows[i].structure_refinement = val,
@@ -232,7 +281,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Com
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "computing_structure_solution") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "computing_structure_solution")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("computing_structure_solution", v) {
                 Ok(val) => rows[i].structure_solution = val,

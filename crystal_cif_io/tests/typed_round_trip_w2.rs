@@ -6,15 +6,17 @@
 
 use crystal_cif_fmt::grammar::{SingleLineData, Tag, Value};
 use crystal_cif_fmt::{
-    CharString, DataBlock, DataBlockHeading, DataBlockMember, DataItems, Numeric, SaveFrame,
-    SaveFrameHeading, UnquotedString, parse_cif,
+    parse_cif, CharString, DataBlock, DataBlockHeading, DataBlockMember, DataItems, Numeric,
+    SaveFrame, SaveFrameHeading, UnquotedString,
 };
 
 use crystal_cif_io::core_cif::CoreCif;
 use crystal_cif_io::data_dict::core_cif::CifCategory;
 
 fn file(name: &str) -> String {
-    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().expect("the worktree root");
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("the worktree root");
     let path = root.join("crystal_cif_fmt/tests/").join(name);
     std::fs::read_to_string(path).expect("the file reads")
 }
@@ -69,12 +71,18 @@ fn has_single_in_extra(doc: &CoreCif, tag: &str) -> bool {
 fn the_reflns_fixture_types_the_whole_block() {
     let block = block_at(&file("fixtures/14_reflns.cif"), 0);
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
-    assert!(doc.exptl.crystals_number.is_some(), "the crystal count types");
+    assert!(
+        doc.exptl.crystals_number.is_some(),
+        "the crystal count types"
+    );
     assert!(
         doc.exptl.absorpt_correction_type.is_some(),
         "the correction type types"
     );
-    assert!(doc.reflns.number_total.is_some(), "the reflection count types");
+    assert!(
+        doc.reflns.number_total.is_some(),
+        "the reflection count types"
+    );
     assert!(
         doc.refine.ls_hydrogen_treatment.is_some(),
         "the hydrogen treatment types"
@@ -86,7 +94,10 @@ fn the_reflns_fixture_types_the_whole_block() {
         "the case-variant tag types"
     );
     assert!(!doc.refln.is_empty(), "the refln rows type");
-    assert!(doc.symmetry.cell_setting.is_some(), "the cell setting types");
+    assert!(
+        doc.symmetry.cell_setting.is_some(),
+        "the cell setting types"
+    );
     assert!(doc.extra.is_empty(), "the whole block types");
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
@@ -113,7 +124,10 @@ fn the_cod_sg_file_round_trips_the_tier_groups() {
         doc.refine.ls_hydrogen_treatment.is_some(),
         "the hydrogen treatment types"
     );
-    assert!(doc.reflns.number_total.is_some(), "the reflection count types");
+    assert!(
+        doc.reflns.number_total.is_some(),
+        "the reflection count types"
+    );
     assert!(!doc.symmetry_equiv.is_empty(), "the equiv rows type");
     assert!(
         doc.symmetry_equiv[0].pos_as_xyz.is_some(),
@@ -164,7 +178,10 @@ fn the_iucr_example_round_trips_the_tier_groups() {
         doc.exptl.absorpt_correction_type.is_some(),
         "the correction type types"
     );
-    assert!(doc.reflns.number_total.is_some(), "the reflection count types");
+    assert!(
+        doc.reflns.number_total.is_some(),
+        "the reflection count types"
+    );
     assert!(
         doc.refine.ls_weighting_scheme.is_some(),
         "the weighting scheme types"
@@ -203,32 +220,24 @@ fn the_tier_save_frame_and_foreign_tag_are_the_residue() {
     // typed item types. The other two are the residue, order kept.
     let unquoted = |text: &str| CharString::Unquoted(UnquotedString::new(text.to_string()));
     let members = vec![
-        DataBlockMember::DataItems(DataItems::SingleValue(
-            SingleLineData::from_tag_value((
-                Tag::new("symmetry_cell_setting".to_string()),
-                Value::CharString(unquoted("monoclinic")),
-            )),
-        )),
+        DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
+            Tag::new("symmetry_cell_setting".to_string()),
+            Value::CharString(unquoted("monoclinic")),
+        )))),
         DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
             SaveFrameHeading::new("reflns_scale_I_obsd".to_string()),
-            vec![DataItems::SingleValue(
-                SingleLineData::from_tag_value((
-                    Tag::new("reflns_scale_FH".to_string()),
-                    Value::Numeric(Numeric::from(10.0)),
-                )),
-            )],
+            vec![DataItems::SingleValue(SingleLineData::from_tag_value((
+                Tag::new("reflns_scale_FH".to_string()),
+                Value::Numeric(Numeric::from(10.0)),
+            )))],
         ))),
-        DataBlockMember::DataItems(DataItems::SingleValue(
-            SingleLineData::from_tag_value((
-                Tag::new("audit_author_name".to_string()),
-                Value::CharString(unquoted("author")),
-            )),
-        )),
+        DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
+            Tag::new("audit_author_name".to_string()),
+            Value::CharString(unquoted("author")),
+        )))),
     ];
-    let block = DataBlock::from_heading_members((
-        DataBlockHeading::new("probe".to_string()),
-        members,
-    ));
+    let block =
+        DataBlock::from_heading_members((DataBlockHeading::new("probe".to_string()), members));
     let doc = CoreCif::from_block(&block).expect("the read is clean");
     assert!(
         doc.symmetry.cell_setting.is_some(),

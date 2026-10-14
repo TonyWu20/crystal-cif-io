@@ -27,13 +27,13 @@ pub use self::ambient_temp_lt::AmbientTempLt;
 pub use self::ambient_temperature::AmbientTemperature;
 pub use self::ambient_temperature_gt::AmbientTemperatureGt;
 pub use self::ambient_temperature_lt::AmbientTemperatureLt;
+pub use self::diffrn::{Diffrn, DiffrnRow};
 pub use self::flux_density::FluxDensity;
 pub use self::measured_fraction_theta_full::MeasuredFractionThetaFull;
 pub use self::measured_fraction_theta_max::MeasuredFractionThetaMax;
 pub use self::precession_semi_angle::PrecessionSemiAngle;
 pub use self::total_dose::TotalDose;
 pub use self::total_exposure_time::TotalExposureTime;
-pub use self::diffrn::{Diffrn, DiffrnRow};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

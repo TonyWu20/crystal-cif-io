@@ -20,6 +20,7 @@ use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 
 pub use self::detect_slit_horiz::DetectSlitHoriz;
 pub use self::detect_slit_vert::DetectSlitVert;
+pub use self::diffrn_refln::DiffrnRefln;
 pub use self::elapsed_time::ElapsedTime;
 pub use self::intensity_net::IntensityNet;
 pub use self::intensity_sigma::IntensitySigma;
@@ -31,7 +32,6 @@ pub use self::scan_time_backgd::ScanTimeBackgd;
 pub use self::scan_width::ScanWidth;
 pub use self::sint_lambda::SintLambda;
 pub use self::wavelength::Wavelength;
-pub use self::diffrn_refln::DiffrnRefln;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

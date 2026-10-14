@@ -36,6 +36,15 @@ pub enum HydrogenTreatment {
     Noref,
     Constr,
     Hetero,
+    Heteroxyz,
+    HeteroU,
+    Heteronoref,
+    HeteroMixed,
+    HeteroxyzMixed,
+    HeteroUMixed,
+    HeteronorefMixed,
+    Mixed,
+    Undef,
 }
 
 impl HydrogenTreatment {
@@ -48,6 +57,15 @@ impl HydrogenTreatment {
             Self::Noref => "noref",
             Self::Constr => "constr",
             Self::Hetero => "hetero",
+            Self::Heteroxyz => "heteroxyz",
+            Self::HeteroU => "heteroU",
+            Self::Heteronoref => "heteronoref",
+            Self::HeteroMixed => "hetero-mixed",
+            Self::HeteroxyzMixed => "heteroxyz-mixed",
+            Self::HeteroUMixed => "heteroU-mixed",
+            Self::HeteronorefMixed => "heteronoref-mixed",
+            Self::Mixed => "mixed",
+            Self::Undef => "undef",
         }
     }
 }
@@ -87,6 +105,15 @@ impl TryFrom<&str> for HydrogenTreatment {
             "noref" => Ok(Self::Noref),
             "constr" => Ok(Self::Constr),
             "hetero" => Ok(Self::Hetero),
+            "heteroxyz" => Ok(Self::Heteroxyz),
+            "heterou" => Ok(Self::HeteroU),
+            "heteronoref" => Ok(Self::Heteronoref),
+            "hetero-mixed" => Ok(Self::HeteroMixed),
+            "heteroxyz-mixed" => Ok(Self::HeteroxyzMixed),
+            "heterou-mixed" => Ok(Self::HeteroUMixed),
+            "heteronoref-mixed" => Ok(Self::HeteronorefMixed),
+            "mixed" => Ok(Self::Mixed),
+            "undef" => Ok(Self::Undef),
             other => Err(RefineCifError::new(format!(
                 "'{other}' is not a value of the _refine_ls_hydrogen_treatment closed set"
             ))),

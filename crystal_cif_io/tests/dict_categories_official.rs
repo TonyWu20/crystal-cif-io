@@ -11,14 +11,13 @@ use std::path::PathBuf;
 
 use serde_json::Value;
 
-
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
 }
 
 fn load(path: &std::path::Path) -> Value {
-    let raw = std::fs::read_to_string(path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).unwrap_or_else(|e| panic!("parse {}: {e}", path.display()))
 }
 
@@ -45,14 +44,18 @@ fn the_official_category_set_matches_the_inventory() {
         62,
         "the official list holds 62 categories"
     );
-    let missing: Vec<&String> =
-        official_cats.iter().filter(|c| !recorded.contains(*c)).collect();
+    let missing: Vec<&String> = official_cats
+        .iter()
+        .filter(|c| !recorded.contains(*c))
+        .collect();
     assert!(
         missing.is_empty(),
         "official categories absent from the recorded inventory: {missing:?}"
     );
-    let extra: Vec<&String> =
-        recorded.iter().filter(|c| !official_cats.contains(*c)).collect();
+    let extra: Vec<&String> = recorded
+        .iter()
+        .filter(|c| !official_cats.contains(*c))
+        .collect();
     assert!(
         extra.is_empty(),
         "recorded inventory categories absent from the official list: {extra:?}"

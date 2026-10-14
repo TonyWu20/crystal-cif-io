@@ -12,6 +12,8 @@ use crystal_cif_fmt::grammar::DataBlock;
 use crystal_cif_fmt::{DataBlockHeading, DataBlockMember};
 
 use crate::data_dict::core_cif::atom_site::AtomSite;
+use crate::data_dict::core_cif::atom_sites::{AtomSites, AtomSitesRow};
+use crate::data_dict::core_cif::atom_type::{AtomType, AtomTypeRow};
 use crate::data_dict::core_cif::audit::Audit;
 use crate::data_dict::core_cif::audit_author::{AuditAuthor, AuditAuthorRow};
 use crate::data_dict::core_cif::audit_conform::{AuditConform, AuditConformRow};
@@ -19,14 +21,20 @@ use crate::data_dict::core_cif::audit_contact_author::AuditContactAuthor;
 use crate::data_dict::core_cif::audit_link::AuditLink;
 use crate::data_dict::core_cif::cell::Cell;
 use crate::data_dict::core_cif::cell_measurement_refln::CellMeasurementRefln;
+use crate::data_dict::core_cif::chemical::{Chemical, ChemicalRow};
+use crate::data_dict::core_cif::chemical_conn_atom::ChemicalConnAtomRow;
+use crate::data_dict::core_cif::chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow};
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
+use crate::data_dict::core_cif::citation::{Citation, CitationRow};
+use crate::data_dict::core_cif::citation_author::CitationAuthor;
+use crate::data_dict::core_cif::citation_editor::{CitationEditor, CitationEditorRow};
+use crate::data_dict::core_cif::computing::{Computing, ComputingRow};
+use crate::data_dict::core_cif::database::{Database, DatabaseRow};
 use crate::data_dict::core_cif::diffrn::{Diffrn, DiffrnRow};
 use crate::data_dict::core_cif::diffrn_attenuator::DiffrnAttenuator;
 use crate::data_dict::core_cif::diffrn_detector::DiffrnDetector;
 use crate::data_dict::core_cif::diffrn_measurement::DiffrnMeasurement;
-use crate::data_dict::core_cif::diffrn_orient_matrix::{
-    DiffrnOrientMatrix, DiffrnOrientMatrixRow,
-};
+use crate::data_dict::core_cif::diffrn_orient_matrix::{DiffrnOrientMatrix, DiffrnOrientMatrixRow};
 use crate::data_dict::core_cif::diffrn_orient_refln::DiffrnOrientRefln;
 use crate::data_dict::core_cif::diffrn_radiation::DiffrnRadiation;
 use crate::data_dict::core_cif::diffrn_radiation_wavelength::DiffrnRadiationWavelengthRow;
@@ -39,35 +47,21 @@ use crate::data_dict::core_cif::diffrn_standard_refln::{
     DiffrnStandardRefln, DiffrnStandardReflnRow,
 };
 use crate::data_dict::core_cif::diffrn_standards::DiffrnStandards;
-use crate::data_dict::core_cif::citation::{Citation, CitationRow};
-use crate::data_dict::core_cif::citation_author::CitationAuthor;
-use crate::data_dict::core_cif::citation_editor::{CitationEditor, CitationEditorRow};
-use crate::data_dict::core_cif::computing::{Computing, ComputingRow};
-use crate::data_dict::core_cif::database::{Database, DatabaseRow};
-use crate::data_dict::core_cif::journal::{Journal, JournalRow};
-use crate::data_dict::core_cif::journal_index::{JournalIndex, JournalIndexRow};
-use crate::data_dict::core_cif::publ::{Publ, PublRow};
-use crate::data_dict::core_cif::publ_author::{PublAuthor, PublAuthorRow};
-use crate::data_dict::core_cif::publ_body::PublBody;
-use crate::data_dict::core_cif::publ_manuscript_incl::PublManuscriptIncl;
-use crate::data_dict::core_cif::space_group::SpaceGroup;
-use crate::data_dict::core_cif::space_group_symop::Symop;
-use crate::data_dict::core_cif::atom_sites::{AtomSites, AtomSitesRow};
-use crate::data_dict::core_cif::atom_type::{AtomType, AtomTypeRow};
-use crate::data_dict::core_cif::chemical::{Chemical, ChemicalRow};
-use crate::data_dict::core_cif::chemical_conn_atom::ChemicalConnAtomRow;
-use crate::data_dict::core_cif::chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow};
+use crate::data_dict::core_cif::exptl::Exptl;
+use crate::data_dict::core_cif::exptl_crystal::ExptlCrystal;
+use crate::data_dict::core_cif::exptl_crystal_face::ExptlCrystalFace;
 use crate::data_dict::core_cif::geom::Geom;
 use crate::data_dict::core_cif::geom_angle::{GeomAngle, GeomAngleRow};
 use crate::data_dict::core_cif::geom_bond::{GeomBond, GeomBondRow};
 use crate::data_dict::core_cif::geom_contact::{GeomContact, GeomContactRow};
 use crate::data_dict::core_cif::geom_hbond::{GeomHbond, GeomHbondRow};
 use crate::data_dict::core_cif::geom_torsion::{GeomTorsion, GeomTorsionRow};
-use crate::data_dict::core_cif::valence_param::{ValenceParam, ValenceParamRow};
-use crate::data_dict::core_cif::valence_ref::ValenceRefRow;
-use crate::data_dict::core_cif::exptl::Exptl;
-use crate::data_dict::core_cif::exptl_crystal::ExptlCrystal;
-use crate::data_dict::core_cif::exptl_crystal_face::ExptlCrystalFace;
+use crate::data_dict::core_cif::journal::{Journal, JournalRow};
+use crate::data_dict::core_cif::journal_index::{JournalIndex, JournalIndexRow};
+use crate::data_dict::core_cif::publ::{Publ, PublRow};
+use crate::data_dict::core_cif::publ_author::{PublAuthor, PublAuthorRow};
+use crate::data_dict::core_cif::publ_body::PublBody;
+use crate::data_dict::core_cif::publ_manuscript_incl::PublManuscriptIncl;
 use crate::data_dict::core_cif::refine::Refine;
 use crate::data_dict::core_cif::refine_ls_class::RefineLsClass;
 use crate::data_dict::core_cif::refln::Refln;
@@ -75,8 +69,12 @@ use crate::data_dict::core_cif::reflns::Reflns;
 use crate::data_dict::core_cif::reflns_class::ReflnsClass;
 use crate::data_dict::core_cif::reflns_scale::ReflnsScale;
 use crate::data_dict::core_cif::reflns_shell::ReflnsShell;
+use crate::data_dict::core_cif::space_group::SpaceGroup;
+use crate::data_dict::core_cif::space_group_symop::Symop;
 use crate::data_dict::core_cif::symmetry::Symmetry;
 use crate::data_dict::core_cif::symmetry_equiv::SymmetryEquiv;
+use crate::data_dict::core_cif::valence_param::{ValenceParam, ValenceParamRow};
+use crate::data_dict::core_cif::valence_ref::ValenceRefRow;
 use crate::data_dict::core_cif::CifCategory;
 
 /// A read-path conformance error of the typed layer.
@@ -108,7 +106,10 @@ impl fmt::Display for CifError {
                 tag,
                 expected,
                 found,
-            } => write!(f, "{tag}: expected the {expected} value class, found {found}"),
+            } => write!(
+                f,
+                "{tag}: expected the {expected} value class, found {found}"
+            ),
             Self::Shape {
                 tag,
                 expected,
@@ -352,7 +353,8 @@ impl CoreCif {
         errors.extend(audit_conform_errors);
         let (residue, audit_conform_rows_errors) = doc.audit_conform_rows.from_members(&residue);
         errors.extend(audit_conform_rows_errors);
-        let (residue, audit_contact_author_errors) = doc.audit_contact_author.from_members(&residue);
+        let (residue, audit_contact_author_errors) =
+            doc.audit_contact_author.from_members(&residue);
         errors.extend(audit_contact_author_errors);
         let (residue, audit_link_errors) = doc.audit_link.from_members(&residue);
         errors.extend(audit_link_errors);
@@ -364,7 +366,8 @@ impl CoreCif {
         errors.extend(citation_author_errors);
         let (residue, citation_editor_errors) = doc.citation_editor.from_members(&residue);
         errors.extend(citation_editor_errors);
-        let (residue, citation_editor_rows_errors) = doc.citation_editor_rows.from_members(&residue);
+        let (residue, citation_editor_rows_errors) =
+            doc.citation_editor_rows.from_members(&residue);
         errors.extend(citation_editor_rows_errors);
         let (residue, computing_errors) = doc.computing.from_members(&residue);
         errors.extend(computing_errors);
@@ -392,7 +395,8 @@ impl CoreCif {
         errors.extend(publ_author_rows_errors);
         let (residue, publ_body_errors) = doc.publ_body.from_members(&residue);
         errors.extend(publ_body_errors);
-        let (residue, publ_manuscript_incl_errors) = doc.publ_manuscript_incl.from_members(&residue);
+        let (residue, publ_manuscript_incl_errors) =
+            doc.publ_manuscript_incl.from_members(&residue);
         errors.extend(publ_manuscript_incl_errors);
         // T2 wave: the twelve categories of the T2 tier.
         let (residue, exptl_errors) = doc.exptl.from_members(&residue);
@@ -522,10 +526,7 @@ impl CoreCif {
         members.extend(self.symmetry.to_members());
         members.extend(self.symmetry_equiv.to_members());
         members.extend(self.extra.iter().cloned());
-        DataBlock::from_heading_members((
-            DataBlockHeading::new(heading.to_string()),
-            members,
-        ))
+        DataBlock::from_heading_members((DataBlockHeading::new(heading.to_string()), members))
     }
 
     /// Check the wave-1 required sets. Reports every missing required
@@ -589,12 +590,8 @@ impl CoreCif {
                 }
             }
             // Exactly one coordinate mode per row.
-            let fract = row.fract_x.is_some()
-                && row.fract_y.is_some()
-                && row.fract_z.is_some();
-            let cartn = row.cartn_x.is_some()
-                && row.cartn_y.is_some()
-                && row.cartn_z.is_some();
+            let fract = row.fract_x.is_some() && row.fract_y.is_some() && row.fract_z.is_some();
+            let cartn = row.cartn_x.is_some() && row.cartn_y.is_some() && row.cartn_z.is_some();
             if !fract && !cartn {
                 errors.push(CifError::Missing {
                     category: "atom_site",
@@ -646,4 +643,3 @@ impl CoreCif {
         }
     }
 }
-

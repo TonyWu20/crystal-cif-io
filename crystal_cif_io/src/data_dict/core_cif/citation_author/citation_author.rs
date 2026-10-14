@@ -5,10 +5,10 @@
 //! loop and fills the rows from the columns. Char items read leniently:
 //! the tier corpus records them as text fields.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 /// The `citation_author` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
@@ -32,7 +32,10 @@ impl CifCategory for Vec<CitationAuthor> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("citation_author_citation_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("citation_author_citation_id".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.name.is_some()) {
             let values: Vec<Value> = self
@@ -42,7 +45,10 @@ impl CifCategory for Vec<CitationAuthor> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("citation_author_name".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("citation_author_name".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.ordinal.is_some()) {
             let values: Vec<Value> = self
@@ -52,15 +58,23 @@ impl CifCategory for Vec<CitationAuthor> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("citation_author_ordinal".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("citation_author_ordinal".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -94,7 +108,10 @@ impl CifCategory for Vec<CitationAuthor> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<CitationAuthor> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![CitationAuthor::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "citation_author_citation_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "citation_author_citation_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("citation_author_citation_id", v) {
                 Ok(val) => rows[i].citation_id = val,
@@ -102,7 +119,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Cit
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "citation_author_name") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "citation_author_name")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("citation_author_name", v) {
                 Ok(val) => rows[i].name = val,
@@ -110,7 +130,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Cit
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "citation_author_ordinal") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "citation_author_ordinal")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("citation_author_ordinal", v) {
                 Ok(val) => rows[i].ordinal = val,

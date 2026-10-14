@@ -6,8 +6,8 @@
 mod chemical_formula;
 mod ranges;
 
-pub use ranges::FormulaWeight;
 pub use chemical_formula::ChemicalFormula;
+pub use ranges::FormulaWeight;
 
 use std::fmt::Display;
 

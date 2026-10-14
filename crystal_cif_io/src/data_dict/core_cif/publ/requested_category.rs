@@ -51,6 +51,8 @@ pub enum RequestedCategory {
     QO,
     /// `SC`
     SC,
+    /// `TE`
+    TE,
 }
 
 impl Display for RequestedCategory {
@@ -77,6 +79,7 @@ impl Display for RequestedCategory {
             Self::QM => "QM",
             Self::QO => "QO",
             Self::SC => "SC",
+            Self::TE => "TE",
         };
         f.write_str(code)
     }
@@ -125,6 +128,7 @@ impl RequestedCategory {
             "QM" => Some(Self::QM),
             "QO" => Some(Self::QO),
             "SC" => Some(Self::SC),
+            "TE" => Some(Self::TE),
             _ => None,
         }
     }

@@ -19,8 +19,8 @@ use bon::bon;
 use elements_rs::Element;
 
 use crate::data_dict::core_cif::atom_site::{
-    AdpType, AtomSite, CalcFlag, OccupancyRefineFlag, PosnRefineFlag, AdpRefineFlag,
-    TypeSymbol, TypeSymbolCode,
+    AdpRefineFlag, AdpType, AtomSite, CalcFlag, OccupancyRefineFlag, PosnRefineFlag, TypeSymbol,
+    TypeSymbolCode,
 };
 use crystal_cif_fmt::grammar::{CharString, Float, Numeric};
 
@@ -129,13 +129,16 @@ fn displacement_pairs(adp_type: AdpType, displacement: &Displacement) -> bool {
 }
 
 pub fn type_symbol_from_str(text: &str) -> Result<TypeSymbol, RowError> {
-    let charge: Vec<char> = text.chars().filter(|c| c.is_ascii_digit() || matches!(c, '+' | '-')).collect();
+    let charge: Vec<char> = text
+        .chars()
+        .filter(|c| c.is_ascii_digit() || matches!(c, '+' | '-'))
+        .collect();
     let code: String = text.chars().filter(|c| c.is_ascii_alphabetic()).collect();
     if code.is_empty() {
         return Err(RowError::UnparsableTypeSymbol(text.to_string()));
     }
-    let element = Element::from_str(&code)
-        .map_err(|_| RowError::UnparsableTypeSymbol(text.to_string()))?;
+    let element =
+        Element::from_str(&code).map_err(|_| RowError::UnparsableTypeSymbol(text.to_string()))?;
     let digits: String = charge.iter().filter(|c| c.is_ascii_digit()).collect();
     let oxidation_state = if digits.is_empty() {
         None
@@ -152,7 +155,10 @@ pub fn type_symbol_from_str(text: &str) -> Result<TypeSymbol, RowError> {
 fn non_negative(name: &'static str, value: &Numeric) -> Result<(), RowError> {
     let f = crate::data_dict::core_cif::range_check::number_as_f64(&value.number());
     if f < 0.0 {
-        return Err(RowError::DisplacementOutOfRange { item: name, value: f });
+        return Err(RowError::DisplacementOutOfRange {
+            item: name,
+            value: f,
+        });
     }
     Ok(())
 }
@@ -268,45 +274,132 @@ impl AtomSite {
             Coordinates::Cartn { x, y, z } => (None, None, None, Some(*x), Some(*y), Some(*z)),
         };
         let (
-            aniso_u_11, aniso_u_12, aniso_u_13, aniso_u_22, aniso_u_23, aniso_u_33,
-            aniso_b_11, aniso_b_12, aniso_b_13, aniso_b_22, aniso_b_23, aniso_b_33,
-            u_iso_or_equiv, b_iso_or_equiv,
+            aniso_u_11,
+            aniso_u_12,
+            aniso_u_13,
+            aniso_u_22,
+            aniso_u_23,
+            aniso_u_33,
+            aniso_b_11,
+            aniso_b_12,
+            aniso_b_13,
+            aniso_b_22,
+            aniso_b_23,
+            aniso_b_33,
+            u_iso_or_equiv,
+            b_iso_or_equiv,
         ) = match &displacement {
             Displacement::Uani {
-                u_11, u_12, u_13, u_22, u_23, u_33,
+                u_11,
+                u_12,
+                u_13,
+                u_22,
+                u_23,
+                u_33,
             } => (
-                Some(*u_11), Some(*u_12), Some(*u_13), Some(*u_22), Some(*u_23), Some(*u_33),
-                None, None, None, None, None, None, None, None,
+                Some(*u_11),
+                Some(*u_12),
+                Some(*u_13),
+                Some(*u_22),
+                Some(*u_23),
+                Some(*u_33),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
             ),
             Displacement::Bani {
-                b_11, b_12, b_13, b_22, b_23, b_33,
+                b_11,
+                b_12,
+                b_13,
+                b_22,
+                b_23,
+                b_33,
             } => (
-                None, None, None, None, None, None,
-                Some(*b_11), Some(*b_12), Some(*b_13), Some(*b_22), Some(*b_23), Some(*b_33),
-                None, None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                Some(*b_11),
+                Some(*b_12),
+                Some(*b_13),
+                Some(*b_22),
+                Some(*b_23),
+                Some(*b_33),
+                None,
+                None,
             ),
             Displacement::Uiso { u_iso } => (
-                None, None, None, None, None, None,
-                None, None, None, None, None, None,
-                Some(Numeric::from(u_iso.0)), None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                Some(Numeric::from(u_iso.0)),
+                None,
             ),
             Displacement::Biso { b_iso } => (
-                None, None, None, None, None, None,
-                None, None, None, None, None, None,
-                None, Some(*b_iso),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                Some(*b_iso),
             ),
         };
 
         Ok(AtomSite {
             type_symbol: Some(CharString::from(type_symbol)),
-            fract_x, fract_y, fract_z, cartn_x, cartn_y, cartn_z,
+            fract_x,
+            fract_y,
+            fract_z,
+            cartn_x,
+            cartn_y,
+            cartn_z,
             adp_type: Some(adp_type),
-            aniso_u_11, aniso_u_12, aniso_u_13, aniso_u_22, aniso_u_23, aniso_u_33,
-            aniso_b_11, aniso_b_12, aniso_b_13, aniso_b_22, aniso_b_23, aniso_b_33,
-            u_iso_or_equiv, b_iso_or_equiv,
+            aniso_u_11,
+            aniso_u_12,
+            aniso_u_13,
+            aniso_u_22,
+            aniso_u_23,
+            aniso_u_33,
+            aniso_b_11,
+            aniso_b_12,
+            aniso_b_13,
+            aniso_b_22,
+            aniso_b_23,
+            aniso_b_33,
+            u_iso_or_equiv,
+            b_iso_or_equiv,
             label,
-            label_component_0, label_component_1, label_component_2, label_component_3,
-            label_component_4, label_component_5, label_component_6,
+            label_component_0,
+            label_component_1,
+            label_component_2,
+            label_component_3,
+            label_component_4,
+            label_component_5,
+            label_component_6,
             occupancy: Some(Numeric::from(occupancy.0)),
             aniso_label,
             aniso_ratio,
@@ -329,14 +422,16 @@ impl AtomSite {
 
 #[cfg(test)]
 fn unquoted(text: &str) -> CharString {
-    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(text.to_string()))
+    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(
+        text.to_string(),
+    ))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::data_dict::core_cif::CifCategory;
     use crate::data_dict::core_cif::range_check::number_as_f64;
+    use crate::data_dict::core_cif::CifCategory;
 
     fn symbol(text: &str) -> TypeSymbol {
         type_symbol_from_str(text).expect("the symbol parses")
@@ -447,7 +542,9 @@ mod tests {
                 z: Numeric::from(0.0),
             })
             .adp_type(AdpType::Biso)
-            .displacement(Displacement::Biso { b_iso: Numeric::from(-1.0) })
+            .displacement(Displacement::Biso {
+                b_iso: Numeric::from(-1.0),
+            })
             .label(unquoted("Ba1"))
             .build()
             .unwrap_err();
@@ -483,7 +580,9 @@ mod tests {
                 z: Numeric::from(3.0),
             })
             .adp_type(AdpType::Biso)
-            .displacement(Displacement::Biso { b_iso: Numeric::from(0.5) })
+            .displacement(Displacement::Biso {
+                b_iso: Numeric::from(0.5),
+            })
             .label(unquoted("O1"))
             .build()
             .expect("the row builds");

@@ -5,11 +5,13 @@
 //! `Refine` group. The range-checked items keep the entry newtypes;
 //! the closed sets keep the typed enums.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric, UnsignedInteger, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
-use crate::data_dict::core_cif::refine::{Flack, HydrogenTreatment, MatrixType, NonNeg, Rogers, StructureFactorCoef, WeightingScheme};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::refine::{
+    Flack, HydrogenTreatment, MatrixType, NonNeg, Rogers, StructureFactorCoef, WeightingScheme,
+};
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, UnsignedInteger, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Refine {
@@ -70,262 +72,348 @@ impl CifCategory for Refine {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.ls_abs_structure_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_abs_structure_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_abs_structure_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_abs_structure_flack {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_abs_structure_Flack".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_abs_structure_Flack".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_abs_structure_rogers {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_abs_structure_Rogers".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_abs_structure_Rogers".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_d_res_high {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_d_res_high".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_d_res_high".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_d_res_low {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_d_res_low".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_d_res_low".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_extinction_coef {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_extinction_coef".to_string()),
-                Value::Numeric(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_extinction_coef".to_string()),
+                    Value::Numeric(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_extinction_expression {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_extinction_expression".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_extinction_expression".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_extinction_method {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_extinction_method".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_extinction_method".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_f_calc_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_F_calc_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_F_calc_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_f_calc_formula {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_F_calc_formula".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_F_calc_formula".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_f_calc_precision {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_F_calc_precision".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_F_calc_precision".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_goodness_of_fit_all {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_goodness_of_fit_all".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_goodness_of_fit_all".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_goodness_of_fit_gt {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_goodness_of_fit_gt".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_goodness_of_fit_gt".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_goodness_of_fit_obs {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_goodness_of_fit_obs".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_goodness_of_fit_obs".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_goodness_of_fit_ref {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_goodness_of_fit_ref".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_goodness_of_fit_ref".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_hydrogen_treatment {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_hydrogen_treatment".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_hydrogen_treatment".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_matrix_type {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_matrix_type".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_matrix_type".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_number_constraints {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_number_constraints".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_number_constraints".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_number_parameters {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_number_parameters".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_number_parameters".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_number_reflns {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_number_reflns".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_number_reflns".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_number_restraints {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_number_restraints".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_number_restraints".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_r_factor_all {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_R_factor_all".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_R_factor_all".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_r_factor_gt {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_R_factor_gt".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_R_factor_gt".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_r_factor_obs {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_R_factor_obs".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_R_factor_obs".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_r_fsqd_factor {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_R_Fsqd_factor".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_R_Fsqd_factor".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_r_i_factor {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_R_I_factor".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_R_I_factor".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_restrained_s_all {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_restrained_S_all".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_restrained_S_all".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_restrained_s_gt {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_restrained_S_gt".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_restrained_S_gt".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_restrained_s_obs {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_restrained_S_obs".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_restrained_S_obs".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_shift_esd_max {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_shift/esd_max".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_shift/esd_max".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_shift_esd_mean {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_shift/esd_mean".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_shift/esd_mean".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_shift_su_max {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_shift/su_max".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_shift/su_max".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_shift_su_max_lt {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_shift/su_max_lt".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_shift/su_max_lt".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_shift_su_mean {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_shift/su_mean".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_shift/su_mean".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_shift_su_mean_lt {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_shift/su_mean_lt".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_shift/su_mean_lt".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_structure_factor_coef {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_structure_factor_coef".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_structure_factor_coef".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_weighting_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_weighting_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_weighting_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_weighting_scheme {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_weighting_scheme".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_weighting_scheme".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_wr_factor_all {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_wR_factor_all".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_wR_factor_all".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_wr_factor_gt {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_wR_factor_gt".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_wR_factor_gt".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_wr_factor_obs {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_wR_factor_obs".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_wR_factor_obs".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.ls_wr_factor_ref {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_ls_wR_factor_ref".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_ls_wR_factor_ref".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.special_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("refine_special_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("refine_special_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if !self.diff_density.is_empty() {
             out.extend(diff_density_to_loop_members(&self.diff_density));
@@ -333,7 +421,10 @@ impl CifCategory for Refine {
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -433,13 +524,23 @@ impl CifCategory for Refine {
                             }
                         }
                         "refine_ls_hydrogen_treatment" => {
-                            match convert::read_closed_set("refine_ls_hydrogen_treatment", value, |c| HydrogenTreatment::try_from(c).ok(), "HydrogenTreatment") {
+                            match convert::read_closed_set(
+                                "refine_ls_hydrogen_treatment",
+                                value,
+                                |c| HydrogenTreatment::try_from(c).ok(),
+                                "HydrogenTreatment",
+                            ) {
                                 Ok(v) => self.ls_hydrogen_treatment = v,
                                 Err(e) => errors.push(e),
                             }
                         }
                         "refine_ls_matrix_type" => {
-                            match convert::read_closed_set("refine_ls_matrix_type", value, |c| MatrixType::try_from(c).ok(), "MatrixType") {
+                            match convert::read_closed_set(
+                                "refine_ls_matrix_type",
+                                value,
+                                |c| MatrixType::try_from(c).ok(),
+                                "MatrixType",
+                            ) {
                                 Ok(v) => self.ls_matrix_type = v,
                                 Err(e) => errors.push(e),
                             }
@@ -565,7 +666,12 @@ impl CifCategory for Refine {
                             }
                         }
                         "refine_ls_structure_factor_coef" => {
-                            match convert::read_closed_set("refine_ls_structure_factor_coef", value, |c| StructureFactorCoef::try_from(c).ok(), "StructureFactorCoef") {
+                            match convert::read_closed_set(
+                                "refine_ls_structure_factor_coef",
+                                value,
+                                |c| StructureFactorCoef::try_from(c).ok(),
+                                "StructureFactorCoef",
+                            ) {
                                 Ok(v) => self.ls_structure_factor_coef = v,
                                 Err(e) => errors.push(e),
                             }
@@ -577,7 +683,12 @@ impl CifCategory for Refine {
                             }
                         }
                         "refine_ls_weighting_scheme" => {
-                            match convert::read_closed_set("refine_ls_weighting_scheme", value, |c| WeightingScheme::try_from(c).ok(), "WeightingScheme") {
+                            match convert::read_closed_set(
+                                "refine_ls_weighting_scheme",
+                                value,
+                                |c| WeightingScheme::try_from(c).ok(),
+                                "WeightingScheme",
+                            ) {
                                 Ok(v) => self.ls_weighting_scheme = v,
                                 Err(e) => errors.push(e),
                             }
@@ -625,18 +736,18 @@ impl CifCategory for Refine {
                         "refine_diff_density_min",
                         "refine_diff_density_rms",
                     ];
-                    let is_ours = cols
-                        .iter()
-                        .any(|c| {
-                            let t = c.tag().as_ref().to_lowercase();
-                            diff_density.contains(&t.as_str())
-                        });
+                    let is_ours = cols.iter().any(|c| {
+                        let t = c.tag().as_ref().to_lowercase();
+                        diff_density.contains(&t.as_str())
+                    });
                     if !is_ours {
                         residue.push(m.clone());
                     } else {
-                    if cols.iter().any(|c| diff_density.contains(&c.tag().as_ref().to_lowercase().as_str())) {
-                        self.diff_density = diff_density_rows_from_columns(cols, &mut errors);
-                    }
+                        if cols.iter().any(|c| {
+                            diff_density.contains(&c.tag().as_ref().to_lowercase().as_str())
+                        }) {
+                            self.diff_density = diff_density_rows_from_columns(cols, &mut errors);
+                        }
                     }
                 }
                 other => residue.push(other.clone()),
@@ -656,7 +767,10 @@ fn diff_density_to_loop_members(rows: &[RefineDiffDensity]) -> Vec<DataBlockMemb
                 None => Value::Inapplicable,
             })
             .collect();
-        columns.push(LoopColumn::new(Tag::new("refine_diff_density_max".to_string()), values));
+        columns.push(LoopColumn::new(
+            Tag::new("refine_diff_density_max".to_string()),
+            values,
+        ));
     }
     if rows.iter().any(|r| r.min.is_some()) {
         let values: Vec<Value> = rows
@@ -666,7 +780,10 @@ fn diff_density_to_loop_members(rows: &[RefineDiffDensity]) -> Vec<DataBlockMemb
                 None => Value::Inapplicable,
             })
             .collect();
-        columns.push(LoopColumn::new(Tag::new("refine_diff_density_min".to_string()), values));
+        columns.push(LoopColumn::new(
+            Tag::new("refine_diff_density_min".to_string()),
+            values,
+        ));
     }
     if rows.iter().any(|r| r.rms.is_some()) {
         let values: Vec<Value> = rows
@@ -676,18 +793,29 @@ fn diff_density_to_loop_members(rows: &[RefineDiffDensity]) -> Vec<DataBlockMemb
                 None => Value::Inapplicable,
             })
             .collect();
-        columns.push(LoopColumn::new(Tag::new("refine_diff_density_rms".to_string()), values));
+        columns.push(LoopColumn::new(
+            Tag::new("refine_diff_density_rms".to_string()),
+            values,
+        ));
     }
     if columns.is_empty() {
         return Vec::new();
     }
-    vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+    vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        LoopColumns::new(columns),
+    ))]
 }
 
-fn diff_density_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<RefineDiffDensity> {
+fn diff_density_rows_from_columns(
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) -> Vec<RefineDiffDensity> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![RefineDiffDensity::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_diff_density_max") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_diff_density_max")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_diff_density_max", v) {
                 Ok(val) => rows[i].max = val,
@@ -695,7 +823,10 @@ fn diff_density_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_diff_density_min") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_diff_density_min")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_diff_density_min", v) {
                 Ok(val) => rows[i].min = val,
@@ -703,7 +834,10 @@ fn diff_density_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "refine_diff_density_rms") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "refine_diff_density_rms")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("refine_diff_density_rms", v) {
                 Ok(val) => rows[i].rms = val,

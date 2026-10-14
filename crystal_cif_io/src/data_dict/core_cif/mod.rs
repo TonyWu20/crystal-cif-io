@@ -98,8 +98,8 @@ pub mod valence_ref;
 
 pub mod convert;
 
-use crystal_cif_fmt::DataBlockMember;
 use crate::core_cif::CifError;
+use crystal_cif_fmt::DataBlockMember;
 
 /// One dictionary category of the typed document layer.
 ///

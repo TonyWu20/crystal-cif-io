@@ -41,6 +41,15 @@ def unquote(value):
     return v
 
 
+def is_quoted_value(tok):
+    """A single token that is one whole quoted value.
+
+    A multi-word quoted description starts with an unbalanced quote
+    token (the first word, quote-lead, no closing quote in the
+    token). Such a token holds no value of its own."""
+    return len(tok) >= 2 and tok[0] in "'\"" and tok[-1] == tok[0]
+
+
 def sha256_of(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -127,6 +136,7 @@ def parse_ddl1_block(name, lines):
     definition = []
     state = "normal"
     cur_loop = None
+    loop_in_text = False
 
     for ln in lines:
         if state == "text":
@@ -147,7 +157,19 @@ def parse_ddl1_block(name, lines):
         if state == "loop":
             if tag is not None:
                 state = "normal"
+                loop_in_text = False
             elif not ln.strip() or re.match(r"^\s*#", ln):
+                continue
+            elif re.match(r"^\s*;", ln):
+                # A `;` fence inside the loop body. The opening line
+                # carries the first text line; a bare `;` line closes
+                # the block. Neither holds a value.
+                if loop_in_text and re.match(r"^\s*;\s*$", ln):
+                    loop_in_text = False
+                else:
+                    loop_in_text = True
+                continue
+            elif loop_in_text:
                 continue
             else:
                 collect_loop_value(cur_loop, ln, loops)
@@ -237,6 +259,11 @@ def collect_loop_value(kind, ln, loops):
             tokens = tokens[1:]
             if not tokens:
                 return
+        # A value line carries the code token. A multi-word quoted
+        # description of the previous code starts with an
+        # unbalanced quote token; it holds no value.
+        if tokens[0][:1] in ("'", '"') and not is_quoted_value(tokens[0]):
+            return
         loops["_enumeration"].append(unquote(tokens[0]))
     elif kind == "_related_item":
         if tokens[0] == "_related_function":
@@ -494,6 +521,10 @@ def collect_shell_loop_value(kind, ln, loop_cols):
             entry["headers"].append(hm.group(1))
             return
         tokens = line.split()
+        # A multi-word quoted description of the previous value
+        # starts with an unbalanced quote token; it holds no value.
+        if tokens and tokens[0][:1] in ("'", '"') and not is_quoted_value(tokens[0]):
+            return
         for idx, tok in enumerate(tokens):
             if idx >= len(entry["headers"]):
                 break
@@ -503,6 +534,8 @@ def collect_shell_loop_value(kind, ln, loop_cols):
     else:
         _, header = kind
         tokens = line.split()
+        if tokens and tokens[0][:1] in ("'", '"') and not is_quoted_value(tokens[0]):
+            return
         for tok in tokens:
             loop_cols[header].append(unquote(tok))
 

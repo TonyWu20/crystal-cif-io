@@ -6,10 +6,10 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct AuditConform {
@@ -20,15 +20,20 @@ impl CifCategory for AuditConform {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.dict_doi {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_conform_dict_doi".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_conform_dict_doi".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -74,7 +79,10 @@ impl CifCategory for Vec<AuditConformRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("audit_conform_dict_location".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("audit_conform_dict_location".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.dict_name.is_some()) {
             let values: Vec<Value> = self
@@ -84,7 +92,10 @@ impl CifCategory for Vec<AuditConformRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("audit_conform_dict_name".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("audit_conform_dict_name".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.dict_version.is_some()) {
             let values: Vec<Value> = self
@@ -94,15 +105,23 @@ impl CifCategory for Vec<AuditConformRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("audit_conform_dict_version".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("audit_conform_dict_version".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -136,7 +155,10 @@ impl CifCategory for Vec<AuditConformRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<AuditConformRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![AuditConformRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "audit_conform_dict_location") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "audit_conform_dict_location")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("audit_conform_dict_location", v) {
                 Ok(val) => rows[i].dict_location = val,
@@ -144,7 +166,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Aud
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "audit_conform_dict_name") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "audit_conform_dict_name")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("audit_conform_dict_name", v) {
                 Ok(val) => rows[i].dict_name = val,
@@ -152,7 +177,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Aud
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "audit_conform_dict_version") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "audit_conform_dict_version")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("audit_conform_dict_version", v) {
                 Ok(val) => rows[i].dict_version = val,

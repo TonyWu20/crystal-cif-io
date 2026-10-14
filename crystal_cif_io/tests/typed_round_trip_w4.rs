@@ -6,12 +6,9 @@
 //! unchanged. Save frames and foreign tags land in `extra`, order
 //! kept.
 
-use crystal_cif_fmt::grammar::{
-    CharString, Numeric, SingleLineData, Tag, UnquotedString, Value,
-};
+use crystal_cif_fmt::grammar::{CharString, Numeric, SingleLineData, Tag, UnquotedString, Value};
 use crystal_cif_fmt::{
-    parse_cif, DataBlock, DataBlockHeading, DataBlockMember, DataItems, SaveFrame,
-    SaveFrameHeading,
+    parse_cif, DataBlock, DataBlockHeading, DataBlockMember, DataItems, SaveFrame, SaveFrameHeading,
 };
 
 use crystal_cif_io::core_cif::{CifError, CoreCif};
@@ -70,10 +67,16 @@ fn the_publcif_file_round_trips_the_t4_tier() {
     // The loop rows type.
     assert!(!doc.publ_body.is_empty(), "the publ_body rows type");
     assert!(
-        matches!(doc.publ_body[0].element, Some(crystal_cif_io::data_dict::core_cif::publ_body::Element::Section)),
+        matches!(
+            doc.publ_body[0].element,
+            Some(crystal_cif_io::data_dict::core_cif::publ_body::Element::Section)
+        ),
         "the body element parses the closed set"
     );
-    assert!(!doc.publ_author_rows.is_empty(), "the publ_author rows type");
+    assert!(
+        !doc.publ_author_rows.is_empty(),
+        "the publ_author rows type"
+    );
     // The single-value journal items of the file stay in the residue.
     assert!(!doc.extra.is_empty(), "the untyped members land in extra");
 }
@@ -104,7 +107,10 @@ fn the_squeeze_file_round_trips_the_t4_tier() {
         doc.publ.contact_author_address.is_some(),
         "the text-field address types"
     );
-    assert!(!doc.publ_author_rows.is_empty(), "the publ_author rows type");
+    assert!(
+        !doc.publ_author_rows.is_empty(),
+        "the publ_author rows type"
+    );
 }
 
 #[test]
@@ -113,34 +119,28 @@ fn save_frames_and_foreign_tags_are_the_extra_residue() {
     // a tier item. The typed item types. The other two are the
     // residue, order kept.
     let members = vec![
-        DataBlockMember::DataItems(DataItems::SingleValue(
-            SingleLineData::from_tag_value((
-                Tag::new("audit_creation_date".to_string()),
-                Value::CharString(
-                    CharString::Unquoted(UnquotedString::new("recorded now".to_string())),
-                ),
-            )),
-        )),
-        DataBlockMember::DataItems(DataItems::SingleValue(
-            SingleLineData::from_tag_value((
-                Tag::new("cod_database_code".to_string()),
-                Value::Numeric(Numeric::from(1000000i32)),
-            )),
-        )),
+        DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
+            Tag::new("audit_creation_date".to_string()),
+            Value::CharString(CharString::Unquoted(UnquotedString::new(
+                "recorded now".to_string(),
+            ))),
+        )))),
+        DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
+            Tag::new("cod_database_code".to_string()),
+            Value::Numeric(Numeric::from(1000000i32)),
+        )))),
         DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
             SaveFrameHeading::new("publ_body".to_string()),
-            vec![DataItems::SingleValue(
-                SingleLineData::from_tag_value((
-                    Tag::new("publ_body_element".to_string()),
-                    Value::CharString(CharString::Unquoted(UnquotedString::new("section".to_string()))),
-                ))
-            )],
+            vec![DataItems::SingleValue(SingleLineData::from_tag_value((
+                Tag::new("publ_body_element".to_string()),
+                Value::CharString(CharString::Unquoted(UnquotedString::new(
+                    "section".to_string(),
+                ))),
+            )))],
         ))),
     ];
-    let block = DataBlock::from_heading_members((
-        DataBlockHeading::new("probe".to_string()),
-        members,
-    ));
+    let block =
+        DataBlock::from_heading_members((DataBlockHeading::new("probe".to_string()), members));
     let doc = CoreCif::from_block(&block).expect("the read is clean");
     assert!(doc.audit.creation_date.is_some(), "the typed item types");
     assert_eq!(
@@ -168,36 +168,40 @@ fn save_frames_and_foreign_tags_are_the_extra_residue() {
 #[test]
 fn the_journal_index_type_enum_parses_the_dictionary_codes() {
     for code in ["O", "I", "M", "S"] {
-        assert_eq!(Type::parse(code).unwrap().to_string(), code, "the code {code} parses");
+        assert_eq!(
+            Type::parse(code).unwrap().to_string(),
+            code,
+            "the code {code} parses"
+        );
     }
     assert!(Type::parse("X").is_none(), "the outside code is rejected");
     // The read path records a value-class error for the outside code.
-    let rows = vec![
-        DataBlockMember::DataItems(DataItems::MultiValues(
-            crystal_cif_fmt::grammar::LoopColumns::new(vec![
-                crystal_cif_fmt::grammar::LoopColumn::new(
-                    Tag::new("journal_index_subterm".to_string()),
-                    vec![Value::CharString(
-                        CharString::Unquoted(UnquotedString::new("term".to_string())),
-                    )],
-                ),
-                crystal_cif_fmt::grammar::LoopColumn::new(
-                    Tag::new("journal_index_type".to_string()),
-                    vec![Value::CharString(CharString::Unquoted(UnquotedString::new("X".to_string())))],
-                ),
-            ]),
-        )),
-    ];
-    let block = DataBlock::from_heading_members((
-        DataBlockHeading::new("probe".to_string()),
-        rows,
-    ));
+    let rows = vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        crystal_cif_fmt::grammar::LoopColumns::new(vec![
+            crystal_cif_fmt::grammar::LoopColumn::new(
+                Tag::new("journal_index_subterm".to_string()),
+                vec![Value::CharString(CharString::Unquoted(
+                    UnquotedString::new("term".to_string()),
+                ))],
+            ),
+            crystal_cif_fmt::grammar::LoopColumn::new(
+                Tag::new("journal_index_type".to_string()),
+                vec![Value::CharString(CharString::Unquoted(
+                    UnquotedString::new("X".to_string()),
+                ))],
+            ),
+        ]),
+    ))];
+    let block = DataBlock::from_heading_members((DataBlockHeading::new("probe".to_string()), rows));
     let errors = CoreCif::from_block(&block).expect_err("the outside code fails");
-    assert!(errors.iter().any(|e| matches!(
-        e,
-        CifError::ValueClass {
-            tag,
-            ..
-        } if tag == "journal_index_type"
-    )), "the closed-set mismatch reports");
+    assert!(
+        errors.iter().any(|e| matches!(
+            e,
+            CifError::ValueClass {
+                tag,
+                ..
+            } if tag == "journal_index_type"
+        )),
+        "the closed-set mismatch reports"
+    );
 }

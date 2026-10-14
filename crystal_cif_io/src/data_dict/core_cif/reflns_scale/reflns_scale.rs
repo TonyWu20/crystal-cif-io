@@ -4,10 +4,10 @@
 //! registry column. `CifCategory` is on the `Vec<ReflnsScale>` group:
 //! it emits one `MultiValues` loop and fills the rows from the columns.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct ReflnsScale {
@@ -31,7 +31,10 @@ impl CifCategory for Vec<ReflnsScale> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_scale_group_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_scale_group_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meas_f.is_some()) {
             let values: Vec<Value> = self
@@ -41,7 +44,10 @@ impl CifCategory for Vec<ReflnsScale> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_scale_meas_F".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_scale_meas_F".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meas_f_squared.is_some()) {
             let values: Vec<Value> = self
@@ -51,7 +57,10 @@ impl CifCategory for Vec<ReflnsScale> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_scale_meas_F_squared".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_scale_meas_F_squared".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.meas_intensity.is_some()) {
             let values: Vec<Value> = self
@@ -61,15 +70,23 @@ impl CifCategory for Vec<ReflnsScale> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("reflns_scale_meas_intensity".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("reflns_scale_meas_intensity".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -101,10 +118,16 @@ impl CifCategory for Vec<ReflnsScale> {
     }
 }
 
-fn reflnsscale_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ReflnsScale> {
+fn reflnsscale_rows_from_columns(
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) -> Vec<ReflnsScale> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ReflnsScale::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_group_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_group_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("reflns_scale_group_code", v) {
                 Ok(val) => rows[i].group_code = val,
@@ -112,7 +135,10 @@ fn reflnsscale_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_meas_f") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_meas_f")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_scale_meas_f", v) {
                 Ok(val) => rows[i].meas_f = val,
@@ -120,7 +146,10 @@ fn reflnsscale_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_meas_f_squared") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_meas_f_squared")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_scale_meas_f_squared", v) {
                 Ok(val) => rows[i].meas_f_squared = val,
@@ -128,7 +157,10 @@ fn reflnsscale_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_meas_intensity") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "reflns_scale_meas_intensity")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("reflns_scale_meas_intensity", v) {
                 Ok(val) => rows[i].meas_intensity = val,

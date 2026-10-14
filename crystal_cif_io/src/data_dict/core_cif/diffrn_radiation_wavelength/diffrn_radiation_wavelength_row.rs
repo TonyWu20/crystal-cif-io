@@ -4,11 +4,15 @@
 //! `CifCategory` is on the `Vec<DiffrnRadiationWavelengthRow>` group: it emits
 //! one `MultiValues` loop and fills the rows from the columns.
 
+use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use {crate::data_dict::core_cif::diffrn_radiation_wavelength::Determination, crate::data_dict::core_cif::diffrn_radiation_wavelength::DiffrnRadiationWavelength, crate::data_dict::core_cif::diffrn_radiation_wavelength::Wt};
-use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use {
+    crate::data_dict::core_cif::diffrn_radiation_wavelength::Determination,
+    crate::data_dict::core_cif::diffrn_radiation_wavelength::DiffrnRadiationWavelength,
+    crate::data_dict::core_cif::diffrn_radiation_wavelength::Wt,
+};
 
 #[derive(Debug, Clone, Default)]
 pub struct DiffrnRadiationWavelengthRow {
@@ -32,7 +36,10 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_radiation_wavelength".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_radiation_wavelength".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.details.is_some()) {
             let values: Vec<Value> = self
@@ -42,7 +49,10 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_radiation_wavelength_details".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_radiation_wavelength_details".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.determination.is_some()) {
             let values: Vec<Value> = self
@@ -52,7 +62,10 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_radiation_wavelength_determination".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_radiation_wavelength_determination".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.id.is_some()) {
             let values: Vec<Value> = self
@@ -62,7 +75,10 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_radiation_wavelength_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_radiation_wavelength_id".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.wt.is_some()) {
             let values: Vec<Value> = self
@@ -72,14 +88,22 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_radiation_wavelength_wt".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_radiation_wavelength_wt".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -93,7 +117,8 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
                     "diffrn_radiation_wavelength_details",
                     "diffrn_radiation_wavelength_determination",
                     "diffrn_radiation_wavelength_id",
-                    "diffrn_radiation_wavelength_wt",];
+                    "diffrn_radiation_wavelength_wt",
+                ];
                 let is_ours = cols
                     .iter()
                     .any(|c| own_tags.contains(&c.tag().as_ref().to_lowercase().as_str()));
@@ -110,18 +135,32 @@ impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {
     }
 }
 
-fn merge_rows(rows: &mut Vec<DiffrnRadiationWavelengthRow>, cols: &[LoopColumn], errors: &mut Vec<CifError>) {
+fn merge_rows(
+    rows: &mut Vec<DiffrnRadiationWavelengthRow>,
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     rows.resize(n, DiffrnRadiationWavelengthRow::default());
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_ranged_newtype("diffrn_radiation_wavelength", v, DiffrnRadiationWavelength::new) {
+            match convert::read_ranged_newtype(
+                "diffrn_radiation_wavelength",
+                v,
+                DiffrnRadiationWavelength::new,
+            ) {
                 Ok(val) => rows[i].diffrn_radiation_wavelength = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_details") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_details")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_radiation_wavelength_details", v) {
                 Ok(val) => rows[i].details = val,
@@ -129,15 +168,26 @@ fn merge_rows(rows: &mut Vec<DiffrnRadiationWavelengthRow>, cols: &[LoopColumn],
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_determination") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_determination")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_closed_set("diffrn_radiation_wavelength_determination", v, Determination::parse, "Determination") {
+            match convert::read_closed_set(
+                "diffrn_radiation_wavelength_determination",
+                v,
+                Determination::parse,
+                "Determination",
+            ) {
                 Ok(val) => rows[i].determination = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_radiation_wavelength_id", v) {
                 Ok(val) => rows[i].id = val,
@@ -145,7 +195,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRadiationWavelengthRow>, cols: &[LoopColumn],
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_wt") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_radiation_wavelength_wt")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_radiation_wavelength_wt", v, Wt::new) {
                 Ok(val) => rows[i].wt = val,

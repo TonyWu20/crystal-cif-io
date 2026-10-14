@@ -6,10 +6,10 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct CitationEditor {
@@ -20,15 +20,20 @@ impl CifCategory for CitationEditor {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.editor {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("citation_editor".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("citation_editor".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -36,12 +41,10 @@ impl CifCategory for CitationEditor {
                 let tag = sv.tag().as_ref().to_lowercase();
                 let value = sv.value();
                 match tag.as_str() {
-                    "citation_editor" => {
-                        match convert::read_char_text("citation_editor", value) {
-                            Ok(v) => self.editor = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
+                    "citation_editor" => match convert::read_char_text("citation_editor", value) {
+                        Ok(v) => self.editor = v,
+                        Err(e) => errors.push(e),
+                    },
                     _ => residue.push(m.clone()),
                 }
             } else {
@@ -74,7 +77,10 @@ impl CifCategory for Vec<CitationEditorRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("citation_editor_citation_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("citation_editor_citation_id".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.name.is_some()) {
             let values: Vec<Value> = self
@@ -84,7 +90,10 @@ impl CifCategory for Vec<CitationEditorRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("citation_editor_name".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("citation_editor_name".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.ordinal.is_some()) {
             let values: Vec<Value> = self
@@ -94,15 +103,23 @@ impl CifCategory for Vec<CitationEditorRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("citation_editor_ordinal".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("citation_editor_ordinal".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -136,7 +153,10 @@ impl CifCategory for Vec<CitationEditorRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<CitationEditorRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![CitationEditorRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "citation_editor_citation_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "citation_editor_citation_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("citation_editor_citation_id", v) {
                 Ok(val) => rows[i].citation_id = val,
@@ -144,7 +164,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Cit
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "citation_editor_name") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "citation_editor_name")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("citation_editor_name", v) {
                 Ok(val) => rows[i].name = val,
@@ -152,7 +175,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Cit
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "citation_editor_ordinal") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "citation_editor_ordinal")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("citation_editor_ordinal", v) {
                 Ok(val) => rows[i].ordinal = val,

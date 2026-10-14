@@ -9,11 +9,11 @@
 //! sugar is out of scope for this wave (roadmap section 12.3,
 //! decision log T6).
 
-mod solution_method;
 mod atom_sites;
+mod solution_method;
 
-pub use solution_method::SolutionMethod;
 pub use atom_sites::{AtomSites, AtomSitesRow};
+pub use solution_method::SolutionMethod;
 
 use std::fmt::Display;
 

@@ -3,10 +3,10 @@
 //! The `Geom` single-value struct: the special-list distance
 //! increments, the distance cutoffs, and the special details.
 
-use crystal_cif_fmt::grammar::{Tag, Numeric, CharString, Value};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Geom {
@@ -21,39 +21,52 @@ impl CifCategory for Geom {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.bond_distance_incr {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_bond_distance_incr".to_string()),
-                Value::Numeric(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_bond_distance_incr".to_string()),
+                    Value::Numeric(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.contact_distance_incr {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_contact_distance_incr".to_string()),
-                Value::Numeric(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_contact_distance_incr".to_string()),
+                    Value::Numeric(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.min_bond_distance_cutoff {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_min_bond_distance_cutoff".to_string()),
-                Value::Numeric(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_min_bond_distance_cutoff".to_string()),
+                    Value::Numeric(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.min_contact_distance_cutoff {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_min_contact_distance_cutoff".to_string()),
-                Value::Numeric(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_min_contact_distance_cutoff".to_string()),
+                    Value::Numeric(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.special_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_special_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_special_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -100,4 +113,3 @@ impl CifCategory for Geom {
         (residue, errors)
     }
 }
-

@@ -237,8 +237,15 @@ mod tests {
 
     #[test]
     fn the_multiplicity_scales_the_site_count() {
-        let units = structure_z(2, "H2O", Numeric::from(6.0), Some(UnsignedInteger(4)), None, 1e-3)
-            .expect("the Z computes");
+        let units = structure_z(
+            2,
+            "H2O",
+            Numeric::from(6.0),
+            Some(UnsignedInteger(4)),
+            None,
+            1e-3,
+        )
+        .expect("the Z computes");
         assert_eq!(units.z.0, 4);
         assert!(
             (number_as_f64(&units.z_prime.number()) - 2.0 / 3.0).abs() < 1e-6,

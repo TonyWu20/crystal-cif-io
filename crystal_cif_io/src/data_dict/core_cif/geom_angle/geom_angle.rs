@@ -3,11 +3,11 @@
 //! The `GeomAngle` single-value struct (the T6 shell items) and
 //! the `GeomAngleRow` loop row of the angle special list.
 
-use crystal_cif_fmt::grammar::{Tag, Numeric, CharString, Value};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
-use {crate::data_dict::core_cif::geom_angle::PublFlag};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::geom_angle::PublFlag;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct GeomAngle {
@@ -19,21 +19,28 @@ impl CifCategory for GeomAngle {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.distances {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_angle_distances".to_string()),
-                Value::List(v.iter().cloned().map(Value::from).collect()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_angle_distances".to_string()),
+                    Value::List(v.iter().cloned().map(Value::from).collect()),
+                )),
+            )));
         }
         if let Some(v) = &self.id {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("geom_angle_id".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("geom_angle_id".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -47,12 +54,10 @@ impl CifCategory for GeomAngle {
                             Err(e) => errors.push(e),
                         }
                     }
-                    "geom_angle_id" => {
-                        match convert::read_char("geom_angle_id", value) {
-                            Ok(v) => self.id = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
+                    "geom_angle_id" => match convert::read_char("geom_angle_id", value) {
+                        Ok(v) => self.id = v,
+                        Err(e) => errors.push(e),
+                    },
                     _ => residue.push(m.clone()),
                 }
             } else {
@@ -112,7 +117,10 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_atom_site_label_1".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_atom_site_label_1".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.atom_site_label_2.is_some()) {
             let values: Vec<Value> = self
@@ -122,7 +130,10 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_atom_site_label_2".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_atom_site_label_2".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.atom_site_label_3.is_some()) {
             let values: Vec<Value> = self
@@ -132,7 +143,10 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_atom_site_label_3".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_atom_site_label_3".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.publ_flag.is_some()) {
             let values: Vec<Value> = self
@@ -142,7 +156,10 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_publ_flag".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_publ_flag".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.site_symmetry_1.is_some()) {
             let values: Vec<Value> = self
@@ -152,7 +169,10 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_site_symmetry_1".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_site_symmetry_1".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.site_symmetry_2.is_some()) {
             let values: Vec<Value> = self
@@ -162,7 +182,10 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_site_symmetry_2".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_site_symmetry_2".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.site_symmetry_3.is_some()) {
             let values: Vec<Value> = self
@@ -172,15 +195,23 @@ impl CifCategory for Vec<GeomAngleRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle_site_symmetry_3".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("geom_angle_site_symmetry_3".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -206,7 +237,10 @@ impl CifCategory for Vec<GeomAngleRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<GeomAngleRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![GeomAngleRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("geom_angle", v) {
                 Ok(val) => rows[i].angle = val,
@@ -214,7 +248,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_atom_site_label_1") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_atom_site_label_1")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("geom_angle_atom_site_label_1", v) {
                 Ok(val) => rows[i].atom_site_label_1 = val,
@@ -222,7 +259,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_atom_site_label_2") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_atom_site_label_2")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("geom_angle_atom_site_label_2", v) {
                 Ok(val) => rows[i].atom_site_label_2 = val,
@@ -230,7 +270,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_atom_site_label_3") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_atom_site_label_3")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("geom_angle_atom_site_label_3", v) {
                 Ok(val) => rows[i].atom_site_label_3 = val,
@@ -238,7 +281,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_publ_flag") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_publ_flag")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_closed_set("geom_angle_publ_flag", v, PublFlag::parse, "PublFlag") {
                 Ok(val) => rows[i].publ_flag = val,
@@ -246,7 +292,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_site_symmetry_1") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_site_symmetry_1")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("geom_angle_site_symmetry_1", v) {
                 Ok(val) => rows[i].site_symmetry_1 = val,
@@ -254,7 +303,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_site_symmetry_2") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_site_symmetry_2")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("geom_angle_site_symmetry_2", v) {
                 Ok(val) => rows[i].site_symmetry_2 = val,
@@ -262,7 +314,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Geo
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_site_symmetry_3") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "geom_angle_site_symmetry_3")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("geom_angle_site_symmetry_3", v) {
                 Ok(val) => rows[i].site_symmetry_3 = val,

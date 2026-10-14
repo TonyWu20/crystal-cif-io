@@ -5,11 +5,11 @@
 //! loop and fills the rows from the columns. Char items read leniently:
 //! the tier corpus records them as text fields.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
+use crate::core_cif::CifError;
 use crate::data_dict::core_cif::publ_body::{Element, Format};
 use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 /// The `publ_body` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
@@ -35,7 +35,10 @@ impl CifCategory for Vec<PublBody> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_body_contents".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_body_contents".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.element.is_some()) {
             let values: Vec<Value> = self
@@ -45,7 +48,10 @@ impl CifCategory for Vec<PublBody> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_body_element".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_body_element".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.format.is_some()) {
             let values: Vec<Value> = self
@@ -55,7 +61,10 @@ impl CifCategory for Vec<PublBody> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_body_format".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_body_format".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.label.is_some()) {
             let values: Vec<Value> = self
@@ -65,7 +74,10 @@ impl CifCategory for Vec<PublBody> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_body_label".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_body_label".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.title.is_some()) {
             let values: Vec<Value> = self
@@ -75,15 +87,23 @@ impl CifCategory for Vec<PublBody> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("publ_body_title".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("publ_body_title".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -119,7 +139,10 @@ impl CifCategory for Vec<PublBody> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<PublBody> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![PublBody::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_body_contents") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_body_contents")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_body_contents", v) {
                 Ok(val) => rows[i].contents = val,
@@ -127,7 +150,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_body_element") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_body_element")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_closed_set("publ_body_element", v, Element::parse, "Element") {
                 Ok(val) => rows[i].element = val,
@@ -135,7 +161,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_body_format") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_body_format")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_closed_set("publ_body_format", v, Format::parse, "Format") {
                 Ok(val) => rows[i].format = val,
@@ -143,7 +172,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_body_label") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_body_label")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_body_label", v) {
                 Ok(val) => rows[i].label = val,
@@ -151,7 +183,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Pub
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "publ_body_title") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "publ_body_title")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("publ_body_title", v) {
                 Ok(val) => rows[i].title = val,

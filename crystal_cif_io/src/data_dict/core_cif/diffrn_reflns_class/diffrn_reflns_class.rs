@@ -4,11 +4,18 @@
 //! `CifCategory` is on the `Vec<DiffrnReflnsClass>` group: it emits
 //! one `MultiValues` loop and fills the rows from the columns.
 
+use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use {crate::data_dict::core_cif::diffrn_reflns_class::AvREq, crate::data_dict::core_cif::diffrn_reflns_class::AvSgIOverI, crate::data_dict::core_cif::diffrn_reflns_class::AvUIOverI, crate::data_dict::core_cif::diffrn_reflns_class::DResHigh, crate::data_dict::core_cif::diffrn_reflns_class::DResLow, crate::data_dict::core_cif::diffrn_reflns_class::ReflnsClassNumber};
-use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use {
+    crate::data_dict::core_cif::diffrn_reflns_class::AvREq,
+    crate::data_dict::core_cif::diffrn_reflns_class::AvSgIOverI,
+    crate::data_dict::core_cif::diffrn_reflns_class::AvUIOverI,
+    crate::data_dict::core_cif::diffrn_reflns_class::DResHigh,
+    crate::data_dict::core_cif::diffrn_reflns_class::DResLow,
+    crate::data_dict::core_cif::diffrn_reflns_class::ReflnsClassNumber,
+};
 
 #[derive(Debug, Clone, Default)]
 pub struct DiffrnReflnsClass {
@@ -35,7 +42,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_av_R_eq".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_av_R_eq".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.av_sg_i_over_i.is_some()) {
             let values: Vec<Value> = self
@@ -45,7 +55,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_av_sgI/I".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_av_sgI/I".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.av_u_i_over_i.is_some()) {
             let values: Vec<Value> = self
@@ -55,7 +68,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_av_uI/I".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_av_uI/I".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.code.is_some()) {
             let values: Vec<Value> = self
@@ -65,7 +81,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.d_res_high.is_some()) {
             let values: Vec<Value> = self
@@ -75,7 +94,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_d_res_high".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_d_res_high".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.d_res_low.is_some()) {
             let values: Vec<Value> = self
@@ -85,7 +107,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_d_res_low".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_d_res_low".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.description.is_some()) {
             let values: Vec<Value> = self
@@ -95,7 +120,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_description".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_description".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number.is_some()) {
             let values: Vec<Value> = self
@@ -105,14 +133,22 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_reflns_class_number".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_reflns_class_number".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -129,7 +165,8 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
                     "diffrn_reflns_class_d_res_high",
                     "diffrn_reflns_class_d_res_low",
                     "diffrn_reflns_class_description",
-                    "diffrn_reflns_class_number",];
+                    "diffrn_reflns_class_number",
+                ];
                 let is_ours = cols
                     .iter()
                     .any(|c| own_tags.contains(&c.tag().as_ref().to_lowercase().as_str()));
@@ -149,7 +186,10 @@ impl CifCategory for Vec<DiffrnReflnsClass> {
 fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &mut Vec<CifError>) {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     rows.resize(n, DiffrnReflnsClass::default());
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_av_r_eq") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_av_r_eq")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_reflns_class_av_R_eq", v, AvREq::new) {
                 Ok(val) => rows[i].av_r_eq = val,
@@ -157,7 +197,10 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_av_sgi/i") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_av_sgi/i")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_reflns_class_av_sgI/I", v, AvSgIOverI::new) {
                 Ok(val) => rows[i].av_sg_i_over_i = val,
@@ -165,7 +208,10 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_av_ui/i") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_av_ui/i")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_reflns_class_av_uI/I", v, AvUIOverI::new) {
                 Ok(val) => rows[i].av_u_i_over_i = val,
@@ -173,7 +219,10 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_reflns_class_code", v) {
                 Ok(val) => rows[i].code = val,
@@ -181,7 +230,10 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_d_res_high") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_d_res_high")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_reflns_class_d_res_high", v, DResHigh::new) {
                 Ok(val) => rows[i].d_res_high = val,
@@ -189,7 +241,10 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_d_res_low") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_d_res_low")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_reflns_class_d_res_low", v, DResLow::new) {
                 Ok(val) => rows[i].d_res_low = val,
@@ -197,7 +252,10 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_description") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_description")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_reflns_class_description", v) {
                 Ok(val) => rows[i].description = val,
@@ -205,9 +263,16 @@ fn merge_rows(rows: &mut Vec<DiffrnReflnsClass>, cols: &[LoopColumn], errors: &m
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_number") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_reflns_class_number")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_ranged_newtype("diffrn_reflns_class_number", v, ReflnsClassNumber::new) {
+            match convert::read_ranged_newtype(
+                "diffrn_reflns_class_number",
+                v,
+                ReflnsClassNumber::new,
+            ) {
                 Ok(val) => rows[i].number = val,
                 Err(e) => errors.push(e),
             }

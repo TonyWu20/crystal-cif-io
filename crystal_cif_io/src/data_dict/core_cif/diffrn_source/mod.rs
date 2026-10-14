@@ -16,12 +16,12 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 pub use self::convergence_angle::ConvergenceAngle;
 pub use self::current::Current;
 pub use self::device::Device;
+pub use self::diffrn_source::DiffrnSource;
 pub use self::ed_diffracting_area_selection::EdDiffractingAreaSelection;
 pub use self::power::Power;
 pub use self::take_off_angle::TakeOffAngle;
 pub use self::target::Target;
 pub use self::voltage::Voltage;
-pub use self::diffrn_source::DiffrnSource;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

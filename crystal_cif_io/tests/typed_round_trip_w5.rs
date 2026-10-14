@@ -9,8 +9,8 @@
 
 use crystal_cif_fmt::grammar::{Numeric, UnquotedString};
 use crystal_cif_fmt::{
-    CharString, DataBlock, DataBlockHeading, DataBlockMember, DataItems, SaveFrame,
-    SaveFrameHeading, parse_cif,
+    parse_cif, CharString, DataBlock, DataBlockHeading, DataBlockMember, DataItems, SaveFrame,
+    SaveFrameHeading,
 };
 
 use crystal_cif_io::core_cif::{CifError, CoreCif};
@@ -18,8 +18,11 @@ use crystal_cif_io::data_dict::core_cif::diffrn_refln::ScanMode;
 use crystal_cif_io::data_dict::core_cif::range_check::number_as_f64;
 
 fn fixture(name: &str) -> String {
-    let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../crystal_cif_fmt/tests/fixtures/")
-        .to_string()
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../crystal_cif_fmt/tests/fixtures/"
+    )
+    .to_string()
         + name;
     std::fs::read_to_string(&path).expect("the fixture reads")
 }
@@ -29,7 +32,7 @@ fn real_data(corpus: &str, name: &str) -> String {
         env!("CARGO_MANIFEST_DIR"),
         "/../crystal_cif_fmt/tests/real_data/"
     )
-        .to_string()
+    .to_string()
         + corpus
         + "/"
         + name;
@@ -54,52 +57,31 @@ fn fingerprint(doc: &CoreCif) -> String {
             .map(|n| format!("{:.6}", number_as_f64(&n.number())))
             .unwrap_or_else(|| "absent".to_string())
     };
-    let nt = |o: Option<f64>| o.map(|v| format!("{v:.6}")).unwrap_or_else(|| "absent".to_string());
+    let nt = |o: Option<f64>| {
+        o.map(|v| format!("{v:.6}"))
+            .unwrap_or_else(|| "absent".to_string())
+    };
     let chr = |o: &Option<CharString>| {
         o.as_ref()
             .map(|c| c.content().to_string())
             .unwrap_or_else(|| "absent".to_string())
     };
-    let amb = doc
-        .diffrn
-        .ambient_temperature
-        .as_ref()
-        .map(|v| v.value().0);
+    let amb = doc.diffrn.ambient_temperature.as_ref().map(|v| v.value().0);
     let area = doc
         .diffrn_detector
         .area_resol_mean
         .as_ref()
         .map(|v| v.value().0);
-    let dtime = doc
-        .diffrn_detector
-        .dtime
-        .as_ref()
-        .map(|v| v.value().0);
+    let dtime = doc.diffrn_detector.dtime.as_ref().map(|v| v.value().0);
     let rad_dtime = doc
         .diffrn_detector
         .diffrn_radiation_detector_dtime
         .as_ref()
         .map(|v| v.value().0);
-    let volt = doc
-        .diffrn_source
-        .voltage
-        .as_ref()
-        .map(|v| v.value().0);
-    let reflns_n = doc
-        .diffrn_reflns
-        .number
-        .as_ref()
-        .map(|v| v.value().0);
-    let theta_max = doc
-        .diffrn_reflns
-        .theta_max
-        .as_ref()
-        .map(|v| v.value().0);
-    let theta_min = doc
-        .diffrn_reflns
-        .theta_min
-        .as_ref()
-        .map(|v| v.value().0);
+    let volt = doc.diffrn_source.voltage.as_ref().map(|v| v.value().0);
+    let reflns_n = doc.diffrn_reflns.number.as_ref().map(|v| v.value().0);
+    let theta_max = doc.diffrn_reflns.theta_max.as_ref().map(|v| v.value().0);
+    let theta_min = doc.diffrn_reflns.theta_min.as_ref().map(|v| v.value().0);
     let res_max = doc
         .diffrn_reflns
         .resolution_max
@@ -226,7 +208,11 @@ fn the_diffrn_fixture_round_trips_the_tier_items() {
     );
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
-    assert_eq!(fingerprint(&doc), fingerprint(&again), "the IR round-trip is stable");
+    assert_eq!(
+        fingerprint(&doc),
+        fingerprint(&again),
+        "the IR round-trip is stable"
+    );
     assert!(
         doc.extra.is_empty(),
         "the fixture is fully typed by the tier"
@@ -251,11 +237,12 @@ fn the_shelxl_block_round_trips_the_single_value_items() {
     );
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
-    assert_eq!(fingerprint(&doc), fingerprint(&again), "the IR round-trip is stable");
-    assert!(
-        !doc.extra.is_empty(),
-        "the untyped members land in extra"
+    assert_eq!(
+        fingerprint(&doc),
+        fingerprint(&again),
+        "the IR round-trip is stable"
     );
+    assert!(!doc.extra.is_empty(), "the untyped members land in extra");
 }
 
 #[test]
@@ -280,7 +267,11 @@ fn the_cod_block_round_trips_the_radiation_and_source_items() {
     );
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
-    assert_eq!(fingerprint(&doc), fingerprint(&again), "the IR round-trip is stable");
+    assert_eq!(
+        fingerprint(&doc),
+        fingerprint(&again),
+        "the IR round-trip is stable"
+    );
 }
 
 #[test]
@@ -300,25 +291,23 @@ fn the_foreign_tag_and_tier_save_frame_are_the_extra_residue() {
             vec![DataItems::SingleValue(
                 crystal_cif_fmt::grammar::SingleLineData::from_tag_value((
                     crystal_cif_fmt::grammar::Tag::new("diffrn_reflns_class_code".to_string()),
-                    crystal_cif_fmt::grammar::Value::CharString(
-                        CharString::Unquoted(UnquotedString::new("1".to_string())),
-                    ),
+                    crystal_cif_fmt::grammar::Value::CharString(CharString::Unquoted(
+                        UnquotedString::new("1".to_string()),
+                    )),
                 )),
             )],
         ))),
         DataBlockMember::DataItems(DataItems::SingleValue(
             crystal_cif_fmt::grammar::SingleLineData::from_tag_value((
                 crystal_cif_fmt::grammar::Tag::new("audit_author_name".to_string()),
-                crystal_cif_fmt::grammar::Value::CharString(
-                    CharString::Unquoted(UnquotedString::new("author".to_string())),
-                ),
+                crystal_cif_fmt::grammar::Value::CharString(CharString::Unquoted(
+                    UnquotedString::new("author".to_string()),
+                )),
             )),
         )),
     ];
-    let block = DataBlock::from_heading_members((
-        DataBlockHeading::new("probe".to_string()),
-        members,
-    ));
+    let block =
+        DataBlock::from_heading_members((DataBlockHeading::new("probe".to_string()), members));
     let doc = CoreCif::from_block(&block).expect("the read is clean");
     assert!(
         doc.diffrn_standards.interval_count.is_some(),
@@ -355,7 +344,10 @@ fn the_scan_mode_enum_parses_the_dictionary_codes() {
             "the code {code} parses"
         );
     }
-    assert!(ScanMode::parse("xx").is_none(), "the outside code is rejected");
+    assert!(
+        ScanMode::parse("xx").is_none(),
+        "the outside code is rejected"
+    );
     assert!(
         ScanMode::parse("OM").is_none(),
         "the codes are case-sensitive"
@@ -380,10 +372,8 @@ fn the_outside_scan_mode_code_reports_a_value_class_error() {
             ),
         ]),
     ))];
-    let block = DataBlock::from_heading_members((
-        DataBlockHeading::new("probe".to_string()),
-        members,
-    ));
+    let block =
+        DataBlock::from_heading_members((DataBlockHeading::new("probe".to_string()), members));
     let errors = CoreCif::from_block(&block).expect_err("the outside code fails the read");
     assert_eq!(errors.len(), 1, "the one mismatch reports");
     assert!(

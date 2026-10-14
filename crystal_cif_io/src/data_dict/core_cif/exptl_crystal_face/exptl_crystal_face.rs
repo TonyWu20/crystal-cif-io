@@ -5,10 +5,10 @@
 //! group: it emits one `MultiValues` loop and fills the rows from the
 //! columns.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct ExptlCrystalFace {
@@ -36,7 +36,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_diffr_chi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_diffr_chi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.diffr_kappa.is_some()) {
             let values: Vec<Value> = self
@@ -46,7 +49,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_diffr_kappa".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_diffr_kappa".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.diffr_phi.is_some()) {
             let values: Vec<Value> = self
@@ -56,7 +62,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_diffr_phi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_diffr_phi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.diffr_psi.is_some()) {
             let values: Vec<Value> = self
@@ -66,7 +75,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_diffr_psi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_diffr_psi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_h.is_some()) {
             let values: Vec<Value> = self
@@ -76,7 +88,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_index_h".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_index_h".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_k.is_some()) {
             let values: Vec<Value> = self
@@ -86,7 +101,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_index_k".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_index_k".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_l.is_some()) {
             let values: Vec<Value> = self
@@ -96,7 +114,10 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_index_l".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_index_l".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.perp_dist.is_some()) {
             let values: Vec<Value> = self
@@ -106,15 +127,23 @@ impl CifCategory for Vec<ExptlCrystalFace> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("exptl_crystal_face_perp_dist".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("exptl_crystal_face_perp_dist".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -150,10 +179,16 @@ impl CifCategory for Vec<ExptlCrystalFace> {
     }
 }
 
-fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ExptlCrystalFace> {
+fn exptlcrystalface_rows_from_columns(
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) -> Vec<ExptlCrystalFace> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ExptlCrystalFace::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_chi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_chi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_diffr_chi", v) {
                 Ok(val) => rows[i].diffr_chi = val,
@@ -161,7 +196,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_kappa") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_kappa")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_diffr_kappa", v) {
                 Ok(val) => rows[i].diffr_kappa = val,
@@ -169,7 +207,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_phi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_phi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_diffr_phi", v) {
                 Ok(val) => rows[i].diffr_phi = val,
@@ -177,7 +218,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_psi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_diffr_psi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_diffr_psi", v) {
                 Ok(val) => rows[i].diffr_psi = val,
@@ -185,7 +229,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_index_h") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_index_h")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_index_h", v) {
                 Ok(val) => rows[i].index_h = val,
@@ -193,7 +240,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_index_k") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_index_k")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_index_k", v) {
                 Ok(val) => rows[i].index_k = val,
@@ -201,7 +251,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_index_l") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_index_l")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_index_l", v) {
                 Ok(val) => rows[i].index_l = val,
@@ -209,7 +262,10 @@ fn exptlcrystalface_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifE
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_perp_dist") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_crystal_face_perp_dist")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_crystal_face_perp_dist", v) {
                 Ok(val) => rows[i].perp_dist = val,

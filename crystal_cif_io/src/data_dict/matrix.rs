@@ -83,9 +83,9 @@ mod tests {
     fn non_numeric_leaf_is_an_error() {
         let v = Value::List(vec![Value::List(vec![
             Value::Numeric(Numeric::new(Number::from(1), None)),
-            Value::CharString(crystal_cif_fmt::grammar::CharString::Unquoted(UnquotedString::new(
-                "x".to_string(),
-            ))),
+            Value::CharString(crystal_cif_fmt::grammar::CharString::Unquoted(
+                UnquotedString::new("x".to_string()),
+            )),
         ])]);
         let err = from_value(&v, None).unwrap_err();
         assert!(matches!(err, MatrixError::NonNumeric));

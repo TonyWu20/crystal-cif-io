@@ -4,11 +4,25 @@
 //! `CifCategory` is on the `Vec<DiffrnRefln>` group: it emits
 //! one `MultiValues` loop and fills the rows from the columns.
 
+use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use {crate::data_dict::core_cif::diffrn_refln::DetectSlitHoriz, crate::data_dict::core_cif::diffrn_refln::DetectSlitVert, crate::data_dict::core_cif::diffrn_refln::ElapsedTime, crate::data_dict::core_cif::diffrn_refln::IntensityNet, crate::data_dict::core_cif::diffrn_refln::IntensitySigma, crate::data_dict::core_cif::diffrn_refln::IntensityU, crate::data_dict::core_cif::diffrn_refln::ScanMode, crate::data_dict::core_cif::diffrn_refln::ScanModeBackgd, crate::data_dict::core_cif::diffrn_refln::ScanRate, crate::data_dict::core_cif::diffrn_refln::ScanTimeBackgd, crate::data_dict::core_cif::diffrn_refln::ScanWidth, crate::data_dict::core_cif::diffrn_refln::SintLambda, crate::data_dict::core_cif::diffrn_refln::Wavelength};
-use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use {
+    crate::data_dict::core_cif::diffrn_refln::DetectSlitHoriz,
+    crate::data_dict::core_cif::diffrn_refln::DetectSlitVert,
+    crate::data_dict::core_cif::diffrn_refln::ElapsedTime,
+    crate::data_dict::core_cif::diffrn_refln::IntensityNet,
+    crate::data_dict::core_cif::diffrn_refln::IntensitySigma,
+    crate::data_dict::core_cif::diffrn_refln::IntensityU,
+    crate::data_dict::core_cif::diffrn_refln::ScanMode,
+    crate::data_dict::core_cif::diffrn_refln::ScanModeBackgd,
+    crate::data_dict::core_cif::diffrn_refln::ScanRate,
+    crate::data_dict::core_cif::diffrn_refln::ScanTimeBackgd,
+    crate::data_dict::core_cif::diffrn_refln::ScanWidth,
+    crate::data_dict::core_cif::diffrn_refln::SintLambda,
+    crate::data_dict::core_cif::diffrn_refln::Wavelength,
+};
 
 #[derive(Debug, Clone, Default)]
 pub struct DiffrnRefln {
@@ -60,7 +74,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_angle_chi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_angle_chi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.angle_kappa.is_some()) {
             let values: Vec<Value> = self
@@ -70,7 +87,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_angle_kappa".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_angle_kappa".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.angle_omega.is_some()) {
             let values: Vec<Value> = self
@@ -80,7 +100,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_angle_omega".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_angle_omega".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.angle_phi.is_some()) {
             let values: Vec<Value> = self
@@ -90,7 +113,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_angle_phi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_angle_phi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.angle_psi.is_some()) {
             let values: Vec<Value> = self
@@ -100,7 +126,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_angle_psi".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_angle_psi".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.angle_theta.is_some()) {
             let values: Vec<Value> = self
@@ -110,7 +139,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_angle_theta".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_angle_theta".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.attenuator_code.is_some()) {
             let values: Vec<Value> = self
@@ -120,7 +152,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_attenuator_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_attenuator_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.class_code.is_some()) {
             let values: Vec<Value> = self
@@ -130,7 +165,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_class_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_class_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.counts_bg_1.is_some()) {
             let values: Vec<Value> = self
@@ -140,7 +178,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_counts_bg_1".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_counts_bg_1".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.counts_bg_2.is_some()) {
             let values: Vec<Value> = self
@@ -150,7 +191,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_counts_bg_2".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_counts_bg_2".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.counts_net.is_some()) {
             let values: Vec<Value> = self
@@ -160,7 +204,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_counts_net".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_counts_net".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.counts_peak.is_some()) {
             let values: Vec<Value> = self
@@ -170,7 +217,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_counts_peak".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_counts_peak".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.counts_total.is_some()) {
             let values: Vec<Value> = self
@@ -180,7 +230,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_counts_total".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_counts_total".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.crystal_id.is_some()) {
             let values: Vec<Value> = self
@@ -190,7 +243,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_crystal_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_crystal_id".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.detect_slit_horiz.is_some()) {
             let values: Vec<Value> = self
@@ -200,7 +256,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_detect_slit_horiz".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_detect_slit_horiz".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.detect_slit_vert.is_some()) {
             let values: Vec<Value> = self
@@ -210,7 +269,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_detect_slit_vert".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_detect_slit_vert".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.elapsed_time.is_some()) {
             let values: Vec<Value> = self
@@ -220,7 +282,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_elapsed_time".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_elapsed_time".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_h.is_some()) {
             let values: Vec<Value> = self
@@ -230,7 +295,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_index_h".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_index_h".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_k.is_some()) {
             let values: Vec<Value> = self
@@ -240,7 +308,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_index_k".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_index_k".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.index_l.is_some()) {
             let values: Vec<Value> = self
@@ -250,7 +321,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_index_l".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_index_l".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.intensity_net.is_some()) {
             let values: Vec<Value> = self
@@ -260,7 +334,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_intensity_net".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_intensity_net".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.intensity_sigma.is_some()) {
             let values: Vec<Value> = self
@@ -270,7 +347,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_intensity_sigma".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_intensity_sigma".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.intensity_u.is_some()) {
             let values: Vec<Value> = self
@@ -280,7 +360,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_intensity_u".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_intensity_u".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scale_group_code.is_some()) {
             let values: Vec<Value> = self
@@ -290,7 +373,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_scale_group_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_scale_group_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scan_mode.is_some()) {
             let values: Vec<Value> = self
@@ -300,7 +386,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_scan_mode".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_scan_mode".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scan_mode_backgd.is_some()) {
             let values: Vec<Value> = self
@@ -310,7 +399,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_scan_mode_backgd".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_scan_mode_backgd".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scan_rate.is_some()) {
             let values: Vec<Value> = self
@@ -320,7 +412,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_scan_rate".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_scan_rate".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scan_time_backgd.is_some()) {
             let values: Vec<Value> = self
@@ -330,7 +425,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_scan_time_backgd".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_scan_time_backgd".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.scan_width.is_some()) {
             let values: Vec<Value> = self
@@ -340,7 +438,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_scan_width".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_scan_width".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.sint_lambda.is_some()) {
             let values: Vec<Value> = self
@@ -350,7 +451,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_sint/lambda".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_sint/lambda".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.standard_code.is_some()) {
             let values: Vec<Value> = self
@@ -360,7 +464,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_standard_code".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_standard_code".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.wavelength.is_some()) {
             let values: Vec<Value> = self
@@ -370,7 +477,10 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_wavelength".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_wavelength".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.wavelength_id.is_some()) {
             let values: Vec<Value> = self
@@ -380,14 +490,22 @@ impl CifCategory for Vec<DiffrnRefln> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("diffrn_refln_wavelength_id".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("diffrn_refln_wavelength_id".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -429,7 +547,8 @@ impl CifCategory for Vec<DiffrnRefln> {
                     "diffrn_refln_sint/lambda",
                     "diffrn_refln_standard_code",
                     "diffrn_refln_wavelength",
-                    "diffrn_refln_wavelength_id",];
+                    "diffrn_refln_wavelength_id",
+                ];
                 let is_ours = cols
                     .iter()
                     .any(|c| own_tags.contains(&c.tag().as_ref().to_lowercase().as_str()));
@@ -449,7 +568,10 @@ impl CifCategory for Vec<DiffrnRefln> {
 fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec<CifError>) {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     rows.resize(n, DiffrnRefln::default());
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_chi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_chi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_angle_chi", v) {
                 Ok(val) => rows[i].angle_chi = val,
@@ -457,7 +579,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_kappa") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_kappa")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_angle_kappa", v) {
                 Ok(val) => rows[i].angle_kappa = val,
@@ -465,7 +590,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_omega") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_omega")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_angle_omega", v) {
                 Ok(val) => rows[i].angle_omega = val,
@@ -473,7 +601,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_phi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_phi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_angle_phi", v) {
                 Ok(val) => rows[i].angle_phi = val,
@@ -481,7 +612,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_psi") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_psi")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_angle_psi", v) {
                 Ok(val) => rows[i].angle_psi = val,
@@ -489,7 +623,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_theta") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_angle_theta")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_angle_theta", v) {
                 Ok(val) => rows[i].angle_theta = val,
@@ -497,7 +634,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_attenuator_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_attenuator_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_refln_attenuator_code", v) {
                 Ok(val) => rows[i].attenuator_code = val,
@@ -505,7 +645,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_class_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_class_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_refln_class_code", v) {
                 Ok(val) => rows[i].class_code = val,
@@ -513,7 +656,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_bg_1") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_bg_1")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_counts_bg_1", v) {
                 Ok(val) => rows[i].counts_bg_1 = val,
@@ -521,7 +667,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_bg_2") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_bg_2")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_counts_bg_2", v) {
                 Ok(val) => rows[i].counts_bg_2 = val,
@@ -529,7 +678,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_net") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_net")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_counts_net", v) {
                 Ok(val) => rows[i].counts_net = val,
@@ -537,7 +689,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_peak") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_peak")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_counts_peak", v) {
                 Ok(val) => rows[i].counts_peak = val,
@@ -545,7 +700,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_total") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_counts_total")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_counts_total", v) {
                 Ok(val) => rows[i].counts_total = val,
@@ -553,7 +711,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_crystal_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_crystal_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_refln_crystal_id", v) {
                 Ok(val) => rows[i].crystal_id = val,
@@ -561,23 +722,40 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_detect_slit_horiz") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_detect_slit_horiz")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_ranged_newtype("diffrn_refln_detect_slit_horiz", v, DetectSlitHoriz::new) {
+            match convert::read_ranged_newtype(
+                "diffrn_refln_detect_slit_horiz",
+                v,
+                DetectSlitHoriz::new,
+            ) {
                 Ok(val) => rows[i].detect_slit_horiz = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_detect_slit_vert") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_detect_slit_vert")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_ranged_newtype("diffrn_refln_detect_slit_vert", v, DetectSlitVert::new) {
+            match convert::read_ranged_newtype(
+                "diffrn_refln_detect_slit_vert",
+                v,
+                DetectSlitVert::new,
+            ) {
                 Ok(val) => rows[i].detect_slit_vert = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_elapsed_time") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_elapsed_time")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_elapsed_time", v, ElapsedTime::new) {
                 Ok(val) => rows[i].elapsed_time = val,
@@ -585,7 +763,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_index_h") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_index_h")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_index_h", v) {
                 Ok(val) => rows[i].index_h = val,
@@ -593,7 +774,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_index_k") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_index_k")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_index_k", v) {
                 Ok(val) => rows[i].index_k = val,
@@ -601,7 +785,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_index_l") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_index_l")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("diffrn_refln_index_l", v) {
                 Ok(val) => rows[i].index_l = val,
@@ -609,7 +796,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_intensity_net") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_intensity_net")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_intensity_net", v, IntensityNet::new) {
                 Ok(val) => rows[i].intensity_net = val,
@@ -617,15 +807,25 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_intensity_sigma") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_intensity_sigma")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_ranged_newtype("diffrn_refln_intensity_sigma", v, IntensitySigma::new) {
+            match convert::read_ranged_newtype(
+                "diffrn_refln_intensity_sigma",
+                v,
+                IntensitySigma::new,
+            ) {
                 Ok(val) => rows[i].intensity_sigma = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_intensity_u") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_intensity_u")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_intensity_u", v, IntensityU::new) {
                 Ok(val) => rows[i].intensity_u = val,
@@ -633,7 +833,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scale_group_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scale_group_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_refln_scale_group_code", v) {
                 Ok(val) => rows[i].scale_group_code = val,
@@ -641,23 +844,38 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_mode") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_mode")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_closed_set("diffrn_refln_scan_mode", v, ScanMode::parse, "ScanMode") {
+            match convert::read_closed_set("diffrn_refln_scan_mode", v, ScanMode::parse, "ScanMode")
+            {
                 Ok(val) => rows[i].scan_mode = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_mode_backgd") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_mode_backgd")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_closed_set("diffrn_refln_scan_mode_backgd", v, ScanModeBackgd::parse, "ScanModeBackgd") {
+            match convert::read_closed_set(
+                "diffrn_refln_scan_mode_backgd",
+                v,
+                ScanModeBackgd::parse,
+                "ScanModeBackgd",
+            ) {
                 Ok(val) => rows[i].scan_mode_backgd = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_rate") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_rate")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_scan_rate", v, ScanRate::new) {
                 Ok(val) => rows[i].scan_rate = val,
@@ -665,15 +883,25 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_time_backgd") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_time_backgd")
+    {
         for (i, v) in col.values().iter().enumerate() {
-            match convert::read_ranged_newtype("diffrn_refln_scan_time_backgd", v, ScanTimeBackgd::new) {
+            match convert::read_ranged_newtype(
+                "diffrn_refln_scan_time_backgd",
+                v,
+                ScanTimeBackgd::new,
+            ) {
                 Ok(val) => rows[i].scan_time_backgd = val,
                 Err(e) => errors.push(e),
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_width") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_scan_width")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_scan_width", v, ScanWidth::new) {
                 Ok(val) => rows[i].scan_width = val,
@@ -681,7 +909,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_sint/lambda") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_sint/lambda")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_sint/lambda", v, SintLambda::new) {
                 Ok(val) => rows[i].sint_lambda = val,
@@ -689,7 +920,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_standard_code") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_standard_code")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_refln_standard_code", v) {
                 Ok(val) => rows[i].standard_code = val,
@@ -697,7 +931,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_wavelength") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_wavelength")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_ranged_newtype("diffrn_refln_wavelength", v, Wavelength::new) {
                 Ok(val) => rows[i].wavelength = val,
@@ -705,7 +942,10 @@ fn merge_rows(rows: &mut Vec<DiffrnRefln>, cols: &[LoopColumn], errors: &mut Vec
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_wavelength_id") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "diffrn_refln_wavelength_id")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("diffrn_refln_wavelength_id", v) {
                 Ok(val) => rows[i].wavelength_id = val,

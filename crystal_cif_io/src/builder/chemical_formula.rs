@@ -11,9 +11,7 @@ use bon::bon;
 use elements_rs::Element;
 use std::str::FromStr;
 
-use crate::data_dict::core_cif::chemical_formula::{
-    ChemicalFormula, FormulaWeight,
-};
+use crate::data_dict::core_cif::chemical_formula::{ChemicalFormula, FormulaWeight};
 use crate::data_dict::core_cif::range_check::number_as_f64;
 use crystal_cif_fmt::grammar::{CharString, Numeric};
 
@@ -75,7 +73,9 @@ impl std::error::Error for FormulaError {}
 
 #[cfg(test)]
 fn unquoted(text: &str) -> CharString {
-    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(text.to_string()))
+    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(
+        text.to_string(),
+    ))
 }
 
 /// The element composition of a formula text. The element counts
@@ -238,12 +238,11 @@ pub fn formula_weight(
         .iter()
         .map(|(element, count)| element.standard_atomic_weight() * *count as f64)
         .sum();
-    let weight = FormulaWeight::try_new("weight", Numeric::from(mass)).map_err(|e| {
-        FormulaError::Range {
+    let weight =
+        FormulaWeight::try_new("weight", Numeric::from(mass)).map_err(|e| FormulaError::Range {
             item: "weight",
             detail: e.to_string(),
-        }
-    })?;
+        })?;
     if let Some(density) = density {
         let (Some(z), Some(volume)) = (z, volume) else {
             return Err(FormulaError::MissingDensityInputs {
@@ -309,7 +308,10 @@ mod tests {
             .structural(cs("H2O"))
             .build()
             .expect("the formula builds");
-        assert!(formula.structural.is_some(), "the structural spelling is set");
+        assert!(
+            formula.structural.is_some(),
+            "the structural spelling is set"
+        );
         assert!(formula.moiety.is_none(), "the unset spellings stay absent");
         assert_eq!(formula.to_members().len(), 1);
     }
@@ -371,10 +373,7 @@ mod tests {
             Some(Numeric::from(volume)),
         )
         .expect("the density matches the expectation");
-        assert_eq!(
-            number_as_f64(&ok.value().number()),
-            18.015,
-        );
+        assert_eq!(number_as_f64(&ok.value().number()), 18.015,);
     }
 
     #[test]

@@ -4,11 +4,13 @@
 //! the `exptl_absorpt_correction_T` loop family. `CifCategory` is on the
 //! `Exptl` group. The loop keeps one row struct per family.
 
-use crystal_cif_fmt::grammar::{Tag, Value, Numeric, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
-use crate::data_dict::core_cif::exptl::{AbsorptCoefficient, AbsorptCorrectionType, CrystalCount, TransmissionFactor};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::exptl::{
+    AbsorptCoefficient, AbsorptCorrectionType, CrystalCount, TransmissionFactor,
+};
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Exptl {
@@ -32,54 +34,73 @@ impl CifCategory for Exptl {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.absorpt_coefficient_mu {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_absorpt_coefficient_mu".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_absorpt_coefficient_mu".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.absorpt_correction_type {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_absorpt_correction_type".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_absorpt_correction_type".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.absorpt_process_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_absorpt_process_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_absorpt_process_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.crystals_number {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_crystals_number".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_crystals_number".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.special_details {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_special_details".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_special_details".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.transmission_factor_max {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_transmission_factor_max".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_transmission_factor_max".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.transmission_factor_min {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("exptl_transmission_factor_min".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("exptl_transmission_factor_min".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if !self.absorpt_correction_t.is_empty() {
-            out.extend(absorpt_correction_t_to_loop_members(&self.absorpt_correction_t));
+            out.extend(absorpt_correction_t_to_loop_members(
+                &self.absorpt_correction_t,
+            ));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -89,13 +110,21 @@ impl CifCategory for Exptl {
                     let value = sv.value();
                     match tag.as_str() {
                         "exptl_absorpt_coefficient_mu" => {
-                            match convert::read_absorpt_coefficient("exptl_absorpt_coefficient_mu", value) {
+                            match convert::read_absorpt_coefficient(
+                                "exptl_absorpt_coefficient_mu",
+                                value,
+                            ) {
                                 Ok(v) => self.absorpt_coefficient_mu = v,
                                 Err(e) => errors.push(e),
                             }
                         }
                         "exptl_absorpt_correction_type" => {
-                            match convert::read_closed_set("exptl_absorpt_correction_type", value, |c| AbsorptCorrectionType::try_from(c).ok(), "AbsorptCorrectionType") {
+                            match convert::read_closed_set(
+                                "exptl_absorpt_correction_type",
+                                value,
+                                |c| AbsorptCorrectionType::try_from(c).ok(),
+                                "AbsorptCorrectionType",
+                            ) {
                                 Ok(v) => self.absorpt_correction_type = v,
                                 Err(e) => errors.push(e),
                             }
@@ -119,13 +148,19 @@ impl CifCategory for Exptl {
                             }
                         }
                         "exptl_transmission_factor_max" => {
-                            match convert::read_transmission_factor("exptl_transmission_factor_max", value) {
+                            match convert::read_transmission_factor(
+                                "exptl_transmission_factor_max",
+                                value,
+                            ) {
                                 Ok(v) => self.transmission_factor_max = v,
                                 Err(e) => errors.push(e),
                             }
                         }
                         "exptl_transmission_factor_min" => {
-                            match convert::read_transmission_factor("exptl_transmission_factor_min", value) {
+                            match convert::read_transmission_factor(
+                                "exptl_transmission_factor_min",
+                                value,
+                            ) {
                                 Ok(v) => self.transmission_factor_min = v,
                                 Err(e) => errors.push(e),
                             }
@@ -142,18 +177,19 @@ impl CifCategory for Exptl {
                         "exptl_absorpt_correction_t_max",
                         "exptl_absorpt_correction_t_min",
                     ];
-                    let is_ours = cols
-                        .iter()
-                        .any(|c| {
-                            let t = c.tag().as_ref().to_lowercase();
-                            absorpt_correction_t.contains(&t.as_str())
-                        });
+                    let is_ours = cols.iter().any(|c| {
+                        let t = c.tag().as_ref().to_lowercase();
+                        absorpt_correction_t.contains(&t.as_str())
+                    });
                     if !is_ours {
                         residue.push(m.clone());
                     } else {
-                    if cols.iter().any(|c| absorpt_correction_t.contains(&c.tag().as_ref().to_lowercase().as_str())) {
-                        self.absorpt_correction_t = absorpt_correction_t_rows_from_columns(cols, &mut errors);
-                    }
+                        if cols.iter().any(|c| {
+                            absorpt_correction_t.contains(&c.tag().as_ref().to_lowercase().as_str())
+                        }) {
+                            self.absorpt_correction_t =
+                                absorpt_correction_t_rows_from_columns(cols, &mut errors);
+                        }
                     }
                 }
                 other => residue.push(other.clone()),
@@ -173,7 +209,10 @@ fn absorpt_correction_t_to_loop_members(rows: &[ExptlAbsorptCorrectionT]) -> Vec
                 None => Value::Inapplicable,
             })
             .collect();
-        columns.push(LoopColumn::new(Tag::new("exptl_absorpt_correction_T_max".to_string()), values));
+        columns.push(LoopColumn::new(
+            Tag::new("exptl_absorpt_correction_T_max".to_string()),
+            values,
+        ));
     }
     if rows.iter().any(|r| r.min.is_some()) {
         let values: Vec<Value> = rows
@@ -183,18 +222,29 @@ fn absorpt_correction_t_to_loop_members(rows: &[ExptlAbsorptCorrectionT]) -> Vec
                 None => Value::Inapplicable,
             })
             .collect();
-        columns.push(LoopColumn::new(Tag::new("exptl_absorpt_correction_T_min".to_string()), values));
+        columns.push(LoopColumn::new(
+            Tag::new("exptl_absorpt_correction_T_min".to_string()),
+            values,
+        ));
     }
     if columns.is_empty() {
         return Vec::new();
     }
-    vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+    vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        LoopColumns::new(columns),
+    ))]
 }
 
-fn absorpt_correction_t_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ExptlAbsorptCorrectionT> {
+fn absorpt_correction_t_rows_from_columns(
+    cols: &[LoopColumn],
+    errors: &mut Vec<CifError>,
+) -> Vec<ExptlAbsorptCorrectionT> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ExptlAbsorptCorrectionT::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_absorpt_correction_t_max") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_absorpt_correction_t_max")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_absorpt_correction_t_max", v) {
                 Ok(val) => rows[i].max = val,
@@ -202,7 +252,10 @@ fn absorpt_correction_t_rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "exptl_absorpt_correction_t_min") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "exptl_absorpt_correction_t_min")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_numeric("exptl_absorpt_correction_t_min", v) {
                 Ok(val) => rows[i].min = val,

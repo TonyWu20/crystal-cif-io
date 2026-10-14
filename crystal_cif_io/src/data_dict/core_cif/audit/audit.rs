@@ -5,11 +5,11 @@
 //! Char items read leniently: the tier corpus records them as text
 //! fields. The closed sets keep the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
+use crate::core_cif::CifError;
 use crate::data_dict::core_cif::audit::Schema;
 use crate::data_dict::core_cif::{convert, CifCategory};
-use crate::core_cif::CifError;
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct Audit {
@@ -25,45 +25,60 @@ impl CifCategory for Audit {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.block_code {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_block_code".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_block_code".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.block_doi {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_block_doi".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_block_doi".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.creation_date {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_creation_date".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_creation_date".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.creation_method {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_creation_method".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_creation_method".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.schema {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_schema".to_string()),
-                Value::from(*v),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_schema".to_string()),
+                    Value::from(*v),
+                )),
+            )));
         }
         if let Some(v) = &self.update_record {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_update_record".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_update_record".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -77,12 +92,10 @@ impl CifCategory for Audit {
                             Err(e) => errors.push(e),
                         }
                     }
-                    "audit_block_doi" => {
-                        match convert::read_char_text("audit_block_doi", value) {
-                            Ok(v) => self.block_doi = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
+                    "audit_block_doi" => match convert::read_char_text("audit_block_doi", value) {
+                        Ok(v) => self.block_doi = v,
+                        Err(e) => errors.push(e),
+                    },
                     "audit_creation_date" => {
                         match convert::read_char_text("audit_creation_date", value) {
                             Ok(v) => self.creation_date = v,
@@ -96,7 +109,12 @@ impl CifCategory for Audit {
                         }
                     }
                     "audit_schema" => {
-                        match convert::read_closed_set("audit_schema", value, Schema::parse, "Schema") {
+                        match convert::read_closed_set(
+                            "audit_schema",
+                            value,
+                            Schema::parse,
+                            "Schema",
+                        ) {
                             Ok(v) => self.schema = v,
                             Err(e) => errors.push(e),
                         }

@@ -8,8 +8,8 @@
 
 use crystal_cif_fmt::grammar::{DataBlock, Numeric, UnquotedString};
 use crystal_cif_fmt::{
-    parse_cif, CharString, DataBlockMember, DataBlockHeading, DataItems, LoopColumn,
-    LoopColumns, SaveFrame, SaveFrameHeading, SingleLineData, Tag, Value,
+    parse_cif, CharString, DataBlockHeading, DataBlockMember, DataItems, LoopColumn, LoopColumns,
+    SaveFrame, SaveFrameHeading, SingleLineData, Tag, Value,
 };
 use crystal_cif_io::core_cif::CoreCif;
 use crystal_cif_io::data_dict::core_cif::atom_sites::SolutionMethod;
@@ -17,18 +17,24 @@ use crystal_cif_io::data_dict::core_cif::chemical_conn_bond::BondType;
 use crystal_cif_io::data_dict::core_cif::range_check::number_as_f64;
 
 fn fixture(name: &str) -> String {
-    let path =
-        concat!(env!("CARGO_MANIFEST_DIR"), "/../crystal_cif_fmt/tests/fixtures/").to_string()
-            + name;
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../crystal_cif_fmt/tests/fixtures/"
+    )
+    .to_string()
+        + name;
     std::fs::read_to_string(&path).expect("the fixture reads")
 }
 
 fn corpus(dir: &str, name: &str) -> String {
-    let path =
-        concat!(env!("CARGO_MANIFEST_DIR"), "/../crystal_cif_fmt/tests/real_data/").to_string()
-            + dir
-            + "/"
-            + name;
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../crystal_cif_fmt/tests/real_data/"
+    )
+    .to_string()
+        + dir
+        + "/"
+        + name;
     std::fs::read_to_string(&path).expect("the corpus file reads")
 }
 
@@ -60,14 +66,16 @@ fn unq(text: &str) -> CharString {
 /// lost.
 fn t3_fingerprint(doc: &CoreCif) -> String {
     let char_of = |o: Option<CharString>| {
-        o.map(|c| c.content().to_string()).unwrap_or_else(|| "absent".to_string())
+        o.map(|c| c.content().to_string())
+            .unwrap_or_else(|| "absent".to_string())
     };
     let num_of = |o: Option<Numeric>| {
         o.map(|n| format!("{:.6}", number_as_f64(&n.number())))
             .unwrap_or_else(|| "absent".to_string())
     };
     let code_of = |o: Option<SolutionMethod>| {
-        o.map(|c| c.to_string()).unwrap_or_else(|| "absent".to_string())
+        o.map(|c| c.to_string())
+            .unwrap_or_else(|| "absent".to_string())
     };
     let mut s = String::new();
     s += &format!(
@@ -80,11 +88,7 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     s += &format!(
         "atom_type[rows={} symbol={} scat={}]\n",
         doc.atom_type_rows.len(),
-        char_of(
-            doc.atom_type_rows
-                .first()
-                .and_then(|r| r.symbol.clone())
-        ),
+        char_of(doc.atom_type_rows.first().and_then(|r| r.symbol.clone())),
         char_of(
             doc.atom_type_rows
                 .first()
@@ -193,11 +197,7 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     s += &format!(
         "valence_ref[rows={} reference={}]\n",
         doc.valence_ref.len(),
-        char_of(
-            doc.valence_ref
-                .first()
-                .and_then(|r| r.reference.clone())
-        ),
+        char_of(doc.valence_ref.first().and_then(|r| r.reference.clone())),
     );
     for m in &doc.extra {
         s += &format!("{m}\n");
@@ -228,8 +228,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
         "the geom special-list loops type"
     );
     assert!(
-        !doc.valence_param_rows.is_empty()
-            && !doc.valence_ref.is_empty(),
+        !doc.valence_param_rows.is_empty() && !doc.valence_ref.is_empty(),
         "the valence loops type"
     );
     assert!(
@@ -277,9 +276,7 @@ fn the_cod_entry_round_trips_the_t3_categories() {
         "the geom special-list loops type"
     );
     assert!(
-        doc.geom_bond_rows
-            .iter()
-            .any(|r| r.distance.is_some()),
+        doc.geom_bond_rows.iter().any(|r| r.distance.is_some()),
         "the bond distance types through the range newtype"
     );
     let rewritten = doc.to_block(block.heading());
@@ -316,17 +313,15 @@ fn save_frames_and_foreign_tags_are_the_t3_extra_residue() {
             vec![DataItems::SingleValue(SingleLineData::from_tag_value((
                 Tag::new("geom_bond_valence".to_string()),
                 Value::Numeric(Numeric::from(3.0)),
-            )))]
+            )))],
         ))),
         DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
             Tag::new("my_foreign_tag".to_string()),
             Value::CharString(unq("test")),
         )))),
     ];
-    let block = DataBlock::from_heading_members((
-        DataBlockHeading::new("probe".to_string()),
-        members,
-    ));
+    let block =
+        DataBlock::from_heading_members((DataBlockHeading::new("probe".to_string()), members));
     let doc = CoreCif::from_block(&block).expect("the read is clean");
     assert_eq!(
         doc.geom_bond.id.as_ref().map(|c| c.content()),
@@ -359,11 +354,11 @@ fn save_frames_and_foreign_tags_are_the_t3_extra_residue() {
 
 #[test]
 fn the_wave_closed_sets_parse_the_dictionary_codes() {
-    for code in [
-        "sing", "doub", "trip", "quad", "arom", "poly", "delo", "pi",
-    ] {
+    for code in ["sing", "doub", "trip", "quad", "arom", "poly", "delo", "pi"] {
         assert_eq!(
-            BondType::parse(code).expect("the code is in the set").to_string(),
+            BondType::parse(code)
+                .expect("the code is in the set")
+                .to_string(),
             code,
             "the bond type code {code}"
         );
@@ -373,11 +368,23 @@ fn the_wave_closed_sets_parse_the_dictionary_codes() {
         "the code is not in the set"
     );
     for code in [
-        "difmap", "vecmap", "heavy", "direct", "geom", "disper", "isomor",
-        "mixed", "notdet", "dual", "iterative", "other",
+        "difmap",
+        "vecmap",
+        "heavy",
+        "direct",
+        "geom",
+        "disper",
+        "isomor",
+        "mixed",
+        "notdet",
+        "dual",
+        "iterative",
+        "other",
     ] {
         assert_eq!(
-            SolutionMethod::parse(code).expect("the code is in the set").to_string(),
+            SolutionMethod::parse(code)
+                .expect("the code is in the set")
+                .to_string(),
             code,
             "the solution method code {code}"
         );

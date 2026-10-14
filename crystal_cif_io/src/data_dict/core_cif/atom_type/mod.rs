@@ -8,8 +8,8 @@
 mod atom_type;
 mod ranges;
 
-pub use ranges::{AnalyticalMass, NumberInCell, OxidationNumber, Radius};
 pub use atom_type::{AtomType, AtomTypeRow};
+pub use ranges::{AnalyticalMass, NumberInCell, OxidationNumber, Radius};
 
 use std::fmt::Display;
 

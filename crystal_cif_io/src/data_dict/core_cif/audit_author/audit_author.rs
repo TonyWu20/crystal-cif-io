@@ -6,10 +6,10 @@
 //! the tier corpus records them as text fields. The closed sets keep
 //! the typed enum.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData, LoopColumn, LoopColumns};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
 pub struct AuditAuthor {
@@ -24,39 +24,52 @@ impl CifCategory for AuditAuthor {
     fn to_members(&self) -> Vec<DataBlockMember> {
         let mut out = Vec::new();
         if let Some(v) = &self.email {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_author_email".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_author_email".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.fax {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_author_fax".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_author_fax".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.id {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_author_id".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_author_id".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.id_orcid {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_author_id_orcid".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_author_id_orcid".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         if let Some(v) = &self.phone {
-            out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-                Tag::new("audit_author_phone".to_string()),
-                Value::CharString(v.clone()),
-            )))));
+            out.push(DataBlockMember::DataItems(DataItems::SingleValue(
+                SingleLineData::from_tag_value((
+                    Tag::new("audit_author_phone".to_string()),
+                    Value::CharString(v.clone()),
+                )),
+            )));
         }
         out
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -76,12 +89,10 @@ impl CifCategory for AuditAuthor {
                             Err(e) => errors.push(e),
                         }
                     }
-                    "audit_author_id" => {
-                        match convert::read_char_text("audit_author_id", value) {
-                            Ok(v) => self.id = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
+                    "audit_author_id" => match convert::read_char_text("audit_author_id", value) {
+                        Ok(v) => self.id = v,
+                        Err(e) => errors.push(e),
+                    },
                     "audit_author_id_orcid" => {
                         match convert::read_char_text("audit_author_id_orcid", value) {
                             Ok(v) => self.id_orcid = v,
@@ -125,7 +136,10 @@ impl CifCategory for Vec<AuditAuthorRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("audit_author_address".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("audit_author_address".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.name.is_some()) {
             let values: Vec<Value> = self
@@ -135,15 +149,23 @@ impl CifCategory for Vec<AuditAuthorRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("audit_author_name".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("audit_author_name".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -153,10 +175,7 @@ impl CifCategory for Vec<AuditAuthorRow> {
                     // A loop is this category only when it carries one of
                     // the category own loop items. A sibling loop that
                     // carries none of them stays in the residue.
-                    let ours: &[&str] = &[
-                        "audit_author_address",
-                        "audit_author_name",
-                    ];
+                    let ours: &[&str] = &["audit_author_address", "audit_author_name"];
                     let is_ours = cols
                         .iter()
                         .any(|c| ours.contains(&c.tag().as_ref().to_lowercase().as_str()));
@@ -176,7 +195,10 @@ impl CifCategory for Vec<AuditAuthorRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<AuditAuthorRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![AuditAuthorRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "audit_author_address") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "audit_author_address")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("audit_author_address", v) {
                 Ok(val) => rows[i].address = val,
@@ -184,7 +206,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Aud
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "audit_author_name") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "audit_author_name")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char_text("audit_author_name", v) {
                 Ok(val) => rows[i].name = val,

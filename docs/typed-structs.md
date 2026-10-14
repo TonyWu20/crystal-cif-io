@@ -330,6 +330,17 @@ below need a call.
 | D12i | the final scope of the struct layer | A: all 91 shell categories (1139 items). B: the 62 standard categories (732 items). C: a domain subset the user names | **B (user, 2026-10-17)**. The IUCr category view of the CIF 1.1 standard dictionary is the scope authority. The official list pins in `crystal_cif_io/tests/dict_categories_official.json`. The `dict_categories_official` test gates drift. Shell-only categories stay out of the struct layer |
 | D12j | the rollout order after wave 1 | A: the roadmap tiers T2 to T6. B: the user application domain first. C: the real-data coverage data first | **A (user, 2026-10-17)**. The 57 remaining standard categories proceed in roadmap tier order, tiers 2 through 5. Tier 6 is out of scope per D12i |
 
+### The closed-value gate
+
+The gate `crystal_cif_io/tests/closed_values.rs` proves that each
+typed closed-set enum agrees with the recorded closed values of
+`tests/dict_inventory.json` plus the marked extensions of
+`codegen/closed_value_extensions.json`. A row exists for every closed
+item of the pin. The gate found five enums short of their dictionary
+codes. The enums now parse every dictionary code. The five are: the
+hydrogen treatment codes, `greyish`, the include and observed status
+codes, the wavelength determination codes, and `TE`.
+
 ## 10. The crate split (D13)
 
 The user decision (2026-10-17) splits the repo into two crates,

@@ -12,12 +12,12 @@ use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Tag, Value};
 
 pub use self::decay_percent::DecayPercent;
+pub use self::diffrn_standards::DiffrnStandards;
 pub use self::interval_count::IntervalCount;
 pub use self::interval_time::IntervalTime;
 pub use self::scale_sigma::ScaleSigma;
 pub use self::scale_u::ScaleU;
 pub use self::standards_number::StandardsNumber;
-pub use self::diffrn_standards::DiffrnStandards;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

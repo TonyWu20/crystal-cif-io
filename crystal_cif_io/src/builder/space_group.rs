@@ -17,15 +17,15 @@
 
 use bon::bon;
 use crystallographic_group::database::{
-    PER_NUMBER_SPACE_GROUP_SYMBOLS, CrystalSystem, SpaceGroupTable,
+    CrystalSystem, SpaceGroupTable, PER_NUMBER_SPACE_GROUP_SYMBOLS,
 };
 use crystallographic_group::SpaceGroup as Resolved;
 use crystallographic_group::SpaceGroupError as ResolveError;
 
+use crate::data_dict::core_cif::range_check::number_as_f64;
 use crate::data_dict::core_cif::space_group::{
     BravaisType, CentringType, CrystalSystemCif, ITNumber, ItCoordinateSystemCode, SpaceGroup,
 };
-use crate::data_dict::core_cif::range_check::number_as_f64;
 use crystal_cif_fmt::grammar::{CharString, Matrix, Number, Numeric};
 
 use super::cell::DEFAULT_TOLERANCE;
@@ -65,10 +65,7 @@ pub enum SpaceGroupError {
         actual: (usize, usize),
     },
     /// A supplied closed-set value misses the set.
-    NotInClosedSet {
-        item: &'static str,
-        value: String,
-    },
+    NotInClosedSet { item: &'static str, value: String },
     /// The resolved group carries no crystal system. The resolution
     /// paths guarantee a table row, so this does not occur.
     NoCrystalSystem(String),
@@ -80,15 +77,25 @@ impl std::fmt::Display for SpaceGroupError {
             Self::InvalidItNumber { number } => {
                 write!(f, "the IT number {number} is outside 1 to 230")
             }
-            Self::UnresolvedHall(hall) => write!(f, "the Hall symbol {hall:?} resolves to no group"),
-            Self::UnresolvedHm(hm) => write!(f, "the Hermann-Mauguin symbol {hm:?} matches no table row"),
+            Self::UnresolvedHall(hall) => {
+                write!(f, "the Hall symbol {hall:?} resolves to no group")
+            }
+            Self::UnresolvedHm(hm) => {
+                write!(f, "the Hermann-Mauguin symbol {hm:?} matches no table row")
+            }
             Self::Mismatch {
                 item,
                 supplied,
                 computed,
-            } => write!(f, "the supplied {item} {supplied:?} misses the computed {computed:?}"),
+            } => write!(
+                f,
+                "the supplied {item} {supplied:?} misses the computed {computed:?}"
+            ),
             Self::BadShape { item, actual } => {
-                write!(f, "the supplied {item} has the shape {actual:?}, not (3, 3)")
+                write!(
+                    f,
+                    "the supplied {item} has the shape {actual:?}, not (3, 3)"
+                )
             }
             Self::NotInClosedSet { item, value } => {
                 write!(f, "the supplied {item} {value:?} is not in the closed set")
@@ -246,9 +253,9 @@ fn bravais_code(system: CrystalSystem, letter: char) -> Option<&'static str> {
 }
 
 fn unquoted(text: &str) -> CharString {
-    CharString::Unquoted(
-        crystal_cif_fmt::grammar::UnquotedString::new(text.to_string()),
-    )
+    CharString::Unquoted(crystal_cif_fmt::grammar::UnquotedString::new(
+        text.to_string(),
+    ))
 }
 
 fn within_tolerance(supplied: f64, computed: f64, tolerance: f64) -> bool {
@@ -337,16 +344,14 @@ impl SpaceGroup {
             }
         }
 
-        let letter = lattice_letter(&parts.hm).ok_or_else(|| {
-            SpaceGroupError::UnresolvedHm(parts.hm.clone())
-        })?;
+        let letter = lattice_letter(&parts.hm)
+            .ok_or_else(|| SpaceGroupError::UnresolvedHm(parts.hm.clone()))?;
         let bravais = bravais_code(system, letter)
             .ok_or_else(|| SpaceGroupError::UnresolvedHm(parts.hm.clone()))?;
 
         Ok(SpaceGroup {
             bravais_type: Some(
-                BravaisType::parse(bravais)
-                    .expect("the computed code is in the closed set"),
+                BravaisType::parse(bravais).expect("the computed code is in the closed set"),
             ),
             centring_type: Some(
                 CentringType::parse(&letter.to_string())
@@ -496,7 +501,6 @@ mod tests {
         assert_eq!(ok.to_members().len(), 7);
     }
 
-
     #[test]
     fn an_it_number_outside_the_range_rejects() {
         let err = SpaceGroup::by_it_number(ITNumber::from(0i32)).unwrap_err();
@@ -522,14 +526,8 @@ mod tests {
     #[test]
     fn a_bad_transform_shape_rejects() {
         let square = Matrix::try_new(vec![
-            vec![
-                Number::Float(Float(1.0)),
-                Number::Float(Float(1.0)),
-            ],
-            vec![
-                Number::Float(Float(1.0)),
-                Number::Float(Float(1.0)),
-            ],
+            vec![Number::Float(Float(1.0)), Number::Float(Float(1.0))],
+            vec![Number::Float(Float(1.0)), Number::Float(Float(1.0))],
         ])
         .expect("a 2 x 2 matrix");
         let err = SpaceGroup::builder()
@@ -549,7 +547,10 @@ mod tests {
             .build()
             .expect("builds");
         assert!(group.name_h_m_alt.is_some(), "the alt spelling is set");
-        assert!(group.name_schoenflies.is_some(), "the Schoenflies spelling is set");
+        assert!(
+            group.name_schoenflies.is_some(),
+            "the Schoenflies spelling is set"
+        );
         assert_eq!(group.to_members().len(), 9);
     }
 }

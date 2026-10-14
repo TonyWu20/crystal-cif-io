@@ -4,11 +4,13 @@
 //! loop: the atom index, the type symbol, the charge, the hydrogen
 //! and neighbour counts, and the display coordinates.
 
-use crystal_cif_fmt::grammar::{Tag, Value, CharString};
-use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
-use {crate::data_dict::core_cif::chemical_conn_atom::{ConnAtomCharge, ConnAtomCount, ConnAtomDisplay, ConnAtomNumber}};
-use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
+use crate::data_dict::core_cif::chemical_conn_atom::{
+    ConnAtomCharge, ConnAtomCount, ConnAtomDisplay, ConnAtomNumber,
+};
+use crate::data_dict::core_cif::{convert, CifCategory};
+use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
 pub struct ChemicalConnAtomRow {
@@ -47,7 +49,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_charge".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_charge".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.display_x.is_some()) {
             let values: Vec<Value> = self
@@ -57,7 +62,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_display_x".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_display_x".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.display_y.is_some()) {
             let values: Vec<Value> = self
@@ -67,7 +75,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_display_y".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_display_y".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.nca.is_some()) {
             let values: Vec<Value> = self
@@ -77,7 +88,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_NCA".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_NCA".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.nh.is_some()) {
             let values: Vec<Value> = self
@@ -87,7 +101,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_NH".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_NH".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.number.is_some()) {
             let values: Vec<Value> = self
@@ -97,7 +114,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_number".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_number".to_string()),
+                values,
+            ));
         }
         if self.iter().any(|r| r.type_symbol.is_some()) {
             let values: Vec<Value> = self
@@ -107,15 +127,23 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
                     None => Value::Inapplicable,
                 })
                 .collect();
-            columns.push(LoopColumn::new(Tag::new("chemical_conn_atom_type_symbol".to_string()), values));
+            columns.push(LoopColumn::new(
+                Tag::new("chemical_conn_atom_type_symbol".to_string()),
+                values,
+            ));
         }
         if columns.is_empty() {
             return Vec::new();
         }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(LoopColumns::new(columns)))]
+        vec![DataBlockMember::DataItems(DataItems::MultiValues(
+            LoopColumns::new(columns),
+        ))]
     }
 
-    fn from_members(&mut self, members: &[DataBlockMember]) -> (Vec<DataBlockMember>, Vec<CifError>) {
+    fn from_members(
+        &mut self,
+        members: &[DataBlockMember],
+    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
@@ -141,7 +169,10 @@ impl CifCategory for Vec<ChemicalConnAtomRow> {
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ChemicalConnAtomRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
     let mut rows = vec![ChemicalConnAtomRow::default(); n];
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_charge") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_charge")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_conn_atom_charge("chemical_conn_atom_charge", v) {
                 Ok(val) => rows[i].charge = val,
@@ -149,7 +180,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_display_x") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_display_x")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_conn_atom_display("chemical_conn_atom_display_x", v) {
                 Ok(val) => rows[i].display_x = val,
@@ -157,7 +191,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_display_y") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_display_y")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_conn_atom_display("chemical_conn_atom_display_y", v) {
                 Ok(val) => rows[i].display_y = val,
@@ -165,7 +202,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_nca") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_nca")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_conn_atom_count("chemical_conn_atom_nca", v) {
                 Ok(val) => rows[i].nca = val,
@@ -173,7 +213,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_nh") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_nh")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_conn_atom_count("chemical_conn_atom_nh", v) {
                 Ok(val) => rows[i].nh = val,
@@ -181,7 +224,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_number") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_number")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_conn_atom_number("chemical_conn_atom_number", v) {
                 Ok(val) => rows[i].number = val,
@@ -189,7 +235,10 @@ fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<Che
             }
         }
     }
-    if let Some(col) = cols.iter().find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_type_symbol") {
+    if let Some(col) = cols
+        .iter()
+        .find(|c| c.tag().as_ref().to_lowercase() == "chemical_conn_atom_type_symbol")
+    {
         for (i, v) in col.values().iter().enumerate() {
             match convert::read_char("chemical_conn_atom_type_symbol", v) {
                 Ok(val) => rows[i].type_symbol = val,

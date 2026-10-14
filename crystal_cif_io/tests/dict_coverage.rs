@@ -36,8 +36,8 @@ fn corpus_dirs() -> Vec<PathBuf> {
 }
 
 fn expected_items() -> BTreeSet<String> {
-    let raw = fs::read_to_string(root().join("tests/dict_inventory.json"))
-        .expect("read dict inventory");
+    let raw =
+        fs::read_to_string(root().join("tests/dict_inventory.json")).expect("read dict inventory");
     let inventory: Json = serde_json::from_str(&raw).expect("valid inventory JSON");
     inventory["items"]
         .as_array()
@@ -82,7 +82,9 @@ fn dictionary_item_coverage_gate() {
             .expect("read coverage baseline"),
     )
     .expect("baseline must be valid JSON");
-    let floor: u64 = baseline["covered"].as_u64().expect("baseline covered count");
+    let floor: u64 = baseline["covered"]
+        .as_u64()
+        .expect("baseline covered count");
     let total: u64 = baseline["total_items"].as_u64().expect("baseline total");
 
     let mut used: BTreeSet<String> = BTreeSet::new();
