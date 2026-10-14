@@ -341,9 +341,12 @@ prints `save_s1` and `save_s3` under `block3`.
 
 
 The typed layer reads one data block into plain structs.
-`CoreCif` is the view. The five wave 1 categories hold their
-items on typed fields. Foreign tags and save frames stay in
-the `extra` residue. The parse is tolerant. `validate` reports
+`CoreCif` is the view. It carries the 62 categories of the
+standard dictionary view (roadmap D12i). The waves of roadmap
+D12j roll them out in tier order. The excerpt types into the
+wave 1 groups. The file's own items also type into the
+later-wave groups. Foreign tags and save frames stay in the
+`extra` residue. The parse is tolerant. `validate` reports
 the required gaps.
 
 ```rust
@@ -385,6 +388,29 @@ match cif.validate() {
 The check reports every missing required item. The excerpt has
 no `_chemical_formula_structural` item. The check reports
 exactly that gap.
+
+The file's later-wave categories type too. Its
+`_exptl_absorpt_correction_type` records the real-data code
+`semi-empirical`. It sits one past the DDL1 closed set. The
+closed-value gate keeps the marked extension for it (roadmap
+D12m). The `_refine_ls_shift/su_max` value `<0.001` records
+as the inequality payload of the plain field (roadmap D12l).
+
+```rust
+use crystal_cif_io::data_dict::Ineq;
+
+println!("{}", cif.exptl.absorpt_correction_type.as_ref().expect("a correction type"));
+println!("{}", cif.refine.ls_hydrogen_treatment.as_ref().expect("a treatment"));
+
+match cif.refine.ls_shift_su_max {
+    Some(Ineq::LessThan(bound)) => println!("su_max < {bound}"),
+    Some(Ineq::Value(value)) => println!("su_max = {value}"),
+    None => {}
+}
+```
+
+The three lines print `semi-empirical`, `constr`, and
+`su_max < 0.001`.
 
 Edit one field. Save the block to a file. The writer emits
 the typed categories in a fixed order, then the `extra`
@@ -552,7 +578,7 @@ let group = SpaceGroup::by_it_number(ITNumber::new(14))
 println!(
     "Hall {}, {} centring, {} operations",
     group.name_hall.as_ref().expect("a Hall symbol").content(),
-    group.centring_type.as_ref().expect("a centring type").content(),
+    group.centring_type.as_ref().expect("a centring type"),
     group.multiplicity.as_ref().expect("a multiplicity"),
 );
 ```
@@ -729,17 +755,23 @@ usually a char string.
   covers all 732 IUCr core dictionary items recorded in
   `tests/dict_inventory.json` plus 262 core shell items (roadmap
   T6). Decision D2 skips the 191 `_su` items.
-- Closed code sets and range checks for the dictionary items the
-  dictionary constrains.
-- A typed block view (`crystal_cif_io::CoreCif`) over five
-  core categories. Read a data block into typed structs,
-  `validate` the required sets, and save the block to a file.
-  Foreign tags and save frames stay in the `extra` residue.
+- Closed code sets and range checks for the dictionary items
+  the dictionary constrains. The closed-set enums agree with
+  the recorded dictionary. The gate
+  `crystal_cif_io/tests/closed_values.rs` keeps them in step.
+- A typed block view (`crystal_cif_io::CoreCif`) over the 62
+  standard dictionary categories (roadmap D12i). Read a data
+  block into typed structs, `validate` the required sets, and
+  save the block to a file. Foreign tags and save frames stay
+  in the `extra` residue.
 - A per-category builder layer (`crystal_cif_io::builder`).
   One builder per equivalent minimum set. Needed fields are
   checked at compile time. Derived items compute at build and
   cross-check a supplied value. The space group resolves through
   the `crystallographic-group` crate.
+- An inequality payload (`Ineq<T>`) records a `<N` assertion on
+  a numeric item. The `refine_ls_shift/su_max` field carries
+  it (roadmap D12l).
 - The dictionary completeness study (`docs/dict-completeness.md`).
   The item dependency map lives in `codegen/depends.json` (94
   categories, 1185 items).
@@ -747,14 +779,16 @@ usually a char string.
 ## Status
 
 Version 0.2.0 released 2026-10-13 (the `dev-0.2` to `main`
-merge). The CIF 2.0 syntax gaps closed on the dev line
-(decision D9). The seven `known_gap` pins flip to full IR
-pins. The `docs/roadmap-dict-items.md` log records the shell
-wave completion (2026-10-09).
+merge). The dev line `dev-0.2` now carries the crate split of
+decision D13. `crystal-cif-io` is at 0.3.0.
+`crystal-cif-fmt` is at 0.1.0.
 
-The dictionary roadmap continues on `dev-0.2`. D10a records the
-completeness study. D11a ships the builder wave 1, which this
-document covers.
+The typed document layer (D12) is complete on the dev line.
+The 62 standard dictionary categories type into `CoreCif`.
+Waves 2 through 5 roll them out in roadmap tier order (D12j).
+The closed-value gate keeps the enum sets in step with the
+recorded dictionary. `docs/roadmap-dict-items.md` records
+every decision.
 
 ## Testing
 
@@ -781,13 +815,13 @@ The CI workflow runs the fetch before `cargo test`
 
 | command | purpose |
 |---|---|
-| `cargo run --example gt_generate` | regenerate the expected JSON for the fixture and real-data corpora |
-| `cargo run --example dict_report` | print the dictionary coverage table |
-| `cargo run --example dict_report -- --shell` | add the T6 shell view to the coverage table |
-| `cargo run --example dict_codegen` | generate the typed category modules from the inventory and annotations |
-| `cargo run --example dict_inventory_gen` | regenerate the standard dictionary inventory |
-| `cargo run --example dict_inventory_shell_gen` | regenerate the shell dictionary inventory |
-| `cargo run --example dict_coverage_gen` | regenerate the dictionary coverage baseline |
+| `cargo run -p crystal-cif-fmt --example gt_generate` | regenerate the expected JSON for the fixture and real-data corpora |
+| `cargo run -p crystal-cif-io --example dict_report` | print the dictionary coverage table |
+| `cargo run -p crystal-cif-io --example dict_report -- --shell` | add the T6 shell view to the coverage table |
+| `cargo run -p crystal-cif-io --example dict_codegen` | generate the typed category modules from the inventory and annotations |
+| `cargo run -p crystal-cif-io --example dict_inventory_gen` | regenerate the standard dictionary inventory |
+| `cargo run -p crystal-cif-io --example dict_inventory_shell_gen` | regenerate the shell dictionary inventory |
+| `cargo run -p crystal-cif-io --example dict_coverage_gen` | regenerate the dictionary coverage baseline |
 
 ## Documentation
 
@@ -799,6 +833,7 @@ The CI workflow runs the fetch before `cargo test`
 | `docs/test-axes.md` | the test-suite axes |
 | `docs/codegen.md` | the code generation step |
 | `docs/dict-completeness.md` | the dictionary completeness study (D10a) |
+| `docs/typed-structs.md` | the typed document layer (D12) |
 | `docs/cod-api.md` | the COD REST API notes |
 
 Third-party data attribution lives in `NOTICE.md`.
