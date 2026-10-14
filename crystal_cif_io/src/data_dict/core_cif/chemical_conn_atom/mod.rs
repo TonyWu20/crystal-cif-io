@@ -4,8 +4,10 @@
 //! a property of an atom: its index, its type symbol, its charge,
 //! the hydrogen and neighbour counts, and the display coordinates.
 
+mod chemical_conn_atom;
 mod ranges;
 
+pub use chemical_conn_atom::ChemicalConnAtomRow;
 pub use ranges::{ConnAtomCharge, ConnAtomCount, ConnAtomDisplay, ConnAtomNumber};
 
 use std::fmt::Display;

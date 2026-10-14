@@ -4,8 +4,10 @@
 //! the two site labels, the distance, the publication flag, and the
 //! site symmetry of the two sites.
 
+mod geom_contact;
 mod ranges;
 
+pub use geom_contact::{GeomContact, GeomContactRow};
 pub use ranges::ContactDistance;
 
 use std::fmt::Display;

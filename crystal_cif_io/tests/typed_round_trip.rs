@@ -107,10 +107,12 @@ fn the_acetonitrile_block_round_trips_the_formula_category() {
     let rewritten = doc.to_block(block.heading());
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(fingerprint(&doc), fingerprint(&again), "the IR round-trip is stable");
-    // The foreign loops are the residue, kept in order.
+    // Every member of this block types: the wave-1 formula items
+    // and the T3 structure and chemistry categories. The residue
+    // is empty.
     assert!(
-        !doc.extra.is_empty(),
-        "the untyped members land in extra"
+        doc.extra.is_empty(),
+        "every member types, so the residue is empty"
     );
 }
 

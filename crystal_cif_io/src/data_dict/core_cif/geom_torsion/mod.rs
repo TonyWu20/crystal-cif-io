@@ -5,6 +5,10 @@
 //! symmetry of the four sites. The value column carries the
 //! category name itself (`_geom_torsion`), not a suffixed name.
 
+mod geom_torsion;
+
+pub use geom_torsion::{GeomTorsion, GeomTorsionRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;

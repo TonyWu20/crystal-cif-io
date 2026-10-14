@@ -10,8 +10,10 @@
 //! decision log T6).
 
 mod solution_method;
+mod atom_sites;
 
 pub use solution_method::SolutionMethod;
+pub use atom_sites::{AtomSites, AtomSitesRow};
 
 use std::fmt::Display;
 

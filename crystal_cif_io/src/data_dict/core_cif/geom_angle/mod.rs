@@ -5,6 +5,10 @@
 //! of the three sites. The value column carries the category name
 //! itself (`_geom_angle`), not a suffixed name.
 
+mod geom_angle;
+
+pub use geom_angle::{GeomAngle, GeomAngleRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::core_cif::geom::PublFlag;

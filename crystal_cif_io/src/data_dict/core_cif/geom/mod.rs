@@ -5,8 +5,10 @@
 //! [`PublFlag`], the closed code set shared by the `geom_*`
 //! special-list flags.
 
+mod geom;
 mod publ_flag;
 
+pub use geom::Geom;
 pub use publ_flag::PublFlag;
 
 use std::fmt::Display;

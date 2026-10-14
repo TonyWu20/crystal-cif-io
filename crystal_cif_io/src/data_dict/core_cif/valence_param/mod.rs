@@ -4,6 +4,10 @@
 //! tag, the reference tag, the atom and valence pairs, the
 //! `B`/`Ro` coefficients, and the details text.
 
+mod valence_param;
+
+pub use valence_param::{ValenceParam, ValenceParamRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};

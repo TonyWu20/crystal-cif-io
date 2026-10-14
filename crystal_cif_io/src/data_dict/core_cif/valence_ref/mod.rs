@@ -3,6 +3,10 @@
 //! One loop lists the references of the valence models: the model
 //! tag and the reference string.
 
+mod valence_ref;
+
+pub use valence_ref::ValenceRefRow;
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};

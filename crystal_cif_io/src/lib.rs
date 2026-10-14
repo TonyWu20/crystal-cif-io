@@ -26,3 +26,20 @@ pub use data_dict::core_cif::{
     atom_site::AtomSite, cell::Cell, chemical_formula::ChemicalFormula,
     space_group::SpaceGroup, space_group_symop::Symop,
 };
+
+/// The T3 wave category structs (roadmap D12).
+pub use data_dict::core_cif::{
+    atom_sites::{AtomSites, AtomSitesRow},
+    atom_type::{AtomType, AtomTypeRow},
+    chemical::{Chemical, ChemicalRow},
+    chemical_conn_atom::ChemicalConnAtomRow,
+    chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow},
+    geom::Geom,
+    geom_angle::{GeomAngle, GeomAngleRow},
+    geom_bond::{GeomBond, GeomBondRow},
+    geom_contact::{GeomContact, GeomContactRow},
+    geom_hbond::{GeomHbond, GeomHbondRow},
+    geom_torsion::{GeomTorsion, GeomTorsionRow},
+    valence_param::{ValenceParam, ValenceParamRow},
+    valence_ref::ValenceRefRow,
+};

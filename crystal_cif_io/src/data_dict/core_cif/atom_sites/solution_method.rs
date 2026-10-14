@@ -75,3 +75,24 @@ impl From<SolutionMethod> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl SolutionMethod {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "difmap" => Some(Self::Difmap),
+            "vecmap" => Some(Self::Vecmap),
+            "heavy" => Some(Self::Heavy),
+            "direct" => Some(Self::Direct),
+            "geom" => Some(Self::Geom),
+            "disper" => Some(Self::Disper),
+            "isomor" => Some(Self::Isomor),
+            "mixed" => Some(Self::Mixed),
+            "notdet" => Some(Self::Notdet),
+            "dual" => Some(Self::Dual),
+            "iterative" => Some(Self::Iterative),
+            "other" => Some(Self::Other),
+            _ => None,
+        }
+    }
+}

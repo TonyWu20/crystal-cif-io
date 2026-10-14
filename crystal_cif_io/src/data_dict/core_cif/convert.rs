@@ -13,7 +13,16 @@ use crystal_cif_fmt::grammar::{
 };
 
 use crate::data_dict::core_cif::cell::CellAngle;
+use crate::data_dict::core_cif::atom_type::{AnalyticalMass, NumberInCell, OxidationNumber, Radius};
+use crate::data_dict::core_cif::chemical::{Enantioexcess, Temperature};
+use crate::data_dict::core_cif::chemical_conn_atom::{
+    ConnAtomCharge, ConnAtomCount, ConnAtomDisplay, ConnAtomNumber,
+};
+use crate::data_dict::core_cif::chemical_conn_bond::BondAtomNumber;
 use crate::data_dict::core_cif::chemical_formula::FormulaWeight;
+use crate::data_dict::core_cif::geom_bond::{BondDistance, BondMultiplicity};
+use crate::data_dict::core_cif::geom_contact::ContactDistance;
+use crate::data_dict::core_cif::geom_hbond::HbondDistance;
 use crate::data_dict::core_cif::space_group::ITNumber;
 use crate::data_dict::matrix;
 use crate::core_cif::CifError;
@@ -131,6 +140,160 @@ pub(crate) fn read_sym_multiplicity(
 pub(crate) fn read_formula_weight(tag: &str, v: &Value) -> Result<Option<FormulaWeight>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(FormulaWeight::from_numeric))
+}
+
+/// Read a numeric-list item (a 2.0 list of numbers). A missing value
+/// reads as `None`. An element of the wrong class records a
+/// [`CifError::ValueClass`].
+pub(crate) fn read_numeric_list(tag: &str, v: &Value) -> Result<Option<Vec<Numeric>>, CifError> {
+    if is_absent(v) {
+        return Ok(None);
+    }
+    match v {
+        Value::List(items) => {
+            let mut out = Vec::with_capacity(items.len());
+            for item in items {
+                match item {
+                    Value::Numeric(n) => out.push(*n),
+                    other => return Err(value_class_error(tag, "Numeric", other)),
+                }
+            }
+            Ok(Some(out))
+        }
+        other => Err(value_class_error(tag, "a numeric list", other)),
+    }
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_analytical_mass(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<AnalyticalMass>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(AnalyticalMass::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_number_in_cell(tag: &str, v: &Value) -> Result<Option<NumberInCell>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(NumberInCell::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_oxidation_number(tag: &str, v: &Value) -> Result<Option<OxidationNumber>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(OxidationNumber::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_radius(tag: &str, v: &Value) -> Result<Option<Radius>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(Radius::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_enantioexcess(tag: &str, v: &Value) -> Result<Option<Enantioexcess>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(Enantioexcess::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_temperature(tag: &str, v: &Value) -> Result<Option<Temperature>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(Temperature::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_conn_atom_count(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<ConnAtomCount>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(ConnAtomCount::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_conn_atom_charge(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<ConnAtomCharge>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(ConnAtomCharge::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_conn_atom_display(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<ConnAtomDisplay>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(ConnAtomDisplay::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_conn_atom_number(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<ConnAtomNumber>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(ConnAtomNumber::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_bond_atom_number(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<BondAtomNumber>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(BondAtomNumber::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_bond_distance(tag: &str, v: &Value) -> Result<Option<BondDistance>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(BondDistance::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_bond_multiplicity(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<BondMultiplicity>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(BondMultiplicity::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_contact_distance(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<ContactDistance>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(ContactDistance::from_numeric))
+}
+
+/// Read a guarded range-payload item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_hbond_distance(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<HbondDistance>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(HbondDistance::from_numeric))
 }
 
 /// Read a closed-set item. The value is a character string in the

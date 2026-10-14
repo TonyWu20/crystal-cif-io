@@ -15,6 +15,19 @@ use crate::data_dict::core_cif::cell::Cell;
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
 use crate::data_dict::core_cif::space_group::SpaceGroup;
 use crate::data_dict::core_cif::space_group_symop::Symop;
+use crate::data_dict::core_cif::atom_sites::{AtomSites, AtomSitesRow};
+use crate::data_dict::core_cif::atom_type::{AtomType, AtomTypeRow};
+use crate::data_dict::core_cif::chemical::{Chemical, ChemicalRow};
+use crate::data_dict::core_cif::chemical_conn_atom::ChemicalConnAtomRow;
+use crate::data_dict::core_cif::chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow};
+use crate::data_dict::core_cif::geom::Geom;
+use crate::data_dict::core_cif::geom_angle::{GeomAngle, GeomAngleRow};
+use crate::data_dict::core_cif::geom_bond::{GeomBond, GeomBondRow};
+use crate::data_dict::core_cif::geom_contact::{GeomContact, GeomContactRow};
+use crate::data_dict::core_cif::geom_hbond::{GeomHbond, GeomHbondRow};
+use crate::data_dict::core_cif::geom_torsion::{GeomTorsion, GeomTorsionRow};
+use crate::data_dict::core_cif::valence_param::{ValenceParam, ValenceParamRow};
+use crate::data_dict::core_cif::valence_ref::ValenceRefRow;
 use crate::data_dict::core_cif::CifCategory;
 
 /// A read-path conformance error of the typed layer.
@@ -73,6 +86,30 @@ pub struct CoreCif {
     pub space_group_symop: Vec<Symop>,
     pub atom_site: Vec<AtomSite>,
     pub chemical_formula: ChemicalFormula,
+    // T3 wave: the tier T3 category groups (roadmap D12j).
+    pub atom_sites: AtomSites,
+    pub atom_sites_rows: Vec<AtomSitesRow>,
+    pub atom_type: AtomType,
+    pub atom_type_rows: Vec<AtomTypeRow>,
+    pub chemical: Chemical,
+    pub chemical_rows: Vec<ChemicalRow>,
+    pub chemical_conn_atom: Vec<ChemicalConnAtomRow>,
+    pub chemical_conn_bond: ChemicalConnBond,
+    pub chemical_conn_bond_rows: Vec<ChemicalConnBondRow>,
+    pub geom: Geom,
+    pub geom_angle: GeomAngle,
+    pub geom_angle_rows: Vec<GeomAngleRow>,
+    pub geom_bond: GeomBond,
+    pub geom_bond_rows: Vec<GeomBondRow>,
+    pub geom_contact: GeomContact,
+    pub geom_contact_rows: Vec<GeomContactRow>,
+    pub geom_hbond: GeomHbond,
+    pub geom_hbond_rows: Vec<GeomHbondRow>,
+    pub geom_torsion: GeomTorsion,
+    pub geom_torsion_rows: Vec<GeomTorsionRow>,
+    pub valence_param: ValenceParam,
+    pub valence_param_rows: Vec<ValenceParamRow>,
+    pub valence_ref: Vec<ValenceRefRow>,
     /// Members no typed category consumed, plus every save frame.
     pub extra: Vec<DataBlockMember>,
 }
@@ -100,6 +137,53 @@ impl CoreCif {
         errors.extend(atom_site_errors);
         let (residue, formula_errors) = doc.chemical_formula.from_members(&residue);
         errors.extend(formula_errors);
+        // T3 wave: the tier T3 categories (roadmap D12j).
+        let (residue, atom_sites_errors) = doc.atom_sites.from_members(&residue);
+        errors.extend(atom_sites_errors);
+        let (residue, atom_sites_rows_errors) = doc.atom_sites_rows.from_members(&residue);
+        errors.extend(atom_sites_rows_errors);
+        let (residue, atom_type_errors) = doc.atom_type.from_members(&residue);
+        errors.extend(atom_type_errors);
+        let (residue, atom_type_rows_errors) = doc.atom_type_rows.from_members(&residue);
+        errors.extend(atom_type_rows_errors);
+        let (residue, chemical_errors) = doc.chemical.from_members(&residue);
+        errors.extend(chemical_errors);
+        let (residue, chemical_rows_errors) = doc.chemical_rows.from_members(&residue);
+        errors.extend(chemical_rows_errors);
+        let (residue, conn_atom_errors) = doc.chemical_conn_atom.from_members(&residue);
+        errors.extend(conn_atom_errors);
+        let (residue, conn_bond_errors) = doc.chemical_conn_bond.from_members(&residue);
+        errors.extend(conn_bond_errors);
+        let (residue, conn_bond_rows_errors) = doc.chemical_conn_bond_rows.from_members(&residue);
+        errors.extend(conn_bond_rows_errors);
+        let (residue, geom_errors) = doc.geom.from_members(&residue);
+        errors.extend(geom_errors);
+        let (residue, geom_angle_errors) = doc.geom_angle.from_members(&residue);
+        errors.extend(geom_angle_errors);
+        let (residue, geom_angle_rows_errors) = doc.geom_angle_rows.from_members(&residue);
+        errors.extend(geom_angle_rows_errors);
+        let (residue, geom_bond_errors) = doc.geom_bond.from_members(&residue);
+        errors.extend(geom_bond_errors);
+        let (residue, geom_bond_rows_errors) = doc.geom_bond_rows.from_members(&residue);
+        errors.extend(geom_bond_rows_errors);
+        let (residue, geom_contact_errors) = doc.geom_contact.from_members(&residue);
+        errors.extend(geom_contact_errors);
+        let (residue, geom_contact_rows_errors) = doc.geom_contact_rows.from_members(&residue);
+        errors.extend(geom_contact_rows_errors);
+        let (residue, geom_hbond_errors) = doc.geom_hbond.from_members(&residue);
+        errors.extend(geom_hbond_errors);
+        let (residue, geom_hbond_rows_errors) = doc.geom_hbond_rows.from_members(&residue);
+        errors.extend(geom_hbond_rows_errors);
+        let (residue, geom_torsion_errors) = doc.geom_torsion.from_members(&residue);
+        errors.extend(geom_torsion_errors);
+        let (residue, geom_torsion_rows_errors) = doc.geom_torsion_rows.from_members(&residue);
+        errors.extend(geom_torsion_rows_errors);
+        let (residue, valence_param_errors) = doc.valence_param.from_members(&residue);
+        errors.extend(valence_param_errors);
+        let (residue, valence_param_rows_errors) = doc.valence_param_rows.from_members(&residue);
+        errors.extend(valence_param_rows_errors);
+        let (residue, valence_ref_errors) = doc.valence_ref.from_members(&residue);
+        errors.extend(valence_ref_errors);
         doc.extra = residue;
         if errors.is_empty() {
             Ok(doc)
@@ -117,6 +201,30 @@ impl CoreCif {
         members.extend(self.space_group_symop.to_members());
         members.extend(self.atom_site.to_members());
         members.extend(self.chemical_formula.to_members());
+        // T3 wave: the tier T3 category groups (roadmap D12j).
+        members.extend(self.atom_sites.to_members());
+        members.extend(self.atom_sites_rows.to_members());
+        members.extend(self.atom_type.to_members());
+        members.extend(self.atom_type_rows.to_members());
+        members.extend(self.chemical.to_members());
+        members.extend(self.chemical_rows.to_members());
+        members.extend(self.chemical_conn_atom.to_members());
+        members.extend(self.chemical_conn_bond.to_members());
+        members.extend(self.chemical_conn_bond_rows.to_members());
+        members.extend(self.geom.to_members());
+        members.extend(self.geom_angle.to_members());
+        members.extend(self.geom_angle_rows.to_members());
+        members.extend(self.geom_bond.to_members());
+        members.extend(self.geom_bond_rows.to_members());
+        members.extend(self.geom_contact.to_members());
+        members.extend(self.geom_contact_rows.to_members());
+        members.extend(self.geom_hbond.to_members());
+        members.extend(self.geom_hbond_rows.to_members());
+        members.extend(self.geom_torsion.to_members());
+        members.extend(self.geom_torsion_rows.to_members());
+        members.extend(self.valence_param.to_members());
+        members.extend(self.valence_param_rows.to_members());
+        members.extend(self.valence_ref.to_members());
         members.extend(self.extra.iter().cloned());
         DataBlock::from_heading_members((
             DataBlockHeading::new(heading.to_string()),
