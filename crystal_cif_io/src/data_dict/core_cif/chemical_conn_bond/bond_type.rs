@@ -57,3 +57,20 @@ impl From<BondType> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl BondType {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "sing" => Some(Self::Sing),
+            "doub" => Some(Self::Doub),
+            "trip" => Some(Self::Trip),
+            "quad" => Some(Self::Quad),
+            "arom" => Some(Self::Arom),
+            "poly" => Some(Self::Poly),
+            "delo" => Some(Self::Delo),
+            "pi" => Some(Self::Pi),
+            _ => None,
+        }
+    }
+}
