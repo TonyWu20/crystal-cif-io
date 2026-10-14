@@ -529,6 +529,18 @@ impl CifCategory for Refine {
                             }
                         }
                         "refine_ls_shift/su_max" => {
+                            // A real-data file may record the value as a
+                            // "<N" assertion (the COD). The assertion is a
+                            // less-than statement. It records in the
+                            // dedicated less-than field.
+                            if let Value::CharString(c) = value {
+                                let num = c.content().strip_prefix('<');
+                                if let Some(n) = num.and_then(|t| t.parse::<f64>().ok()) {
+                                    self.ls_shift_su_max_lt =
+                                        Some(NonNeg::from_numeric(Numeric::from(n)));
+                                    continue;
+                                }
+                            }
                             match convert::read_non_neg("refine_ls_shift/su_max", value) {
                                 Ok(v) => self.ls_shift_su_max = v,
                                 Err(e) => errors.push(e),
@@ -595,7 +607,7 @@ impl CifCategory for Refine {
                             }
                         }
                         "refine_special_details" => {
-                            match convert::read_char("refine_special_details", value) {
+                            match convert::read_char_text("refine_special_details", value) {
                                 Ok(v) => self.special_details = v,
                                 Err(e) => errors.push(e),
                             }

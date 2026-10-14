@@ -19,6 +19,7 @@ pub enum AbsorptCorrectionType {
     Numerical,
     PsiScan,
     Refdelf,
+    SemiEmpirical,
     Sphere,
 }
 
@@ -36,6 +37,7 @@ impl AbsorptCorrectionType {
             Self::Numerical => "numerical",
             Self::PsiScan => "psi-scan",
             Self::Refdelf => "refdelf",
+            Self::SemiEmpirical => "semi-empirical",
             Self::Sphere => "sphere",
         }
     }
@@ -80,6 +82,7 @@ impl TryFrom<&str> for AbsorptCorrectionType {
             "numerical" => Ok(Self::Numerical),
             "psi-scan" => Ok(Self::PsiScan),
             "refdelf" => Ok(Self::Refdelf),
+            "semi-empirical" => Ok(Self::SemiEmpirical),
             "sphere" => Ok(Self::Sphere),
             other => Err(ExptlCifError::new(format!(
                 "'{other}' is not a value of the _exptl_absorpt_correction_type closed set"

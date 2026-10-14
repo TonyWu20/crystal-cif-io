@@ -79,8 +79,6 @@ use crate::data_dict::core_cif::reflns::Reflns;
 use crate::data_dict::core_cif::reflns_class::ReflnsClass;
 use crate::data_dict::core_cif::reflns_scale::ReflnsScale;
 use crate::data_dict::core_cif::reflns_shell::ReflnsShell;
-use crate::data_dict::core_cif::space_group::SpaceGroup;
-use crate::data_dict::core_cif::space_group_symop::Symop;
 use crate::data_dict::core_cif::symmetry::Symmetry;
 use crate::data_dict::core_cif::symmetry_equiv::SymmetryEquiv;
 use crate::data_dict::core_cif::CifCategory;

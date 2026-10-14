@@ -334,6 +334,8 @@ pub(crate) fn read_ranged_newtype<T>(
 pub(crate) fn read_paper_pages(tag: &str, v: &Value) -> Result<Option<PaperPages>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(PaperPages::from_numeric))
+}
+
 /// Read an `AbsorptCoefficient` item. The recorded value stores as
 /// written; the range guard applies at the write.
 pub(crate) fn read_absorpt_coefficient(

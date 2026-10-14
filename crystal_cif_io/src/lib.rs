@@ -72,6 +72,8 @@ pub use data_dict::core_cif::{
     publ::Publ, publ::PublRow, publ_author::PublAuthor,
     publ_author::PublAuthorRow, publ_body::PublBody,
     publ_manuscript_incl::PublManuscriptIncl,
+};
+
 // T2 wave: the tier T2 category structs (roadmap D12j).
 pub use data_dict::core_cif::{
     exptl::{Exptl, ExptlAbsorptCorrectionT}, exptl_crystal::ExptlCrystal,
