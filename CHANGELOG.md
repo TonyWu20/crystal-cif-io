@@ -57,6 +57,40 @@ Keep a Changelog.
   (`CellAngle`, `ITNumber`, `SymMultiplicity`, `FormulaWeight`).
   Save frames and foreign tags stay in `extra`, order kept (roadmap
   D12e).
+- A typed document layer for the 13 structure and chemistry
+  categories of tier T3 (roadmap D12, wave w3):
+  `atom_sites`, `atom_type`, `chemical`, `chemical_conn_atom`,
+  `chemical_conn_bond`, `geom`, `geom_angle`, `geom_bond`,
+  `geom_contact`, `geom_hbond`, `geom_torsion`, `valence_param`,
+  and `valence_ref`. Each category gains a struct in
+  `data_dict::core_cif` under its directory: 11 single-value
+  structs and 12 loop-row structs, all with `Option` fields and
+  tolerant reads (roadmap D12b, D12a). Mixed categories hold the
+  single struct plus a `Vec` of row structs; the
+  `chemical_conn_atom` and `valence_ref` loop categories hold the
+  `Vec` directly. `CoreCif` gains 23 category fields and the
+  `lib.rs` re-export block follows.
+- The T3 closed sets type to the wave enums: `SolutionMethod`
+  (12 codes), `BondType` (8 codes), and `PublFlag` (3 codes)
+  gain `parse` on their closed values. `AbsoluteConfiguration`
+  extends by five codes (`ad`, `dyn`, `rmad`, `syn`, `unk`);
+  `EnantioexcessBulkTechnique` and `EnantioexcessCrystalTechnique`
+  extend by `other`.
+- The range newtypes of the wave-1 entries gain read-path
+  constructors (`from_numeric`) for the T3 ranged items:
+  `AnalyticalMass`, `NumberInCell`, `OxidationNumber`, `Radius`,
+  `Enantioexcess`, `Temperature`, `ConnAtomNumber`,
+  `ConnAtomCharge`, `ConnAtomOccupancy`, `ConnAtomDisplacement`,
+  `BondAtomNumber`, `BondDistance`, `BondMultiplicity`,
+  `ContactDistance`, and `HbondDistance`.
+- `convert::read_numeric_list` types the T6 list items of
+  `atom_type`, `valence_param`, `chemical_conn_bond`, and the
+  `geom_angle` and `geom_torsion` special lists to
+  `Option<Vec<Numeric>>`.
+- The round-trip tests `tests/typed_round_trip_w3.rs`: the
+  fixture and the iucr and cod corpus blocks read, rewrite, and
+  re-read with the typed fields and the `extra` residue stable.
+  The residue test pins the save-frame order.
 - A COMCIFS `cif_api` test-data corpus in
   `tests/real_data/cif_api/`: the 21 edge-case CIFs of the
   upstream reference implementation, pinned to commit `7882c12`.
