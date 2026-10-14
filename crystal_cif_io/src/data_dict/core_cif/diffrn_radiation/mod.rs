@@ -1,3 +1,4 @@
+mod diffrn_radiation;
 mod filter_edge;
 mod illumination_mode;
 mod inhomogeneity;
@@ -18,6 +19,7 @@ pub use self::polarisn_norm::PolarisnNorm;
 pub use self::polarisn_ratio::PolarisnRatio;
 pub use self::probe::Probe;
 pub use self::xray_symbol::XraySymbol;
+pub use self::diffrn_radiation::DiffrnRadiation;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

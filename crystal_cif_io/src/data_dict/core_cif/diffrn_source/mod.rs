@@ -1,6 +1,7 @@
 mod convergence_angle;
 mod current;
 mod device;
+mod diffrn_source;
 mod ed_diffracting_area_selection;
 mod power;
 mod take_off_angle;
@@ -20,6 +21,7 @@ pub use self::power::Power;
 pub use self::take_off_angle::TakeOffAngle;
 pub use self::target::Target;
 pub use self::voltage::Voltage;
+pub use self::diffrn_source::DiffrnSource;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

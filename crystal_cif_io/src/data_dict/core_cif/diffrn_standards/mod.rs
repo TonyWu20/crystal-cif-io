@@ -1,4 +1,5 @@
 mod decay_percent;
+mod diffrn_standards;
 mod interval_count;
 mod interval_time;
 mod scale_sigma;
@@ -16,6 +17,7 @@ pub use self::interval_time::IntervalTime;
 pub use self::scale_sigma::ScaleSigma;
 pub use self::scale_u::ScaleU;
 pub use self::standards_number::StandardsNumber;
+pub use self::diffrn_standards::DiffrnStandards;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
