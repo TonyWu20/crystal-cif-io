@@ -7,6 +7,13 @@ Keep a Changelog.
 
 ### Changed
 
+- The `space_group` items `bravais_type`, `centring_type`, and
+  `it_coordinate_system_code` type to the closed-set enums
+  `BravaisType`, `CentringType`, and `ItCoordinateSystemCode`
+  (roadmap D12, the review P2-4 note).
+- `CoreCif::validate` now checks the `atom_site` coordinate
+  mode and the aniso columns per row (roadmap D12, the review
+  P2-1 note).
 - Breaking (roadmap D12h): the five `bon` builders now build the
   typed document structs instead of their private ones. The builder
   entry points (`Cell::builder`, `SpaceGroup::builder`,

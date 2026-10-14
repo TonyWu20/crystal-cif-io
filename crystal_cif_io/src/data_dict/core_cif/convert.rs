@@ -259,4 +259,35 @@ mod tests {
         // value below the `1.0:` floor stores as written.
         assert_eq!(n(&w.value().number()), 0.5);
     }
+
+    #[test]
+    fn the_space_group_closed_sets_parse_the_dictionary_codes() {
+        use crate::data_dict::core_cif::space_group::{
+            BravaisType, CentringType, ItCoordinateSystemCode,
+        };
+        for code in [
+            "aP", "mP", "mS", "oP", "oS", "oI", "oF", "tP", "tI", "hP", "hR",
+            "cP", "cI", "cF",
+        ] {
+            assert_eq!(
+                BravaisType::parse(code).unwrap().to_string(),
+                code,
+                "bravais {code}"
+            );
+        }
+        for code in ["P", "A", "B", "C", "F", "I", "R", "Rrev", "H"] {
+            assert_eq!(
+                CentringType::parse(code).unwrap().to_string(),
+                code,
+                "centring {code}"
+            );
+        }
+        assert_eq!(ItCoordinateSystemCode::parse("b1").unwrap().to_string(), "b1");
+        assert_eq!(ItCoordinateSystemCode::parse("-cba").unwrap().to_string(), "-cba");
+        assert_eq!(ItCoordinateSystemCode::parse("2ba-c").unwrap().to_string(), "2ba-c");
+        assert_eq!(ItCoordinateSystemCode::parse("r").unwrap().to_string(), "r");
+        assert!(BravaisType::parse("aQ").is_none(), "the code is not in the set");
+        assert!(CentringType::parse("Q").is_none());
+        assert!(ItCoordinateSystemCode::parse("b9").is_none());
+    }
 }

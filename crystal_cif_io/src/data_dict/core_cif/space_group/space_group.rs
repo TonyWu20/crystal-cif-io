@@ -1,23 +1,26 @@
 //! The `space_group` category of the typed document layer (roadmap D12).
 //!
 //! The `space_group` category struct. One `Option` field per registry
-//! item. `it_number` keeps the clamped `ITNumber` newtype and
-//! `crystal_system` the `CrystalSystemCif` closed set.
+//! item. `it_number` keeps the clamped `ITNumber` newtype. The
+//! closed sets are `CrystalSystemCif`, `BravaisType`,
+//! `CentringType`, and `ItCoordinateSystemCode`.
 
 use crystal_cif_fmt::grammar::{Tag, Value, Numeric, CharString, Number, UnquotedString};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
-use {crate::data_dict::core_cif::space_group::CrystalSystemCif, crate::data_dict::core_cif::space_group::ITNumber};
+use crate::data_dict::core_cif::space_group::{
+    BravaisType, CentringType, CrystalSystemCif, ITNumber, ItCoordinateSystemCode,
+};
 use crate::data_dict::core_cif::{convert, CifCategory};
 use crate::core_cif::CifError;
 
 #[derive(Debug, Clone, Default)]
 pub struct SpaceGroup {
-    pub bravais_type: Option<CharString>,
-    pub centring_type: Option<CharString>,
+    pub bravais_type: Option<BravaisType>,
+    pub centring_type: Option<CentringType>,
     pub crystal_system: Option<CrystalSystemCif>,
     pub id: Option<Numeric>,
     pub it_number: Option<ITNumber>,
-    pub it_coordinate_system_code: Option<CharString>,
+    pub it_coordinate_system_code: Option<ItCoordinateSystemCode>,
     pub laue_class: Option<CharString>,
     pub multiplicity: Option<Numeric>,
     pub name_h_m_alt: Option<CharString>,
@@ -39,13 +42,13 @@ impl CifCategory for SpaceGroup {
         if let Some(v) = &self.bravais_type {
             out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
                 Tag::new("space_group_bravais_type".to_string()),
-                Value::CharString(v.clone()),
+                Value::CharString(CharString::Unquoted(UnquotedString::new(v.to_string()))),
             )))));
         }
         if let Some(v) = &self.centring_type {
             out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
                 Tag::new("space_group_centring_type".to_string()),
-                Value::CharString(v.clone()),
+                Value::CharString(CharString::Unquoted(UnquotedString::new(v.to_string()))),
             )))));
         }
         if let Some(v) = &self.crystal_system {
@@ -69,7 +72,7 @@ impl CifCategory for SpaceGroup {
         if let Some(v) = &self.it_coordinate_system_code {
             out.push(DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
                 Tag::new("space_group_it_coordinate_system_code".to_string()),
-                Value::CharString(v.clone()),
+                Value::CharString(CharString::Unquoted(UnquotedString::new(v.to_string()))),
             )))));
         }
         if let Some(v) = &self.laue_class {
@@ -162,13 +165,13 @@ impl CifCategory for SpaceGroup {
                 let value = sv.value();
                 match tag.as_str() {
                     "space_group_bravais_type" => {
-                        match convert::read_char("space_group_bravais_type", value) {
+                        match convert::read_closed_set("space_group_bravais_type", value, BravaisType::parse, "BravaisType") {
                             Ok(v) => self.bravais_type = v,
                             Err(e) => errors.push(e),
                         }
                     }
                     "space_group_centring_type" => {
-                        match convert::read_char("space_group_centring_type", value) {
+                        match convert::read_closed_set("space_group_centring_type", value, CentringType::parse, "CentringType") {
                             Ok(v) => self.centring_type = v,
                             Err(e) => errors.push(e),
                         }
@@ -192,7 +195,7 @@ impl CifCategory for SpaceGroup {
                         }
                     }
                     "space_group_it_coordinate_system_code" => {
-                        match convert::read_char("space_group_it_coordinate_system_code", value) {
+                        match convert::read_closed_set("space_group_it_coordinate_system_code", value, ItCoordinateSystemCode::parse, "ItCoordinateSystemCode") {
                             Ok(v) => self.it_coordinate_system_code = v,
                             Err(e) => errors.push(e),
                         }

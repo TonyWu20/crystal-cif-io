@@ -145,6 +145,9 @@ fn a_valid_document() -> CoreCif {
         label: Some(unquoted("Ba1")),
         type_symbol: Some(unquoted("Ba")),
         adp_type: Some(AdpType::Uiso),
+        fract_x: Some(Numeric::from(0.123)),
+        fract_y: Some(Numeric::from(0.456)),
+        fract_z: Some(Numeric::from(0.789)),
         ..Default::default()
     });
     doc

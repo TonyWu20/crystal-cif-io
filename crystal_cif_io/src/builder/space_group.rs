@@ -22,7 +22,9 @@ use crystallographic_group::database::{
 use crystallographic_group::SpaceGroup as Resolved;
 use crystallographic_group::SpaceGroupError as ResolveError;
 
-use crate::data_dict::core_cif::space_group::{CrystalSystemCif, ITNumber, SpaceGroup};
+use crate::data_dict::core_cif::space_group::{
+    BravaisType, CentringType, CrystalSystemCif, ITNumber, ItCoordinateSystemCode, SpaceGroup,
+};
 use crate::data_dict::core_cif::range_check::number_as_f64;
 use crystal_cif_fmt::grammar::{CharString, Matrix, Number, Numeric};
 
@@ -62,6 +64,11 @@ pub enum SpaceGroupError {
         item: &'static str,
         actual: (usize, usize),
     },
+    /// A supplied closed-set value misses the set.
+    NotInClosedSet {
+        item: &'static str,
+        value: String,
+    },
     /// The resolved group carries no crystal system. The resolution
     /// paths guarantee a table row, so this does not occur.
     NoCrystalSystem(String),
@@ -82,6 +89,9 @@ impl std::fmt::Display for SpaceGroupError {
             } => write!(f, "the supplied {item} {supplied:?} misses the computed {computed:?}"),
             Self::BadShape { item, actual } => {
                 write!(f, "the supplied {item} has the shape {actual:?}, not (3, 3)")
+            }
+            Self::NotInClosedSet { item, value } => {
+                write!(f, "the supplied {item} {value:?} is not in the closed set")
             }
             Self::NoCrystalSystem(detail) => {
                 write!(f, "the resolved group carries no crystal system: {detail}")
@@ -334,12 +344,27 @@ impl SpaceGroup {
             .ok_or_else(|| SpaceGroupError::UnresolvedHm(parts.hm.clone()))?;
 
         Ok(SpaceGroup {
-            bravais_type: Some(unquoted(bravais)),
-            centring_type: Some(unquoted(&letter.to_string())),
+            bravais_type: Some(
+                BravaisType::parse(bravais)
+                    .expect("the computed code is in the closed set"),
+            ),
+            centring_type: Some(
+                CentringType::parse(&letter.to_string())
+                    .expect("the computed letter is in the closed set"),
+            ),
             crystal_system: Some(system_cif(system)),
             id: None,
             it_number: Some(parts.it_number),
-            it_coordinate_system_code,
+            it_coordinate_system_code: it_coordinate_system_code
+                .map(|v| {
+                    ItCoordinateSystemCode::parse(v.content()).ok_or_else(|| {
+                        SpaceGroupError::NotInClosedSet {
+                            item: "it_coordinate_system_code",
+                            value: v.content().to_string(),
+                        }
+                    })
+                })
+                .transpose()?,
             laue_class,
             multiplicity: Some(multiplicity_value),
             name_h_m_alt,
@@ -373,8 +398,8 @@ mod tests {
         assert_eq!(group.it_number, Some(ITNumber::from(14i32)));
         assert_eq!(group.name_hall.as_ref().expect("hall").content(), "-P 2ybc");
         assert_eq!(group.crystal_system, Some(CrystalSystemCif::Monoclinic));
-        assert_eq!(group.bravais_type.as_ref().expect("bravais").content(), "mP");
-        assert_eq!(group.centring_type.as_ref().expect("centring").content(), "P");
+        assert_eq!(group.bravais_type, Some(BravaisType::MP));
+        assert_eq!(group.centring_type, Some(CentringType::P));
         assert_eq!(
             number_as_f64(&group.multiplicity.as_ref().expect("multiplicity").number()),
             4.0
@@ -387,7 +412,7 @@ mod tests {
         let group = SpaceGroup::by_name_hall("P 2 2").expect("P222 resolves");
         assert_eq!(group.it_number, Some(ITNumber::from(16i32)));
         assert_eq!(group.crystal_system, Some(CrystalSystemCif::Orthorhombic));
-        assert_eq!(group.bravais_type.as_ref().expect("bravais").content(), "oP");
+        assert_eq!(group.bravais_type, Some(BravaisType::OP));
         assert_eq!(
             number_as_f64(&group.multiplicity.as_ref().expect("multiplicity").number()),
             4.0
@@ -400,7 +425,7 @@ mod tests {
         assert_eq!(group.it_number, Some(ITNumber::from(89i32)));
         assert_eq!(group.name_hall.as_ref().expect("hall").content(), "P 4 2");
         assert_eq!(group.crystal_system, Some(CrystalSystemCif::Tetragonal));
-        assert_eq!(group.bravais_type.as_ref().expect("bravais").content(), "tP");
+        assert_eq!(group.bravais_type, Some(BravaisType::TP));
     }
 
     #[test]

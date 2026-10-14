@@ -1,11 +1,17 @@
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, UnquotedString, UnsignedInteger, Value};
 
+mod bravais_type;
+mod centring_type;
 mod crystal_system;
+mod it_coordinate_system_code;
 mod it_number;
 mod space_group;
 
+pub use bravais_type::BravaisType;
+pub use centring_type::CentringType;
 pub use crystal_system::CrystalSystemCif;
+pub use it_coordinate_system_code::ItCoordinateSystemCode;
 pub use it_number::ITNumber;
 pub use space_group::SpaceGroup;
 

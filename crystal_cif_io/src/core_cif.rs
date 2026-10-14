@@ -184,6 +184,56 @@ impl CoreCif {
                     });
                 }
             }
+            // Exactly one coordinate mode per row.
+            let fract = row.fract_x.is_some()
+                && row.fract_y.is_some()
+                && row.fract_z.is_some();
+            let cartn = row.cartn_x.is_some()
+                && row.cartn_y.is_some()
+                && row.cartn_z.is_some();
+            if !fract && !cartn {
+                errors.push(CifError::Missing {
+                    category: "atom_site",
+                    item: "fract_x/y/z or cartn_x/y/z",
+                });
+            }
+            // The aniso columns, when the displacement type is aniso.
+            let need_u = matches!(
+                row.adp_type,
+                Some(crate::data_dict::core_cif::atom_site::AdpType::Uani)
+                    | Some(crate::data_dict::core_cif::atom_site::AdpType::Uovl)
+            );
+            let need_b = matches!(
+                row.adp_type,
+                Some(crate::data_dict::core_cif::atom_site::AdpType::Bani)
+                    | Some(crate::data_dict::core_cif::atom_site::AdpType::Bovl)
+            );
+            if need_u
+                && !(row.aniso_u_11.is_some()
+                    && row.aniso_u_12.is_some()
+                    && row.aniso_u_13.is_some()
+                    && row.aniso_u_22.is_some()
+                    && row.aniso_u_23.is_some()
+                    && row.aniso_u_33.is_some())
+            {
+                errors.push(CifError::Missing {
+                    category: "atom_site",
+                    item: "aniso_U_11..33",
+                });
+            }
+            if need_b
+                && !(row.aniso_b_11.is_some()
+                    && row.aniso_b_12.is_some()
+                    && row.aniso_b_13.is_some()
+                    && row.aniso_b_22.is_some()
+                    && row.aniso_b_23.is_some()
+                    && row.aniso_b_33.is_some())
+            {
+                errors.push(CifError::Missing {
+                    category: "atom_site",
+                    item: "aniso_B_11..33",
+                });
+            }
         }
         if errors.is_empty() {
             Ok(())
