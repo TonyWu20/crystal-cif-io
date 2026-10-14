@@ -1,4 +1,6 @@
 mod element;
+mod publ_body;
+
 mod format;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};
@@ -6,6 +8,7 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::element::Element;
 pub use self::format::Format;
+pub use self::publ_body::PublBody;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

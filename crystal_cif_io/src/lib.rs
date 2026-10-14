@@ -57,4 +57,17 @@ pub use data_dict::core_cif::{
     diffrn_source::DiffrnSource,
     diffrn_standard_refln::{DiffrnStandardRefln, DiffrnStandardReflnRow},
     diffrn_standards::DiffrnStandards,
+/// The T4 tier category structs (roadmap D12).
+pub use data_dict::core_cif::{
+    audit::Audit, audit_author::AuditAuthor, audit_author::AuditAuthorRow,
+    audit_conform::AuditConform, audit_conform::AuditConformRow,
+    audit_contact_author::AuditContactAuthor, audit_link::AuditLink,
+    citation::Citation, citation::CitationRow, citation_author::CitationAuthor,
+    citation_editor::CitationEditor, citation_editor::CitationEditorRow,
+    computing::Computing, computing::ComputingRow, database::Database,
+    database::DatabaseRow, journal::Journal, journal::JournalRow,
+    journal_index::JournalIndex, journal_index::JournalIndexRow,
+    publ::Publ, publ::PublRow, publ_author::PublAuthor,
+    publ_author::PublAuthorRow, publ_body::PublBody,
+    publ_manuscript_incl::PublManuscriptIncl,
 };

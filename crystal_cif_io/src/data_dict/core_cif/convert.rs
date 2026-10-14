@@ -10,6 +10,8 @@
 
 use crystal_cif_fmt::grammar::{
     CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString, UnsignedInteger, Value,
+    CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString,
+    UnsignedInteger, Value,
 };
 
 use crate::data_dict::core_cif::cell::CellAngle;
@@ -23,6 +25,7 @@ use crate::data_dict::core_cif::chemical_formula::FormulaWeight;
 use crate::data_dict::core_cif::geom_bond::{BondDistance, BondMultiplicity};
 use crate::data_dict::core_cif::geom_contact::ContactDistance;
 use crate::data_dict::core_cif::geom_hbond::HbondDistance;
+use crate::data_dict::core_cif::journal::PaperPages;
 use crate::data_dict::core_cif::space_group::ITNumber;
 use crate::data_dict::matrix;
 use crate::core_cif::CifError;
@@ -68,6 +71,23 @@ pub(crate) fn read_char(tag: &str, v: &Value) -> Result<Option<CharString>, CifE
         Value::TextField(t) => Ok(Some(
             CharString::SingleQuoted(SingleQuotedString::new(t.raw_string())),
         )),
+        other => Err(value_class_error(tag, "CharString", other)),
+    }
+}
+
+/// Read a character item that may be recorded as a text field. The
+/// tier-T4 corpus stores char items as semicolon text fields (for
+/// example `_publ_body.contents`); both value classes read into the
+/// shared `CharString` type. A missing value reads as `None`.
+pub(crate) fn read_char_text(tag: &str, v: &Value) -> Result<Option<CharString>, CifError> {
+    if is_absent(v) {
+        return Ok(None);
+    }
+    match v {
+        Value::CharString(c) => Ok(Some(c.clone())),
+        Value::TextField(t) => Ok(Some(CharString::SingleQuoted(SingleQuotedString::new(
+            t.raw_string(),
+        )))),
         other => Err(value_class_error(tag, "CharString", other)),
     }
 }
@@ -310,6 +330,11 @@ pub(crate) fn read_ranged_newtype<T>(
 ) -> Result<Option<T>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(|n| construct(number_to_float(&n))))
+/// Read a `PaperPages` item. The recorded value stores as written;
+/// the range guard applies at the write.
+pub(crate) fn read_paper_pages(tag: &str, v: &Value) -> Result<Option<PaperPages>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(PaperPages::from_numeric))
 }
 
 /// Read a closed-set item. The value is a character string in the
@@ -428,6 +453,28 @@ mod tests {
             CifError::ValueClass { .. }
         ));
         assert!(read_closed_set("t", &Value::Inapplicable, AdpType::parse, "AdpType").unwrap().is_none());
+    }
+
+    #[test]
+    fn read_char_text_accepts_strings_and_text_fields() {
+        let s = read_char_text("t", &char_value("ab")).unwrap();
+        assert_eq!(s.as_ref().map(|c| c.content()), Some("ab"));
+        // A semicolon text field reads into the shared string type.
+        let tf = Value::TextField(
+            crystal_cif_fmt::grammar::TextField::SemiColonTextField(
+                crystal_cif_fmt::grammar::SemiColonTextField::new(vec![
+                    "line one".to_string(),
+                    "line two".to_string(),
+                ]),
+            ),
+        );
+        let s = read_char_text("t", &tf).unwrap();
+        assert_eq!(s.as_ref().map(|c| c.content()), Some("line one\nline two"));
+        assert!(matches!(
+            read_char_text("t", &Value::Numeric(Numeric::from(1.0))).unwrap_err(),
+            CifError::ValueClass { .. }
+        ));
+        assert!(read_char_text("t", &Value::Inapplicable).unwrap().is_none());
     }
 
     #[test]

@@ -1,3 +1,7 @@
+mod publ_author;
+
+pub use self::publ_author::{PublAuthor, PublAuthorRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};

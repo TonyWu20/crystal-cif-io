@@ -1,7 +1,13 @@
+mod index_type;
+mod journal_index;
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+
+pub use self::journal_index::{JournalIndex, JournalIndexRow};
+pub use self::index_type::Type;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
@@ -37,7 +43,8 @@ impl Display for JournalIndexTerms {
 pub enum JournalIndexLoopItem {
     Subterm(Vec<CharString>),
     Term(Vec<CharString>),
-    Type(Vec<CharString>),
+    /// closed code set recorded in the dictionary _enumeration
+    Type(Vec<Type>),
 }
 
 impl CifTerm for JournalIndexLoopItem {
@@ -55,8 +62,8 @@ impl LoopValueTerm for JournalIndexLoopItem {
     fn values(&self) -> Vec<Value> {
         match self {
             JournalIndexLoopItem::Subterm(s)
-            | JournalIndexLoopItem::Term(s)
-            | JournalIndexLoopItem::Type(s) => s.iter().cloned().map(Value::from).collect(),
+            | JournalIndexLoopItem::Term(s) => s.iter().cloned().map(Value::from).collect(),
+            JournalIndexLoopItem::Type(v) => v.iter().cloned().map(Value::from).collect(),
         }
     }
 }

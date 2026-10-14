@@ -1,3 +1,7 @@
+mod citation_editor;
+
+pub use self::citation_editor::{CitationEditor, CitationEditorRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};

@@ -11,6 +11,11 @@ use crystal_cif_fmt::grammar::DataBlock;
 use crystal_cif_fmt::{DataBlockHeading, DataBlockMember};
 
 use crate::data_dict::core_cif::atom_site::AtomSite;
+use crate::data_dict::core_cif::audit::Audit;
+use crate::data_dict::core_cif::audit_author::{AuditAuthor, AuditAuthorRow};
+use crate::data_dict::core_cif::audit_conform::{AuditConform, AuditConformRow};
+use crate::data_dict::core_cif::audit_contact_author::AuditContactAuthor;
+use crate::data_dict::core_cif::audit_link::AuditLink;
 use crate::data_dict::core_cif::cell::Cell;
 use crate::data_dict::core_cif::cell_measurement_refln::CellMeasurementRefln;
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
@@ -33,6 +38,17 @@ use crate::data_dict::core_cif::diffrn_standard_refln::{
     DiffrnStandardRefln, DiffrnStandardReflnRow,
 };
 use crate::data_dict::core_cif::diffrn_standards::DiffrnStandards;
+use crate::data_dict::core_cif::citation::{Citation, CitationRow};
+use crate::data_dict::core_cif::citation_author::CitationAuthor;
+use crate::data_dict::core_cif::citation_editor::{CitationEditor, CitationEditorRow};
+use crate::data_dict::core_cif::computing::{Computing, ComputingRow};
+use crate::data_dict::core_cif::database::{Database, DatabaseRow};
+use crate::data_dict::core_cif::journal::{Journal, JournalRow};
+use crate::data_dict::core_cif::journal_index::{JournalIndex, JournalIndexRow};
+use crate::data_dict::core_cif::publ::{Publ, PublRow};
+use crate::data_dict::core_cif::publ_author::{PublAuthor, PublAuthorRow};
+use crate::data_dict::core_cif::publ_body::PublBody;
+use crate::data_dict::core_cif::publ_manuscript_incl::PublManuscriptIncl;
 use crate::data_dict::core_cif::space_group::SpaceGroup;
 use crate::data_dict::core_cif::space_group_symop::Symop;
 use crate::data_dict::core_cif::atom_sites::{AtomSites, AtomSitesRow};
@@ -151,6 +167,33 @@ pub struct CoreCif {
     pub diffrn_standard_refln: DiffrnStandardRefln,
     pub diffrn_standard_refln_rows: Vec<DiffrnStandardReflnRow>,
     pub diffrn_standards: DiffrnStandards,
+    // T4 wave: the tier T4 (metadata and publication) category fields.
+    pub audit: Audit,
+    pub audit_author: AuditAuthor,
+    pub audit_author_rows: Vec<AuditAuthorRow>,
+    pub audit_conform: AuditConform,
+    pub audit_conform_rows: Vec<AuditConformRow>,
+    pub audit_contact_author: AuditContactAuthor,
+    pub audit_link: Vec<AuditLink>,
+    pub citation: Citation,
+    pub citation_rows: Vec<CitationRow>,
+    pub citation_author: Vec<CitationAuthor>,
+    pub citation_editor: CitationEditor,
+    pub citation_editor_rows: Vec<CitationEditorRow>,
+    pub computing: Computing,
+    pub computing_rows: Vec<ComputingRow>,
+    pub database: Database,
+    pub database_rows: Vec<DatabaseRow>,
+    pub journal: Journal,
+    pub journal_rows: Vec<JournalRow>,
+    pub journal_index: JournalIndex,
+    pub journal_index_rows: Vec<JournalIndexRow>,
+    pub publ: Publ,
+    pub publ_rows: Vec<PublRow>,
+    pub publ_author: PublAuthor,
+    pub publ_author_rows: Vec<PublAuthorRow>,
+    pub publ_body: Vec<PublBody>,
+    pub publ_manuscript_incl: Vec<PublManuscriptIncl>,
     /// Members no typed category consumed, plus every save frame.
     pub extra: Vec<DataBlockMember>,
 }
@@ -272,6 +315,59 @@ impl CoreCif {
         errors.extend(diffrn_standard_refln_rows_errors);
         let (residue, diffrn_standards_errors) = doc.diffrn_standards.from_members(&residue);
         errors.extend(diffrn_standards_errors);
+        // T4 wave: the tier T4 categories consume the residue in turn.
+        let (residue, audit_errors) = doc.audit.from_members(&residue);
+        errors.extend(audit_errors);
+        let (residue, audit_author_errors) = doc.audit_author.from_members(&residue);
+        errors.extend(audit_author_errors);
+        let (residue, audit_author_rows_errors) = doc.audit_author_rows.from_members(&residue);
+        errors.extend(audit_author_rows_errors);
+        let (residue, audit_conform_errors) = doc.audit_conform.from_members(&residue);
+        errors.extend(audit_conform_errors);
+        let (residue, audit_conform_rows_errors) = doc.audit_conform_rows.from_members(&residue);
+        errors.extend(audit_conform_rows_errors);
+        let (residue, audit_contact_author_errors) = doc.audit_contact_author.from_members(&residue);
+        errors.extend(audit_contact_author_errors);
+        let (residue, audit_link_errors) = doc.audit_link.from_members(&residue);
+        errors.extend(audit_link_errors);
+        let (residue, citation_errors) = doc.citation.from_members(&residue);
+        errors.extend(citation_errors);
+        let (residue, citation_rows_errors) = doc.citation_rows.from_members(&residue);
+        errors.extend(citation_rows_errors);
+        let (residue, citation_author_errors) = doc.citation_author.from_members(&residue);
+        errors.extend(citation_author_errors);
+        let (residue, citation_editor_errors) = doc.citation_editor.from_members(&residue);
+        errors.extend(citation_editor_errors);
+        let (residue, citation_editor_rows_errors) = doc.citation_editor_rows.from_members(&residue);
+        errors.extend(citation_editor_rows_errors);
+        let (residue, computing_errors) = doc.computing.from_members(&residue);
+        errors.extend(computing_errors);
+        let (residue, computing_rows_errors) = doc.computing_rows.from_members(&residue);
+        errors.extend(computing_rows_errors);
+        let (residue, database_errors) = doc.database.from_members(&residue);
+        errors.extend(database_errors);
+        let (residue, database_rows_errors) = doc.database_rows.from_members(&residue);
+        errors.extend(database_rows_errors);
+        let (residue, journal_errors) = doc.journal.from_members(&residue);
+        errors.extend(journal_errors);
+        let (residue, journal_rows_errors) = doc.journal_rows.from_members(&residue);
+        errors.extend(journal_rows_errors);
+        let (residue, journal_index_errors) = doc.journal_index.from_members(&residue);
+        errors.extend(journal_index_errors);
+        let (residue, journal_index_rows_errors) = doc.journal_index_rows.from_members(&residue);
+        errors.extend(journal_index_rows_errors);
+        let (residue, publ_errors) = doc.publ.from_members(&residue);
+        errors.extend(publ_errors);
+        let (residue, publ_rows_errors) = doc.publ_rows.from_members(&residue);
+        errors.extend(publ_rows_errors);
+        let (residue, publ_author_errors) = doc.publ_author.from_members(&residue);
+        errors.extend(publ_author_errors);
+        let (residue, publ_author_rows_errors) = doc.publ_author_rows.from_members(&residue);
+        errors.extend(publ_author_rows_errors);
+        let (residue, publ_body_errors) = doc.publ_body.from_members(&residue);
+        errors.extend(publ_body_errors);
+        let (residue, publ_manuscript_incl_errors) = doc.publ_manuscript_incl.from_members(&residue);
+        errors.extend(publ_manuscript_incl_errors);
         doc.extra = residue;
         if errors.is_empty() {
             Ok(doc)
@@ -334,6 +430,33 @@ impl CoreCif {
         members.extend(self.diffrn_standard_refln.to_members());
         members.extend(self.diffrn_standard_refln_rows.to_members());
         members.extend(self.diffrn_standards.to_members());
+        // T4 wave: the tier T4 field blocks, then the extra residue.
+        members.extend(self.audit.to_members());
+        members.extend(self.audit_author.to_members());
+        members.extend(self.audit_author_rows.to_members());
+        members.extend(self.audit_conform.to_members());
+        members.extend(self.audit_conform_rows.to_members());
+        members.extend(self.audit_contact_author.to_members());
+        members.extend(self.audit_link.to_members());
+        members.extend(self.citation.to_members());
+        members.extend(self.citation_rows.to_members());
+        members.extend(self.citation_author.to_members());
+        members.extend(self.citation_editor.to_members());
+        members.extend(self.citation_editor_rows.to_members());
+        members.extend(self.computing.to_members());
+        members.extend(self.computing_rows.to_members());
+        members.extend(self.database.to_members());
+        members.extend(self.database_rows.to_members());
+        members.extend(self.journal.to_members());
+        members.extend(self.journal_rows.to_members());
+        members.extend(self.journal_index.to_members());
+        members.extend(self.journal_index_rows.to_members());
+        members.extend(self.publ.to_members());
+        members.extend(self.publ_rows.to_members());
+        members.extend(self.publ_author.to_members());
+        members.extend(self.publ_author_rows.to_members());
+        members.extend(self.publ_body.to_members());
+        members.extend(self.publ_manuscript_incl.to_members());
         members.extend(self.extra.iter().cloned());
         DataBlock::from_heading_members((
             DataBlockHeading::new(heading.to_string()),

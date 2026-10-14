@@ -1,3 +1,7 @@
+mod citation_author;
+
+pub use self::citation_author::CitationAuthor;
+
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
