@@ -1,6 +1,9 @@
 pub mod core_cif;
+pub mod ineq;
 pub mod matrix;
 pub mod tags;
+
+pub use ineq::Ineq;
 
 /// The term materialization traits live in the `crystal-cif-fmt`
 /// crate (`crystal_cif_fmt::term`). The parser types implement

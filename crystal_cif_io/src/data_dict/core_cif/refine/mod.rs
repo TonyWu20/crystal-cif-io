@@ -9,8 +9,10 @@
 
 use std::fmt::Display;
 
-use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
-use crystal_cif_fmt::grammar::{CharString, Number, Numeric, Tag, UnsignedInteger, Value};
+use crate::data_dict::{CifTerm, Ineq, LoopValueTerm, SingleValueTerm};
+use crystal_cif_fmt::grammar::{
+    CharString, Number, Numeric, Tag, UnquotedString, UnsignedInteger, Value,
+};
 
 mod codes;
 mod refine;
@@ -67,6 +69,17 @@ impl Display for NonNeg {
 impl From<NonNeg> for Value {
     fn from(value: NonNeg) -> Self {
         Value::Numeric(value.0)
+    }
+}
+
+impl From<Ineq<NonNeg>> for Value {
+    fn from(value: Ineq<NonNeg>) -> Self {
+        match value {
+            Ineq::Value(v) => Value::Numeric(v.0),
+            Ineq::LessThan(v) => Value::CharString(CharString::Unquoted(
+                UnquotedString::new(format!("<{}", v.numeric())),
+            )),
+        }
     }
 }
 
@@ -198,7 +211,7 @@ pub enum RefineTerms {
     Ls_restrained_S_obs(NonNeg),
     Ls_shift_esd_max(NonNeg),
     Ls_shift_esd_mean(NonNeg),
-    Ls_shift_su_max(NonNeg),
+    Ls_shift_su_max(Ineq<NonNeg>),
     Ls_shift_su_max_lt(NonNeg),
     Ls_shift_su_mean(NonNeg),
     Ls_shift_su_mean_lt(NonNeg),
@@ -299,7 +312,6 @@ impl SingleValueTerm for RefineTerms {
             | RefineTerms::Ls_restrained_S_obs(v)
             | RefineTerms::Ls_shift_esd_max(v)
             | RefineTerms::Ls_shift_esd_mean(v)
-            | RefineTerms::Ls_shift_su_max(v)
             | RefineTerms::Ls_shift_su_max_lt(v)
             | RefineTerms::Ls_shift_su_mean(v)
             | RefineTerms::Ls_shift_su_mean_lt(v)
@@ -307,6 +319,7 @@ impl SingleValueTerm for RefineTerms {
             | RefineTerms::Ls_wR_factor_gt(v)
             | RefineTerms::Ls_wR_factor_obs(v)
             | RefineTerms::Ls_wR_factor_ref(v) => (*v).into(),
+            RefineTerms::Ls_shift_su_max(v) => (*v).into(),
             RefineTerms::Ls_abs_structure_Flack(v) => (*v).into(),
             RefineTerms::Ls_abs_structure_Rogers(v) => (*v).into(),
             RefineTerms::Ls_number_constraints(v)
@@ -411,7 +424,7 @@ mod tests {
             RefineTerms::Ls_restrained_S_obs(non_neg("refine_ls_restrained_S_obs")),
             RefineTerms::Ls_shift_esd_max(non_neg("refine_ls_shift/esd_max")),
             RefineTerms::Ls_shift_esd_mean(non_neg("refine_ls_shift/esd_mean")),
-            RefineTerms::Ls_shift_su_max(non_neg("refine_ls_shift/su_max")),
+            RefineTerms::Ls_shift_su_max(Ineq::Value(non_neg("refine_ls_shift/su_max"))),
             RefineTerms::Ls_shift_su_max_lt(non_neg("refine_ls_shift/su_max_lt")),
             RefineTerms::Ls_shift_su_mean(non_neg("refine_ls_shift/su_mean")),
             RefineTerms::Ls_shift_su_mean_lt(non_neg("refine_ls_shift/su_mean_lt")),

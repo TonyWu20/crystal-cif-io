@@ -6,6 +6,7 @@
 //! the closed sets keep the typed enums.
 
 use crate::core_cif::CifError;
+use crate::data_dict::Ineq;
 use crate::data_dict::core_cif::refine::{
     Flack, HydrogenTreatment, MatrixType, NonNeg, Rogers, StructureFactorCoef, WeightingScheme,
 };
@@ -46,7 +47,7 @@ pub struct Refine {
     pub ls_restrained_s_obs: Option<NonNeg>,
     pub ls_shift_esd_max: Option<NonNeg>,
     pub ls_shift_esd_mean: Option<NonNeg>,
-    pub ls_shift_su_max: Option<NonNeg>,
+    pub ls_shift_su_max: Option<Ineq<NonNeg>>,
     pub ls_shift_su_max_lt: Option<NonNeg>,
     pub ls_shift_su_mean: Option<NonNeg>,
     pub ls_shift_su_mean_lt: Option<NonNeg>,
@@ -632,18 +633,19 @@ impl CifCategory for Refine {
                         "refine_ls_shift/su_max" => {
                             // A real-data file may record the value as a
                             // "<N" assertion (the COD). The assertion is a
-                            // less-than statement. It records in the
-                            // dedicated less-than field.
+                            // less-than statement. It records in the payload
+                            // of this field (roadmap D12l, option B).
                             if let Value::CharString(c) = value {
                                 let num = c.content().strip_prefix('<');
                                 if let Some(n) = num.and_then(|t| t.parse::<f64>().ok()) {
-                                    self.ls_shift_su_max_lt =
-                                        Some(NonNeg::from_numeric(Numeric::from(n)));
+                                    self.ls_shift_su_max = Some(Ineq::LessThan(
+                                        NonNeg::from_numeric(Numeric::from(n)),
+                                    ));
                                     continue;
                                 }
                             }
                             match convert::read_non_neg("refine_ls_shift/su_max", value) {
-                                Ok(v) => self.ls_shift_su_max = v,
+                                Ok(v) => self.ls_shift_su_max = v.map(Ineq::Value),
                                 Err(e) => errors.push(e),
                             }
                         }
@@ -846,4 +848,60 @@ fn diff_density_rows_from_columns(
         }
     }
     rows
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crystal_cif_fmt::parse_cif;
+    use crystal_cif_fmt::{DataBlockMember, DataItems};
+
+    /// The single member of the tag, with the value as recorded.
+    fn members_for(value: &str) -> Vec<DataBlockMember> {
+        let text = format!("data_test\n_refine_ls_shift/su_max {value}\n");
+        let doc = parse_cif(&text).expect("the snippet parses");
+        let block = &doc.data_blocks().expect("the block is present")[0];
+        assert_eq!(block.members().len(), 1, "the snippet holds one member");
+        block.members().to_vec()
+    }
+
+    /// The emitted member of the written value.
+    fn emitted(member: &DataBlockMember) -> (&Tag, &Value) {
+        match member {
+            DataBlockMember::DataItems(DataItems::SingleValue(sv)) => {
+                (sv.tag(), sv.value())
+            }
+            other => panic!("the emitted member is a single value: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn the_less_than_assertion_records_in_the_payload() {
+        let mut refine = Refine::default();
+        let (residue, errors) = refine.from_members(&members_for("<0.001"));
+        assert!(residue.is_empty(), "the tag is consumed: {residue:?}");
+        assert!(errors.is_empty(), "no mismatch: {errors:?}");
+        let expected = Ineq::LessThan(NonNeg::from_numeric(Numeric::from(0.001)));
+        assert_eq!(refine.ls_shift_su_max, Some(expected));
+        assert_eq!(refine.ls_shift_su_max_lt, None, "the plain assertion stays in the payload");
+        let member = &refine.to_members()[0];
+        let (tag, value) = emitted(member);
+        assert_eq!(tag.as_ref(), "refine_ls_shift/su_max");
+        assert_eq!(
+            format!("{value}"),
+            "<0.001",
+            "the assertion re-emits as written"
+        );
+    }
+
+    #[test]
+    fn the_plain_value_records_in_the_payload() {
+        let mut refine = Refine::default();
+        let (residue, errors) = refine.from_members(&members_for("0.001"));
+        assert!(residue.is_empty(), "the tag is consumed: {residue:?}");
+        assert!(errors.is_empty(), "no mismatch: {errors:?}");
+        let expected = Ineq::Value(NonNeg::from_numeric(Numeric::from(0.001)));
+        assert_eq!(refine.ls_shift_su_max, Some(expected));
+        assert_eq!(refine.ls_shift_su_max_lt, None);
+    }
 }
