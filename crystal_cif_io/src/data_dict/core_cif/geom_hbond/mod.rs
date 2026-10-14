@@ -5,8 +5,10 @@
 //! three distances, the publication flag, and the site symmetry of
 //! the three sites.
 
+mod geom_hbond;
 mod ranges;
 
+pub use geom_hbond::{GeomHbond, GeomHbondRow};
 pub use ranges::HbondDistance;
 
 use std::fmt::Display;

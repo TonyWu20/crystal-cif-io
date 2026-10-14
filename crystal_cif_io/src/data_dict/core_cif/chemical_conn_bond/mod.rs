@@ -4,8 +4,10 @@
 //! indices and the bond type code.
 
 mod bond_type;
+mod chemical_conn_bond;
 mod ranges;
 
+pub use chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow};
 pub use bond_type::BondType;
 pub use ranges::BondAtomNumber;
 

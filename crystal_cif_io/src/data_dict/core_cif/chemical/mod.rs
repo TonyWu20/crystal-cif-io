@@ -6,9 +6,11 @@
 //! the `_gt` and `_lt` companions of the temperature items, which
 //! the dictionary marks as loop columns.
 
+mod chemical;
 mod codes;
 mod ranges;
 
+pub use chemical::{Chemical, ChemicalRow};
 pub use codes::{AbsoluteConfiguration, EnantioexcessBulkTechnique, EnantioexcessCrystalTechnique};
 pub use ranges::{Enantioexcess, Temperature};
 

@@ -4,8 +4,10 @@
 //! labels, the distance, the bond order, the publication flag, the
 //! site symmetry of the two sites, and the valence.
 
+mod geom_bond;
 mod ranges;
 
+pub use geom_bond::{GeomBond, GeomBondRow};
 pub use ranges::{BondDistance, BondMultiplicity};
 
 use std::fmt::Display;
