@@ -99,3 +99,33 @@ impl From<RequestedCategory> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl RequestedCategory {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "AD" => Some(Self::AD),
+            "CI" => Some(Self::CI),
+            "CM" => Some(Self::CM),
+            "CO" => Some(Self::CO),
+            "EI" => Some(Self::EI),
+            "EM" => Some(Self::EM),
+            "EO" => Some(Self::EO),
+            "FA" => Some(Self::FA),
+            "FI" => Some(Self::FI),
+            "FM" => Some(Self::FM),
+            "FO" => Some(Self::FO),
+            "GI" => Some(Self::GI),
+            "GM" => Some(Self::GM),
+            "GO" => Some(Self::GO),
+            "HI" => Some(Self::HI),
+            "HM" => Some(Self::HM),
+            "HO" => Some(Self::HO),
+            "QI" => Some(Self::QI),
+            "QM" => Some(Self::QM),
+            "QO" => Some(Self::QO),
+            "SC" => Some(Self::SC),
+            _ => None,
+        }
+    }
+}

@@ -17,6 +17,16 @@ impl PaperPages {
     pub fn value(&self) -> Float {
         self.0
     }
+
+    /// The recorded value, stored as written. The range guard applies at
+    /// the write.
+    pub fn from_numeric(n: Numeric) -> Self {
+        let raw = match n.number() {
+            Number::Integer(i) => i.0 as f64,
+            Number::Float(f) => f.0,
+        };
+        Self(Float(raw))
+    }
 }
 
 impl Display for PaperPages {
