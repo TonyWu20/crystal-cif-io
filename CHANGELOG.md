@@ -43,6 +43,35 @@ Keep a Changelog.
 
 ### Added
 
+- The typed document layer of tier T4 (roadmap D12, wave 4). The
+  sixteen metadata and publication categories gain one `Option`-
+  field struct each under `data_dict::core_cif`. Two are
+  single-value structs (`audit`, `audit_contact_author`), four are
+  loop-row structs (`audit_link`, `citation_author`, `publ_body`,
+  `publ_manuscript_incl`), and ten carry both a single struct and
+  a row struct.
+- `CoreCif` holds the sixteen category groups. `from_block`
+  threads the residue through the category `from_members` calls.
+  `to_block` emits the T4 field blocks after the wave 1 blocks,
+  then the `extra` residue. The new lines carry the `// T4 wave:`
+  marker for the parallel tier merges. The crate root re-exports
+  the sixteen structs.
+- The tier closed-set items type to enums. `CoordinateLinkage`,
+  `RequestedCategory`, `Element`, `Format`, and `ExtraDefn` gain
+  the `parse` method. Two new enums carry the shell-dictionary
+  sets: `audit::Schema` (`_audit_schema`) and
+  `journal_index::Type` (`_journal_index_type`). The ranged item
+  `journal_paper_pages` reuses the `PaperPages` newtype through a
+  recorded-value read.
+- Char items of the tier read text-field values into the shared
+  `CharString` type. The T4 corpus stores char items as semicolon
+  text fields (`_publ_body.contents`, the contact-author items).
+  The read helper is `convert::read_char_text`.
+- `tests/typed_round_trip_w4.rs`: the tier round-trip over the
+  `iucr/example_publcif.cif`, `cod/1000000.cif`, and
+  `iucr/example_squeeze.cif` corpus files, the residue test, and
+  the `journal_index::Type` closed-set spot check.
+
 - A typed document layer for five core categories (roadmap D12,
   wave 1). The `CifCategory` trait in `data_dict::core_cif` reads
   and writes `DataBlockMember` sets. One `Option`-field struct per
