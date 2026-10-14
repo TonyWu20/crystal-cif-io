@@ -60,3 +60,20 @@ impl From<Target> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl Target {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "H" => Some(Self::H),
+            "Ar" => Some(Self::Ar),
+            "As" => Some(Self::As),
+            "Cd" => Some(Self::Cd),
+            "Eu" => Some(Self::Eu),
+            "Pt" => Some(Self::Pt),
+            "Np" => Some(Self::Np),
+            "Hs" => Some(Self::Hs),
+            _ => None,
+        }
+    }
+}

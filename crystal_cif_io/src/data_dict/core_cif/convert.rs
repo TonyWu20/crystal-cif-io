@@ -294,6 +294,16 @@ pub(crate) fn read_hbond_distance(
 ) -> Result<Option<HbondDistance>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(HbondDistance::from_numeric))
+
+/// Read a ranged newtype item. The value is a number; the entry
+/// constructor applies the dictionary clamp at the read.
+pub(crate) fn read_ranged_newtype<T>(
+    tag: &str,
+    v: &Value,
+    construct: fn(Float) -> T,
+) -> Result<Option<T>, CifError> {
+    let n = read_numeric(tag, v)?;
+    Ok(n.map(|n| construct(number_to_float(&n))))
 }
 
 /// Read a closed-set item. The value is a character string in the
@@ -412,6 +422,21 @@ mod tests {
         assert_eq!(it.to_string(), "230", "the IT number clamps to 230");
         let mult = read_sym_multiplicity("t", &Value::Numeric(Numeric::from(300.0f64))).unwrap().expect("reads");
         assert_eq!(mult.to_string(), "192", "the multiplicity clamps to 192");
+    }
+
+
+    #[test]
+    fn the_ranged_newtype_read_applies_the_constructor() {
+        use crate::data_dict::core_cif::diffrn_source::TakeOffAngle;
+        let good = read_ranged_newtype("t", &Value::Numeric(Numeric::from(45.0)), TakeOffAngle::new).unwrap();
+        assert_eq!(good.unwrap().value().0, 45.0, "the value reads");
+        let clamped = read_ranged_newtype("t", &Value::Numeric(Numeric::from(120.0)), TakeOffAngle::new).unwrap();
+        assert_eq!(clamped.unwrap().value().0, 90.0, "the out-of-range value clamps");
+        assert!(matches!(
+            read_ranged_newtype("t", &char_value("x"), TakeOffAngle::new).unwrap_err(),
+            CifError::ValueClass { .. }
+        ));
+        assert!(read_ranged_newtype("t", &Value::Inapplicable, TakeOffAngle::new).unwrap().is_none());
     }
 
     #[test]

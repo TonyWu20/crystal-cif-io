@@ -1,7 +1,7 @@
 //! The typed block view of one data block (roadmap D12).
 //!
 //! `CoreCif` is the typed document: the single-value category groups, the
-//! two loop-row groups, and the `extra` residue. No typed category consumed
+//! loop-row groups, and the `extra` residue. No typed category consumed
 //! the residue (foreign tags, save frames); it keeps their order and bytes.
 //! The guarantee is IR round-trip, not byte round-trip.
 
@@ -12,7 +12,27 @@ use crystal_cif_fmt::{DataBlockHeading, DataBlockMember};
 
 use crate::data_dict::core_cif::atom_site::AtomSite;
 use crate::data_dict::core_cif::cell::Cell;
+use crate::data_dict::core_cif::cell_measurement_refln::CellMeasurementRefln;
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
+use crate::data_dict::core_cif::diffrn::{Diffrn, DiffrnRow};
+use crate::data_dict::core_cif::diffrn_attenuator::DiffrnAttenuator;
+use crate::data_dict::core_cif::diffrn_detector::DiffrnDetector;
+use crate::data_dict::core_cif::diffrn_measurement::DiffrnMeasurement;
+use crate::data_dict::core_cif::diffrn_orient_matrix::{
+    DiffrnOrientMatrix, DiffrnOrientMatrixRow,
+};
+use crate::data_dict::core_cif::diffrn_orient_refln::DiffrnOrientRefln;
+use crate::data_dict::core_cif::diffrn_radiation::DiffrnRadiation;
+use crate::data_dict::core_cif::diffrn_radiation_wavelength::DiffrnRadiationWavelengthRow;
+use crate::data_dict::core_cif::diffrn_refln::DiffrnRefln;
+use crate::data_dict::core_cif::diffrn_reflns::{DiffrnReflns, DiffrnReflnsRow};
+use crate::data_dict::core_cif::diffrn_reflns_class::DiffrnReflnsClass;
+use crate::data_dict::core_cif::diffrn_scale_group::DiffrnScaleGroup;
+use crate::data_dict::core_cif::diffrn_source::DiffrnSource;
+use crate::data_dict::core_cif::diffrn_standard_refln::{
+    DiffrnStandardRefln, DiffrnStandardReflnRow,
+};
+use crate::data_dict::core_cif::diffrn_standards::DiffrnStandards;
 use crate::data_dict::core_cif::space_group::SpaceGroup;
 use crate::data_dict::core_cif::space_group_symop::Symop;
 use crate::data_dict::core_cif::atom_sites::{AtomSites, AtomSitesRow};
@@ -110,6 +130,27 @@ pub struct CoreCif {
     pub valence_param: ValenceParam,
     pub valence_param_rows: Vec<ValenceParamRow>,
     pub valence_ref: Vec<ValenceRefRow>,
+    // T5 wave: the 16 raw-diffraction categories of tier T5.
+    pub cell_measurement_refln: Vec<CellMeasurementRefln>,
+    pub diffrn: Diffrn,
+    pub diffrn_rows: Vec<DiffrnRow>,
+    pub diffrn_attenuator: Vec<DiffrnAttenuator>,
+    pub diffrn_detector: DiffrnDetector,
+    pub diffrn_measurement: DiffrnMeasurement,
+    pub diffrn_orient_matrix: DiffrnOrientMatrix,
+    pub diffrn_orient_matrix_rows: Vec<DiffrnOrientMatrixRow>,
+    pub diffrn_orient_refln: Vec<DiffrnOrientRefln>,
+    pub diffrn_radiation: DiffrnRadiation,
+    pub diffrn_radiation_wavelength: Vec<DiffrnRadiationWavelengthRow>,
+    pub diffrn_refln: Vec<DiffrnRefln>,
+    pub diffrn_reflns: DiffrnReflns,
+    pub diffrn_reflns_rows: Vec<DiffrnReflnsRow>,
+    pub diffrn_reflns_class: Vec<DiffrnReflnsClass>,
+    pub diffrn_scale_group: Vec<DiffrnScaleGroup>,
+    pub diffrn_source: DiffrnSource,
+    pub diffrn_standard_refln: DiffrnStandardRefln,
+    pub diffrn_standard_refln_rows: Vec<DiffrnStandardReflnRow>,
+    pub diffrn_standards: DiffrnStandards,
     /// Members no typed category consumed, plus every save frame.
     pub extra: Vec<DataBlockMember>,
 }
@@ -184,6 +225,53 @@ impl CoreCif {
         errors.extend(valence_param_rows_errors);
         let (residue, valence_ref_errors) = doc.valence_ref.from_members(&residue);
         errors.extend(valence_ref_errors);
+        // T5 wave: the 16 raw-diffraction categories of tier T5.
+        let (residue, cell_measurement_refln_errors) =
+            doc.cell_measurement_refln.from_members(&residue);
+        errors.extend(cell_measurement_refln_errors);
+        let (residue, diffrn_errors) = doc.diffrn.from_members(&residue);
+        errors.extend(diffrn_errors);
+        let (residue, diffrn_rows_errors) = doc.diffrn_rows.from_members(&residue);
+        errors.extend(diffrn_rows_errors);
+        let (residue, diffrn_attenuator_errors) = doc.diffrn_attenuator.from_members(&residue);
+        errors.extend(diffrn_attenuator_errors);
+        let (residue, diffrn_detector_errors) = doc.diffrn_detector.from_members(&residue);
+        errors.extend(diffrn_detector_errors);
+        let (residue, diffrn_measurement_errors) = doc.diffrn_measurement.from_members(&residue);
+        errors.extend(diffrn_measurement_errors);
+        let (residue, diffrn_orient_matrix_errors) =
+            doc.diffrn_orient_matrix.from_members(&residue);
+        errors.extend(diffrn_orient_matrix_errors);
+        let (residue, diffrn_orient_matrix_rows_errors) =
+            doc.diffrn_orient_matrix_rows.from_members(&residue);
+        errors.extend(diffrn_orient_matrix_rows_errors);
+        let (residue, diffrn_orient_refln_errors) = doc.diffrn_orient_refln.from_members(&residue);
+        errors.extend(diffrn_orient_refln_errors);
+        let (residue, diffrn_radiation_errors) = doc.diffrn_radiation.from_members(&residue);
+        errors.extend(diffrn_radiation_errors);
+        let (residue, diffrn_radiation_wavelength_errors) =
+            doc.diffrn_radiation_wavelength.from_members(&residue);
+        errors.extend(diffrn_radiation_wavelength_errors);
+        let (residue, diffrn_refln_errors) = doc.diffrn_refln.from_members(&residue);
+        errors.extend(diffrn_refln_errors);
+        let (residue, diffrn_reflns_errors) = doc.diffrn_reflns.from_members(&residue);
+        errors.extend(diffrn_reflns_errors);
+        let (residue, diffrn_reflns_rows_errors) = doc.diffrn_reflns_rows.from_members(&residue);
+        errors.extend(diffrn_reflns_rows_errors);
+        let (residue, diffrn_reflns_class_errors) = doc.diffrn_reflns_class.from_members(&residue);
+        errors.extend(diffrn_reflns_class_errors);
+        let (residue, diffrn_scale_group_errors) = doc.diffrn_scale_group.from_members(&residue);
+        errors.extend(diffrn_scale_group_errors);
+        let (residue, diffrn_source_errors) = doc.diffrn_source.from_members(&residue);
+        errors.extend(diffrn_source_errors);
+        let (residue, diffrn_standard_refln_errors) =
+            doc.diffrn_standard_refln.from_members(&residue);
+        errors.extend(diffrn_standard_refln_errors);
+        let (residue, diffrn_standard_refln_rows_errors) =
+            doc.diffrn_standard_refln_rows.from_members(&residue);
+        errors.extend(diffrn_standard_refln_rows_errors);
+        let (residue, diffrn_standards_errors) = doc.diffrn_standards.from_members(&residue);
+        errors.extend(diffrn_standards_errors);
         doc.extra = residue;
         if errors.is_empty() {
             Ok(doc)
@@ -225,6 +313,27 @@ impl CoreCif {
         members.extend(self.valence_param.to_members());
         members.extend(self.valence_param_rows.to_members());
         members.extend(self.valence_ref.to_members());
+        // T5 wave: the 16 raw-diffraction categories of tier T5.
+        members.extend(self.cell_measurement_refln.to_members());
+        members.extend(self.diffrn.to_members());
+        members.extend(self.diffrn_rows.to_members());
+        members.extend(self.diffrn_attenuator.to_members());
+        members.extend(self.diffrn_detector.to_members());
+        members.extend(self.diffrn_measurement.to_members());
+        members.extend(self.diffrn_orient_matrix.to_members());
+        members.extend(self.diffrn_orient_matrix_rows.to_members());
+        members.extend(self.diffrn_orient_refln.to_members());
+        members.extend(self.diffrn_radiation.to_members());
+        members.extend(self.diffrn_radiation_wavelength.to_members());
+        members.extend(self.diffrn_refln.to_members());
+        members.extend(self.diffrn_reflns.to_members());
+        members.extend(self.diffrn_reflns_rows.to_members());
+        members.extend(self.diffrn_reflns_class.to_members());
+        members.extend(self.diffrn_scale_group.to_members());
+        members.extend(self.diffrn_source.to_members());
+        members.extend(self.diffrn_standard_refln.to_members());
+        members.extend(self.diffrn_standard_refln_rows.to_members());
+        members.extend(self.diffrn_standards.to_members());
         members.extend(self.extra.iter().cloned());
         DataBlock::from_heading_members((
             DataBlockHeading::new(heading.to_string()),

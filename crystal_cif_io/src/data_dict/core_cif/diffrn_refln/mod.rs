@@ -1,5 +1,6 @@
 mod detect_slit_horiz;
 mod detect_slit_vert;
+mod diffrn_refln;
 mod elapsed_time;
 mod intensity_net;
 mod intensity_sigma;
@@ -30,6 +31,7 @@ pub use self::scan_time_backgd::ScanTimeBackgd;
 pub use self::scan_width::ScanWidth;
 pub use self::sint_lambda::SintLambda;
 pub use self::wavelength::Wavelength;
+pub use self::diffrn_refln::DiffrnRefln;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

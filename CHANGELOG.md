@@ -91,6 +91,19 @@ Keep a Changelog.
   fixture and the iucr and cod corpus blocks read, rewrite, and
   re-read with the typed fields and the `extra` residue stable.
   The residue test pins the save-frame order.
+- Typed category structs for the 16 raw-diffraction categories of
+  tier T5 (roadmap D12, the T5 wave): `cell_measurement_refln`,
+  `diffrn`, `diffrn_attenuator`, `diffrn_detector`,
+  `diffrn_measurement`, `diffrn_orient_matrix`,
+  `diffrn_orient_refln`, `diffrn_radiation`,
+  `diffrn_radiation_wavelength`, `diffrn_refln`, `diffrn_reflns`,
+  `diffrn_reflns_class`, `diffrn_scale_group`, `diffrn_source`,
+  `diffrn_standard_refln`, and `diffrn_standards`. The
+  single-value structs and the loop-row structs follow the wave 1
+  shape. The `CoreCif` view gains the 16 category groups. The
+  ranged items keep the entry newtypes. The closed-set items keep
+  the typed enums. The six closed-set enums gain the parse method
+  of the adp_type pattern.
 - A COMCIFS `cif_api` test-data corpus in
   `tests/real_data/cif_api/`: the 21 edge-case CIFs of the
   upstream reference implementation, pinned to commit `7882c12`.

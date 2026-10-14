@@ -1,7 +1,9 @@
+mod diffrn_orient_matrix;
 use std::fmt::Display;
 
 use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
+pub use diffrn_orient_matrix::{DiffrnOrientMatrix, DiffrnOrientMatrixRow};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

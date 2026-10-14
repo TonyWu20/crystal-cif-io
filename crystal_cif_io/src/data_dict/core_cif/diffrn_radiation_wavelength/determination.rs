@@ -39,3 +39,13 @@ impl From<Determination> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl Determination {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "fundamental" => Some(Self::Fundamental),
+            _ => None,
+        }
+    }
+}

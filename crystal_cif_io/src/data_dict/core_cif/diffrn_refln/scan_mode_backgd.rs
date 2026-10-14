@@ -42,3 +42,14 @@ impl From<ScanModeBackgd> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl ScanModeBackgd {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "st" => Some(Self::St),
+            "mo" => Some(Self::Mo),
+            _ => None,
+        }
+    }
+}

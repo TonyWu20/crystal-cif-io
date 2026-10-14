@@ -17,6 +17,7 @@ pub mod audit_contact_author;
 pub mod audit_link;
 pub mod audit_support;
 pub mod cell;
+pub mod cell_measurement_refln;
 pub mod chemical;
 pub mod chemical_conn_atom;
 pub mod chemical_conn_bond;

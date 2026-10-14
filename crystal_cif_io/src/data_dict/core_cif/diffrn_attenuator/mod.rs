@@ -1,9 +1,11 @@
+mod diffrn_attenuator;
 mod scale;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::scale::Scale;
+pub use self::diffrn_attenuator::DiffrnAttenuator;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
