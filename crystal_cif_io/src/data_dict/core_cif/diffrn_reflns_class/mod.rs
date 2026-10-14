@@ -4,6 +4,7 @@ mod av_u_i_over_i;
 mod av_ui_over_i;
 mod d_res_high;
 mod d_res_low;
+mod diffrn_reflns_class;
 mod reflns_class_number;
 
 use std::fmt::Display;
@@ -18,6 +19,7 @@ pub use self::av_ui_over_i::AvUiOverI;
 pub use self::d_res_high::DResHigh;
 pub use self::d_res_low::DResLow;
 pub use self::reflns_class_number::ReflnsClassNumber;
+pub use self::diffrn_reflns_class::DiffrnReflnsClass;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

@@ -1,5 +1,6 @@
 mod determination;
 mod diffrn_radiation_wavelength;
+mod diffrn_radiation_wavelength_row;
 mod wt;
 mod xray_symbol;
 
@@ -12,6 +13,7 @@ pub use self::determination::Determination;
 pub use self::diffrn_radiation_wavelength::DiffrnRadiationWavelength;
 pub use self::wt::Wt;
 pub use self::xray_symbol::XraySymbol;
+pub use self::diffrn_radiation_wavelength_row::DiffrnRadiationWavelengthRow;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
