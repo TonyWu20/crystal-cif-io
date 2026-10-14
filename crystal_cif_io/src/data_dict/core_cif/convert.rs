@@ -10,8 +10,6 @@
 
 use crystal_cif_fmt::grammar::{
     CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString, UnsignedInteger, Value,
-    CharString, Float, Matrix, MatrixError, Number, Numeric, SingleQuotedString,
-    UnsignedInteger, Value,
 };
 
 use crate::data_dict::core_cif::cell::CellAngle;
@@ -59,18 +57,13 @@ pub(crate) fn read_numeric(tag: &str, v: &Value) -> Result<Option<Numeric>, CifE
     }
 }
 
-/// Read a character item. A missing value reads as `None`. A multi-line
-/// text field folds into a single-quoted char string. The content
-/// passes through.
+/// Read a character item. A missing value reads as `None`.
 pub(crate) fn read_char(tag: &str, v: &Value) -> Result<Option<CharString>, CifError> {
     if is_absent(v) {
         return Ok(None);
     }
     match v {
         Value::CharString(c) => Ok(Some(c.clone())),
-        Value::TextField(t) => Ok(Some(
-            CharString::SingleQuoted(SingleQuotedString::new(t.raw_string())),
-        )),
         other => Err(value_class_error(tag, "CharString", other)),
     }
 }
@@ -330,6 +323,8 @@ pub(crate) fn read_ranged_newtype<T>(
 ) -> Result<Option<T>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(|n| construct(number_to_float(&n))))
+}
+
 /// Read a `PaperPages` item. The recorded value stores as written;
 /// the range guard applies at the write.
 pub(crate) fn read_paper_pages(tag: &str, v: &Value) -> Result<Option<PaperPages>, CifError> {
@@ -412,16 +407,6 @@ mod tests {
             CifError::ValueClass { .. }
         ));
         assert!(read_char("t", &Value::Unknown).unwrap().is_none());
-    }
-
-    #[test]
-    fn read_char_folds_a_text_field_into_a_char_string() {
-        let t = TextField::SemiColonTextField(SemiColonTextField::new(vec![
-            "line one".to_string(),
-            "line two".to_string(),
-        ]));
-        let c = read_char("t", &Value::TextField(t)).unwrap();
-        assert_eq!(c.as_ref().map(|c| c.content()), Some("line one\nline two"));
     }
 
     #[test]

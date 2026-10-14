@@ -86,7 +86,7 @@ impl CifCategory for Geom {
                         }
                     }
                     "geom_special_details" => {
-                        match convert::read_char("geom_special_details", value) {
+                        match convert::read_char_text("geom_special_details", value) {
                             Ok(v) => self.special_details = v,
                             Err(e) => errors.push(e),
                         }

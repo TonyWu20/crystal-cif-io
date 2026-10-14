@@ -319,7 +319,7 @@ fn save_frames_and_foreign_tags_are_the_t3_extra_residue() {
             )))]
         ))),
         DataBlockMember::DataItems(DataItems::SingleValue(SingleLineData::from_tag_value((
-            Tag::new("audit_creation_method".to_string()),
+            Tag::new("my_foreign_tag".to_string()),
             Value::CharString(unq("test")),
         )))),
     ];

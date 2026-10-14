@@ -240,7 +240,7 @@ impl CifCategory for Chemical {
                         }
                     }
                     "chemical_name_systematic" => {
-                        match convert::read_char("chemical_name_systematic", value) {
+                        match convert::read_char_text("chemical_name_systematic", value) {
                             Ok(v) => self.name_systematic = v,
                             Err(e) => errors.push(e),
                         }
