@@ -26,3 +26,18 @@ pub use data_dict::core_cif::{
     atom_site::AtomSite, cell::Cell, chemical_formula::ChemicalFormula,
     space_group::SpaceGroup, space_group_symop::Symop,
 };
+
+/// The T5 wave category structs of tier T5 (roadmap D12).
+pub use data_dict::core_cif::{
+    cell_measurement_refln::CellMeasurementRefln,
+    diffrn::{Diffrn, DiffrnRow}, diffrn_attenuator::DiffrnAttenuator,
+    diffrn_detector::DiffrnDetector, diffrn_measurement::DiffrnMeasurement,
+    diffrn_orient_matrix::{DiffrnOrientMatrix, DiffrnOrientMatrixRow},
+    diffrn_orient_refln::DiffrnOrientRefln, diffrn_radiation::DiffrnRadiation,
+    diffrn_radiation_wavelength::DiffrnRadiationWavelengthRow,
+    diffrn_refln::DiffrnRefln, diffrn_reflns::{DiffrnReflns, DiffrnReflnsRow},
+    diffrn_reflns_class::DiffrnReflnsClass, diffrn_scale_group::DiffrnScaleGroup,
+    diffrn_source::DiffrnSource,
+    diffrn_standard_refln::{DiffrnStandardRefln, DiffrnStandardReflnRow},
+    diffrn_standards::DiffrnStandards,
+};
