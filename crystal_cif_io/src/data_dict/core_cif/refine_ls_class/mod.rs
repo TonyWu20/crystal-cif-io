@@ -6,6 +6,8 @@ use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+mod refine_ls_class;
+pub use refine_ls_class::RefineLsClass;
 
 /// The loop items of the `refine_ls_class` category. Each variant
 /// holds one column of the loop.

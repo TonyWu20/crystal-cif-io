@@ -11,6 +11,8 @@ use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 
 mod codes;
+mod exptl_crystal;
+pub use exptl_crystal::ExptlCrystal;
 
 pub use codes::{ColourModifier, ColourPrimary, Lustre};
 

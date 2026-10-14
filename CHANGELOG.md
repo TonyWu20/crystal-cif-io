@@ -5,6 +5,24 @@ Keep a Changelog.
 
 ## Unreleased
 
+### Added
+
+- Added typed document structs for the twelve categories of the T2
+  tier (roadmap D12j). The categories: `exptl`, `exptl_crystal`,
+  `exptl_crystal_face`, `refln`, `reflns`, `reflns_class`,
+  `reflns_scale`, `reflns_shell`, `refine`, `refine_ls_class`,
+  `symmetry`, and `symmetry_equiv`.
+- The 187 registry items type to `Option` fields on the twelve
+  structs. The four loop families type to the nested row structs
+  `ExptlAbsorptCorrectionT`, `ReflnsDResolution`, `ReflnsLimit`,
+  and `RefineDiffDensity`.
+- `CoreCif` carries one group per category. `to_block` emits the
+  groups after the wave 1 groups and before the `extra` residue.
+- Closed-set items reuse the twelve dictionary enums of the
+  category `codes` modules. The crate root re-exports the sixteen
+  structs. No new `validate` checks. Untyped tier tags and save
+  frames stay in `CoreCif::extra`, order kept.
+
 ### Changed
 
 - The `space_group` items `bravais_type`, `centring_type`, and

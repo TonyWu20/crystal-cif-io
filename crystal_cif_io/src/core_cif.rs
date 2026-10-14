@@ -4,6 +4,11 @@
 //! loop-row groups, and the `extra` residue. No typed category consumed
 //! the residue (foreign tags, save frames); it keeps their order and bytes.
 //! The guarantee is IR round-trip, not byte round-trip.
+//! `CoreCif` is the typed document: the wave 1 category groups, the
+//! twelve T2 tier category groups, and the `extra` residue. No typed
+//! category consumed the residue (foreign tags, save frames); it keeps
+//! their order and bytes. The guarantee is IR round-trip, not byte
+//! round-trip.
 
 use std::fmt;
 
@@ -64,6 +69,20 @@ use crate::data_dict::core_cif::geom_hbond::{GeomHbond, GeomHbondRow};
 use crate::data_dict::core_cif::geom_torsion::{GeomTorsion, GeomTorsionRow};
 use crate::data_dict::core_cif::valence_param::{ValenceParam, ValenceParamRow};
 use crate::data_dict::core_cif::valence_ref::ValenceRefRow;
+use crate::data_dict::core_cif::exptl::Exptl;
+use crate::data_dict::core_cif::exptl_crystal::ExptlCrystal;
+use crate::data_dict::core_cif::exptl_crystal_face::ExptlCrystalFace;
+use crate::data_dict::core_cif::refine::Refine;
+use crate::data_dict::core_cif::refine_ls_class::RefineLsClass;
+use crate::data_dict::core_cif::refln::Refln;
+use crate::data_dict::core_cif::reflns::Reflns;
+use crate::data_dict::core_cif::reflns_class::ReflnsClass;
+use crate::data_dict::core_cif::reflns_scale::ReflnsScale;
+use crate::data_dict::core_cif::reflns_shell::ReflnsShell;
+use crate::data_dict::core_cif::space_group::SpaceGroup;
+use crate::data_dict::core_cif::space_group_symop::Symop;
+use crate::data_dict::core_cif::symmetry::Symmetry;
+use crate::data_dict::core_cif::symmetry_equiv::SymmetryEquiv;
 use crate::data_dict::core_cif::CifCategory;
 
 /// A read-path conformance error of the typed layer.
@@ -194,6 +213,19 @@ pub struct CoreCif {
     pub publ_author_rows: Vec<PublAuthorRow>,
     pub publ_body: Vec<PublBody>,
     pub publ_manuscript_incl: Vec<PublManuscriptIncl>,
+    // T2 wave: the twelve categories of the T2 tier (roadmap D12j).
+    pub exptl: Exptl, // T2 wave: single items and the T loop family.
+    pub exptl_crystal: Vec<ExptlCrystal>, // T2 wave:
+    pub exptl_crystal_face: Vec<ExptlCrystalFace>, // T2 wave:
+    pub refln: Vec<Refln>, // T2 wave:
+    pub reflns: Reflns, // T2 wave: single items and the two loop families.
+    pub reflns_class: Vec<ReflnsClass>, // T2 wave:
+    pub reflns_scale: Vec<ReflnsScale>, // T2 wave:
+    pub reflns_shell: Vec<ReflnsShell>, // T2 wave:
+    pub refine: Refine, // T2 wave: single items and the loop family.
+    pub refine_ls_class: Vec<RefineLsClass>, // T2 wave:
+    pub symmetry: Symmetry, // T2 wave:
+    pub symmetry_equiv: Vec<SymmetryEquiv>, // T2 wave:
     /// Members no typed category consumed, plus every save frame.
     pub extra: Vec<DataBlockMember>,
 }
@@ -368,6 +400,31 @@ impl CoreCif {
         errors.extend(publ_body_errors);
         let (residue, publ_manuscript_incl_errors) = doc.publ_manuscript_incl.from_members(&residue);
         errors.extend(publ_manuscript_incl_errors);
+        // T2 wave: the twelve categories of the T2 tier.
+        let (residue, exptl_errors) = doc.exptl.from_members(&residue);
+        errors.extend(exptl_errors);
+        let (residue, exptl_crystal_errors) = doc.exptl_crystal.from_members(&residue);
+        errors.extend(exptl_crystal_errors);
+        let (residue, exptl_crystal_face_errors) = doc.exptl_crystal_face.from_members(&residue);
+        errors.extend(exptl_crystal_face_errors);
+        let (residue, refln_errors) = doc.refln.from_members(&residue);
+        errors.extend(refln_errors);
+        let (residue, reflns_errors) = doc.reflns.from_members(&residue);
+        errors.extend(reflns_errors);
+        let (residue, reflns_class_errors) = doc.reflns_class.from_members(&residue);
+        errors.extend(reflns_class_errors);
+        let (residue, reflns_scale_errors) = doc.reflns_scale.from_members(&residue);
+        errors.extend(reflns_scale_errors);
+        let (residue, reflns_shell_errors) = doc.reflns_shell.from_members(&residue);
+        errors.extend(reflns_shell_errors);
+        let (residue, refine_errors) = doc.refine.from_members(&residue);
+        errors.extend(refine_errors);
+        let (residue, refine_ls_class_errors) = doc.refine_ls_class.from_members(&residue);
+        errors.extend(refine_ls_class_errors);
+        let (residue, symmetry_errors) = doc.symmetry.from_members(&residue);
+        errors.extend(symmetry_errors);
+        let (residue, symmetry_equiv_errors) = doc.symmetry_equiv.from_members(&residue);
+        errors.extend(symmetry_equiv_errors);
         doc.extra = residue;
         if errors.is_empty() {
             Ok(doc)
@@ -457,6 +514,19 @@ impl CoreCif {
         members.extend(self.publ_author_rows.to_members());
         members.extend(self.publ_body.to_members());
         members.extend(self.publ_manuscript_incl.to_members());
+        // T2 wave: the twelve categories of the T2 tier.
+        members.extend(self.exptl.to_members());
+        members.extend(self.exptl_crystal.to_members());
+        members.extend(self.exptl_crystal_face.to_members());
+        members.extend(self.refln.to_members());
+        members.extend(self.reflns.to_members());
+        members.extend(self.reflns_class.to_members());
+        members.extend(self.reflns_scale.to_members());
+        members.extend(self.reflns_shell.to_members());
+        members.extend(self.refine.to_members());
+        members.extend(self.refine_ls_class.to_members());
+        members.extend(self.symmetry.to_members());
+        members.extend(self.symmetry_equiv.to_members());
         members.extend(self.extra.iter().cloned());
         DataBlock::from_heading_members((
             DataBlockHeading::new(heading.to_string()),

@@ -10,6 +10,8 @@ use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 
 mod codes;
+mod refln;
+pub use refln::Refln;
 
 pub use codes::{IncludeStatus, ObservedStatus, RefinementStatus, ReflnCifError};
 
