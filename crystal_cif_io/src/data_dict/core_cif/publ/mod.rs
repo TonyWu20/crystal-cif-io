@@ -1,4 +1,5 @@
 mod requested_category;
+mod publ;
 
 use std::fmt::Display;
 
@@ -6,6 +7,7 @@ use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::requested_category::RequestedCategory;
+pub use self::publ::{Publ, PublRow};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

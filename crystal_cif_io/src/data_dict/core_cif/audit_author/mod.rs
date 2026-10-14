@@ -1,3 +1,7 @@
+mod audit_author;
+
+pub use self::audit_author::{AuditAuthor, AuditAuthorRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};

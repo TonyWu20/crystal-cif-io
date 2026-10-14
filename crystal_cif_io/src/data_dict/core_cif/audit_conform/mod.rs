@@ -1,3 +1,7 @@
+mod audit_conform;
+
+pub use self::audit_conform::{AuditConform, AuditConformRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};

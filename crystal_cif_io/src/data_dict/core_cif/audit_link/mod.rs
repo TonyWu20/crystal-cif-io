@@ -1,3 +1,7 @@
+mod audit_link;
+
+pub use self::audit_link::AuditLink;
+
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 

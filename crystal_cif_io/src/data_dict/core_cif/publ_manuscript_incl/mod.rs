@@ -1,9 +1,11 @@
 mod extra_defn;
+mod publ_manuscript_incl;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::extra_defn::ExtraDefn;
+pub use self::publ_manuscript_incl::PublManuscriptIncl;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

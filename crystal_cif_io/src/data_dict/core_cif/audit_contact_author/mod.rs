@@ -1,3 +1,7 @@
+mod audit_contact_author;
+
+pub use self::audit_contact_author::AuditContactAuthor;
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, SingleValueTerm};

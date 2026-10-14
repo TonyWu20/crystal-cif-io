@@ -1,5 +1,11 @@
+mod audit;
+mod schema;
+
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
+
+pub use self::schema::Schema;
+pub use audit::Audit;
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
@@ -8,10 +14,8 @@ pub enum AuditItem {
     Block_doi(CharString),
     Creation_date(CharString),
     Creation_method(CharString),
-    /// The closed code set (Base, Space group tables, Entry, Custom, Local)
-    /// recorded in the shell dictionary; the plain text form is
-    /// kept.
-    Schema(CharString),
+    /// closed code set recorded in the dictionary _enumeration
+    Schema(Schema),
     Update_record(CharString),
 }
 
@@ -36,8 +40,8 @@ impl SingleValueTerm for AuditItem {
             | AuditItem::Block_doi(v)
             | AuditItem::Creation_date(v)
             | AuditItem::Creation_method(v)
-            | AuditItem::Schema(v)
             | AuditItem::Update_record(v) => Value::from(v.clone()),
+            AuditItem::Schema(v) => Value::from(*v),
         }
     }
 }

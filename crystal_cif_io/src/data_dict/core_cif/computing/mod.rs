@@ -1,3 +1,7 @@
+mod computing;
+
+pub use self::computing::{Computing, ComputingRow};
+
 use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
