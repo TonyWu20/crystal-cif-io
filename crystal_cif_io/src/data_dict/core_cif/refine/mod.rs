@@ -13,6 +13,8 @@ use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Number, Numeric, Tag, UnsignedInteger, Value};
 
 mod codes;
+mod refine;
+pub use refine::{Refine, RefineDiffDensity};
 
 pub use codes::{
     HydrogenTreatment, MatrixType, RefineCifError, StructureFactorCoef, WeightingScheme,
@@ -44,9 +46,16 @@ impl NonNeg {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 
@@ -81,9 +90,16 @@ impl Flack {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 
@@ -118,9 +134,16 @@ impl Rogers {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 

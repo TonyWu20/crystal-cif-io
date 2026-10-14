@@ -8,6 +8,8 @@ use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 
 mod codes;
+mod symmetry;
+pub use symmetry::Symmetry;
 
 pub use codes::CellSetting;
 
@@ -58,9 +60,16 @@ impl IntTablesNumber {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 

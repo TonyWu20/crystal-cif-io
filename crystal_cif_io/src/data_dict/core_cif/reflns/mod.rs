@@ -10,6 +10,8 @@ use std::fmt::Display;
 
 use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Matrix, Number, Numeric, Tag, UnsignedInteger, Value};
+mod reflns;
+pub use reflns::{Reflns, ReflnsDResolution, ReflnsLimit};
 
 /// The range-check and closed-set error of the `reflns` category.
 ///
@@ -59,9 +61,16 @@ impl FriedelFraction {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 

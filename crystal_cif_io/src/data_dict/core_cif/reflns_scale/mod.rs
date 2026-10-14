@@ -6,6 +6,8 @@ use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+mod reflns_scale;
+pub use reflns_scale::ReflnsScale;
 
 /// The loop items of the `reflns_scale` category. Each variant
 /// holds one column of the loop.

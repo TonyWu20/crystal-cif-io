@@ -11,6 +11,8 @@ use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Number, Numeric, Tag, Value};
 
 mod codes;
+mod exptl;
+pub use exptl::{Exptl, ExptlAbsorptCorrectionT};
 
 pub use codes::AbsorptCorrectionType;
 
@@ -62,9 +64,16 @@ impl AbsorptCoefficient {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 
@@ -100,9 +109,16 @@ impl TransmissionFactor {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 
@@ -142,9 +158,16 @@ impl CrystalCount {
         Ok(Self(value))
     }
 
+
     /// The held value.
     pub fn numeric(&self) -> &Numeric {
         &self.0
+    }
+
+    /// The read-path constructor. The recorded value stores as
+    /// written; the range guard applies at the write.
+    pub fn from_numeric(value: Numeric) -> Self {
+        Self(value)
     }
 }
 

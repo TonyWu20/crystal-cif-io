@@ -14,7 +14,11 @@ use crystal_cif_fmt::grammar::{
 
 use crate::data_dict::core_cif::cell::CellAngle;
 use crate::data_dict::core_cif::chemical_formula::FormulaWeight;
+use crate::data_dict::core_cif::exptl::{AbsorptCoefficient, CrystalCount, TransmissionFactor};
+use crate::data_dict::core_cif::refine::{Flack, NonNeg, Rogers};
+use crate::data_dict::core_cif::reflns::FriedelFraction;
 use crate::data_dict::core_cif::space_group::ITNumber;
+use crate::data_dict::core_cif::symmetry::IntTablesNumber;
 use crate::data_dict::matrix;
 use crate::core_cif::CifError;
 
@@ -131,6 +135,69 @@ pub(crate) fn read_sym_multiplicity(
 pub(crate) fn read_formula_weight(tag: &str, v: &Value) -> Result<Option<FormulaWeight>, CifError> {
     let n = read_numeric(tag, v)?;
     Ok(n.map(FormulaWeight::from_numeric))
+}
+
+/// Read an `AbsorptCoefficient` item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_absorpt_coefficient(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<AbsorptCoefficient>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(AbsorptCoefficient::from_numeric))
+}
+
+/// Read a `CrystalCount` item. The recorded value stores as written;
+/// the range guard applies at the write.
+pub(crate) fn read_crystal_count(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<CrystalCount>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(CrystalCount::from_numeric))
+}
+
+/// Read a `TransmissionFactor` item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_transmission_factor(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<TransmissionFactor>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(TransmissionFactor::from_numeric))
+}
+
+/// Read a `Flack` item. The recorded value stores as written; the
+/// range guard applies at the write.
+pub(crate) fn read_flack(tag: &str, v: &Value) -> Result<Option<Flack>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(Flack::from_numeric))
+}
+
+/// Read a `NonNeg` item. The recorded value stores as written; the
+/// range guard applies at the write.
+pub(crate) fn read_non_neg(tag: &str, v: &Value) -> Result<Option<NonNeg>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(NonNeg::from_numeric))
+}
+
+/// Read a `Rogers` item. The recorded value stores as written; the
+/// range guard applies at the write.
+pub(crate) fn read_rogers(tag: &str, v: &Value) -> Result<Option<Rogers>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(Rogers::from_numeric))
+}
+
+/// Read a `FriedelFraction` item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_friedel_fraction(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<FriedelFraction>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(FriedelFraction::from_numeric))
+}
+
+/// Read an `IntTablesNumber` item. The recorded value stores as
+/// written; the range guard applies at the write.
+pub(crate) fn read_int_tables_number(
+    tag: &str,
+    v: &Value,
+) -> Result<Option<IntTablesNumber>, CifError> {
+    read_numeric(tag, v).map(|n| n.map(IntTablesNumber::from_numeric))
 }
 
 /// Read a closed-set item. The value is a character string in the

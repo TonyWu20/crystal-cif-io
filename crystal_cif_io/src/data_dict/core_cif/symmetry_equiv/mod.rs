@@ -6,6 +6,8 @@ use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
+mod symmetry_equiv;
+pub use symmetry_equiv::SymmetryEquiv;
 
 /// The loop items of the `symmetry_equiv` category. Each variant
 /// holds one column of the loop.

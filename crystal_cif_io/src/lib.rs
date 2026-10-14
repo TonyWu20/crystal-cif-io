@@ -26,3 +26,13 @@ pub use data_dict::core_cif::{
     atom_site::AtomSite, cell::Cell, chemical_formula::ChemicalFormula,
     space_group::SpaceGroup, space_group_symop::Symop,
 };
+
+// T2 wave: the tier T2 category structs (roadmap D12j).
+pub use data_dict::core_cif::{
+    exptl::{Exptl, ExptlAbsorptCorrectionT}, exptl_crystal::ExptlCrystal,
+    exptl_crystal_face::ExptlCrystalFace, refine::{Refine, RefineDiffDensity},
+    refine_ls_class::RefineLsClass, refln::Refln,
+    reflns::{Reflns, ReflnsDResolution, ReflnsLimit}, reflns_class::ReflnsClass,
+    reflns_scale::ReflnsScale, reflns_shell::ReflnsShell, symmetry::Symmetry,
+    symmetry_equiv::SymmetryEquiv,
+};

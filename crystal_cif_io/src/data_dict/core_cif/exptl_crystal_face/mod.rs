@@ -6,6 +6,8 @@ use std::fmt::Display;
 
 use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Matrix, Numeric, Tag, Value};
+mod exptl_crystal_face;
+pub use exptl_crystal_face::ExptlCrystalFace;
 
 /// The loop items of the `exptl_crystal_face` category. Each variant
 /// holds one column of the loop. The dictionary records all eight

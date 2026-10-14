@@ -6,6 +6,8 @@ use std::fmt::Display;
 
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
+mod reflns_shell;
+pub use reflns_shell::ReflnsShell;
 
 /// The loop items of the `reflns_shell` category. Each variant
 /// holds one column of the loop. The dictionary records all 23
