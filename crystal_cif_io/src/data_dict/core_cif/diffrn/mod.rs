@@ -6,6 +6,7 @@ mod ambient_temp_lt;
 mod ambient_temperature;
 mod ambient_temperature_gt;
 mod ambient_temperature_lt;
+mod diffrn;
 mod flux_density;
 mod measured_fraction_theta_full;
 mod measured_fraction_theta_max;
@@ -32,6 +33,7 @@ pub use self::measured_fraction_theta_max::MeasuredFractionThetaMax;
 pub use self::precession_semi_angle::PrecessionSemiAngle;
 pub use self::total_dose::TotalDose;
 pub use self::total_exposure_time::TotalExposureTime;
+pub use self::diffrn::{Diffrn, DiffrnRow};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]

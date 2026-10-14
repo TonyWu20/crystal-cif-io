@@ -1,6 +1,7 @@
 mod av_r_equivalents;
 mod av_sigma_i_over_net_i;
 mod av_unet_i_over_net_i;
+mod diffrn_reflns;
 mod laue_measured_fraction_full;
 mod laue_measured_fraction_max;
 mod point_group_measured_fraction_full;
@@ -34,6 +35,7 @@ pub use self::resolution_max::ResolutionMax;
 pub use self::theta_full::ThetaFull;
 pub use self::theta_max::ThetaMax;
 pub use self::theta_min::ThetaMin;
+pub use self::diffrn_reflns::{DiffrnReflns, DiffrnReflnsRow};
 
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
