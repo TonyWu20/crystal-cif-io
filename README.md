@@ -21,19 +21,25 @@ crystal-cif-io = "0.3"
 crystallographic-group = "0.4"
 ```
 
-The API tour below carries over across snippets. `doc` comes from
-the parsing step. `block` comes from the keyword-fields step.
-Every snippet compiles against the current crates. Parser and IR
-types live in `crystal-cif-fmt`. Dictionary and builder types live
-in `crystal-cif-io`. The `space_group_symop` builder names a
-`crystallographic-group` type. Each snippet shows its own
-imports.
+The tour serves the read, the edit, and the write of a `.cif`
+file. The main sections work on the typed view of
+`crystal-cif-io`. The value-layer sections at the end drop one
+level to the IR of `crystal-cif-fmt`.
+
+The snippets carry over across sections. `doc` and `block`
+come from the read step of section 2. The appendix letters
+carry them over too. Every snippet compiles against the current
+crates. Parser and IR types live in `crystal-cif-fmt`.
+Dictionary and builder types live in `crystal-cif-io`. The
+`space_group_symop` builder names a `crystallographic-group`
+type. Each snippet shows its own imports.
 
 The tour rides on a real file. The excerpt below is trimmed
 from `crystal_cif_fmt/tests/real_data/cod/1000000.cif`, COD entry 1000000
 (IUCr Acta C 56, 1073, 2000). The full file is pinned in the
-test corpus. Save the excerpt as `1000000.cif`. The tour reads
-it from disk.
+test corpus. Copy the full file to `1000000.cif` next to your
+scratch. The tour reads from that path. The excerpt previews
+the file's shape.
 
 ```cif
 # This file is available in the Crystallography Open Database (COD),
@@ -78,7 +84,453 @@ P2 .09646(13) 1.05563(11) .13485(6) .0290(3) Uani d . 1 P
 Al1 .24723(13) .95928(11) -.02995(7) .0246(4) Uani d . 1 Al
 ```
 
-### 1. Parsing and dialect
+### 1. The error story
+
+The tour uses `.expect` at every fallible call. The inputs are
+the pinned corpus files. They parse, they type, and the
+builders build. The `expect` calls state that fact. Production
+code propagates instead.
+
+Two shapes cover every fallible call. A `Result` carries the
+failure of a step. An `Option` marks an item absent in the
+file.
+
+| step | call | the failure |
+|---|---|---|
+| parse the file | `parse_cif` | a `Vec<Rich<char>>` of syntax errors, rendered by `rich_error` |
+| type a block | `CoreCif::from_block` | a `Vec<CifError>`. The read collects every value-class and shape mismatch. It never stops at the first |
+| check required items | `CoreCif::validate` | a `Vec<CifError>` of the missing required items |
+| build a category | `Cell::builder() ... build()` | a `Result` over the category error type. Missing needed fields fail to compile at the `build()` call. Cross-checks fail at run time |
+| read a typed field | `cif.refine.ls_matrix_type` | an `Option`. The item is absent in the file |
+
+The error types of both crates derive `thiserror`. They carry
+the message and the `source` chain. `CifError` names the tag.
+The builder errors name the item.
+
+### 2. Reading a data block
+
+The typed layer reads one data block into plain structs.
+`CoreCif` is the view. It carries the 62 categories of the
+standard dictionary view (roadmap D12i). The waves of roadmap
+D12j roll them out in tier order. The wave 1 groups type the
+cell, space group, formula, and atom_site items. The file's own
+items also type into the later-wave groups. Foreign tags and save frames stay in the
+`extra` residue. The parse is tolerant.
+
+```rust
+use crystal_cif_fmt::parse_cif;
+use crystal_cif_io::CoreCif;
+
+let source = std::fs::read_to_string("1000000.cif").unwrap();
+let doc = parse_cif(&source).expect("the file parses");
+let block = doc.get_data_block_by_name("1000000").expect("the block is present");
+
+let mut cif = CoreCif::from_block(&block).expect("the block types cleanly");
+
+// The wave 1 categories hold the file's items.
+println!("{}", cif.cell.length_a.as_ref().expect("a length a"));
+println!("{}", cif.cell.angle_beta.as_ref().expect("an angle beta").angle());
+println!(
+    "group {}, {}",
+    cif.space_group.it_number.as_ref().expect("an IT number"),
+    cif.space_group
+        .symmetry_name_h_m
+        .as_ref()
+        .expect("the H-M symbol")
+        .content(),
+);
+println!("{}", cif.chemical_formula.sum.as_ref().expect("the sum spelling"));
+println!("{}", cif.atom_site[0].label.as_ref().expect("a label").content());
+```
+
+`from_block` collects every value-class and shape mismatch. It
+never stops at the first. Foreign tags land in `extra`. Loop
+rows fill their row structs.
+
+```rust
+match cif.validate() {
+    Ok(()) => println!("the required sets are complete"),
+    Err(gaps) => {
+        for gap in gaps {
+            eprintln!("{gap}");
+        }
+    }
+}
+```
+
+The check reports every missing required item. The file lacks
+the `adp_type` column of `atom_site`. Each of its 35 rows
+reports one gap. The check lists all 35.
+
+The file's later-wave categories type too. Its
+`_exptl_absorpt_correction_type` records the real-data code
+`semi-empirical`. It sits one past the DDL1 closed set. The
+closed-value gate keeps the marked extension for it (roadmap
+D12m). The `_refine_ls_shift/su_max` value `<0.001` records
+as the inequality payload of the plain field (roadmap D12l).
+
+```rust
+use crystal_cif_io::data_dict::Ineq;
+
+println!("{}", cif.exptl.absorpt_correction_type.as_ref().expect("a correction type"));
+println!("{}", cif.refine.ls_hydrogen_treatment.as_ref().expect("a treatment"));
+
+match cif.refine.ls_shift_su_max {
+    Some(Ineq::LessThan(bound)) => println!("su_max < {bound}"),
+    Some(Ineq::Value(value)) => println!("su_max = {value}"),
+    None => {}
+}
+```
+
+The three lines print `semi-empirical`, `constr`, and
+`su_max < 0.001`.
+
+### 3. Editing the typed block
+
+Edits are plain mutations on the struct. The fields are
+`Option<T>`. A `None` field writes nothing. The types reject
+out-of-range values. `validate` reports the required-item
+gaps.
+
+```rust
+use crystal_cif_fmt::{CharString, Numeric, UnquotedString};
+use crystal_cif_io::data_dict::Ineq;
+use crystal_cif_io::data_dict::core_cif::geom_angle::GeomAngleRow;
+use crystal_cif_io::data_dict::core_cif::refine::{MatrixType, NonNeg};
+
+fn unquoted(s: &str) -> CharString {
+    CharString::Unquoted(UnquotedString::new(s.to_string()))
+}
+
+// A single-value item takes the value of its type.
+cif.chemical_formula.structural = cif.chemical_formula.sum.clone();
+
+// A closed-set item takes the enum of its closed set.
+cif.refine.ls_matrix_type = Some(MatrixType::Diagonal);
+
+// The less-than assertion records in the inequality payload of
+// the plain field.
+cif.refine.ls_shift_su_max =
+    Some(Ineq::LessThan(NonNeg::from_numeric(Numeric::from(0.001))));
+
+// A loop category edits through its row vector.
+let mut row = GeomAngleRow::default();
+row.atom_site_label_1 = Some(unquoted("P1"));
+row.atom_site_label_2 = Some(unquoted("Al1"));
+row.atom_site_label_3 = Some(unquoted("P2"));
+row.angle = Some(Numeric::from(51.2));
+cif.geom_angle_rows.push(row);
+```
+
+The structural assignment rebinds the field to the sum
+spelling. The `adp_type` gaps stay. The check reports the
+remaining state.
+
+### 4. Writing the block back
+
+The writer emits the typed categories in a fixed order, then
+the `extra` residue. Save frames stay whole in the residue.
+The pre-write check reports the gaps. It does not block the
+write.
+
+```rust
+use crystal_cif_fmt::CifDocument;
+
+match cif.validate() {
+    Ok(()) => println!("the required sets are complete"),
+    Err(gaps) => {
+        for gap in gaps {
+            eprintln!("{gap}");
+        }
+    }
+}
+
+let out_block = cif.to_block(block.heading());
+let out_doc = CifDocument::new(None, Some(vec![out_block]));
+std::fs::write("1000000_out.cif", out_doc.to_string()).unwrap();
+```
+
+Save frames are residue too. A frame keeps its code and items
+whole in `extra`.
+
+```rust
+use crystal_cif_fmt::{
+    DataBlock, DataBlockHeading, DataBlockMember, SaveFrame, SaveFrameHeading,
+};
+
+for member in &cif.extra {
+    match member {
+        DataBlockMember::DataItems(_) => println!("a residue item"),
+        DataBlockMember::SaveFrame(frame) => {
+            println!("a residue frame {}", frame.heading());
+        }
+    }
+}
+
+let framed = DataBlock::from_heading_members((
+    DataBlockHeading::new("1000000".into()),
+    vec![DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
+        SaveFrameHeading::new("P1".to_string()),
+        Vec::new(),
+    )))],
+));
+let framed_cif = CoreCif::from_block(&framed).expect("the frame block types");
+assert_eq!(framed_cif.extra.len(), 1, "the frame stays in the residue");
+let round = framed_cif.to_block(framed.heading());
+assert_eq!(round.members().len(), 1, "the frame writes back");
+```
+
+### 5. Builders (compile-time completeness)
+
+The builder layer takes a complete category as input. Needed
+fields are checked at compile time: a missing field fails to
+build at the `build()` call. Derived items are not input. The
+builder computes them and cross-checks a supplied value within
+the relative tolerance. A mismatch rejects with a `Result`,
+never a panic.
+
+Breaking change, pre-1.0 (roadmap D12h): `build()` returns the
+document structs of section 2. The builder-private structs and
+their `to_data_items` paths are removed. The `CifCategory`
+trait `to_members` method is the materialization path now.
+
+```rust
+use crystal_cif_io::data_dict::core_cif::cell::{Cell, CellAngle};
+use crystal_cif_fmt::{Matrix, Number, UnsignedInteger};
+
+// The direct-six entry set builds the excerpt's cell. The
+// supplied volume cross-checks against the computed value.
+let cell = Cell::builder()
+    .length_a(7.8783.into())
+    .length_b(10.4689.into())
+    .length_c(16.0680.into())
+    .angle_alpha(CellAngle::from(90.0f64))
+    .angle_beta(CellAngle::from(95.1470f64))
+    .angle_gamma(CellAngle::from(90.0f64))
+    .formula_units_Z(UnsignedInteger(4))
+    .volume(1319.90.into())
+    .build()
+    .expect("the COD cell is consistent");
+
+println!("volume {}", cell.volume.as_ref().expect("the computed volume"));
+
+let va = Matrix::try_new(vec![vec![
+    Number::Float(5.959.into()),
+    Number::Float(0.0.into()),
+    Number::Float(0.0.into()),
+]])
+.expect("a 1 x 3 matrix");
+let vb = Matrix::try_new(vec![vec![
+    Number::Float(0.0.into()),
+    Number::Float(14.956.into()),
+    Number::Float(0.0.into()),
+]])
+.expect("a 1 x 3 matrix");
+let vc = Matrix::try_new(vec![vec![
+    Number::Float(0.0.into()),
+    Number::Float(0.0.into()),
+    Number::Float(19.737.into()),
+]])
+.expect("a 1 x 3 matrix");
+
+// The three-vector entry set computes the direct six.
+let cell = Cell::vectors()
+    .vector_a(va)
+    .vector_b(vb)
+    .vector_c(vc)
+    .build()
+    .expect("a valid cell");
+
+println!("volume {}", cell.volume.as_ref().expect("the computed volume"));
+```
+
+`Cell` is the document struct of section 2. The builder start
+functions sit on that struct. `Cell::builder` takes the direct
+six. `Cell::vectors` takes the three lattice vectors.
+
+The group builder resolves the excerpt's space group. One of
+three unique identifiers. Group 14 resolves to the Hall symbol
+`-P 2ybc`, the `P` centring type, and four operations. The
+`crystallographic-group` crate resolves the group.
+
+```rust
+use crystal_cif_io::data_dict::core_cif::space_group::{ITNumber, SpaceGroup};
+
+let group = SpaceGroup::by_it_number(ITNumber::new(14))
+    .expect("a valid group");
+println!(
+    "Hall {}, {} centring, {} operations",
+    group.name_hall.as_ref().expect("a Hall symbol").content(),
+    group.centring_type.as_ref().expect("a centring type"),
+    group.multiplicity.as_ref().expect("a multiplicity"),
+);
+```
+
+The file's full symbol `P 1 21/n 1` adds the `n` glide. It is
+no all-settings spelling. The `by_name_h_m` entry point
+resolves the all-settings table spelling only.
+
+The loop and formula builders return their document structs
+too. The symop rows derive from the Seitz list of the resolved
+group. The formula builder needs `structural`. The other
+spellings are optional.
+
+```rust
+use crystal_cif_fmt::{CharString, UnquotedString};
+use crystal_cif_io::data_dict::core_cif::chemical_formula::ChemicalFormula;
+use crystal_cif_io::data_dict::core_cif::space_group_symop::Symop;
+use crystallographic_group::SpaceGroup as Resolved;
+
+let symops = Symop::builder()
+    .group(Resolved::try_from_str("-P 2ybc").expect("IT 14 resolves"))
+    .build()
+    .expect("the rows build");
+println!(
+    "{} symops, first {}",
+    symops.len(),
+    symops[0].operation_xyz.as_ref().expect("an xyz").content()
+);
+
+fn text(s: &str) -> CharString {
+    CharString::Unquoted(UnquotedString::new(s.to_string()))
+}
+
+let formula = ChemicalFormula::builder()
+    .structural(text("C5 H17 Al N2 O8 P2"))
+    .sum(text("C5 H17 Al N2 O8 P2"))
+    .build()
+    .expect("the formula builds");
+println!("{}", formula.structural.as_ref().expect("the spelling"));
+```
+
+The `atom_site` row builder takes one coordinate mode per row
+and a displacement type. The `formula_units` helper derives
+the structure `Z` and cross-checks a supplied value. Each
+`build()` returns the category document struct: `Cell`,
+`SpaceGroup`, `Vec<Symop>`, `Vec<AtomSite>`,
+`ChemicalFormula`.
+
+The per-category input spec and the item dependency map live
+in `docs/dict-completeness.md` and `codegen/depends.json`.
+
+### 6. Matrices
+
+
+`Matrix` is the dictionary value for matrix items. Build it from
+rows or from a parsed 2.0 list value.
+
+```rust
+use crystal_cif_fmt::{Matrix, Value};
+
+let matrix = Matrix::try_new(vec![
+    vec![1.into(), 2.into()],
+    vec![3.into(), 4.into()],
+])
+.expect("a 2 x 2 matrix");
+assert_eq!(matrix.shape(), (2, 2));
+
+// From a parsed 2.0 list value:
+let list = Value::List(vec![Value::List(vec![
+    Value::Numeric(1.into()),
+    Value::Numeric(2.into()),
+])]);
+let matrix = Matrix::from_list(list.as_list().expect("a list"), Some((1, 2)))
+    .expect("a 1 x 2 matrix");
+```
+
+`from_list` rejects non-numeric elements and ragged shapes.
+`as_3x3` and `as_vector` return `None` when the shape does not
+fit. Errors are `MatrixError`.
+
+### 7. Canonical JSON and validation
+
+
+`canonical::document_json` encodes a document as the canonical
+IR. `validate` runs the spec-level checks and returns the
+violations.
+
+```rust
+use crystal_cif_fmt::canonical;
+
+let json = canonical::document_json(&doc, "1000000.cif", 2);
+println!("{}", serde_json::to_string(&json).unwrap());
+
+for violation in canonical::validate(&doc) {
+    eprintln!("violation: {violation}");
+}
+```
+
+The schema version is 1 for 1.1 value kinds and 2 when the
+document carries 2.0 kinds (`list`, `table`, the triple-quote
+char-string styles, the frame `frames` array). The `validate`
+checks flag duplicate block names and duplicate tags.
+
+### 8. CIF 2.0 specifics
+
+
+Lists, tables, triple-quoted strings, nested save frames, and
+non-ASCII text parse only in the 2.0 dialect. The 1.1 dialect
+keeps the ASCII character set.
+
+The pinned 2.0 test file
+`tests/real_data/cif_api/complex_data.cif` mixes all three value
+containers. Save it as `complex_data.cif`.
+
+```cif
+#\#CIF_2.0
+
+data_complex_data
+
+_list_of_lists [
+  []
+  [foo bar ]
+  [ x y z ]
+]
+
+_table_of_tables {
+  'English':{
+    'one':one
+    'two':two
+  }
+
+  'French':{
+    'one':'un'
+    'two':"deux"
+  }
+}
+
+_hodge_podge [
+  ?
+  { 'a':10 'b':11 'c':[? 12] }
+  [. . {} {'alice':Cambridge 'bob':Harvard 'charles':.}]
+]
+```
+
+```rust
+let cs = std::fs::read_to_string("complex_data.cif").unwrap();
+let xdoc = parse_cif(&cs).expect("the 2.0 file parses");
+let xblock = xdoc.get_data_block_by_name("complex_data").expect("present");
+let hodge = xblock.find_single_value_by_tag("hodge_podge").expect("present");
+
+for value in hodge.value().as_list().expect("a list") {
+    println!("{value}");
+}
+```
+
+The mixed list prints `?`, a nested table, and a list of
+values. Table pairs keep their order. The key is a value,
+usually a char string.
+
+## The value layer reference (`crystal-cif-fmt`)
+
+The main tour works on the typed view. These sections drop one
+level. They show the IR of `crystal-cif-fmt` directly: the
+document shape, the value variants, the loops, and the save
+frames. Their snippets carry over the `doc` and `block` of the
+tour. Use them when you read a block that no category
+types, write a custom reader, or inspect a 2.0 container.
+
+### A. Parsing and dialect
 
 `parse_cif` is the strict entry point. `Ok` means the parser
 consumed the whole input. Errors are a `Vec<Rich<char>>`.
@@ -110,13 +562,13 @@ The dialect comes from the file start. The 2.0 magic code is
 `##CIF_2.0` or the escaped `#\#CIF_2.0` spelling. Anything else
 stays 1.1. The excerpt carries no version code. It stays 1.1.
 
-### 2. Document shape
+### B. Document shape
 
 
 A document holds data blocks. A block holds members. A member is
 either data items or a save frame. The excerpt parses to one
 block, `1000000`, with 19 members: keyword items and loops.
-Real 1.1 structures carry few save frames. Section 6 shows
+Real 1.1 structures carry few save frames. Appendix F shows
 frames on a real 2.0 container file.
 
 ```rust
@@ -141,7 +593,7 @@ for block in doc.data_blocks().unwrap() {
 `get_data_block_by_name` fetches one block by its code, without
 the `data_` prefix.
 
-### 3. Reading keyword fields
+### C. Reading keyword fields
 
 
 A single-line item is a `SingleLineData` pair: a tag and a value.
@@ -180,7 +632,7 @@ if let Some(text) = value.as_char_string() {
 }
 ```
 
-### 4. Value variants
+### D. Value variants
 
 
 | variant | meaning | accessor |
@@ -218,7 +670,7 @@ println!("{}", title.value().as_text_field().expect("a text field").raw_string()
 `std_uncertainty` holds the esd in last-digit units. `95.1470(10)`
 stores `10`. The display keeps the shortest round-trip form.
 
-### 5. Loops
+### E. Loops
 
 
 A `loop_` section parses to `DataItems::MultiValues`. The type is
@@ -265,7 +717,7 @@ for member in block.members() {
 }
 ```
 
-### 6. Save frames
+### F. Save frames
 
 Real 1.1 structures carry few save frames. The pinned 2.0 test
 file `tests/real_data/cif_api/simple_containers.cif` exercises
@@ -337,127 +789,7 @@ for block in cdoc.data_blocks().unwrap() {
 The walk prints `save_s1` and `save_s2` under `block1`. It
 prints `save_s1` and `save_s3` under `block3`.
 
-### 7. The typed block view
-
-
-The typed layer reads one data block into plain structs.
-`CoreCif` is the view. It carries the 62 categories of the
-standard dictionary view (roadmap D12i). The waves of roadmap
-D12j roll them out in tier order. The excerpt types into the
-wave 1 groups. The file's own items also type into the
-later-wave groups. Foreign tags and save frames stay in the
-`extra` residue. The parse is tolerant. `validate` reports
-the required gaps.
-
-```rust
-use crystal_cif_io::CoreCif;
-
-let mut cif = CoreCif::from_block(&block).expect("the block types cleanly");
-
-// The wave 1 categories hold the excerpt's items.
-println!("{}", cif.cell.length_a.as_ref().expect("a length a"));
-println!("{}", cif.cell.angle_beta.as_ref().expect("an angle beta").angle());
-println!(
-    "group {}, {}",
-    cif.space_group.it_number.as_ref().expect("an IT number"),
-    cif.space_group
-        .symmetry_name_h_m
-        .as_ref()
-        .expect("the H-M symbol")
-        .content(),
-);
-println!("{}", cif.chemical_formula.sum.as_ref().expect("the sum spelling"));
-println!("{}", cif.atom_site[0].label.as_ref().expect("a label").content());
-```
-
-`from_block` collects every value-class and shape mismatch. It
-never stops at the first. Foreign tags land in `extra`. Loop
-rows fill their row structs.
-
-```rust
-match cif.validate() {
-    Ok(()) => println!("the required sets are complete"),
-    Err(gaps) => {
-        for gap in gaps {
-            eprintln!("{gap}");
-        }
-    }
-}
-```
-
-The check reports every missing required item. The excerpt has
-no `_chemical_formula_structural` item. The check reports
-exactly that gap.
-
-The file's later-wave categories type too. Its
-`_exptl_absorpt_correction_type` records the real-data code
-`semi-empirical`. It sits one past the DDL1 closed set. The
-closed-value gate keeps the marked extension for it (roadmap
-D12m). The `_refine_ls_shift/su_max` value `<0.001` records
-as the inequality payload of the plain field (roadmap D12l).
-
-```rust
-use crystal_cif_io::data_dict::Ineq;
-
-println!("{}", cif.exptl.absorpt_correction_type.as_ref().expect("a correction type"));
-println!("{}", cif.refine.ls_hydrogen_treatment.as_ref().expect("a treatment"));
-
-match cif.refine.ls_shift_su_max {
-    Some(Ineq::LessThan(bound)) => println!("su_max < {bound}"),
-    Some(Ineq::Value(value)) => println!("su_max = {value}"),
-    None => {}
-}
-```
-
-The three lines print `semi-empirical`, `constr`, and
-`su_max < 0.001`.
-
-Edit one field. Save the block to a file. The writer emits
-the typed categories in a fixed order, then the `extra`
-residue.
-
-```rust
-use crystal_cif_fmt::CifDocument;
-
-cif.chemical_formula.structural = cif.chemical_formula.sum.clone();
-cif.validate().expect("the required sets are complete");
-
-let out_block = cif.to_block(block.heading());
-let out_doc = CifDocument::new(None, Some(vec![out_block]));
-std::fs::write("1000000_out.cif", out_doc.to_string()).unwrap();
-```
-
-Save frames are residue too. A frame keeps its code and items
-whole in `extra`.
-
-```rust
-use crystal_cif_fmt::{
-    DataBlock, DataBlockHeading, DataBlockMember, SaveFrame, SaveFrameHeading,
-};
-
-for member in &cif.extra {
-    match member {
-        DataBlockMember::DataItems(_) => println!("a residue item"),
-        DataBlockMember::SaveFrame(frame) => {
-            println!("a residue frame {}", frame.heading());
-        }
-    }
-}
-
-let framed = DataBlock::from_heading_members((
-    DataBlockHeading::new("1000000".into()),
-    vec![DataBlockMember::SaveFrame(SaveFrame::from_heading_items((
-        SaveFrameHeading::new("P1".to_string()),
-        Vec::new(),
-    )))],
-));
-let framed_cif = CoreCif::from_block(&framed).expect("the frame block types");
-assert_eq!(framed_cif.extra.len(), 1, "the frame stays in the residue");
-let round = framed_cif.to_block(framed.heading());
-assert_eq!(round.members().len(), 1, "the frame writes back");
-```
-
-### 8. Building and writing
+### G. Materializing typed terms
 
 
 The dictionary layer types items. Each typed item implements
@@ -497,246 +829,6 @@ version-code spelling `#\#CIF_1.1`. Closed code sets and range
 checks live in the dictionary types. For example, `CellAngle`
 clamps to 0..180 on construction.
 
-### 9. Builders (compile-time completeness)
-
-The builder layer takes a complete category as input. Needed
-fields are checked at compile time: a missing field fails to
-build at the `build()` call. Derived items are not input. The
-builder computes them and cross-checks a supplied value within
-the relative tolerance. A mismatch rejects with a `Result`,
-never a panic.
-
-Breaking change, pre-1.0 (roadmap D12h): `build()` returns the
-document structs of section 7. The builder-private structs and
-their `to_data_items` paths are removed. The `CifCategory`
-trait `to_members` method is the materialization path now.
-
-```rust
-use crystal_cif_io::data_dict::core_cif::cell::{Cell, CellAngle};
-use crystal_cif_fmt::{Matrix, Number, UnsignedInteger};
-
-// The direct-six entry set builds the excerpt's cell. The
-// supplied volume cross-checks against the computed value.
-let cell = Cell::builder()
-    .length_a(7.8783.into())
-    .length_b(10.4689.into())
-    .length_c(16.0680.into())
-    .angle_alpha(CellAngle::from(90.0f64))
-    .angle_beta(CellAngle::from(95.1470f64))
-    .angle_gamma(CellAngle::from(90.0f64))
-    .formula_units_Z(UnsignedInteger(4))
-    .volume(1319.90.into())
-    .build()
-    .expect("the COD cell is consistent");
-
-println!("volume {}", cell.volume.as_ref().expect("the computed volume"));
-
-let va = Matrix::try_new(vec![vec![
-    Number::Float(5.959.into()),
-    Number::Float(0.0.into()),
-    Number::Float(0.0.into()),
-]])
-.expect("a 1 x 3 matrix");
-let vb = Matrix::try_new(vec![vec![
-    Number::Float(0.0.into()),
-    Number::Float(14.956.into()),
-    Number::Float(0.0.into()),
-]])
-.expect("a 1 x 3 matrix");
-let vc = Matrix::try_new(vec![vec![
-    Number::Float(0.0.into()),
-    Number::Float(0.0.into()),
-    Number::Float(19.737.into()),
-]])
-.expect("a 1 x 3 matrix");
-
-// The three-vector entry set computes the direct six.
-let cell = Cell::vectors()
-    .vector_a(va)
-    .vector_b(vb)
-    .vector_c(vc)
-    .build()
-    .expect("a valid cell");
-
-println!("volume {}", cell.volume.as_ref().expect("the computed volume"));
-```
-
-`Cell` is the document struct of section 7. The builder start
-functions sit on that struct. `Cell::builder` takes the direct
-six. `Cell::vectors` takes the three lattice vectors.
-
-The group builder resolves the excerpt's space group. One of
-three unique identifiers. Group 14 resolves to the Hall symbol
-`-P 2ybc`, the `P` centring type, and four operations. The
-`crystallographic-group` crate resolves the group.
-
-```rust
-use crystal_cif_io::data_dict::core_cif::space_group::{ITNumber, SpaceGroup};
-
-let group = SpaceGroup::by_it_number(ITNumber::new(14))
-    .expect("a valid group");
-println!(
-    "Hall {}, {} centring, {} operations",
-    group.name_hall.as_ref().expect("a Hall symbol").content(),
-    group.centring_type.as_ref().expect("a centring type"),
-    group.multiplicity.as_ref().expect("a multiplicity"),
-);
-```
-
-The file's full symbol `P 1 21/n 1` adds the `n` glide. It is
-no all-settings spelling. The `by_name_h_m` entry point
-resolves the all-settings table spelling only.
-
-The loop and formula builders return their document structs
-too. The symop rows derive from the Seitz list of the resolved
-group. The formula builder needs `structural`. The other
-spellings are optional.
-
-```rust
-use crystal_cif_fmt::{CharString, UnquotedString};
-use crystal_cif_io::data_dict::core_cif::chemical_formula::ChemicalFormula;
-use crystal_cif_io::data_dict::core_cif::space_group_symop::Symop;
-use crystallographic_group::SpaceGroup as Resolved;
-
-let symops = Symop::builder()
-    .group(Resolved::try_from_str("-P 2ybc").expect("IT 14 resolves"))
-    .build()
-    .expect("the rows build");
-println!(
-    "{} symops, first {}",
-    symops.len(),
-    symops[0].operation_xyz.as_ref().expect("an xyz").content()
-);
-
-fn text(s: &str) -> CharString {
-    CharString::Unquoted(UnquotedString::new(s.to_string()))
-}
-
-let formula = ChemicalFormula::builder()
-    .structural(text("C5 H17 Al N2 O8 P2"))
-    .sum(text("C5 H17 Al N2 O8 P2"))
-    .build()
-    .expect("the formula builds");
-println!("{}", formula.structural.as_ref().expect("the spelling"));
-```
-
-The `atom_site` row builder takes one coordinate mode per row
-and a displacement type. The `formula_units` helper derives
-the structure `Z` and cross-checks a supplied value. Each
-`build()` returns the category document struct: `Cell`,
-`SpaceGroup`, `Vec<Symop>`, `Vec<AtomSite>`,
-`ChemicalFormula`.
-
-The per-category input spec and the item dependency map live
-in `docs/dict-completeness.md` and `codegen/depends.json`.
-
-### 10. Matrices
-
-
-`Matrix` is the dictionary value for matrix items. Build it from
-rows or from a parsed 2.0 list value.
-
-```rust
-use crystal_cif_fmt::{Matrix, Value};
-
-let matrix = Matrix::try_new(vec![
-    vec![1.into(), 2.into()],
-    vec![3.into(), 4.into()],
-])
-.expect("a 2 x 2 matrix");
-assert_eq!(matrix.shape(), (2, 2));
-
-// From a parsed 2.0 list value:
-let list = Value::List(vec![Value::List(vec![
-    Value::Numeric(1.into()),
-    Value::Numeric(2.into()),
-])]);
-let matrix = Matrix::from_list(list.as_list().expect("a list"), Some((1, 2)))
-    .expect("a 1 x 2 matrix");
-```
-
-`from_list` rejects non-numeric elements and ragged shapes.
-`as_3x3` and `as_vector` return `None` when the shape does not
-fit. Errors are `MatrixError`.
-
-### 11. Canonical JSON and validation
-
-
-`canonical::document_json` encodes a document as the canonical
-IR. `validate` runs the spec-level checks and returns the
-violations.
-
-```rust
-use crystal_cif_fmt::canonical;
-
-let json = canonical::document_json(&doc, "1000000.cif", 2);
-println!("{}", serde_json::to_string(&json).unwrap());
-
-for violation in canonical::validate(&doc) {
-    eprintln!("violation: {violation}");
-}
-```
-
-The schema version is 1 for 1.1 value kinds and 2 when the
-document carries 2.0 kinds (`list`, `table`, the triple-quote
-char-string styles, the frame `frames` array). The `validate`
-checks flag duplicate block names and duplicate tags.
-
-### 12. CIF 2.0 specifics
-
-
-Lists, tables, triple-quoted strings, nested save frames, and
-non-ASCII text parse only in the 2.0 dialect. The 1.1 dialect
-keeps the ASCII character set.
-
-The pinned 2.0 test file
-`tests/real_data/cif_api/complex_data.cif` mixes all three value
-containers. Save it as `complex_data.cif`.
-
-```cif
-#\#CIF_2.0
-
-data_complex_data
-
-_list_of_lists [
-  []
-  [foo bar ]
-  [ x y z ]
-]
-
-_table_of_tables {
-  'English':{
-    'one':one
-    'two':two
-  }
-
-  'French':{
-    'one':'un'
-    'two':"deux"
-  }
-}
-
-_hodge_podge [
-  ?
-  { 'a':10 'b':11 'c':[? 12] }
-  [. . {} {'alice':Cambridge 'bob':Harvard 'charles':.}]
-]
-```
-
-```rust
-let cs = std::fs::read_to_string("complex_data.cif").unwrap();
-let xdoc = parse_cif(&cs).expect("the 2.0 file parses");
-let xblock = xdoc.get_data_block_by_name("complex_data").expect("present");
-let hodge = xblock.find_single_value_by_tag("hodge_podge").expect("present");
-
-for value in hodge.value().as_list().expect("a list") {
-    println!("{value}");
-}
-```
-
-The mixed list prints `?`, a nested table, and a list of
-values. Table pairs keep their order. The key is a value,
-usually a char string.
 ## Features
 
 - CIF 1.1 file syntax (IUCr 2014 specification).
@@ -759,6 +851,8 @@ usually a char string.
   the dictionary constrains. The closed-set enums agree with
   the recorded dictionary. The gate
   `crystal_cif_io/tests/closed_values.rs` keeps them in step.
+- The error types of both crates derive `thiserror`. They carry
+  the message and the `source` chain.
 - A typed block view (`crystal_cif_io::CoreCif`) over the 62
   standard dictionary categories (roadmap D12i). Read a data
   block into typed structs, `validate` the required sets, and
