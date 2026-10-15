@@ -31,11 +31,11 @@ use crate::data_dict::core_cif::citation_author::CitationAuthor;
 use crate::data_dict::core_cif::citation_editor::{CitationEditor, CitationEditorRow};
 use crate::data_dict::core_cif::computing::{Computing, ComputingRow};
 use crate::data_dict::core_cif::database::{Database, DatabaseRow};
-use crate::data_dict::core_cif::diffrn::{Diffrn, DiffrnRow};
+use crate::data_dict::core_cif::diffrn::Diffrn;
 use crate::data_dict::core_cif::diffrn_attenuator::DiffrnAttenuator;
 use crate::data_dict::core_cif::diffrn_detector::DiffrnDetector;
 use crate::data_dict::core_cif::diffrn_measurement::DiffrnMeasurement;
-use crate::data_dict::core_cif::diffrn_orient_matrix::{DiffrnOrientMatrix, DiffrnOrientMatrixRow};
+use crate::data_dict::core_cif::diffrn_orient_matrix::DiffrnOrientMatrix;
 use crate::data_dict::core_cif::diffrn_orient_refln::DiffrnOrientRefln;
 use crate::data_dict::core_cif::diffrn_radiation::DiffrnRadiation;
 use crate::data_dict::core_cif::diffrn_radiation_wavelength::DiffrnRadiationWavelengthRow;
@@ -131,12 +131,10 @@ pub struct CoreCif {
     // T5 wave: the 16 raw-diffraction categories of tier T5.
     pub cell_measurement_refln: Vec<CellMeasurementRefln>,
     pub diffrn: Diffrn,
-    pub diffrn_rows: Vec<DiffrnRow>,
     pub diffrn_attenuator: Vec<DiffrnAttenuator>,
     pub diffrn_detector: DiffrnDetector,
     pub diffrn_measurement: DiffrnMeasurement,
     pub diffrn_orient_matrix: DiffrnOrientMatrix,
-    pub diffrn_orient_matrix_rows: Vec<DiffrnOrientMatrixRow>,
     pub diffrn_orient_refln: Vec<DiffrnOrientRefln>,
     pub diffrn_radiation: DiffrnRadiation,
     pub diffrn_radiation_wavelength: Vec<DiffrnRadiationWavelengthRow>,
@@ -250,8 +248,6 @@ impl CoreCif {
         errors.extend(cell_measurement_refln_errors);
         let (residue, diffrn_errors) = doc.diffrn.from_members(&residue);
         errors.extend(diffrn_errors);
-        let (residue, diffrn_rows_errors) = doc.diffrn_rows.from_members(&residue);
-        errors.extend(diffrn_rows_errors);
         let (residue, diffrn_attenuator_errors) = doc.diffrn_attenuator.from_members(&residue);
         errors.extend(diffrn_attenuator_errors);
         let (residue, diffrn_detector_errors) = doc.diffrn_detector.from_members(&residue);
@@ -261,9 +257,6 @@ impl CoreCif {
         let (residue, diffrn_orient_matrix_errors) =
             doc.diffrn_orient_matrix.from_members(&residue);
         errors.extend(diffrn_orient_matrix_errors);
-        let (residue, diffrn_orient_matrix_rows_errors) =
-            doc.diffrn_orient_matrix_rows.from_members(&residue);
-        errors.extend(diffrn_orient_matrix_rows_errors);
         let (residue, diffrn_orient_refln_errors) = doc.diffrn_orient_refln.from_members(&residue);
         errors.extend(diffrn_orient_refln_errors);
         let (residue, diffrn_radiation_errors) = doc.diffrn_radiation.from_members(&residue);
@@ -407,12 +400,10 @@ impl CoreCif {
         // T5 wave: the 16 raw-diffraction categories of tier T5.
         members.extend(self.cell_measurement_refln.to_members());
         members.extend(self.diffrn.to_members());
-        members.extend(self.diffrn_rows.to_members());
         members.extend(self.diffrn_attenuator.to_members());
         members.extend(self.diffrn_detector.to_members());
         members.extend(self.diffrn_measurement.to_members());
         members.extend(self.diffrn_orient_matrix.to_members());
-        members.extend(self.diffrn_orient_matrix_rows.to_members());
         members.extend(self.diffrn_orient_refln.to_members());
         members.extend(self.diffrn_radiation.to_members());
         members.extend(self.diffrn_radiation_wavelength.to_members());
