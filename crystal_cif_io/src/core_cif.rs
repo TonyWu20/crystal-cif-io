@@ -74,7 +74,7 @@ use crate::data_dict::core_cif::space_group::SpaceGroup;
 use crate::data_dict::core_cif::space_group_symop::Symop;
 use crate::data_dict::core_cif::symmetry::Symmetry;
 use crate::data_dict::core_cif::symmetry_equiv::SymmetryEquiv;
-use crate::data_dict::core_cif::valence_param::{ValenceParam, ValenceParamRow};
+use crate::data_dict::core_cif::valence_param::ValenceParam;
 use crate::data_dict::core_cif::valence_ref::ValenceRefRow;
 use crate::data_dict::core_cif::CifCategory;
 
@@ -127,7 +127,6 @@ pub struct CoreCif {
     pub geom_hbond: GeomHbond,
     pub geom_torsion: GeomTorsion,
     pub valence_param: ValenceParam,
-    pub valence_param_rows: Vec<ValenceParamRow>,
     pub valence_ref: Vec<ValenceRefRow>,
     // T5 wave: the 16 raw-diffraction categories of tier T5.
     pub cell_measurement_refln: Vec<CellMeasurementRefln>,
@@ -243,8 +242,6 @@ impl CoreCif {
         errors.extend(geom_torsion_errors);
         let (residue, valence_param_errors) = doc.valence_param.from_members(&residue);
         errors.extend(valence_param_errors);
-        let (residue, valence_param_rows_errors) = doc.valence_param_rows.from_members(&residue);
-        errors.extend(valence_param_rows_errors);
         let (residue, valence_ref_errors) = doc.valence_ref.from_members(&residue);
         errors.extend(valence_ref_errors);
         // T5 wave: the 16 raw-diffraction categories of tier T5.
@@ -406,7 +403,6 @@ impl CoreCif {
         members.extend(self.geom_hbond.to_members());
         members.extend(self.geom_torsion.to_members());
         members.extend(self.valence_param.to_members());
-        members.extend(self.valence_param_rows.to_members());
         members.extend(self.valence_ref.to_members());
         // T5 wave: the 16 raw-diffraction categories of tier T5.
         members.extend(self.cell_measurement_refln.to_members());

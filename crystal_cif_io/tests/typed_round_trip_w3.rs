@@ -190,8 +190,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     );
     s += &format!(
         "valence_param[rows={} B={} citation={}]\n",
-        doc.valence_param_rows.len(),
-        num_of(doc.valence_param_rows.first().and_then(|r| r.b)),
+        doc.valence_param.rows.len(),
+        num_of(doc.valence_param.rows.first().and_then(|r| r.b)),
         char_of(doc.valence_param.citation_id.clone()),
     );
     s += &format!(
@@ -228,7 +228,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
         "the geom special-list loops type"
     );
     assert!(
-        !doc.valence_param_rows.is_empty() && !doc.valence_ref.is_empty(),
+        !doc.valence_param.rows.is_empty() && !doc.valence_ref.is_empty(),
         "the valence loops type"
     );
     assert!(
