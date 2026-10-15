@@ -16,23 +16,34 @@ Add the dependency:
 
 ```toml
 [dependencies]
-crystal-cif-fmt = "0.1"
 crystal-cif-io = "0.3"
-crystallographic-group = "0.4"
 ```
 
+The read, edit, and write workflows need only this dependency.
+`crystal-cif-io` re-exports the IR value and block types of
+`crystal-cif-fmt` that they name. It re-exports the `SpaceGroup`
+type of `crystallographic-group` under `group`. Add
+`crystal-cif-fmt` only for direct IR control: loop columns,
+save-frame trees, 2.0 containers, canonical JSON, dialect
+detection. Add `crystallographic-group` only for group machinery
+beyond `group::SpaceGroup`.
+
 The tour serves the read, the edit, and the write of a `.cif`
-file. The main sections work on the typed view of
-`crystal-cif-io`. The value-layer sections at the end drop one
-level to the IR of `crystal-cif-fmt`.
+file. It needs the `crystal-cif-io` dependency only. The main
+sections work on the typed view of `crystal-cif-io`. The
+value-layer sections at the end drop one level to the IR of
+`crystal-cif-fmt`.
 
 The snippets carry over across sections. `doc` and `block`
 come from the read step of section 2. The appendix letters
-carry them over too. Every snippet compiles against the current
-crates. Parser and IR types live in `crystal-cif-fmt`.
-Dictionary and builder types live in `crystal-cif-io`. The
-`space_group_symop` builder names a `crystallographic-group`
-type. Each snippet shows its own imports.
+carry them over too. Every snippet compiles against the current crates.
+Parser and IR types live in `crystal-cif-fmt`. Dictionary and
+builder types live in `crystal-cif-io`. The `space_group_symop`
+builder names the `SpaceGroup` type of
+`crystallographic-group`, re-exported under `group`. The main
+sections import the re-exported types from `crystal_cif_io`. The
+value-layer sections import `crystal_cif_fmt` directly. Each
+snippet shows its own imports.
 
 The tour rides on a real file. The excerpt below is trimmed
 from `crystal_cif_fmt/tests/real_data/cod/1000000.cif`, COD entry 1000000
@@ -118,7 +129,7 @@ items also type into the later-wave groups. Foreign tags and save frames stay in
 `extra` residue. The parse is tolerant.
 
 ```rust
-use crystal_cif_fmt::parse_cif;
+use crystal_cif_io::parse_cif;
 use crystal_cif_io::CoreCif;
 
 let source = std::fs::read_to_string("1000000.cif").unwrap();
@@ -160,7 +171,8 @@ match cif.validate() {
 
 The check reports every missing required item. The file lacks
 the `adp_type` column of `atom_site`. Each of its 35 rows
-reports one gap. The check lists all 35.
+reports one gap. The file also lacks the `chemical_formula`
+structural spelling. The check lists 36 gaps.
 
 The file's later-wave categories type too. Its
 `_exptl_absorpt_correction_type` records the real-data code
@@ -193,7 +205,7 @@ out-of-range values. `validate` reports the required-item
 gaps.
 
 ```rust
-use crystal_cif_fmt::{CharString, Numeric, UnquotedString};
+use crystal_cif_io::{CharString, Numeric, UnquotedString};
 use crystal_cif_io::data_dict::Ineq;
 use crystal_cif_io::data_dict::core_cif::geom_angle::GeomAngleRow;
 use crystal_cif_io::data_dict::core_cif::refine::{MatrixType, NonNeg};
@@ -223,8 +235,8 @@ cif.geom_angle_rows.push(row);
 ```
 
 The structural assignment rebinds the field to the sum
-spelling. The `adp_type` gaps stay. The check reports the
-remaining state.
+spelling. It resolves the formula gap. The 35 adp_type gaps
+stay. The check reports the remaining state.
 
 ### 4. Writing the block back
 
@@ -234,7 +246,7 @@ The pre-write check reports the gaps. It does not block the
 write.
 
 ```rust
-use crystal_cif_fmt::CifDocument;
+use crystal_cif_io::CifDocument;
 
 match cif.validate() {
     Ok(()) => println!("the required sets are complete"),
@@ -254,7 +266,7 @@ Save frames are residue too. A frame keeps its code and items
 whole in `extra`.
 
 ```rust
-use crystal_cif_fmt::{
+use crystal_cif_io::{
     DataBlock, DataBlockHeading, DataBlockMember, SaveFrame, SaveFrameHeading,
 };
 
@@ -296,7 +308,7 @@ trait `to_members` method is the materialization path now.
 
 ```rust
 use crystal_cif_io::data_dict::core_cif::cell::{Cell, CellAngle};
-use crystal_cif_fmt::{Matrix, Number, UnsignedInteger};
+use crystal_cif_io::{Matrix, Number, UnsignedInteger};
 
 // The direct-six entry set builds the excerpt's cell. The
 // supplied volume cross-checks against the computed value.
@@ -376,10 +388,10 @@ group. The formula builder needs `structural`. The other
 spellings are optional.
 
 ```rust
-use crystal_cif_fmt::{CharString, UnquotedString};
+use crystal_cif_io::{CharString, UnquotedString};
 use crystal_cif_io::data_dict::core_cif::chemical_formula::ChemicalFormula;
 use crystal_cif_io::data_dict::core_cif::space_group_symop::Symop;
-use crystallographic_group::SpaceGroup as Resolved;
+use crystal_cif_io::group::SpaceGroup as Resolved;
 
 let symops = Symop::builder()
     .group(Resolved::try_from_str("-P 2ybc").expect("IT 14 resolves"))
@@ -420,7 +432,7 @@ in `docs/dict-completeness.md` and `codegen/depends.json`.
 rows or from a parsed 2.0 list value.
 
 ```rust
-use crystal_cif_fmt::{Matrix, Value};
+use crystal_cif_io::{Matrix, Value};
 
 let matrix = Matrix::try_new(vec![
     vec![1.into(), 2.into()],
@@ -447,7 +459,9 @@ fit. Errors are `MatrixError`.
 
 `canonical::document_json` encodes a document as the canonical
 IR. `validate` runs the spec-level checks and returns the
-violations.
+violations. This is where `crystal-cif-fmt` enters. Canonical
+JSON is a feature of the fmt crate. Add the `crystal-cif-fmt`
+dependency for this section.
 
 ```rust
 use crystal_cif_fmt::canonical;
@@ -523,12 +537,15 @@ usually a char string.
 
 ## The value layer reference (`crystal-cif-fmt`)
 
-The main tour works on the typed view. These sections drop one
+The main tour works on the typed view. It imports the
+re-exported types from `crystal_cif_io`. These sections drop one
 level. They show the IR of `crystal-cif-fmt` directly: the
 document shape, the value variants, the loops, and the save
-frames. Their snippets carry over the `doc` and `block` of the
-tour. Use them when you read a block that no category
-types, write a custom reader, or inspect a 2.0 container.
+frames. They import `crystal_cif_fmt` directly. That is the path
+that adds the `crystal-cif-fmt` dependency. Their snippets carry
+over the `doc` and `block` of the tour. Use them when you read
+a block that no category types, write a custom reader, or
+inspect a 2.0 container.
 
 ### A. Parsing and dialect
 
@@ -853,6 +870,10 @@ clamps to 0..180 on construction.
   `crystal_cif_io/tests/closed_values.rs` keeps them in step.
 - The error types of both crates derive `thiserror`. They carry
   the message and the `source` chain.
+- The IR value and block types of `crystal-cif-fmt` are
+  re-exported at the crate root. The `SpaceGroup` type of
+  `crystallographic-group` is re-exported under `group`. The
+  read, edit, and write workflows stay inside this crate.
 - A typed block view (`crystal_cif_io::CoreCif`) over the 62
   standard dictionary categories (roadmap D12i). Read a data
   block into typed structs, `validate` the required sets, and

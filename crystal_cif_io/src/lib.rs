@@ -2,15 +2,20 @@
 //!
 //! This crate holds the data-dictionary layer: the per-category
 //! terms, the closed-set enums, and the `bon` builders
-//! (`src/builder`). It builds on the `crystal-cif-fmt` crate,
-//! which owns the parser, the IR types (`Tag`, `Value`,
-//! `DataBlock`), and the canonical JSON. Import the two crates
-//! side by side:
+//! (`src/builder`). The `crystal-cif-fmt` IR value and block types
+//! it names, and the `crystallographic-group` builder types, are
+//! re-exported at the crate root (and under `group`). The read,
+//! edit, and write workflows stay inside this crate.
 //!
 //! ```no_run
-//! use crystal_cif_fmt::parse_cif;
-//! use crystal_cif_io::builder::cell::CellBuilder;
+//! use crystal_cif_io::parse_cif;
+//! use crystal_cif_io::CoreCif;
 //! ```
+//!
+//! Add `crystal-cif-fmt` only for direct IR control: loop columns,
+//! save-frame trees, 2.0 containers, canonical JSON, dialect
+//! detection. Add `crystallographic-group` only for group machinery
+//! beyond `group::SpaceGroup`.
 //!
 //! See `docs/typed-structs.md` (D13) for the split.
 
@@ -92,3 +97,29 @@ pub use data_dict::core_cif::{
     symmetry::Symmetry,
     symmetry_equiv::SymmetryEquiv,
 };
+
+// ---------------------------------------------------------------------------
+// Re-exports: the IR value and block types of `crystal-cif-fmt`, and the
+// group types of `crystallographic-group`. The read, edit, write, and
+// builder workflows of this crate name these types. Re-exporting them
+// keeps those workflows inside this crate.
+//
+// Add `crystal-cif-fmt` to your own `Cargo.toml` only for direct IR
+// control: loop columns, save-frame trees, 2.0 containers, canonical
+// JSON, dialect detection. Add `crystallographic-group` only for group
+// machinery beyond `group::SpaceGroup`.
+// ---------------------------------------------------------------------------
+
+/// The IR value and block types of `crystal-cif-fmt` the read, edit,
+/// and write workflows name. Re-exported so those workflows stay
+/// inside this crate.
+pub use crystal_cif_fmt::{
+    parse_cif, CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, Matrix,
+    Number, Numeric, SaveFrame, SaveFrameHeading, UnquotedString, UnsignedInteger, Value,
+};
+
+/// The `crystallographic-group` type the builders name. Re-exported
+/// so the builder workflow stays inside this crate.
+pub mod group {
+    pub use crystallographic_group::SpaceGroup;
+}
