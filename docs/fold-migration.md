@@ -168,3 +168,24 @@ Commit in small green steps. When the gates in section 8 all hold, the
 mission is complete. The orchestrator pings the main session on the
 mission exit. The main session reads `sessions/dict-items-fold` for the
 result.
+
+## 11. Post-wave correction (recorded after the mission ran)
+
+The wave completed. Two facts in this handover were not confirmed by the
+code and are corrected here.
+
+The T4-T6 `CifCategory` layer is hand-written, not codegen-generated.
+`dict_codegen` emits only the type files, the `CifTerm` `mod.rs`, and the
+registry files. It does not emit the `CifCategory` impl layer. So all 24
+categories were folded with the hand-written transform. No codegen template
+change was needed or made. Section 4 of this file is superseded on that
+point.
+
+The codegen idempotency gate is blocked by pre-existing drift, not by the
+fold. The drift is: two annotation lists drift from the union inventory
+(`diffrn_radiation_wavelength_determination` lacks `estimated` and
+`refined`; `publ_requested_category` lacks `TE`); `update_core_cif_mod`
+aborts on the D12 `CifCategory` trait block in `core_cif/mod.rs`; and the
+templates predate the D13 split, so a full regeneration rewrites about 160
+files with stale imports. This drift is a separate open task. See the D17a
+row in `docs/roadmap-dict-items.md`.
