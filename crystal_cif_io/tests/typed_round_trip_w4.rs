@@ -74,7 +74,7 @@ fn the_publcif_file_round_trips_the_t4_tier() {
         "the body element parses the closed set"
     );
     assert!(
-        !doc.publ_author_rows.is_empty(),
+        !doc.publ_author.rows.is_empty(),
         "the publ_author rows type"
     );
     // The single-value journal items of the file stay in the residue.
@@ -86,7 +86,7 @@ fn the_cod_file_round_trips_the_t4_tier() {
     let block = first_block(&corpus_file("cod/1000000.cif"));
     let doc = round_trip_is_stable(&block);
     assert!(
-        !doc.publ_author_rows.is_empty(),
+        !doc.publ_author.rows.is_empty(),
         "the publ_author rows type"
     );
     // The journal and computing items of the file are single-value
@@ -108,7 +108,7 @@ fn the_squeeze_file_round_trips_the_t4_tier() {
         "the text-field address types"
     );
     assert!(
-        !doc.publ_author_rows.is_empty(),
+        !doc.publ_author.rows.is_empty(),
         "the publ_author rows type"
     );
 }

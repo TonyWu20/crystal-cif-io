@@ -30,7 +30,7 @@ use crate::data_dict::core_cif::citation::Citation;
 use crate::data_dict::core_cif::citation_author::CitationAuthor;
 use crate::data_dict::core_cif::citation_editor::CitationEditor;
 use crate::data_dict::core_cif::computing::Computing;
-use crate::data_dict::core_cif::database::{Database, DatabaseRow};
+use crate::data_dict::core_cif::database::Database;
 use crate::data_dict::core_cif::diffrn::Diffrn;
 use crate::data_dict::core_cif::diffrn_attenuator::DiffrnAttenuator;
 use crate::data_dict::core_cif::diffrn_detector::DiffrnDetector;
@@ -55,10 +55,10 @@ use crate::data_dict::core_cif::geom_bond::GeomBond;
 use crate::data_dict::core_cif::geom_contact::GeomContact;
 use crate::data_dict::core_cif::geom_hbond::GeomHbond;
 use crate::data_dict::core_cif::geom_torsion::GeomTorsion;
-use crate::data_dict::core_cif::journal::{Journal, JournalRow};
-use crate::data_dict::core_cif::journal_index::{JournalIndex, JournalIndexRow};
-use crate::data_dict::core_cif::publ::{Publ, PublRow};
-use crate::data_dict::core_cif::publ_author::{PublAuthor, PublAuthorRow};
+use crate::data_dict::core_cif::journal::Journal;
+use crate::data_dict::core_cif::journal_index::JournalIndex;
+use crate::data_dict::core_cif::publ::Publ;
+use crate::data_dict::core_cif::publ_author::PublAuthor;
 use crate::data_dict::core_cif::publ_body::PublBody;
 use crate::data_dict::core_cif::publ_manuscript_incl::PublManuscriptIncl;
 use crate::data_dict::core_cif::refine::Refine;
@@ -154,15 +154,10 @@ pub struct CoreCif {
     pub citation_editor: CitationEditor,
     pub computing: Computing,
     pub database: Database,
-    pub database_rows: Vec<DatabaseRow>,
     pub journal: Journal,
-    pub journal_rows: Vec<JournalRow>,
     pub journal_index: JournalIndex,
-    pub journal_index_rows: Vec<JournalIndexRow>,
     pub publ: Publ,
-    pub publ_rows: Vec<PublRow>,
     pub publ_author: PublAuthor,
-    pub publ_author_rows: Vec<PublAuthorRow>,
     pub publ_body: Vec<PublBody>,
     pub publ_manuscript_incl: Vec<PublManuscriptIncl>,
     // T2 wave: the twelve categories of the T2 tier (roadmap D12j).
@@ -292,24 +287,14 @@ impl CoreCif {
         errors.extend(computing_errors);
         let (residue, database_errors) = doc.database.from_members(&residue);
         errors.extend(database_errors);
-        let (residue, database_rows_errors) = doc.database_rows.from_members(&residue);
-        errors.extend(database_rows_errors);
         let (residue, journal_errors) = doc.journal.from_members(&residue);
         errors.extend(journal_errors);
-        let (residue, journal_rows_errors) = doc.journal_rows.from_members(&residue);
-        errors.extend(journal_rows_errors);
         let (residue, journal_index_errors) = doc.journal_index.from_members(&residue);
         errors.extend(journal_index_errors);
-        let (residue, journal_index_rows_errors) = doc.journal_index_rows.from_members(&residue);
-        errors.extend(journal_index_rows_errors);
         let (residue, publ_errors) = doc.publ.from_members(&residue);
         errors.extend(publ_errors);
-        let (residue, publ_rows_errors) = doc.publ_rows.from_members(&residue);
-        errors.extend(publ_rows_errors);
         let (residue, publ_author_errors) = doc.publ_author.from_members(&residue);
         errors.extend(publ_author_errors);
-        let (residue, publ_author_rows_errors) = doc.publ_author_rows.from_members(&residue);
-        errors.extend(publ_author_rows_errors);
         let (residue, publ_body_errors) = doc.publ_body.from_members(&residue);
         errors.extend(publ_body_errors);
         let (residue, publ_manuscript_incl_errors) =
@@ -400,15 +385,10 @@ impl CoreCif {
         members.extend(self.citation_editor.to_members());
         members.extend(self.computing.to_members());
         members.extend(self.database.to_members());
-        members.extend(self.database_rows.to_members());
         members.extend(self.journal.to_members());
-        members.extend(self.journal_rows.to_members());
         members.extend(self.journal_index.to_members());
-        members.extend(self.journal_index_rows.to_members());
         members.extend(self.publ.to_members());
-        members.extend(self.publ_rows.to_members());
         members.extend(self.publ_author.to_members());
-        members.extend(self.publ_author_rows.to_members());
         members.extend(self.publ_body.to_members());
         members.extend(self.publ_manuscript_incl.to_members());
         // T2 wave: the twelve categories of the T2 tier.

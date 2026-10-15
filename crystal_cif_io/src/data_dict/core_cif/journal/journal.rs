@@ -1,10 +1,9 @@
 //! The `journal` category of the typed document layer (roadmap D12).
 //!
-//! The `journal` single-value struct and the loop-row struct. One `Option`
-//! field per registry item. `CifCategory` is on the `Journal` single
-//! group and on the `Vec<JournalRow>` loop group. Char items read leniently:
-//! the tier corpus records them as text fields. The closed sets keep
-//! the typed enum.
+//! The `Journal` struct owns the single-value items (one `Option` field
+//! per registry item) and the loop rows (`rows`). One `CifCategory`
+//! impl covers both. Char items read leniently: the tier corpus
+//! records them as text fields. The closed sets keep the typed enum.
 
 use crate::core_cif::CifError;
 use crate::data_dict::core_cif::journal::PaperPages;
@@ -18,6 +17,7 @@ pub struct Journal {
     pub paper_number: Option<CharString>,
     pub paper_pages: Option<PaperPages>,
     pub paper_url: Option<CharString>,
+    pub rows: Vec<JournalRow>,
 }
 
 impl CifCategory for Journal {
@@ -55,6 +55,7 @@ impl CifCategory for Journal {
                 )),
             )));
         }
+        out.extend(rows_to_members(&self.rows));
         out
     }
 
@@ -65,603 +66,38 @@ impl CifCategory for Journal {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
-            if let DataBlockMember::DataItems(DataItems::SingleValue(sv)) = m {
-                let tag = sv.tag().as_ref().to_lowercase();
-                let value = sv.value();
-                match tag.as_str() {
-                    "journal.data_validation_number" => {
-                        match convert::read_char_text("journal.data_validation_number", value) {
-                            Ok(v) => self.journal_data_validation_number = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
-                    "journal_paper_number" => {
-                        match convert::read_char_text("journal_paper_number", value) {
-                            Ok(v) => self.paper_number = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
-                    "journal_paper_pages" => {
-                        match convert::read_paper_pages("journal_paper_pages", value) {
-                            Ok(v) => self.paper_pages = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
-                    "journal_paper_url" => {
-                        match convert::read_char_text("journal_paper_url", value) {
-                            Ok(v) => self.paper_url = v,
-                            Err(e) => errors.push(e),
-                        }
-                    }
-                    _ => residue.push(m.clone()),
-                }
-            } else {
-                residue.push(m.clone());
-            }
-        }
-        (residue, errors)
-    }
-}
-
-/// The `journal` loop-row struct. One `Option` field per registry column.
-#[derive(Debug, Clone, Default)]
-pub struct JournalRow {
-    pub coden_astm: Option<CharString>,
-    pub coden_cambridge: Option<CharString>,
-    pub coeditor_address: Option<CharString>,
-    pub coeditor_code: Option<CharString>,
-    pub coeditor_email: Option<CharString>,
-    pub coeditor_fax: Option<CharString>,
-    pub coeditor_name: Option<CharString>,
-    pub coeditor_notes: Option<CharString>,
-    pub coeditor_phone: Option<CharString>,
-    pub data_validation_number: Option<CharString>,
-    pub date_accepted: Option<CharString>,
-    pub date_from_coeditor: Option<CharString>,
-    pub date_printers_final: Option<CharString>,
-    pub date_printers_first: Option<CharString>,
-    pub date_proofs_in: Option<CharString>,
-    pub date_proofs_out: Option<CharString>,
-    pub date_recd_copyright: Option<CharString>,
-    pub date_recd_electronic: Option<CharString>,
-    pub date_recd_hard_copy: Option<CharString>,
-    pub date_to_coeditor: Option<CharString>,
-    pub issue: Option<CharString>,
-    pub language: Option<CharString>,
-    pub name_full: Option<CharString>,
-    pub page_first: Option<CharString>,
-    pub page_last: Option<CharString>,
-    pub paper_category: Option<CharString>,
-    pub paper_doi: Option<CharString>,
-    pub suppl_publ_number: Option<CharString>,
-    pub suppl_publ_pages: Option<CharString>,
-    pub techeditor_address: Option<CharString>,
-    pub techeditor_code: Option<CharString>,
-    pub techeditor_email: Option<CharString>,
-    pub techeditor_fax: Option<CharString>,
-    pub techeditor_name: Option<CharString>,
-    pub techeditor_notes: Option<CharString>,
-    pub techeditor_phone: Option<CharString>,
-    pub volume: Option<CharString>,
-    pub year: Option<CharString>,
-}
-
-impl CifCategory for Vec<JournalRow> {
-    fn to_members(&self) -> Vec<DataBlockMember> {
-        if self.is_empty() {
-            return Vec::new();
-        }
-        let mut columns = Vec::new();
-        if self.iter().any(|r| r.coden_astm.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coden_astm {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coden_astm".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coden_cambridge.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coden_cambridge {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coden_cambridge".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_address.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_address {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_address".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_code.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_code {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_code".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_email.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_email {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_email".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_fax.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_fax {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_fax".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_name.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_name {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_name".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_notes.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_notes {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_notes".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.coeditor_phone.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.coeditor_phone {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_coeditor_phone".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.data_validation_number.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.data_validation_number {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_data_validation_number".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_accepted.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_accepted {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_accepted".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_from_coeditor.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_from_coeditor {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_from_coeditor".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_printers_final.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_printers_final {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_printers_final".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_printers_first.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_printers_first {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_printers_first".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_proofs_in.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_proofs_in {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_proofs_in".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_proofs_out.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_proofs_out {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_proofs_out".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_recd_copyright.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_recd_copyright {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_recd_copyright".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_recd_electronic.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_recd_electronic {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_recd_electronic".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_recd_hard_copy.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_recd_hard_copy {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_recd_hard_copy".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.date_to_coeditor.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.date_to_coeditor {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_date_to_coeditor".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.issue.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.issue {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_issue".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.language.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.language {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_language".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.name_full.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.name_full {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_name_full".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.page_first.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.page_first {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_page_first".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.page_last.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.page_last {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_page_last".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.paper_category.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.paper_category {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_paper_category".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.paper_doi.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.paper_doi {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_paper_doi".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.suppl_publ_number.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.suppl_publ_number {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_suppl_publ_number".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.suppl_publ_pages.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.suppl_publ_pages {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_suppl_publ_pages".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_address.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_address {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_address".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_code.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_code {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_code".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_email.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_email {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_email".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_fax.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_fax {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_fax".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_name.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_name {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_name".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_notes.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_notes {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_notes".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.techeditor_phone.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.techeditor_phone {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_techeditor_phone".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.volume.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.volume {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_volume".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.year.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.year {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("journal_year".to_string()),
-                values,
-            ));
-        }
-        if columns.is_empty() {
-            return Vec::new();
-        }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(
-            LoopColumns::new(columns),
-        ))]
-    }
-
-    fn from_members(
-        &mut self,
-        members: &[DataBlockMember],
-    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
-        let mut residue = Vec::new();
-        let mut errors = Vec::new();
-        for m in members {
             match m {
+                DataBlockMember::DataItems(DataItems::SingleValue(sv)) => {
+                    let tag = sv.tag().as_ref().to_lowercase();
+                    let value = sv.value();
+                    match tag.as_str() {
+                        "journal.data_validation_number" => {
+                            match convert::read_char_text("journal.data_validation_number", value) {
+                                Ok(v) => self.journal_data_validation_number = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
+                        "journal_paper_number" => {
+                            match convert::read_char_text("journal_paper_number", value) {
+                                Ok(v) => self.paper_number = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
+                        "journal_paper_pages" => {
+                            match convert::read_paper_pages("journal_paper_pages", value) {
+                                Ok(v) => self.paper_pages = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
+                        "journal_paper_url" => {
+                            match convert::read_char_text("journal_paper_url", value) {
+                                Ok(v) => self.paper_url = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
+                        _ => residue.push(m.clone()),
+                    }
+                }
                 DataBlockMember::DataItems(DataItems::MultiValues(cols)) => {
                     let cols = cols.columns();
                     // A loop is this category only when it carries one of
@@ -713,8 +149,9 @@ impl CifCategory for Vec<JournalRow> {
                     if !is_ours {
                         residue.push(m.clone());
                     } else {
-                        *self = rows_from_columns(cols, &mut errors);
+                        self.rows = rows_from_columns(cols, &mut errors);
                     }
+
                 }
                 other => residue.push(other.clone()),
             }
@@ -722,6 +159,557 @@ impl CifCategory for Vec<JournalRow> {
         (residue, errors)
     }
 }
+
+/// The `journal` loop-row struct. One `Option` field per registry column.
+#[derive(Debug, Clone, Default)]
+pub struct JournalRow {
+    pub coden_astm: Option<CharString>,
+    pub coden_cambridge: Option<CharString>,
+    pub coeditor_address: Option<CharString>,
+    pub coeditor_code: Option<CharString>,
+    pub coeditor_email: Option<CharString>,
+    pub coeditor_fax: Option<CharString>,
+    pub coeditor_name: Option<CharString>,
+    pub coeditor_notes: Option<CharString>,
+    pub coeditor_phone: Option<CharString>,
+    pub data_validation_number: Option<CharString>,
+    pub date_accepted: Option<CharString>,
+    pub date_from_coeditor: Option<CharString>,
+    pub date_printers_final: Option<CharString>,
+    pub date_printers_first: Option<CharString>,
+    pub date_proofs_in: Option<CharString>,
+    pub date_proofs_out: Option<CharString>,
+    pub date_recd_copyright: Option<CharString>,
+    pub date_recd_electronic: Option<CharString>,
+    pub date_recd_hard_copy: Option<CharString>,
+    pub date_to_coeditor: Option<CharString>,
+    pub issue: Option<CharString>,
+    pub language: Option<CharString>,
+    pub name_full: Option<CharString>,
+    pub page_first: Option<CharString>,
+    pub page_last: Option<CharString>,
+    pub paper_category: Option<CharString>,
+    pub paper_doi: Option<CharString>,
+    pub suppl_publ_number: Option<CharString>,
+    pub suppl_publ_pages: Option<CharString>,
+    pub techeditor_address: Option<CharString>,
+    pub techeditor_code: Option<CharString>,
+    pub techeditor_email: Option<CharString>,
+    pub techeditor_fax: Option<CharString>,
+    pub techeditor_name: Option<CharString>,
+    pub techeditor_notes: Option<CharString>,
+    pub techeditor_phone: Option<CharString>,
+    pub volume: Option<CharString>,
+    pub year: Option<CharString>,
+}
+
+fn rows_to_members(rows: &[JournalRow]) -> Vec<DataBlockMember> {
+    if rows.is_empty() {
+        return Vec::new();
+    }
+    let mut columns = Vec::new();
+    if rows.iter().any(|r| r.coden_astm.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coden_astm {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coden_astm".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coden_cambridge.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coden_cambridge {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coden_cambridge".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_address.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_address {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_address".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_code.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_code {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_code".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_email.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_email {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_email".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_fax.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_fax {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_fax".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_name.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_name {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_name".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_notes.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_notes {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_notes".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.coeditor_phone.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.coeditor_phone {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_coeditor_phone".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.data_validation_number.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.data_validation_number {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_data_validation_number".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_accepted.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_accepted {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_accepted".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_from_coeditor.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_from_coeditor {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_from_coeditor".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_printers_final.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_printers_final {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_printers_final".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_printers_first.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_printers_first {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_printers_first".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_proofs_in.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_proofs_in {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_proofs_in".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_proofs_out.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_proofs_out {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_proofs_out".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_recd_copyright.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_recd_copyright {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_recd_copyright".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_recd_electronic.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_recd_electronic {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_recd_electronic".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_recd_hard_copy.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_recd_hard_copy {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_recd_hard_copy".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.date_to_coeditor.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.date_to_coeditor {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_date_to_coeditor".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.issue.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.issue {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_issue".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.language.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.language {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_language".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.name_full.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.name_full {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_name_full".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.page_first.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.page_first {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_page_first".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.page_last.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.page_last {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_page_last".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.paper_category.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.paper_category {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_paper_category".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.paper_doi.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.paper_doi {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_paper_doi".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.suppl_publ_number.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.suppl_publ_number {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_suppl_publ_number".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.suppl_publ_pages.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.suppl_publ_pages {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_suppl_publ_pages".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_address.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_address {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_address".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_code.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_code {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_code".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_email.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_email {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_email".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_fax.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_fax {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_fax".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_name.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_name {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_name".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_notes.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_notes {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_notes".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.techeditor_phone.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.techeditor_phone {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_techeditor_phone".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.volume.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.volume {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_volume".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.year.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.year {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("journal_year".to_string()),
+            values,
+        ));
+    }
+    if columns.is_empty() {
+        return Vec::new();
+    }
+    vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        LoopColumns::new(columns),
+    ))]
+}
+
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<JournalRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
