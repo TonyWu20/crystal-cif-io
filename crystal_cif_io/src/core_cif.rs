@@ -54,7 +54,7 @@ use crate::data_dict::core_cif::exptl_crystal_face::ExptlCrystalFace;
 use crate::data_dict::core_cif::geom::Geom;
 use crate::data_dict::core_cif::geom_angle::GeomAngle;
 use crate::data_dict::core_cif::geom_bond::GeomBond;
-use crate::data_dict::core_cif::geom_contact::{GeomContact, GeomContactRow};
+use crate::data_dict::core_cif::geom_contact::GeomContact;
 use crate::data_dict::core_cif::geom_hbond::{GeomHbond, GeomHbondRow};
 use crate::data_dict::core_cif::geom_torsion::{GeomTorsion, GeomTorsionRow};
 use crate::data_dict::core_cif::journal::{Journal, JournalRow};
@@ -124,7 +124,6 @@ pub struct CoreCif {
     pub geom_angle: GeomAngle,
     pub geom_bond: GeomBond,
     pub geom_contact: GeomContact,
-    pub geom_contact_rows: Vec<GeomContactRow>,
     pub geom_hbond: GeomHbond,
     pub geom_hbond_rows: Vec<GeomHbondRow>,
     pub geom_torsion: GeomTorsion,
@@ -240,8 +239,6 @@ impl CoreCif {
         errors.extend(geom_bond_errors);
         let (residue, geom_contact_errors) = doc.geom_contact.from_members(&residue);
         errors.extend(geom_contact_errors);
-        let (residue, geom_contact_rows_errors) = doc.geom_contact_rows.from_members(&residue);
-        errors.extend(geom_contact_rows_errors);
         let (residue, geom_hbond_errors) = doc.geom_hbond.from_members(&residue);
         errors.extend(geom_hbond_errors);
         let (residue, geom_hbond_rows_errors) = doc.geom_hbond_rows.from_members(&residue);
@@ -412,7 +409,6 @@ impl CoreCif {
         members.extend(self.geom_angle.to_members());
         members.extend(self.geom_bond.to_members());
         members.extend(self.geom_contact.to_members());
-        members.extend(self.geom_contact_rows.to_members());
         members.extend(self.geom_hbond.to_members());
         members.extend(self.geom_hbond_rows.to_members());
         members.extend(self.geom_torsion.to_members());
