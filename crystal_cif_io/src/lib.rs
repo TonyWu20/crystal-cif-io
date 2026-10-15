@@ -10,7 +10,8 @@
 //! ```no_run
 //! use crystal_cif_io::parse_core_cif;
 //!
-//! let cifs = parse_core_cif("data_1\n_cell_length_a 7.0\n").expect("the file types");
+//! let doc = parse_core_cif("data_1\n_cell_length_a 7.0\n").expect("the file types");
+//! assert_eq!(doc.len(), 1);
 //! ```
 //!
 //! Add `crystal-cif-fmt` only for direct IR control: loop columns,
@@ -26,7 +27,8 @@ pub mod data_dict;
 
 /// The typed document layer (roadmap D12). The block view and its error.
 pub use core_cif::{
-    parse_core_cif, write_core_cif, BlockTypeFailure, CifError, CoreCif, CoreCifParseError,
+    parse_core_cif, write_core_cif, BlockTypeFailure, CifError, CoreCif, CoreCifDocument,
+    CoreCifParseError,
 };
 
 /// The wave 1 category structs (roadmap D12).
@@ -117,8 +119,9 @@ pub use data_dict::core_cif::{
 /// and write workflows name. Re-exported so those workflows stay
 /// inside this crate.
 pub use crystal_cif_fmt::{
-    parse_cif, CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, Matrix,
-    Number, Numeric, SaveFrame, SaveFrameHeading, UnquotedString, UnsignedInteger, Value,
+    parse_cif, CharString, CifDialect, CifDocument, Comments, DataBlock, DataBlockHeading,
+    DataBlockMember, Matrix, Number, Numeric, SaveFrame, SaveFrameHeading, UnquotedString,
+    UnsignedInteger, Value,
 };
 
 /// The `crystallographic-group` type the builders name. Re-exported

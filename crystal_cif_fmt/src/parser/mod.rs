@@ -41,7 +41,7 @@ use chumsky::{
 };
 
 use crate::grammar::{
-    CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
+    CharString, CifDocument, Comments, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
     DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns, Number, Numeric, SaveFrame,
     SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField,
     TripleDoubleQuotedString, TripleSingleQuotedString, UnquotedString, UnsignedInteger, Value,
@@ -1095,9 +1095,25 @@ fn data_block<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, DataBlo
 /// para. 33) and any other garbage fail the strict `end()`. The
 /// 1.1 magic-code line `##CIF_2.0` is an inert comment here; the
 /// 2.0 rules ride on the `dialect` flag.
+/// The leading white space and comment region of the file, held verbatim
+/// for the document-level writer hook. The region runs from the start of
+/// the file to the first content line. It is captured from the source the
+/// parser consumed, so it never diverges from the white space scan.
+fn head_region<'src>() -> impl Parser<'src, &'src str, Option<Comments>, Err<'src>> {
+    custom::<_, &'src str, Option<Comments>, Err<'src>>(move |inp| {
+        let full = inp.full_slice();
+        let consumed_chars = consume_ws(inp, true, false);
+        let region: String = full.chars().take(consumed_chars).collect();
+        Ok(if region.trim().is_empty() {
+            None
+        } else {
+            Some(Comments::new(region))
+        })
+    })
+}
+
 fn cif_file<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CifDocument, Err<'src>> {
-    ws_region(true)
-        .map(|_| ())
+    head_region()
         .then(
             data_block(dialect)
                 .separated_by(ws_region(false).map(|_| ()))
@@ -1105,7 +1121,7 @@ fn cif_file<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, CifDocume
         )
         .then(ws_region(false).map(|_| ()))
         .then(end())
-        .map(|((((), blocks), _tail), _end)| CifDocument::new(None, Some(blocks)))
+        .map(|(((comments, blocks), _tail), _end)| CifDocument::new(comments, Some(blocks)))
 }
 
 // --- post-parse semantic enrichment ----------------------------------------

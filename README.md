@@ -34,9 +34,9 @@ sections work on the typed view of `crystal-cif-io`. The
 value-layer sections at the end drop one level to the IR of
 `crystal-cif-fmt`.
 
-The snippets carry over across sections. `cifs` and `cif`
-come from the read step of section 2. The appendix letters
-carry over the `doc` of letter A. Every snippet compiles
+The snippets carry over across sections. `doc` comes from the
+read step of section 2. Each section re-derives its block from
+`doc`. The appendix letters carry over the `doc` of letter A. Every snippet compiles
 against the current crates.
 Parser and IR types live in `crystal-cif-fmt`. Dictionary and
 builder types live in `crystal-cif-io`. The `space_group_symop`
@@ -123,10 +123,11 @@ The builder errors name the item.
 ### 2. Reading a data block
 
 The typed layer reads a `.cif` file into plain structs.
-`parse_core_cif` is the read entry point. It returns one
-`CoreCif` per data block. The IR document and the per-block
-typing stay inside the call. `CoreCif` is the view. It carries
-the 62 categories of the standard dictionary view (roadmap D12i). The waves of roadmap
+`parse_core_cif` is the read entry point. It returns the typed
+document: one `CoreCif` per data block, plus the dialect and the
+leading comment lines. The IR document and the per-block typing
+stay inside the call. `CoreCif` is the view. It carries the 62
+categories of the standard dictionary view (roadmap D12i). The waves of roadmap
 D12j roll them out in tier order. The wave 1 groups type the
 cell, space group, formula, and atom_site items. The file's own
 items also type into the later-wave groups. Foreign tags and save frames stay in the
@@ -136,8 +137,8 @@ items also type into the later-wave groups. Foreign tags and save frames stay in
 use crystal_cif_io::parse_core_cif;
 
 let source = std::fs::read_to_string("1000000.cif").unwrap();
-let cifs = parse_core_cif(&source).expect("the file parses and types");
-let mut cif = cifs.into_iter().next().expect("the block is present");
+let mut doc = parse_core_cif(&source).expect("the file parses and types");
+let cif = doc.block("1000000").expect("the block is present");
 
 // The wave 1 categories hold the file's items.
 println!("{}", cif.cell.length_a.as_ref().expect("a length a"));
@@ -204,7 +205,9 @@ The three lines print `semi-empirical`, `constr`, and
 Edits are plain mutations on the struct. The fields are
 `Option<T>`. A `None` field writes nothing. The types reject
 out-of-range values. `validate` reports the required-item
-gaps.
+gaps. The edit borrows the block mutably through the document.
+The borrow ends at the close of the edit, so the document is
+free to write.
 
 ```rust
 use crystal_cif_io::{CharString, Numeric, UnquotedString};
@@ -215,6 +218,8 @@ use crystal_cif_io::data_dict::core_cif::refine::{MatrixType, NonNeg};
 fn unquoted(s: &str) -> CharString {
     CharString::Unquoted(UnquotedString::new(s.to_string()))
 }
+
+let cif = doc.block_mut("1000000").expect("the block is present");
 
 // A single-value item takes the value of its type.
 cif.chemical_formula.structural = cif.chemical_formula.sum.clone();
@@ -242,13 +247,15 @@ stay. The check reports the remaining state.
 
 ### 4. Writing the block back
 
-The write step is `cif.to_cif()`. It emits the typed
+The write step is `doc.to_cif()`. It emits the typed
 categories in a fixed order, then the `extra` residue. Save
-frames stay whole in the residue. `write_core_cif` writes a
-multi-block file. The pre-write check reports the gaps. It
-does not block the write.
+frames stay whole in the residue. The document keeps its
+comments and dialect. `write_core_cif` writes a slice of
+blocks not wrapped in a document. The pre-write check reports
+the gaps. It does not block the write.
 
 ```rust
+let cif = doc.block("1000000").expect("the block is present");
 match cif.validate() {
     Ok(()) => println!("the required sets are complete"),
     Err(gaps) => {
@@ -258,7 +265,7 @@ match cif.validate() {
     }
 }
 
-std::fs::write("1000000_out.cif", cif.to_cif()).unwrap();
+std::fs::write("1000000_out.cif", doc.to_cif()).unwrap();
 ```
 
 Save frames are residue too. A frame keeps its code and items
@@ -877,9 +884,11 @@ clamps to 0..180 on construction.
   re-exported at the crate root. The `SpaceGroup` type of
   `crystallographic-group` is re-exported under `group`. The
   read, edit, and write workflows stay inside this crate.
-- The typed parse entry `parse_core_cif` returns one `CoreCif` per
-  data block. The write step is `CoreCif::to_cif` for one block
-  and `write_core_cif` for a multi-block file.
+- The typed parse entry `parse_core_cif` returns the
+  `CoreCifDocument`: one `CoreCif` per data block, plus the
+  dialect and the leading comment lines. The write step is
+  `CoreCifDocument::to_cif` for the document and `CoreCif::to_cif`
+  for one block.
 - A typed block view (`crystal_cif_io::CoreCif`) over the 62
   standard dictionary categories (roadmap D12i). Read a data
   block into typed structs, `validate` the required sets, and

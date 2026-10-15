@@ -55,6 +55,11 @@ impl CifDocument {
         self.data_blocks.as_ref()
     }
 
+    /// The leading comment lines, when the document carries them.
+    pub fn comments(&self) -> &Option<Comments> {
+        &self.comments
+    }
+
     pub fn get_data_block_by_name(&self, data_block_name: &str) -> Option<&DataBlock> {
         self.data_blocks().map(|blocks| {
             blocks

@@ -8,7 +8,8 @@
 
 use crystal_cif_fmt::grammar::DataBlock;
 use crystal_cif_fmt::{
-    parse_cif, syntax_error_report, CifDocument, DataBlockHeading, DataBlockMember,
+    parse_cif, syntax_error_report, CifDialect, CifDocument, Comments, DataBlockHeading,
+    DataBlockMember,
 };
 
 use crate::data_dict::core_cif::atom_site::AtomSite;
@@ -657,8 +658,74 @@ pub enum CoreCifParseError {
     Typed { failures: Vec<BlockTypeFailure> },
 }
 
-/// The typed parse entry point. Parses the file text and returns one
-/// `CoreCif` per data block. The IR document and the per-block typing stay
+/// The typed document: one `CoreCif` per data block, plus the
+/// document-level metadata. The read entry point returns this, not a
+/// bare `Vec`.
+///
+/// The `dialect` and the leading `comments` record what the file said
+/// about itself. The `blocks` carry the typed categories in file
+/// order.
+#[derive(Debug, Clone)]
+pub struct CoreCifDocument {
+    /// The value-rule dialect detected from the file head.
+    pub dialect: CifDialect,
+    /// The leading comment lines, when the file carries them.
+    pub comments: Option<Comments>,
+    /// The typed data blocks, in file order.
+    pub blocks: Vec<CoreCif>,
+}
+
+impl CoreCifDocument {
+    /// The number of typed data blocks.
+    pub fn len(&self) -> usize {
+        self.blocks.len()
+    }
+
+    /// Whether the document carries no data blocks.
+    pub fn is_empty(&self) -> bool {
+        self.blocks.is_empty()
+    }
+
+    /// Look up a block by its heading name.
+    pub fn block(&self, name: &str) -> Option<&CoreCif> {
+        self.blocks.iter().find(|block| block.heading.name() == name)
+    }
+
+    /// Look up a block mutably by its heading name. The borrow of the
+    /// document lives as long as the returned reference.
+    pub fn block_mut(&mut self, name: &str) -> Option<&mut CoreCif> {
+        self.blocks.iter_mut().find(|block| block.heading.name() == name)
+    }
+
+    /// Write the document back to CIF text. The blocks keep their
+    /// recorded headings and the document keeps its comments. This is
+    /// the write step of the read-edit-write workflow.
+    pub fn to_cif(&self) -> String {
+        let document = CifDocument::new(
+            self.comments.clone(),
+            Some(self.blocks.iter().map(|block| block.to_block()).collect()),
+        );
+        document.to_string()
+    }
+
+    /// The IR document. The direct-control escape hatch.
+    pub fn to_document(&self) -> CifDocument {
+        CifDocument::new(
+            self.comments.clone(),
+            Some(self.blocks.iter().map(|block| block.to_block()).collect()),
+        )
+    }
+}
+
+impl std::fmt::Display for CoreCifDocument {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_cif())
+    }
+}
+
+/// The typed parse entry point. Parses the file text and returns the
+/// typed document: one `CoreCif` per data block, plus the dialect and
+/// the leading comments. The IR document and the per-block typing stay
 /// inside this call.
 ///
 /// # Errors
@@ -667,7 +734,8 @@ pub enum CoreCifParseError {
 /// render each syntax error with the source snippet. `CoreCifParseError::Typed`
 /// when one or more data blocks fail to type. Every failure is carried,
 /// never the first.
-pub fn parse_core_cif(source: &str) -> Result<Vec<CoreCif>, CoreCifParseError> {
+pub fn parse_core_cif(source: &str) -> Result<CoreCifDocument, CoreCifParseError> {
+    let dialect = CifDialect::detect(source);
     let document = match parse_cif(source) {
         Ok(document) => document,
         Err(errors) => {
@@ -692,7 +760,11 @@ pub fn parse_core_cif(source: &str) -> Result<Vec<CoreCif>, CoreCifParseError> {
         }
     }
     if failures.is_empty() {
-        Ok(blocks)
+        Ok(CoreCifDocument {
+            dialect,
+            comments: document.comments().clone(),
+            blocks,
+        })
     } else {
         Err(CoreCifParseError::Typed { failures })
     }
