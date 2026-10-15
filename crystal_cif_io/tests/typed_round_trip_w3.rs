@@ -175,9 +175,9 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     );
     s += &format!(
         "geom_hbond[rows={} dha={} flag={}]\n",
-        doc.geom_hbond_rows.len(),
-        num_of(doc.geom_hbond_rows.first().and_then(|r| r.angle_dha)),
-        doc.geom_hbond_rows
+        doc.geom_hbond.rows.len(),
+        num_of(doc.geom_hbond.rows.first().and_then(|r| r.angle_dha)),
+        doc.geom_hbond.rows
             .first()
             .and_then(|r| r.publ_flag)
             .map(|f| f.to_string())
@@ -223,7 +223,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
         !doc.geom_angle.rows.is_empty()
             && !doc.geom_bond.rows.is_empty()
             && !doc.geom_contact.rows.is_empty()
-            && !doc.geom_hbond_rows.is_empty()
+            && !doc.geom_hbond.rows.is_empty()
             && !doc.geom_torsion_rows.is_empty(),
         "the geom special-list loops type"
     );
@@ -272,7 +272,7 @@ fn the_cod_entry_round_trips_the_t3_categories() {
     assert!(
         !doc.geom_bond.rows.is_empty()
             && !doc.geom_angle.rows.is_empty()
-            && !doc.geom_hbond_rows.is_empty(),
+            && !doc.geom_hbond.rows.is_empty(),
         "the geom special-list loops type"
     );
     assert!(
