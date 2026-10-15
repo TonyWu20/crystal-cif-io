@@ -61,6 +61,7 @@ const RESERVED_TYPE_NAMES: &[&str] = &[
 ];
 
 fn main() -> ExitCode {
+    let no_write = std::env::args().any(|a| a == "--no-write");
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let inventory = load_json(&manifest.join("tests/dict_inventory.json"));
     // The T6 dual-inventory step: when the shell inventory is
@@ -91,7 +92,10 @@ fn main() -> ExitCode {
         println!("dict_codegen warning: {w}");
     }
 
-    let report = emit(&manifest, &inventory, shell.as_ref(), &annotations, &drift);
+    let report = emit(&manifest, &inventory, shell.as_ref(), &annotations, &drift, no_write);
+    if no_write {
+        println!("dict_codegen: --no-write check mode, no files written");
+    }
     for line in &report {
         println!("{line}");
     }
@@ -378,6 +382,7 @@ fn emit(
     shell: Option<&Value>,
     annotations: &Value,
     drift: &Value,
+    no_write: bool,
 ) -> Vec<String> {
     let mut errors = Vec::new();
     let cats = ann_categories(annotations, &mut errors);
@@ -402,14 +407,14 @@ fn emit(
 
     let mut report = Vec::new();
     for plan in &plans {
-        write_category(manifest, plan, &mut report);
+        write_category(manifest, plan, &mut report, no_write);
     }
 
     let core_cif_mod = manifest.join("src/data_dict/core_cif/mod.rs");
     let ann_cats: Vec<String> = plans.iter().map(|p| p.cat.clone()).collect();
-    update_core_cif_mod(&core_cif_mod, &ann_cats, &mut report);
+    update_core_cif_mod(&core_cif_mod, &ann_cats, &mut report, no_write);
     let tags = manifest.join("src/data_dict/tags.rs");
-    update_tags_registry(&tags, &cats, &items, &drift, &mut report);
+    update_tags_registry(&tags, &cats, &items, &drift, &mut report, no_write);
     report
 }
 
@@ -520,9 +525,16 @@ fn plan_category(
 }
 
 /// Write one category's module and type files.
-fn write_category(manifest: &Path, plan: &CatPlan, report: &mut Vec<String>) {
+fn write_category(
+    manifest: &Path,
+    plan: &CatPlan,
+    report: &mut Vec<String>,
+    no_write: bool,
+) {
     let dir = manifest.join("src/data_dict/core_cif").join(&plan.cat);
-    fs::create_dir_all(&dir).expect("create category directory");
+    if !no_write {
+        fs::create_dir_all(&dir).expect("create category directory");
+    }
 
     for t in &plan.types {
         let path = dir.join(format!("{}.rs", t.file));
@@ -531,20 +543,27 @@ fn write_category(manifest: &Path, plan: &CatPlan, report: &mut Vec<String>) {
         } else {
             emit_range(plan, t)
         };
-        write_if_changed(&path, &body, report);
+        write_if_changed(&path, &body, report, no_write);
     }
 
     let mod_path = dir.join("mod.rs");
     let body = emit_mod(plan);
-    write_if_changed(&mod_path, &body, report);
+    write_if_changed(&mod_path, &body, report, no_write);
 }
 
-fn write_if_changed(path: &Path, body: &str, report: &mut Vec<String>) {
+fn write_if_changed(
+    path: &Path,
+    body: &str,
+    report: &mut Vec<String>,
+    no_write: bool,
+) {
     let same = fs::read_to_string(path)
         .map(|old| old == body)
         .unwrap_or(false);
     if same {
         report.push(format!("unchanged {}", path.display()));
+    } else if no_write {
+        report.push(format!("would-write {}", path.display()));
     } else {
         fs::write(path, body).expect("write generated file");
         report.push(format!("wrote {}", path.display()));
@@ -1268,36 +1287,68 @@ fn union_items(shell: Option<&Value>, standard: &[Item], errors: &mut Vec<String
 /// Insert the missing `pub mod` lines, in sorted position. The
 /// existing lines are kept verbatim; the file must hold only `pub
 /// mod` lines or the run aborts.
-fn update_core_cif_mod(path: &Path, cats: &[String], report: &mut Vec<String>) {
+/// A line that declares a module: `pub mod name;`
+fn is_pub_mod(line: &str) -> Option<String> {
+    line.trim()
+        .strip_prefix("pub mod ")
+        .and_then(|rest| rest.strip_suffix(';'))
+        .map(|n| n.to_string())
+}
+
+/// Add the missing `pub mod` lines to `core_cif/mod.rs` without touching
+/// any other line. The file also carries the typed document layer (the
+/// `CifCategory` trait block, the `convert` module, the imports). Those
+/// lines are preserved as-is. When nothing is missing the file is
+/// reported unchanged and not rewritten.
+fn update_core_cif_mod(
+    path: &Path,
+    cats: &[String],
+    report: &mut Vec<String>,
+    no_write: bool,
+) {
     let raw = fs::read_to_string(path).expect("read core_cif/mod.rs");
-    let mut known: BTreeSet<String> = BTreeSet::new();
-    for line in raw.lines().map(|l| l.trim()).filter(|l| !l.is_empty()) {
-        let Some(name) = line
-            .strip_prefix("pub mod ")
-            .and_then(|rest| rest.strip_suffix(';'))
-        else {
-            eprintln!(
-                "dict_codegen: unexpected line in {}: `{line}`",
-                path.display()
-            );
-            process::abort();
-        };
-        known.insert(name.to_string());
+    let lines: Vec<String> = raw.lines().map(|l| l.to_string()).collect();
+    let mut existing: BTreeSet<String> = BTreeSet::new();
+    for l in &lines {
+        if let Some(n) = is_pub_mod(l) {
+            existing.insert(n);
+        }
     }
-    let existing = known.len();
-    for c in cats {
-        known.insert(c.clone());
+    let mut missing: Vec<&String> = cats.iter().filter(|c| !existing.contains(*c)).collect();
+    if missing.is_empty() {
+        report.push(format!("unchanged {}", path.display()));
+        return;
     }
-    let new_raw: String = known.iter().map(|c| format!("pub mod {c};\n")).collect();
-    if new_raw != raw {
-        fs::write(path, &new_raw).expect("write core_cif/mod.rs");
-        let added = known.len() - existing;
+    missing.sort();
+    // Insert at the end of the leading run of `pub mod` / blank lines, so the
+    // module declarations stay grouped above the layer block.
+    let mut insert_at = 0;
+    while insert_at < lines.len() {
+        if is_pub_mod(&lines[insert_at]).is_some() || lines[insert_at].trim().is_empty() {
+            insert_at += 1;
+        } else {
+            break;
+        }
+    }
+    let mut new_lines = lines.clone();
+    for c in &missing {
+        new_lines.insert(insert_at, format!("pub mod {c};"));
+        insert_at += 1;
+    }
+    let new_raw = new_lines.join("\n") + "\n";
+    if no_write {
         report.push(format!(
-            "updated {} (+{added} pub mod lines)",
-            path.display()
+            "would-update {} (+{} pub mod lines)",
+            path.display(),
+            missing.len()
         ));
     } else {
-        report.push(format!("unchanged {}", path.display()));
+        fs::write(path, &new_raw).expect("write core_cif/mod.rs");
+        report.push(format!(
+            "updated {} (+{} pub mod lines)",
+            path.display(),
+            missing.len()
+        ));
     }
 }
 
@@ -1310,6 +1361,7 @@ fn update_tags_registry(
     items: &[Item],
     drift: &Value,
     report: &mut Vec<String>,
+    no_write: bool,
 ) {
     let raw = fs::read_to_string(path).expect("read tags.rs");
     let lines: Vec<&str> = raw.lines().collect();
@@ -1353,11 +1405,13 @@ fn update_tags_registry(
             }
             if !trimmed.is_empty() && !trimmed.starts_with('"') && !trimmed.starts_with("pub const")
             {
-                eprintln!(
-                    "dict_codegen: unexpected line in {}: `{trimmed}`",
+                // The registry carries content the parser does not model.
+                // Preserve it as-is rather than clobber the file.
+                report.push(format!(
+                    "skipped {} (unexpected content, preserved as-is)",
                     path.display()
-                );
-                process::abort();
+                ));
+                return;
             }
             i += 1;
         }
@@ -1381,12 +1435,12 @@ fn update_tags_registry(
         .get(i)
         .is_some_and(|l| l.starts_with("/// All implemented tags"))
     {
-        eprintln!(
-            "dict_codegen: unexpected content at line {} of {}",
-            i + 1,
+        // The tail is not the expected `ALL` block. Preserve the file as-is.
+        report.push(format!(
+            "skipped {} (unexpected tail, preserved as-is)",
             path.display()
-        );
-        process::abort();
+        ));
+        return;
     }
 
     for cat in cats.keys() {
@@ -1463,14 +1517,20 @@ fn update_tags_registry(
     out.push_str("            ALL.iter().collect::<std::collections::HashSet<_>>().len()\n");
     out.push_str("        );\n    }\n}\n");
 
-    if out != raw {
+    if out == raw {
+        report.push(format!("unchanged {}", path.display()));
+    } else if no_write {
+        report.push(format!(
+            "would-update {} ({} categories, {total} tags in ALL)",
+            path.display(),
+            sections.len()
+        ));
+    } else {
         fs::write(path, &out).expect("write tags.rs");
         report.push(format!(
             "updated {} ({} categories, {total} tags in ALL)",
             path.display(),
             sections.len()
         ));
-    } else {
-        report.push(format!("unchanged {}", path.display()));
     }
 }
