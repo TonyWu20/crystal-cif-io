@@ -24,7 +24,7 @@ use crate::data_dict::core_cif::cell::Cell;
 use crate::data_dict::core_cif::cell_measurement_refln::CellMeasurementRefln;
 use crate::data_dict::core_cif::chemical::Chemical;
 use crate::data_dict::core_cif::chemical_conn_atom::ChemicalConnAtomRow;
-use crate::data_dict::core_cif::chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow};
+use crate::data_dict::core_cif::chemical_conn_bond::ChemicalConnBond;
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
 use crate::data_dict::core_cif::citation::{Citation, CitationRow};
 use crate::data_dict::core_cif::citation_author::CitationAuthor;
@@ -120,7 +120,6 @@ pub struct CoreCif {
     pub chemical: Chemical,
     pub chemical_conn_atom: Vec<ChemicalConnAtomRow>,
     pub chemical_conn_bond: ChemicalConnBond,
-    pub chemical_conn_bond_rows: Vec<ChemicalConnBondRow>,
     pub geom: Geom,
     pub geom_angle: GeomAngle,
     pub geom_angle_rows: Vec<GeomAngleRow>,
@@ -235,8 +234,6 @@ impl CoreCif {
         errors.extend(conn_atom_errors);
         let (residue, conn_bond_errors) = doc.chemical_conn_bond.from_members(&residue);
         errors.extend(conn_bond_errors);
-        let (residue, conn_bond_rows_errors) = doc.chemical_conn_bond_rows.from_members(&residue);
-        errors.extend(conn_bond_rows_errors);
         let (residue, geom_errors) = doc.geom.from_members(&residue);
         errors.extend(geom_errors);
         let (residue, geom_angle_errors) = doc.geom_angle.from_members(&residue);
@@ -417,7 +414,6 @@ impl CoreCif {
         members.extend(self.chemical.to_members());
         members.extend(self.chemical_conn_atom.to_members());
         members.extend(self.chemical_conn_bond.to_members());
-        members.extend(self.chemical_conn_bond_rows.to_members());
         members.extend(self.geom.to_members());
         members.extend(self.geom_angle.to_members());
         members.extend(self.geom_angle_rows.to_members());

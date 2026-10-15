@@ -129,8 +129,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     );
     s += &format!(
         "conn_bond[rows={} type={} dist={}]\n",
-        doc.chemical_conn_bond_rows.len(),
-        doc.chemical_conn_bond_rows
+        doc.chemical_conn_bond.rows.len(),
+        doc.chemical_conn_bond.rows
             .first()
             .and_then(|r| r.r#type)
             .map(|t| t.to_string())
@@ -216,7 +216,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
         "the chemical_conn_atom loop types"
     );
     assert!(
-        !doc.chemical_conn_bond_rows.is_empty(),
+        !doc.chemical_conn_bond.rows.is_empty(),
         "the chemical_conn_bond loop types"
     );
     assert!(
