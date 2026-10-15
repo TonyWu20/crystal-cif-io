@@ -1,7 +1,7 @@
 //! The `geom_angle` category of the typed document layer (roadmap D12).
 //!
-//! The `GeomAngle` single-value struct (the T6 shell items) and
-//! the `GeomAngleRow` loop row of the angle special list.
+//! The `GeomAngle` struct owns the single-value items (the T6 shell
+//! items) and the loop rows (`rows`, the angle special list).
 
 use crate::core_cif::CifError;
 use crate::data_dict::core_cif::geom_angle::PublFlag;
@@ -12,7 +12,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 #[derive(Debug, Clone, Default)]
 pub struct GeomAngle {
     pub distances: Option<Vec<Numeric>>,
-    pub id: Option<CharString>,
+    pub id: Option<CharString>,    pub rows: Vec<GeomAngleRow>,
+
 }
 
 impl CifCategory for GeomAngle {
@@ -34,6 +35,7 @@ impl CifCategory for GeomAngle {
                 )),
             )));
         }
+        out.extend(rows_to_members(&self.rows));
         out
     }
 
@@ -44,24 +46,36 @@ impl CifCategory for GeomAngle {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
-            if let DataBlockMember::DataItems(DataItems::SingleValue(sv)) = m {
-                let tag = sv.tag().as_ref().to_lowercase();
-                let value = sv.value();
-                match tag.as_str() {
-                    "geom_angle_distances" => {
-                        match convert::read_numeric_list("geom_angle_distances", value) {
-                            Ok(v) => self.distances = v,
-                            Err(e) => errors.push(e),
+            match m {
+                DataBlockMember::DataItems(DataItems::SingleValue(sv)) => {
+                    let tag = sv.tag().as_ref().to_lowercase();
+                    let value = sv.value();
+                    match tag.as_str() {
+                        "geom_angle_distances" => {
+                            match convert::read_numeric_list("geom_angle_distances", value) {
+                                Ok(v) => self.distances = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
+                        "geom_angle_id" => match convert::read_char("geom_angle_id", value) {
+                            Ok(v) => self.id = v,
+                            Err(e) => errors.push(e),
+                        },
+                        _ => residue.push(m.clone()),
                     }
-                    "geom_angle_id" => match convert::read_char("geom_angle_id", value) {
-                        Ok(v) => self.id = v,
-                        Err(e) => errors.push(e),
-                    },
-                    _ => residue.push(m.clone()),
                 }
-            } else {
-                residue.push(m.clone());
+                DataBlockMember::DataItems(DataItems::MultiValues(cols)) => {
+                    let cols = cols.columns();
+                    let is_ours = cols
+                        .iter()
+                        .any(|c| LOOP_TAGS.contains(&c.tag().as_ref().to_lowercase().as_str()));
+                    if is_ours {
+                        self.rows = rows_from_columns(cols, &mut errors);
+                    } else {
+                        residue.push(m.clone());
+                    }
+                }
+                other => residue.push(other.clone()),
             }
         }
         (residue, errors)
@@ -93,146 +107,120 @@ const LOOP_TAGS: &[&str] = &[
     "geom_angle_site_symmetry_3",
 ];
 
-impl CifCategory for Vec<GeomAngleRow> {
-    fn to_members(&self) -> Vec<DataBlockMember> {
-        if self.is_empty() {
-            return Vec::new();
-        }
-        let mut columns = Vec::new();
-        if self.iter().any(|r| r.angle.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.angle {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(Tag::new("geom_angle".to_string()), values));
-        }
-        if self.iter().any(|r| r.atom_site_label_1.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.atom_site_label_1 {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_atom_site_label_1".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.atom_site_label_2.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.atom_site_label_2 {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_atom_site_label_2".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.atom_site_label_3.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.atom_site_label_3 {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_atom_site_label_3".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.publ_flag.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.publ_flag {
-                    Some(v) => Value::from(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_publ_flag".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.site_symmetry_1.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.site_symmetry_1 {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_site_symmetry_1".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.site_symmetry_2.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.site_symmetry_2 {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_site_symmetry_2".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.site_symmetry_3.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.site_symmetry_3 {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("geom_angle_site_symmetry_3".to_string()),
-                values,
-            ));
-        }
-        if columns.is_empty() {
-            return Vec::new();
-        }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(
-            LoopColumns::new(columns),
-        ))]
+fn rows_to_members(rows: &[GeomAngleRow]) -> Vec<DataBlockMember> {
+    if rows.is_empty() {
+        return Vec::new();
     }
-
-    fn from_members(
-        &mut self,
-        members: &[DataBlockMember],
-    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
-        let mut residue = Vec::new();
-        let mut errors = Vec::new();
-        for m in members {
-            match m {
-                DataBlockMember::DataItems(DataItems::MultiValues(cols)) => {
-                    let cols = cols.columns();
-                    let is_ours = cols
-                        .iter()
-                        .any(|c| LOOP_TAGS.contains(&c.tag().as_ref().to_lowercase().as_str()));
-                    if !is_ours {
-                        residue.push(m.clone());
-                    } else {
-                        *self = rows_from_columns(cols, &mut errors);
-                    }
-                }
-                other => residue.push(other.clone()),
-            }
-        }
-        (residue, errors)
+    let mut columns = Vec::new();
+    if rows.iter().any(|r| r.angle.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.angle {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(Tag::new("geom_angle".to_string()), values));
     }
+    if rows.iter().any(|r| r.atom_site_label_1.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.atom_site_label_1 {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_atom_site_label_1".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.atom_site_label_2.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.atom_site_label_2 {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_atom_site_label_2".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.atom_site_label_3.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.atom_site_label_3 {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_atom_site_label_3".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.publ_flag.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.publ_flag {
+                Some(v) => Value::from(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_publ_flag".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.site_symmetry_1.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.site_symmetry_1 {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_site_symmetry_1".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.site_symmetry_2.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.site_symmetry_2 {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_site_symmetry_2".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.site_symmetry_3.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.site_symmetry_3 {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("geom_angle_site_symmetry_3".to_string()),
+            values,
+        ));
+    }
+    if columns.is_empty() {
+        return Vec::new();
+    }
+    vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        LoopColumns::new(columns),
+    ))]
 }
+
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<GeomAngleRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

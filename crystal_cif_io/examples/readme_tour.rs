@@ -49,7 +49,7 @@ fn main() {
         row.atom_site_label_2 = Some(unquoted("Al1"));
         row.atom_site_label_3 = Some(unquoted("P2"));
         row.angle = Some(Numeric::from(51.2));
-        cif.geom_angle_rows.push(row);
+        cif.geom_angle.rows.push(row);
     }
 
     // 4. Writing the block back: the document write step

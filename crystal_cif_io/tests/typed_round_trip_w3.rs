@@ -144,9 +144,9 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     );
     s += &format!(
         "geom_angle[rows={} angle={} flag={}]\n",
-        doc.geom_angle_rows.len(),
-        num_of(doc.geom_angle_rows.first().and_then(|r| r.angle)),
-        doc.geom_angle_rows
+        doc.geom_angle.rows.len(),
+        num_of(doc.geom_angle.rows.first().and_then(|r| r.angle)),
+        doc.geom_angle.rows
             .first()
             .and_then(|r| r.publ_flag)
             .map(|f| f.to_string())
@@ -220,7 +220,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
         "the chemical_conn_bond loop types"
     );
     assert!(
-        !doc.geom_angle_rows.is_empty()
+        !doc.geom_angle.rows.is_empty()
             && !doc.geom_bond_rows.is_empty()
             && !doc.geom_contact_rows.is_empty()
             && !doc.geom_hbond_rows.is_empty()
@@ -271,7 +271,7 @@ fn the_cod_entry_round_trips_the_t3_categories() {
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
     assert!(
         !doc.geom_bond_rows.is_empty()
-            && !doc.geom_angle_rows.is_empty()
+            && !doc.geom_angle.rows.is_empty()
             && !doc.geom_hbond_rows.is_empty(),
         "the geom special-list loops type"
     );
