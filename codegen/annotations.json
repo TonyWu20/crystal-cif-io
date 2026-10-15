@@ -464,7 +464,8 @@
           "QI",
           "QM",
           "QO",
-          "SC"
+          "SC",
+          "TE"
         ]
       },
       "requested_coeditor_name": {
@@ -944,7 +945,9 @@
       "determination": {
         "type": "closed",
         "values": [
-          "fundamental"
+          "fundamental",
+          "estimated",
+          "refined"
         ],
         "note": "closed code set recorded in the dictionary _enumeration"
       },
