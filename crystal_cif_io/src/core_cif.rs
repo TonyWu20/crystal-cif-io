@@ -16,8 +16,8 @@ use crate::data_dict::core_cif::atom_site::AtomSite;
 use crate::data_dict::core_cif::atom_sites::AtomSites;
 use crate::data_dict::core_cif::atom_type::AtomType;
 use crate::data_dict::core_cif::audit::Audit;
-use crate::data_dict::core_cif::audit_author::{AuditAuthor, AuditAuthorRow};
-use crate::data_dict::core_cif::audit_conform::{AuditConform, AuditConformRow};
+use crate::data_dict::core_cif::audit_author::AuditAuthor;
+use crate::data_dict::core_cif::audit_conform::AuditConform;
 use crate::data_dict::core_cif::audit_contact_author::AuditContactAuthor;
 use crate::data_dict::core_cif::audit_link::AuditLink;
 use crate::data_dict::core_cif::cell::Cell;
@@ -26,10 +26,10 @@ use crate::data_dict::core_cif::chemical::Chemical;
 use crate::data_dict::core_cif::chemical_conn_atom::ChemicalConnAtomRow;
 use crate::data_dict::core_cif::chemical_conn_bond::ChemicalConnBond;
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
-use crate::data_dict::core_cif::citation::{Citation, CitationRow};
+use crate::data_dict::core_cif::citation::Citation;
 use crate::data_dict::core_cif::citation_author::CitationAuthor;
-use crate::data_dict::core_cif::citation_editor::{CitationEditor, CitationEditorRow};
-use crate::data_dict::core_cif::computing::{Computing, ComputingRow};
+use crate::data_dict::core_cif::citation_editor::CitationEditor;
+use crate::data_dict::core_cif::computing::Computing;
 use crate::data_dict::core_cif::database::{Database, DatabaseRow};
 use crate::data_dict::core_cif::diffrn::Diffrn;
 use crate::data_dict::core_cif::diffrn_attenuator::DiffrnAttenuator;
@@ -146,18 +146,13 @@ pub struct CoreCif {
     // T4 wave: the tier T4 (metadata and publication) category fields.
     pub audit: Audit,
     pub audit_author: AuditAuthor,
-    pub audit_author_rows: Vec<AuditAuthorRow>,
     pub audit_conform: AuditConform,
-    pub audit_conform_rows: Vec<AuditConformRow>,
     pub audit_contact_author: AuditContactAuthor,
     pub audit_link: Vec<AuditLink>,
     pub citation: Citation,
-    pub citation_rows: Vec<CitationRow>,
     pub citation_author: Vec<CitationAuthor>,
     pub citation_editor: CitationEditor,
-    pub citation_editor_rows: Vec<CitationEditorRow>,
     pub computing: Computing,
-    pub computing_rows: Vec<ComputingRow>,
     pub database: Database,
     pub database_rows: Vec<DatabaseRow>,
     pub journal: Journal,
@@ -280,12 +275,8 @@ impl CoreCif {
         errors.extend(audit_errors);
         let (residue, audit_author_errors) = doc.audit_author.from_members(&residue);
         errors.extend(audit_author_errors);
-        let (residue, audit_author_rows_errors) = doc.audit_author_rows.from_members(&residue);
-        errors.extend(audit_author_rows_errors);
         let (residue, audit_conform_errors) = doc.audit_conform.from_members(&residue);
         errors.extend(audit_conform_errors);
-        let (residue, audit_conform_rows_errors) = doc.audit_conform_rows.from_members(&residue);
-        errors.extend(audit_conform_rows_errors);
         let (residue, audit_contact_author_errors) =
             doc.audit_contact_author.from_members(&residue);
         errors.extend(audit_contact_author_errors);
@@ -293,19 +284,12 @@ impl CoreCif {
         errors.extend(audit_link_errors);
         let (residue, citation_errors) = doc.citation.from_members(&residue);
         errors.extend(citation_errors);
-        let (residue, citation_rows_errors) = doc.citation_rows.from_members(&residue);
-        errors.extend(citation_rows_errors);
         let (residue, citation_author_errors) = doc.citation_author.from_members(&residue);
         errors.extend(citation_author_errors);
         let (residue, citation_editor_errors) = doc.citation_editor.from_members(&residue);
         errors.extend(citation_editor_errors);
-        let (residue, citation_editor_rows_errors) =
-            doc.citation_editor_rows.from_members(&residue);
-        errors.extend(citation_editor_rows_errors);
         let (residue, computing_errors) = doc.computing.from_members(&residue);
         errors.extend(computing_errors);
-        let (residue, computing_rows_errors) = doc.computing_rows.from_members(&residue);
-        errors.extend(computing_rows_errors);
         let (residue, database_errors) = doc.database.from_members(&residue);
         errors.extend(database_errors);
         let (residue, database_rows_errors) = doc.database_rows.from_members(&residue);
@@ -408,18 +392,13 @@ impl CoreCif {
         // T4 wave: the tier T4 field blocks, then the extra residue.
         members.extend(self.audit.to_members());
         members.extend(self.audit_author.to_members());
-        members.extend(self.audit_author_rows.to_members());
         members.extend(self.audit_conform.to_members());
-        members.extend(self.audit_conform_rows.to_members());
         members.extend(self.audit_contact_author.to_members());
         members.extend(self.audit_link.to_members());
         members.extend(self.citation.to_members());
-        members.extend(self.citation_rows.to_members());
         members.extend(self.citation_author.to_members());
         members.extend(self.citation_editor.to_members());
-        members.extend(self.citation_editor_rows.to_members());
         members.extend(self.computing.to_members());
-        members.extend(self.computing_rows.to_members());
         members.extend(self.database.to_members());
         members.extend(self.database_rows.to_members());
         members.extend(self.journal.to_members());
