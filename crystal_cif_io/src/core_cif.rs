@@ -40,13 +40,11 @@ use crate::data_dict::core_cif::diffrn_orient_refln::DiffrnOrientRefln;
 use crate::data_dict::core_cif::diffrn_radiation::DiffrnRadiation;
 use crate::data_dict::core_cif::diffrn_radiation_wavelength::DiffrnRadiationWavelengthRow;
 use crate::data_dict::core_cif::diffrn_refln::DiffrnRefln;
-use crate::data_dict::core_cif::diffrn_reflns::{DiffrnReflns, DiffrnReflnsRow};
+use crate::data_dict::core_cif::diffrn_reflns::DiffrnReflns;
 use crate::data_dict::core_cif::diffrn_reflns_class::DiffrnReflnsClass;
 use crate::data_dict::core_cif::diffrn_scale_group::DiffrnScaleGroup;
 use crate::data_dict::core_cif::diffrn_source::DiffrnSource;
-use crate::data_dict::core_cif::diffrn_standard_refln::{
-    DiffrnStandardRefln, DiffrnStandardReflnRow,
-};
+use crate::data_dict::core_cif::diffrn_standard_refln::DiffrnStandardRefln;
 use crate::data_dict::core_cif::diffrn_standards::DiffrnStandards;
 use crate::data_dict::core_cif::exptl::Exptl;
 use crate::data_dict::core_cif::exptl_crystal::ExptlCrystal;
@@ -140,12 +138,10 @@ pub struct CoreCif {
     pub diffrn_radiation_wavelength: Vec<DiffrnRadiationWavelengthRow>,
     pub diffrn_refln: Vec<DiffrnRefln>,
     pub diffrn_reflns: DiffrnReflns,
-    pub diffrn_reflns_rows: Vec<DiffrnReflnsRow>,
     pub diffrn_reflns_class: Vec<DiffrnReflnsClass>,
     pub diffrn_scale_group: Vec<DiffrnScaleGroup>,
     pub diffrn_source: DiffrnSource,
     pub diffrn_standard_refln: DiffrnStandardRefln,
-    pub diffrn_standard_refln_rows: Vec<DiffrnStandardReflnRow>,
     pub diffrn_standards: DiffrnStandards,
     // T4 wave: the tier T4 (metadata and publication) category fields.
     pub audit: Audit,
@@ -268,8 +264,6 @@ impl CoreCif {
         errors.extend(diffrn_refln_errors);
         let (residue, diffrn_reflns_errors) = doc.diffrn_reflns.from_members(&residue);
         errors.extend(diffrn_reflns_errors);
-        let (residue, diffrn_reflns_rows_errors) = doc.diffrn_reflns_rows.from_members(&residue);
-        errors.extend(diffrn_reflns_rows_errors);
         let (residue, diffrn_reflns_class_errors) = doc.diffrn_reflns_class.from_members(&residue);
         errors.extend(diffrn_reflns_class_errors);
         let (residue, diffrn_scale_group_errors) = doc.diffrn_scale_group.from_members(&residue);
@@ -279,9 +273,6 @@ impl CoreCif {
         let (residue, diffrn_standard_refln_errors) =
             doc.diffrn_standard_refln.from_members(&residue);
         errors.extend(diffrn_standard_refln_errors);
-        let (residue, diffrn_standard_refln_rows_errors) =
-            doc.diffrn_standard_refln_rows.from_members(&residue);
-        errors.extend(diffrn_standard_refln_rows_errors);
         let (residue, diffrn_standards_errors) = doc.diffrn_standards.from_members(&residue);
         errors.extend(diffrn_standards_errors);
         // T4 wave: the tier T4 categories consume the residue in turn.
@@ -409,12 +400,10 @@ impl CoreCif {
         members.extend(self.diffrn_radiation_wavelength.to_members());
         members.extend(self.diffrn_refln.to_members());
         members.extend(self.diffrn_reflns.to_members());
-        members.extend(self.diffrn_reflns_rows.to_members());
         members.extend(self.diffrn_reflns_class.to_members());
         members.extend(self.diffrn_scale_group.to_members());
         members.extend(self.diffrn_source.to_members());
         members.extend(self.diffrn_standard_refln.to_members());
-        members.extend(self.diffrn_standard_refln_rows.to_members());
         members.extend(self.diffrn_standards.to_members());
         // T4 wave: the tier T4 field blocks, then the extra residue.
         members.extend(self.audit.to_members());

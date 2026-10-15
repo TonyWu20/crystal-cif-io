@@ -1,8 +1,8 @@
 //! The `diffrn_standard_refln` category of the typed document layer (roadmap D12, tier T5).
 //!
-//! The single-value struct `DiffrnStandardRefln` and the loop-row struct
-//! `DiffrnStandardReflnRow`. `CifCategory` is on each group: the row group
-//! emits one `MultiValues` loop and fills the rows from the columns.
+//! The `DiffrnStandardRefln` struct owns the single-value items and the loop
+//! rows (`rows`). One `CifCategory` impl: the scalar items, then
+//! the `MultiValues` loop of the `DiffrnStandardReflnRow` columns.
 
 use crate::core_cif::CifError;
 use crate::data_dict::core_cif::{convert, CifCategory};
@@ -12,6 +12,7 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 #[derive(Debug, Clone, Default)]
 pub struct DiffrnStandardRefln {
     pub code: Option<CharString>,
+    pub rows: Vec<DiffrnStandardReflnRow>,
 }
 impl CifCategory for DiffrnStandardRefln {
     fn to_members(&self) -> Vec<DataBlockMember> {
@@ -24,6 +25,7 @@ impl CifCategory for DiffrnStandardRefln {
                 )),
             )));
         }
+        out.extend(rows_to_members(&self.rows));
         out
     }
     fn from_members(
@@ -33,20 +35,40 @@ impl CifCategory for DiffrnStandardRefln {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
-            if let DataBlockMember::DataItems(DataItems::SingleValue(sv)) = m {
-                let tag = sv.tag().as_ref().to_lowercase();
-                let value = sv.value();
-                match tag.as_str() {
-                    "diffrn_standard_refln_code" => {
-                        match convert::read_char("diffrn_standard_refln_code", value) {
-                            Ok(v) => self.code = v,
-                            Err(e) => errors.push(e),
+            match m {
+                DataBlockMember::DataItems(DataItems::SingleValue(sv)) => {
+                    let tag = sv.tag().as_ref().to_lowercase();
+                    let value = sv.value();
+                    match tag.as_str() {
+                        "diffrn_standard_refln_code" => {
+                            match convert::read_char("diffrn_standard_refln_code", value) {
+                                Ok(v) => self.code = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
+                        _ => residue.push(m.clone()),
                     }
-                    _ => residue.push(m.clone()),
                 }
-            } else {
-                residue.push(m.clone());
+                DataBlockMember::DataItems(DataItems::MultiValues(cols)) => {
+                    let cols = cols.columns();
+                    // A loop is this category only when it carries one of its
+                    // own loop column tags. A loop without our tags stays in
+                    // the residue instead of overwriting the rows.
+                    let own_tags = [
+                        "diffrn_standard_refln_index_h",
+                        "diffrn_standard_refln_index_k",
+                        "diffrn_standard_refln_index_l",
+                    ];
+                    let is_ours = cols
+                        .iter()
+                        .any(|c| own_tags.contains(&c.tag().as_ref().to_lowercase().as_str()));
+                    if is_ours {
+                        merge_rows(&mut self.rows, cols, &mut errors);
+                    } else {
+                        residue.push(m.clone());
+                    }
+                }
+                other => residue.push(other.clone()),
             }
         }
         (residue, errors)
@@ -59,89 +81,56 @@ pub struct DiffrnStandardReflnRow {
     pub index_k: Option<Numeric>,
     pub index_l: Option<Numeric>,
 }
-impl CifCategory for Vec<DiffrnStandardReflnRow> {
-    fn to_members(&self) -> Vec<DataBlockMember> {
-        if self.is_empty() {
-            return Vec::new();
-        }
-        let mut columns = Vec::new();
-        if self.iter().any(|r| r.index_h.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.index_h {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("diffrn_standard_refln_index_h".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.index_k.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.index_k {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("diffrn_standard_refln_index_k".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.index_l.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.index_l {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("diffrn_standard_refln_index_l".to_string()),
-                values,
-            ));
-        }
-        if columns.is_empty() {
-            return Vec::new();
-        }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(
-            LoopColumns::new(columns),
-        ))]
+fn rows_to_members(rows: &[DiffrnStandardReflnRow]) -> Vec<DataBlockMember> {
+    if rows.is_empty() {
+        return Vec::new();
     }
-    fn from_members(
-        &mut self,
-        members: &[DataBlockMember],
-    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
-        let mut residue = Vec::new();
-        let mut errors = Vec::new();
-        for m in members {
-            if let DataBlockMember::DataItems(DataItems::MultiValues(cols)) = m {
-                let cols = cols.columns();
-                // A loop is this category only when it carries one of its
-                // own loop column tags. A loop without our tags stays in
-                // the residue instead of overwriting the rows.
-                let own_tags = [
-                    "diffrn_standard_refln_index_h",
-                    "diffrn_standard_refln_index_k",
-                    "diffrn_standard_refln_index_l",
-                ];
-                let is_ours = cols
-                    .iter()
-                    .any(|c| own_tags.contains(&c.tag().as_ref().to_lowercase().as_str()));
-                if is_ours {
-                    merge_rows(self, cols, &mut errors);
-                } else {
-                    residue.push(m.clone());
-                }
-            } else {
-                residue.push(m.clone());
-            }
-        }
-        (residue, errors)
+    let mut columns = Vec::new();
+    if rows.iter().any(|r| r.index_h.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.index_h {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("diffrn_standard_refln_index_h".to_string()),
+            values,
+        ));
     }
+    if rows.iter().any(|r| r.index_k.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.index_k {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("diffrn_standard_refln_index_k".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.index_l.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.index_l {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("diffrn_standard_refln_index_l".to_string()),
+            values,
+        ));
+    }
+    if columns.is_empty() {
+        return Vec::new();
+    }
+    vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        LoopColumns::new(columns),
+    ))]
 }
 
 fn merge_rows(
