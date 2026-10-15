@@ -22,7 +22,7 @@ use crate::data_dict::core_cif::audit_contact_author::AuditContactAuthor;
 use crate::data_dict::core_cif::audit_link::AuditLink;
 use crate::data_dict::core_cif::cell::Cell;
 use crate::data_dict::core_cif::cell_measurement_refln::CellMeasurementRefln;
-use crate::data_dict::core_cif::chemical::{Chemical, ChemicalRow};
+use crate::data_dict::core_cif::chemical::Chemical;
 use crate::data_dict::core_cif::chemical_conn_atom::ChemicalConnAtomRow;
 use crate::data_dict::core_cif::chemical_conn_bond::{ChemicalConnBond, ChemicalConnBondRow};
 use crate::data_dict::core_cif::chemical_formula::ChemicalFormula;
@@ -118,7 +118,6 @@ pub struct CoreCif {
     pub atom_sites: AtomSites,
     pub atom_type: AtomType,
     pub chemical: Chemical,
-    pub chemical_rows: Vec<ChemicalRow>,
     pub chemical_conn_atom: Vec<ChemicalConnAtomRow>,
     pub chemical_conn_bond: ChemicalConnBond,
     pub chemical_conn_bond_rows: Vec<ChemicalConnBondRow>,
@@ -232,8 +231,6 @@ impl CoreCif {
         errors.extend(atom_type_errors);
         let (residue, chemical_errors) = doc.chemical.from_members(&residue);
         errors.extend(chemical_errors);
-        let (residue, chemical_rows_errors) = doc.chemical_rows.from_members(&residue);
-        errors.extend(chemical_rows_errors);
         let (residue, conn_atom_errors) = doc.chemical_conn_atom.from_members(&residue);
         errors.extend(conn_atom_errors);
         let (residue, conn_bond_errors) = doc.chemical_conn_bond.from_members(&residue);
@@ -418,7 +415,6 @@ impl CoreCif {
         members.extend(self.atom_sites.to_members());
         members.extend(self.atom_type.to_members());
         members.extend(self.chemical.to_members());
-        members.extend(self.chemical_rows.to_members());
         members.extend(self.chemical_conn_atom.to_members());
         members.extend(self.chemical_conn_bond.to_members());
         members.extend(self.chemical_conn_bond_rows.to_members());

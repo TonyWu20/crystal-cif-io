@@ -102,10 +102,10 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         char_of(doc.chemical.identifier_inchi.clone()),
     );
     s += &format!(
-        "chemical_rows[rows={} gt={}]\n",
-        doc.chemical_rows.len(),
+        "chemical[rows={} gt={}]\n",
+        doc.chemical.rows.len(),
         num_of(
-            doc.chemical_rows
+            doc.chemical.rows
                 .first()
                 .and_then(|r| r.melting_point_gt)
                 .map(|t| t.value())
