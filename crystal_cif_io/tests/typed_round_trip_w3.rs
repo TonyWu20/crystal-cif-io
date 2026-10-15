@@ -83,7 +83,7 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         code_of(doc.atom_sites.solution_primary),
         code_of(doc.atom_sites.solution_hydrogens),
         char_of(doc.atom_sites.cartn_transform_axes.clone()),
-        doc.atom_sites_rows.len(),
+        doc.atom_sites.rows.len(),
     );
     s += &format!(
         "atom_type[rows={} symbol={} scat={}]\n",
