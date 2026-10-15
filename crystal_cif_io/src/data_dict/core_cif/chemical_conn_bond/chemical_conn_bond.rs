@@ -13,8 +13,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 #[derive(Debug, Clone, Default)]
 pub struct ChemicalConnBond {
     pub chem_comp_bond_value_dist: Option<Numeric>,
-    pub id: Option<CharString>,    pub rows: Vec<ChemicalConnBondRow>,
-
+    pub id: Option<CharString>,
+    pub rows: Vec<ChemicalConnBondRow>,
 }
 
 impl CifCategory for ChemicalConnBond {
@@ -151,7 +151,6 @@ fn rows_to_members(rows: &[ChemicalConnBondRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ChemicalConnBondRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

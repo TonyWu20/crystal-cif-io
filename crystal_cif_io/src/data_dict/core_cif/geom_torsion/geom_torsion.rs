@@ -12,8 +12,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 #[derive(Debug, Clone, Default)]
 pub struct GeomTorsion {
     pub distances: Option<Vec<Numeric>>,
-    pub id: Option<CharString>,    pub rows: Vec<GeomTorsionRow>,
-
+    pub id: Option<CharString>,
+    pub rows: Vec<GeomTorsionRow>,
 }
 
 impl CifCategory for GeomTorsion {
@@ -253,7 +253,6 @@ fn rows_to_members(rows: &[GeomTorsionRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<GeomTorsionRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

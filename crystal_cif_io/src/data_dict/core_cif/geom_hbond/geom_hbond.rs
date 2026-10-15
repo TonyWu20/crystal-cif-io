@@ -11,8 +11,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 
 #[derive(Debug, Clone, Default)]
 pub struct GeomHbond {
-    pub id: Option<CharString>,    pub rows: Vec<GeomHbondRow>,
-
+    pub id: Option<CharString>,
+    pub rows: Vec<GeomHbondRow>,
 }
 
 impl CifCategory for GeomHbond {
@@ -253,7 +253,6 @@ fn rows_to_members(rows: &[GeomHbondRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<GeomHbondRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

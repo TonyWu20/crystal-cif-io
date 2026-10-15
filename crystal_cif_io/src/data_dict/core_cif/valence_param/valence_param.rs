@@ -11,8 +11,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 
 #[derive(Debug, Clone, Default)]
 pub struct ValenceParam {
-    pub citation_id: Option<CharString>,    pub rows: Vec<ValenceParamRow>,
-
+    pub citation_id: Option<CharString>,
+    pub rows: Vec<ValenceParamRow>,
 }
 
 impl CifCategory for ValenceParam {
@@ -225,7 +225,6 @@ fn rows_to_members(rows: &[ValenceParamRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ValenceParamRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

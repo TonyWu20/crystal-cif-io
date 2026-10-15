@@ -33,8 +33,8 @@ pub struct Chemical {
     pub properties_biological: Option<CharString>,
     pub properties_physical: Option<CharString>,
     pub temperature_decomposition: Option<Temperature>,
-    pub temperature_sublimation: Option<Temperature>,    pub rows: Vec<ChemicalRow>,
-
+    pub temperature_sublimation: Option<Temperature>,
+    pub rows: Vec<ChemicalRow>,
 }
 
 impl CifCategory for Chemical {
@@ -226,7 +226,8 @@ impl CifCategory for Chemical {
                             }
                         }
                         "chemical_enantioexcess_bulk" => {
-                            match convert::read_enantioexcess("chemical_enantioexcess_bulk", value) {
+                            match convert::read_enantioexcess("chemical_enantioexcess_bulk", value)
+                            {
                                 Ok(v) => self.enantioexcess_bulk = v,
                                 Err(e) => errors.push(e),
                             }
@@ -243,7 +244,10 @@ impl CifCategory for Chemical {
                             }
                         }
                         "chemical_enantioexcess_crystal" => {
-                            match convert::read_enantioexcess("chemical_enantioexcess_crystal", value) {
+                            match convert::read_enantioexcess(
+                                "chemical_enantioexcess_crystal",
+                                value,
+                            ) {
                                 Ok(v) => self.enantioexcess_crystal = v,
                                 Err(e) => errors.push(e),
                             }
@@ -326,14 +330,19 @@ impl CifCategory for Chemical {
                             }
                         }
                         "chemical_temperature_decomposition" => {
-                            match convert::read_temperature("chemical_temperature_decomposition", value)
-                            {
+                            match convert::read_temperature(
+                                "chemical_temperature_decomposition",
+                                value,
+                            ) {
                                 Ok(v) => self.temperature_decomposition = v,
                                 Err(e) => errors.push(e),
                             }
                         }
                         "chemical_temperature_sublimation" => {
-                            match convert::read_temperature("chemical_temperature_sublimation", value) {
+                            match convert::read_temperature(
+                                "chemical_temperature_sublimation",
+                                value,
+                            ) {
                                 Ok(v) => self.temperature_sublimation = v,
                                 Err(e) => errors.push(e),
                             }
@@ -476,7 +485,6 @@ fn rows_to_members(rows: &[ChemicalRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ChemicalRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

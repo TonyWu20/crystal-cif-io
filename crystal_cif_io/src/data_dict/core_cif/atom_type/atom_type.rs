@@ -19,8 +19,8 @@ pub struct AtomType {
     pub display_colour: Option<CharString>,
     pub electron_count: Option<Numeric>,
     pub element_symbol: Option<CharString>,
-    pub mass_number: Option<Numeric>,    pub rows: Vec<AtomTypeRow>,
-
+    pub mass_number: Option<Numeric>,
+    pub rows: Vec<AtomTypeRow>,
 }
 
 impl CifCategory for AtomType {
@@ -498,7 +498,6 @@ fn rows_to_members(rows: &[AtomTypeRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<AtomTypeRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

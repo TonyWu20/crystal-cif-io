@@ -12,8 +12,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 #[derive(Debug, Clone, Default)]
 pub struct GeomAngle {
     pub distances: Option<Vec<Numeric>>,
-    pub id: Option<CharString>,    pub rows: Vec<GeomAngleRow>,
-
+    pub id: Option<CharString>,
+    pub rows: Vec<GeomAngleRow>,
 }
 
 impl CifCategory for GeomAngle {
@@ -220,7 +220,6 @@ fn rows_to_members(rows: &[GeomAngleRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<GeomAngleRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

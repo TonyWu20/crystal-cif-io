@@ -11,8 +11,8 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, Singl
 
 #[derive(Debug, Clone, Default)]
 pub struct GeomContact {
-    pub id: Option<CharString>,    pub rows: Vec<GeomContactRow>,
-
+    pub id: Option<CharString>,
+    pub rows: Vec<GeomContactRow>,
 }
 
 impl CifCategory for GeomContact {
@@ -178,7 +178,6 @@ fn rows_to_members(rows: &[GeomContactRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<GeomContactRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);
