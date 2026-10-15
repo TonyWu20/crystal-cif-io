@@ -154,9 +154,9 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     );
     s += &format!(
         "geom_bond[rows={} distance={} id={}]\n",
-        doc.geom_bond_rows.len(),
+        doc.geom_bond.rows.len(),
         num_of(
-            doc.geom_bond_rows
+            doc.geom_bond.rows
                 .first()
                 .and_then(|r| r.distance)
                 .map(|d| d.value())
@@ -221,7 +221,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
     );
     assert!(
         !doc.geom_angle.rows.is_empty()
-            && !doc.geom_bond_rows.is_empty()
+            && !doc.geom_bond.rows.is_empty()
             && !doc.geom_contact_rows.is_empty()
             && !doc.geom_hbond_rows.is_empty()
             && !doc.geom_torsion_rows.is_empty(),
@@ -270,13 +270,13 @@ fn the_cod_entry_round_trips_the_t3_categories() {
     let block = first_block(&corpus("cod", "1000000.cif"));
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
     assert!(
-        !doc.geom_bond_rows.is_empty()
+        !doc.geom_bond.rows.is_empty()
             && !doc.geom_angle.rows.is_empty()
             && !doc.geom_hbond_rows.is_empty(),
         "the geom special-list loops type"
     );
     assert!(
-        doc.geom_bond_rows.iter().any(|r| r.distance.is_some()),
+        doc.geom_bond.rows.iter().any(|r| r.distance.is_some()),
         "the bond distance types through the range newtype"
     );
     let rewritten = doc.to_block();
@@ -329,7 +329,7 @@ fn save_frames_and_foreign_tags_are_the_t3_extra_residue() {
         "the T3 single item types"
     );
     assert!(
-        doc.geom_bond_rows.iter().any(|r| r.distance.is_some()),
+        doc.geom_bond.rows.iter().any(|r| r.distance.is_some()),
         "the T3 loop types"
     );
     assert_eq!(
