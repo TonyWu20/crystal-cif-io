@@ -12,12 +12,11 @@
 //! side is recorded as a missing bound: `0:` means a minimum of
 //! zero with no maximum.
 
-use std::fmt::Display;
-
 use crystal_cif_fmt::grammar::{Number, Numeric};
 
 /// The error returned by a `try_new` range check.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("{message}")]
 pub struct RangeError {
     message: String,
 }
@@ -28,14 +27,6 @@ impl RangeError {
         Self { message }
     }
 }
-
-impl Display for RangeError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.message)
-    }
-}
-
-impl std::error::Error for RangeError {}
 
 /// Check a `Numeric` value against a dictionary range.
 ///

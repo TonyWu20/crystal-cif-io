@@ -6,8 +6,6 @@
 //! it keeps their order and bytes. The guarantee is IR round-trip, not
 //! byte round-trip.
 
-use std::fmt;
-
 use crystal_cif_fmt::grammar::DataBlock;
 use crystal_cif_fmt::{DataBlockHeading, DataBlockMember};
 
@@ -78,55 +76,29 @@ use crate::data_dict::core_cif::valence_ref::ValenceRefRow;
 use crate::data_dict::core_cif::CifCategory;
 
 /// A read-path conformance error of the typed layer.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum CifError {
     /// A typed item carries a value class the dictionary denies.
+    #[error("{tag}: expected the {expected} value class, found {found}")]
     ValueClass {
         tag: String,
         expected: &'static str,
         found: &'static str,
     },
     /// A matrix item carries the wrong shape.
+    #[error("{tag}: expected a {expected:?} shape, found {found:?}")]
     Shape {
         tag: String,
         expected: (usize, usize),
         found: (usize, usize),
     },
     /// A required item is absent (from [`CoreCif::validate`]).
+    #[error("{category}: the required item {item} is missing")]
     Missing {
         category: &'static str,
         item: &'static str,
     },
 }
-
-impl fmt::Display for CifError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::ValueClass {
-                tag,
-                expected,
-                found,
-            } => write!(
-                f,
-                "{tag}: expected the {expected} value class, found {found}"
-            ),
-            Self::Shape {
-                tag,
-                expected,
-                found,
-            } => write!(
-                f,
-                "{tag}: expected a {} x {} shape, found {} x {}",
-                expected.0, expected.1, found.0, found.1
-            ),
-            Self::Missing { category, item } => {
-                write!(f, "{category}: the required item {item} is missing")
-            }
-        }
-    }
-}
-
-impl std::error::Error for CifError {}
 
 /// The typed view of one data block (roadmap D12g).
 #[derive(Debug, Clone, Default)]

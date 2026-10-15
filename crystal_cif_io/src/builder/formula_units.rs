@@ -15,16 +15,20 @@ use crystal_cif_fmt::grammar::{Numeric, UnsignedInteger};
 use super::chemical_formula::composition;
 
 /// A failure of the `formula_units` derivation.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
 pub enum FormulaUnitsError {
     /// The formula carries no atoms.
+    #[error("the formula carries no atoms")]
     NoFormulaAtoms,
     /// The multiplicity is no integer of at least one.
+    #[error("the multiplicity {0} is no integer of at least one")]
     BadMultiplicity(f64),
     /// The atom count over the formula atom count is not integral.
+    #[error("the atom count {total} over the formula atom count {per_formula} is not integral")]
     NonIntegralZ { total: u64, per_formula: u64 },
     /// A supplied value misses the computed one beyond the
     /// relative tolerance.
+    #[error("the supplied {item} {supplied} misses the computed {computed} beyond the relative {tolerance}")]
     Mismatch {
         item: &'static str,
         supplied: String,
@@ -32,40 +36,9 @@ pub enum FormulaUnitsError {
         tolerance: f64,
     },
     /// The formula composition did not parse.
-    Composition(super::chemical_formula::FormulaError),
+    #[error("the formula composition fails: {0}")]
+    Composition(#[source] super::chemical_formula::FormulaError),
 }
-
-impl std::fmt::Display for FormulaUnitsError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::NoFormulaAtoms => {
-                write!(f, "the formula carries no atoms")
-            }
-            Self::BadMultiplicity(m) => {
-                write!(f, "the multiplicity {m} is no integer of at least one")
-            }
-            Self::NonIntegralZ {
-                total,
-                per_formula,
-            } => write!(
-                f,
-                "the atom count {total} over the formula atom count {per_formula} is not integral"
-            ),
-            Self::Mismatch {
-                item,
-                supplied,
-                computed,
-                tolerance,
-            } => write!(
-                f,
-                "the supplied {item} {supplied} misses the computed {computed} beyond the relative {tolerance}"
-            ),
-            Self::Composition(e) => write!(f, "the formula composition fails: {e}"),
-        }
-    }
-}
-
-impl std::error::Error for FormulaUnitsError {}
 
 /// The derived `formula_units` category. The values fill the
 /// `cell` document fields `formula_units_z` and

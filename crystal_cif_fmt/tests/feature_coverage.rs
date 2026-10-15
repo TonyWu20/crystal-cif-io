@@ -23,9 +23,7 @@ fn corpus_files() -> Vec<(String, String)> {
         "tests/real_data/cif_api",
         "tests/fixtures",
     ] {
-        for entry in
-            fs::read_dir(root.join(dir)).unwrap_or_else(|e| panic!("{dir}: {e}"))
-        {
+        for entry in fs::read_dir(root.join(dir)).unwrap_or_else(|e| panic!("{dir}: {e}")) {
             let path = entry.unwrap().path();
             let Some(name) = path.file_name() else {
                 continue;
@@ -75,8 +73,7 @@ fn has_hash_in_quoted_string(content: &str) -> bool {
         let Some(start) = start else {
             return false;
         };
-        let preceded =
-            start == 0 || trimmed.as_bytes()[start - 1].is_ascii_whitespace();
+        let preceded = start == 0 || trimmed.as_bytes()[start - 1].is_ascii_whitespace();
         if !preceded {
             return false;
         }
@@ -101,9 +98,10 @@ const FEATURES: &[Feature] = &[
     },
     Feature {
         name: "inapplicable value '.'",
-        check: |c| c.lines().any(|l| {
-            !l.starts_with('#') && l.trim_end().split_whitespace().last() == Some(".")
-        }),
+        check: |c| {
+            c.lines()
+                .any(|l| !l.starts_with('#') && l.trim_end().split_whitespace().last() == Some("."))
+        },
     },
     Feature {
         name: "sub/superscript ~",

@@ -45,69 +45,38 @@ pub enum SpaceGroupIdentifier {
 }
 
 /// A build failure of the `space_group` builder.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
 pub enum SpaceGroupError {
     /// The `IT_number` value is outside 1 to 230.
+    #[error("the IT number {number} is outside 1 to 230")]
     InvalidItNumber { number: u64 },
     /// The Hall symbol resolves to no group.
+    #[error("the Hall symbol {0:?} resolves to no group")]
     UnresolvedHall(String),
     /// The Hermann-Mauguin symbol matches no table row.
+    #[error("the Hermann-Mauguin symbol {0:?} matches no table row")]
     UnresolvedHm(String),
     /// A supplied value misses the computed value.
+    #[error("the supplied {item} {supplied:?} misses the computed {computed:?}")]
     Mismatch {
         item: &'static str,
         supplied: String,
         computed: String,
     },
     /// A supplied transform matrix carries the wrong shape.
+    #[error("the supplied {item} has the shape {actual:?}, not (3, 3)")]
     BadShape {
         item: &'static str,
         actual: (usize, usize),
     },
     /// A supplied closed-set value misses the set.
+    #[error("the supplied {item} {value:?} is not in the closed set")]
     NotInClosedSet { item: &'static str, value: String },
     /// The resolved group carries no crystal system. The resolution
     /// paths guarantee a table row, so this does not occur.
+    #[error("the resolved group carries no crystal system: {0}")]
     NoCrystalSystem(String),
 }
-
-impl std::fmt::Display for SpaceGroupError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::InvalidItNumber { number } => {
-                write!(f, "the IT number {number} is outside 1 to 230")
-            }
-            Self::UnresolvedHall(hall) => {
-                write!(f, "the Hall symbol {hall:?} resolves to no group")
-            }
-            Self::UnresolvedHm(hm) => {
-                write!(f, "the Hermann-Mauguin symbol {hm:?} matches no table row")
-            }
-            Self::Mismatch {
-                item,
-                supplied,
-                computed,
-            } => write!(
-                f,
-                "the supplied {item} {supplied:?} misses the computed {computed:?}"
-            ),
-            Self::BadShape { item, actual } => {
-                write!(
-                    f,
-                    "the supplied {item} has the shape {actual:?}, not (3, 3)"
-                )
-            }
-            Self::NotInClosedSet { item, value } => {
-                write!(f, "the supplied {item} {value:?} is not in the closed set")
-            }
-            Self::NoCrystalSystem(detail) => {
-                write!(f, "the resolved group carries no crystal system: {detail}")
-            }
-        }
-    }
-}
-
-impl std::error::Error for SpaceGroupError {}
 
 impl SpaceGroup {
     /// One-step entry by International Tables number.

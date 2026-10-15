@@ -35,16 +35,9 @@ impl From<CrystalSystemCif> for String {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("Not a valid crystal system option")]
 pub struct CrystalSystemCifError;
-
-impl Display for CrystalSystemCifError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Not a valid crystal system option")
-    }
-}
-
-impl std::error::Error for CrystalSystemCifError {}
 
 impl TryFrom<&str> for CrystalSystemCif {
     type Error = CrystalSystemCifError;

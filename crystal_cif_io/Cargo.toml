@@ -9,6 +9,7 @@ license = "MIT"
 repository = "https://github.com/TonyWu20/crystal-cif-io"
 
 [dependencies]
+thiserror = "2"
 crystal-cif-fmt = { version = "0.1.0", path = "../crystal_cif_fmt" }
 elements_rs = { version = "0.2.8", default-features = false }
 serde_json = "1"

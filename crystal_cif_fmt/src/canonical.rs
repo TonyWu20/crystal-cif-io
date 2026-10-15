@@ -79,28 +79,24 @@ fn member_json(member: &DataBlockMember) -> Json {
             // frames keep the 1.1 shape, so the iucr and cod pins
             // stay byte-identical.
             let mut object = serde_json::Map::new();
-            object.insert(
-                "kind".to_string(),
-                json!("save_frame"),
-            );
-            object.insert(
-                "name".to_string(),
-                json!(frame.heading().as_ref()),
-            );
+            object.insert("kind".to_string(), json!("save_frame"));
+            object.insert("name".to_string(), json!(frame.heading().as_ref()));
             object.insert(
                 "members".to_string(),
-                json!(frame.data_items().iter().map(items_json).collect::<Vec<_>>()),
+                json!(frame
+                    .data_items()
+                    .iter()
+                    .map(items_json)
+                    .collect::<Vec<_>>()),
             );
             if !frame.frames().is_empty() {
                 object.insert(
                     "frames".to_string(),
-                    json!(
-                        frame
-                            .frames()
-                            .iter()
-                            .map(|child| member_json(&DataBlockMember::SaveFrame(child.clone())))
-                            .collect::<Vec<_>>()
-                    ),
+                    json!(frame
+                        .frames()
+                        .iter()
+                        .map(|child| member_json(&DataBlockMember::SaveFrame(child.clone())))
+                        .collect::<Vec<_>>()),
                 );
             }
             Json::Object(object)

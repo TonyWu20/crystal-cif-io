@@ -25,41 +25,28 @@ pub struct Matrix {
 
 /// The error returned by [`Matrix::try_new`] and
 /// [`Matrix::from_list`].
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum MatrixError {
     /// The input holds no rows.
+    #[error("matrix has no rows")]
     Empty,
     /// The rows do not share one length.
+    #[error("matrix rows do not share one length")]
     Ragged,
     /// A row holds a value that is not numeric.
+    #[error("a matrix row holds a non-numeric value")]
     NonNumeric,
     /// A matrix element is not a list of numeric values.
+    #[error("a matrix element is not a list of numeric values")]
     BadRow,
     /// A dictionary shape was given and the parsed matrix does not
     /// match it.
+    #[error("matrix shape is {actual:?}, the dictionary expects {expected:?}")]
     ShapeMismatch {
         expected: (usize, usize),
         actual: (usize, usize),
     },
 }
-
-impl Display for MatrixError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Empty => write!(f, "matrix has no rows"),
-            Self::Ragged => write!(f, "matrix rows do not share one length"),
-            Self::NonNumeric => write!(f, "a matrix row holds a non-numeric value"),
-            Self::BadRow => write!(f, "a matrix element is not a list of numeric values"),
-            Self::ShapeMismatch { expected, actual } => write!(
-                f,
-                "matrix shape is {} x {}, the dictionary expects {} x {}",
-                actual.0, actual.1, expected.0, expected.1
-            ),
-        }
-    }
-}
-
-impl std::error::Error for MatrixError {}
 
 impl Matrix {
     /// Build a matrix from rows. All rows must share one length,

@@ -28,11 +28,13 @@ struct Group {
 }
 
 fn load_manifest(dir: &PathBuf) -> (Vec<Group>, Vec<u32>) {
-    let raw = fs::read_to_string(dir.join("manifest.json"))
-        .expect("read cod_sg manifest");
+    let raw = fs::read_to_string(dir.join("manifest.json")).expect("read cod_sg manifest");
     let manifest: Json = serde_json::from_str(&raw).expect("manifest must be valid JSON");
     let mut groups: Vec<Group> = Vec::new();
-    for entry in manifest["groups"].as_array().expect("manifest groups array") {
+    for entry in manifest["groups"]
+        .as_array()
+        .expect("manifest groups array")
+    {
         groups.push(Group {
             sg: entry["sg"].as_u64().expect("manifest sg") as u32,
             file: entry["file"].as_str().expect("manifest file").to_string(),
@@ -40,7 +42,11 @@ fn load_manifest(dir: &PathBuf) -> (Vec<Group>, Vec<u32>) {
     }
     let gaps: Vec<u32> = manifest["gaps"]
         .as_array()
-        .map(|a| a.iter().map(|g| g.as_u64().expect("gap sg") as u32).collect())
+        .map(|a| {
+            a.iter()
+                .map(|g| g.as_u64().expect("gap sg") as u32)
+                .collect()
+        })
         .unwrap_or_default();
     (groups, gaps)
 }
@@ -50,8 +56,7 @@ fn load_manifest(dir: &PathBuf) -> (Vec<Group>, Vec<u32>) {
 /// spellings lowercased.
 // Tag names compare without the leading underscore; the parser
 // stores the data name without it.
-const IT_NUMBER_TAGS: &[&str] =
-    &["space_group_it_number", "symmetry_int_tables_number"];
+const IT_NUMBER_TAGS: &[&str] = &["space_group_it_number", "symmetry_int_tables_number"];
 const HM_NAME_TAGS: &[&str] = &[
     "symmetry_space_group_name_h-m",
     "space_group_name_h-m",
@@ -59,10 +64,7 @@ const HM_NAME_TAGS: &[&str] = &[
 ];
 
 /// Walk a block (and its save frames) for a lowercased tag name.
-fn find_value<'a>(
-    block: &'a DataBlock,
-    target: &str,
-) -> Option<&'a Value> {
+fn find_value<'a>(block: &'a DataBlock, target: &str) -> Option<&'a Value> {
     let target = target.to_lowercase();
     for member in block.members() {
         match member {
@@ -132,9 +134,10 @@ fn space_group_coverage() {
         let content = match fs::read_to_string(&path) {
             Ok(c) => c,
             Err(e) => {
-                failures.push(
-                    format!("sg {sg:3}: missing file {name}: {e}", sg = group.sg),
-                );
+                failures.push(format!(
+                    "sg {sg:3}: missing file {name}: {e}",
+                    sg = group.sg
+                ));
                 continue;
             }
         };
@@ -164,9 +167,7 @@ fn space_group_coverage() {
         let blocks = match doc.data_blocks() {
             Some(blocks) if !blocks.is_empty() => blocks,
             _ => {
-                failures.push(
-                    format!("sg {sg:3}: no data block in {name}", sg = group.sg),
-                );
+                failures.push(format!("sg {sg:3}: no data block in {name}", sg = group.sg));
                 continue;
             }
         };

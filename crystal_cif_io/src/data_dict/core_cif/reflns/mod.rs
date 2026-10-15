@@ -14,10 +14,8 @@ mod reflns;
 pub use reflns::{Reflns, ReflnsDResolution, ReflnsLimit};
 
 /// The range-check and closed-set error of the `reflns` category.
-///
-/// Follows the style of `CrystalSystemCifError`: a dedicated error
-/// type with `Display` and `std::error::Error`.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("{0}")]
 pub struct ReflnsCifError(String);
 
 impl ReflnsCifError {
@@ -25,14 +23,6 @@ impl ReflnsCifError {
         Self(message)
     }
 }
-
-impl Display for ReflnsCifError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.0)
-    }
-}
-
-impl std::error::Error for ReflnsCifError {}
 
 /// Read the value of a `Numeric` as an `f64`.
 fn numeric_value(value: &Numeric) -> f64 {

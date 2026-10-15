@@ -26,9 +26,8 @@ pub use grammar::{
     CIFDataType, CIFValue, CharString, CifDocument, Comments, DataBlock, DataBlockHeading,
     DataBlockMember, DataItems, DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns,
     LoopHeader, LoopUnit, Matrix, MatrixError, Number, Numeric, SaveFrame, SaveFrameHeading,
-    SemiColonTextField, SingleLineData, SingleQuotedString, Tag,
-    TripleDoubleQuotedString, TripleSingleQuotedString, TextField, UnquotedString,
-    UnsignedInteger, Value,
+    SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField,
+    TripleDoubleQuotedString, TripleSingleQuotedString, UnquotedString, UnsignedInteger, Value,
 };
 
 /// The chumsky + ariadne CIF parser. `parse_cif` is the strict entry
@@ -53,4 +52,3 @@ pub mod canonical;
 
 mod parser;
 pub mod term;
-

@@ -64,50 +64,27 @@ pub enum Displacement {
 }
 
 /// A build failure of the `atom_site` row builder.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, thiserror::Error)]
 pub enum RowError {
     /// The row carries no `label` and no `label_component` items.
+    #[error("the row carries no label and no label components")]
     NoLabel,
     /// The displacement type does not pair with the `adp_type`.
+    #[error("the displacement type {displacement} does not pair with the adp_type {adp_type}")]
     DisplacementMismatch {
         adp_type: AdpType,
         displacement: &'static str,
     },
     /// The `occupancy` value misses the `0:1` range.
+    #[error("the occupancy {0} misses the 0 to 1 range")]
     OccupancyOutOfRange(Float),
     /// A displacement value misses the `0:` range.
+    #[error("the {item} value {value} misses the 0: range")]
     DisplacementOutOfRange { item: &'static str, value: f64 },
     /// The `type_symbol` text parses to no element code.
+    #[error("the type symbol {0:?} parses to no element code")]
     UnparsableTypeSymbol(String),
 }
-
-impl std::fmt::Display for RowError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::NoLabel => {
-                write!(f, "the row carries no label and no label components")
-            }
-            Self::DisplacementMismatch {
-                adp_type,
-                displacement,
-            } => write!(
-                f,
-                "the displacement type {displacement} does not pair with the adp_type {adp_type}"
-            ),
-            Self::OccupancyOutOfRange(value) => {
-                write!(f, "the occupancy {value} misses the 0 to 1 range")
-            }
-            Self::DisplacementOutOfRange { item, value } => {
-                write!(f, "the {item} value {value} misses the 0: range")
-            }
-            Self::UnparsableTypeSymbol(text) => {
-                write!(f, "the type symbol {text:?} parses to no element code")
-            }
-        }
-    }
-}
-
-impl std::error::Error for RowError {}
 
 fn displacement_name(displacement: &Displacement) -> &'static str {
     match displacement {

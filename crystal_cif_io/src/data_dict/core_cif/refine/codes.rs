@@ -5,10 +5,8 @@ use std::fmt::Display;
 use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};
 
 /// The range-check and closed-set error of the `refine` category.
-///
-/// Follows the style of `CrystalSystemCifError`: a dedicated error
-/// type with `Display` and `std::error::Error`.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("{0}")]
 pub struct RefineCifError(String);
 
 impl RefineCifError {
@@ -16,14 +14,6 @@ impl RefineCifError {
         Self(message)
     }
 }
-
-impl Display for RefineCifError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.0)
-    }
-}
-
-impl std::error::Error for RefineCifError {}
 
 /// The closed value set of `_refine_ls_hydrogen_treatment`.
 ///

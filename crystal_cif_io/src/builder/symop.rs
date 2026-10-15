@@ -19,41 +19,20 @@ use crate::data_dict::core_cif::space_group_symop::Symop;
 use crystal_cif_fmt::grammar::{CharString, Float, Matrix, Number, UnquotedString};
 
 /// A build failure of the `symop` builder.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
 pub enum SymopError {
     /// The supplied column carries a different row count than the
     /// general-position list.
+    #[error("the supplied column holds {supplied} rows, the list holds {expected}")]
     RowCount { expected: usize, supplied: usize },
     /// A supplied row text misses the computed operation.
+    #[error("row {row} is {supplied:?}, the list computes {computed:?}")]
     Mismatch {
         row: usize,
         supplied: String,
         computed: String,
     },
 }
-
-impl std::fmt::Display for SymopError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::RowCount { expected, supplied } => {
-                write!(
-                    f,
-                    "the supplied column holds {supplied} rows, the list holds {expected}"
-                )
-            }
-            Self::Mismatch {
-                row,
-                supplied,
-                computed,
-            } => write!(
-                f,
-                "row {row} is {supplied:?}, the list computes {computed:?}"
-            ),
-        }
-    }
-}
-
-impl std::error::Error for SymopError {}
 
 fn unquoted(text: &str) -> CharString {
     CharString::Unquoted(UnquotedString::new(text.to_string()))

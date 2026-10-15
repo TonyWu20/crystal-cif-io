@@ -21,16 +21,20 @@ use super::cell::DEFAULT_TOLERANCE;
 const AVOGADRO: f64 = 6.022_140_76e23;
 
 /// A build or helper failure of the `chemical_formula` category.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
 pub enum FormulaError {
     /// The formula text parses to no element composition.
+    #[error("the formula {0:?} parses to no element composition")]
     UnparsedFormula(String),
     /// The composition names a symbol that is no element.
+    #[error("the symbol {0} is no element")]
     UnknownElement(String),
     /// The computed molar mass misses the `1.0:` range.
+    #[error("the {item} value misses its range: {detail}")]
     Range { item: &'static str, detail: String },
     /// The supplied density misses the structure-level expectation
     /// beyond the relative tolerance.
+    #[error("the supplied density {supplied} misses the computed {computed} beyond the relative {tolerance}")]
     DensityMismatch {
         supplied: f64,
         computed: f64,
@@ -38,38 +42,9 @@ pub enum FormulaError {
     },
     /// The density is supplied but the check needs the Z and the
     /// cell volume alongside it.
+    #[error("the density {density} needs the structure Z and the cell volume for the check")]
     MissingDensityInputs { density: f64 },
 }
-
-impl std::fmt::Display for FormulaError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::UnparsedFormula(text) => {
-                write!(f, "the formula {text:?} parses to no element composition")
-            }
-            Self::UnknownElement(symbol) => {
-                write!(f, "the symbol {symbol} is no element")
-            }
-            Self::Range { item, detail } => {
-                write!(f, "the {item} value misses its range: {detail}")
-            }
-            Self::DensityMismatch {
-                supplied,
-                computed,
-                tolerance,
-            } => write!(
-                f,
-                "the supplied density {supplied} misses the computed {computed} beyond the relative {tolerance}"
-            ),
-            Self::MissingDensityInputs { density } => write!(
-                f,
-                "the density {density} needs the structure Z and the cell volume for the check"
-            ),
-        }
-    }
-}
-
-impl std::error::Error for FormulaError {}
 
 #[cfg(test)]
 fn unquoted(text: &str) -> CharString {

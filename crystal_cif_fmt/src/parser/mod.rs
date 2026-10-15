@@ -43,9 +43,8 @@ use chumsky::{
 use crate::grammar::{
     CharString, CifDocument, DataBlock, DataBlockHeading, DataBlockMember, DataItems,
     DoubleQuotedString, Float, Integer, LoopColumn, LoopColumns, Number, Numeric, SaveFrame,
-    SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString,
-    TripleDoubleQuotedString, TripleSingleQuotedString, Tag, TextField, UnquotedString,
-    UnsignedInteger, Value,
+    SaveFrameHeading, SemiColonTextField, SingleLineData, SingleQuotedString, Tag, TextField,
+    TripleDoubleQuotedString, TripleSingleQuotedString, UnquotedString, UnsignedInteger, Value,
 };
 
 type Err<'src> = extra::Err<Rich<'src, char>>;
@@ -304,11 +303,7 @@ fn consume_ws<'src, 'parse>(
 /// reports the number of characters consumed.
 fn ws_region<'src>(starts_at_line_start: bool) -> impl Parser<'src, &'src str, usize, Err<'src>> {
     custom::<_, &'src str, usize, Err<'src>>(move |inp: &mut InputRef<'_, '_, &'src str, _>| {
-        Ok(consume_ws(
-            inp,
-            starts_at_line_start,
-            false,
-        ))
+        Ok(consume_ws(inp, starts_at_line_start, false))
     })
 }
 
@@ -491,8 +486,7 @@ fn triple_quoted<'src>(
     ));
     let open = q.clone().then(q.clone()).then(q);
     let close = q.clone().then(q.clone()).then(q);
-    open
-        .map(|_o: ((char, char), char)| ())
+    open.map(|_o: ((char, char), char)| ())
         .then(chunk.repeated().collect::<Vec<String>>())
         .then(close.map(|_c: ((char, char), char)| ()))
         .map(move |(((), chars), ())| {
@@ -509,12 +503,9 @@ fn char_string<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value,
     // The triple-quoted form is a 2.0 production (roadmap section
     // 14): in a 1.1 file the delimiters fall through to the single
     // and double quote productions (embedded-quote runs).
-    let triple = choice((
-        triple_quoted('\'', true),
-        triple_quoted('"', false),
-    ))
-    .filter(move |_: &CharString| dialect == CifDialect::Cif2_0)
-    .boxed();
+    let triple = choice((triple_quoted('\'', true), triple_quoted('"', false)))
+        .filter(move |_: &CharString| dialect == CifDialect::Cif2_0)
+        .boxed();
     choice((
         triple,
         single_quoted(dialect),
@@ -523,7 +514,6 @@ fn char_string<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value,
     ))
     .map(Value::CharString)
 }
-
 
 /// An unquoted character string: `<OrdinaryChar><NonBlankChar>*`,
 /// where the whole token is not a bare reserved word (spec para. 8,
@@ -642,10 +632,7 @@ fn single_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Char
             // followed by a blank (SP/HT), a line terminator, or end
             // of input closes the string.
             let embedded = just('\'')
-                .then(
-                    any()
-                        .filter(|&c| is_printable(c) && !is_eol(c) && !is_blank(c)),
-                )
+                .then(any().filter(|&c| is_printable(c) && !is_eol(c) && !is_blank(c)))
                 .map(|(q, c): (char, char)| vec![q, c])
                 .boxed();
             let content = choice((
@@ -703,10 +690,7 @@ fn double_quoted<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Char
             // followed by a blank (SP/HT), a line terminator, or
             // end of input closes the string.
             let embedded = just('"')
-                .then(
-                    any()
-                        .filter(|&c| is_printable(c) && !is_eol(c) && !is_blank(c)),
-                )
+                .then(any().filter(|&c| is_printable(c) && !is_eol(c) && !is_blank(c)))
                 .map(|(q, c): (char, char)| vec![q, c])
                 .boxed();
             let content = choice((
@@ -824,9 +808,7 @@ fn tag_value_items<'src>(
 /// from the `loop_` reserved word or the previous tag (spec para. 7:
 /// a data name must be separated from the preceding token by white
 /// space).
-fn loop_tag<'src>(
-    dialect: CifDialect,
-) -> impl Parser<'src, &'src str, Tag, Err<'src>> {
+fn loop_tag<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Tag, Err<'src>> {
     ws_region(false)
         .map(|_| ())
         .then(tag(dialect))
@@ -924,8 +906,8 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
             // may hold a comment or a line break). The pairs keep
             // their order; the key is stored as a value.
             let table_key = choice((
-        triple_quoted('\'', true),
-        triple_quoted('"', false),
+                triple_quoted('\'', true),
+                triple_quoted('"', false),
                 single_quoted(dialect),
                 double_quoted(dialect),
             ))
@@ -933,15 +915,13 @@ fn value<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, Value, Err<'
             .map(Value::CharString);
             let entry = table_key
                 .then(just(':'))
-                .then(
-                    choice((
-                        rec.clone(),
-                        ws_region(false)
-                            .map(|_| ())
-                            .then(rec.clone())
-                            .map(|(_ws, v): (_, Value)| v),
-                    )),
-                )
+                .then(choice((
+                    rec.clone(),
+                    ws_region(false)
+                        .map(|_| ())
+                        .then(rec.clone())
+                        .map(|(_ws, v): (_, Value)| v),
+                )))
                 .map(|((key, _colon), value): ((Value, char), Value)| (key, value));
             let table = just('{')
                 .then(container_ws(dialect).boxed().map(|_| ()))
@@ -990,9 +970,7 @@ fn into_columns(tags: Vec<Tag>, values: Vec<Value>) -> LoopColumns {
 /// upstream C reference accepts them at unlimited depth, and the
 /// 1.1 spec forbids them (para. 6), so the nested-frame branch is
 /// filtered to the 2.0 dialect.
-fn save_frame<'src>(
-    dialect: CifDialect,
-) -> impl Parser<'src, &'src str, SaveFrame, Err<'src>> {
+fn save_frame<'src>(dialect: CifDialect) -> impl Parser<'src, &'src str, SaveFrame, Err<'src>> {
     recursive(
         move |rec: Recursive<Direct<'src, 'src, &'src str, SaveFrame, Err<'src>>>| {
             save_prefix()
@@ -1027,9 +1005,7 @@ fn save_frame<'src>(
                     let mut frames: Vec<SaveFrame> = Vec::new();
                     for member in members {
                         match member {
-                            DataBlockMember::DataItems(items_member) => {
-                                items.push(items_member)
-                            }
+                            DataBlockMember::DataItems(items_member) => items.push(items_member),
                             DataBlockMember::SaveFrame(frame) => frames.push(frame),
                         }
                     }
@@ -1469,8 +1445,7 @@ _e {}
         let src = "data_t
 _a { 'zero':0 }
 ";
-        let errs =
-            parse_cif(src).expect_err("a table in a 1.1 file must be rejected");
+        let errs = parse_cif(src).expect_err("a table in a 1.1 file must be rejected");
         assert!(!errs.is_empty(), "a Rich error must reach the caller");
     }
 
@@ -1478,7 +1453,11 @@ _a { 'zero':0 }
     fn a_2_0_file_nests_save_frames() {
         let src = "##CIF_2.0\ndata_t\nsave_a\nsave_b\nsave_\n_level 1\nsave_\n";
         let doc = parse_cif(src).expect("a 2.0 nested frame must parse");
-        let block = doc.data_blocks().expect("one block").first().expect("a block");
+        let block = doc
+            .data_blocks()
+            .expect("one block")
+            .first()
+            .expect("a block");
         match block.members().first().expect("one member") {
             DataBlockMember::SaveFrame(frame) => {
                 assert_eq!(frame.data_items().len(), 1);
@@ -1493,15 +1472,18 @@ _a { 'zero':0 }
     fn a_2_0_file_allows_unicode_in_codes_tags_and_values() {
         let src = "##CIF_2.0\ndata_ünïcode\nsave_§\n_αβγ Ω\n_π 𐘾\nsave_\n";
         let doc = parse_cif(src).expect("a 2.0 unicode file must parse");
-        let block = doc.data_blocks().expect("one block").first().expect("a block");
+        let block = doc
+            .data_blocks()
+            .expect("one block")
+            .first()
+            .expect("a block");
         assert_eq!(block.heading(), "ünïcode");
     }
 
     #[test]
     fn a_1_1_file_rejects_unicode_in_a_block_code() {
         let src = "data_ñ\n_a x\n";
-        let errs =
-            parse_cif(src).expect_err("unicode in a 1.1 block code must fail");
+        let errs = parse_cif(src).expect_err("unicode in a 1.1 block code must fail");
         assert!(!errs.is_empty(), "a Rich error must reach the caller");
     }
 
@@ -1538,7 +1520,10 @@ _a { 'zero':0 }
         match single_item(&doc, "a") {
             Value::List(values) => {
                 assert_eq!(values.len(), 1);
-                assert_eq!(values[0].as_numeric().expect("numeric"), &Numeric::from(1i32));
+                assert_eq!(
+                    values[0].as_numeric().expect("numeric"),
+                    &Numeric::from(1i32)
+                );
             }
             other => panic!("expected a list, got {other:?}"),
         }
@@ -1557,7 +1542,8 @@ _a { 'zero':0 }
         // (0x0C) act as line terminators in every dialect. The 1.1
         // spec excludes both characters (para. 22, 28); the crate
         // accepts them, which fixture 26 pins.
-        let src = "data_26_vtff\u{0c}_a 'x'\u{0c}_b 1.5e+02\n_t \u{0c};first\n;\n\n_v\u{0b}\u{0b}7\n";
+        let src =
+            "data_26_vtff\u{0c}_a 'x'\u{0c}_b 1.5e+02\n_t \u{0c};first\n;\n\n_v\u{0b}\u{0b}7\n";
         let doc = parse_cif(src).expect("VT and FF must end lines in 1.1");
         assert_eq!(
             single_item(&doc, "b")
@@ -1580,7 +1566,6 @@ _a { 'zero':0 }
             &Numeric::from(7i32),
         );
     }
-
 
     /// The `LoopColumns` of the first loop in the document.
     fn first_loop<'a>(doc: &'a CifDocument) -> &'a LoopColumns {
@@ -1657,8 +1642,20 @@ _a { 'zero':0 }
     fn a_cif1_1_empty_quoted_string_is_legal() {
         let src = "data_d\n_a ''\n_b \"\"\n";
         let doc = parse_cif(src).expect("empty quoted strings must parse");
-        assert_eq!(single_item(&doc, "a").as_char_string().expect("quoted").as_ref(), "");
-        assert_eq!(single_item(&doc, "b").as_char_string().expect("quoted").as_ref(), "");
+        assert_eq!(
+            single_item(&doc, "a")
+                .as_char_string()
+                .expect("quoted")
+                .as_ref(),
+            ""
+        );
+        assert_eq!(
+            single_item(&doc, "b")
+                .as_char_string()
+                .expect("quoted")
+                .as_ref(),
+            ""
+        );
     }
 
     #[test]

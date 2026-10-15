@@ -146,9 +146,9 @@ mod tests {
     #[test]
     fn table_display_round_trips() {
         let pairs = vec![(
-            Value::CharString(CharString::SingleQuoted(crate::grammar::SingleQuotedString::new(
-                "zero".to_string(),
-            ))),
+            Value::CharString(CharString::SingleQuoted(
+                crate::grammar::SingleQuotedString::new("zero".to_string()),
+            )),
             Value::Numeric(Numeric::from(0i32)),
         )];
         let value = Value::Table(pairs);

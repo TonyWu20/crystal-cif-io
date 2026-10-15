@@ -6,11 +6,11 @@
 //! the closed sets keep the typed enums.
 
 use crate::core_cif::CifError;
-use crate::data_dict::Ineq;
 use crate::data_dict::core_cif::refine::{
     Flack, HydrogenTreatment, MatrixType, NonNeg, Rogers, StructureFactorCoef, WeightingScheme,
 };
 use crate::data_dict::core_cif::{convert, CifCategory};
+use crate::data_dict::Ineq;
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, UnsignedInteger, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
@@ -868,9 +868,7 @@ mod tests {
     /// The emitted member of the written value.
     fn emitted(member: &DataBlockMember) -> (&Tag, &Value) {
         match member {
-            DataBlockMember::DataItems(DataItems::SingleValue(sv)) => {
-                (sv.tag(), sv.value())
-            }
+            DataBlockMember::DataItems(DataItems::SingleValue(sv)) => (sv.tag(), sv.value()),
             other => panic!("the emitted member is a single value: {other:?}"),
         }
     }
@@ -883,7 +881,10 @@ mod tests {
         assert!(errors.is_empty(), "no mismatch: {errors:?}");
         let expected = Ineq::LessThan(NonNeg::from_numeric(Numeric::from(0.001)));
         assert_eq!(refine.ls_shift_su_max, Some(expected));
-        assert_eq!(refine.ls_shift_su_max_lt, None, "the plain assertion stays in the payload");
+        assert_eq!(
+            refine.ls_shift_su_max_lt, None,
+            "the plain assertion stays in the payload"
+        );
         let member = &refine.to_members()[0];
         let (tag, value) = emitted(member);
         assert_eq!(tag.as_ref(), "refine_ls_shift/su_max");

@@ -14,10 +14,8 @@ pub use symmetry::Symmetry;
 pub use codes::CellSetting;
 
 /// The range-check and closed-set error of the `symmetry` category.
-///
-/// Follows the style of `CrystalSystemCifError`: a dedicated error
-/// type with `Display` and `std::error::Error`.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("{0}")]
 pub struct SymmetryCifError(String);
 
 impl SymmetryCifError {
@@ -25,14 +23,6 @@ impl SymmetryCifError {
         Self(message)
     }
 }
-
-impl Display for SymmetryCifError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.0)
-    }
-}
-
-impl std::error::Error for SymmetryCifError {}
 
 /// The value of `_symmetry_Int_Tables_number`.
 ///

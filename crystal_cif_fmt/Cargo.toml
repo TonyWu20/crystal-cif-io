@@ -9,6 +9,7 @@ license = "MIT"
 repository = "https://github.com/TonyWu20/crystal-cif-io"
 
 [dependencies]
+thiserror = "2"
 chumsky = "0.13"
 ariadne = { version = "0.6", features = ["auto-color"] }
 serde_json = "1"

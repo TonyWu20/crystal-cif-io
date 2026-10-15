@@ -17,10 +17,8 @@ pub use exptl::{Exptl, ExptlAbsorptCorrectionT};
 pub use codes::AbsorptCorrectionType;
 
 /// The range-check and closed-set error of the `exptl` category.
-///
-/// Follows the style of `CrystalSystemCifError`: a dedicated error
-/// type with `Display` and `std::error::Error`.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("{0}")]
 pub struct ExptlCifError(String);
 
 impl ExptlCifError {
@@ -28,14 +26,6 @@ impl ExptlCifError {
         Self(message)
     }
 }
-
-impl Display for ExptlCifError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.0)
-    }
-}
-
-impl std::error::Error for ExptlCifError {}
 
 /// Read the value of a `Numeric` as an `f64`.
 fn numeric_value(value: &Numeric) -> f64 {

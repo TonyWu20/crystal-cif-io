@@ -237,7 +237,11 @@ fn main_real_data(force: bool) {
             continue;
         }
 
-        fs::write(&expected, serde_json::to_string_pretty(&fresh).unwrap() + "\n").unwrap();
+        fs::write(
+            &expected,
+            serde_json::to_string_pretty(&fresh).unwrap() + "\n",
+        )
+        .unwrap();
         written += 1;
         println!("  wrote {name}");
     }

@@ -100,9 +100,13 @@ fn real_data_verify() {
         let actual = canonical::document_json(&doc, &name, schema_version);
         if !canonical::trees_equal(&expected["blocks"], &actual["blocks"]) {
             if known_gap {
-                gaps.push(format!("{name}: parser output now matches; remove the stale flag"));
+                gaps.push(format!(
+                    "{name}: parser output now matches; remove the stale flag"
+                ));
             } else {
-                failures.push(format!("{name}: canonical tree differs from the expected file"));
+                failures.push(format!(
+                    "{name}: canonical tree differs from the expected file"
+                ));
             }
         }
     }

@@ -76,9 +76,9 @@ impl From<Ineq<NonNeg>> for Value {
     fn from(value: Ineq<NonNeg>) -> Self {
         match value {
             Ineq::Value(v) => Value::Numeric(v.0),
-            Ineq::LessThan(v) => Value::CharString(CharString::Unquoted(
-                UnquotedString::new(format!("<{}", v.numeric())),
-            )),
+            Ineq::LessThan(v) => Value::CharString(CharString::Unquoted(UnquotedString::new(
+                format!("<{}", v.numeric()),
+            ))),
         }
     }
 }

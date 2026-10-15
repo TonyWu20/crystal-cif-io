@@ -27,10 +27,11 @@ use crystal_cif_fmt::grammar::{CharString, Float, Matrix, Number, Numeric, Unsig
 pub const DEFAULT_TOLERANCE: f64 = 1e-3;
 
 /// A build failure of the `cell` builders.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
 pub enum CellError {
     /// A supplied derived value misses the computed value beyond
     /// the relative tolerance.
+    #[error("{item}: the supplied {supplied} misses the computed {computed} beyond the {tolerance} tolerance")]
     Mismatch {
         item: &'static str,
         supplied: String,
@@ -38,6 +39,7 @@ pub enum CellError {
         tolerance: f64,
     },
     /// A supplied matrix or vector carries the wrong shape.
+    #[error("{item}: the shape is {actual:?}, the item expects {expected}")]
     BadShape {
         item: &'static str,
         expected: &'static str,
@@ -45,36 +47,9 @@ pub enum CellError {
     },
     /// The input describes no lattice: a zero length, a zero
     /// volume, or a zero sine of an angle.
+    #[error("cell: {0}")]
     Degenerate(String),
 }
-
-impl std::fmt::Display for CellError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Mismatch {
-                item,
-                supplied,
-                computed,
-                tolerance,
-            } => write!(
-                f,
-                "{item}: the supplied {supplied} misses the computed {computed} beyond the {tolerance} tolerance"
-            ),
-            Self::BadShape {
-                item,
-                expected,
-                actual,
-            } => write!(
-                f,
-                "{item}: the shape is {} x {}, the item expects {expected}",
-                actual.0, actual.1
-            ),
-            Self::Degenerate(message) => write!(f, "cell: {message}"),
-        }
-    }
-}
-
-impl std::error::Error for CellError {}
 
 #[bon]
 impl Cell {

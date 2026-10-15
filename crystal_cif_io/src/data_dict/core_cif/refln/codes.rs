@@ -5,10 +5,8 @@ use std::fmt::Display;
 use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};
 
 /// The closed-set error of the `refln` category.
-///
-/// Follows the style of `CrystalSystemCifError`: a dedicated error
-/// type with `Display` and `std::error::Error`.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
+#[error("{0}")]
 pub struct ReflnCifError(String);
 
 impl ReflnCifError {
@@ -16,14 +14,6 @@ impl ReflnCifError {
         Self(message)
     }
 }
-
-impl Display for ReflnCifError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.0)
-    }
-}
-
-impl std::error::Error for ReflnCifError {}
 
 /// The closed value set of `_refln_include_status`.
 ///
