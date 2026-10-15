@@ -583,7 +583,7 @@ fn emit_closed(plan: &CatPlan, t: &TypeFile) -> String {
 
     let mut out = String::new();
     out.push_str("use std::fmt::Display;\n\n");
-    out.push_str("use crate::grammar::{CharString, UnquotedString, Value};\n\n");
+    out.push_str("use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};\n\n");
     let doc = format!(
         "/// The closed code set of `_{item}`. The codes are recorded in\n\
          /// the dictionary `_enumeration` (see `tests/dict_inventory.json`).\n"
@@ -638,6 +638,21 @@ fn emit_closed(plan: &CatPlan, t: &TypeFile) -> String {
         t.name
     );
     out.push_str(&body);
+    // The closed-set parse method: a code to a variant, None when absent.
+    out.push_str("\n");
+    out.push_str(&format!("impl {} {{\n", t.name));
+    out.push_str("    /// Parse a closed-set code into a variant. None when the code is not in the set.\n");
+    out.push_str("    pub fn parse(code: &str) -> Option<Self> {\n");
+    out.push_str("        match code {\n");
+    for code in codes {
+        let variant = code_variant(code);
+        let line = format!("            \"{code}\" => Some(Self::{variant}),\n");
+        out.push_str(&line);
+    }
+    out.push_str("            _ => None,\n");
+    out.push_str("        }\n");
+    out.push_str("    }\n");
+    out.push_str("}\n");
     out
 }
 
@@ -661,7 +676,7 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
 
     let mut out = String::new();
     out.push_str("use std::fmt::Display;\n\n");
-    out.push_str("use crate::grammar::{Float, Number, Numeric, Value};\n\n");
+    out.push_str("use crystal_cif_fmt::grammar::{Float, Number, Numeric, Value};\n\n");
     let doc = format!(
         "/// The write-time range check for `_{item}`. `new` clamps the value\n\
          /// to {interval}, matching the dictionary `_enumeration`.\n"
