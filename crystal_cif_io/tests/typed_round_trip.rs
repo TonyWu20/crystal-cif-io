@@ -111,7 +111,7 @@ fn the_acetonitrile_block_round_trips_the_formula_category() {
         doc.chemical_formula.weight.is_some(),
         "the recorded formula weight is typed"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),
@@ -138,7 +138,7 @@ fn the_structure_block_round_trips_cell_and_atom_site() {
         matches!(doc.atom_site[0].adp_type, Some(AdpType::Uiso)),
         "the displacement type types to the closed set"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),

@@ -36,7 +36,7 @@ pub use grammar::{
 /// labeled. `CifDialect` holds the value-rule dialect (CIF 1.1 or
 /// the 2.0 list-value rules) detected from the file start. See
 /// `docs/refactor-chumsky-ariadne.md`.
-pub use parser::{parse_cif, rich_error, CifDialect};
+pub use parser::{parse_cif, rich_error, syntax_error_report, CifDialect};
 
 /// The term materialization traits. A term knows its tag and
 /// materializes into the IR value types. The data-dictionary

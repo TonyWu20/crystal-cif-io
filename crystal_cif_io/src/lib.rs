@@ -8,8 +8,9 @@
 //! edit, and write workflows stay inside this crate.
 //!
 //! ```no_run
-//! use crystal_cif_io::parse_cif;
-//! use crystal_cif_io::CoreCif;
+//! use crystal_cif_io::parse_core_cif;
+//!
+//! let cifs = parse_core_cif("data_1\n_cell_length_a 7.0\n").expect("the file types");
 //! ```
 //!
 //! Add `crystal-cif-fmt` only for direct IR control: loop columns,
@@ -24,7 +25,9 @@ pub mod core_cif;
 pub mod data_dict;
 
 /// The typed document layer (roadmap D12). The block view and its error.
-pub use core_cif::{CifError, CoreCif};
+pub use core_cif::{
+    parse_core_cif, write_core_cif, BlockTypeFailure, CifError, CoreCif, CoreCifParseError,
+};
 
 /// The wave 1 category structs (roadmap D12).
 pub use data_dict::core_cif::{
@@ -119,7 +122,9 @@ pub use crystal_cif_fmt::{
 };
 
 /// The `crystallographic-group` type the builders name. Re-exported
-/// so the builder workflow stays inside this crate.
+/// so the builder workflow stays inside this crate. Resolve a group
+/// with `SpaceGroup::try_from_str` over a Hall symbol, for example
+/// `SpaceGroup::try_from_str("-P 2ybc")`.
 pub mod group {
     pub use crystallographic_group::SpaceGroup;
 }

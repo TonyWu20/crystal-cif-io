@@ -206,7 +206,7 @@ fn the_diffrn_fixture_round_trips_the_tier_items() {
         matches!(doc.diffrn_refln[0].scan_mode, Some(ScanMode::Om)),
         "the scan mode codes to the closed set"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),
@@ -235,7 +235,7 @@ fn the_shelxl_block_round_trips_the_single_value_items() {
         doc.diffrn_reflns.number.is_some(),
         "the reflection count is typed"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),
@@ -265,7 +265,7 @@ fn the_cod_block_round_trips_the_radiation_and_source_items() {
         doc.diffrn_reflns.number.is_some(),
         "the reflection count is typed"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),

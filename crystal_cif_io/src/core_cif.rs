@@ -7,7 +7,9 @@
 //! byte round-trip.
 
 use crystal_cif_fmt::grammar::DataBlock;
-use crystal_cif_fmt::{DataBlockHeading, DataBlockMember};
+use crystal_cif_fmt::{
+    parse_cif, syntax_error_report, CifDocument, DataBlockHeading, DataBlockMember,
+};
 
 use crate::data_dict::core_cif::atom_site::AtomSite;
 use crate::data_dict::core_cif::atom_sites::{AtomSites, AtomSitesRow};
@@ -103,6 +105,9 @@ pub enum CifError {
 /// The typed view of one data block (roadmap D12g).
 #[derive(Debug, Clone, Default)]
 pub struct CoreCif {
+    /// The heading of the data block this view was read from. `to_block`
+    /// writes it back, so the round trip needs no separate heading.
+    pub heading: DataBlockHeading,
     pub cell: Cell,
     pub space_group: SpaceGroup,
     pub space_group_symop: Vec<Symop>,
@@ -206,6 +211,7 @@ impl CoreCif {
     /// the full list, never the first.
     pub fn from_block(block: &DataBlock) -> Result<CoreCif, Vec<CifError>> {
         let mut doc = CoreCif::default();
+        doc.heading = DataBlockHeading::new(block.heading().to_string());
         let members: Vec<DataBlockMember> = block.members().to_vec();
         let mut errors: Vec<CifError> = Vec::new();
         // Each category consumes the residue of the last. The residue is
@@ -404,8 +410,9 @@ impl CoreCif {
     }
 
     /// Write the view back: the typed categories in a fixed order, then
-    /// the `extra` residue.
-    pub fn to_block(&self, heading: &str) -> DataBlock {
+    /// the `extra` residue. The block heading is the one recorded at the
+    /// read, so no argument is needed.
+    pub fn to_block(&self) -> DataBlock {
         let mut members = Vec::new();
         members.extend(self.cell.to_members());
         members.extend(self.space_group.to_members());
@@ -498,7 +505,14 @@ impl CoreCif {
         members.extend(self.symmetry.to_members());
         members.extend(self.symmetry_equiv.to_members());
         members.extend(self.extra.iter().cloned());
-        DataBlock::from_heading_members((DataBlockHeading::new(heading.to_string()), members))
+        DataBlock::from_heading_members((self.heading.clone(), members))
+    }
+
+    /// Write one view back to CIF text. This is the write step of the
+    /// read-edit-write workflow for a single-block file.
+    pub fn to_cif(&self) -> String {
+        let document = CifDocument::new(None, Some(vec![self.to_block()]));
+        document.to_string()
     }
 
     /// Check the wave-1 required sets. Reports every missing required
@@ -614,4 +628,83 @@ impl CoreCif {
             Err(errors)
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// The typed parse entry point (the read workflow). Call it with the file
+// text; it returns one `CoreCif` per data block. The IR document and the
+// per-block `from_block` step stay inside this function.
+// ---------------------------------------------------------------------------
+
+/// A data block that failed to type, with every conformance error of it.
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
+#[error("block {block}: {n} conformance error(s)", n = errors.len())]
+pub struct BlockTypeFailure {
+    /// The name of the data block that failed to type.
+    pub block: String,
+    /// Every conformance error collected from that block.
+    pub errors: Vec<CifError>,
+}
+
+/// A failure of the typed parse.
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
+pub enum CoreCifParseError {
+    /// The file does not parse. Each string is one rendered syntax report.
+    #[error("the file does not parse: {n} syntax report(s)", n = reports.len())]
+    Syntax { reports: Vec<String> },
+    /// One or more data blocks failed to type. Every failure is carried.
+    #[error("{n} data block(s) failed to type", n = failures.len())]
+    Typed { failures: Vec<BlockTypeFailure> },
+}
+
+/// The typed parse entry point. Parses the file text and returns one
+/// `CoreCif` per data block. The IR document and the per-block typing stay
+/// inside this call.
+///
+/// # Errors
+///
+/// `CoreCifParseError::Syntax` when the file does not parse. The reports
+/// render each syntax error with the source snippet. `CoreCifParseError::Typed`
+/// when one or more data blocks fail to type. Every failure is carried,
+/// never the first.
+pub fn parse_core_cif(source: &str) -> Result<Vec<CoreCif>, CoreCifParseError> {
+    let document = match parse_cif(source) {
+        Ok(document) => document,
+        Err(errors) => {
+            let reports = errors
+                .iter()
+                .map(|error| syntax_error_report(error, "<cif>", source))
+                .collect();
+            return Err(CoreCifParseError::Syntax { reports });
+        }
+    };
+    let mut blocks: Vec<CoreCif> = Vec::new();
+    let mut failures: Vec<BlockTypeFailure> = Vec::new();
+    if let Some(raw_blocks) = document.data_blocks() {
+        for block in raw_blocks {
+            match CoreCif::from_block(block) {
+                Ok(block_view) => blocks.push(block_view),
+                Err(errors) => failures.push(BlockTypeFailure {
+                    block: block.heading().to_string(),
+                    errors,
+                }),
+            }
+        }
+    }
+    if failures.is_empty() {
+        Ok(blocks)
+    } else {
+        Err(CoreCifParseError::Typed { failures })
+    }
+}
+
+/// Write one or more typed views back to CIF text. The blocks keep their
+/// recorded headings. This is the write step of the read-edit-write
+/// workflow.
+pub fn write_core_cif(blocks: &[CoreCif]) -> String {
+    let document = CifDocument::new(
+        None,
+        Some(blocks.iter().map(|block| block.to_block()).collect()),
+    );
+    document.to_string()
 }

@@ -239,7 +239,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
         doc.atom_sites.solution_primary.is_some(),
         "the atom_sites solution codes type"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         t3_fingerprint(&doc),
@@ -256,7 +256,7 @@ fn the_iucr_example_round_trips_the_t3_categories() {
         doc.chemical.name_common.is_some(),
         "the chemical single items type"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         t3_fingerprint(&doc),
@@ -279,7 +279,7 @@ fn the_cod_entry_round_trips_the_t3_categories() {
         doc.geom_bond_rows.iter().any(|r| r.distance.is_some()),
         "the bond distance types through the range newtype"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         t3_fingerprint(&doc),
@@ -343,7 +343,7 @@ fn save_frames_and_foreign_tags_are_the_t3_extra_residue() {
         }
         _ => panic!("the residue keeps the save frame before the foreign tag"),
     }
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         t3_fingerprint(&doc),

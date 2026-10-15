@@ -130,6 +130,23 @@ pub fn rich_error(e: &Rich<char>, source_name: &str, src: &str) {
         .print((source_name, Source::from(src)));
 }
 
+/// Render one syntax error as an ariadne report into a `String`.
+/// The report carries the source snippet, the span, and the reason.
+pub fn syntax_error_report(e: &Rich<char>, source_name: &str, src: &str) -> String {
+    let report = Report::build(ReportKind::Error, (source_name, e.span().into_range()))
+        .with_config(ariadne::Config::new().with_index_type(ariadne::IndexType::Byte))
+        .with_message(e.to_string())
+        .with_label(
+            Label::new((source_name, e.span().into_range()))
+                .with_message(e.reason().to_string())
+                .with_color(Color::Red),
+        )
+        .finish();
+    let mut out = std::io::Cursor::new(Vec::new());
+    let _ = report.write((source_name, Source::from(src)), &mut out);
+    String::from_utf8(out.into_inner()).expect("the report is utf-8")
+}
+
 // --- character classes (spec Appendix A) ------------------------------------
 
 fn is_eol(c: char) -> bool {

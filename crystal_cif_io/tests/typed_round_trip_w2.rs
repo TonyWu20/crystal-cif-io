@@ -99,7 +99,7 @@ fn the_reflns_fixture_types_the_whole_block() {
         "the cell setting types"
     );
     assert!(doc.extra.is_empty(), "the whole block types");
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),
@@ -155,7 +155,7 @@ fn the_cod_sg_file_round_trips_the_tier_groups() {
         has_single_in_extra(&doc, "refine_diff_density_max"),
         "the single diff density items stay in extra"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),
@@ -205,7 +205,7 @@ fn the_iucr_example_round_trips_the_tier_groups() {
         has_single_in_extra(&doc, "refine_diff_density_max"),
         "the single diff density items stay in extra"
     );
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         fingerprint(&doc),

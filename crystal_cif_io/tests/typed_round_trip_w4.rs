@@ -39,11 +39,11 @@ fn first_block(cif: &str) -> DataBlock {
 /// changes the text.
 fn round_trip_is_stable(block: &DataBlock) -> CoreCif {
     let doc = CoreCif::from_block(block).expect("the typed read is clean");
-    let rewritten = doc.to_block(block.heading());
+    let rewritten = doc.to_block();
     let again = CoreCif::from_block(&rewritten).expect("the rewrite re-reads");
     assert_eq!(
         rewritten.to_string(),
-        again.to_block(block.heading()).to_string(),
+        again.to_block().to_string(),
         "the IR round-trip is stable"
     );
     doc

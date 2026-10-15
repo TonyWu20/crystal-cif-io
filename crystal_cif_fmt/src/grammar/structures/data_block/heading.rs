@@ -27,6 +27,12 @@ impl DataBlockHeading {
     }
 }
 
+impl Default for DataBlockHeading {
+    fn default() -> Self {
+        Self::new(String::new())
+    }
+}
+
 impl crate::grammar::SyntacticUnit for DataBlockHeading {
     type FormatOutput = String;
 
