@@ -1,8 +1,8 @@
 //! The `atom_type` category of the typed document layer (roadmap D12).
 //!
-//! The `AtomType` single-value struct (the T6 element properties)
-//! and the `AtomTypeRow` loop row (the type properties and the
-//! scattering-factor columns).
+//! The `AtomType` struct owns the single-value items (the T6 element
+//! properties) and the loop rows (`rows`, the type properties and
+//! the scattering-factor columns).
 
 use crate::core_cif::CifError;
 use crate::data_dict::core_cif::atom_type::{
@@ -19,7 +19,8 @@ pub struct AtomType {
     pub display_colour: Option<CharString>,
     pub electron_count: Option<Numeric>,
     pub element_symbol: Option<CharString>,
-    pub mass_number: Option<Numeric>,
+    pub mass_number: Option<Numeric>,    pub rows: Vec<AtomTypeRow>,
+
 }
 
 impl CifCategory for AtomType {
@@ -73,6 +74,7 @@ impl CifCategory for AtomType {
                 )),
             )));
         }
+        out.extend(rows_to_members(&self.rows));
         out
     }
 
@@ -83,50 +85,62 @@ impl CifCategory for AtomType {
         let mut residue = Vec::new();
         let mut errors = Vec::new();
         for m in members {
-            if let DataBlockMember::DataItems(DataItems::SingleValue(sv)) = m {
-                let tag = sv.tag().as_ref().to_lowercase();
-                let value = sv.value();
-                match tag.as_str() {
-                    "atom_type_atomic_mass" => {
-                        match convert::read_numeric("atom_type_atomic_mass", value) {
-                            Ok(v) => self.atomic_mass = v,
-                            Err(e) => errors.push(e),
+            match m {
+                DataBlockMember::DataItems(DataItems::SingleValue(sv)) => {
+                    let tag = sv.tag().as_ref().to_lowercase();
+                    let value = sv.value();
+                    match tag.as_str() {
+                        "atom_type_atomic_mass" => {
+                            match convert::read_numeric("atom_type_atomic_mass", value) {
+                                Ok(v) => self.atomic_mass = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
-                    }
-                    "atom_type_atomic_number" => {
-                        match convert::read_numeric("atom_type_atomic_number", value) {
-                            Ok(v) => self.atomic_number = v,
-                            Err(e) => errors.push(e),
+                        "atom_type_atomic_number" => {
+                            match convert::read_numeric("atom_type_atomic_number", value) {
+                                Ok(v) => self.atomic_number = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
-                    }
-                    "atom_type_display_colour" => {
-                        match convert::read_char("atom_type_display_colour", value) {
-                            Ok(v) => self.display_colour = v,
-                            Err(e) => errors.push(e),
+                        "atom_type_display_colour" => {
+                            match convert::read_char("atom_type_display_colour", value) {
+                                Ok(v) => self.display_colour = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
-                    }
-                    "atom_type_electron_count" => {
-                        match convert::read_numeric("atom_type_electron_count", value) {
-                            Ok(v) => self.electron_count = v,
-                            Err(e) => errors.push(e),
+                        "atom_type_electron_count" => {
+                            match convert::read_numeric("atom_type_electron_count", value) {
+                                Ok(v) => self.electron_count = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
-                    }
-                    "atom_type_element_symbol" => {
-                        match convert::read_char("atom_type_element_symbol", value) {
-                            Ok(v) => self.element_symbol = v,
-                            Err(e) => errors.push(e),
+                        "atom_type_element_symbol" => {
+                            match convert::read_char("atom_type_element_symbol", value) {
+                                Ok(v) => self.element_symbol = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
-                    }
-                    "atom_type_mass_number" => {
-                        match convert::read_numeric("atom_type_mass_number", value) {
-                            Ok(v) => self.mass_number = v,
-                            Err(e) => errors.push(e),
+                        "atom_type_mass_number" => {
+                            match convert::read_numeric("atom_type_mass_number", value) {
+                                Ok(v) => self.mass_number = v,
+                                Err(e) => errors.push(e),
+                            }
                         }
+                        _ => residue.push(m.clone()),
                     }
-                    _ => residue.push(m.clone()),
                 }
-            } else {
-                residue.push(m.clone());
+                DataBlockMember::DataItems(DataItems::MultiValues(cols)) => {
+                    let cols = cols.columns();
+                    let is_ours = cols
+                        .iter()
+                        .any(|c| LOOP_TAGS.contains(&c.tag().as_ref().to_lowercase().as_str()));
+                    if is_ours {
+                        self.rows = rows_from_columns(cols, &mut errors);
+                    } else {
+                        residue.push(m.clone());
+                    }
+                }
+                other => residue.push(other.clone()),
             }
         }
         (residue, errors)
@@ -186,331 +200,305 @@ const LOOP_TAGS: &[&str] = &[
     "atom_type_symbol",
 ];
 
-impl CifCategory for Vec<AtomTypeRow> {
-    fn to_members(&self) -> Vec<DataBlockMember> {
-        if self.is_empty() {
-            return Vec::new();
-        }
-        let mut columns = Vec::new();
-        if self.iter().any(|r| r.analytical_mass_percent.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.analytical_mass_percent {
-                    Some(v) => Value::from(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_analytical_mass_%".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.description.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.description {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_description".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.number_in_cell.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.number_in_cell {
-                    Some(v) => Value::from(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_number_in_cell".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.oxidation_number.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.oxidation_number {
-                    Some(v) => Value::from(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_oxidation_number".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.radius_bond.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.radius_bond {
-                    Some(v) => Value::from(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_radius_bond".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.radius_contact.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.radius_contact {
-                    Some(v) => Value::from(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_radius_contact".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_a1.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_a1 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_a1".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_a2.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_a2 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_a2".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_a3.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_a3 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_a3".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_a4.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_a4 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_a4".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_b1.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_b1 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_b1".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_b2.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_b2 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_b2".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_b3.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_b3 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_b3".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_b4.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_b4 {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_b4".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_cromer_mann_c.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_cromer_mann_c {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_Cromer_Mann_c".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_dispersion_imag.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_dispersion_imag {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_dispersion_imag".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_dispersion_real.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_dispersion_real {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_dispersion_real".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_dispersion_source.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_dispersion_source {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_dispersion_source".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_length_neutron.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_length_neutron {
-                    Some(v) => Value::Numeric(*v),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_length_neutron".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_source.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_source {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_source".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.scat_versus_stol_list.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.scat_versus_stol_list {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_scat_versus_stol_list".to_string()),
-                values,
-            ));
-        }
-        if self.iter().any(|r| r.symbol.is_some()) {
-            let values: Vec<Value> = self
-                .iter()
-                .map(|r| match &r.symbol {
-                    Some(v) => Value::CharString(v.clone()),
-                    None => Value::Inapplicable,
-                })
-                .collect();
-            columns.push(LoopColumn::new(
-                Tag::new("atom_type_symbol".to_string()),
-                values,
-            ));
-        }
-        if columns.is_empty() {
-            return Vec::new();
-        }
-        vec![DataBlockMember::DataItems(DataItems::MultiValues(
-            LoopColumns::new(columns),
-        ))]
+fn rows_to_members(rows: &[AtomTypeRow]) -> Vec<DataBlockMember> {
+    if rows.is_empty() {
+        return Vec::new();
     }
-
-    fn from_members(
-        &mut self,
-        members: &[DataBlockMember],
-    ) -> (Vec<DataBlockMember>, Vec<CifError>) {
-        let mut residue = Vec::new();
-        let mut errors = Vec::new();
-        for m in members {
-            match m {
-                DataBlockMember::DataItems(DataItems::MultiValues(cols)) => {
-                    let cols = cols.columns();
-                    let is_ours = cols
-                        .iter()
-                        .any(|c| LOOP_TAGS.contains(&c.tag().as_ref().to_lowercase().as_str()));
-                    if !is_ours {
-                        residue.push(m.clone());
-                    } else {
-                        *self = rows_from_columns(cols, &mut errors);
-                    }
-                }
-                other => residue.push(other.clone()),
-            }
-        }
-        (residue, errors)
+    let mut columns = Vec::new();
+    if rows.iter().any(|r| r.analytical_mass_percent.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.analytical_mass_percent {
+                Some(v) => Value::from(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_analytical_mass_%".to_string()),
+            values,
+        ));
     }
+    if rows.iter().any(|r| r.description.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.description {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_description".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.number_in_cell.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.number_in_cell {
+                Some(v) => Value::from(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_number_in_cell".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.oxidation_number.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.oxidation_number {
+                Some(v) => Value::from(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_oxidation_number".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.radius_bond.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.radius_bond {
+                Some(v) => Value::from(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_radius_bond".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.radius_contact.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.radius_contact {
+                Some(v) => Value::from(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_radius_contact".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_a1.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_a1 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_a1".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_a2.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_a2 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_a2".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_a3.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_a3 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_a3".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_a4.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_a4 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_a4".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_b1.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_b1 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_b1".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_b2.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_b2 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_b2".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_b3.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_b3 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_b3".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_b4.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_b4 {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_b4".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_cromer_mann_c.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_cromer_mann_c {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_Cromer_Mann_c".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_dispersion_imag.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_dispersion_imag {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_dispersion_imag".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_dispersion_real.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_dispersion_real {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_dispersion_real".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_dispersion_source.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_dispersion_source {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_dispersion_source".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_length_neutron.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_length_neutron {
+                Some(v) => Value::Numeric(*v),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_length_neutron".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_source.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_source {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_source".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.scat_versus_stol_list.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.scat_versus_stol_list {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_scat_versus_stol_list".to_string()),
+            values,
+        ));
+    }
+    if rows.iter().any(|r| r.symbol.is_some()) {
+        let values: Vec<Value> = rows
+            .iter()
+            .map(|r| match &r.symbol {
+                Some(v) => Value::CharString(v.clone()),
+                None => Value::Inapplicable,
+            })
+            .collect();
+        columns.push(LoopColumn::new(
+            Tag::new("atom_type_symbol".to_string()),
+            values,
+        ));
+    }
+    if columns.is_empty() {
+        return Vec::new();
+    }
+    vec![DataBlockMember::DataItems(DataItems::MultiValues(
+        LoopColumns::new(columns),
+    ))]
 }
+
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<AtomTypeRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

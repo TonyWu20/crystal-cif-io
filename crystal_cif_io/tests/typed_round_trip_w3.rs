@@ -87,10 +87,10 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     );
     s += &format!(
         "atom_type[rows={} symbol={} scat={}]\n",
-        doc.atom_type_rows.len(),
-        char_of(doc.atom_type_rows.first().and_then(|r| r.symbol.clone())),
+        doc.atom_type.rows.len(),
+        char_of(doc.atom_type.rows.first().and_then(|r| r.symbol.clone())),
         char_of(
-            doc.atom_type_rows
+            doc.atom_type.rows
                 .first()
                 .and_then(|r| r.scat_source.clone())
         ),
@@ -210,7 +210,7 @@ fn the_structure_fixture_round_trips_the_t3_categories() {
     let block = first_block(&fixture("13_structure.cif"));
     let doc = CoreCif::from_block(&block).expect("the typed read is clean");
     // Every T3 category of the fixture types.
-    assert!(!doc.atom_type_rows.is_empty(), "the atom_type loop types");
+    assert!(!doc.atom_type.rows.is_empty(), "the atom_type loop types");
     assert!(
         !doc.chemical_conn_atom.is_empty(),
         "the chemical_conn_atom loop types"

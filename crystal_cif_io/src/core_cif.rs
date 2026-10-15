@@ -14,7 +14,7 @@ use crystal_cif_fmt::{
 
 use crate::data_dict::core_cif::atom_site::AtomSite;
 use crate::data_dict::core_cif::atom_sites::AtomSites;
-use crate::data_dict::core_cif::atom_type::{AtomType, AtomTypeRow};
+use crate::data_dict::core_cif::atom_type::AtomType;
 use crate::data_dict::core_cif::audit::Audit;
 use crate::data_dict::core_cif::audit_author::{AuditAuthor, AuditAuthorRow};
 use crate::data_dict::core_cif::audit_conform::{AuditConform, AuditConformRow};
@@ -117,7 +117,6 @@ pub struct CoreCif {
     // T3 wave: the tier T3 category groups (roadmap D12j).
     pub atom_sites: AtomSites,
     pub atom_type: AtomType,
-    pub atom_type_rows: Vec<AtomTypeRow>,
     pub chemical: Chemical,
     pub chemical_rows: Vec<ChemicalRow>,
     pub chemical_conn_atom: Vec<ChemicalConnAtomRow>,
@@ -231,8 +230,6 @@ impl CoreCif {
         errors.extend(atom_sites_errors);
         let (residue, atom_type_errors) = doc.atom_type.from_members(&residue);
         errors.extend(atom_type_errors);
-        let (residue, atom_type_rows_errors) = doc.atom_type_rows.from_members(&residue);
-        errors.extend(atom_type_rows_errors);
         let (residue, chemical_errors) = doc.chemical.from_members(&residue);
         errors.extend(chemical_errors);
         let (residue, chemical_rows_errors) = doc.chemical_rows.from_members(&residue);
@@ -420,7 +417,6 @@ impl CoreCif {
         // T3 wave: the tier T3 category groups (roadmap D12j).
         members.extend(self.atom_sites.to_members());
         members.extend(self.atom_type.to_members());
-        members.extend(self.atom_type_rows.to_members());
         members.extend(self.chemical.to_members());
         members.extend(self.chemical_rows.to_members());
         members.extend(self.chemical_conn_atom.to_members());
