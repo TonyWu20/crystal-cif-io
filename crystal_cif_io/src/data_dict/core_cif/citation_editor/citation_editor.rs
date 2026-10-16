@@ -43,10 +43,12 @@ impl CifCategory for CitationEditor {
                     let tag = sv.tag().as_ref().to_lowercase();
                     let value = sv.value();
                     match tag.as_str() {
-                        "citation_editor" => match convert::read_char_text("citation_editor", value) {
-                            Ok(v) => self.editor = v,
-                            Err(e) => errors.push(e),
-                        },
+                        "citation_editor" => {
+                            match convert::read_char_text("citation_editor", value) {
+                                Ok(v) => self.editor = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
                         _ => residue.push(m.clone()),
                     }
                 }
@@ -68,7 +70,6 @@ impl CifCategory for CitationEditor {
                     } else {
                         self.rows = rows_from_columns(cols, &mut errors);
                     }
-
                 }
                 other => residue.push(other.clone()),
             }
@@ -136,7 +137,6 @@ fn rows_to_members(rows: &[CitationEditorRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<CitationEditorRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

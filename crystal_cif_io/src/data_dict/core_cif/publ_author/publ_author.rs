@@ -61,10 +61,12 @@ impl CifCategory for PublAuthor {
                     let tag = sv.tag().as_ref().to_lowercase();
                     let value = sv.value();
                     match tag.as_str() {
-                        "publ_author_id" => match convert::read_char_text("publ_author_id", value) {
-                            Ok(v) => self.id = v,
-                            Err(e) => errors.push(e),
-                        },
+                        "publ_author_id" => {
+                            match convert::read_char_text("publ_author_id", value) {
+                                Ok(v) => self.id = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
                         "publ_author_id_audit" => {
                             match convert::read_char_text("publ_author_id_audit", value) {
                                 Ok(v) => self.id_audit = v,
@@ -101,7 +103,6 @@ impl CifCategory for PublAuthor {
                     } else {
                         self.rows = rows_from_columns(cols, &mut errors);
                     }
-
                 }
                 other => residue.push(other.clone()),
             }
@@ -211,7 +212,6 @@ fn rows_to_members(rows: &[PublAuthorRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<PublAuthorRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

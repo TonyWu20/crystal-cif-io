@@ -90,7 +90,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         doc.atom_type.rows.len(),
         char_of(doc.atom_type.rows.first().and_then(|r| r.symbol.clone())),
         char_of(
-            doc.atom_type.rows
+            doc.atom_type
+                .rows
                 .first()
                 .and_then(|r| r.scat_source.clone())
         ),
@@ -105,7 +106,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         "chemical[rows={} gt={}]\n",
         doc.chemical.rows.len(),
         num_of(
-            doc.chemical.rows
+            doc.chemical
+                .rows
                 .first()
                 .and_then(|r| r.melting_point_gt)
                 .map(|t| t.value())
@@ -130,7 +132,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
     s += &format!(
         "conn_bond[rows={} type={} dist={}]\n",
         doc.chemical_conn_bond.rows.len(),
-        doc.chemical_conn_bond.rows
+        doc.chemical_conn_bond
+            .rows
             .first()
             .and_then(|r| r.r#type)
             .map(|t| t.to_string())
@@ -146,7 +149,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         "geom_angle[rows={} angle={} flag={}]\n",
         doc.geom_angle.rows.len(),
         num_of(doc.geom_angle.rows.first().and_then(|r| r.angle)),
-        doc.geom_angle.rows
+        doc.geom_angle
+            .rows
             .first()
             .and_then(|r| r.publ_flag)
             .map(|f| f.to_string())
@@ -156,7 +160,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         "geom_bond[rows={} distance={} id={}]\n",
         doc.geom_bond.rows.len(),
         num_of(
-            doc.geom_bond.rows
+            doc.geom_bond
+                .rows
                 .first()
                 .and_then(|r| r.distance)
                 .map(|d| d.value())
@@ -167,7 +172,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         "geom_contact[rows={} distance={}]\n",
         doc.geom_contact.rows.len(),
         num_of(
-            doc.geom_contact.rows
+            doc.geom_contact
+                .rows
                 .first()
                 .and_then(|r| r.distance)
                 .map(|d| d.value())
@@ -177,7 +183,8 @@ fn t3_fingerprint(doc: &CoreCif) -> String {
         "geom_hbond[rows={} dha={} flag={}]\n",
         doc.geom_hbond.rows.len(),
         num_of(doc.geom_hbond.rows.first().and_then(|r| r.angle_dha)),
-        doc.geom_hbond.rows
+        doc.geom_hbond
+            .rows
             .first()
             .and_then(|r| r.publ_flag)
             .map(|f| f.to_string())

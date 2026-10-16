@@ -74,7 +74,6 @@ impl CifCategory for Computing {
                     } else {
                         self.rows = rows_from_columns(cols, &mut errors);
                     }
-
                 }
                 other => residue.push(other.clone()),
             }
@@ -198,7 +197,6 @@ fn rows_to_members(rows: &[ComputingRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<ComputingRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

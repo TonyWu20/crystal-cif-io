@@ -91,10 +91,12 @@ impl CifCategory for AuditAuthor {
                                 Err(e) => errors.push(e),
                             }
                         }
-                        "audit_author_id" => match convert::read_char_text("audit_author_id", value) {
-                            Ok(v) => self.id = v,
-                            Err(e) => errors.push(e),
-                        },
+                        "audit_author_id" => {
+                            match convert::read_char_text("audit_author_id", value) {
+                                Ok(v) => self.id = v,
+                                Err(e) => errors.push(e),
+                            }
+                        }
                         "audit_author_id_orcid" => {
                             match convert::read_char_text("audit_author_id_orcid", value) {
                                 Ok(v) => self.id_orcid = v,
@@ -124,7 +126,6 @@ impl CifCategory for AuditAuthor {
                     } else {
                         self.rows = rows_from_columns(cols, &mut errors);
                     }
-
                 }
                 other => residue.push(other.clone()),
             }
@@ -178,7 +179,6 @@ fn rows_to_members(rows: &[AuditAuthorRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<AuditAuthorRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

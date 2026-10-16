@@ -11,9 +11,16 @@ fn main() {
         std::fs::read_to_string("crystal_cif_fmt/tests/real_data/cod/1000000.cif").unwrap();
     let mut doc = parse_core_cif(&source).expect("the file parses and types");
     println!("{} block(s), {:?} dialect", doc.len(), doc.dialect);
-    assert!(doc.comments.is_some(), "the leading comment lines are carried");
+    assert!(
+        doc.comments.is_some(),
+        "the leading comment lines are carried"
+    );
     let cif = doc.block("1000000").expect("the block is present");
-    println!("block {}, {}", cif.heading.name(), cif.cell.length_a.as_ref().expect("a length a"));
+    println!(
+        "block {}, {}",
+        cif.heading.name(),
+        cif.cell.length_a.as_ref().expect("a length a")
+    );
     match cif.validate() {
         Ok(()) => println!("the required sets are complete"),
         Err(gaps) => {
@@ -21,8 +28,20 @@ fn main() {
         }
     }
     use crystal_cif_io::data_dict::Ineq;
-    println!("{}", cif.exptl.absorpt_correction_type.as_ref().expect("a correction type"));
-    println!("{}", cif.refine.ls_hydrogen_treatment.as_ref().expect("a treatment"));
+    println!(
+        "{}",
+        cif.exptl
+            .absorpt_correction_type
+            .as_ref()
+            .expect("a correction type")
+    );
+    println!(
+        "{}",
+        cif.refine
+            .ls_hydrogen_treatment
+            .as_ref()
+            .expect("a treatment")
+    );
     match cif.refine.ls_shift_su_max {
         Some(Ineq::LessThan(bound)) => println!("su_max < {bound}"),
         Some(Ineq::Value(value)) => println!("su_max = {value}"),
@@ -31,9 +50,9 @@ fn main() {
 
     // 3. Editing the typed block: a scoped mutable borrow of the document
     {
-        use crystal_cif_io::{CharString, Numeric, UnquotedString};
         use crystal_cif_io::data_dict::core_cif::geom_angle::GeomAngleRow;
         use crystal_cif_io::data_dict::core_cif::refine::{MatrixType, NonNeg};
+        use crystal_cif_io::{CharString, Numeric, UnquotedString};
 
         fn unquoted(s: &str) -> CharString {
             CharString::Unquoted(UnquotedString::new(s.to_string()))
@@ -61,15 +80,21 @@ fn main() {
         }
     }
     let out_text = doc.to_cif();
-    assert!(out_text.contains("diagonal"), "the edited matrix type writes");
+    assert!(
+        out_text.contains("diagonal"),
+        "the edited matrix type writes"
+    );
     assert!(out_text.contains("<0.001"), "the edited assertion writes");
     assert!(out_text.contains("geom_angle"), "the pushed row writes");
-    assert!(out_text.contains("data_1000000"), "the recorded heading writes");
+    assert!(
+        out_text.contains("data_1000000"),
+        "the recorded heading writes"
+    );
     println!("the document re-writes with the edits");
 
     // 5. The builder path: the re-exported group type
-    use crystal_cif_io::group::SpaceGroup as Resolved;
     use crystal_cif_io::data_dict::core_cif::space_group_symop::Symop;
+    use crystal_cif_io::group::SpaceGroup as Resolved;
 
     let symops = Symop::builder()
         .group(Resolved::try_from_str("-P 2ybc").expect("IT 14 resolves"))

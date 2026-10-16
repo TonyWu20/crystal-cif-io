@@ -86,7 +86,10 @@ impl CifCategory for Database {
                             }
                         }
                         "database_code_depnum_ccdc_archive" => {
-                            match convert::read_char_text("database_code_depnum_ccdc_archive", value) {
+                            match convert::read_char_text(
+                                "database_code_depnum_ccdc_archive",
+                                value,
+                            ) {
                                 Ok(v) => self.code_depnum_ccdc_archive = v,
                                 Err(e) => errors.push(e),
                             }
@@ -98,7 +101,10 @@ impl CifCategory for Database {
                             }
                         }
                         "database_code_depnum_ccdc_journal" => {
-                            match convert::read_char_text("database_code_depnum_ccdc_journal", value) {
+                            match convert::read_char_text(
+                                "database_code_depnum_ccdc_journal",
+                                value,
+                            ) {
                                 Ok(v) => self.code_depnum_ccdc_journal = v,
                                 Err(e) => errors.push(e),
                             }
@@ -137,7 +143,6 @@ impl CifCategory for Database {
                     } else {
                         self.rows = rows_from_columns(cols, &mut errors);
                     }
-
                 }
                 other => residue.push(other.clone()),
             }
@@ -303,7 +308,6 @@ fn rows_to_members(rows: &[DatabaseRow]) -> Vec<DataBlockMember> {
         LoopColumns::new(columns),
     ))]
 }
-
 
 fn rows_from_columns(cols: &[LoopColumn], errors: &mut Vec<CifError>) -> Vec<DatabaseRow> {
     let n = cols.iter().map(|c| c.values().len()).max().unwrap_or(0);

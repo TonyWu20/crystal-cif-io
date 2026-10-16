@@ -587,13 +587,17 @@ impl CoreCifDocument {
 
     /// Look up a block by its heading name.
     pub fn block(&self, name: &str) -> Option<&CoreCif> {
-        self.blocks.iter().find(|block| block.heading.name() == name)
+        self.blocks
+            .iter()
+            .find(|block| block.heading.name() == name)
     }
 
     /// Look up a block mutably by its heading name. The borrow of the
     /// document lives as long as the returned reference.
     pub fn block_mut(&mut self, name: &str) -> Option<&mut CoreCif> {
-        self.blocks.iter_mut().find(|block| block.heading.name() == name)
+        self.blocks
+            .iter_mut()
+            .find(|block| block.heading.name() == name)
     }
 
     /// Write the document back to CIF text. The blocks keep their
