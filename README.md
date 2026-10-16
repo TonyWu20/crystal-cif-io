@@ -908,9 +908,10 @@ clamps to 0..180 on construction.
 
 ## Status
 
-Version 0.2.0 released 2026-10-13 (the `dev-0.2` to `main`
-merge). The dev line `dev-0.2` now carries the crate split of
-decision D13. `crystal-cif-io` is at 0.3.0.
+The `dev-0.2` line merged to `main` on 2026-10-13 and releases
+as 0.2.0 to crates.io (the last published version was 0.1.2). The
+dev line now carries the crate split of decision D13.
+`crystal-cif-io` is at 0.2.0.
 `crystal-cif-fmt` is at 0.1.0.
 
 The typed document layer (D12) is complete on the dev line.

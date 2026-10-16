@@ -3,7 +3,7 @@
 Notable changes to this project. The format follows
 Keep a Changelog.
 
-## Unreleased
+## 0.2.0 (2026-10-16)
 
 ### Added
 
@@ -262,9 +262,6 @@ Keep a Changelog.
   inside a list, triple-quoted strings, nested save frames,
   non-ASCII values). The D9 entry below parses all of them. It
   removes every `known_gap` pin.
-
-
-## 0.2.0 (2026-10-09)
 
 The dict-items roadmap is complete. All eight work units are
 merged: T0, T2, T3, T4, T5, D8, and T6.
