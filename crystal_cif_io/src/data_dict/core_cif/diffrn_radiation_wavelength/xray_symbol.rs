@@ -48,3 +48,16 @@ impl From<XraySymbol> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl XraySymbol {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "K-L~3~" => Some(Self::K_L_3),
+            "K-L~2~" => Some(Self::K_L_2),
+            "K-M~3~" => Some(Self::K_M_3),
+            "K-L~2,3~" => Some(Self::K_L_2_3),
+            _ => None,
+        }
+    }
+}

@@ -42,3 +42,14 @@ impl From<RotationMode> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl RotationMode {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "rotation" => Some(Self::Rotation),
+            "stepwise" => Some(Self::Stepwise),
+            _ => None,
+        }
+    }
+}

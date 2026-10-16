@@ -92,7 +92,14 @@ fn main() -> ExitCode {
         println!("dict_codegen warning: {w}");
     }
 
-    let report = emit(&manifest, &inventory, shell.as_ref(), &annotations, &drift, no_write);
+    let report = emit(
+        &manifest,
+        &inventory,
+        shell.as_ref(),
+        &annotations,
+        &drift,
+        no_write,
+    );
     if no_write {
         println!("dict_codegen: --no-write check mode, no files written");
     }
@@ -142,6 +149,10 @@ struct Plan {
     type_name: Option<String>,
     /// The annotation note, emitted as a doc comment.
     note: Option<String>,
+    /// True when the range type carries a `from_numeric` constructor.
+    numeric: bool,
+    /// An optional override of the closed-set doc header.
+    doc: Option<String>,
 }
 
 /// One generated type file.
@@ -483,8 +494,13 @@ fn plan_category(
                 ));
                 continue;
             }
+            let file = entry
+                .get("file")
+                .and_then(|v| v.as_str())
+                .map(|s| s.to_string())
+                .unwrap_or_else(|| snake_case(&name));
             types.push(TypeFile {
-                file: snake_case(&name),
+                file,
                 name: name.clone(),
                 kind: kind.clone(),
             });
@@ -509,6 +525,14 @@ fn plan_category(
                 .get("note")
                 .and_then(|v| v.as_str())
                 .map(|s| s.to_string()),
+            numeric: entry
+                .get("numeric")
+                .and_then(|v| v.as_bool())
+                .unwrap_or(false),
+            doc: entry
+                .get("doc")
+                .and_then(|v| v.as_str())
+                .map(|s| s.to_string()),
         });
     }
 
@@ -525,12 +549,7 @@ fn plan_category(
 }
 
 /// Write one category's module and type files.
-fn write_category(
-    manifest: &Path,
-    plan: &CatPlan,
-    report: &mut Vec<String>,
-    no_write: bool,
-) {
+fn write_category(manifest: &Path, plan: &CatPlan, report: &mut Vec<String>, no_write: bool) {
     let dir = manifest.join("src/data_dict/core_cif").join(&plan.cat);
     if !no_write {
         fs::create_dir_all(&dir).expect("create category directory");
@@ -543,15 +562,42 @@ fn write_category(
         } else {
             emit_range(plan, t)
         };
-        write_if_changed(&path, &body, report, no_write);
+        write_if_changed(manifest, &path, &body, report, no_write);
     }
 
     let mod_path = dir.join("mod.rs");
-    let body = emit_mod(plan);
-    write_if_changed(&mod_path, &body, report, no_write);
+    let existing = existing_mod_body(&dir);
+    let body = emit_mod(plan, &existing);
+    write_if_changed(manifest, &mod_path, &body, report, no_write);
+}
+
+/// Read the existing `mod.rs` body of one category. An empty string when
+/// the file is absent. The layer lines are recovered from it, so the
+/// generated file round-trips the hand-written layer declarations.
+fn existing_mod_body(dir: &Path) -> String {
+    let path = dir.join("mod.rs");
+    fs::read_to_string(path).unwrap_or_default()
+}
+
+/// Dump the generated body next to the real tree when
+/// `DICT_CODEGEN_DUMP` names a directory. This is the diff side
+/// channel: it writes the body to `<dump>/<path under the manifest>`
+/// so the drift can be inspected without touching the tree.
+fn dump_body(manifest: &Path, path: &Path, body: &str) {
+    let dump = match std::env::var("DICT_CODEGEN_DUMP") {
+        Ok(d) => d,
+        Err(_) => return,
+    };
+    let rel = path.strip_prefix(manifest).unwrap_or(path);
+    let target = std::path::Path::new(&dump).join(rel);
+    if let Some(parent) = target.parent() {
+        fs::create_dir_all(parent).expect("create dump directory");
+    }
+    fs::write(&target, body).expect("write dump file");
 }
 
 fn write_if_changed(
+    manifest: &Path,
     path: &Path,
     body: &str,
     report: &mut Vec<String>,
@@ -560,6 +606,7 @@ fn write_if_changed(
     let same = fs::read_to_string(path)
         .map(|old| old == body)
         .unwrap_or(false);
+    dump_body(manifest, path, body);
     if same {
         report.push(format!("unchanged {}", path.display()));
     } else if no_write {
@@ -584,11 +631,17 @@ fn emit_closed(plan: &CatPlan, t: &TypeFile) -> String {
     let mut out = String::new();
     out.push_str("use std::fmt::Display;\n\n");
     out.push_str("use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};\n\n");
-    let doc = format!(
-        "/// The closed code set of `_{item}`. The codes are recorded in\n\
-         /// the dictionary `_enumeration` (see `tests/dict_inventory.json`).\n"
-    );
-    out.push_str(&doc);
+    if let Some(doc) = &plan_item.doc {
+        for line in doc.lines() {
+            out.push_str(&format!("/// {line}\n"));
+        }
+    } else {
+        let doc = format!(
+            "/// The closed code set of `_{item}`. The codes are recorded in\n\
+             /// the dictionary `_enumeration` (see `tests/dict_inventory.json`).\n"
+        );
+        out.push_str(&doc);
+    }
     if let Some(note) = &plan_item.note {
         out.push_str("///\n");
         for line in wrap(note, 72) {
@@ -641,7 +694,9 @@ fn emit_closed(plan: &CatPlan, t: &TypeFile) -> String {
     // The closed-set parse method: a code to a variant, None when absent.
     out.push_str("\n");
     out.push_str(&format!("impl {} {{\n", t.name));
-    out.push_str("    /// Parse a closed-set code into a variant. None when the code is not in the set.\n");
+    out.push_str(
+        "    /// Parse a closed-set code into a variant. None when the code is not in the set.\n",
+    );
     out.push_str("    pub fn parse(code: &str) -> Option<Self> {\n");
     out.push_str("        match code {\n");
     for code in codes {
@@ -708,6 +763,18 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
     out.push_str(&line);
     out.push_str("    }\n\n");
     out.push_str("    pub fn value(&self) -> Float {\n        self.0\n    }\n");
+    if plan_item.numeric {
+        out.push_str("\n");
+        out.push_str("    /// The recorded value, stored as written. The range guard applies at\n");
+        out.push_str("    /// the write.\n");
+        out.push_str("    pub fn from_numeric(n: Numeric) -> Self {\n");
+        out.push_str("        let raw = match n.number() {\n");
+        out.push_str("            Number::Integer(i) => i.0 as f64,\n");
+        out.push_str("            Number::Float(f) => f.0,\n");
+        out.push_str("        };\n");
+        out.push_str("        Self(Float(raw))\n");
+        out.push_str("    }\n");
+    }
     out.push_str("}\n\n");
     let head = format!("impl Display for {} {{\n", t.name);
     out.push_str(&head);
@@ -741,25 +808,12 @@ fn import_order(name: &str) -> (u8, String) {
 }
 
 /// Emit the category module (`mod.rs`).
-fn emit_mod(plan: &CatPlan) -> String {
+fn emit_mod(plan: &CatPlan, existing: &str) -> String {
     let cat = &plan.cat;
     let single_name = format!("{}Terms", default_type_name(cat));
     let loop_name = format!("{}LoopItem", default_type_name(cat));
     let has_single = !plan.single.is_empty();
     let has_loop = !plan.loop_items.is_empty();
-
-    let mut out = String::new();
-    for t in &plan.types {
-        let line = format!("mod {};", t.file);
-        out.push_str(&line);
-        out.push('\n');
-    }
-    if !plan.types.is_empty() {
-        out.push('\n');
-    }
-    if has_single {
-        out.push_str("use std::fmt::Display;\n\n");
-    }
 
     let mut traits = vec!["CifTerm".to_string()];
     if has_loop {
@@ -801,43 +855,94 @@ fn emit_mod(plan: &CatPlan) -> String {
     }
     // rustfmt sorts import lists with lowercase names first.
     gram.sort_by(|a, b| import_order(a).cmp(&import_order(b)));
-    out.push_str("use crate::{\n");
-    let line = format!("    data_dict::{{{}}},\n", traits.join(", "));
-    out.push_str(&line);
-    let line = format!("    grammar::{{{}}},\n", gram.join(", "));
-    out.push_str(&line);
-    out.push_str("};\n\n");
-    for t in &plan.types {
-        let line = format!("pub use self::{}::{};\n", t.file, t.name);
-        out.push_str(&line);
-    }
-    if !plan.types.is_empty() {
-        out.push('\n');
-    }
 
+    // The generated body: the `Terms` and `LoopItem` enums and their
+    // trait impls. This is the part the generator owns.
+    let mut body = String::new();
     if has_single {
-        out.push_str(&emit_enum(&single_name, &plan.single, false));
-        out.push('\n');
-        out.push_str(&emit_cif_term(cat, &single_name, &plan.single));
-        out.push('\n');
-        out.push_str(&emit_value(&single_name, &plan.single));
-        out.push('\n');
-        out.push_str(&format!("impl Display for {single_name} {{\n"));
-        out.push_str("    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n");
-        out.push_str("        write!(f, \"{}\", self.to_single_value_data())\n");
-        out.push_str("    }\n}\n");
+        body.push_str(&emit_enum(&single_name, &plan.single, false));
+        body.push('\n');
+        body.push_str(&emit_cif_term(cat, &single_name, &plan.single));
+        body.push('\n');
+        body.push_str(&emit_value(&single_name, &plan.single));
+        body.push('\n');
+        body.push_str(&format!("impl Display for {single_name} {{\n"));
+        body.push_str("    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n");
+        body.push_str("        write!(f, \"{}\", self.to_single_value_data())\n");
+        body.push_str("    }\n}\n");
     }
     if has_loop {
         if has_single {
-            out.push('\n');
+            body.push('\n');
         }
-        out.push_str(&emit_enum(&loop_name, &plan.loop_items, true));
-        out.push('\n');
-        out.push_str(&emit_cif_term(cat, &loop_name, &plan.loop_items));
-        out.push('\n');
-        out.push_str(&emit_loop_values(&loop_name, &plan.loop_items));
+        body.push_str(&emit_enum(&loop_name, &plan.loop_items, true));
+        body.push('\n');
+        body.push_str(&emit_cif_term(cat, &loop_name, &plan.loop_items));
+        body.push('\n');
+        body.push_str(&emit_loop_values(&loop_name, &plan.loop_items));
     }
-    out
+
+    // The header: the module declarations, imports, and re-exports. The
+    // committed files are hand-maintained with per-file layout, so an
+    // existing header is preserved verbatim. A uniform header is built
+    // only for a brand-new category.
+    if !existing.is_empty() {
+        if let Some(idx) = existing.lines().position(|l| l.starts_with("#[derive")) {
+            let header: String = existing.lines().take(idx).collect::<Vec<_>>().join("\n");
+            return format!("{header}\n{body}");
+        }
+    }
+    let mut head = String::new();
+    let mut mods: Vec<String> = plan.types.iter().map(|t| t.file.clone()).collect();
+    let layer = existing.lines().find(|l| {
+        l.starts_with(&format!("pub use self::{cat}::"))
+            || l.starts_with(&format!("pub use {cat}::"))
+    });
+    if layer.is_some() {
+        mods.push(cat.clone());
+    }
+    mods.sort();
+    for m in &mods {
+        head.push_str(&format!("mod {m};\n"));
+    }
+    if !mods.is_empty() {
+        head.push('\n');
+    }
+    if has_single {
+        head.push_str("use std::fmt::Display;\n\n");
+    }
+    head.push_str(&format!(
+        "use crate::data_dict::{{{}}};\n",
+        traits.join(", ")
+    ));
+    head.push_str(&format!(
+        "use crystal_cif_fmt::grammar::{{{}}};\n",
+        gram.join(", ")
+    ));
+    head.push('\n');
+    let mut exports: Vec<(String, String)> = plan
+        .types
+        .iter()
+        .map(|t| {
+            (
+                t.file.clone(),
+                format!("pub use self::{}::{};", t.file, t.name),
+            )
+        })
+        .collect();
+    if let Some(line) = layer {
+        exports.push((cat.clone(), line.to_string()));
+    }
+    exports.sort_by(|a, b| a.0.cmp(&b.0));
+    for (_, line) in &exports {
+        head.push_str(line);
+        head.push('\n');
+    }
+    if !exports.is_empty() {
+        head.push('\n');
+    }
+    head.push_str(&body);
+    head
 }
 
 fn emit_enum(enum_name: &str, plans: &[Plan], loop_form: bool) -> String {
@@ -1267,7 +1372,17 @@ fn union_items(shell: Option<&Value>, standard: &[Item], errors: &mut Vec<String
             continue;
         }
         if std_names.contains(&name) {
-            continue; // the standard inventory already records the item
+            // The standard inventory already records the item. When
+            // the standard record carries no enumeration but the
+            // shell record does, merge the shell enumeration in so
+            // a closed set recorded in the shell dictionary is not
+            // flagged as drift.
+            if let Some(std_item) = out.iter_mut().find(|i| i.tag == name) {
+                if std_item.item["enumeration"].is_null() && record["enumeration"].is_object() {
+                    std_item.item["enumeration"] = record["enumeration"].clone();
+                }
+            }
+            continue;
         }
         if name.ends_with("_su") {
             continue; // decision D2: the _su items are skipped
@@ -1315,12 +1430,7 @@ fn is_pub_mod(line: &str) -> Option<String> {
 /// `CifCategory` trait block, the `convert` module, the imports). Those
 /// lines are preserved as-is. When nothing is missing the file is
 /// reported unchanged and not rewritten.
-fn update_core_cif_mod(
-    path: &Path,
-    cats: &[String],
-    report: &mut Vec<String>,
-    no_write: bool,
-) {
+fn update_core_cif_mod(path: &Path, cats: &[String], report: &mut Vec<String>, no_write: bool) {
     let raw = fs::read_to_string(path).expect("read core_cif/mod.rs");
     let lines: Vec<String> = raw.lines().map(|l| l.to_string()).collect();
     let mut existing: BTreeSet<String> = BTreeSet::new();

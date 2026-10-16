@@ -57,3 +57,19 @@ impl From<SpecimenAttachmentType> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl SpecimenAttachmentType {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "epoxy" => Some(Self::Epoxy),
+            "oil" => Some(Self::Oil),
+            "grease" => Some(Self::Grease),
+            "frozen_liquid" => Some(Self::Frozen_liquid),
+            "other" => Some(Self::Other),
+            "ice" => Some(Self::Ice),
+            "mechanical" => Some(Self::Mechanical),
+            _ => None,
+        }
+    }
+}

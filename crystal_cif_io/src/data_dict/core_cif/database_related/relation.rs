@@ -54,3 +54,18 @@ impl From<Relation> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl Relation {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "Identical" => Some(Self::Identical),
+            "Subset" => Some(Self::Subset),
+            "Superset" => Some(Self::Superset),
+            "Derived" => Some(Self::Derived),
+            "Common" => Some(Self::Common),
+            "Other" => Some(Self::Other),
+            _ => None,
+        }
+    }
+}

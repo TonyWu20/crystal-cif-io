@@ -63,3 +63,21 @@ impl From<Role> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl Role {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "design" => Some(Self::Design),
+            "synthesis" => Some(Self::Synthesis),
+            "preparation" => Some(Self::Preparation),
+            "characterisation" => Some(Self::Characterisation),
+            "measurement" => Some(Self::Measurement),
+            "analysis" => Some(Self::Analysis),
+            "software" => Some(Self::Software),
+            "submission" => Some(Self::Submission),
+            "other" => Some(Self::Other),
+            _ => None,
+        }
+    }
+}

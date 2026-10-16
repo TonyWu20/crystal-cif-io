@@ -42,3 +42,14 @@ impl From<IlluminationMode> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl IlluminationMode {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "convergent" => Some(Self::Convergent),
+            "parallel" => Some(Self::Parallel),
+            _ => None,
+        }
+    }
+}

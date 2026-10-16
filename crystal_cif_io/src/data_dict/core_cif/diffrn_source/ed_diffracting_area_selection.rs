@@ -42,3 +42,14 @@ impl From<EdDiffractingAreaSelection> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl EdDiffractingAreaSelection {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "probe" => Some(Self::Probe),
+            "SAED" => Some(Self::SAED),
+            _ => None,
+        }
+    }
+}

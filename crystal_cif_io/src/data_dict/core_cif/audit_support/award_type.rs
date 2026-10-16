@@ -51,3 +51,17 @@ impl From<AwardType> for Value {
         Value::CharString(CharString::from(value))
     }
 }
+
+impl AwardType {
+    /// Parse a closed-set code into a variant. None when the code is not in the set.
+    pub fn parse(code: &str) -> Option<Self> {
+        match code {
+            "gift" => Some(Self::Gift),
+            "grant" => Some(Self::Grant),
+            "contract" => Some(Self::Contract),
+            "studentship" => Some(Self::Studentship),
+            "other" => Some(Self::Other),
+            _ => None,
+        }
+    }
+}
