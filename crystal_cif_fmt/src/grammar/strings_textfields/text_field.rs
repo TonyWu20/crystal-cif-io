@@ -2,6 +2,9 @@ use std::fmt::Display;
 
 use crate::grammar::SyntacticUnit;
 
+/// A CIF text field held between two `;` lines: one line per
+/// field line. The first line is the remainder of the line
+/// holding the opening `;` (it may be empty).
 #[derive(Debug, Clone)]
 pub struct SemiColonTextField {
     lines: Vec<String>,
@@ -26,6 +29,7 @@ impl From<&SemiColonTextField> for String {
 /// value.
 #[derive(Debug, Clone)]
 pub enum TextField {
+    /// The `;`-delimited text field.
     SemiColonTextField(SemiColonTextField),
 }
 
@@ -57,6 +61,7 @@ impl Display for TextField {
 }
 
 impl SemiColonTextField {
+    /// Build the field from its lines.
     pub fn new(lines: Vec<String>) -> Self {
         Self { lines }
     }

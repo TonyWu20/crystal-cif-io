@@ -2,6 +2,8 @@ use std::fmt::Display;
 
 use crate::grammar::SyntacticUnit;
 
+/// A CIF tag: the data name without the leading underscore.
+/// The tag renders back to CIF text with the underscore.
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct Tag {
     name: String,
@@ -21,15 +23,18 @@ impl Tag {
         Self { name }
     }
 
+    /// The data name, without the leading underscore.
     pub fn as_str(&self) -> &str {
         self.name.as_str()
     }
+    /// The null tag: the empty name.
     pub const fn null() -> Self {
         Self {
             name: String::new(),
         }
     }
 
+    /// The data name, without the leading underscore.
     pub fn name(&self) -> &str {
         &self.name
     }

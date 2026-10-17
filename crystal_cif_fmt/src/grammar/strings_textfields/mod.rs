@@ -18,10 +18,16 @@ pub use triple_double_quoted_string::TripleDoubleQuotedString;
 pub use triple_single_quoted_string::TripleSingleQuotedString;
 pub use unquoted_string::UnquotedString;
 
+/// A CIF character string in one of its quoted forms. The
+/// content is always the text as written between the
+/// delimiters.
 #[derive(Debug, Clone)]
 pub enum CharString {
+    /// An unquoted character string.
     Unquoted(UnquotedString),
+    /// A single-quote-quoted string (`'...'`).
     SingleQuoted(SingleQuotedString),
+    /// A double-quote-quoted string (`"..."`).
     DoubleQuoted(DoubleQuotedString),
     /// A CIF 2.0 triple-apostrophe-quoted string (`'''`).
     TripleSingleQuoted(TripleSingleQuotedString),

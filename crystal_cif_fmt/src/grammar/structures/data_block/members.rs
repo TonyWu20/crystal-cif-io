@@ -4,9 +4,13 @@ use crate::grammar::SyntacticUnit;
 
 use crate::grammar::structures::{data_items::DataItems, save_frame::SaveFrame};
 
+/// One member of a data block: a data item line or a save
+/// frame, in the order the block holds them.
 #[derive(Debug, Clone)]
 pub enum DataBlockMember {
+    /// A run of tag lines, one or more loop units, or both.
     DataItems(DataItems),
+    /// A `save_` frame with its own members.
     SaveFrame(SaveFrame),
 }
 

@@ -43,7 +43,9 @@ pub enum MatrixError {
     /// match it.
     #[error("matrix shape is {actual:?}, the dictionary expects {expected:?}")]
     ShapeMismatch {
+        /// The `(rows, cols)` the dictionary `_type.dimension` expects.
         expected: (usize, usize),
+        /// The `(rows, cols)` the parsed matrix carries.
         actual: (usize, usize),
     },
 }

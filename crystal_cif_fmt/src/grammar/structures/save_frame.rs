@@ -4,6 +4,8 @@ use crate::grammar::SyntacticUnit;
 
 use crate::grammar::structures::data_items::DataItems;
 
+/// One `save_` frame: the heading, the data items, and the
+/// nested frames (CIF 2.0 only).
 #[derive(Debug, Clone)]
 pub struct SaveFrame {
     heading: SaveFrameHeading,
@@ -13,6 +15,9 @@ pub struct SaveFrame {
     frames: Vec<SaveFrame>,
 }
 
+/// The heading of a save frame: `save_` plus the frame code.
+/// The stored code is the frame code without the `save_`
+/// prefix, as written.
 #[derive(Debug, Clone)]
 pub struct SaveFrameHeading {
     code: String,
@@ -26,6 +31,8 @@ impl AsRef<str> for SaveFrameHeading {
 }
 
 impl SaveFrame {
+    /// Build a frame from its heading and items. The frame
+    /// carries no nested frames.
     pub fn from_heading_items(heading_items: (SaveFrameHeading, Vec<DataItems>)) -> Self {
         let (heading, data_items) = heading_items;
         Self {
@@ -48,14 +55,17 @@ impl SaveFrame {
         }
     }
 
+    /// The frame heading.
     pub fn heading(&self) -> &SaveFrameHeading {
         &self.heading
     }
 
+    /// The data items of the frame, in file order.
     pub fn data_items(&self) -> &[DataItems] {
         &self.data_items
     }
 
+    /// The data items of the frame, mutable.
     pub fn data_items_mut(&mut self) -> &mut Vec<DataItems> {
         &mut self.data_items
     }
@@ -102,6 +112,7 @@ impl Display for SaveFrame {
 }
 
 impl SaveFrameHeading {
+    /// Build the heading from the frame code (no `save_` prefix).
     pub fn new(code: String) -> Self {
         Self { code }
     }

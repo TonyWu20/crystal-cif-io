@@ -208,10 +208,29 @@ fn numeric_json(n: &Numeric) -> Json {
 /// "parses" and "is a valid CIF".
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Violation {
+    /// Two data blocks carry the same name.
     DuplicateBlockName(String),
-    DuplicateTagInBlock { block: String, tag: String },
-    DuplicateSaveFrameCode { block: String, code: String },
-    RaggedLoop { block: String, tags: Vec<String> },
+    /// One block or save frame carries a tag twice.
+    DuplicateTagInBlock {
+        /// The block or frame name.
+        block: String,
+        /// The tag, without the leading underscore.
+        tag: String,
+    },
+    /// One block carries two save frames with the same code.
+    DuplicateSaveFrameCode {
+        /// The block name.
+        block: String,
+        /// The frame code.
+        code: String,
+    },
+    /// A loop column holds more values than its rows.
+    RaggedLoop {
+        /// The block name.
+        block: String,
+        /// The loop tags, in loop order.
+        tags: Vec<String>,
+    },
 }
 
 impl Violation {
@@ -245,6 +264,9 @@ impl std::fmt::Display for Violation {
     }
 }
 
+/// Run the spec-level checks on a parsed document. The vector
+/// holds one violation per finding; an empty vector means the
+/// document is spec-valid.
 pub fn validate(doc: &CifDocument) -> Vec<Violation> {
     let mut out: Vec<Violation> = Vec::new();
     let Some(blocks) = doc.data_blocks() else {

@@ -8,6 +8,8 @@ use crate::{
     term::{CifTerm, SingleValueTerm},
 };
 
+/// One `tag value` line of a data block: the tag and its
+/// single value.
 #[derive(Debug, Clone, Default)]
 pub struct SingleLineData {
     tag: Tag,
@@ -15,18 +17,22 @@ pub struct SingleLineData {
 }
 
 impl SingleLineData {
+    /// Build the line from its tag and value.
     pub fn from_tag_value(tag_value: (Tag, Value)) -> Self {
         let (tag, value) = tag_value;
         Self { tag, value }
     }
 
+    /// The line tag.
     pub fn tag(&self) -> &Tag {
         &self.tag
     }
 
+    /// The line value.
     pub fn value(&self) -> &Value {
         &self.value
     }
+    /// The empty line: the null tag and the `unknown` value.
     pub const fn null() -> Self {
         SingleLineData {
             tag: Tag::null(),

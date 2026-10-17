@@ -3,16 +3,20 @@ use crate::{
     term::{CifTerm, LoopValueTerm},
 };
 
+/// The value rows of a loop, flattened in row-major order:
+/// row by row, one value per loop tag per row.
 #[derive(Debug, Clone)]
 pub struct LoopBody {
     values: Vec<Value>,
 }
 
 impl LoopBody {
+    /// Build the body from the flattened value rows.
     pub fn new(values: Vec<Value>) -> Self {
         Self { values }
     }
 
+    /// The values, in row-major order.
     pub fn values(&self) -> &[Value] {
         &self.values
     }
@@ -52,6 +56,8 @@ impl SyntacticUnit for LoopBody {
     }
 }
 
+/// One loop column: the loop tag and the column values, one
+/// value per loop row.
 #[derive(Debug, Clone)]
 pub struct LoopColumn {
     tag: Tag,
@@ -65,22 +71,27 @@ impl AsRef<[Value]> for LoopColumn {
 }
 
 impl LoopColumn {
+    /// Build the column from its tag and values.
     pub fn new(tag: Tag, values: Vec<Value>) -> Self {
         Self { tag, values }
     }
 
+    /// The column values, one per loop row.
     pub fn values(&self) -> &[Value] {
         &self.values
     }
 
+    /// The loop tag.
     pub fn tag(&self) -> &Tag {
         &self.tag
     }
 
+    /// The loop tag, mutable.
     pub fn tag_mut(&mut self) -> &mut Tag {
         &mut self.tag
     }
 
+    /// The column values, mutable.
     pub fn values_mut(&mut self) -> &mut Vec<Value> {
         &mut self.values
     }

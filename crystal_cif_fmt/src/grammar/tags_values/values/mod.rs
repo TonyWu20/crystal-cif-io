@@ -2,15 +2,20 @@ use std::fmt::Display;
 
 use crate::grammar::{CharString, Numeric, SyntacticUnit, TextField};
 
+/// A CIF value in one of its forms. The value rules are the
+/// CIF 1.1 set, plus the CIF 2.0 list and table forms.
 #[derive(Debug, Clone, Default)]
 pub enum Value {
-    /// '.'
+    /// The inapplicable value `.`.
     Inapplicable,
     #[default]
-    /// '?'
+    /// The unknown value `?`.
     Unknown,
+    /// A numeric value, with the uncertainty digits.
     Numeric(Numeric),
+    /// A character string in one of its quoted forms.
     CharString(CharString),
+    /// A `;`-delimited text field.
     TextField(TextField),
     /// A CIF 2.0 list value (`[...]`). The elements are any `Value`s,
     /// and a list may nest. Parsed only in the 2.0 dialect.
@@ -24,6 +29,7 @@ pub enum Value {
 }
 
 impl Value {
+    /// The numeric payload, when the value is numeric.
     pub fn as_numeric(&self) -> Option<&Numeric> {
         if let Self::Numeric(v) = self {
             Some(v)
@@ -32,6 +38,7 @@ impl Value {
         }
     }
 
+    /// The char string payload, when the value is a char string.
     pub fn as_char_string(&self) -> Option<&CharString> {
         if let Self::CharString(v) = self {
             Some(v)
@@ -40,6 +47,7 @@ impl Value {
         }
     }
 
+    /// The text field payload, when the value is a text field.
     pub fn as_text_field(&self) -> Option<&TextField> {
         if let Self::TextField(v) = self {
             Some(v)
@@ -67,6 +75,10 @@ impl Value {
     }
 }
 
+/// Marker trait for the types that carry CIF values.
+///
+/// Implemented on the numeric and text field types here; the
+/// data layer adds its own value types in `crystal-cif-io`.
 pub trait CIFValue {}
 
 impl CIFValue for Numeric {}

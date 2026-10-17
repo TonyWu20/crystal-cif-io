@@ -17,6 +17,7 @@ impl AsRef<str> for UnquotedString {
 }
 
 impl UnquotedString {
+    /// Build a `UnquotedString` from `the content as written (no delimiters).`
     pub fn new(content: String) -> Self {
         Self { content }
     }

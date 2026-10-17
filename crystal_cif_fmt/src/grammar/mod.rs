@@ -33,10 +33,15 @@ pub use whitespace_comments::Comments;
 /// how to render itself back to CIF text (the `Display` impls of the
 /// types delegate to `formatted_output`).
 pub trait SyntacticUnit {
+    /// The rendered form of one unit, usually a `String`.
     type FormatOutput: Display;
+    /// Render the unit back to CIF text.
     fn formatted_output(&self) -> Self::FormatOutput;
 }
 
+/// One parsed CIF file: the leading comment lines, when present,
+/// and the ordered data blocks. The parser returns one document
+/// per parse; `formatted_output` renders it back to CIF text.
 #[derive(Debug, Clone)]
 pub struct CifDocument {
     comments: Option<Comments>,
@@ -44,6 +49,7 @@ pub struct CifDocument {
 }
 
 impl CifDocument {
+    /// Build a document from the comment lines and data blocks.
     pub fn new(comments: Option<Comments>, data_blocks: Option<Vec<DataBlock>>) -> Self {
         Self {
             comments,
@@ -51,6 +57,8 @@ impl CifDocument {
         }
     }
 
+    /// The data blocks, in file order. `None` when the file holds
+    /// only comment lines.
     pub fn data_blocks(&self) -> Option<&Vec<DataBlock>> {
         self.data_blocks.as_ref()
     }
@@ -60,6 +68,7 @@ impl CifDocument {
         &self.comments
     }
 
+    /// The first block whose heading equals `data_block_name`.
     pub fn get_data_block_by_name(&self, data_block_name: &str) -> Option<&DataBlock> {
         self.data_blocks().map(|blocks| {
             blocks
@@ -68,6 +77,7 @@ impl CifDocument {
         })?
     }
 
+    /// The data blocks, mutable. See `data_blocks` for `None`.
     pub fn data_blocks_mut(&mut self) -> &mut Option<Vec<DataBlock>> {
         &mut self.data_blocks
     }

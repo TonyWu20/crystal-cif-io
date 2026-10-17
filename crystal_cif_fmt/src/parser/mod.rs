@@ -117,6 +117,8 @@ pub fn parse_cif<'a>(input: &'a str) -> Result<CifDocument, Vec<Rich<'a, char>>>
     }
 }
 
+/// Print one parse error as an ariadne report to standard
+/// output, with the source text labeled at the error span.
 pub fn rich_error(e: &Rich<char>, source_name: &str, src: &str) {
     let _ = Report::build(ReportKind::Error, (source_name, e.span().into_range()))
         .with_config(ariadne::Config::new().with_index_type(ariadne::IndexType::Byte))

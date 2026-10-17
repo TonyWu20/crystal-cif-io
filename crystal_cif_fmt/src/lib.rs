@@ -1,3 +1,25 @@
+#![warn(missing_docs)]
+//! Parser and IR for the IUCr crystallography `cif` format.
+//!
+//! This crate holds the CIF syntax layer: the IR types
+//! (`grammar`), the chumsky + ariadne parser (`parse_cif`),
+//! and the canonical JSON encoding (`canonical`). The typed
+//! data-dictionary layer of `crystal-cif-io` builds on this
+//! crate.
+//!
+//! ```
+//! use crystal_cif_fmt::parse_cif;
+//!
+//! let doc = parse_cif("data_1\n_cell_length_a 7.0\n").expect("a valid file");
+//! let blocks = doc.data_blocks().expect("the blocks");
+//! assert_eq!(blocks.len(), 1);
+//! ```
+//!
+//! The value types carry the CIF 2.0 list value as `Value::List`.
+//! It parses only in the 2.0 dialect. See the `Value` docs.
+//!
+//! The parser design note lives in `docs/refactor-chumsky-ariadne.md`.
+
 pub mod grammar;
 
 /// The value exports carry the CIF 2.0 list value as `Value::List`
@@ -50,5 +72,5 @@ pub use term::{CifTerm, LoopValueTerm, SingleValueTerm};
 /// (`examples/gt_generate.rs`). See `docs/ground-truth.md`.
 pub mod canonical;
 
-mod parser;
+pub mod parser;
 pub mod term;

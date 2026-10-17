@@ -7,10 +7,12 @@ use crate::grammar::SyntacticUnit;
 /// document-level writer hook.
 #[derive(Debug, Clone)]
 pub struct Comments {
+    /// The comment lines, verbatim, including the `#` markers.
     pub content: String,
 }
 
 impl Comments {
+    /// Build the region from its verbatim lines.
     pub fn new(content: String) -> Self {
         Self { content }
     }

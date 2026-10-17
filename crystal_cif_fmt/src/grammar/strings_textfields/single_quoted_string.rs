@@ -24,6 +24,7 @@ impl Display for SingleQuotedString {
 }
 
 impl SingleQuotedString {
+    /// Build a `SingleQuotedString` from `the content between the single quotes.`
     pub fn new(content: String) -> Self {
         Self { content }
     }

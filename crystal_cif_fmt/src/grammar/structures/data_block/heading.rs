@@ -18,10 +18,12 @@ impl AsRef<str> for DataBlockHeading {
 }
 
 impl DataBlockHeading {
+    /// Build the heading from the block name (no `data_` prefix).
     pub fn new(name: String) -> Self {
         Self { name }
     }
 
+    /// The block name without the `data_` prefix.
     pub fn name(&self) -> &str {
         &self.name
     }

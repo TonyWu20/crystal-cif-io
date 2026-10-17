@@ -10,13 +10,18 @@ mod float;
 mod integer;
 mod unsigned_integer;
 
+/// A numeric value without standard uncertainty: an `Integer` or a
+/// `Float`, as written in the CIF text.
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub enum Number {
+    /// An integer value (`42`, not `42.0`).
     Integer(Integer),
+    /// A floating point value.
     Float(Float),
 }
 
 impl Number {
+    /// The integer payload, when the value is an integer.
     pub fn as_integer(&self) -> Option<&Integer> {
         if let Self::Integer(v) = self {
             Some(v)
@@ -25,6 +30,7 @@ impl Number {
         }
     }
 
+    /// The float payload, when the value is a float.
     pub fn as_float(&self) -> Option<&Float> {
         if let Self::Float(v) = self {
             Some(v)
@@ -67,6 +73,8 @@ impl Display for Number {
     }
 }
 
+/// A numeric value with an optional standard uncertainty:
+/// `7.01(3)` is `7.01` with the uncertainty digits `3`.
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Numeric {
     number: Number,
@@ -74,6 +82,7 @@ pub struct Numeric {
 }
 
 impl Numeric {
+    /// Build a numeric value from its number and uncertainty digits.
     pub fn new(number: Number, std_uncertainty: Option<UnsignedInteger>) -> Self {
         Self {
             number,
@@ -81,10 +90,12 @@ impl Numeric {
         }
     }
 
+    /// The value without the uncertainty digits.
     pub fn number(&self) -> Number {
         self.number
     }
 
+    /// The uncertainty digits, when the value carries them.
     pub fn std_uncertainty(&self) -> Option<UnsignedInteger> {
         self.std_uncertainty
     }

@@ -25,6 +25,7 @@ impl Display for TripleDoubleQuotedString {
 }
 
 impl TripleDoubleQuotedString {
+    /// Build a `TripleDoubleQuotedString` from `the content between the triple quotes.`
     pub fn new(content: String) -> Self {
         Self { content }
     }

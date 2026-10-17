@@ -23,6 +23,7 @@ impl Display for DoubleQuotedString {
 }
 
 impl DoubleQuotedString {
+    /// Build a `DoubleQuotedString` from `the content between the double quotes.`
     pub fn new(content: String) -> Self {
         Self { content }
     }

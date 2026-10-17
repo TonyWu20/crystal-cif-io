@@ -25,6 +25,7 @@ impl Display for TripleSingleQuotedString {
 }
 
 impl TripleSingleQuotedString {
+    /// Build a `TripleSingleQuotedString` from `the content between the triple apostrophes.`
     pub fn new(content: String) -> Self {
         Self { content }
     }
