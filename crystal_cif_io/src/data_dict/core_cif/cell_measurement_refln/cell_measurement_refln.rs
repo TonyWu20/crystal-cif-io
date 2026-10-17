@@ -10,10 +10,28 @@ use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `cell_measurement_refln` category struct. One field per registry item.
 pub struct CellMeasurementRefln {
+    /// The `_cell_measurement_refln_index_h` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of a reflection used for measurement of the unit
+    /// cell.
     pub index_h: Option<Numeric>,
+    /// The `_cell_measurement_refln_index_k` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of a reflection used for measurement of the unit
+    /// cell.
     pub index_k: Option<Numeric>,
+    /// The `_cell_measurement_refln_index_l` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of a reflection used for measurement of the unit
+    /// cell.
     pub index_l: Option<Numeric>,
+    /// The `_cell_measurement_refln_theta` item. The field holds the column values, one per loop row.
+    ///
+    /// Theta angle in degrees for the reflection used for measurement of
+    /// the unit cell with the indices _cell_measurement_refln_index_.
+    /// Units: deg (degree of arc).
     pub theta: Option<Numeric>,
 }
 impl CifCategory for Vec<CellMeasurementRefln> {

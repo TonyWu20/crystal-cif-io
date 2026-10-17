@@ -426,6 +426,7 @@ fn emit(
     update_core_cif_mod(&core_cif_mod, &ann_cats, &mut report, no_write);
     let tags = manifest.join("src/data_dict/tags.rs");
     update_tags_registry(&tags, &cats, &items, &drift, &mut report, no_write);
+    inject_item_docs(manifest, inventory, shell, &cats, &mut report, no_write);
     report
 }
 
@@ -750,6 +751,7 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
     out.push_str(&head);
     let head = format!("impl {} {{\n", t.name);
     out.push_str(&head);
+    out.push_str("    /// Build the guarded value: the input clamped to the dictionary range.\n");
     out.push_str("    pub fn new(float: Float) -> Self {\n");
     let clamp = match (min, max) {
         (Some(lo), Some(hi)) => {
@@ -762,6 +764,7 @@ fn emit_range(plan: &CatPlan, t: &TypeFile) -> String {
     let line = format!("        Self(Float({clamp}))\n");
     out.push_str(&line);
     out.push_str("    }\n\n");
+    out.push_str("    /// The recorded value, stored as written.\n");
     out.push_str("    pub fn value(&self) -> Float {\n        self.0\n    }\n");
     if plan_item.numeric {
         out.push_str("\n");
@@ -888,7 +891,15 @@ fn emit_mod(plan: &CatPlan, existing: &str) -> String {
     // only for a brand-new category.
     if !existing.is_empty() {
         if let Some(idx) = existing.lines().position(|l| l.starts_with("#[derive")) {
-            let header: String = existing.lines().take(idx).collect::<Vec<_>>().join("\n");
+            // The header preserves the hand-maintained lines. The
+            // generator's own enum doc lines from a previous run stay
+            // out: the body re-emits them, so they are stripped from
+            // the captured header.
+            let mut header_lines: Vec<&str> = existing.lines().take(idx).collect();
+            while header_lines.last().is_some_and(|l| l.starts_with("///")) {
+                header_lines.pop();
+            }
+            let header: String = header_lines.join("\n");
             return format!("{header}\n{body}");
         }
     }
@@ -946,12 +957,26 @@ fn emit_mod(plan: &CatPlan, existing: &str) -> String {
 }
 
 fn emit_enum(enum_name: &str, plans: &[Plan], loop_form: bool) -> String {
+    let kind = if loop_form {
+        "loop-value"
+    } else {
+        "single-value"
+    };
+    let cat = plans
+        .first()
+        .map(|p| p.item.item["category"].as_str().unwrap_or_default())
+        .unwrap_or_default();
     let mut out = String::new();
+    out.push_str(&format!(
+        "/// The {kind} terms of the `{cat}` category: one variant per\n"
+    ));
+    out.push_str(&format!("/// registry {kind} item, in item order.\n"));
     out.push_str("#[derive(Debug, Clone)]\n");
     out.push_str("#[allow(non_camel_case_types, clippy::upper_case_acronyms)]\n");
     let head = format!("pub enum {enum_name} {{\n");
     out.push_str(&head);
     for p in plans {
+        out.push_str(&item_variant_docs(p, loop_form));
         if let Some(note) = &p.note {
             for line in wrap(note, 68) {
                 let l = format!("    /// {line}");
@@ -965,6 +990,40 @@ fn emit_enum(enum_name: &str, plans: &[Plan], loop_form: bool) -> String {
         out.push_str(&line);
     }
     out.push_str("}\n");
+    out
+}
+
+/// The doc lines of one term variant: the CIF item name, the
+/// dictionary definition, and the units. A bare item keeps the
+/// one-line name doc.
+fn item_variant_docs(p: &Plan, loop_form: bool) -> String {
+    let mut out = String::new();
+    let item = &p.item.name;
+    let def = p.item.item["definition"].as_str();
+    let units = p.item.item["units"].as_str();
+    let units_detail = p.item.item["units_detail"].as_str();
+    let holds = if loop_form {
+        "The variant holds the column values, one per loop row."
+    } else {
+        "The variant holds the single value."
+    };
+    out.push_str(&format!("    /// The `_{item}` item. {holds}\n"));
+    if let Some(d) = def {
+        out.push_str("    ///\n");
+        for line in wrap(d, 68) {
+            out.push_str(&format!("    /// {line}\n"));
+        }
+    }
+    if units.is_some() || units_detail.is_some() {
+        let mut u = String::new();
+        if let Some(u_) = units {
+            u.push_str(u_);
+        }
+        if let Some(d) = units_detail {
+            u.push_str(&format!(" ({d})"));
+        }
+        out.push_str(&format!("    /// Units: {u}.\n"));
+    }
     out
 }
 
@@ -1274,7 +1333,40 @@ fn fmt_arm(indent: &str, pats: &[String], body: &str) -> Vec<String> {
 }
 
 /// Word-wrap for doc comments, keeping lines under `width`.
+/// Escape one dictionary text for rustdoc. The definition and
+/// note text is data, not the crate's markdown: angle brackets
+/// become HTML entities, a bare URL becomes a backtick span.
+fn sanitize_doc(text: &str) -> String {
+    let mut out = String::new();
+    let mut i = 0;
+    while i < text.len() {
+        if text[i..].starts_with("http://") || text[i..].starts_with("https://") {
+            let rest = &text[i..];
+            let start = rest.find("://").unwrap() + 3;
+            let mut j = start;
+            while j < rest.len() {
+                let ch = rest.as_bytes()[j] as char;
+                if ch.is_whitespace() || matches!(ch, ')' | ']' | ',') {
+                    break;
+                }
+                j += 1;
+            }
+            out.push_str(&format!("`{}`", &rest[..j]));
+            i += j;
+            continue;
+        }
+        match text.as_bytes()[i] {
+            b'<' => out.push_str("&lt;"),
+            b'>' => out.push_str("&gt;"),
+            _ => out.push(text[i..].chars().next().unwrap()),
+        }
+        i += 1;
+    }
+    out
+}
+
 fn wrap(text: &str, width: usize) -> Vec<String> {
+    let text = sanitize_doc(text);
     let mut lines = Vec::new();
     let mut cur = String::new();
     for word in text.split_whitespace() {
@@ -1440,7 +1532,25 @@ fn update_core_cif_mod(path: &Path, cats: &[String], report: &mut Vec<String>, n
         }
     }
     let mut missing: Vec<&String> = cats.iter().filter(|c| !existing.contains(*c)).collect();
-    if missing.is_empty() {
+
+    // The module docs: every category `pub mod` line carries a doc
+    // line, whether the category is annotated or hand-maintained.
+    // The doc line is the uniform category description.
+    let mut new_lines: Vec<String> = Vec::new();
+    let mut doc_added = 0;
+    for (idx, line) in lines.iter().enumerate() {
+        if let Some(n) = is_pub_mod(line) {
+            let has_doc = idx > 0 && lines[idx - 1].starts_with("/// ");
+            if !has_doc {
+                new_lines.push(format!(
+                    "/// The `{n}` CIF category of the typed document layer."
+                ));
+                doc_added += 1;
+            }
+        }
+        new_lines.push(line.clone());
+    }
+    if missing.is_empty() && doc_added == 0 {
         report.push(format!("unchanged {}", path.display()));
         return;
     }
@@ -1448,31 +1558,36 @@ fn update_core_cif_mod(path: &Path, cats: &[String], report: &mut Vec<String>, n
     // Insert at the end of the leading run of `pub mod` / blank lines, so the
     // module declarations stay grouped above the layer block.
     let mut insert_at = 0;
-    while insert_at < lines.len() {
-        if is_pub_mod(&lines[insert_at]).is_some() || lines[insert_at].trim().is_empty() {
+    while insert_at < new_lines.len() {
+        if is_pub_mod(&new_lines[insert_at]).is_some() || new_lines[insert_at].trim().is_empty() {
             insert_at += 1;
         } else {
             break;
         }
     }
-    let mut new_lines = lines.clone();
     for c in &missing {
-        new_lines.insert(insert_at, format!("pub mod {c};"));
-        insert_at += 1;
+        new_lines.insert(
+            insert_at,
+            format!("/// The `{c}` CIF category of the typed document layer."),
+        );
+        new_lines.insert(insert_at + 1, format!("pub mod {c};"));
+        insert_at += 2;
     }
     let new_raw = new_lines.join("\n") + "\n";
     if no_write {
         report.push(format!(
-            "would-update {} (+{} pub mod lines)",
+            "would-update {} (+{} pub mod lines, +{} module docs)",
             path.display(),
-            missing.len()
+            missing.len(),
+            doc_added
         ));
     } else {
         fs::write(path, &new_raw).expect("write core_cif/mod.rs");
         report.push(format!(
-            "updated {} (+{} pub mod lines)",
+            "updated {} (+{} pub mod lines, +{} module docs)",
             path.display(),
-            missing.len()
+            missing.len(),
+            doc_added
         ));
     }
 }
@@ -1528,7 +1643,11 @@ fn update_tags_registry(
                 closed = true;
                 break;
             }
-            if !trimmed.is_empty() && !trimmed.starts_with('"') && !trimmed.starts_with("pub const")
+            // The doc lines of the `TAGS` constant carry no tags.
+            if !trimmed.is_empty()
+                && !trimmed.starts_with('"')
+                && !trimmed.starts_with("pub const")
+                && !trimmed.starts_with("///")
             {
                 // The registry carries content the parser does not model.
                 // Preserve it as-is rather than clobber the file.
@@ -1595,8 +1714,11 @@ fn update_tags_registry(
     for (name, tags) in &sections {
         out.push_str(&format!("/// `{name}` category tags ({}).\n", tags.len()));
         let list: Vec<String> = tags.iter().map(|t| format!("\"{t}\"")).collect();
+        let const_doc = "    /// The registered tag strings of the category, one per implemented item. No leading underscore.";
         let one_line = format!("    pub const TAGS: &[&str] = &[{}];", list.join(", "));
         out.push_str(&format!("pub mod {name} {{\n"));
+        out.push_str(const_doc);
+        out.push('\n');
         if one_line.len() <= MAX_WIDTH {
             out.push_str(&one_line);
             out.push('\n');
@@ -1657,5 +1779,434 @@ fn update_tags_registry(
             path.display(),
             sections.len()
         ));
+    }
+}
+
+/// The dictionary item docs, injected into the hand-maintained
+/// category files: the struct fields, the term-enum variants, and
+/// the struct headers. The generated type files and the
+/// regenerated `mod.rs` bodies carry their docs from the emitters;
+/// this step only touches what the emitters do not own.
+///
+/// The mapping is by the lowercased item suffix: the struct field
+/// `length_a` of the `cell` category maps to the item
+/// `cell_length_a`. A field the inventory does not name is left
+/// as-is and reported.
+fn inject_item_docs(
+    manifest: &Path,
+    inventory: &Value,
+    shell: Option<&Value>,
+    ann_cats: &BTreeMap<String, BTreeMap<String, Value>>,
+    report: &mut Vec<String>,
+    no_write: bool,
+) {
+    let mut errors = Vec::new();
+    let core: Vec<Item> = inv_items(inventory, &mut errors);
+    let shell_items: Vec<Item> = match shell {
+        Some(sh) => inv_items(sh, &mut errors),
+        None => Vec::new(),
+    };
+    if !errors.is_empty() {
+        report.push(format!("inject_item_docs: inventory errors: {errors:?}"));
+        return;
+    }
+    let base = manifest.join("src/data_dict/core_cif");
+    let mut dirs: Vec<String> = Vec::new();
+    let entries = fs::read_dir(&base).expect("read the category directory");
+    for e in entries.flatten() {
+        if e.path().is_dir() {
+            dirs.push(e.file_name().to_string_lossy().to_string());
+        }
+    }
+    dirs.sort();
+    for cat in &dirs {
+        let dir = base.join(cat);
+        let cat_core: Vec<&Item> = core
+            .iter()
+            .filter(|i| i.item["category"].as_str() == Some(cat.as_str()))
+            .collect();
+        let cat_shell: Vec<&Item> = shell_items
+            .iter()
+            .filter(|i| i.item["category"].as_str() == Some(cat.as_str()))
+            .collect();
+        // The field map: the normalized suffix key (the item suffix
+        // with dots, hyphens, and case folded). The core inventory
+        // wins over the shell on a key collision; a true collision
+        // inside one source is a drift error.
+        let norm = |name: &str| {
+            name.replace('.', "_")
+                .replace('-', "_")
+                .replace('/', "_")
+                .to_ascii_lowercase()
+        };
+        // The field key: the Rust spellings map back to the CIF item
+        // spellings. `r#type` is the keyword-escaped `type`, and a
+        // trailing underscore escapes a keyword (`abstract_`).
+        let field_key = |name: &str| {
+            let plain = name.strip_prefix("r#").unwrap_or(name);
+            let plain = plain.strip_suffix('_').unwrap_or(plain);
+            plain.replace('-', "_").to_ascii_lowercase()
+        };
+        // One map per source: a collision inside one source is a
+        // drift error; on a key collision across sources the core
+        // inventory wins (the standard category owns the field).
+        let mut field_map: std::collections::HashMap<String, &Item> =
+            std::collections::HashMap::new();
+        let mut shell_map: std::collections::HashMap<String, &Item> =
+            std::collections::HashMap::new();
+        for i in &cat_core {
+            let key = norm(&i.suffix);
+            if field_map.insert(key.clone(), i).is_some() {
+                report.push(format!(
+                    "inject_item_docs: category `{cat}`: the normalized suffix `{key}` \
+                     matches more than one item in the core inventory"
+                ));
+            }
+        }
+        for i in &cat_shell {
+            let key = norm(&i.suffix);
+            if shell_map.insert(key.clone(), i).is_some() {
+                report.push(format!(
+                    "inject_item_docs: category `{cat}`: the normalized suffix `{key}` \
+                     matches more than one item in the shell inventory"
+                ));
+            }
+        }
+        // The global fallback: a field the category maps do not
+        // own (a cross-category field, or a sub-category item like
+        // `cell_measurement_refln`). It is usable only when the full
+        // item name names exactly one item, so an ambiguous key
+        // stays untouched and reported.
+        let all_items: Vec<&Item> = core.iter().chain(shell_items.iter()).map(|i| i).collect();
+        let lookup = |key: &str, scope: Option<&str>| -> Option<&Item> {
+            if let Some(i) = field_map.get(key).copied() {
+                return Some(i);
+            }
+            if let Some(i) = shell_map.get(key).copied() {
+                return Some(i);
+            }
+            let hits: Vec<&Item> = find_all_full_items(&all_items, key)
+                // The `_su` uncertainty items stay out: the base
+                // item carries the value (decision D2).
+                .into_iter()
+                .filter(|i| !i.name.ends_with("_su"))
+                .collect();
+            // The core and the shell may record one item each; the
+            // name deduplicates them.
+            let mut seen = std::collections::HashSet::new();
+            let hits: Vec<&Item> = hits
+                .into_iter()
+                .filter(|i| seen.insert(i.name.clone()))
+                .collect();
+            if hits.len() == 1 {
+                return Some(hits[0]);
+            }
+            if let Some(scope) = scope {
+                let scoped: Vec<&Item> = hits
+                    .iter()
+                    .filter(|i| {
+                        i.name
+                            .replace('.', "_")
+                            .replace('-', "_")
+                            .replace('/', "_")
+                            .to_ascii_lowercase()
+                            .starts_with(scope)
+                    })
+                    .copied()
+                    .collect();
+                let mut seen2 = std::collections::HashSet::new();
+                let scoped: Vec<&Item> = scoped
+                    .into_iter()
+                    .filter(|i| seen2.insert(i.name.clone()))
+                    .collect();
+                if scoped.len() == 1 {
+                    return Some(scoped[0]);
+                }
+            }
+            None
+        };
+        let mut files: Vec<std::path::PathBuf> = Vec::new();
+        if let Ok(entries) = fs::read_dir(&dir) {
+            for e in entries.flatten() {
+                let p = e.path();
+                if p.extension().is_some_and(|ext| ext == "rs") {
+                    files.push(p);
+                }
+            }
+        }
+        files.sort();
+        for file in files {
+            let is_ann = ann_cats.contains_key(cat);
+            let body = match fs::read_to_string(&file) {
+                Ok(b) => b,
+                Err(_) => continue,
+            };
+            let lines: Vec<&str> = body.lines().collect();
+            let mut out: Vec<String> = Vec::new();
+            let mut field_docs = 0;
+            let mut enum_docs = 0;
+            let mut struct_docs = 0;
+            let mut in_struct = false;
+            let mut in_enum = false;
+            let mut enum_ann = false;
+            let mut cur_struct: Option<String> = None;
+            // The attribute run above one item: the header docs insert
+            // before the `#[derive]` block, and a doc line above the
+            // block counts as documented.
+            let mut attr_start: Option<usize> = None;
+            // A header doc block, with attribute lines between the
+            // docs and the item allowed.
+            let has_doc_above = |idx: usize| -> bool {
+                let mut j = idx;
+                while j > 0 {
+                    let prev = lines[j - 1].trim_start();
+                    if prev.is_empty() {
+                        return false;
+                    }
+                    if prev.starts_with("///") {
+                        return true;
+                    }
+                    if prev.starts_with("#[") {
+                        j -= 1;
+                        continue;
+                    }
+                    return false;
+                }
+                false
+            };
+            for (idx, line) in lines.iter().enumerate() {
+                let trimmed = line.trim();
+                // Indented docs count too: the struct fields and the
+                // enum variants carry four-space-indented `///` lines.
+                let prev_doc = idx > 0 && lines[idx - 1].trim_start().starts_with("///");
+                if trimmed.starts_with("#[") {
+                    if attr_start.is_none() {
+                        attr_start = Some(out.len());
+                    }
+                }
+                if trimmed == "}" {
+                    in_struct = false;
+                    in_enum = false;
+                    enum_ann = false;
+                    cur_struct = None;
+                }
+                if trimmed.starts_with("pub struct ") {
+                    in_struct = !trimmed.ends_with(';');
+                    in_enum = false;
+                    enum_ann = false;
+                    cur_struct = trimmed
+                        .strip_prefix("pub struct ")
+                        .and_then(|r| r.split_whitespace().next())
+                        .map(|n| n.to_string());
+                    if in_struct && !has_doc_above(idx) {
+                        let name = trimmed
+                            .strip_prefix("pub struct ")
+                            .and_then(|r| r.split_whitespace().next())
+                            .unwrap_or_default();
+                        let is_cat_struct = name == default_type_name(cat.as_str());
+                        let is_row = name.ends_with("Row");
+                        if is_cat_struct || is_row {
+                            let doc = if is_cat_struct {
+                                format!(
+                                    "/// The `{cat}` category struct. One field per registry item."
+                                )
+                            } else {
+                                format!(
+                                    "/// One loop row of the `{cat}` category: the per-observation values of the loop items."
+                                )
+                            };
+                            let pos = attr_start.take().unwrap_or(out.len());
+                            out.insert(pos, doc);
+                            struct_docs += 1;
+                        }
+                    }
+                }
+                if trimmed.starts_with("pub enum ") {
+                    in_enum = true;
+                    in_struct = false;
+                    // The term-enum header docs: only the hand-written
+                    // categories. The regenerated `mod.rs` bodies
+                    // carry the docs from `emit_enum`.
+                    let name = trimmed
+                        .strip_prefix("pub enum ")
+                        .and_then(|r| r.split_whitespace().next())
+                        .unwrap_or_default();
+                    let is_term_enum = name.ends_with("Terms") || name.ends_with("LoopItem");
+                    enum_ann = is_term_enum && !is_ann && !has_doc_above(idx);
+                    if enum_ann {
+                        let kind = if name.ends_with("LoopItem") {
+                            "loop-value"
+                        } else {
+                            "single-value"
+                        };
+                        let doc1 = format!(
+                            "/// The {kind} terms of the `{cat}` category: one variant per\n"
+                        );
+                        let doc2 = format!("/// registry {kind} item, in item order.");
+                        let pos = attr_start.take().unwrap_or(out.len());
+                        out.insert(pos, doc1);
+                        out.insert(pos + 1, doc2);
+                        enum_docs += 1;
+                    }
+                }
+                // The struct fields and the term-enum variants.
+                let field = if in_struct {
+                    line_match::is_struct_field(line)
+                } else {
+                    None
+                };
+                let variant = if in_enum && enum_ann {
+                    line_match::is_enum_variant(line)
+                } else {
+                    None
+                };
+                if let Some(name) = field.or(variant) {
+                    let indent = line.len() - line.trim_start().len();
+                    if !prev_doc {
+                        let key = field_key(name);
+                        // The scope disambiguates a key the whole
+                        // inventory shares: a struct field is scoped
+                        // to its own name (`ReflnsDResolution` owns
+                        // `reflns_d_resolution_*`), a variant to the
+                        // category.
+                        let scope: Option<String> = if in_enum {
+                            Some(cat.clone())
+                        } else {
+                            cur_struct.as_deref().map(snake_case)
+                        };
+                        let item = lookup(&key, scope.as_deref());
+                        if let Some(item) = item {
+                            for dl in item_field_docs(item, in_enum) {
+                                out.push(format!("{}{dl}", " ".repeat(indent)));
+                            }
+                            field_docs += 1;
+                        } else if name == "rows" && line.contains("Vec<") {
+                            out.push(format!(
+                                "{}/// The loop rows of the category: one row per observation.",
+                                " ".repeat(indent)
+                            ));
+                            field_docs += 1;
+                        } else {
+                            report.push(format!(
+                                "inject_item_docs: {} field or variant `{name}` has no inventory item",
+                                file.display()
+                            ));
+                        }
+                    }
+                }
+                if !trimmed.starts_with("#[") && !trimmed.starts_with("pub ") {
+                    attr_start = None;
+                }
+                out.push(line.to_string());
+            }
+            let new_body = out.join("\n") + "\n";
+            if new_body != body {
+                write_if_changed(manifest, &file, &new_body, report, no_write);
+                let verb = if no_write {
+                    "would-doc-inject"
+                } else {
+                    "doc-injected"
+                };
+                if field_docs + enum_docs + struct_docs > 0 {
+                    report.push(format!(
+                        "{verb} {} (+{} field docs, +{} enum docs, +{} struct docs)",
+                        file.display(),
+                        field_docs,
+                        enum_docs,
+                        struct_docs
+                    ));
+                }
+            } else {
+                report.push(format!("unchanged {}", file.display()));
+            }
+        }
+    }
+}
+
+/// The doc lines of one item field or term variant: the CIF item
+/// name, the dictionary definition, and the units. No leading
+/// indentation: the caller adds it.
+fn item_field_docs(item: &Item, enum_form: bool) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    let name = &item.name;
+    let holds = if enum_form {
+        "The variant holds the column values, one per loop row."
+    } else if item.is_loop {
+        "The field holds the column values, one per loop row."
+    } else {
+        "The field holds the single value."
+    };
+    out.push(format!("/// The `_{name}` item. {holds}"));
+    if let Some(def) = item.item["definition"].as_str() {
+        out.push("///".to_string());
+        out.extend(wrap(def, 68).into_iter().map(|l| format!("/// {l}")));
+    }
+    let units = item.item["units"].as_str();
+    let units_detail = item.item["units_detail"].as_str();
+    if units.is_some() || units_detail.is_some() {
+        let mut u = String::new();
+        if let Some(u_) = units {
+            u.push_str(u_);
+        }
+        if let Some(d) = units_detail {
+            u.push_str(&format!(" ({d})"));
+        }
+        out.push(format!("/// Units: {u}."));
+    }
+    out
+}
+
+/// The items whose normalized full name ends with the field or
+/// variant name. The hand-written term enums may keep part of the
+/// item name in the variant name. The caller uses the result only
+/// when it is a single item, so an ambiguous key reports instead of
+/// guessing.
+fn find_all_full_items<'a>(items: &'a [&'a Item], key: &str) -> Vec<&'a Item> {
+    items
+        .iter()
+        .copied()
+        .filter(|i| {
+            let full = i
+                .name
+                .replace('.', "_")
+                .replace('-', "_")
+                .replace('/', "_")
+                .to_ascii_lowercase();
+            full.ends_with(key)
+        })
+        .collect()
+}
+
+/// The line-shape matchers of the injector.
+mod line_match {
+    /// A struct field line: an indented `pub <field>:` with a
+    /// lowercase field. The unindented `pub struct` header does not
+    /// match.
+    pub fn is_struct_field(line: &str) -> Option<&str> {
+        if !line.starts_with(' ') {
+            return None;
+        }
+        let t = line.trim_start();
+        let rest = t.strip_prefix("pub ")?;
+        let field = rest.split(|c: char| c == ':' || c.is_whitespace()).next()?;
+        if !field.chars().next().is_some_and(|c| c.is_ascii_lowercase()) {
+            return None;
+        }
+        Some(field)
+    }
+
+    /// A term-enum variant line: an indented `Variant(` with an
+    /// uppercase name. The unindented `pub enum` header does not
+    /// match.
+    pub fn is_enum_variant(line: &str) -> Option<&str> {
+        if !line.starts_with(' ') {
+            return None;
+        }
+        let t = line.trim_start();
+        let v = t.split('(').next()?;
+        if !v.chars().next().is_some_and(|c| c.is_ascii_uppercase()) {
+            return None;
+        }
+        Some(v)
     }
 }

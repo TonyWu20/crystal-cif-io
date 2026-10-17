@@ -12,13 +12,21 @@ use super::SymmetryCifError;
 /// `rhombohedral`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CellSetting {
+    /// `triclinic`
     Triclinic,
+    /// `monoclinic`
     Monoclinic,
+    /// `orthorhombic`
     Orthorhombic,
+    /// `tetragonal`
     Tetragonal,
+    /// `rhombohedral`
     Rhombohedral,
+    /// `trigonal`
     Trigonal,
+    /// `hexagonal`
     Hexagonal,
+    /// `cubic`
     Cubic,
 }
 

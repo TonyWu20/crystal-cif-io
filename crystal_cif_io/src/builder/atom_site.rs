@@ -29,9 +29,23 @@ use crystal_cif_fmt::grammar::{CharString, Float, Numeric};
 #[derive(Debug, Clone, PartialEq)]
 pub enum Coordinates {
     /// The `fract_x`, `fract_y`, `fract_z` items.
-    Fract { x: Numeric, y: Numeric, z: Numeric },
+    Fract {
+        /// The `fract_x` item of the row.
+        x: Numeric,
+        /// The `fract_y` item of the row.
+        y: Numeric,
+        /// The `fract_z` item of the row.
+        z: Numeric,
+    },
     /// The `Cartn_x`, `Cartn_y`, `Cartn_z` items.
-    Cartn { x: Numeric, y: Numeric, z: Numeric },
+    Cartn {
+        /// The `Cartn_x` item of the row.
+        x: Numeric,
+        /// The `Cartn_y` item of the row.
+        y: Numeric,
+        /// The `Cartn_z` item of the row.
+        z: Numeric,
+    },
 }
 
 /// The displacement type of one `atom_site` row. The aniso arms
@@ -41,26 +55,44 @@ pub enum Coordinates {
 pub enum Displacement {
     /// The six `aniso_U_11` to `aniso_U_33` items.
     Uani {
+        /// The `aniso_U_11` item of the row.
         u_11: Numeric,
+        /// The `aniso_U_12` item of the row.
         u_12: Numeric,
+        /// The `aniso_U_13` item of the row.
         u_13: Numeric,
+        /// The `aniso_U_22` item of the row.
         u_22: Numeric,
+        /// The `aniso_U_23` item of the row.
         u_23: Numeric,
+        /// The `aniso_U_33` item of the row.
         u_33: Numeric,
     },
     /// The six `aniso_B_11` to `aniso_B_33` items.
     Bani {
+        /// The `aniso_B_11` item of the row.
         b_11: Numeric,
+        /// The `aniso_B_12` item of the row.
         b_12: Numeric,
+        /// The `aniso_B_13` item of the row.
         b_13: Numeric,
+        /// The `aniso_B_22` item of the row.
         b_22: Numeric,
+        /// The `aniso_B_23` item of the row.
         b_23: Numeric,
+        /// The `aniso_B_33` item of the row.
         b_33: Numeric,
     },
     /// The `U_iso_or_equiv` item.
-    Uiso { u_iso: Float },
+    Uiso {
+        /// The `U_iso_or_equiv` item of the row.
+        u_iso: Float,
+    },
     /// The `B_iso_or_equiv` item.
-    Biso { b_iso: Numeric },
+    Biso {
+        /// The `B_iso_or_equiv` item of the row.
+        b_iso: Numeric,
+    },
 }
 
 /// A build failure of the `atom_site` row builder.
@@ -72,7 +104,9 @@ pub enum RowError {
     /// The displacement type does not pair with the `adp_type`.
     #[error("the displacement type {displacement} does not pair with the adp_type {adp_type}")]
     DisplacementMismatch {
+        /// The `adp_type` of the row.
         adp_type: AdpType,
+        /// The name of the displacement arm supplied.
         displacement: &'static str,
     },
     /// The `occupancy` value misses the `0:1` range.
@@ -80,7 +114,12 @@ pub enum RowError {
     OccupancyOutOfRange(Float),
     /// A displacement value misses the `0:` range.
     #[error("the {item} value {value} misses the 0: range")]
-    DisplacementOutOfRange { item: &'static str, value: f64 },
+    DisplacementOutOfRange {
+        /// The item the displacement value belongs to.
+        item: &'static str,
+        /// The displacement value outside the range.
+        value: f64,
+    },
     /// The `type_symbol` text parses to no element code.
     #[error("the type symbol {0:?} parses to no element code")]
     UnparsableTypeSymbol(String),
@@ -105,6 +144,9 @@ fn displacement_pairs(adp_type: AdpType, displacement: &Displacement) -> bool {
     }
 }
 
+/// Parses the `type_symbol` text of one row: the letters are the
+/// element code, the digits and signs the charge. A text with no
+/// letters rejects with [`RowError::UnparsableTypeSymbol`].
 pub fn type_symbol_from_str(text: &str) -> Result<TypeSymbol, RowError> {
     let charge: Vec<char> = text
         .chars()

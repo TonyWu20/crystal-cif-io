@@ -23,6 +23,15 @@ Keep a Changelog.
   `<N` assertion of `refine_ls_shift/su_max` records in the
   dedicated less-than field. The `AbsorptCorrectionType` set
   gains the real-data code `semi-empirical` (recorded in D12m).
+- Added doc comments over the public API of both crates
+  (roadmap D18). Both crates carry the
+  `#![warn(missing_docs)]` gate. `crystal-cif-fmt` gains the
+  crate-level doc and the item docs. `crystal-cif-io` gains the
+  crate-level and module docs, the category struct docs, and the
+  field and variant docs. The generated items document from the
+  dictionary definitions and units the inventory records
+  (schema 2). The hand-maintained files keep their hand docs;
+  the generator's inject step preserves them on every run.
 
 ### Changed
 
@@ -30,6 +39,11 @@ Keep a Changelog.
   dropped delimiters of `lib.rs`, `convert.rs`, `core_cif.rs`,
   and the import block). The post-merge `cargo test` gate
   caught each.
+- The inventory generator records the dictionary definition and
+  units of each item (roadmap D18). `tests/dict_inventory.json`
+  moves to schema 2. A regeneration carries the recorded
+  `_enumeration` values forward, so the curation pin stays
+  stable.
 
 - Added typed document structs for the twelve categories of the T2
   tier (roadmap D12j). The categories: `exptl`, `exptl_crystal`,

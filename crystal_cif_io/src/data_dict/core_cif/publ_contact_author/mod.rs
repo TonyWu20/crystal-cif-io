@@ -3,9 +3,12 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+/// The single-value terms of the `publ_contact_author` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum PublContactAuthorTerms {
+    /// The `_publ_contact_author_id` item. The variant holds the single value.
     Id(CharString),
 }
 

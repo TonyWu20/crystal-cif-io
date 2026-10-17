@@ -6,19 +6,33 @@ use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BravaisType {
+    /// `aP`
     AP,
+    /// `mP`
     MP,
+    /// `mS`
     MS,
+    /// `oP`
     OP,
+    /// `oS`
     OS,
+    /// `oI`
     OI,
+    /// `oF`
     OF,
+    /// `tP`
     TP,
+    /// `tI`
     TI,
+    /// `hP`
     HP,
+    /// `hR`
     HR,
+    /// `cP`
     CP,
+    /// `cI`
     CI,
+    /// `cF`
     CF,
 }
 

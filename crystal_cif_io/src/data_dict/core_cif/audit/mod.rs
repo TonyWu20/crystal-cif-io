@@ -8,14 +8,21 @@ pub use self::schema::Schema;
 pub use audit::Audit;
 
 #[derive(Debug, Clone)]
+/// The single-value terms of the `audit` category: one variant per
+/// registry single-value item, in item order.
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AuditItem {
+    /// The `_audit_block_code` item. The variant holds the single value.
     Block_code(CharString),
+    /// The `_audit_block_doi` item. The variant holds the single value.
     Block_doi(CharString),
+    /// The `_audit_creation_date` item. The variant holds the single value.
     Creation_date(CharString),
+    /// The `_audit_creation_method` item. The variant holds the single value.
     Creation_method(CharString),
     /// closed code set recorded in the dictionary _enumeration
     Schema(Schema),
+    /// The `_audit_update_record` item. The variant holds the single value.
     Update_record(CharString),
 }
 

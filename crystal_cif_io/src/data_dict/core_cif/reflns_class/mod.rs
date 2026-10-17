@@ -13,17 +13,111 @@ pub use reflns_class::ReflnsClass;
 /// holds one column of the loop.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `reflns_class` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ReflnsClassLoopItem {
+    /// The `_reflns_class_R_Fsqd_factor` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factor R(F^2^) calculated on
+    /// the squared amplitudes of the observed and calculated structure
+    /// factors, for the reflections judged significantly intense (i.e.
+    /// satisfying the threshold specified by _reflns_threshold_expression)
+    /// and included in the refinement. The reflections also satisfy the
+    /// resolution limits established by _reflns_class_d_res_high and
+    /// _reflns_class_d_res_low. sum | F(obs)^2^ - F(calc)^2^ | R(Fsqd) =
+    /// ------------------------------- sum F(obs)^2^ F(obs)^2^ = squares of
+    /// the observed structure-factor amplitudes F(calc)^2^ = squares of the
+    /// calculated structure-factor amplitudes and the sum is taken over the
+    /// reflections of this class.
     R_Fsqd_factor(Vec<Numeric>),
+    /// The `_reflns_class_R_I_factor` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factor R(I) for the
+    /// reflections judged significantly intense (i.e. satisfying the
+    /// threshold specified by _reflns_threshold_expression) and included in
+    /// the refinement. This is most often calculated in Rietveld
+    /// refinements against powder data, where it is referred to as R~B~ or
+    /// R~Bragg~. sum | I(obs) - I(calc) | R(I) = ------------------------
+    /// sum | I(obs) | I(obs) = the net observed intensities I(calc) = the
+    /// net calculated intensities and the sum is taken over the reflections
+    /// of this class.
     R_I_factor(Vec<Numeric>),
+    /// The `_reflns_class_R_factor_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factors for all reflections,
+    /// and for significantly intense reflections (see
+    /// _reflns_threshold_expression), included in the refinement. The
+    /// reflections also satisfy the resolution limits established by
+    /// _reflns_class_d_res_high and _reflns_class_d_res_low. This is the
+    /// conventional R factor. sum | F(obs) - F(calc) | R =
+    /// ------------------------ sum | F(obs) | F(obs) = the observed
+    /// structure-factor amplitudes F(calc) = the calculated
+    /// structure-factor amplitudes and the sum is taken over the
+    /// reflections of this class. See also _reflns_class_wR_factor_all
+    /// definitions.
     R_factor_all(Vec<Numeric>),
+    /// The `_reflns_class_R_factor_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factors for all reflections,
+    /// and for significantly intense reflections (see
+    /// _reflns_threshold_expression), included in the refinement. The
+    /// reflections also satisfy the resolution limits established by
+    /// _reflns_class_d_res_high and _reflns_class_d_res_low. This is the
+    /// conventional R factor. sum | F(obs) - F(calc) | R =
+    /// ------------------------ sum | F(obs) | F(obs) = the observed
+    /// structure-factor amplitudes F(calc) = the calculated
+    /// structure-factor amplitudes and the sum is taken over the
+    /// reflections of this class. See also _reflns_class_wR_factor_all
+    /// definitions.
     R_factor_gt(Vec<Numeric>),
+    /// The `_reflns_class_code` item. The variant holds the column values, one per loop row.
+    ///
+    /// The code identifying a certain reflection class.
     Code(Vec<CharString>),
+    /// The `_reflns_class_d_res_high` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the highest resolution in angstroms for
+    /// the reflections used in the refinement. This is the smallest d
+    /// value.
+    /// Units: A (angstrom).
     D_res_high(Vec<Numeric>),
+    /// The `_reflns_class_d_res_low` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the lowest resolution in angstroms for
+    /// the reflections used in the refinement. This is the largest d value.
+    /// Units: A (angstrom).
     D_res_low(Vec<Numeric>),
+    /// The `_reflns_class_description` item. The variant holds the column values, one per loop row.
+    ///
+    /// Description of each reflection class.
     Description(Vec<CharString>),
+    /// The `_reflns_class_number_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the number of significantly intense
+    /// reflections (see _reflns_threshold_expression) in the _refln_ list
+    /// (not the _diffrn_refln_ list). This may include Friedel- equivalent
+    /// reflections (i.e. those which are symmetry-equivalent under the Laue
+    /// symmetry but inequivalent under the crystal class) according to the
+    /// nature of the structure and the procedures used. Special
+    /// characteristics of the reflections included in the _refln_ list
+    /// should be given in the item _reflns_special_details.
     Number_gt(Vec<Numeric>),
+    /// The `_reflns_class_number_total` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the total number of reflections in the
+    /// _refln_ list (not the _diffrn_refln_ list). This may include
+    /// Friedel-equivalent reflections (i.e. those which are
+    /// symmetry-equivalent under the Laue symmetry but inequivalent under
+    /// the crystal class) according to the nature of the structure and the
+    /// procedures used. Special characteristics of the reflections included
+    /// in the _refln_ list should be given in the item
+    /// _reflns_special_details.
     Number_total(Vec<Numeric>),
+    /// The `reflns_class_W_R_factor_all` item. The variant holds the
+    /// column values, one per loop row.
+    ///
+    /// The weighted R factor of the refinement, over all reflections.
     W_r_factor_all(Vec<Numeric>),
 }
 
@@ -83,9 +177,13 @@ impl Display for ReflnsClassLoopItem {
 /// The single-value item of the `reflns_class` category (T6).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `reflns_class` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum ReflnsClassTerms {
     /// The range constraint is recorded in the shell dictionary
     /// (`_enumeration` `0:`); the plain numeric form is kept.
+    /// The `_reflns_class_number_observed` item. The variant holds the column values, one per loop row.
     Number_observed(Numeric),
 }
 

@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+/// The IT number of the space group (1 to 230).
 pub struct ITNumber(u8);
 
 impl Default for ITNumber {
@@ -10,6 +11,7 @@ impl Default for ITNumber {
 }
 
 impl ITNumber {
+    /// Clamps the value into the 1 to 230 range.
     pub fn new(number: u8) -> Self {
         Self(number.clamp(1, 230))
     }

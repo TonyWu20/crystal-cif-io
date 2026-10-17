@@ -7,12 +7,17 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::framework::Framework;
 
+/// The single-value terms of the `diffrn_component_pid` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnComponentPidTerms {
+    /// The `_diffrn_component_pid_details` item. The variant holds the single value.
     Details(CharString),
+    /// The `_diffrn_component_pid_framework` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Framework(Framework),
+    /// The `_diffrn_component_pid_pid` item. The variant holds the single value.
     Pid(CharString),
 }
 

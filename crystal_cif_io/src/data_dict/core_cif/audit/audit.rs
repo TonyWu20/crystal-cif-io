@@ -12,12 +12,45 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `audit` category struct. One field per registry item.
 pub struct Audit {
+    /// The `_audit_block_code` item. The field holds the single value.
+    ///
+    /// A code intended to identify uniquely the current data block.
     pub block_code: Option<CharString>,
+    /// The `_audit_block_doi` item. The field holds the single value.
+    ///
+    /// The digital object identifier (DOI) registered to identify the data
+    /// set publication represented by the current datablock. This can be
+    /// used as a unique identifier for the datablock so long as the code
+    /// used is a valid DOI (i.e. begins with a valid publisher prefix
+    /// assigned by a Registration Agency and a suffix guaranteed to be
+    /// unique by the publisher) and has had its metadata deposited with a
+    /// DOI Registration Agency. A DOI is a unique character string
+    /// identifying any object of intellectual property. It provides a
+    /// persistent identifier for an object on a digital network and permits
+    /// the association of related current data in a structured extensible
+    /// way. A DOI is an implementation of the Internet concepts of Uniform
+    /// Resource Name and Universal Resource Locator managed according to
+    /// the specifications of the International DOI Foundation (see
+    /// `http://www.doi.org`).
     pub block_doi: Option<CharString>,
+    /// The `_audit_creation_date` item. The field holds the single value.
+    ///
+    /// The date that the data block was created. The date format is
+    /// yyyy-mm-dd.
     pub creation_date: Option<CharString>,
+    /// The `_audit_creation_method` item. The field holds the single value.
+    ///
+    /// A description of how data were entered into the data block.
     pub creation_method: Option<CharString>,
+    /// The `_audit_schema` item. The field holds the single value.
     pub schema: Option<Schema>,
+    /// The `_audit_update_record` item. The field holds the single value.
+    ///
+    /// A record of any changes to the data block. The update format is a
+    /// date (yyyy-mm-dd) followed by a description of the changes. The
+    /// latest update entry is added to the bottom of this record.
     pub update_record: Option<CharString>,
 }
 

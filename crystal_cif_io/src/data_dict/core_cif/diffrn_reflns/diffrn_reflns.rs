@@ -25,21 +25,108 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_reflns` category struct. One field per registry item.
 pub struct DiffrnReflns {
+    /// The `_diffrn_reflns_av_R_equivalents` item. The field holds the single value.
+    ///
+    /// The residual [sum av|del(I)| / sum |av(I)|] for symmetry-equivalent
+    /// reflections used to calculate the average intensity av(I). The
+    /// av|del(I)| term is the average absolute difference between av(I) and
+    /// the individual symmetry-equivalent intensities.
     pub av_r_equivalents: Option<AvREquivalents>,
+    /// The `_diffrn_reflns_av_sigma_I_over_net_I` item. The mean of
+    /// the intensity uncertainties, over the mean net intensity.
     pub av_sigma_i_over_net_i: Option<AvSigmaIOverNetI>,
+    /// The `_diffrn_reflns_av_u_net_I_over_net_I` item. The mean of the
+    /// net-intensity uncertainties, over the mean net intensity.
     pub av_unet_i_over_net_i: Option<AvUnetIOverNetI>,
+    /// The `_diffrn_reflns_Laue_measured_fraction_full` item. The field holds the single value.
+    ///
+    /// Fraction of Laue unique reflections (symmetry-independent in the
+    /// Laue group) measured out to the resolution given in
+    /// _diffrn_reflns_resolution_full or _diffrn_reflns_theta_full. The
+    /// Laue group always contains a centre of symmetry so that the
+    /// reflection h,k,l is always equivalent to the reflection -h,-k,-l
+    /// even in space groups without a centre of symmetry. This number
+    /// should not be less than 0.95, since it represents the fraction of
+    /// reflections measured in the part of the diffraction pattern that is
+    /// essentially complete.
     pub laue_measured_fraction_full: Option<LaueMeasuredFractionFull>,
+    /// The `_diffrn_reflns_Laue_measured_fraction_max` item. The field holds the single value.
+    ///
+    /// Fraction of Laue unique reflections (symmetry-independent in the
+    /// Laue group) measured out to the resolution given in
+    /// _diffrn_reflns_resolution_max or _diffrn_reflns_theta_max. The Laue
+    /// group always contains a centre of symmetry so that the reflection
+    /// h,k,l is always equivalent to the reflection -h,-k,-l even in space
+    /// groups without a centre of symmetry.
     pub laue_measured_fraction_max: Option<LaueMeasuredFractionMax>,
+    /// The `_diffrn_reflns_number` item. The field holds the single value.
+    ///
+    /// The total number of measured intensities, excluding reflections that
+    /// are classed as systematically absent arising from translational
+    /// symmetry in the crystal unit cell.
     pub number: Option<ReflnsNumber>,
+    /// The `_diffrn_reflns_point_group_measured_fraction_full` item. The field holds the single value.
+    ///
+    /// Fraction of crystal point-group unique reflections (i.e.
+    /// symmetry-independent in the crystal point group) measured out to the
+    /// resolution given in _diffrn_reflns_resolution_full or
+    /// _diffrn_reflns_theta_full. For space groups that do not contain a
+    /// centre of symmetry the reflections h,k,l and -h,-k,-l are
+    /// independent. This number should not be less than 0.95, since it
+    /// represents the fraction of reflections measured in the part of the
+    /// diffraction pattern that is essentially complete.
     pub point_group_measured_fraction_full: Option<PointGroupMeasuredFractionFull>,
+    /// The `_diffrn_reflns_point_group_measured_fraction_max` item. The field holds the single value.
+    ///
+    /// Fraction of crystal point-group unique reflections (i.e.
+    /// symmetry-independent in the crystal point group) measured out to the
+    /// resolution given in _diffrn_reflns_resolution_max or
+    /// _diffrn_reflns_theta_max. For space groups that do not contain a
+    /// centre of symmetry the reflections h,k,l and -h,-k,-l are
+    /// independent.
     pub point_group_measured_fraction_max: Option<PointGroupMeasuredFractionMax>,
+    /// The `_diffrn_reflns_reduction_process` item. The field holds the single value.
+    ///
+    /// A description of the process used to reduce the intensities into
+    /// structure-factor magnitudes.
     pub reduction_process: Option<CharString>,
+    /// The `_diffrn_reflns_resolution_full` item. The field holds the single value.
+    ///
+    /// The resolution in reciprocal angstroms at which the measured
+    /// reflection count is close to complete. The fraction of unique
+    /// reflections measured out to this angle is given by
+    /// _diffrn_measured_fraction_theta_full.
+    /// Units: A^-1^ (reciprocal angstrom).
     pub resolution_full: Option<ResolutionFull>,
+    /// The `_diffrn_reflns_resolution_max` item. The field holds the single value.
+    ///
+    /// Maximum resolution in reciprocal angstroms of the measured
+    /// diffraction pattern. The fraction of unique reflections measured out
+    /// to this angle is given by _diffrn_measured_fraction_theta_max
+    /// Units: A^-1^ (reciprocal angstrom).
     pub resolution_max: Option<ResolutionMax>,
+    /// The `_diffrn_reflns_theta_full` item. The field holds the single value.
+    ///
+    /// The theta angle (in degrees) at which the measured reflection count
+    /// is close to complete. The fraction of unique reflections measured
+    /// out to this angle is given by _diffrn_measured_fraction_theta_full.
+    /// Units: deg (degree of arc).
     pub theta_full: Option<ThetaFull>,
+    /// The `_diffrn_reflns_theta_max` item. The field holds the single value.
+    ///
+    /// Maximum theta angle in degrees for the measured intensities. The
+    /// fraction of unique reflections measured out to this angle is given
+    /// by _diffrn_measured_fraction_theta_max
+    /// Units: deg (degree of arc).
     pub theta_max: Option<ThetaMax>,
+    /// The `_diffrn_reflns_theta_min` item. The field holds the single value.
+    ///
+    /// Minimum theta angle in degrees for the measured intensities.
+    /// Units: deg (degree of arc).
     pub theta_min: Option<ThetaMin>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<DiffrnReflnsRow>,
 }
 impl CifCategory for DiffrnReflns {
@@ -350,21 +437,100 @@ impl CifCategory for DiffrnReflns {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `diffrn_reflns` category: the per-observation values of the loop items.
 pub struct DiffrnReflnsRow {
+    /// The `_diffrn_reflns_limit_h_max` item. The field holds the column values, one per loop row.
+    ///
+    /// The limits on the Miller indices of the intensities specified by
+    /// _diffrn_refln_index_h, *_k, *_l.
     pub limit_h_max: Option<Numeric>,
+    /// The `_diffrn_reflns_limit_h_min` item. The field holds the column values, one per loop row.
+    ///
+    /// The limits on the Miller indices of the intensities specified by
+    /// _diffrn_refln_index_h, *_k, *_l.
     pub limit_h_min: Option<Numeric>,
+    /// The `_diffrn_reflns_limit_k_max` item. The field holds the column values, one per loop row.
+    ///
+    /// The limits on the Miller indices of the intensities specified by
+    /// _diffrn_refln_index_h, *_k, *_l.
     pub limit_k_max: Option<Numeric>,
+    /// The `_diffrn_reflns_limit_k_min` item. The field holds the column values, one per loop row.
+    ///
+    /// The limits on the Miller indices of the intensities specified by
+    /// _diffrn_refln_index_h, *_k, *_l.
     pub limit_k_min: Option<Numeric>,
+    /// The `_diffrn_reflns_limit_l_max` item. The field holds the column values, one per loop row.
+    ///
+    /// The limits on the Miller indices of the intensities specified by
+    /// _diffrn_refln_index_h, *_k, *_l.
     pub limit_l_max: Option<Numeric>,
+    /// The `_diffrn_reflns_limit_l_min` item. The field holds the column values, one per loop row.
+    ///
+    /// The limits on the Miller indices of the intensities specified by
+    /// _diffrn_refln_index_h, *_k, *_l.
     pub limit_l_min: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_11` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_11: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_12` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_12: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_13` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_13: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_21` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_21: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_22` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_22: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_23` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_23: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_31` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_31: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_32` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_32: Option<Numeric>,
+    /// The `_diffrn_reflns_transf_matrix_33` item. The field holds the column values, one per loop row.
+    ///
+    /// Elements of the matrix used to transform the diffraction reflection
+    /// indices _diffrn_refln_index_h, *_k, *_l into the _refln_index_h,
+    /// *_k, *_l indices. |11 12 13| (h k l) diffraction |21 22 23| = (h' k'
+    /// l') |31 32 33|
     pub transf_matrix_33: Option<Numeric>,
 }
 fn rows_to_members(rows: &[DiffrnReflnsRow]) -> Vec<DataBlockMember> {

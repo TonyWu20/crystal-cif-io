@@ -11,12 +11,47 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `database` category struct. One field per registry item.
 pub struct Database {
+    /// The `_database_CSD_history` item. The field holds the single value.
+    ///
+    /// A history of changes made by the Cambridge Crystallographic Data
+    /// Centre and incorporated into the Cambridge Structural Database
+    /// (CSD).
     pub csd_history: Option<CharString>,
+    /// The `_database_code_depnum_ccdc_archive` item. The field holds the single value.
+    ///
+    /// Deposition numbers assigned by the Cambridge Crystallographic Data
+    /// Centre (CCDC) to files containing structural information archived by
+    /// the CCDC.
     pub code_depnum_ccdc_archive: Option<CharString>,
+    /// The `_database_code_depnum_ccdc_fiz` item. The field holds the single value.
+    ///
+    /// Deposition numbers assigned by the Fachinformationszentrum Karlsruhe
+    /// (FIZ) to files containing structural information archived by the
+    /// Cambridge Crystallographic Data Centre (CCDC).
     pub code_depnum_ccdc_fiz: Option<CharString>,
+    /// The `_database_code_depnum_ccdc_journal` item. The field holds the single value.
+    ///
+    /// Deposition numbers assigned by various journals to files containing
+    /// structural information archived by the Cambridge Crystallographic
+    /// Data Centre (CCDC).
     pub code_depnum_ccdc_journal: Option<CharString>,
+    /// The `_database_dataset_doi` item. The field holds the single value.
+    ///
+    /// The digital object identifier (DOI) registered to identify a data
+    /// set publication associated with the structure described in the
+    /// current datablock. This should be used for a dataset obtained from a
+    /// curated database such as CSD or PDB. A DOI is a unique character
+    /// string identifying any object of intellectual property. It provides
+    /// a persistent identifier for an object on a digital network and
+    /// permits the association of related current data in a structured
+    /// extensible way. A DOI is an implementation of the Internet concepts
+    /// of Uniform Resource Name and Universal Resource Locator managed
+    /// according to the specifications of the International DOI Foundation
+    /// (see `http://www.doi.org`).
     pub dataset_doi: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<DatabaseRow>,
 }
 
@@ -153,16 +188,91 @@ impl CifCategory for Database {
 
 /// The `database` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `database` category: the per-observation values of the loop items.
 pub struct DatabaseRow {
+    /// The `_database_code_CAS` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_cas: Option<CharString>,
+    /// The `_database_code_COD` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_cod: Option<CharString>,
+    /// The `_database_code_CSD` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_csd: Option<CharString>,
+    /// The `_database_code_ICSD` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_icsd: Option<CharString>,
+    /// The `_database_code_MDF` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_mdf: Option<CharString>,
+    /// The `_database_code_NBS` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_nbs: Option<CharString>,
+    /// The `_database_code_PDB` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_pdb: Option<CharString>,
+    /// The `_database_code_PDF` item. The field holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     pub code_pdf: Option<CharString>,
+    /// The `_database_journal_ASTM` item. The field holds the column values, one per loop row.
+    ///
+    /// The ASTM CODEN designator for a journal as given in the Chemical
+    /// Source List maintained by the Chemical Abstracts Service, and the
+    /// journal code used in the Cambridge Structural Database.
     pub journal_astm: Option<CharString>,
+    /// The `_database_journal_CSD` item. The field holds the column values, one per loop row.
+    ///
+    /// The ASTM CODEN designator for a journal as given in the Chemical
+    /// Source List maintained by the Chemical Abstracts Service, and the
+    /// journal code used in the Cambridge Structural Database.
     pub journal_csd: Option<CharString>,
 }
 

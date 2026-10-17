@@ -13,20 +13,79 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `exptl` category struct. One field per registry item.
 pub struct Exptl {
+    /// The `_exptl_absorpt_coefficient_mu` item. The field holds the single value.
+    ///
+    /// The absorption coefficient mu in reciprocal millimetres calculated
+    /// from the atomic content of the cell, the density and the radiation
+    /// wavelength.
+    /// Units: mm^-1^ (reciprocal millimetre).
     pub absorpt_coefficient_mu: Option<AbsorptCoefficient>,
+    /// The `_exptl_absorpt_correction_type` item. The field holds the single value.
+    ///
+    /// The absorption-correction type and method. The value 'empirical'
+    /// should NOT be used unless more detailed information is not
+    /// available.
     pub absorpt_correction_type: Option<AbsorptCorrectionType>,
+    /// The `_exptl_absorpt_process_details` item. The field holds the single value.
+    ///
+    /// Description of the absorption process applied to the intensities. A
+    /// literature reference should be supplied for psi-scan techniques.
     pub absorpt_process_details: Option<CharString>,
+    /// The `_exptl_crystals_number` item. The field holds the single value.
+    ///
+    /// The total number of crystals used for the measurement of
+    /// intensities.
     pub crystals_number: Option<CrystalCount>,
+    /// The `_exptl_special_details` item. The field holds the single value.
+    ///
+    /// Any special information about the experimental work prior to the
+    /// intensity measurements. See also _exptl_crystal_preparation.
     pub special_details: Option<CharString>,
+    /// The `_exptl_transmission_factor_max` item. The field holds the single value.
+    ///
+    /// The calculated maximum value of the transmission factor for the
+    /// specimen. Its value does not include the effects of absorption in
+    /// the specimen mount. The presence of this item does not imply that
+    /// the structure factors have been corrected for absorption. The
+    /// applied correction should be given by
+    /// _exptl_absorpt_correction_T_max.
     pub transmission_factor_max: Option<TransmissionFactor>,
+    /// The `_exptl_transmission_factor_min` item. The field holds the single value.
+    ///
+    /// The calculated minimum value of the transmission factor for the
+    /// specimen. Its value does not include the effects of absorption in
+    /// the specimen mount. The presence of this item does not imply that
+    /// the structure factors have been corrected for absorption. The
+    /// applied correction should be given by
+    /// _exptl_absorpt_correction_T_min.
     pub transmission_factor_min: Option<TransmissionFactor>,
+    /// The rows of the `_exptl_absorpt_correction_T` loop family.
     pub absorpt_correction_t: Vec<ExptlAbsorptCorrectionT>,
 }
 
+/// One loop row of the `_exptl_absorpt_correction_T` loop family:
+/// the correction factors at the two measurement limits.
 #[derive(Debug, Clone, Default)]
 pub struct ExptlAbsorptCorrectionT {
+    /// The `_exptl_absorpt_correction_T_max` item. The field holds the column values, one per loop row.
+    ///
+    /// The maximum and minimum transmission factors applied to the
+    /// diffraction pattern measured in this experiment. These factors are
+    /// also referred to as the absorption correction A or 1/A*. As this
+    /// value is the one that is applied to the measured intensities, it
+    /// includes the correction for absorption by the specimen mount and
+    /// diffractometer as well as by the specimen itself.
     pub max: Option<Numeric>,
+    /// The `_exptl_absorpt_correction_T_min` item. The field holds the column values, one per loop row.
+    ///
+    /// The maximum and minimum transmission factors applied to the
+    /// diffraction pattern measured in this experiment. These factors are
+    /// also referred to as the absorption correction A or 1/A*. As this
+    /// value is the one that is applied to the measured intensities, it
+    /// includes the correction for absorption by the specimen mount and
+    /// diffractometer as well as by the specimen itself.
     pub min: Option<Numeric>,
 }
 

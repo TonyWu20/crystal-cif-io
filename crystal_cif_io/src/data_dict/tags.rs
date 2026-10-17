@@ -13,6 +13,7 @@
 
 /// `atom_analytical` category tags (6).
 pub mod atom_analytical {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_analytical_analyte",
         "atom_analytical_analyte_mass_percent",
@@ -25,6 +26,7 @@ pub mod atom_analytical {
 
 /// `atom_analytical_mass_loss` category tags (5).
 pub mod atom_analytical_mass_loss {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_analytical_mass_loss_id",
         "atom_analytical_mass_loss_meas_id",
@@ -36,6 +38,7 @@ pub mod atom_analytical_mass_loss {
 
 /// `atom_analytical_source` category tags (4).
 pub mod atom_analytical_source {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_analytical_source_equipment_make",
         "atom_analytical_source_id",
@@ -46,6 +49,7 @@ pub mod atom_analytical_source {
 
 /// `atom_scat_versus_stol` category tags (3).
 pub mod atom_scat_versus_stol {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_scat_versus_stol_atom_type",
         "atom_scat_versus_stol_scat_value",
@@ -55,6 +59,7 @@ pub mod atom_scat_versus_stol {
 
 /// `atom_site` category tags (57).
 pub mod atom_site {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_site_adp_type",
         "atom_site_aniso_B_11",
@@ -118,6 +123,7 @@ pub mod atom_site {
 
 /// `atom_site_aniso` category tags (10).
 pub mod atom_site_aniso {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_site.tensor_beta",
         "atom_site_aniso_beta_11",
@@ -134,6 +140,7 @@ pub mod atom_site_aniso {
 
 /// `atom_sites` category tags (29).
 pub mod atom_sites {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_sites_Cartn_tran_matrix_11",
         "atom_sites_Cartn_tran_matrix_12",
@@ -169,6 +176,7 @@ pub mod atom_sites {
 
 /// `atom_sites_cartn_transform` category tags (2).
 pub mod atom_sites_cartn_transform {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_sites_cartn_transform_matrix",
         "atom_sites_cartn_transform_vector",
@@ -177,6 +185,7 @@ pub mod atom_sites_cartn_transform {
 
 /// `atom_sites_fract_transform` category tags (3).
 pub mod atom_sites_fract_transform {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_sites_fract_transform_axes",
         "atom_sites_fract_transform_matrix",
@@ -186,6 +195,7 @@ pub mod atom_sites_fract_transform {
 
 /// `atom_type` category tags (28).
 pub mod atom_type {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_type_analytical_mass_%",
         "atom_type_atomic_mass",
@@ -220,6 +230,7 @@ pub mod atom_type {
 
 /// `atom_type_scat` category tags (26).
 pub mod atom_type_scat {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "atom_type_scat_cromer_mann_as",
         "atom_type_scat_cromer_mann_bs",
@@ -252,6 +263,7 @@ pub mod atom_type_scat {
 
 /// `audit` category tags (6).
 pub mod audit {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "audit_block_code",
         "audit_block_doi",
@@ -264,6 +276,7 @@ pub mod audit {
 
 /// `audit_author` category tags (7).
 pub mod audit_author {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "audit_author_address",
         "audit_author_email",
@@ -277,6 +290,7 @@ pub mod audit_author {
 
 /// `audit_author_role` category tags (3).
 pub mod audit_author_role {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "audit_author_role_id",
         "audit_author_role_role",
@@ -286,6 +300,7 @@ pub mod audit_author_role {
 
 /// `audit_conform` category tags (4).
 pub mod audit_conform {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "audit_conform_dict_doi",
         "audit_conform_dict_location",
@@ -296,6 +311,7 @@ pub mod audit_conform {
 
 /// `audit_contact_author` category tags (8).
 pub mod audit_contact_author {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "audit_contact_author_address",
         "audit_contact_author_email",
@@ -310,11 +326,13 @@ pub mod audit_contact_author {
 
 /// `audit_link` category tags (2).
 pub mod audit_link {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["audit_link_block_code", "audit_link_block_description"];
 }
 
 /// `audit_support` category tags (8).
 pub mod audit_support {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "audit_support_award_number",
         "audit_support_award_recipient",
@@ -329,6 +347,7 @@ pub mod audit_support {
 
 /// `cell` category tags (38).
 pub mod cell {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "cell_angle_alpha",
         "cell_angle_beta",
@@ -373,6 +392,7 @@ pub mod cell {
 
 /// `cell_measurement_refln` category tags (5).
 pub mod cell_measurement_refln {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "cell_measurement_refln_hkl",
         "cell_measurement_refln_index_h",
@@ -384,6 +404,7 @@ pub mod cell_measurement_refln {
 
 /// `chemical` category tags (25).
 pub mod chemical {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "chemical_absolute_configuration",
         "chemical_compound_source",
@@ -415,6 +436,7 @@ pub mod chemical {
 
 /// `chemical_conn_atom` category tags (7).
 pub mod chemical_conn_atom {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "chemical_conn_atom_NCA",
         "chemical_conn_atom_NH",
@@ -428,6 +450,7 @@ pub mod chemical_conn_atom {
 
 /// `chemical_conn_bond` category tags (5).
 pub mod chemical_conn_bond {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "chem_comp_bond.value_dist",
         "chemical_conn_bond_atom_1",
@@ -439,6 +462,7 @@ pub mod chemical_conn_bond {
 
 /// `chemical_formula` category tags (7).
 pub mod chemical_formula {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "chemical_formula_analytical",
         "chemical_formula_iupac",
@@ -452,6 +476,7 @@ pub mod chemical_formula {
 
 /// `citation` category tags (27).
 pub mod citation {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "citation_abstract",
         "citation_abstract_id_cas",
@@ -485,6 +510,7 @@ pub mod citation {
 
 /// `citation_author` category tags (3).
 pub mod citation_author {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "citation_author_citation_id",
         "citation_author_name",
@@ -494,6 +520,7 @@ pub mod citation_author {
 
 /// `citation_editor` category tags (4).
 pub mod citation_editor {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "citation_editor",
         "citation_editor_citation_id",
@@ -504,6 +531,7 @@ pub mod citation_editor {
 
 /// `computing` category tags (8).
 pub mod computing {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "computing_cell_refinement",
         "computing_data_collection",
@@ -518,6 +546,7 @@ pub mod computing {
 
 /// `database` category tags (15).
 pub mod database {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "database_code_cas",
         "database_code_cod",
@@ -539,11 +568,13 @@ pub mod database {
 
 /// `database_code` category tags (2).
 pub mod database_code {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["database_code_amcsd", "database_code_bincstrdb"];
 }
 
 /// `database_related` category tags (5).
 pub mod database_related {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "database_related_database_id",
         "database_related_entry_code",
@@ -555,6 +586,7 @@ pub mod database_related {
 
 /// `diffrn` category tags (20).
 pub mod diffrn {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_ambient_environment",
         "diffrn_ambient_pressure",
@@ -581,6 +613,7 @@ pub mod diffrn {
 
 /// `diffrn_attenuator` category tags (3).
 pub mod diffrn_attenuator {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_attenuator_code",
         "diffrn_attenuator_material",
@@ -590,6 +623,7 @@ pub mod diffrn_attenuator {
 
 /// `diffrn_component_pid` category tags (3).
 pub mod diffrn_component_pid {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_component_pid_details",
         "diffrn_component_pid_framework",
@@ -599,6 +633,7 @@ pub mod diffrn_component_pid {
 
 /// `diffrn_detector` category tags (7).
 pub mod diffrn_detector {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_detector",
         "diffrn_detector_area_resol_mean",
@@ -612,6 +647,7 @@ pub mod diffrn_detector {
 
 /// `diffrn_measurement` category tags (11).
 pub mod diffrn_measurement {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_measurement_details",
         "diffrn_measurement_device",
@@ -629,6 +665,7 @@ pub mod diffrn_measurement {
 
 /// `diffrn_orient_matrix` category tags (11).
 pub mod diffrn_orient_matrix {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_orient_matrix_type",
         "diffrn_orient_matrix_ub_11",
@@ -646,6 +683,7 @@ pub mod diffrn_orient_matrix {
 
 /// `diffrn_orient_refln` category tags (10).
 pub mod diffrn_orient_refln {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_orient_refln_angle_chi",
         "diffrn_orient_refln_angle_kappa",
@@ -662,6 +700,7 @@ pub mod diffrn_orient_refln {
 
 /// `diffrn_radiation` category tags (10).
 pub mod diffrn_radiation {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_radiation_collimation",
         "diffrn_radiation_filter_edge",
@@ -678,6 +717,7 @@ pub mod diffrn_radiation {
 
 /// `diffrn_radiation_wavelength` category tags (7).
 pub mod diffrn_radiation_wavelength {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_radiation_wavelength",
         "diffrn_radiation_wavelength_details",
@@ -691,6 +731,7 @@ pub mod diffrn_radiation_wavelength {
 
 /// `diffrn_refln` category tags (39).
 pub mod diffrn_refln {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_refln_angle_chi",
         "diffrn_refln_angle_kappa",
@@ -736,6 +777,7 @@ pub mod diffrn_refln {
 
 /// `diffrn_reflns` category tags (33).
 pub mod diffrn_reflns {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_reflns_av_r_equivalents",
         "diffrn_reflns_av_sigmai/neti",
@@ -775,6 +817,7 @@ pub mod diffrn_reflns {
 
 /// `diffrn_reflns_class` category tags (9).
 pub mod diffrn_reflns_class {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_reflns_class_av_r_eq",
         "diffrn_reflns_class_av_sgi/i",
@@ -790,16 +833,19 @@ pub mod diffrn_reflns_class {
 
 /// `diffrn_reflns_transf_matrix` category tags (1).
 pub mod diffrn_reflns_transf_matrix {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["diffrn_reflns_transf_matrix_tij"];
 }
 
 /// `diffrn_scale_group` category tags (2).
 pub mod diffrn_scale_group {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["diffrn_scale_group_code", "diffrn_scale_group_i_net"];
 }
 
 /// `diffrn_source` category tags (16).
 pub mod diffrn_source {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_radiation_source",
         "diffrn_source",
@@ -822,6 +868,7 @@ pub mod diffrn_source {
 
 /// `diffrn_standard_refln` category tags (5).
 pub mod diffrn_standard_refln {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_standard_refln_code",
         "diffrn_standard_refln_hkl",
@@ -833,6 +880,7 @@ pub mod diffrn_standard_refln {
 
 /// `diffrn_standards` category tags (6).
 pub mod diffrn_standards {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "diffrn_standards_decay_%",
         "diffrn_standards_interval_count",
@@ -845,6 +893,7 @@ pub mod diffrn_standards {
 
 /// `display_colour` category tags (5).
 pub mod display_colour {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "display_colour_blue",
         "display_colour_green",
@@ -856,6 +905,7 @@ pub mod display_colour {
 
 /// `exptl` category tags (12).
 pub mod exptl {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "exptl_absorpt_coefficient_mu",
         "exptl_absorpt_correction_T_max",
@@ -874,11 +924,13 @@ pub mod exptl {
 
 /// `exptl_absorpt` category tags (1).
 pub mod exptl_absorpt {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["exptl_absorpt_special_details"];
 }
 
 /// `exptl_crystal` category tags (27).
 pub mod exptl_crystal {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "exptl_crystal_F_000",
         "exptl_crystal_colour",
@@ -912,6 +964,7 @@ pub mod exptl_crystal {
 
 /// `exptl_crystal_face` category tags (9).
 pub mod exptl_crystal_face {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "exptl_crystal_face_diffr_chi",
         "exptl_crystal_face_diffr_kappa",
@@ -927,6 +980,7 @@ pub mod exptl_crystal_face {
 
 /// `function` category tags (7).
 pub mod function {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "function_atomtype",
         "function_closest",
@@ -940,6 +994,7 @@ pub mod function {
 
 /// `geom` category tags (5).
 pub mod geom {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "geom_bond_distance_incr",
         "geom_contact_distance_incr",
@@ -951,6 +1006,7 @@ pub mod geom {
 
 /// `geom_angle` category tags (10).
 pub mod geom_angle {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "geom_angle",
         "geom_angle_atom_site_label_1",
@@ -967,6 +1023,7 @@ pub mod geom_angle {
 
 /// `geom_bond` category tags (9).
 pub mod geom_bond {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "geom_bond_atom_site_label_1",
         "geom_bond_atom_site_label_2",
@@ -982,6 +1039,7 @@ pub mod geom_bond {
 
 /// `geom_contact` category tags (7).
 pub mod geom_contact {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "geom_contact_atom_site_label_1",
         "geom_contact_atom_site_label_2",
@@ -995,6 +1053,7 @@ pub mod geom_contact {
 
 /// `geom_hbond` category tags (12).
 pub mod geom_hbond {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "geom_hbond_angle_DHA",
         "geom_hbond_atom_site_label_A",
@@ -1013,6 +1072,7 @@ pub mod geom_hbond {
 
 /// `geom_torsion` category tags (12).
 pub mod geom_torsion {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "geom_torsion",
         "geom_torsion_atom_site_label_1",
@@ -1031,6 +1091,7 @@ pub mod geom_torsion {
 
 /// `journal` category tags (42).
 pub mod journal {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "journal.data_validation_number",
         "journal_coden_astm",
@@ -1079,6 +1140,7 @@ pub mod journal {
 
 /// `journal_index` category tags (4).
 pub mod journal_index {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "journal_index_id",
         "journal_index_subterm",
@@ -1089,6 +1151,7 @@ pub mod journal_index {
 
 /// `model_site` category tags (14).
 pub mod model_site {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "model_site_adp_eigenvalues",
         "model_site_adp_eigenvectors",
@@ -1109,6 +1172,7 @@ pub mod model_site {
 
 /// `publ` category tags (32).
 pub mod publ {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "publ_contact_author",
         "publ_contact_author_address",
@@ -1147,6 +1211,7 @@ pub mod publ {
 
 /// `publ_author` category tags (9).
 pub mod publ_author {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "publ_author_address",
         "publ_author_email",
@@ -1162,6 +1227,7 @@ pub mod publ_author {
 
 /// `publ_body` category tags (5).
 pub mod publ_body {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "publ_body_contents",
         "publ_body_element",
@@ -1173,11 +1239,13 @@ pub mod publ_body {
 
 /// `publ_contact_author` category tags (1).
 pub mod publ_contact_author {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["publ_contact_author_id"];
 }
 
 /// `publ_manuscript_incl` category tags (3).
 pub mod publ_manuscript_incl {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "publ_manuscript_incl_extra_defn",
         "publ_manuscript_incl_extra_info",
@@ -1187,6 +1255,7 @@ pub mod publ_manuscript_incl {
 
 /// `refine` category tags (48).
 pub mod refine {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "refine_diff_density_max",
         "refine_diff_density_min",
@@ -1241,6 +1310,7 @@ pub mod refine {
 
 /// `refine_diff` category tags (3).
 pub mod refine_diff {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "refine_diff_potential_max",
         "refine_diff_potential_min",
@@ -1250,6 +1320,7 @@ pub mod refine_diff {
 
 /// `refine_ls` category tags (7).
 pub mod refine_ls {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "refine_ls_abs_structure_z_score",
         "refine_ls_number_reflns_gt",
@@ -1263,6 +1334,7 @@ pub mod refine_ls {
 
 /// `refine_ls_class` category tags (8).
 pub mod refine_ls_class {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "refine_ls_class_R_Fsqd_factor",
         "refine_ls_class_R_I_factor",
@@ -1277,6 +1349,7 @@ pub mod refine_ls_class {
 
 /// `refln` category tags (37).
 pub mod refln {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "refln_A_calc",
         "refln_A_meas",
@@ -1320,6 +1393,7 @@ pub mod refln {
 
 /// `reflns` category tags (20).
 pub mod reflns {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "reflns_Friedel_coverage",
         "reflns_Friedel_fraction_full",
@@ -1346,6 +1420,7 @@ pub mod reflns {
 
 /// `reflns_class` category tags (12).
 pub mod reflns_class {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "reflns_class_R_Fsqd_factor",
         "reflns_class_R_I_factor",
@@ -1364,6 +1439,7 @@ pub mod reflns_class {
 
 /// `reflns_scale` category tags (4).
 pub mod reflns_scale {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "reflns_scale_group_code",
         "reflns_scale_meas_F",
@@ -1374,6 +1450,7 @@ pub mod reflns_scale {
 
 /// `reflns_shell` category tags (24).
 pub mod reflns_shell {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "reflns_shell_Rmerge_F_all",
         "reflns_shell_Rmerge_F_gt",
@@ -1404,6 +1481,7 @@ pub mod reflns_shell {
 
 /// `space_group` category tags (19).
 pub mod space_group {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "space_group_IT_number",
         "space_group_bravais_type",
@@ -1429,11 +1507,13 @@ pub mod space_group {
 
 /// `space_group_generator` category tags (2).
 pub mod space_group_generator {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["space_group_generator_id", "space_group_generator_xyz"];
 }
 
 /// `space_group_symop` category tags (8).
 pub mod space_group_symop {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "space_group_symop_id",
         "space_group_symop_operation_description",
@@ -1448,6 +1528,7 @@ pub mod space_group_symop {
 
 /// `space_group_wyckoff` category tags (5).
 pub mod space_group_wyckoff {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "space_group_wyckoff_coords_xyz",
         "space_group_wyckoff_id",
@@ -1459,6 +1540,7 @@ pub mod space_group_wyckoff {
 
 /// `symmetry` category tags (4).
 pub mod symmetry {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "symmetry_Int_Tables_number",
         "symmetry_cell_setting",
@@ -1469,11 +1551,13 @@ pub mod symmetry {
 
 /// `symmetry_equiv` category tags (2).
 pub mod symmetry_equiv {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["symmetry_equiv_pos_as_xyz", "symmetry_equiv_pos_site_id"];
 }
 
 /// `valence_param` category tags (10).
 pub mod valence_param {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &[
         "valence_param_B",
         "valence_param_Ro",
@@ -1490,6 +1574,7 @@ pub mod valence_param {
 
 /// `valence_ref` category tags (2).
 pub mod valence_ref {
+    /// The registered tag strings of the category, one per implemented item. No leading underscore.
     pub const TAGS: &[&str] = &["valence_ref_id", "valence_ref_reference"];
 }
 

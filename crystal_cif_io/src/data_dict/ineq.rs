@@ -1,13 +1,13 @@
 //! The inequality payload of the recorded numeric items (roadmap D12l).
 
 /// A recorded value of a numeric item. DDL1 may record a
-/// less-than assertion (`<N`) under a numeric tag. The payload
+/// less-than assertion (`&lt;N`) under a numeric tag. The payload
 /// keeps the assertion with the value of the plain field.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Ineq<T> {
     /// A recorded value.
     Value(T),
-    /// A recorded less-than assertion (`<N`).
+    /// A recorded less-than assertion (`&lt;N`).
     LessThan(T),
 }
 

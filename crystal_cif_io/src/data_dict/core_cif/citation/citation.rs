@@ -12,8 +12,11 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `citation` category struct. One field per registry item.
 pub struct Citation {
+    /// The `_citation_URL` item. The field holds the single value.
     pub url: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<CitationRow>,
 }
 
@@ -102,32 +105,150 @@ impl CifCategory for Citation {
 
 /// The `citation` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `citation` category: the per-observation values of the loop items.
 pub struct CitationRow {
+    /// The `_citation_abstract` item. The field holds the column values, one per loop row.
+    ///
+    /// Abstract for the citation. This is used most when the citation is
+    /// extracted from a bibliographic database that contains full text or
+    /// abstract information.
     pub abstract_: Option<CharString>,
+    /// The `_citation_abstract_id_CAS` item. The field holds the column values, one per loop row.
+    ///
+    /// The Chemical Abstracts Service (CAS) abstract identifier; relevant
+    /// for journal articles.
     pub abstract_id_cas: Option<CharString>,
+    /// The `_citation_book_id_ISBN` item. The field holds the column values, one per loop row.
+    ///
+    /// The International Standard Book Number (ISBN) code assigned to the
+    /// book cited; relevant for books or book chapters.
     pub book_id_isbn: Option<CharString>,
+    /// The `_citation_book_publisher` item. The field holds the column values, one per loop row.
+    ///
+    /// The name of the publisher of the citation; relevant for books or
+    /// book chapters.
     pub book_publisher: Option<CharString>,
+    /// The `_citation_book_publisher_city` item. The field holds the column values, one per loop row.
+    ///
+    /// The location of the publisher of the citation; relevant for books or
+    /// book chapters.
     pub book_publisher_city: Option<CharString>,
+    /// The `_citation_book_title` item. The field holds the column values, one per loop row.
+    ///
+    /// The title of the book in which the citation appeared; relevant for
+    /// books or book chapters.
     pub book_title: Option<CharString>,
+    /// The `_citation_coordinate_linkage` item. The field holds the column values, one per loop row.
+    ///
+    /// _citation_coordinate_linkage states whether or not this citation is
+    /// concerned with precisely the set of coordinates given in the data
+    /// block. If, for instance, the publication described the same
+    /// structure, but the coordinates had undergone further refinement
+    /// prior to creation of the data block, the value of this data item
+    /// would be 'no'.
     pub coordinate_linkage: Option<CoordinateLinkage>,
+    /// The `_citation_country` item. The field holds the column values, one per loop row.
+    ///
+    /// The country of publication; relevant for books and book chapters.
     pub country: Option<CharString>,
+    /// The `_citation_database_id_CSD` item. The field holds the column values, one per loop row.
+    ///
+    /// Identifier ('refcode') of the database record in the Cambridge
+    /// Structural Database that contains details of the cited structure.
     pub database_id_csd: Option<CharString>,
+    /// The `_citation_database_id_Medline` item. The field holds the column values, one per loop row.
+    ///
+    /// Accession number used by Medline to categorize a specific
+    /// bibliographic entry.
     pub database_id_medline: Option<CharString>,
+    /// The `_citation_doi` item. The field holds the column values, one per loop row.
+    ///
+    /// The Digital Object Identifier (DOI) of the cited work. A DOI is a
+    /// unique character string identifying any object of intellectual
+    /// property. It provides a persistent identifier for an object on a
+    /// digital network and permits the association of related current data
+    /// in a structured extensible way. A DOI is an implementation of the
+    /// Internet concepts of Uniform Resource Name and Universal Resource
+    /// Locator managed according to the specifications of the International
+    /// DOI Foundation (see `http://www.doi.org`).
     pub doi: Option<CharString>,
+    /// The `_citation_id` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of _citation_id must uniquely identify a record in the
+    /// _citation_ list. The _citation_id 'primary' should be used to
+    /// indicate the citation that the author(s) consider to be the most
+    /// pertinent to the contents of the data block. Note that this item
+    /// need not be a number; it can be any unique identifier.
     pub id: Option<CharString>,
+    /// The `_citation_journal_abbrev` item. The field holds the column values, one per loop row.
+    ///
+    /// Abbreviated name of the journal cited as given in the Chemical
+    /// Abstracts Service Source Index.
     pub journal_abbrev: Option<CharString>,
+    /// The `_citation_journal_full` item. The field holds the column values, one per loop row.
+    ///
+    /// Full name of the journal cited; relevant for journal articles.
     pub journal_full: Option<CharString>,
+    /// The `_citation_journal_id_ASTM` item. The field holds the column values, one per loop row.
+    ///
+    /// The American Society for Testing and Materials (ASTM) code assigned
+    /// to the journal cited (also referred to as the CODEN designator of
+    /// the Chemical Abstracts Service); relevant for journal articles.
     pub journal_id_astm: Option<CharString>,
+    /// The `_citation_journal_id_CSD` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cambridge Structural Database (CSD) code assigned to the journal
+    /// cited; relevant for journal articles. This is also the system used
+    /// at the Protein Data Bank (PDB).
     pub journal_id_csd: Option<CharString>,
+    /// The `_citation_journal_id_ISSN` item. The field holds the column values, one per loop row.
+    ///
+    /// The International Standard Serial Number (ISSN) code assigned to the
+    /// journal cited; relevant for journal articles.
     pub journal_id_issn: Option<CharString>,
+    /// The `_citation_journal_issue` item. The field holds the column values, one per loop row.
+    ///
+    /// Issue number of the journal cited; relevant for journal articles.
     pub journal_issue: Option<CharString>,
+    /// The `_citation_journal_volume` item. The field holds the column values, one per loop row.
+    ///
+    /// Volume number of the journal cited; relevant for journal articles.
     pub journal_volume: Option<CharString>,
+    /// The `_citation_language` item. The field holds the column values, one per loop row.
+    ///
+    /// Language in which the cited article is written.
     pub language: Option<CharString>,
+    /// The `_citation_page_first` item. The field holds the column values, one per loop row.
+    ///
+    /// The first and last pages of the citation; relevant for journal
+    /// articles, books and book chapters.
     pub page_first: Option<CharString>,
+    /// The `_citation_page_last` item. The field holds the column values, one per loop row.
+    ///
+    /// The first and last pages of the citation; relevant for journal
+    /// articles, books and book chapters.
     pub page_last: Option<CharString>,
+    /// The `_citation_publisher` item. The field holds the column values, one per loop row.
+    ///
+    /// The name of the publisher of the cited work. This should be used for
+    /// citations of journal articles or datasets (in the latter case the
+    /// publisher could be a curated database). For books or book chapters
+    /// use _citation_book_publisher.
     pub publisher: Option<CharString>,
+    /// The `_citation_special_details` item. The field holds the column values, one per loop row.
+    ///
+    /// A description of special aspects of the relationship of the contents
+    /// of the data block to the literature item cited.
     pub special_details: Option<CharString>,
+    /// The `_citation_title` item. The field holds the column values, one per loop row.
+    ///
+    /// The title of the citation; relevant for journal articles, books and
+    /// book chapters.
     pub title: Option<CharString>,
+    /// The `_citation_year` item. The field holds the column values, one per loop row.
+    ///
+    /// The year of the citation; relevant for journal articles, books and
+    /// book chapters.
     pub year: Option<Numeric>,
 }
 

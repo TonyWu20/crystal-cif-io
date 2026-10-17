@@ -15,8 +15,19 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 /// Loop columns of the `valence_ref` category (2 items).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `valence_ref` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ValenceRefLoopItem {
+    /// The `_valence_ref_id` item. The variant holds the column values, one per loop row.
+    ///
+    /// An identifier for items in this category. Parent of
+    /// _valence_param_ref_id, which must have the same value.
     Id(Vec<CharString>),
+    /// The `_valence_ref_reference` item. The variant holds the column values, one per loop row.
+    ///
+    /// Literature reference from which the valence parameters identified by
+    /// _valence_param_id were taken.
     Reference(Vec<CharString>),
 }
 

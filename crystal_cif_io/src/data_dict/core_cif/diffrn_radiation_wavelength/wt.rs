@@ -10,10 +10,12 @@ use crystal_cif_fmt::grammar::{Float, Number, Numeric, Value};
 pub struct Wt(Float);
 
 impl Wt {
+    /// Build the guarded value: the input clamped to the dictionary range.
     pub fn new(float: Float) -> Self {
         Self(Float(float.clamp(0.0, 1.0)))
     }
 
+    /// The recorded value, stored as written.
     pub fn value(&self) -> Float {
         self.0
     }

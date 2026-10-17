@@ -77,10 +77,37 @@ impl From<IntTablesNumber> for Value {
 /// The single-value items of the `symmetry` category.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `symmetry` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum SymmetryTerms {
+    /// The `_symmetry_Int_Tables_number` item. The variant holds the column values, one per loop row.
+    ///
+    /// Space-group number from International Tables for Crystallography
+    /// Vol. A (2002).
     Int_Tables_number(IntTablesNumber),
+    /// The `_symmetry_cell_setting` item. The variant holds the column values, one per loop row.
+    ///
+    /// The cell settings for this space-group symmetry.
     Cell_setting(CellSetting),
+    /// The `_symmetry_space_group_name_H-M` item. The variant holds the column values, one per loop row.
+    ///
+    /// Hermann-Mauguin space-group symbol. Note that the Hermann-Mauguin
+    /// symbol does not necessarily contain complete information about the
+    /// symmetry and the space-group origin. If used, always supply the FULL
+    /// symbol from International Tables for Crystallography Vol. A (2002)
+    /// and indicate the origin and the setting if it is not implicit. If
+    /// there is any doubt that the equivalent positions can be uniquely
+    /// deduced from this symbol, specify the _symmetry_equiv_pos_as_xyz or
+    /// *_Hall data items as well. Leave spaces between symbols referring to
+    /// different axes.
     Space_group_name_H_M(CharString),
+    /// The `_symmetry_space_group_name_Hall` item. The variant holds the column values, one per loop row.
+    ///
+    /// Space-group symbol as described by Hall. This symbol gives the
+    /// space-group setting explicitly. Leave spaces between the separate
+    /// components of the symbol. Ref: Hall, S. R. (1981). Acta Cryst. A37,
+    /// 517-525; erratum (1981), A37, 921.
     Space_group_name_Hall(CharString),
 }
 

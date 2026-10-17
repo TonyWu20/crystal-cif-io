@@ -6,14 +6,23 @@ use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CentringType {
+    /// `p`
     P,
+    /// `a`
     A,
+    /// `b`
     B,
+    /// `c`
     C,
+    /// `f`
     F,
+    /// `i`
     I,
+    /// `r`
     R,
+    /// `rrev`
     Rrev,
+    /// `h`
     H,
 }
 

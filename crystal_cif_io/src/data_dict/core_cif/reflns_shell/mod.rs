@@ -14,29 +14,167 @@ pub use reflns_shell::ReflnsShell;
 /// items as `numb` values.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `reflns_shell` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ReflnsShellLoopItem {
+    /// The `_reflns_shell_Rmerge_F_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(F) for all reflections in a given shell. sum~i~
+    /// ( sum~j~ | F~j~ - &lt;F&gt; | ) Rmerge(F) =
+    /// -------------------------------- sum~i~ ( sum~j~ &lt;F&gt; ) F~j~ = the
+    /// amplitude of the jth observation of reflection i &lt;F&gt; = the mean of
+    /// the amplitudes of all observations of reflection i sum~i~ is taken
+    /// over all reflections sum~j~ is taken over all observations of each
+    /// reflection.
     Rmerge_F_all(Vec<Numeric>),
+    /// The `_reflns_shell_Rmerge_F_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(F) for significantly intense reflections (see
+    /// _reflns_threshold_expression) in a given shell. sum~i~ ( sum~j~ |
+    /// F~j~ - &lt;F&gt; | ) Rmerge(F) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;F&gt; ) F~j~ = the amplitude of the jth observation of
+    /// reflection i &lt;F&gt; = the mean of the amplitudes of all observations of
+    /// reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     Rmerge_F_gt(Vec<Numeric>),
+    /// The `_reflns_shell_Rmerge_F_obs` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(F) for reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) in a given shell. sum~i~ ( sum~j~ | F~j~
+    /// - &lt;F&gt; | ) Rmerge(F) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;F&gt; ) F~j~ = the amplitude of the jth observation of
+    /// reflection i &lt;F&gt; = the mean of the amplitudes of all observations of
+    /// reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     Rmerge_F_obs(Vec<Numeric>),
+    /// The `_reflns_shell_Rmerge_I_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(I) for all reflections in a given shell. sum~i~
+    /// ( sum~j~ | I~j~ - &lt;I&gt; | ) Rmerge(I) =
+    /// -------------------------------- sum~i~ ( sum~j~ &lt;I&gt; ) I~j~ = the
+    /// intensity of the jth observation of reflection i &lt;I&gt; = the mean of
+    /// the intensities of all observations of reflection i sum~i~ is taken
+    /// over all reflections sum~j~ is taken over all observations of each
+    /// reflection.
     Rmerge_I_all(Vec<Numeric>),
+    /// The `_reflns_shell_Rmerge_I_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(I) for significantly intense reflections (see
+    /// _reflns_threshold_expression) in a given shell. sum~i~ ( sum~j~ |
+    /// I~j~ - &lt;I&gt; | ) Rmerge(I) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;I&gt; ) I~j~ = the intensity of the jth observation of
+    /// reflection i &lt;I&gt; = the mean of the intensities of all observations
+    /// of reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     Rmerge_I_gt(Vec<Numeric>),
+    /// The `_reflns_shell_Rmerge_I_obs` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(I) for reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) in a given shell. sum~i~ ( sum~j~ | I~j~
+    /// - &lt;I&gt; | ) Rmerge(I) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;I&gt; ) I~j~ = the intensity of the jth observation of
+    /// reflection i &lt;I&gt; = the mean of the intensities of all observations
+    /// of reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     Rmerge_I_obs(Vec<Numeric>),
+    /// The `_reflns_shell_d_res_high` item. The variant holds the column values, one per loop row.
+    ///
+    /// The highest resolution in angstroms for the reflections in this
+    /// shell. This is the smallest d value.
+    /// Units: A (angstrom).
     D_res_high(Vec<Numeric>),
+    /// The `_reflns_shell_d_res_low` item. The variant holds the column values, one per loop row.
+    ///
+    /// The lowest resolution in angstroms for the reflections in this
+    /// shell. This is the largest d value.
+    /// Units: A (angstrom).
     D_res_low(Vec<Numeric>),
+    /// The `_reflns_shell_meanI_over_sigI_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of all reflections in this
+    /// shell to the mean of the standard uncertainties of the intensities
+    /// of all reflections in the resolution shell.
     MeanI_over_sigI_all(Vec<Numeric>),
+    /// The `_reflns_shell_meanI_over_sigI_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of the significantly
+    /// intense reflections (see _reflns_threshold_expression) in this shell
+    /// to the mean of the standard uncertainties of the intensities of the
+    /// significantly intense reflections in the resolution shell.
     MeanI_over_sigI_gt(Vec<Numeric>),
+    /// The `_reflns_shell_meanI_over_sigI_obs` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of the reflections
+    /// classified as 'observed' (see _reflns_observed_criterion) in this
+    /// shell to the mean of the standard uncertainties of the intensities
+    /// of the 'observed' reflections in the resolution shell.
     MeanI_over_sigI_obs(Vec<Numeric>),
+    /// The `_reflns_shell_meanI_over_uI_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of all reflections in this
+    /// shell to the mean of the standard uncertainties of the intensities
+    /// of all reflections in the resolution shell.
     MeanI_over_uI_all(Vec<Numeric>),
+    /// The `_reflns_shell_meanI_over_uI_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of the significantly
+    /// intense reflections (see _reflns_threshold_expression) in this shell
+    /// to the mean of the standard uncertainties of the intensities of the
+    /// significantly intense reflections in the resolution shell.
     MeanI_over_uI_gt(Vec<Numeric>),
+    /// The `_reflns_shell_number_measured_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The total number of reflections measured for this resolution shell.
     Number_measured_all(Vec<Numeric>),
+    /// The `_reflns_shell_number_measured_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The number of significantly intense reflections (see
+    /// _reflns_threshold_expression) measured for this resolution shell.
     Number_measured_gt(Vec<Numeric>),
+    /// The `_reflns_shell_number_measured_obs` item. The variant holds the column values, one per loop row.
+    ///
+    /// The number of reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) measured for this resolution shell.
     Number_measured_obs(Vec<Numeric>),
+    /// The `_reflns_shell_number_possible` item. The variant holds the column values, one per loop row.
+    ///
+    /// The number of unique reflections it is possible to measure in this
+    /// reflection shell.
     Number_possible(Vec<Numeric>),
+    /// The `_reflns_shell_number_unique_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The total number of measured reflections resulting from merging
+    /// measured symmetry-equivalent reflections for this resolution shell.
     Number_unique_all(Vec<Numeric>),
+    /// The `_reflns_shell_number_unique_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The total number of significantly intense reflections (see
+    /// _reflns_threshold_expression) resulting from merging measured
+    /// symmetry-equivalent reflections for this resolution shell.
     Number_unique_gt(Vec<Numeric>),
+    /// The `_reflns_shell_number_unique_obs` item. The variant holds the column values, one per loop row.
+    ///
+    /// The total number of reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) resulting from merging measured
+    /// symmetry-equivalent reflections for this resolution shell.
     Number_unique_obs(Vec<Numeric>),
+    /// The `_reflns_shell_percent_possible_all` item. The variant holds the column values, one per loop row.
+    ///
+    /// The percentage of geometrically possible reflections represented by
+    /// all reflections measured for this resolution shell.
     Percent_possible_all(Vec<Numeric>),
+    /// The `_reflns_shell_percent_possible_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The percentage of geometrically possible reflections represented by
+    /// significantly intense reflections (see _reflns_threshold_expression)
+    /// measured for this resolution shell.
     Percent_possible_gt(Vec<Numeric>),
+    /// The `_reflns_shell_percent_possible_obs` item. The variant holds the column values, one per loop row.
+    ///
+    /// The percentage of geometrically possible reflections represented by
+    /// reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) measured for this resolution shell.
     Percent_possible_obs(Vec<Numeric>),
 }
 
@@ -119,10 +257,14 @@ impl Display for ReflnsShellLoopItem {
 /// The single-value item of the `reflns_shell` category (T6).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `reflns_shell` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum ReflnsShellTerms {
     /// The shell records a two-value list (min and max d). The
     /// shape is noted from the shell `_type.dimension`; the read
     /// path does not bound it.
+    /// The `_reflns_shell_d_res_limits` item. The variant holds the column values, one per loop row.
     D_res_limits(Vec<Numeric>),
 }
 

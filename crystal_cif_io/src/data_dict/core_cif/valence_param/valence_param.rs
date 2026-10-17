@@ -10,8 +10,11 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `valence_param` category struct. One field per registry item.
 pub struct ValenceParam {
+    /// The `_valence_param_citation_id` item. The field holds the single value.
     pub citation_id: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<ValenceParamRow>,
 }
 
@@ -70,15 +73,54 @@ impl CifCategory for ValenceParam {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `valence_param` category: the per-observation values of the loop items.
 pub struct ValenceParamRow {
+    /// The `_valence_param_atom_1` item. The field holds the column values, one per loop row.
+    ///
+    /// The element symbol of the first atom forming the bond whose
+    /// bond-valence parameters are given in this category.
     pub atom_1: Option<CharString>,
+    /// The `_valence_param_atom_1_valence` item. The field holds the column values, one per loop row.
+    ///
+    /// The valence (formal charge) of the first atom whose bond-valence
+    /// parameters are given in this category.
     pub atom_1_valence: Option<Numeric>,
+    /// The `_valence_param_atom_2` item. The field holds the column values, one per loop row.
+    ///
+    /// The element symbol of the second atom forming the bond whose
+    /// bond-valence parameters are given in this category.
     pub atom_2: Option<CharString>,
+    /// The `_valence_param_atom_2_valence` item. The field holds the column values, one per loop row.
+    ///
+    /// The valence (formal charge) of the second atom whose bond-valence
+    /// parameters are given in this category.
     pub atom_2_valence: Option<Numeric>,
+    /// The `_valence_param_B` item. The field holds the column values, one per loop row.
+    ///
+    /// The bond-valence parameter B used in the expression s = exp[(Ro -
+    /// R)/B] where s is the valence of a bond of length R.
+    /// Units: A (angstrom).
     pub b: Option<Numeric>,
+    /// The `_valence_param_details` item. The field holds the column values, one per loop row.
+    ///
+    /// Details of or comments on the bond-valence parameters.
     pub details: Option<CharString>,
+    /// The `_valence_param_id` item. The field holds the column values, one per loop row.
+    ///
+    /// An identifier for the valence parameters of a bond between the given
+    /// atoms.
     pub id: Option<CharString>,
+    /// The `_valence_param_ref_id` item. The field holds the column values, one per loop row.
+    ///
+    /// An identifier which links to the reference to the source from which
+    /// the bond-valence parameters are taken. A child of _valence_ref_id,
+    /// which it must match.
     pub ref_id: Option<CharString>,
+    /// The `_valence_param_Ro` item. The field holds the column values, one per loop row.
+    ///
+    /// The bond-valence parameter Ro used in the expression s = exp[(Ro -
+    /// R)/B] where s is the valence of a bond of length R.
+    /// Units: A (angstrom).
     pub ro: Option<Numeric>,
 }
 

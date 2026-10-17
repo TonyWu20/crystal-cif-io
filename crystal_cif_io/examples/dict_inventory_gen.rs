@@ -1,11 +1,19 @@
 //! Regenerates `tests/dict_inventory.json` from `tests/dict/cif_core.dic`.
 //!
 //! The inventory records the DDL1 core dictionary item set: one record
-//! per item with its name, category, type, loop flag, and the
-//! enumeration constraint when the dictionary marks one. The item
-//! count in the JSON is the recorded source of truth for the
-//! coverage gate. See `docs/roadmap-dict-items.md` (section 11)
-//! and `tests/dict/SOURCE.md` for the version note.
+//! per item with its name, category, type, loop flag, the
+//! enumeration constraint when the dictionary marks one, and the
+//! item definition and units (the dictionary `_definition`,
+//! `_units`, and `_units_detail`). The item count in the JSON is
+//! the recorded source of truth for the coverage gate. See
+//! `docs/roadmap-dict-items.md` (section 11) and `tests/dict/SOURCE.md`
+//! for the version note.
+//!
+//! The recorded enumeration is the curation authority (the closed-value
+//! gate proves the typed enums against it). A regeneration keeps the
+//! recorded enumeration of an existing item and only carries the new
+//! fields across. New items parse their enumeration from the
+//! dictionary.
 //!
 //! Usage: `cargo run --example dict_inventory_gen`.
 
@@ -93,6 +101,9 @@ fn main() {
                     meta.type_.as_deref().unwrap_or_default(),
                     true,
                     &enumeration,
+                    meta.definition.as_deref(),
+                    meta.units.as_deref(),
+                    meta.units_detail.as_deref(),
                 ));
             }
         } else {
@@ -107,6 +118,9 @@ fn main() {
                 meta.type_.as_deref().unwrap_or_default(),
                 is_loop,
                 &enumeration,
+                meta.definition.as_deref(),
+                meta.units.as_deref(),
+                meta.units_detail.as_deref(),
             ));
         }
     }
@@ -128,6 +142,41 @@ fn main() {
             panic!("duplicate inventory item {key:?}");
         }
     }
+    // The recorded enumeration is the curation authority. A
+    // regeneration keeps it and only carries the new fields across;
+    // a brand-new item keeps the parsed enumeration.
+    let recorded: std::collections::HashMap<(String, String), Value> = if out_path.is_file() {
+        let old_raw = fs::read_to_string(&out_path).expect("read the recorded inventory");
+        let old: Value = serde_json::from_str(&old_raw).expect("parse the recorded inventory");
+        old["items"]
+            .as_array()
+            .map(|old_items| {
+                old_items
+                    .iter()
+                    .map(|o| {
+                        (
+                            (
+                                o["category"].as_str().unwrap().to_string(),
+                                o["name"].as_str().unwrap().to_string(),
+                            ),
+                            o["enumeration"].clone(),
+                        )
+                    })
+                    .collect()
+            })
+            .unwrap_or_default()
+    } else {
+        std::collections::HashMap::new()
+    };
+    for item in &mut items {
+        let key = (
+            item["category"].as_str().unwrap().to_string(),
+            item["name"].as_str().unwrap().to_string(),
+        );
+        if let Some(enum_) = recorded.get(&key) {
+            item["enumeration"] = enum_.clone();
+        }
+    }
     let cat_counts: Vec<Value> = categories
         .iter()
         .map(|cat| {
@@ -140,7 +189,7 @@ fn main() {
 
     let total = items.len();
     let doc = json!({
-        "schema_version": 1,
+        "schema_version": 2,
         "source": {
             "file": "tests/dict/cif_core.dic",
             "url": "https://raw.githubusercontent.com/COMCIFS/DDL1-legacy-dictionaries/main/dictionaries/cif_core.dic",
@@ -149,7 +198,7 @@ fn main() {
             "dictionary_version": dict_version,
             "dictionary_update": dict_update,
         },
-        "note": "Recorded from the IUCr-managed DDL1 archive (COMCIFS/DDL1-legacy-dictionaries). The roadmap pins DDL1 v2.4.5 (734 items, 56 categories). When the recorded counts differ, the coverage gate uses the recorded counts.",
+        "note": "Recorded from the IUCr-managed DDL1 archive (COMCIFS/DDL1-legacy-dictionaries). The roadmap pins DDL1 v2.4.5 (734 items, 56 categories). When the recorded counts differ, the coverage gate uses the recorded counts. Schema 2 adds the per-item `definition`, `units`, and `units_detail` fields (the dictionary `_definition`, `_units`, and `_units_detail`); items the dictionary does not mark carry none of the three.",
         "counts": {
             "total_items": total,
             "categories": categories.len(),
@@ -209,6 +258,9 @@ struct BlockMeta {
     family_variants: Vec<String>,
     enum_codes: Vec<String>,
     enum_range: Option<String>,
+    definition: Option<String>,
+    units: Option<String>,
+    units_detail: Option<String>,
     dictionary_name: Option<String>,
     dictionary_version: Option<String>,
     dictionary_update: Option<String>,
@@ -220,17 +272,36 @@ fn analyze_block(lines: &[String]) -> BlockMeta {
     let mut meta = BlockMeta::default();
     let mut in_field = false;
     let mut i = 0;
+    let mut pending_def = false;
+    let mut capturing_def = false;
+    let mut def_lines: Vec<String> = Vec::new();
     while i < lines.len() {
         let t = lines[i].trim();
         if in_field {
             if t.starts_with(';') {
                 in_field = false;
+                if capturing_def {
+                    meta.definition = Some(def_lines.join("\n"));
+                    capturing_def = false;
+                }
+            } else if capturing_def {
+                def_lines.push(t.trim_start().to_string());
             }
             i += 1;
             continue;
         }
         if t.starts_with(';') {
+            // The text field opener. When it opens the `_definition`
+            // field, capture the lines; otherwise skip the content.
+            let head = t.strip_prefix(';').unwrap_or("").trim_start();
             in_field = true;
+            if pending_def {
+                capturing_def = true;
+                if !head.is_empty() {
+                    def_lines.push(head.to_string());
+                }
+            }
+            pending_def = false;
             i += 1;
             continue;
         }
@@ -298,14 +369,23 @@ fn analyze_block(lines: &[String]) -> BlockMeta {
                 }
             }
         }
+        if t == "_definition" {
+            pending_def = true;
+            i += 1;
+            continue;
+        }
         if let Some((tag, value)) = tag_value(t) {
             let value = unquote(value).unwrap_or_else(|| value.to_string());
+            pending_def = false;
             match tag {
                 "category" => meta.category = Some(value),
                 "type" => meta.type_ = Some(value),
                 "list" => meta.list = Some(value),
                 "name" => meta.item_name = Some(stripped_item_name(&value)),
                 "enumeration_range" => meta.enum_range = Some(value),
+                "definition" => meta.definition = Some(value),
+                "units" => meta.units = Some(value),
+                "units_detail" => meta.units_detail = Some(value),
                 "dictionary_name" => meta.dictionary_name = Some(value),
                 "dictionary_version" => meta.dictionary_version = Some(value),
                 "dictionary_update" => meta.dictionary_update = Some(value),
@@ -374,14 +454,28 @@ fn item_json(
     r#type: &str,
     is_loop: bool,
     enumeration: &Value,
+    definition: Option<&str>,
+    units: Option<&str>,
+    units_detail: Option<&str>,
 ) -> Value {
-    json!({
+    let mut item = json!({
         "name": name,
         "category": category,
         "type": r#type,
         "is_loop": is_loop,
         "enumeration": enumeration,
-    })
+    });
+    let obj = item.as_object_mut().expect("the item object");
+    if let Some(d) = definition {
+        obj.insert("definition".to_string(), json!(d));
+    }
+    if let Some(u) = units {
+        obj.insert("units".to_string(), json!(u));
+    }
+    if let Some(d) = units_detail {
+        obj.insert("units_detail".to_string(), json!(d));
+    }
+    item
 }
 
 fn enumeration_json(meta: &BlockMeta) -> Value {

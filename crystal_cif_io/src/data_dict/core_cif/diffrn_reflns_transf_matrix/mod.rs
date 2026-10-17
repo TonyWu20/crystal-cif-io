@@ -3,9 +3,12 @@ use std::fmt::Display;
 use crate::data_dict::{matrix, CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Matrix, Tag, Value};
 
+/// The single-value terms of the `diffrn_reflns_transf_matrix` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnReflnsTransfMatrixTerms {
+    /// The `_diffrn_reflns_transf_matrix_tij` item. The variant holds the single value.
     Tij(Matrix),
 }
 

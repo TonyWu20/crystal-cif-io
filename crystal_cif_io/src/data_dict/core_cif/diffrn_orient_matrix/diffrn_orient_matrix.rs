@@ -10,8 +10,15 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_orient_matrix` category struct. One field per registry item.
 pub struct DiffrnOrientMatrix {
+    /// The `_diffrn_orient_matrix_type` item. The field holds the single value.
+    ///
+    /// A description of the orientation matrix type and how it should be
+    /// applied to define the orientation of the crystal precisely with
+    /// respect to the diffractometer axes.
     pub r#type: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<DiffrnOrientMatrixRow>,
 }
 impl CifCategory for DiffrnOrientMatrix {
@@ -82,15 +89,61 @@ impl CifCategory for DiffrnOrientMatrix {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `diffrn_orient_matrix` category: the per-observation values of the loop items.
 pub struct DiffrnOrientMatrixRow {
+    /// The `_diffrn_orient_matrix_UB_11` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_11: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_12` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_12: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_13` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_13: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_21` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_21: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_22` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_22: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_23` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_23: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_31` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_31: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_32` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_32: Option<Numeric>,
+    /// The `_diffrn_orient_matrix_UB_33` item. The field holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     pub ub_33: Option<Numeric>,
 }
 fn rows_to_members(rows: &[DiffrnOrientMatrixRow]) -> Vec<DataBlockMember> {

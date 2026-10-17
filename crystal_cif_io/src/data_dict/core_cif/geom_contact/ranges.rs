@@ -9,12 +9,15 @@ use crystal_cif_fmt::grammar::{Numeric, Value};
 pub struct ContactDistance(Numeric);
 
 impl ContactDistance {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), None)
             .map_err(|e| RangeError::new(format!("geom_contact_distance: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }

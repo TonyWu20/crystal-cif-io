@@ -35,33 +35,79 @@ pub use self::precession_semi_angle::PrecessionSemiAngle;
 pub use self::total_dose::TotalDose;
 pub use self::total_exposure_time::TotalExposureTime;
 
+/// The single-value terms of the `diffrn` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnTerms {
+    /// The `_diffrn_ambient_environment` item. The variant holds the single value.
+    ///
+    /// The gas or liquid surrounding the sample, if not air.
     Ambient_environment(CharString),
+    /// The `_diffrn_ambient_pressure` item. The variant holds the single value.
+    ///
+    /// The mean hydrostatic pressure in kilopascals at which the
+    /// intensities were measured.
+    /// Units: kPa (kilopascal).
     /// range constraint recorded in the dictionary _enumeration
     Ambient_pressure(AmbientPressure),
+    /// The `_diffrn_ambient_temp_details` item. The variant holds the single value.
     Ambient_temp_details(CharString),
+    /// The `_diffrn_ambient_temp_gt` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Ambient_temp_gt(AmbientTempGt),
+    /// The `_diffrn_ambient_temp_lt` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Ambient_temp_lt(AmbientTempLt),
+    /// The `_diffrn_ambient_temperature` item. The variant holds the single value.
+    ///
+    /// The mean temperature in kelvins at which the intensities were
+    /// measured.
+    /// Units: K (kelvin).
     /// range constraint recorded in the dictionary _enumeration
     Ambient_temperature(AmbientTemperature),
+    /// The `_diffrn_crystal_support` item. The variant holds the single value.
     Crystal_support(CharString),
+    /// The `_diffrn_crystal_treatment` item. The variant holds the single value.
+    ///
+    /// Remarks about how the crystal was treated prior to the intensity
+    /// measurements. Particularly relevant when intensities were measured
+    /// at low temperature.
     Crystal_treatment(CharString),
+    /// The `_diffrn_flux_density` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Flux_density(FluxDensity),
+    /// The `_diffrn_measured_fraction_theta_full` item. The variant holds the single value.
+    ///
+    /// Fraction of unique (symmetry-independent) reflections measured out
+    /// to _diffrn_reflns_theta_full.
     /// range constraint recorded in the dictionary _enumeration
     Measured_fraction_theta_full(MeasuredFractionThetaFull),
+    /// The `_diffrn_measured_fraction_theta_max` item. The variant holds the single value.
+    ///
+    /// Fraction of unique (symmetry-independent) reflections measured out
+    /// to _diffrn_reflns_theta_max.
     /// range constraint recorded in the dictionary _enumeration
     Measured_fraction_theta_max(MeasuredFractionThetaMax),
+    /// The `_diffrn_precession_semi_angle` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Precession_semi_angle(PrecessionSemiAngle),
+    /// The `_diffrn_special_details` item. The variant holds the single value.
+    ///
+    /// Special details of the intensity-measurement process. Should include
+    /// information about source instability, crystal motion, degradation
+    /// and so on.
     Special_details(CharString),
+    /// The `_diffrn_symmetry_description` item. The variant holds the single value.
+    ///
+    /// Observed diffraction point symmetry, systematic absences and
+    /// possible space group(s) or superspace group(s) compatible with
+    /// these.
     Symmetry_description(CharString),
+    /// The `_diffrn_total_dose` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Total_dose(TotalDose),
+    /// The `_diffrn_total_exposure_time` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Total_exposure_time(TotalExposureTime),
 }
@@ -119,15 +165,45 @@ impl Display for DiffrnTerms {
     }
 }
 
+/// The loop-value terms of the `diffrn` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnLoopItem {
+    /// The `_diffrn_ambient_pressure_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The mean hydrostatic pressure in kilopascals above which (*_gt) or
+    /// below which (*_lt) the intensities were measured. These items allow
+    /// for a pressure range to be given. _diffrn_ambient_pressure should
+    /// always be used in preference to these items whenever possible.
+    /// Units: kPa (kilopascal).
     /// range constraint recorded in the dictionary _enumeration
     Ambient_pressure_gt(Vec<AmbientPressureGt>),
+    /// The `_diffrn_ambient_pressure_lt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The mean hydrostatic pressure in kilopascals above which (*_gt) or
+    /// below which (*_lt) the intensities were measured. These items allow
+    /// for a pressure range to be given. _diffrn_ambient_pressure should
+    /// always be used in preference to these items whenever possible.
+    /// Units: kPa (kilopascal).
     /// range constraint recorded in the dictionary _enumeration
     Ambient_pressure_lt(Vec<AmbientPressureLt>),
+    /// The `_diffrn_ambient_temperature_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The mean temperature in kelvins above which (*_gt) or below which
+    /// (*_lt) the intensities were measured. These items allow a range of
+    /// temperatures to be given. _diffrn_ambient_temperature should always
+    /// be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     /// range constraint recorded in the dictionary _enumeration
     Ambient_temperature_gt(Vec<AmbientTemperatureGt>),
+    /// The `_diffrn_ambient_temperature_lt` item. The variant holds the column values, one per loop row.
+    ///
+    /// The mean temperature in kelvins above which (*_gt) or below which
+    /// (*_lt) the intensities were measured. These items allow a range of
+    /// temperatures to be given. _diffrn_ambient_temperature should always
+    /// be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     /// range constraint recorded in the dictionary _enumeration
     Ambient_temperature_lt(Vec<AmbientTemperatureLt>),
 }

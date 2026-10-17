@@ -11,10 +11,15 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `publ_author` category struct. One field per registry item.
 pub struct PublAuthor {
+    /// The `_publ_author_id` item. The field holds the single value.
     pub id: Option<CharString>,
+    /// The `_publ_author_id_audit` item. The field holds the single value.
     pub id_audit: Option<CharString>,
+    /// The `_publ_author_phone` item. The field holds the single value.
     pub phone: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<PublAuthorRow>,
 }
 
@@ -113,12 +118,45 @@ impl CifCategory for PublAuthor {
 
 /// The `publ_author` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `publ_author` category: the per-observation values of the loop items.
 pub struct PublAuthorRow {
+    /// The `_publ_author_address` item. The field holds the column values, one per loop row.
+    ///
+    /// The address of a publication author. If there is more than one
+    /// author, this will be looped with _publ_author_name.
     pub address: Option<CharString>,
+    /// The `_publ_author_email` item. The field holds the column values, one per loop row.
+    ///
+    /// The e-mail address of a publication author. If there is more than
+    /// one author, this will be looped with _publ_author_name. The format
+    /// of e-mail addresses is given in Section 3.4, Address Specification,
+    /// of Internet Message Format, RFC 2822, P. Resnick (Editor), Network
+    /// Standards Group, April 2001.
     pub email: Option<CharString>,
+    /// The `_publ_author_footnote` item. The field holds the column values, one per loop row.
+    ///
+    /// A footnote accompanying an author's name in the list of authors of a
+    /// paper. Typically indicates sabbatical address, additional
+    /// affiliations or date of decease.
     pub footnote: Option<CharString>,
+    /// The `_publ_author_id_iucr` item. The field holds the column values, one per loop row.
+    ///
+    /// Identifier in the IUCr contact database of a publication author.
+    /// This identifier may be available from the World Directory of
+    /// Crystallographers (`http://wdc.iucr.org`).
     pub id_iucr: Option<CharString>,
+    /// The `_publ_author_id_orcid` item. The field holds the column values, one per loop row.
+    ///
+    /// Identifier in the ORCID Registry of a publication author. ORCID is
+    /// an open, non-profit, community-driven service to provide a registry
+    /// of unique researcher identifiers (`http://orcid.org`).
     pub id_orcid: Option<CharString>,
+    /// The `_publ_author_name` item. The field holds the column values, one per loop row.
+    ///
+    /// The name of a publication author. If there are multiple authors,
+    /// this will be looped with _publ_author_address. The family name(s),
+    /// followed by a comma and including any dynastic components, precedes
+    /// the first names or initials.
     pub name: Option<CharString>,
 }
 

@@ -5,10 +5,18 @@ use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 pub use diffrn_orient_matrix::{DiffrnOrientMatrix, DiffrnOrientMatrixRow};
 
+/// The single-value terms of the `diffrn_orient_matrix` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnOrientMatrixTerms {
+    /// The `_diffrn_orient_matrix_type` item. The variant holds the single value.
+    ///
+    /// A description of the orientation matrix type and how it should be
+    /// applied to define the orientation of the crystal precisely with
+    /// respect to the diffractometer axes.
     Type(CharString),
+    /// The `_diffrn_orient_matrix_ubij` item. The variant holds the single value.
     Ubij(Matrix),
 }
 
@@ -37,17 +45,64 @@ impl Display for DiffrnOrientMatrixTerms {
     }
 }
 
+/// The loop-value terms of the `diffrn_orient_matrix` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnOrientMatrixLoopItem {
+    /// The `_diffrn_orient_matrix_UB_11` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_11(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_12` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_12(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_13` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_13(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_21` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_21(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_22` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_22(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_23` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_23(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_31` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_31(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_32` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_32(Vec<Numeric>),
+    /// The `_diffrn_orient_matrix_UB_33` item. The variant holds the column values, one per loop row.
+    ///
+    /// The elements of the diffractometer orientation matrix. These define
+    /// the dimensions of the reciprocal cell and its orientation to the
+    /// local diffractometer axes. See _diffrn_orient_matrix_type.
     UB_33(Vec<Numeric>),
 }
 

@@ -25,14 +25,23 @@ pub enum FormulaUnitsError {
     BadMultiplicity(f64),
     /// The atom count over the formula atom count is not integral.
     #[error("the atom count {total} over the formula atom count {per_formula} is not integral")]
-    NonIntegralZ { total: u64, per_formula: u64 },
+    NonIntegralZ {
+        /// The atom count of the structure.
+        total: u64,
+        /// The atom count of one formula.
+        per_formula: u64,
+    },
     /// A supplied value misses the computed one beyond the
     /// relative tolerance.
     #[error("the supplied {item} {supplied} misses the computed {computed} beyond the relative {tolerance}")]
     Mismatch {
+        /// The item the supplied value belongs to.
         item: &'static str,
+        /// The supplied value.
         supplied: String,
+        /// The value computed from the structure.
         computed: String,
+        /// The relative tolerance of the check.
         tolerance: f64,
     },
     /// The formula composition did not parse.
@@ -45,8 +54,11 @@ pub enum FormulaUnitsError {
 /// `formula_units_z_prime`.
 #[derive(Debug, Clone)]
 pub struct FormulaUnits {
+    /// The structure Z: the formula units in the structure.
     pub z: UnsignedInteger,
+    /// The `z_prime` value: the formula units per asymmetric unit.
     pub z_prime: Numeric,
+    /// The symmetry multiplicity of the structure.
     pub multiplicity: Numeric,
 }
 

@@ -14,26 +14,134 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `chemical` category struct. One field per registry item.
 pub struct Chemical {
+    /// The `_chemical_absolute_configuration` item. The field holds the single value.
+    ///
+    /// Necessary conditions for the assignment of
+    /// _chemical_absolute_configuration are given by H. D. Flack and G.
+    /// Bernardinelli (1999, 2000). Ref: Flack, H. D. & Bernardinelli, G.
+    /// (1999). Acta Cryst. A55, 908-915. (`http://www.iucr.org/paper?sh0129`)
+    /// Flack, H. D. & Bernardinelli, G. (2000). J. Appl. Cryst. 33,
+    /// 1143-1148. (`http://www.iucr.org/paper?ks0021`)
     pub absolute_configuration: Option<AbsoluteConfiguration>,
+    /// The `_chemical_compound_source` item. The field holds the single value.
+    ///
+    /// Description of the source of the compound under study, or of the
+    /// parent molecule if a simple derivative is studied. This includes the
+    /// place of discovery for minerals or the actual source of a natural
+    /// product.
     pub compound_source: Option<CharString>,
+    /// The `_chemical_enantioexcess_bulk` item. The field holds the single value.
+    ///
+    /// The enantioexcess of the bulk material from which the crystals were
+    /// grown. A value of 0.0 indicates the racemate. A value of 1.0
+    /// indicates that the compound is enantiomerically pure. Enantioexcess
+    /// is defined in the IUPAC Recommendations (Moss et al., 1996). The
+    /// composition of the crystal and bulk must be the same. Ref: Moss G.
+    /// P. et al. (1996). Basic Terminology of Stereochemistry. Pure Appl.
+    /// Chem., 68, 2193-2222.
+    /// `http://www.chem.qmul.ac.uk/iupac/stereo/index.html`
+    /// Units: . (dimensionless).
     pub enantioexcess_bulk: Option<Enantioexcess>,
+    /// The `_chemical_enantioexcess_bulk_technique` item. The field holds the single value.
+    ///
+    /// The experimental technique used to determine the enantioexcess of
+    /// the bulk compound.
     pub enantioexcess_bulk_technique: Option<EnantioexcessBulkTechnique>,
+    /// The `_chemical_enantioexcess_crystal` item. The field holds the single value.
+    ///
+    /// The enantioexcess of the crystal used for the diffraction study. A
+    /// value of 0.0 indicates the racemate. A value of 1.0 indicates that
+    /// the crystal is enantiomerically pure. Enantioexcess is defined in
+    /// the IUPAC Recommendations (Moss et al., 1996). Ref: Moss G. P. et
+    /// al. (1996). Basic Terminology of Stereochemistry. Pure Appl. Chem.,
+    /// 68, 2193-2222. `http://www.chem.qmul.ac.uk/iupac/stereo/index.html`
+    /// Units: . (dimensionless).
     pub enantioexcess_crystal: Option<Enantioexcess>,
+    /// The `_chemical_enantioexcess_crystal_technique` item. The field holds the single value.
+    ///
+    /// The experimental technique used to determine the enantioexcess of
+    /// the crystal.
     pub enantioexcess_crystal_technique: Option<EnantioexcessCrystalTechnique>,
+    /// The `_chemical_identifier_inchi` item. The field holds the single value.
+    ///
+    /// The IUPAC International Chemical Identifier (InChI) is a textual
+    /// identifier for chemical substances, designed to provide a standard
+    /// and human-readable way to encode molecular information and to
+    /// facilitate the search for such information in databases and on the
+    /// web. Ref: McNaught, A. (2006). Chem. Int. (IUPAC), 28 (6), 12-14.
+    /// `http://www.iupac.org/inchi/`
     pub identifier_inchi: Option<CharString>,
+    /// The `_chemical_identifier_inchi_key` item. The field holds the single value.
+    ///
+    /// The InChIKey is a compact hashed version of the full InChI (IUPAC
+    /// International Chemical Identifier), designed to allow for easy web
+    /// searches of chemical compounds. See `http://www.iupac.org/inchi/`
     pub identifier_inchi_key: Option<CharString>,
+    /// The `_chemical_identifier_inchi_version` item. The field holds the single value.
+    ///
+    /// The version number of the InChI standard to which the associated
+    /// chemical identifier string applies.
     pub identifier_inchi_version: Option<CharString>,
+    /// The `_chemical_melting_point` item. The field holds the single value.
+    ///
+    /// The temperature in kelvins at which the crystalline solid changes to
+    /// a liquid.
+    /// Units: K (kelvin).
     pub melting_point: Option<Temperature>,
+    /// The `_chemical_name_common` item. The field holds the single value.
+    ///
+    /// Trivial name by which the compound is commonly known.
     pub name_common: Option<CharString>,
+    /// The `_chemical_name_mineral` item. The field holds the single value.
+    ///
+    /// Mineral name accepted by the International Mineralogical
+    /// Association. Use only for natural minerals. See also
+    /// _chemical_compound_source.
     pub name_mineral: Option<CharString>,
+    /// The `_chemical_name_structure_type` item. The field holds the single value.
+    ///
+    /// Commonly used structure-type name. Usually only applied to minerals
+    /// or inorganic compounds.
     pub name_structure_type: Option<CharString>,
+    /// The `_chemical_name_systematic` item. The field holds the single value.
+    ///
+    /// IUPAC or Chemical Abstracts full name of the compound.
     pub name_systematic: Option<CharString>,
+    /// The `_chemical_optical_rotation` item. The field holds the single value.
+    ///
+    /// The optical rotation in solution of the compound is specified in the
+    /// following format: '[\a]^TEMP^~WAVE~ = SORT (c = CONC, SOLV)' where:
+    /// TEMP is the temperature of the measurement in degrees Celsius, WAVE
+    /// is an indication of the wavelength of the light used for the
+    /// measurement, CONC is the concentration of the solution given as the
+    /// mass of the substance in g per 100 ml of solution, SORT is the
+    /// signed value (preceded by a + or a - sign) of 100.\a/(l.c), where \a
+    /// is the signed optical rotation in degrees measured in a cell of
+    /// length l in dm and c is the value of CONC as defined above, and SOLV
+    /// is the chemical formula of the solvent.
     pub optical_rotation: Option<CharString>,
+    /// The `_chemical_properties_biological` item. The field holds the single value.
+    ///
+    /// A free-text description of the biological properties of the
+    /// material.
     pub properties_biological: Option<CharString>,
+    /// The `_chemical_properties_physical` item. The field holds the single value.
+    ///
+    /// A free-text description of the physical properties of the material.
     pub properties_physical: Option<CharString>,
+    /// The `_chemical_temperature_decomposition` item. The field holds the single value.
+    ///
+    /// The temperature in kelvins at which the solid decomposes.
+    /// Units: K (kelvin).
     pub temperature_decomposition: Option<Temperature>,
+    /// The `_chemical_temperature_sublimation` item. The field holds the single value.
+    ///
+    /// The temperature in kelvins at which the solid sublimes.
+    /// Units: K (kelvin).
     pub temperature_sublimation: Option<Temperature>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<ChemicalRow>,
 }
 
@@ -369,12 +477,57 @@ impl CifCategory for Chemical {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `chemical` category: the per-observation values of the loop items.
 pub struct ChemicalRow {
+    /// The `_chemical_melting_point_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the melting point (the temperature at which the crystalline solid
+    /// changes to a liquid) lies. These items allow a range of temperatures
+    /// to be given. _chemical_melting_point should always be used in
+    /// preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub melting_point_gt: Option<Temperature>,
+    /// The `_chemical_melting_point_lt` item. The field holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the melting point (the temperature at which the crystalline solid
+    /// changes to a liquid) lies. These items allow a range of temperatures
+    /// to be given. _chemical_melting_point should always be used in
+    /// preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub melting_point_lt: Option<Temperature>,
+    /// The `_chemical_temperature_decomposition_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to decompose. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_decomposition should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub temperature_decomposition_gt: Option<Temperature>,
+    /// The `_chemical_temperature_decomposition_lt` item. The field holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to decompose. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_decomposition should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub temperature_decomposition_lt: Option<Temperature>,
+    /// The `_chemical_temperature_sublimation_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to sublime. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_sublimation should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub temperature_sublimation_gt: Option<Temperature>,
+    /// The `_chemical_temperature_sublimation_lt` item. The field holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to sublime. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_sublimation should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub temperature_sublimation_lt: Option<Temperature>,
 }
 

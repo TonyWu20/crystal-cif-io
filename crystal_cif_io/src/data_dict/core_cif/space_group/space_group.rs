@@ -14,25 +14,88 @@ use crystal_cif_fmt::grammar::{CharString, Number, Numeric, Tag, UnquotedString,
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `space_group` category struct. One field per registry item.
 pub struct SpaceGroup {
+    /// The `_space_group_Bravais_type` item. The field holds the single value.
     pub bravais_type: Option<BravaisType>,
+    /// The `_space_group_centring_type` item. The field holds the single value.
     pub centring_type: Option<CentringType>,
+    /// The `_space_group_crystal_system` item. The field holds the single value.
+    ///
+    /// The name of the system of geometric crystal classes of space groups
+    /// (crystal system) to which the space group belongs. Note that
+    /// rhombohedral space groups belong to the trigonal system.
     pub crystal_system: Option<CrystalSystemCif>,
+    /// The `_space_group_id` item. An identifier of the space group,
+    /// when the document carries no IT number.
     pub id: Option<Numeric>,
+    /// The `_space_group_IT_number` item. The field holds the single value.
+    ///
+    /// The number as assigned in International Tables for Crystallography
+    /// Vol. A, specifying the proper affine class (i.e. the
+    /// orientation-preserving affine class) of space groups
+    /// (crystallographic space-group type) to which the space group
+    /// belongs. This number defines the space-group type but not the
+    /// coordinate system in which it is expressed.
     pub it_number: Option<ITNumber>,
+    /// The `_space_group_IT_coordinate_system_code` item. The field holds the single value.
     pub it_coordinate_system_code: Option<ItCoordinateSystemCode>,
+    /// The `_space_group_Laue_class` item. The field holds the single value.
     pub laue_class: Option<CharString>,
+    /// The `_space_group_multiplicity` item. The field holds the single value.
     pub multiplicity: Option<Numeric>,
+    /// The `_space_group_name_H-M_alt` item. The field holds the single value.
+    ///
+    /// _space_group_name_H-M_alt allows any Hermann-Mauguin symbol to be
+    /// given. The way in which this item is used is determined by the user
+    /// and in general is not intended to be interpreted by computer. It
+    /// may, for example, be used to give one of the extended
+    /// Hermann-Mauguin symbols given in Table 4.3.2.1 of International
+    /// Tables for Crystallography Vol. A (2002) or a Hermann-Mauguin symbol
+    /// for a conventional or unconventional setting. Each component of the
+    /// space-group name is separated by a space or an underscore. The use
+    /// of a space is strongly recommended. The underscore is only retained
+    /// because it was used in older files. It should not be used in new
+    /// CIFs. Subscripts should appear without special symbols. Bars should
+    /// be given as negative signs before the numbers to which they apply.
+    /// The commonly used Hermann-Mauguin symbol determines the space- group
+    /// type uniquely but a given space-group type may be described by more
+    /// than one Hermann-Mauguin symbol. The space- group type is best
+    /// described using _space_group_IT_number. The Hermann-Mauguin symbol
+    /// may contain information on the choice of basis, but not on the
+    /// choice of origin. To define the setting uniquely, use
+    /// _space_group_name_Hall or list the symmetry operations.
     pub name_h_m_alt: Option<CharString>,
+    /// The `_space_group_name_Hall` item. The field holds the single value.
+    ///
+    /// Space-group symbol defined by Hall. Each component of the
+    /// space-group name is separated by a space or an underscore. The use
+    /// of a space is strongly recommended. The underscore is only retained
+    /// because it was used in older files. It should not be used in new
+    /// CIFs. _space_group_name_Hall uniquely defines the space group and
+    /// its reference to a particular coordinate system. Ref: Hall, S. R.
+    /// (1981). Acta Cryst. A37, 517-525; erratum (1981), A37, 921. [See
+    /// also International Tables for Crystallography, Vol. B (2001),
+    /// Chapter 1.4, Appendix 1.4.2]
     pub name_hall: Option<CharString>,
+    /// The `_space_group_name_H_M_alt_description` item. The field holds the single value.
     pub name_h_m_alt_description: Option<CharString>,
+    /// The `_space_group_name_H_M_ref` item. The field holds the single value.
     pub name_h_m_ref: Option<CharString>,
+    /// The `_space_group_name_Schoenflies` item. The field holds the single value.
     pub name_schoenflies: Option<CharString>,
+    /// The `_space_group_Patterson_name_H_M` item. The field holds the single value.
     pub patterson_name_h_m: Option<CharString>,
+    /// The `_space_group_point_group_H_M` item. The field holds the single value.
     pub point_group_h_m: Option<CharString>,
+    /// The `_space_group_reference_setting` item. The field holds the single value.
     pub reference_setting: Option<CharString>,
+    /// The `_space_group_transform_Pp_abc` item. The field holds the single value.
     pub transform_pp_abc: Option<CharString>,
+    /// The `_space_group_transform_Qq_xyz` item. The field holds the single value.
     pub transform_qq_xyz: Option<CharString>,
+    /// The `symmetry.space_group_name_H-M` item (the dotted shell
+    /// spelling). The Hermann-Mauguin symbol of the space group.
     pub symmetry_name_h_m: Option<CharString>,
 }
 

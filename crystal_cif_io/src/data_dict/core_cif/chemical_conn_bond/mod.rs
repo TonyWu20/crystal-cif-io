@@ -19,9 +19,26 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 /// Loop columns of the `chemical_conn_bond` category (3 items).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `chemical_conn_bond` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ChemicalConnBondLoopItem {
+    /// The `_chemical_conn_bond_atom_1` item. The variant holds the column values, one per loop row.
+    ///
+    /// Atom numbers which must match with chemical sequence numbers
+    /// specified as _chemical_conn_atom_number values. These link the bond
+    /// connection to the chemical numbering and atom sites.
     Atom_1(Vec<BondAtomNumber>),
+    /// The `_chemical_conn_bond_atom_2` item. The variant holds the column values, one per loop row.
+    ///
+    /// Atom numbers which must match with chemical sequence numbers
+    /// specified as _chemical_conn_atom_number values. These link the bond
+    /// connection to the chemical numbering and atom sites.
     Atom_2(Vec<BondAtomNumber>),
+    /// The `_chemical_conn_bond_type` item. The variant holds the column values, one per loop row.
+    ///
+    /// The chemical bond type associated with the connection between the
+    /// two sites _chemical_conn_bond_atom_1 and *_2.
     Type(Vec<BondType>),
 }
 
@@ -52,12 +69,17 @@ impl LoopValueTerm for ChemicalConnBondLoopItem {
 /// The single-value items of the `chemical_conn_bond` category (T6).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `chemical_conn_bond` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum ChemicalConnBondTerms {
     /// The dotted item name is recorded as written in the shell
     /// dictionary; the tag keeps the dot. The range constraint is
     /// recorded in the shell `_enumeration` (`0.0:`); the plain
     /// numeric form is kept.
+    /// The `_chem_comp_bond.value_dist` item. The variant holds the column values, one per loop row.
     Chem_comp_bond_value_dist(Numeric),
+    /// The `_chemical_conn_bond_id` item. The variant holds the column values, one per loop row.
     Id(CharString),
 }
 

@@ -11,10 +11,35 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `symmetry` category struct. One field per registry item.
 pub struct Symmetry {
+    /// The `_symmetry_cell_setting` item. The field holds the single value.
+    ///
+    /// The cell settings for this space-group symmetry.
     pub cell_setting: Option<CellSetting>,
+    /// The `_symmetry_Int_Tables_number` item. The field holds the single value.
+    ///
+    /// Space-group number from International Tables for Crystallography
+    /// Vol. A (2002).
     pub int_tables_number: Option<IntTablesNumber>,
+    /// The `_symmetry_space_group_name_H-M` item. The field holds the single value.
+    ///
+    /// Hermann-Mauguin space-group symbol. Note that the Hermann-Mauguin
+    /// symbol does not necessarily contain complete information about the
+    /// symmetry and the space-group origin. If used, always supply the FULL
+    /// symbol from International Tables for Crystallography Vol. A (2002)
+    /// and indicate the origin and the setting if it is not implicit. If
+    /// there is any doubt that the equivalent positions can be uniquely
+    /// deduced from this symbol, specify the _symmetry_equiv_pos_as_xyz or
+    /// *_Hall data items as well. Leave spaces between symbols referring to
+    /// different axes.
     pub space_group_name_h_m: Option<CharString>,
+    /// The `_symmetry_space_group_name_Hall` item. The field holds the single value.
+    ///
+    /// Space-group symbol as described by Hall. This symbol gives the
+    /// space-group setting explicitly. Leave spaces between the separate
+    /// components of the symbol. Ref: Hall, S. R. (1981). Acta Cryst. A37,
+    /// 517-525; erratum (1981), A37, 921.
     pub space_group_name_hall: Option<CharString>,
 }
 

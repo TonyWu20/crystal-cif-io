@@ -5,9 +5,12 @@ use crate::data_dict::{matrix, CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Matrix, Numeric, Tag, Value};
 pub use diffrn_orient_refln::DiffrnOrientRefln;
 
+/// The single-value terms of the `diffrn_orient_refln` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnOrientReflnTerms {
+    /// The `_diffrn_orient_refln_hkl` item. The variant holds the single value.
     Hkl(Matrix),
 }
 
@@ -34,17 +37,67 @@ impl Display for DiffrnOrientReflnTerms {
     }
 }
 
+/// The loop-value terms of the `diffrn_orient_refln` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnOrientReflnLoopItem {
+    /// The `_diffrn_orient_refln_angle_chi` item. The variant holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     Angle_chi(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_angle_kappa` item. The variant holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     Angle_kappa(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_angle_omega` item. The variant holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     Angle_omega(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_angle_phi` item. The variant holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     Angle_phi(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_angle_psi` item. The variant holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     Angle_psi(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_angle_theta` item. The variant holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     Angle_theta(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_index_h` item. The variant holds the column values, one per loop row.
+    ///
+    /// The indices of a reflection used to define the orientation matrix.
+    /// See _diffrn_orient_matrix_.
     Index_h(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_index_k` item. The variant holds the column values, one per loop row.
+    ///
+    /// The indices of a reflection used to define the orientation matrix.
+    /// See _diffrn_orient_matrix_.
     Index_k(Vec<Numeric>),
+    /// The `_diffrn_orient_refln_index_l` item. The variant holds the column values, one per loop row.
+    ///
+    /// The indices of a reflection used to define the orientation matrix.
+    /// See _diffrn_orient_matrix_.
     Index_l(Vec<Numeric>),
 }
 

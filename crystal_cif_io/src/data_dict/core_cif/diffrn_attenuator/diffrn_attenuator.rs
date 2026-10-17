@@ -11,9 +11,24 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_attenuator` category struct. One field per registry item.
 pub struct DiffrnAttenuator {
+    /// The `_diffrn_attenuator_code` item. The field holds the column values, one per loop row.
+    ///
+    /// A code associated with a particular attenuator setting. This code is
+    /// referenced by the _diffrn_refln_attenuator_code which is stored with
+    /// the intensities. See _diffrn_attenuator_scale.
     pub code: Option<CharString>,
+    /// The `_diffrn_attenuator_material` item. The field holds the column values, one per loop row.
+    ///
+    /// Material from which the attenuator is made.
     pub material: Option<CharString>,
+    /// The `_diffrn_attenuator_scale` item. The field holds the column values, one per loop row.
+    ///
+    /// The scale factor applied when an intensity measurement is reduced by
+    /// an attenuator identified by _diffrn_attenuator_code. The measured
+    /// intensity must be multiplied by this scale to convert it to the same
+    /// scale as unattenuated intensities.
     pub scale: Option<Scale>,
 }
 impl CifCategory for Vec<DiffrnAttenuator> {

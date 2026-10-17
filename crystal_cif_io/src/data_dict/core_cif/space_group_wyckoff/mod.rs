@@ -7,14 +7,21 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::multiplicity::Multiplicity;
 
+/// The single-value terms of the `space_group_wyckoff` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum SpaceGroupWyckoffTerms {
+    /// The `_space_group_wyckoff_coords_xyz` item. The variant holds the single value.
     Coords_xyz(CharString),
+    /// The `_space_group_wyckoff_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_space_group_wyckoff_letter` item. The variant holds the single value.
     Letter(CharString),
+    /// The `_space_group_wyckoff_multiplicity` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Multiplicity(Multiplicity),
+    /// The `_space_group_wyckoff_site_symmetry` item. The variant holds the single value.
     Site_symmetry(CharString),
 }
 

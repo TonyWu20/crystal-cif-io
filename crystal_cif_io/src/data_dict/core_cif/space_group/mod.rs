@@ -15,13 +15,20 @@ pub use it_coordinate_system_code::ItCoordinateSystemCode;
 pub use it_number::ITNumber;
 pub use space_group::SpaceGroup;
 
+/// The single-value terms of the `space_group` category: one
+/// variant per registry single-value item, in item order.
 #[allow(clippy::upper_case_acronyms, non_camel_case_types)]
 #[derive(Debug, Clone)]
 pub enum SpaceGroupItem {
+    /// The `space_group_crystal_system` item. The variant holds the single value.
     Crystal_system(CrystalSystemCif),
+    /// The `space_group_id` item. The variant holds the single value.
     Id(usize),
+    /// The `space_group_IT_number` item. The variant holds the single value.
     IT_number(ITNumber),
+    /// The `space_group_name_H-M_alt` item. The variant holds the single value.
     Name_H_M_alt(String),
+    /// The `space_group_name_Hall` item. The variant holds the single value.
     Name_Hall(String),
     /// The closed code set is recorded in the shell dictionary;
     /// the plain text form is kept.
@@ -38,16 +45,24 @@ pub enum SpaceGroupItem {
     /// The range constraint is recorded in the shell dictionary
     /// (`_enumeration` `1:192`); the plain numeric form is kept.
     Multiplicity(Numeric),
+    /// The `space_group_name_h_m_alt_description` item. The variant holds the single value.
     Name_h_m_alt_description(CharString),
+    /// The `space_group_name_h_m_ref` item. The variant holds the single value.
     Name_h_m_ref(CharString),
+    /// The `space_group_name_schoenflies` item. The variant holds the single value.
     Name_schoenflies(CharString),
+    /// The `space_group_patterson_name_h_m` item. The variant holds the single value.
     Patterson_name_h_m(CharString),
+    /// The `space_group_point_group_h_m` item. The variant holds the single value.
     Point_group_h_m(CharString),
+    /// The `space_group_reference_setting` item. The variant holds the single value.
     Reference_setting(CharString),
     /// The dotted item name is recorded as written in the shell
     /// dictionary; the tag keeps the dot.
     Symmetry_name_h_m(CharString),
+    /// The `space_group_transform_pp_abc` item. The variant holds the single value.
     Transform_pp_abc(CharString),
+    /// The `space_group_transform_qq_xyz` item. The variant holds the single value.
     Transform_qq_xyz(CharString),
 }
 
@@ -115,9 +130,46 @@ impl SingleValueTerm for SpaceGroupItem {
 
 #[allow(clippy::upper_case_acronyms, non_camel_case_types)]
 #[derive(Debug, Clone)]
+/// The loop-value terms of the `space_group` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum SpaceGroupLoopItem {
+    /// The `_space_group_symop_id` item. The variant holds the column values, one per loop row.
+    ///
+    /// An arbitrary identifier that uniquely labels each symmetry operation
+    /// in the list. In order for the defaults to work correctly, the
+    /// identity operation should have _space_group_symop_id or
+    /// _symmetry_equiv_pos_site_id set to 1, and
+    /// _space_group_symop_operation_xyz or _symmetry_equiv_pos_as_xyz set
+    /// to x,y,z; i.e. the operation labelled 1 should be the identity
+    /// operation.
     Symop_id(Vec<UnsignedInteger>),
+    /// The `_space_group_symop_operation_xyz` item. The variant holds the column values, one per loop row.
+    ///
+    /// A parsable string giving one of the symmetry operations of the space
+    /// group in algebraic form. If W is a matrix representation of the
+    /// rotational part of the symmetry operation defined by the positions
+    /// and signs of x, y and z, and w is a column of translations defined
+    /// by fractions, an equivalent position X' is generated from a given
+    /// position X by the equation X' = WX + w (Note: X is used to represent
+    /// bold_italics_x in International Tables for Crystallography Vol. A,
+    /// Part 5) When a list of symmetry operations is given, it must contain
+    /// a complete set of coordinate representatives which generates all the
+    /// operations of the space group by the addition of all primitive
+    /// translations of the space group. Such representatives are to be
+    /// found as the coordinates of the general-equivalent position in
+    /// International Tables for Crystallography Vol. A (2002), to which it
+    /// is necessary to add any centring translations shown above the
+    /// general-equivalent position. That is to say, it is necessary to list
+    /// explicitly all the symmetry operations required to generate all the
+    /// atoms in the unit cell defined by the setting used. In order for the
+    /// defaults to work correctly, the identity operation should have
+    /// _space_group_symop_id or _symmetry_equiv_pos_site_id set to 1, and
+    /// _space_group_symop_operation_xyz or _symmetry_equiv_pos_as_xyz set
+    /// to x,y,z; i.e. the operation labelled 1 should be the identity
+    /// operation.
     Symop_operation_xyz(Vec<CharString>),
+    /// The `symop_sg_id` item. The variant holds the column values, one per loop row.
     Symop_sg_id(Vec<UnsignedInteger>),
 }
 

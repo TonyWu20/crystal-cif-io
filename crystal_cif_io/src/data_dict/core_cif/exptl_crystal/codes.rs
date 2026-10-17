@@ -11,13 +11,21 @@ use super::ExptlCrystalCifError;
 /// The set includes the inapplicable value `.`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Lustre {
+    /// `metallic`
     Metallic,
+    /// `lustrous`
     Lustrous,
+    /// `transparent`
     Transparent,
+    /// `translucent`
     Translucent,
+    /// `opaque`
     Opaque,
+    /// `dull`
     Dull,
+    /// `clear`
     Clear,
+    /// `.`
     Inapplicable,
 }
 
@@ -94,21 +102,37 @@ impl TryFrom<String> for Lustre {
 /// The set includes the inapplicable value `.`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ColourModifier {
+    /// `light`
     Light,
+    /// `dark`
     Dark,
+    /// `pale`
     Pale,
+    /// `intense`
     Intense,
+    /// `whitish`
     Whitish,
+    /// `blackish`
     Blackish,
+    /// `grayish`
     Grayish,
+    /// `greyish`
     Greyish,
+    /// `brownish`
     Brownish,
+    /// `reddish`
     Reddish,
+    /// `pinkish`
     Pinkish,
+    /// `orangish`
     Orangish,
+    /// `yellowish`
     Yellowish,
+    /// `greenish`
     Greenish,
+    /// `bluish`
     Bluish,
+    /// `.`
     Inapplicable,
 }
 
@@ -199,17 +223,29 @@ impl TryFrom<String> for ColourModifier {
 /// The closed value set of `_exptl_crystal_colour_primary`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ColourPrimary {
+    /// `colourless`
     Colourless,
+    /// `white`
     White,
+    /// `black`
     Black,
+    /// `gray`
     Gray,
+    /// `brown`
     Brown,
+    /// `red`
     Red,
+    /// `pink`
     Pink,
+    /// `orange`
     Orange,
+    /// `yellow`
     Yellow,
+    /// `green`
     Green,
+    /// `blue`
     Blue,
+    /// `violet`
     Violet,
 }
 

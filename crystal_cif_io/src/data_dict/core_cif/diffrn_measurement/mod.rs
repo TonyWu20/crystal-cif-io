@@ -15,23 +15,51 @@ pub use self::rotation_mode::RotationMode;
 pub use self::sample_tracking::SampleTracking;
 pub use self::specimen_attachment_type::SpecimenAttachmentType;
 
+/// The single-value terms of the `diffrn_measurement` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnMeasurementTerms {
+    /// The `_diffrn_measurement_details` item. The variant holds the single value.
+    ///
+    /// A description of special aspects of the intensity measurement.
     Details(CharString),
+    /// The `_diffrn_measurement_device` item. The variant holds the single value.
+    ///
+    /// The general class of goniometer or device used to support and orient
+    /// the specimen.
     Device(CharString),
+    /// The `_diffrn_measurement_device_details` item. The variant holds the single value.
+    ///
+    /// A description of special aspects of the device used to measure the
+    /// diffraction intensities.
     Device_details(CharString),
+    /// The `_diffrn_measurement_device_type` item. The variant holds the single value.
+    ///
+    /// The make, model or name of the measurement device (goniometer) used.
     Device_type(CharString),
+    /// The `_diffrn_measurement_method` item. The variant holds the single value.
+    ///
+    /// Method used to measure the intensities.
     Method(CharString),
+    /// The `_diffrn_measurement_method_precession` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Method_precession(MethodPrecession),
+    /// The `_diffrn_measurement_rotation_mode` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Rotation_mode(RotationMode),
+    /// The `_diffrn_measurement_sample_tracking` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Sample_tracking(SampleTracking),
+    /// The `_diffrn_measurement_sample_tracking_method` item. The variant holds the single value.
     Sample_tracking_method(CharString),
+    /// The `_diffrn_measurement_specimen_attachment_type` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Specimen_attachment_type(SpecimenAttachmentType),
+    /// The `_diffrn_measurement_specimen_support` item. The variant holds the single value.
+    ///
+    /// The physical device used to support the crystal during data
+    /// collection.
     Specimen_support(CharString),
 }
 

@@ -10,10 +10,12 @@ use crystal_cif_fmt::grammar::{Float, Number, Numeric, Value};
 pub struct DecayPercent(Float);
 
 impl DecayPercent {
+    /// Build the guarded value: the input clamped to the dictionary range.
     pub fn new(float: Float) -> Self {
         Self(Float(float.min(100.0)))
     }
 
+    /// The recorded value, stored as written.
     pub fn value(&self) -> Float {
         self.0
     }

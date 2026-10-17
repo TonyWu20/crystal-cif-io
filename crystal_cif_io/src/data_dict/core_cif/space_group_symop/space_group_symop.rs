@@ -10,15 +10,57 @@ use crate::data_dict::matrix;
 use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
+/// One loop row of the `space_group_symop` category: the
+/// per-operation values of the loop items.
 #[derive(Debug, Clone, Default)]
 pub struct Symop {
+    /// The `_space_group_symop_id` item. The field holds the column values, one per loop row.
+    ///
+    /// An arbitrary identifier that uniquely labels each symmetry operation
+    /// in the list. In order for the defaults to work correctly, the
+    /// identity operation should have _space_group_symop_id or
+    /// _symmetry_equiv_pos_site_id set to 1, and
+    /// _space_group_symop_operation_xyz or _symmetry_equiv_pos_as_xyz set
+    /// to x,y,z; i.e. the operation labelled 1 should be the identity
+    /// operation.
     pub id: Option<CharString>,
+    /// The `_space_group_symop_operation_description` item. The field holds the single value.
     pub operation_description: Option<CharString>,
+    /// The `_space_group_symop_operation_xyz` item. The field holds the column values, one per loop row.
+    ///
+    /// A parsable string giving one of the symmetry operations of the space
+    /// group in algebraic form. If W is a matrix representation of the
+    /// rotational part of the symmetry operation defined by the positions
+    /// and signs of x, y and z, and w is a column of translations defined
+    /// by fractions, an equivalent position X' is generated from a given
+    /// position X by the equation X' = WX + w (Note: X is used to represent
+    /// bold_italics_x in International Tables for Crystallography Vol. A,
+    /// Part 5) When a list of symmetry operations is given, it must contain
+    /// a complete set of coordinate representatives which generates all the
+    /// operations of the space group by the addition of all primitive
+    /// translations of the space group. Such representatives are to be
+    /// found as the coordinates of the general-equivalent position in
+    /// International Tables for Crystallography Vol. A (2002), to which it
+    /// is necessary to add any centring translations shown above the
+    /// general-equivalent position. That is to say, it is necessary to list
+    /// explicitly all the symmetry operations required to generate all the
+    /// atoms in the unit cell defined by the setting used. In order for the
+    /// defaults to work correctly, the identity operation should have
+    /// _space_group_symop_id or _symmetry_equiv_pos_site_id set to 1, and
+    /// _space_group_symop_operation_xyz or _symmetry_equiv_pos_as_xyz set
+    /// to x,y,z; i.e. the operation labelled 1 should be the identity
+    /// operation.
     pub operation_xyz: Option<CharString>,
+    /// The `_space_group_symop_R` item. The field holds the single value.
     pub r: Option<Matrix>,
+    /// The `_space_group_symop_RT` item. The field holds the single value.
     pub rt: Option<Matrix>,
+    /// The `_space_group_symop_Seitz_matrix` item. The field holds the single value.
     pub seitz_matrix: Option<Matrix>,
+    /// The `_space_group_symop_sg_id` item. The identifier of the
+    /// space group the operation belongs to.
     pub sg_id: Option<Numeric>,
+    /// The `_space_group_symop_T` item. The field holds the single value.
     pub t: Option<Matrix>,
 }
 

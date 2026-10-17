@@ -12,9 +12,24 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 /// The `citation_author` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// The `citation_author` category struct. One field per registry item.
 pub struct CitationAuthor {
+    /// The `_citation_author_citation_id` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of _citation_author_citation_id must match an identifier
+    /// specified by _citation_id in the _citation_ list.
     pub citation_id: Option<CharString>,
+    /// The `_citation_author_name` item. The field holds the column values, one per loop row.
+    ///
+    /// Name of an author of the citation; relevant for journal articles,
+    /// books and book chapters. The family name(s), followed by a comma and
+    /// including any dynastic components, precedes the first name(s) or
+    /// initial(s).
     pub name: Option<CharString>,
+    /// The `_citation_author_ordinal` item. The field holds the column values, one per loop row.
+    ///
+    /// This data name defines the order of the author's name in the list of
+    /// authors of a citation.
     pub ordinal: Option<CharString>,
 }
 

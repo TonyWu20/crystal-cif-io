@@ -9,16 +9,24 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 pub use self::analyte_mass_percent::AnalyteMassPercent;
 pub use self::chemical_species_mass_percent::ChemicalSpeciesMassPercent;
 
+/// The single-value terms of the `atom_analytical` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomAnalyticalTerms {
+    /// The `_atom_analytical_analyte` item. The variant holds the single value.
     Analyte(CharString),
+    /// The `_atom_analytical_analyte_mass_percent` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Analyte_mass_percent(AnalyteMassPercent),
+    /// The `_atom_analytical_chemical_species` item. The variant holds the single value.
     Chemical_species(CharString),
+    /// The `_atom_analytical_chemical_species_mass_percent` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Chemical_species_mass_percent(ChemicalSpeciesMassPercent),
+    /// The `_atom_analytical_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_atom_analytical_meas_id` item. The variant holds the single value.
     Meas_id(CharString),
 }
 

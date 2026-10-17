@@ -11,33 +11,164 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, UnsignedInteger, Value}
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `reflns` category struct. One field per registry item.
 pub struct Reflns {
+    /// The `_reflns_Friedel_coverage` item. The field holds the single value.
+    ///
+    /// The proportion of Friedel-related reflections present in the number
+    /// of 'independent' reflections specified by the item
+    /// _reflns_number_total. This proportion is calculated as the ratio:
+    /// [N(crystal class) - N(Laue symmetry)] / N(Laue symmetry) where,
+    /// working from the _diffrn_refln_ list, N(crystal class) is the number
+    /// of reflections obtained on averaging under the symmetry of the
+    /// crystal class N(Laue symmetry) is the number of reflections obtained
+    /// on averaging under the Laue symmetry. Examples: (a) For
+    /// centrosymmetric structures, _reflns_Friedel_coverage is necessarily
+    /// equal to 0.0 as the crystal class is identical to the Laue symmetry.
+    /// (b) For whole-sphere data for a crystal in the space group P1,
+    /// _reflns_Friedel_coverage is equal to 1.0, as no reflection h k l is
+    /// equivalent to -h -k -l in the crystal class and all Friedel pairs {h
+    /// k l; -h -k -l} have been measured. (c) For whole-sphere data in
+    /// space group Pmm2, _reflns_Friedel_coverage will be &lt; 1.0 because
+    /// although reflections h k l and -h -k -l are not equivalent when h k
+    /// l indices are nonzero, they are when l=0. (d) For a crystal in the
+    /// space group Pmm2, measurements of the two inequivalent octants h >=
+    /// 0, k >=0, l lead to the same value as in (c), whereas measurements
+    /// of the two equivalent octants h >= 0, k, l >= 0 will lead to a value
+    /// of zero for _reflns_Friedel_coverage.
     pub friedel_coverage: Option<FriedelFraction>,
+    /// The `_reflns_Friedel_fraction_full` item. The field holds the single value.
+    ///
+    /// The number of Friedel pairs measured out to
+    /// _diffrn_reflns_theta_full. divided by the number theoretically
+    /// possible (ignoring reflections in centric projections and systematic
+    /// absences throughout). In contrast to _reflns_Friedel_coverage this
+    /// can take values in the full range 0 to 1 for any non-centrosymmetric
+    /// space group, and so one can see at a glance how completely the
+    /// Friedel pairs have been measured. For centrosymmetric space groups
+    /// the value would be 0/0 and so would be given as '.'.
     pub friedel_fraction_full: Option<FriedelFraction>,
+    /// The `_reflns_Friedel_fraction_max` item. The field holds the single value.
+    ///
+    /// The number of Friedel pairs measured out to
+    /// _diffrn_reflns_theta_max. divided by the number theoretically
+    /// possible (ignoring reflections in centric projections and systematic
+    /// absences throughout). In contrast to _reflns_Friedel_coverage this
+    /// can take values in the full range 0 to 1 for any non-centrosymmetric
+    /// space group, and so one can see at a glance how completely the
+    /// Friedel pairs have been measured. For centrosymmetric space groups
+    /// the value would be 0/0 and so would be given as '.'.
     pub friedel_fraction_max: Option<FriedelFraction>,
+    /// The `_reflns_number_gt` item. The field holds the single value.
+    ///
+    /// The number of reflections in the _refln_ list (not the
+    /// _diffrn_refln_ list) that are significantly intense, satisfying the
+    /// criterion specified by _reflns_threshold_expression. This may
+    /// include Friedel-equivalent reflections (i.e. those which are
+    /// symmetry-equivalent under the Laue symmetry but inequivalent under
+    /// the crystal class) according to the nature of the structure and the
+    /// procedures used. Special characteristics of the reflections included
+    /// in the _refln_ list should be given in the item
+    /// _reflns_special_details.
     pub number_gt: Option<UnsignedInteger>,
+    /// The `_reflns_number_observed` item. The field holds the single value.
+    ///
+    /// The number of 'observed' reflections in the _refln_ list (not the
+    /// _diffrn_refln_ list). The observed reflections satisfy the threshold
+    /// criterion specified by _reflns_threshold_expression (or the
+    /// deprecated item _reflns_observed_criterion). They may include
+    /// Friedel-equivalent reflections according to the nature of the
+    /// structure and the procedures used. Special characteristics of the
+    /// reflections included in the _refln_ list should be given in the item
+    /// _reflns_special_details.
     pub number_observed: Option<UnsignedInteger>,
+    /// The `_reflns_number_total` item. The field holds the single value.
+    ///
+    /// The total number of reflections in the _refln_ list (not the
+    /// _diffrn_refln_ list). This may include Friedel-equivalent
+    /// reflections (i.e. those which are symmetry-equivalent under the Laue
+    /// symmetry but inequivalent under the crystal class) according to the
+    /// nature of the structure and the procedures used. Special
+    /// characteristics of the reflections included in the _refln_ list
+    /// should be given in the item _reflns_special_details.
     pub number_total: Option<UnsignedInteger>,
+    /// The `_reflns_observed_criterion` item. The field holds the single value.
+    ///
+    /// The criterion used to classify a reflection as 'observed'. This
+    /// criterion is usually expressed in terms of a sigma(I) or sigma(F)
+    /// threshold.
     pub observed_criterion: Option<CharString>,
+    /// The `_reflns_special_details` item. The field holds the single value.
+    ///
+    /// Description of the properties of the reported reflection list that
+    /// are not given in other data items. In particular, this should
+    /// include information about the averaging (or not) of
+    /// symmetry-equivalent reflections including Friedel pairs.
     pub special_details: Option<CharString>,
+    /// The `_reflns_threshold_expression` item. The field holds the single value.
+    ///
+    /// The threshold, usually based on multiples of u(I), u(F^2^) or u(F),
+    /// that serves to identify significantly intense reflections, the
+    /// number of which is given by _reflns_number_gt. These reflections are
+    /// used in the calculation of _refine_ls_R_factor_gt.
     pub threshold_expression: Option<CharString>,
+    /// The rows of the `_reflns_d_resolution_` loop family.
     pub d_resolution: Vec<ReflnsDResolution>,
+    /// The rows of the `_reflns_limit_` loop family.
     pub limit: Vec<ReflnsLimit>,
 }
 
+/// One loop row of the `_reflns_d_resolution_` loop family: the
+/// highest and lowest resolution of the reflections.
 #[derive(Debug, Clone, Default)]
 pub struct ReflnsDResolution {
+    /// The `_reflns_d_resolution_high` item. The field holds the column values, one per loop row.
+    ///
+    /// The highest and lowest resolution in angstroms for the reflections.
+    /// These are the smallest and largest d values.
+    /// Units: A (angstrom).
     pub high: Option<Numeric>,
+    /// The `_reflns_d_resolution_low` item. The field holds the column values, one per loop row.
+    ///
+    /// The highest and lowest resolution in angstroms for the reflections.
+    /// These are the smallest and largest d values.
+    /// Units: A (angstrom).
     pub low: Option<Numeric>,
 }
 
+/// One loop row of the `_reflns_limit_` loop family: the Miller
+/// index limits of the reported reflections.
 #[derive(Debug, Clone, Default)]
 pub struct ReflnsLimit {
+    /// The `_reflns_limit_h_max` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices limits for the reported reflections. These need not
+    /// be the same as the _diffrn_reflns_limit_ values.
     pub h_max: Option<Numeric>,
+    /// The `_reflns_limit_h_min` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices limits for the reported reflections. These need not
+    /// be the same as the _diffrn_reflns_limit_ values.
     pub h_min: Option<Numeric>,
+    /// The `_reflns_limit_k_max` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices limits for the reported reflections. These need not
+    /// be the same as the _diffrn_reflns_limit_ values.
     pub k_max: Option<Numeric>,
+    /// The `_reflns_limit_k_min` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices limits for the reported reflections. These need not
+    /// be the same as the _diffrn_reflns_limit_ values.
     pub k_min: Option<Numeric>,
+    /// The `_reflns_limit_l_max` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices limits for the reported reflections. These need not
+    /// be the same as the _diffrn_reflns_limit_ values.
     pub l_max: Option<Numeric>,
+    /// The `_reflns_limit_l_min` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices limits for the reported reflections. These need not
+    /// be the same as the _diffrn_reflns_limit_ values.
     pub l_min: Option<Numeric>,
 }
 

@@ -21,8 +21,12 @@
 //!
 //! See `docs/typed-structs.md` (D13) for the split.
 
+#![warn(missing_docs)]
+
 pub mod builder;
 pub mod core_cif;
+/// The data-dictionary layer: the category terms, the closed-set
+/// enums, and the tag registry.
 pub mod data_dict;
 
 /// The typed document layer (roadmap D12). The block view and its error.

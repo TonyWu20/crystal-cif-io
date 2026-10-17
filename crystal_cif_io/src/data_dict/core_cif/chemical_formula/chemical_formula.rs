@@ -11,13 +11,73 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `chemical_formula` category struct. One field per registry item.
 pub struct ChemicalFormula {
+    /// The `_chemical_formula_analytical` item. The field holds the single value.
+    ///
+    /// Formula determined by standard chemical analysis including trace
+    /// elements. See the _chemical_formula_[] category description for
+    /// rules for writing chemical formulae. Parentheses are used only for
+    /// standard uncertainties (e.s.d.'s).
     pub analytical: Option<CharString>,
+    /// The `_chemical_formula_iupac` item. The field holds the single value.
+    ///
+    /// Formula expressed in conformance with IUPAC rules for inorganic and
+    /// metal-organic compounds where these conflict with the rules for any
+    /// other _chemical_formula_ entries. Typically used for formatting a
+    /// formula in accordance with journal rules. This should appear in the
+    /// data block in addition to the most appropriate of the other
+    /// _chemical_formula_ data names. Ref: IUPAC (1990). Nomenclature of
+    /// Inorganic Chemistry. Oxford: Blackwell Scientific Publications.
     pub iupac: Option<CharString>,
+    /// The `_chemical_formula_moiety` item. The field holds the single value.
+    ///
+    /// Formula with each discrete bonded residue or ion shown as a separate
+    /// moiety. See the _chemical_formula_[] category description for rules
+    /// for writing chemical formulae. In addition to the general formulae
+    /// requirements, the following rules apply: (1) Moieties are separated
+    /// by commas ','. (2) The order of elements within a moiety follows
+    /// general rule (5) in the _chemical_formula_[] category description.
+    /// (3) Parentheses are not used within moieties but may surround a
+    /// moiety. Parentheses may not be nested. (4) Charges should be placed
+    /// at the end of the moiety. The charge '+' or '-' may be preceded by a
+    /// numerical multiplier and should be separated from the last (element
+    /// symbol + count) by a space. Pre- or post-multipliers may be used for
+    /// individual moieties.
     pub moiety: Option<CharString>,
+    /// The `_chemical_formula_structural` item. The field holds the single value.
+    ///
+    /// See the _chemical_formula_[] category description for the rules for
+    /// writing chemical formulae for inorganics, organometallics, metal
+    /// complexes etc., in which bonded groups are preserved as discrete
+    /// entities within parentheses, with post-multipliers as required. The
+    /// order of the elements should give as much information as possible
+    /// about the chemical structure. Parentheses may be used and nested as
+    /// required. This formula should correspond to the structure as
+    /// actually reported, i.e. trace elements not included in atom-type and
+    /// atom-site lists should not be included in this formula (see also
+    /// _chemical_formula_analytical).
     pub structural: Option<CharString>,
+    /// The `_chemical_formula_sum` item. The field holds the single value.
+    ///
+    /// See the _chemical_formula_[] category description for the rules for
+    /// writing chemical formulae in which all discrete bonded residues and
+    /// ions are summed over the constituent elements, following the
+    /// ordering given in general rule (5) in the _chemical_formula_[]
+    /// category description. Parentheses are not normally used.
     pub sum: Option<CharString>,
+    /// The `_chemical_formula_weight` item. The field holds the single value.
+    ///
+    /// Formula mass in daltons. This mass should correspond to the formulae
+    /// given under _chemical_formula_structural, *_iupac, *_moiety or *_sum
+    /// and, together with the Z value and cell parameters, should yield the
+    /// density given as _exptl_crystal_density_diffrn.
+    /// Units: Da (dalton).
     pub weight: Option<FormulaWeight>,
+    /// The `_chemical_formula_weight_meas` item. The field holds the single value.
+    ///
+    /// Formula mass in daltons measured by a non-diffraction experiment.
+    /// Units: Da (dalton).
     pub weight_meas: Option<FormulaWeight>,
 }
 

@@ -13,10 +13,27 @@ pub use reflns_scale::ReflnsScale;
 /// holds one column of the loop.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `reflns_scale` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ReflnsScaleLoopItem {
+    /// The `_reflns_scale_group_code` item. The variant holds the column values, one per loop row.
+    ///
+    /// The code identifying a scale _reflns_scale_meas_. These are linked
+    /// to the _refln_ list by the _refln_scale_group_code. These codes need
+    /// not correspond to those in the _diffrn_scale_ list.
     Group_code(Vec<CharString>),
+    /// The `_reflns_scale_meas_F` item. The variant holds the column values, one per loop row.
+    ///
+    /// Scales associated with _reflns_scale_group_code.
     Meas_F(Vec<Numeric>),
+    /// The `_reflns_scale_meas_F_squared` item. The variant holds the column values, one per loop row.
+    ///
+    /// Scales associated with _reflns_scale_group_code.
     Meas_F_squared(Vec<Numeric>),
+    /// The `_reflns_scale_meas_intensity` item. The variant holds the column values, one per loop row.
+    ///
+    /// Scales associated with _reflns_scale_group_code.
     Meas_intensity(Vec<Numeric>),
 }
 

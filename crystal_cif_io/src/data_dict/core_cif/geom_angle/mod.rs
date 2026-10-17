@@ -18,14 +18,87 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 /// Loop columns of the `geom_angle` category (8 items).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `geom_angle` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum GeomAngleLoopItem {
+    /// The `_geom_angle` item. The variant holds the column values, one per loop row.
+    ///
+    /// Angle in degrees defined by the three sites
+    /// _geom_angle_atom_site_label_1, *_2 and *_3. The site at *_2 is at
+    /// the apex of the angle.
+    /// Units: deg (degree of arc).
     Angle(Vec<Numeric>),
+    /// The `_geom_angle_atom_site_label_1` item. The variant holds the column values, one per loop row.
+    ///
+    /// The labels of the three atom sites which define the angle given by
+    /// _geom_angle. These must match labels specified as _atom_site_label
+    /// in the atom list. Label 2 identifies the site at the apex of the
+    /// angle.
     Atom_site_label_1(Vec<CharString>),
+    /// The `_geom_angle_atom_site_label_2` item. The variant holds the column values, one per loop row.
+    ///
+    /// The labels of the three atom sites which define the angle given by
+    /// _geom_angle. These must match labels specified as _atom_site_label
+    /// in the atom list. Label 2 identifies the site at the apex of the
+    /// angle.
     Atom_site_label_2(Vec<CharString>),
+    /// The `_geom_angle_atom_site_label_3` item. The variant holds the column values, one per loop row.
+    ///
+    /// The labels of the three atom sites which define the angle given by
+    /// _geom_angle. These must match labels specified as _atom_site_label
+    /// in the atom list. Label 2 identifies the site at the apex of the
+    /// angle.
     Atom_site_label_3(Vec<CharString>),
+    /// The `_geom_angle_publ_flag` item. The variant holds the column values, one per loop row.
+    ///
+    /// This code signals whether the angle is referred to in a publication
+    /// or should be placed in a table of significant angles.
     Publ_flag(Vec<PublFlag>),
+    /// The `_geom_angle_site_symmetry_1` item. The variant holds the column values, one per loop row.
+    ///
+    /// The symmetry code of each atom site as the symmetry-equivalent
+    /// position number 'n' and the cell translation number 'klm'. These
+    /// numbers are combined to form the code 'n klm' or n_klm. The
+    /// character string n_klm is composed as follows: n refers to the
+    /// symmetry operation that is applied to the coordinates stored in
+    /// _atom_site_fract_x, _atom_site_fract_y and _atom_site_fract_z. It
+    /// must match a number given in _space_group_symop_id. k, l and m refer
+    /// to the translations that are subsequently applied to the
+    /// symmetry-transformed coordinates to generate the atom used in
+    /// calculating the angle. These translations (x,y,z) are related to
+    /// (k,l,m) by the relations k = 5 + x l = 5 + y m = 5 + z By adding 5
+    /// to the translations, the use of negative numbers is avoided.
     Site_symmetry_1(Vec<CharString>),
+    /// The `_geom_angle_site_symmetry_2` item. The variant holds the column values, one per loop row.
+    ///
+    /// The symmetry code of each atom site as the symmetry-equivalent
+    /// position number 'n' and the cell translation number 'klm'. These
+    /// numbers are combined to form the code 'n klm' or n_klm. The
+    /// character string n_klm is composed as follows: n refers to the
+    /// symmetry operation that is applied to the coordinates stored in
+    /// _atom_site_fract_x, _atom_site_fract_y and _atom_site_fract_z. It
+    /// must match a number given in _space_group_symop_id. k, l and m refer
+    /// to the translations that are subsequently applied to the
+    /// symmetry-transformed coordinates to generate the atom used in
+    /// calculating the angle. These translations (x,y,z) are related to
+    /// (k,l,m) by the relations k = 5 + x l = 5 + y m = 5 + z By adding 5
+    /// to the translations, the use of negative numbers is avoided.
     Site_symmetry_2(Vec<CharString>),
+    /// The `_geom_angle_site_symmetry_3` item. The variant holds the column values, one per loop row.
+    ///
+    /// The symmetry code of each atom site as the symmetry-equivalent
+    /// position number 'n' and the cell translation number 'klm'. These
+    /// numbers are combined to form the code 'n klm' or n_klm. The
+    /// character string n_klm is composed as follows: n refers to the
+    /// symmetry operation that is applied to the coordinates stored in
+    /// _atom_site_fract_x, _atom_site_fract_y and _atom_site_fract_z. It
+    /// must match a number given in _space_group_symop_id. k, l and m refer
+    /// to the translations that are subsequently applied to the
+    /// symmetry-transformed coordinates to generate the atom used in
+    /// calculating the angle. These translations (x,y,z) are related to
+    /// (k,l,m) by the relations k = 5 + x l = 5 + y m = 5 + z By adding 5
+    /// to the translations, the use of negative numbers is avoided.
     Site_symmetry_3(Vec<CharString>),
 }
 
@@ -70,10 +143,15 @@ impl LoopValueTerm for GeomAngleLoopItem {
 /// The single-value items of the `geom_angle` category (T6).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `geom_angle` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum GeomAngleTerms {
     /// The shell records a two-value list (`_type.dimension`
     /// `[2]`); the read path does not bound the shape.
+    /// The `_geom_angle_distances` item. The variant holds the column values, one per loop row.
     Distances(Vec<Numeric>),
+    /// The `_geom_angle_id` item. The variant holds the column values, one per loop row.
     Id(CharString),
 }
 

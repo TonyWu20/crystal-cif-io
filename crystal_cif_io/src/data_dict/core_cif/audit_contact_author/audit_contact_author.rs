@@ -11,14 +11,48 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `audit_contact_author` category struct. One field per registry item.
 pub struct AuditContactAuthor {
+    /// The `_audit_contact_author_address` item. The field holds the single value.
+    ///
+    /// The mailing address of the author of the data block to whom
+    /// correspondence should be addressed.
     pub address: Option<CharString>,
+    /// The `_audit_contact_author_email` item. The field holds the single value.
+    ///
+    /// The electronic mail address of the author of the data block to whom
+    /// correspondence should be addressed, in a form recognizable to
+    /// international networks. The format of e-mail addresses is given in
+    /// Section 3.4, Address Specification, of Internet Message Format, RFC
+    /// 2822, P. Resnick (Editor), Network Standards Group, April 2001.
     pub email: Option<CharString>,
+    /// The `_audit_contact_author_fax` item. The field holds the single value.
+    ///
+    /// The facsimile telephone number of the author of the data block to
+    /// whom correspondence should be addressed. The recommended style
+    /// starts with the international dialing prefix, followed by the area
+    /// code in parentheses, followed by the local number with no spaces.
     pub fax: Option<CharString>,
+    /// The `_audit_contact_author_id` item. The field holds the single value.
     pub id: Option<CharString>,
+    /// The `_audit_contact_author_id_IUCr` item. The field holds the single value.
     pub id_iucr: Option<CharString>,
+    /// The `_audit_contact_author_id_ORCID` item. The field holds the single value.
     pub id_orcid: Option<CharString>,
+    /// The `_audit_contact_author_name` item. The field holds the single value.
+    ///
+    /// The name of the author of the data block to whom correspondence
+    /// should be addressed. The family name(s), followed by a comma and
+    /// including any dynastic components, precedes the first name(s) or
+    /// initial(s).
     pub name: Option<CharString>,
+    /// The `_audit_contact_author_phone` item. The field holds the single value.
+    ///
+    /// The telephone number of the author of the data block to whom
+    /// correspondence should be addressed. The recommended style starts
+    /// with the international dialing prefix, followed by the area code in
+    /// parentheses, followed by the local number and any extension number
+    /// prefixed by 'x', with no spaces.
     pub phone: Option<CharString>,
 }
 

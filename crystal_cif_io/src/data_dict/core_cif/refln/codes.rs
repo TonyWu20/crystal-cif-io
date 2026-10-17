@@ -20,11 +20,17 @@ impl ReflnCifError {
 /// The dictionary records the single value `o` (observed).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum IncludeStatus {
+    /// `o`
     Observed,
+    /// `&lt;`
     LessThan,
+    /// `-`
     Absent,
+    /// `x`
     Unreliable,
+    /// `h`
     NotSatisfyHigh,
+    /// `l`
     NotSatisfyLow,
 }
 
@@ -97,11 +103,17 @@ impl TryFrom<String> for IncludeStatus {
 /// The dictionary records the single value `o` (observed).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ObservedStatus {
+    /// `o`
     Observed,
+    /// `&lt;`
     LessThan,
+    /// `-`
     Absent,
+    /// `x`
     Unreliable,
+    /// `h`
     NotSatisfyHigh,
+    /// `l`
     NotSatisfyLow,
 }
 
@@ -172,8 +184,11 @@ impl TryFrom<String> for ObservedStatus {
 /// The closed value set of `_refln_refinement_status`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RefinementStatus {
+    /// `incl`
     Included,
+    /// `excl`
     Excluded,
+    /// `extn`
     External,
 }
 

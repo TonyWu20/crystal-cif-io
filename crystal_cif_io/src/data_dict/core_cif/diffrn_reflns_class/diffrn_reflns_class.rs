@@ -18,14 +18,48 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_reflns_class` category struct. One field per registry item.
 pub struct DiffrnReflnsClass {
+    /// The `_diffrn_reflns_class_av_R_eq` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual [sum av|del(I)|/sum|av(I)|]
+    /// for symmetry-equivalent reflections used to calculate the average
+    /// intensity av(I). The av|del(I)| term is the average absolute
+    /// difference between av(I) and the individual intensities.
     pub av_r_eq: Option<AvREq>,
+    /// The `_diffrn_reflns_class_av_SG_I_over_I` item. The mean of the
+    /// space-group-equivalent intensities, over the mean intensity.
     pub av_sg_i_over_i: Option<AvSgIOverI>,
+    /// The `_diffrn_reflns_class_av_u_I_over_I` item. The mean of the
+    /// absolute intensity deviations, over the mean intensity.
     pub av_u_i_over_i: Option<AvUIOverI>,
+    /// The `_diffrn_reflns_class_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying a certain reflection class.
     pub code: Option<CharString>,
+    /// The `_diffrn_reflns_class_d_res_high` item. The field holds the column values, one per loop row.
+    ///
+    /// The smallest value in angstroms of the interplanar spacings of the
+    /// reflections in each reflection class. This is called the highest
+    /// resolution for this reflection class.
+    /// Units: A (angstrom).
     pub d_res_high: Option<DResHigh>,
+    /// The `_diffrn_reflns_class_d_res_low` item. The field holds the column values, one per loop row.
+    ///
+    /// The highest value in angstroms of the interplanar spacings of the
+    /// reflections in each reflection class. This is called the lowest
+    /// resolution for this reflection class.
+    /// Units: A (angstrom).
     pub d_res_low: Option<DResLow>,
+    /// The `_diffrn_reflns_class_description` item. The field holds the column values, one per loop row.
+    ///
+    /// Description of each reflection class.
     pub description: Option<CharString>,
+    /// The `_diffrn_reflns_class_number` item. The field holds the column values, one per loop row.
+    ///
+    /// The total number of measured intensities for each reflection class,
+    /// excluding the systematic absences arising from centring
+    /// translations.
     pub number: Option<ReflnsClassNumber>,
 }
 impl CifCategory for Vec<DiffrnReflnsClass> {

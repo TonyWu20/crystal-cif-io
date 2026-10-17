@@ -13,9 +13,25 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 /// The `publ_manuscript_incl` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// The `publ_manuscript_incl` category struct. One field per registry item.
 pub struct PublManuscriptIncl {
+    /// The `_publ_manuscript_incl_extra_defn` item. The field holds the column values, one per loop row.
+    ///
+    /// Flags whether the corresponding data item marked for inclusion in a
+    /// journal request list is a standard CIF definition or not.
     pub extra_defn: Option<ExtraDefn>,
+    /// The `_publ_manuscript_incl_extra_info` item. The field holds the column values, one per loop row.
+    ///
+    /// A short note indicating the reason why the author wishes the
+    /// corresponding data item marked for inclusion in the journal request
+    /// list to be published.
     pub extra_info: Option<CharString>,
+    /// The `_publ_manuscript_incl_extra_item` item. The field holds the column values, one per loop row.
+    ///
+    /// Specifies the inclusion of specific data into a manuscript which are
+    /// not normally requested by the journal. The values of this item are
+    /// the extra data names (which MUST be enclosed in single quotes) that
+    /// will be added to the journal request list.
     pub extra_item: Option<CharString>,
 }
 

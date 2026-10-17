@@ -13,11 +13,29 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 /// The `publ_body` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// The `publ_body` category struct. One field per registry item.
 pub struct PublBody {
+    /// The `_publ_body_contents` item. The field holds the column values, one per loop row.
+    ///
+    /// A text section of a paper.
     pub contents: Option<CharString>,
+    /// The `_publ_body_element` item. The field holds the column values, one per loop row.
+    ///
+    /// The functional role of the associated text section.
     pub element: Option<Element>,
+    /// The `_publ_body_format` item. The field holds the column values, one per loop row.
+    ///
+    /// Code indicating the appropriate typesetting conventions for accented
+    /// characters and special symbols in the text section.
     pub format: Option<Format>,
+    /// The `_publ_body_label` item. The field holds the column values, one per loop row.
+    ///
+    /// Code identifying the section of text. The combination of this with
+    /// _publ_body_element must be unique.
     pub label: Option<CharString>,
+    /// The `_publ_body_title` item. The field holds the column values, one per loop row.
+    ///
+    /// Title of the associated section of text.
     pub title: Option<CharString>,
 }
 

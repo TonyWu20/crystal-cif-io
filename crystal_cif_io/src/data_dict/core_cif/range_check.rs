@@ -3,7 +3,7 @@
 //! The dictionary records a numeric range on some `numb` items
 //! (for example `_atom_type_oxidation_number` is `-8:8`). The
 //! per-item typed payloads in the category modules call
-//! [`check_range`] inside their `try_new` constructor, in the style
+//! `check_range` inside their `try_new` constructor, in the style
 //! of `CrystalSystemCifError` (a plain error type, no `todo!`).
 //! Out-of-range values fail at construction instead of reaching the
 //! write path.

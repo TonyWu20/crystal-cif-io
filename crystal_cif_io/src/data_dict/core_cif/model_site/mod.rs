@@ -13,30 +13,46 @@ pub use self::mole_index::MoleIndex;
 pub use self::radius_bond::RadiusBond;
 pub use self::radius_contact::RadiusContact;
 
+/// The single-value terms of the `model_site` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ModelSiteTerms {
+    /// The `_model_site_adp_eigenvalues` item. The variant holds the single value.
     /// list or array payload; the shape is recorded in the shell
     /// _type.dimension
     Adp_eigenvalues(Matrix),
+    /// The `_model_site_adp_eigenvectors` item. The variant holds the single value.
     /// list or array payload; the shape is recorded in the shell
     /// _type.dimension
     Adp_eigenvectors(Matrix),
+    /// The `_model_site_adp_matrix_beta` item. The variant holds the single value.
     Adp_matrix_beta(Matrix),
+    /// The `_model_site_cartn_xyz` item. The variant holds the single value.
     Cartn_xyz(Matrix),
+    /// The `_model_site_display_colour` item. The variant holds the single value.
     Display_colour(CharString),
+    /// The `_model_site_fract_xyz` item. The variant holds the single value.
     Fract_xyz(Matrix),
+    /// The `_model_site_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_model_site_index` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Index(Index),
+    /// The `_model_site_label` item. The variant holds the single value.
     Label(CharString),
+    /// The `_model_site_mole_index` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Mole_index(MoleIndex),
+    /// The `_model_site_radius_bond` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Radius_bond(RadiusBond),
+    /// The `_model_site_radius_contact` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Radius_contact(RadiusContact),
+    /// The `_model_site_symop` item. The variant holds the single value.
     Symop(CharString),
+    /// The `_model_site_type_symbol` item. The variant holds the single value.
     Type_symbol(CharString),
 }
 

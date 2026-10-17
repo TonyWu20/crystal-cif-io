@@ -3,34 +3,62 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 
+/// The single-value terms of the `atom_type_scat` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomTypeScatTerms {
+    /// The `_atom_type_scat_cromer_mann_as` item. The variant holds the single value.
     Cromer_mann_as(Numeric),
+    /// The `_atom_type_scat_cromer_mann_bs` item. The variant holds the single value.
     Cromer_mann_bs(Numeric),
+    /// The `_atom_type_scat_dispersion` item. The variant holds the single value.
     Dispersion(Numeric),
+    /// The `_atom_type_scat_dispersion_imag_cu` item. The variant holds the single value.
     Dispersion_imag_cu(Numeric),
+    /// The `_atom_type_scat_dispersion_imag_mo` item. The variant holds the single value.
     Dispersion_imag_mo(Numeric),
+    /// The `_atom_type_scat_dispersion_real_cu` item. The variant holds the single value.
     Dispersion_real_cu(Numeric),
+    /// The `_atom_type_scat_dispersion_real_mo` item. The variant holds the single value.
     Dispersion_real_mo(Numeric),
+    /// The `_atom_type_scat_exponential_polynomial_coefs` item. The variant holds the single value.
     Exponential_polynomial_coefs(Numeric),
+    /// The `_atom_type_scat_exponential_polynomial_lower_limit` item. The variant holds the single value.
     Exponential_polynomial_lower_limit(Numeric),
+    /// The `_atom_type_scat_exponential_polynomial_upper_limit` item. The variant holds the single value.
     Exponential_polynomial_upper_limit(Numeric),
+    /// The `_atom_type_scat_gaussian_as` item. The variant holds the single value.
     Gaussian_as(Numeric),
+    /// The `_atom_type_scat_gaussian_bs` item. The variant holds the single value.
     Gaussian_bs(Numeric),
+    /// The `_atom_type_scat_gaussian_c` item. The variant holds the single value.
     Gaussian_c(Numeric),
+    /// The `_atom_type_scat_gaussian_lower_limit` item. The variant holds the single value.
     Gaussian_lower_limit(Numeric),
+    /// The `_atom_type_scat_gaussian_upper_limit` item. The variant holds the single value.
     Gaussian_upper_limit(Numeric),
+    /// The `_atom_type_scat_hi_ang_fox_c0` item. The variant holds the single value.
     Hi_ang_fox_c0(Numeric),
+    /// The `_atom_type_scat_hi_ang_fox_c1` item. The variant holds the single value.
     Hi_ang_fox_c1(Numeric),
+    /// The `_atom_type_scat_hi_ang_fox_c2` item. The variant holds the single value.
     Hi_ang_fox_c2(Numeric),
+    /// The `_atom_type_scat_hi_ang_fox_c3` item. The variant holds the single value.
     Hi_ang_fox_c3(Numeric),
+    /// The `_atom_type_scat_hi_ang_fox_coefs` item. The variant holds the single value.
     Hi_ang_fox_coefs(Numeric),
+    /// The `_atom_type_scat_inv_mott_bethe_as` item. The variant holds the single value.
     Inv_mott_bethe_as(Numeric),
+    /// The `_atom_type_scat_inv_mott_bethe_bs` item. The variant holds the single value.
     Inv_mott_bethe_bs(Numeric),
+    /// The `_atom_type_scat_inv_mott_bethe_c` item. The variant holds the single value.
     Inv_mott_bethe_c(Numeric),
+    /// The `_atom_type_scat_inv_mott_bethe_lower_limit` item. The variant holds the single value.
     Inv_mott_bethe_lower_limit(Numeric),
+    /// The `_atom_type_scat_inv_mott_bethe_upper_limit` item. The variant holds the single value.
     Inv_mott_bethe_upper_limit(Numeric),
+    /// The `_atom_type_scat_symbol` item. The variant holds the single value.
     Symbol(CharString),
 }
 

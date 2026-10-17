@@ -12,11 +12,17 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `journal` category struct. One field per registry item.
 pub struct Journal {
+    /// The `_journal.data_validation_number` item. The field holds the single value.
     pub journal_data_validation_number: Option<CharString>,
+    /// The `_journal_paper_number` item. The field holds the single value.
     pub paper_number: Option<CharString>,
+    /// The `_journal_paper_pages` item. The field holds the single value.
     pub paper_pages: Option<PaperPages>,
+    /// The `_journal_paper_URL` item. The field holds the single value.
     pub paper_url: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<JournalRow>,
 }
 
@@ -161,44 +167,159 @@ impl CifCategory for Journal {
 
 /// The `journal` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `journal` category: the per-observation values of the loop items.
 pub struct JournalRow {
+    /// The `_journal_coden_ASTM` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coden_astm: Option<CharString>,
+    /// The `_journal_coden_Cambridge` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coden_cambridge: Option<CharString>,
+    /// The `_journal_coeditor_address` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_address: Option<CharString>,
+    /// The `_journal_coeditor_code` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_code: Option<CharString>,
+    /// The `_journal_coeditor_email` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_email: Option<CharString>,
+    /// The `_journal_coeditor_fax` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_fax: Option<CharString>,
+    /// The `_journal_coeditor_name` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_name: Option<CharString>,
+    /// The `_journal_coeditor_notes` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_notes: Option<CharString>,
+    /// The `_journal_coeditor_phone` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub coeditor_phone: Option<CharString>,
+    /// The `_journal_data_validation_number` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub data_validation_number: Option<CharString>,
+    /// The `_journal_date_accepted` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_accepted: Option<CharString>,
+    /// The `_journal_date_from_coeditor` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_from_coeditor: Option<CharString>,
+    /// The `_journal_date_printers_final` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_printers_final: Option<CharString>,
+    /// The `_journal_date_printers_first` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_printers_first: Option<CharString>,
+    /// The `_journal_date_proofs_in` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_proofs_in: Option<CharString>,
+    /// The `_journal_date_proofs_out` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_proofs_out: Option<CharString>,
+    /// The `_journal_date_recd_copyright` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_recd_copyright: Option<CharString>,
+    /// The `_journal_date_recd_electronic` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_recd_electronic: Option<CharString>,
+    /// The `_journal_date_recd_hard_copy` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_recd_hard_copy: Option<CharString>,
+    /// The `_journal_date_to_coeditor` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub date_to_coeditor: Option<CharString>,
+    /// The `_journal_issue` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub issue: Option<CharString>,
+    /// The `_journal_language` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub language: Option<CharString>,
+    /// The `_journal_name_full` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub name_full: Option<CharString>,
+    /// The `_journal_page_first` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub page_first: Option<CharString>,
+    /// The `_journal_page_last` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub page_last: Option<CharString>,
+    /// The `_journal_paper_category` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub paper_category: Option<CharString>,
+    /// The `_journal_paper_doi` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub paper_doi: Option<CharString>,
+    /// The `_journal_suppl_publ_number` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub suppl_publ_number: Option<CharString>,
+    /// The `_journal_suppl_publ_pages` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub suppl_publ_pages: Option<CharString>,
+    /// The `_journal_techeditor_address` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_address: Option<CharString>,
+    /// The `_journal_techeditor_code` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_code: Option<CharString>,
+    /// The `_journal_techeditor_email` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_email: Option<CharString>,
+    /// The `_journal_techeditor_fax` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_fax: Option<CharString>,
+    /// The `_journal_techeditor_name` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_name: Option<CharString>,
+    /// The `_journal_techeditor_notes` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_notes: Option<CharString>,
+    /// The `_journal_techeditor_phone` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub techeditor_phone: Option<CharString>,
+    /// The `_journal_volume` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub volume: Option<CharString>,
+    /// The `_journal_year` item. The field holds the column values, one per loop row.
+    ///
+    /// Data items specified by the journal staff.
     pub year: Option<CharString>,
 }
 

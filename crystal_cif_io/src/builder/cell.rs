@@ -33,16 +33,23 @@ pub enum CellError {
     /// the relative tolerance.
     #[error("{item}: the supplied {supplied} misses the computed {computed} beyond the {tolerance} tolerance")]
     Mismatch {
+        /// The item the supplied value belongs to.
         item: &'static str,
+        /// The supplied value.
         supplied: String,
+        /// The value computed from the cell.
         computed: String,
+        /// The relative tolerance of the check.
         tolerance: f64,
     },
     /// A supplied matrix or vector carries the wrong shape.
     #[error("{item}: the shape is {actual:?}, the item expects {expected}")]
     BadShape {
+        /// The item the matrix or vector belongs to.
         item: &'static str,
+        /// The shape the item expects.
         expected: &'static str,
+        /// The shape found in the input.
         actual: (usize, usize),
     },
     /// The input describes no lattice: a zero length, a zero

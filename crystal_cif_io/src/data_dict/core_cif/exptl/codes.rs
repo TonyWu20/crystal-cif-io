@@ -9,17 +9,29 @@ use super::ExptlCifError;
 /// The closed value set of `_exptl_absorpt_correction_type`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AbsorptCorrectionType {
+    /// `analytical`
     Analytical,
+    /// `cylinder`
     Cylinder,
+    /// `empirical`
     Empirical,
+    /// `gaussian`
     Gaussian,
+    /// `integration`
     Integration,
+    /// `multi-scan`
     MultiScan,
+    /// `none`
     None,
+    /// `numerical`
     Numerical,
+    /// `psi-scan`
     PsiScan,
+    /// `refdelf`
     Refdelf,
+    /// `semi-empirical`
     SemiEmpirical,
+    /// `sphere`
     Sphere,
 }
 

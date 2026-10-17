@@ -24,12 +24,20 @@ pub enum SymopError {
     /// The supplied column carries a different row count than the
     /// general-position list.
     #[error("the supplied column holds {supplied} rows, the list holds {expected}")]
-    RowCount { expected: usize, supplied: usize },
+    RowCount {
+        /// The row count of the general-position list.
+        expected: usize,
+        /// The row count of the supplied column.
+        supplied: usize,
+    },
     /// A supplied row text misses the computed operation.
     #[error("row {row} is {supplied:?}, the list computes {computed:?}")]
     Mismatch {
+        /// The row index of the mismatch.
         row: usize,
+        /// The supplied row text.
         supplied: String,
+        /// The operation computed for the row.
         computed: String,
     },
 }

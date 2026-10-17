@@ -7,14 +7,21 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::relation::Relation;
 
+/// The single-value terms of the `database_related` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DatabaseRelatedTerms {
+    /// The `_database_related_database_id` item. The variant holds the single value.
     Database_id(CharString),
+    /// The `_database_related_entry_code` item. The variant holds the single value.
     Entry_code(CharString),
+    /// The `_database_related_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_database_related_relation` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Relation(Relation),
+    /// The `_database_related_special_details` item. The variant holds the single value.
     Special_details(CharString),
 }
 

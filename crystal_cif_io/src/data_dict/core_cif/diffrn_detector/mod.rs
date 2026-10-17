@@ -13,18 +13,46 @@ pub use self::diffrn_detector::DiffrnDetector;
 pub use self::diffrn_radiation_detector_dtime::DiffrnRadiationDetectorDtime;
 pub use self::dtime::Dtime;
 
+/// The single-value terms of the `diffrn_detector` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnDetectorTerms {
+    /// The `_diffrn_detector_area_resol_mean` item. The variant holds the single value.
+    ///
+    /// The resolution of an area detector, in pixels/mm.
+    /// Units: pixel/mm (pixel per millimetre).
     /// range constraint recorded in the dictionary _enumeration
     Area_resol_mean(AreaResolMean),
+    /// The `_diffrn_detector_details` item. The variant holds the single value.
+    ///
+    /// A description of special aspects of the radiation detector.
     Details(CharString),
+    /// The `_diffrn_detector` item. The variant holds the single value.
+    ///
+    /// The general class of the radiation detector.
     Diffrn_detector(CharString),
+    /// The `_diffrn_radiation_detector` item. The variant holds the single value.
+    ///
+    /// The detector used to measure the diffraction intensities.
     Diffrn_radiation_detector(CharString),
+    /// The `_diffrn_radiation_detector_dtime` item. The variant holds the single value.
+    ///
+    /// The deadtime in microseconds of the detector used to measure the
+    /// diffraction intensities.
+    /// Units: \ms (microsecond).
     /// range constraint recorded in the dictionary _enumeration
     Diffrn_radiation_detector_dtime(DiffrnRadiationDetectorDtime),
+    /// The `_diffrn_detector_dtime` item. The variant holds the single value.
+    ///
+    /// The deadtime in microseconds of the detector used to measure the
+    /// diffraction intensities.
+    /// Units: \ms (microsecond).
     /// range constraint recorded in the dictionary _enumeration
     Dtime(Dtime),
+    /// The `_diffrn_detector_type` item. The variant holds the single value.
+    ///
+    /// The make, model or name of the detector device used.
     Type(CharString),
 }
 

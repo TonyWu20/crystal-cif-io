@@ -9,7 +9,7 @@ The step has two inputs and a small set of outputs:
 
 | input | role |
 |---|---|
-| `tests/dict_inventory.json` | the recorded item list. It drives which items exist per category, their value class (`char`/`numb`), the loop flag, and the `_enumeration` metadata |
+| `tests/dict_inventory.json` | the recorded item list (schema 2). It drives which items exist per category, their value class (`char`/`numb`), the loop flag, the `_enumeration` metadata, and the per-item `_definition`/`_units`/`_units_detail` doc text |
 | `codegen/annotations.json` | the per-item annotations. They drive the output: the Rust value type, closed code sets, range checks, name overrides, and notes |
 
 The annotations are JSON, not TOML: the crate carries `serde_json`
@@ -119,6 +119,56 @@ at the default 100-column width.
   and the two registry tests. The tag lists grow only; nothing
   registered before is removed or reordered. Hand edits to the
   registry are not expected: it is generator-owned.
+
+## Doc comments (inventory schema 2, roadmap D18)
+
+The inventory records two text fields per item: the DDL1
+`_definition` and the `_units`/`_units_detail` pair.
+`dict_inventory_gen` records them. A regeneration carries the
+recorded `_enumeration` values forward, so the curation pin of
+`tests/dict_inventory.json` (the hand-pinned recorded
+enumerations) survives a rerun.
+
+The generator turns the recorded text into doc comments in four
+places:
+
+| place | source |
+|---|---|
+| the type files (`codes.rs`, `ranges.rs`) | the item `_definition` on the enum or struct header, the annotation `note` below it |
+| the `mod.rs` term enums | the `The `_<item>` item.` line plus the `_definition` and `_units` on each variant |
+| the `TAGS` constants in `tags.rs` | the item `_definition` on each constant |
+| the category `mod.rs` header | one module doc per category, plus the `Terms`/`LoopItem` enum headers |
+
+The inject step docs the hand-maintained files (the struct and
+row files the generator does not emit):
+
+- the category struct and row struct headers;
+- the `Terms`/`LoopItem` enum headers of the annotated
+  categories;
+- one doc per struct field, from the item record.
+
+The field key resolution: the field name (the `.`, `-`, and `/`
+characters folded to `_`, a trailing `_` stripped) matches the
+item names of the core and shell inventories. The `_su` items
+are excluded (decision D2: the base item carries the value).
+The names dedup across the two sources. The struct fields scope
+to their own category. The term enum variants scope to the
+category file. A key that resolves to exactly one item gets
+docs. A key that resolves to zero items or to two or more
+stays untouched and prints to stdout. The printed list is the
+drift report.
+
+The DDL1 text is escaped for rustdoc before the wrap: angle
+brackets become HTML entities (`&lt;I&gt;`). A bare `http://`
+URL becomes a backtick span. The definitions are data, not the
+crate's markdown.
+
+Gates: `#![warn(missing_docs)]` at the root of both crates.
+The check is `RUSTFLAGS="-D missing_docs" cargo check
+--workspace`. The codegen no-write gate (`--no-write`, zero
+`would-write` lines) keeps the emitted docs in step with the
+inventory on every run. `cargo doc --workspace --no-deps`
+reports zero doc warnings.
 
 ## Reuse path for T5
 

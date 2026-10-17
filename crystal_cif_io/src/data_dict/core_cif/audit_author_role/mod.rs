@@ -7,12 +7,17 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
 pub use self::role::Role;
 
+/// The single-value terms of the `audit_author_role` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AuditAuthorRoleTerms {
+    /// The `_audit_author_role_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_audit_author_role_role` item. The variant holds the single value.
     /// closed code set recorded in the dictionary _enumeration_set
     Role(Role),
+    /// The `_audit_author_role_special_details` item. The variant holds the single value.
     Special_details(CharString),
 }
 

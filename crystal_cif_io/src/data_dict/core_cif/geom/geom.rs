@@ -9,11 +9,21 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `geom` category struct. One field per registry item.
 pub struct Geom {
+    /// The `_geom_bond_distance_incr` item. The field holds the single value.
     pub bond_distance_incr: Option<Numeric>,
+    /// The `_geom_contact_distance_incr` item. The field holds the single value.
     pub contact_distance_incr: Option<Numeric>,
+    /// The `_geom_min_bond_distance_cutoff` item. The field holds the single value.
     pub min_bond_distance_cutoff: Option<Numeric>,
+    /// The `_geom_min_contact_distance_cutoff` item. The field holds the single value.
     pub min_contact_distance_cutoff: Option<Numeric>,
+    /// The `_geom_special_details` item. The field holds the single value.
+    ///
+    /// The description of geometrical information not covered by the
+    /// existing data names in the geometry categories, such as
+    /// least-squares planes.
     pub special_details: Option<CharString>,
 }
 

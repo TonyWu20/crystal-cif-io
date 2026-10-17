@@ -11,9 +11,13 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `chemical_conn_bond` category struct. One field per registry item.
 pub struct ChemicalConnBond {
+    /// The `_chem_comp_bond.value_dist` item. The field holds the single value.
     pub chem_comp_bond_value_dist: Option<Numeric>,
+    /// The `_chemical_conn_bond_id` item. The field holds the single value.
     pub id: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<ChemicalConnBondRow>,
 }
 
@@ -86,9 +90,24 @@ impl CifCategory for ChemicalConnBond {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `chemical_conn_bond` category: the per-observation values of the loop items.
 pub struct ChemicalConnBondRow {
+    /// The `_chemical_conn_bond_atom_1` item. The field holds the column values, one per loop row.
+    ///
+    /// Atom numbers which must match with chemical sequence numbers
+    /// specified as _chemical_conn_atom_number values. These link the bond
+    /// connection to the chemical numbering and atom sites.
     pub atom_1: Option<BondAtomNumber>,
+    /// The `_chemical_conn_bond_atom_2` item. The field holds the column values, one per loop row.
+    ///
+    /// Atom numbers which must match with chemical sequence numbers
+    /// specified as _chemical_conn_atom_number values. These link the bond
+    /// connection to the chemical numbering and atom sites.
     pub atom_2: Option<BondAtomNumber>,
+    /// The `_chemical_conn_bond_type` item. The field holds the column values, one per loop row.
+    ///
+    /// The chemical bond type associated with the connection between the
+    /// two sites _chemical_conn_bond_atom_1 and *_2.
     pub r#type: Option<BondType>,
 }
 

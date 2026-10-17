@@ -18,12 +18,19 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ChemicalFormulaItem {
+    /// The `_chemical_formula_analytical` item. The variant holds the single value.
     Analytical(CharString),
+    /// The `_chemical_formula_iupac` item. The variant holds the single value.
     Iupac(CharString),
+    /// The `_chemical_formula_moiety` item. The variant holds the single value.
     Moiety(CharString),
+    /// The `_chemical_formula_structural` item. The variant holds the single value.
     Structural(CharString),
+    /// The `_chemical_formula_sum` item. The variant holds the single value.
     Sum(CharString),
+    /// The `_chemical_formula_weight` item. The variant holds the single value.
     Weight(FormulaWeight),
+    /// The `_chemical_formula_weight_meas` item. The variant holds the single value.
     Weight_meas(FormulaWeight),
 }
 

@@ -12,44 +12,227 @@ use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, UnsignedInteger
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `cell` category struct. One field per registry item.
 pub struct Cell {
+    /// The `_cell_angle_alpha` item. The field holds the column values, one per loop row.
+    ///
+    /// Unit-cell angles of the reported structure in degrees. The values of
+    /// _refln_index_h, *_k, *_l must correspond to the cell defined by
+    /// these values and _cell_length_a, *_b and *_c. The values of
+    /// _diffrn_refln_index_h, *_k, *_l may not correspond to these values
+    /// if a cell transformation took place following the measurement of the
+    /// diffraction intensities. See also _diffrn_reflns_transf_matrix_.
+    /// Units: deg (degree of arc).
     pub angle_alpha: Option<CellAngle>,
+    /// The `_cell_angle_beta` item. The field holds the column values, one per loop row.
+    ///
+    /// Unit-cell angles of the reported structure in degrees. The values of
+    /// _refln_index_h, *_k, *_l must correspond to the cell defined by
+    /// these values and _cell_length_a, *_b and *_c. The values of
+    /// _diffrn_refln_index_h, *_k, *_l may not correspond to these values
+    /// if a cell transformation took place following the measurement of the
+    /// diffraction intensities. See also _diffrn_reflns_transf_matrix_.
+    /// Units: deg (degree of arc).
     pub angle_beta: Option<CellAngle>,
+    /// The `_cell_angle_gamma` item. The field holds the column values, one per loop row.
+    ///
+    /// Unit-cell angles of the reported structure in degrees. The values of
+    /// _refln_index_h, *_k, *_l must correspond to the cell defined by
+    /// these values and _cell_length_a, *_b and *_c. The values of
+    /// _diffrn_refln_index_h, *_k, *_l may not correspond to these values
+    /// if a cell transformation took place following the measurement of the
+    /// diffraction intensities. See also _diffrn_reflns_transf_matrix_.
+    /// Units: deg (degree of arc).
     pub angle_gamma: Option<CellAngle>,
+    /// The `_cell_atomic_mass` item. The field holds the single value.
     pub atomic_mass: Option<Numeric>,
+    /// The `_cell_convert_Uij_to_betaij` item. The field holds the single value.
     pub convert_uij_to_betaij: Option<Matrix>,
+    /// The `_cell_convert_Uiso_to_Uij` item. The field holds the single value.
     pub convert_uiso_to_uij: Option<Matrix>,
+    /// The `_cell_formula_units_Z` item. The field holds the single value.
+    ///
+    /// The number of the formula units in the unit cell as specified by
+    /// _chemical_formula_structural, _chemical_formula_moiety or
+    /// _chemical_formula_sum.
     pub formula_units_z: Option<UnsignedInteger>,
+    /// The `_cell_formula_units_Z_details` item. The field holds the single value.
     pub formula_units_z_details: Option<CharString>,
+    /// The `_cell_formula_units_Z_prime` item. The field holds the single value.
     pub formula_units_z_prime: Option<Numeric>,
+    /// The `_cell_formula_units_Z_prime_details` item. The field holds the single value.
     pub formula_units_z_prime_details: Option<CharString>,
+    /// The `_cell_length_a` item. The field holds the column values, one per loop row.
+    ///
+    /// Unit-cell lengths in angstroms corresponding to the structure
+    /// reported. The values of _refln_index_h, *_k, *_l must correspond to
+    /// the cell defined by these values and _cell_angle_ values. The values
+    /// of _diffrn_refln_index_h, *_k, *_l may not correspond to these
+    /// values if a cell transformation took place following the measurement
+    /// of the diffraction intensities. See also
+    /// _diffrn_reflns_transf_matrix_.
+    /// Units: A (angstrom).
     pub length_a: Option<Numeric>,
+    /// The `_cell_length_b` item. The field holds the column values, one per loop row.
+    ///
+    /// Unit-cell lengths in angstroms corresponding to the structure
+    /// reported. The values of _refln_index_h, *_k, *_l must correspond to
+    /// the cell defined by these values and _cell_angle_ values. The values
+    /// of _diffrn_refln_index_h, *_k, *_l may not correspond to these
+    /// values if a cell transformation took place following the measurement
+    /// of the diffraction intensities. See also
+    /// _diffrn_reflns_transf_matrix_.
+    /// Units: A (angstrom).
     pub length_b: Option<Numeric>,
+    /// The `_cell_length_c` item. The field holds the column values, one per loop row.
+    ///
+    /// Unit-cell lengths in angstroms corresponding to the structure
+    /// reported. The values of _refln_index_h, *_k, *_l must correspond to
+    /// the cell defined by these values and _cell_angle_ values. The values
+    /// of _diffrn_refln_index_h, *_k, *_l may not correspond to these
+    /// values if a cell transformation took place following the measurement
+    /// of the diffraction intensities. See also
+    /// _diffrn_reflns_transf_matrix_.
+    /// Units: A (angstrom).
     pub length_c: Option<Numeric>,
+    /// The `_cell_measurement_pressure` item. The field holds the single value.
+    ///
+    /// The pressure in kilopascals at which the unit-cell parameters were
+    /// measured (not the pressure at which the sample was synthesized).
+    /// Units: kPa (kilopascal).
     pub measurement_pressure: Option<Numeric>,
+    /// The `_cell_measurement_radiation` item. The field holds the single value.
+    ///
+    /// Description of the radiation used to measure the unit-cell data. See
+    /// also _cell_measurement_wavelength.
     pub measurement_radiation: Option<CharString>,
+    /// The `_cell_measurement_reflns_used` item. The field holds the single value.
+    ///
+    /// The total number of reflections used to determine the unit cell.
+    /// These reflections may be specified as _cell_measurement_refln_ data
+    /// items.
     pub measurement_reflns_used: Option<Numeric>,
+    /// The `_cell_measurement_temperature` item. The field holds the single value.
+    ///
+    /// The temperature in kelvins at which the unit-cell parameters were
+    /// measured (not the temperature of synthesis).
+    /// Units: K (kelvin).
     pub measurement_temperature: Option<Numeric>,
+    /// The `_cell_measurement_theta_max` item. The field holds the column values, one per loop row.
+    ///
+    /// The maximum and minimum theta angles of reflections used to measure
+    /// the unit cell in degrees.
+    /// Units: deg (degree of arc).
     pub measurement_theta_max: Option<Numeric>,
+    /// The `_cell_measurement_theta_min` item. The field holds the column values, one per loop row.
+    ///
+    /// The maximum and minimum theta angles of reflections used to measure
+    /// the unit cell in degrees.
+    /// Units: deg (degree of arc).
     pub measurement_theta_min: Option<Numeric>,
+    /// The `_cell_measurement_wavelength` item. The field holds the single value.
+    ///
+    /// The wavelength in angstroms of the radiation used to measure the
+    /// unit cell. If this is not specified, the wavelength is assumed to be
+    /// the same as that given in _diffrn_radiation_wavelength.
+    /// Units: A (angstrom).
     pub measurement_wavelength: Option<Numeric>,
+    /// The `_cell_metric_tensor` item. The field holds the single value.
     pub metric_tensor: Option<Matrix>,
+    /// The `_cell_orthogonal_matrix` item. The field holds the single value.
     pub orthogonal_matrix: Option<Matrix>,
+    /// The `_cell_reciprocal_angle_alpha` item. The field holds the column values, one per loop row.
+    ///
+    /// The angles defining the reciprocal cell in degrees. These are
+    /// related to those in the real cell by: cos(recip-alpha) =
+    /// [cos(beta)*cos(gamma) - cos(alpha)]/[sin(beta)*sin(gamma)]
+    /// cos(recip-beta) = [cos(gamma)*cos(alpha) -
+    /// cos(beta)]/[sin(gamma)*sin(alpha)] cos(recip-gamma) =
+    /// [cos(alpha)*cos(beta) - cos(gamma)]/[sin(alpha)*sin(beta)] Ref:
+    /// Buerger, M. J. (1942). X-ray Crystallography, p. 360. New York: John
+    /// Wiley & Sons Inc.
+    /// Units: deg (degree of arc).
     pub reciprocal_angle_alpha: Option<CellAngle>,
+    /// The `_cell_reciprocal_angle_beta` item. The field holds the column values, one per loop row.
+    ///
+    /// The angles defining the reciprocal cell in degrees. These are
+    /// related to those in the real cell by: cos(recip-alpha) =
+    /// [cos(beta)*cos(gamma) - cos(alpha)]/[sin(beta)*sin(gamma)]
+    /// cos(recip-beta) = [cos(gamma)*cos(alpha) -
+    /// cos(beta)]/[sin(gamma)*sin(alpha)] cos(recip-gamma) =
+    /// [cos(alpha)*cos(beta) - cos(gamma)]/[sin(alpha)*sin(beta)] Ref:
+    /// Buerger, M. J. (1942). X-ray Crystallography, p. 360. New York: John
+    /// Wiley & Sons Inc.
+    /// Units: deg (degree of arc).
     pub reciprocal_angle_beta: Option<CellAngle>,
+    /// The `_cell_reciprocal_angle_gamma` item. The field holds the column values, one per loop row.
+    ///
+    /// The angles defining the reciprocal cell in degrees. These are
+    /// related to those in the real cell by: cos(recip-alpha) =
+    /// [cos(beta)*cos(gamma) - cos(alpha)]/[sin(beta)*sin(gamma)]
+    /// cos(recip-beta) = [cos(gamma)*cos(alpha) -
+    /// cos(beta)]/[sin(gamma)*sin(alpha)] cos(recip-gamma) =
+    /// [cos(alpha)*cos(beta) - cos(gamma)]/[sin(alpha)*sin(beta)] Ref:
+    /// Buerger, M. J. (1942). X-ray Crystallography, p. 360. New York: John
+    /// Wiley & Sons Inc.
+    /// Units: deg (degree of arc).
     pub reciprocal_angle_gamma: Option<CellAngle>,
+    /// The `_cell_reciprocal_length_a` item. The field holds the column values, one per loop row.
+    ///
+    /// The reciprocal-cell lengths in inverse angstroms. These are related
+    /// to the real cell by: recip-a = b*c*sin(alpha)/V recip-b =
+    /// c*a*sin(beta)/V recip-c = a*b*sin(gamma)/V where V is the cell
+    /// volume. Ref: Buerger, M. J. (1942). X-ray Crystallography, p. 360.
+    /// New York: John Wiley & Sons Inc.
+    /// Units: A^-1^ (reciprocal angstrom).
     pub reciprocal_length_a: Option<Numeric>,
+    /// The `_cell_reciprocal_length_b` item. The field holds the column values, one per loop row.
+    ///
+    /// The reciprocal-cell lengths in inverse angstroms. These are related
+    /// to the real cell by: recip-a = b*c*sin(alpha)/V recip-b =
+    /// c*a*sin(beta)/V recip-c = a*b*sin(gamma)/V where V is the cell
+    /// volume. Ref: Buerger, M. J. (1942). X-ray Crystallography, p. 360.
+    /// New York: John Wiley & Sons Inc.
+    /// Units: A^-1^ (reciprocal angstrom).
     pub reciprocal_length_b: Option<Numeric>,
+    /// The `_cell_reciprocal_length_c` item. The field holds the column values, one per loop row.
+    ///
+    /// The reciprocal-cell lengths in inverse angstroms. These are related
+    /// to the real cell by: recip-a = b*c*sin(alpha)/V recip-b =
+    /// c*a*sin(beta)/V recip-c = a*b*sin(gamma)/V where V is the cell
+    /// volume. Ref: Buerger, M. J. (1942). X-ray Crystallography, p. 360.
+    /// New York: John Wiley & Sons Inc.
+    /// Units: A^-1^ (reciprocal angstrom).
     pub reciprocal_length_c: Option<Numeric>,
+    /// The `_cell_reciprocal_metric_tensor` item. The field holds the single value.
     pub reciprocal_metric_tensor: Option<Matrix>,
+    /// The `_cell_reciprocal_orthogonal_matrix` item. The field holds the single value.
     pub reciprocal_orthogonal_matrix: Option<Matrix>,
+    /// The `_cell_reciprocal_vector_a` item. The field holds the single value.
     pub reciprocal_vector_a: Option<Matrix>,
+    /// The `_cell_reciprocal_vector_b` item. The field holds the single value.
     pub reciprocal_vector_b: Option<Matrix>,
+    /// The `_cell_reciprocal_vector_c` item. The field holds the single value.
     pub reciprocal_vector_c: Option<Matrix>,
+    /// The `_cell_special_details` item. The field holds the single value.
+    ///
+    /// A description of special aspects of the cell choice, noting possible
+    /// alternative settings.
     pub special_details: Option<CharString>,
+    /// The `_cell_vector_a` item. The field holds the single value.
     pub vector_a: Option<Matrix>,
+    /// The `_cell_vector_b` item. The field holds the single value.
     pub vector_b: Option<Matrix>,
+    /// The `_cell_vector_c` item. The field holds the single value.
     pub vector_c: Option<Matrix>,
+    /// The `_cell_volume` item. The field holds the single value.
+    ///
+    /// Cell volume V in angstroms cubed. V = a b c [1 - cos^2^(alpha) -
+    /// cos^2^(beta) - cos^2^(gamma) + 2 cos(alpha) cos(beta) cos(gamma) ]
+    /// ^1/2^ a = _cell_length_a b = _cell_length_b c = _cell_length_c alpha
+    /// = _cell_angle_alpha beta = _cell_angle_beta gamma =
+    /// _cell_angle_gamma
+    /// Units: A^3^ (angstrom cubed).
     pub volume: Option<Numeric>,
 }
 

@@ -3,13 +3,20 @@ use std::fmt::Display;
 use crate::data_dict::{matrix, CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 
+/// The single-value terms of the `display_colour` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DisplayColourTerms {
+    /// The `_display_colour_blue` item. The variant holds the single value.
     Blue(Numeric),
+    /// The `_display_colour_green` item. The variant holds the single value.
     Green(Numeric),
+    /// The `_display_colour_hue` item. The variant holds the single value.
     Hue(CharString),
+    /// The `_display_colour_red` item. The variant holds the single value.
     Red(Numeric),
+    /// The `_display_colour_rgb` item. The variant holds the single value.
     /// list or array payload; the shape is recorded in the shell
     /// _type.dimension
     Rgb(Matrix),

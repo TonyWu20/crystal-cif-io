@@ -21,9 +21,12 @@ pub use self::d_res_low::DResLow;
 pub use self::diffrn_reflns_class::DiffrnReflnsClass;
 pub use self::reflns_class_number::ReflnsClassNumber;
 
+/// The single-value terms of the `diffrn_reflns_class` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnReflnsClassTerms {
+    /// The `_diffrn_reflns_class_av_ui_over_i` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Av_ui_over_i(AvUiOverI),
 }
@@ -51,21 +54,60 @@ impl Display for DiffrnReflnsClassTerms {
     }
 }
 
+/// The loop-value terms of the `diffrn_reflns_class` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DiffrnReflnsClassLoopItem {
+    /// The `_diffrn_reflns_class_av_R_eq` item. The variant holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual [sum av|del(I)|/sum|av(I)|]
+    /// for symmetry-equivalent reflections used to calculate the average
+    /// intensity av(I). The av|del(I)| term is the average absolute
+    /// difference between av(I) and the individual intensities.
     /// range constraint recorded in the dictionary _enumeration
     Av_R_eq(Vec<AvREq>),
+    /// The `_diffrn_reflns_class_av_sgI/I` item. The variant holds the column values, one per loop row.
+    ///
+    /// Measure [sum|u(net I)|/sum|net I|] for all measured intensities in a
+    /// reflection class.
     /// range constraint recorded in the dictionary _enumeration
     AvSgIOverI(Vec<AvSgIOverI>),
+    /// The `_diffrn_reflns_class_av_uI/I` item. The variant holds the column values, one per loop row.
+    ///
+    /// Measure [sum|u(net I)|/sum|net I|] for all measured intensities in a
+    /// reflection class.
     /// range constraint recorded in the dictionary _enumeration
     AvUIOverI(Vec<AvUIOverI>),
+    /// The `_diffrn_reflns_class_code` item. The variant holds the column values, one per loop row.
+    ///
+    /// The code identifying a certain reflection class.
     Code(Vec<CharString>),
+    /// The `_diffrn_reflns_class_d_res_high` item. The variant holds the column values, one per loop row.
+    ///
+    /// The smallest value in angstroms of the interplanar spacings of the
+    /// reflections in each reflection class. This is called the highest
+    /// resolution for this reflection class.
+    /// Units: A (angstrom).
     /// range constraint recorded in the dictionary _enumeration
     D_res_high(Vec<DResHigh>),
+    /// The `_diffrn_reflns_class_d_res_low` item. The variant holds the column values, one per loop row.
+    ///
+    /// The highest value in angstroms of the interplanar spacings of the
+    /// reflections in each reflection class. This is called the lowest
+    /// resolution for this reflection class.
+    /// Units: A (angstrom).
     /// range constraint recorded in the dictionary _enumeration
     D_res_low(Vec<DResLow>),
+    /// The `_diffrn_reflns_class_description` item. The variant holds the column values, one per loop row.
+    ///
+    /// Description of each reflection class.
     Description(Vec<CharString>),
+    /// The `_diffrn_reflns_class_number` item. The variant holds the column values, one per loop row.
+    ///
+    /// The total number of measured intensities for each reflection class,
+    /// excluding the systematic absences arising from centring
+    /// translations.
     /// range constraint recorded in the dictionary _enumeration
     ReflnsClassNumber(Vec<ReflnsClassNumber>),
 }

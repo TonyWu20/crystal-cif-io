@@ -16,15 +16,56 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 /// Loop columns of the `valence_param` category (9 items).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `valence_param` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ValenceParamLoopItem {
+    /// The `_valence_param_B` item. The variant holds the column values, one per loop row.
+    ///
+    /// The bond-valence parameter B used in the expression s = exp[(Ro -
+    /// R)/B] where s is the valence of a bond of length R.
+    /// Units: A (angstrom).
     B(Vec<Numeric>),
+    /// The `_valence_param_Ro` item. The variant holds the column values, one per loop row.
+    ///
+    /// The bond-valence parameter Ro used in the expression s = exp[(Ro -
+    /// R)/B] where s is the valence of a bond of length R.
+    /// Units: A (angstrom).
     Ro(Vec<Numeric>),
+    /// The `_valence_param_atom_1` item. The variant holds the column values, one per loop row.
+    ///
+    /// The element symbol of the first atom forming the bond whose
+    /// bond-valence parameters are given in this category.
     Atom_1(Vec<CharString>),
+    /// The `_valence_param_atom_1_valence` item. The variant holds the column values, one per loop row.
+    ///
+    /// The valence (formal charge) of the first atom whose bond-valence
+    /// parameters are given in this category.
     Atom_1_valence(Vec<Numeric>),
+    /// The `_valence_param_atom_2` item. The variant holds the column values, one per loop row.
+    ///
+    /// The element symbol of the second atom forming the bond whose
+    /// bond-valence parameters are given in this category.
     Atom_2(Vec<CharString>),
+    /// The `_valence_param_atom_2_valence` item. The variant holds the column values, one per loop row.
+    ///
+    /// The valence (formal charge) of the second atom whose bond-valence
+    /// parameters are given in this category.
     Atom_2_valence(Vec<Numeric>),
+    /// The `_valence_param_details` item. The variant holds the column values, one per loop row.
+    ///
+    /// Details of or comments on the bond-valence parameters.
     Details(Vec<CharString>),
+    /// The `_valence_param_id` item. The variant holds the column values, one per loop row.
+    ///
+    /// An identifier for the valence parameters of a bond between the given
+    /// atoms.
     Id(Vec<CharString>),
+    /// The `_valence_param_ref_id` item. The variant holds the column values, one per loop row.
+    ///
+    /// An identifier which links to the reference to the source from which
+    /// the bond-valence parameters are taken. A child of _valence_ref_id,
+    /// which it must match.
     Ref_id(Vec<CharString>),
 }
 
@@ -67,7 +108,11 @@ impl LoopValueTerm for ValenceParamLoopItem {
 /// The single-value item of the `valence_param` category (T6).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `valence_param` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum ValenceParamTerms {
+    /// The `_valence_param_citation_id` item. The variant holds the column values, one per loop row.
     Citation_id(CharString),
 }
 

@@ -12,22 +12,102 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `publ` category struct. One field per registry item.
 pub struct Publ {
+    /// The `_publ_contact_author` item. The field holds the single value.
+    ///
+    /// The name and address of the author submitting the manuscript and
+    /// data block. This is the person contacted by the journal editorial
+    /// staff. It is preferable to use the separate data items
+    /// _publ_contact_author_name and _publ_contact_author_address.
     pub contact_author: Option<CharString>,
+    /// The `_publ_contact_author_address` item. The field holds the single value.
+    ///
+    /// The address of the author submitting the manuscript and data block.
+    /// This is the person contacted by the journal editorial staff.
     pub contact_author_address: Option<CharString>,
+    /// The `_publ_contact_author_email` item. The field holds the single value.
+    ///
+    /// E-mail address in a form recognizable to international networks. The
+    /// format of e-mail addresses is given in Section 3.4, Address
+    /// Specification, of Internet Message Format, RFC 2822, P. Resnick
+    /// (Editor), Network Standards Group, April 2001.
     pub contact_author_email: Option<CharString>,
+    /// The `_publ_contact_author_fax` item. The field holds the single value.
+    ///
+    /// Facsimile telephone number of the author submitting the manuscript
+    /// and data block. The recommended style is the international dialing
+    /// prefix, followed by the area code in parentheses, followed by the
+    /// local number with no spaces. The earlier convention of including the
+    /// international dialing prefix in parentheses is no longer
+    /// recommended.
     pub contact_author_fax: Option<CharString>,
+    /// The `_publ_contact_author_id_iucr` item. The field holds the single value.
+    ///
+    /// Identifier in the IUCr contact database of the author submitting the
+    /// manuscript and data block. This identifier may be available from the
+    /// World Directory of Crystallographers (`http://wdc.iucr.org`).
     pub contact_author_id_iucr: Option<CharString>,
+    /// The `_publ_contact_author_id_orcid` item. The field holds the single value.
+    ///
+    /// Identifier in the ORCID Registry of the author submitting the
+    /// manuscript and data block. ORCID is an open, non-profit,
+    /// community-driven service to provide a registry of unique researcher
+    /// identifiers (`http://orcid.org`).
     pub contact_author_id_orcid: Option<CharString>,
+    /// The `_publ_contact_author_name` item. The field holds the single value.
+    ///
+    /// The name of the author submitting the manuscript and data block.
+    /// This is the person contacted by the journal editorial staff.
     pub contact_author_name: Option<CharString>,
+    /// The `_publ_contact_author_phone` item. The field holds the single value.
+    ///
+    /// Telephone number of the author submitting the manuscript and data
+    /// block. The recommended style is the international dialing prefix,
+    /// followed by the area code in parentheses, followed by the local
+    /// number and any extension number prefixed by 'x', with no spaces. The
+    /// earlier convention of including the international dialing prefix in
+    /// parentheses is no longer recommended.
     pub contact_author_phone: Option<CharString>,
+    /// The `_publ_contact_letter` item. The field holds the single value.
+    ///
+    /// A letter submitted to the journal editor by the contact author.
     pub contact_letter: Option<CharString>,
+    /// The `_publ_manuscript_creation` item. The field holds the single value.
+    ///
+    /// A description of the word-processor package and computer used to
+    /// create the word-processed manuscript stored as
+    /// _publ_manuscript_processed.
     pub manuscript_creation: Option<CharString>,
+    /// The `_publ_manuscript_processed` item. The field holds the single value.
+    ///
+    /// The full manuscript of a paper (excluding possibly the figures and
+    /// the tables) output in ASCII characters from a word processor.
+    /// Information about the generation of this data item must be specified
+    /// in the data item _publ_manuscript_creation.
     pub manuscript_processed: Option<CharString>,
+    /// The `_publ_manuscript_text` item. The field holds the single value.
+    ///
+    /// The full manuscript of a paper (excluding figures and possibly the
+    /// tables) output as standard ASCII text.
     pub manuscript_text: Option<CharString>,
+    /// The `_publ_requested_category` item. The field holds the single value.
+    ///
+    /// The category of paper submitted. For submission to Acta
+    /// Crystallographica Section C or Acta Crystallographica Section E,
+    /// ONLY those codes indicated for use with those journals should be
+    /// used.
     pub requested_category: Option<RequestedCategory>,
+    /// The `_publ_requested_coeditor_name` item. The field holds the single value.
+    ///
+    /// The name of the co-editor whom the authors would like to handle the
+    /// submitted manuscript.
     pub requested_coeditor_name: Option<CharString>,
+    /// The `_publ_requested_journal` item. The field holds the single value.
+    ///
+    /// The name of the journal to which the manuscript is being submitted.
     pub requested_journal: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<PublRow>,
 }
 
@@ -310,23 +390,177 @@ impl CifCategory for Publ {
 
 /// The `publ` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `publ` category: the per-observation values of the loop items.
 pub struct PublRow {
+    /// The `_publ_section_abstract` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_abstract: Option<CharString>,
+    /// The `_publ_section_acknowledgements` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_acknowledgements: Option<CharString>,
+    /// The `_publ_section_comment` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_comment: Option<CharString>,
+    /// The `_publ_section_discussion` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_discussion: Option<CharString>,
+    /// The `_publ_section_experimental` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_experimental: Option<CharString>,
+    /// The `_publ_section_exptl_prep` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_exptl_prep: Option<CharString>,
+    /// The `_publ_section_exptl_refinement` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_exptl_refinement: Option<CharString>,
+    /// The `_publ_section_exptl_solution` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_exptl_solution: Option<CharString>,
+    /// The `_publ_section_figure_captions` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_figure_captions: Option<CharString>,
+    /// The `_publ_section_introduction` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_introduction: Option<CharString>,
+    /// The `_publ_section_keywords` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_keywords: Option<CharString>,
+    /// The `_publ_section_references` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_references: Option<CharString>,
+    /// The `_publ_section_related_literature` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_related_literature: Option<CharString>,
+    /// The `_publ_section_synopsis` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_synopsis: Option<CharString>,
+    /// The `_publ_section_table_legends` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_table_legends: Option<CharString>,
+    /// The `_publ_section_title` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_title: Option<CharString>,
+    /// The `_publ_section_title_footnote` item. The field holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     pub section_title_footnote: Option<CharString>,
 }
 

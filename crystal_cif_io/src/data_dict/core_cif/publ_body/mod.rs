@@ -10,15 +10,34 @@ pub use self::element::Element;
 pub use self::format::Format;
 pub use self::publ_body::PublBody;
 
+/// The loop-value terms of the `publ_body` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum PublBodyLoopItem {
+    /// The `_publ_body_contents` item. The variant holds the column values, one per loop row.
+    ///
+    /// A text section of a paper.
     Contents(Vec<CharString>),
+    /// The `_publ_body_element` item. The variant holds the column values, one per loop row.
+    ///
+    /// The functional role of the associated text section.
     /// closed code set recorded in the dictionary _enumeration
     Element(Vec<Element>),
+    /// The `_publ_body_format` item. The variant holds the column values, one per loop row.
+    ///
+    /// Code indicating the appropriate typesetting conventions for accented
+    /// characters and special symbols in the text section.
     /// closed code set recorded in the dictionary _enumeration
     Format(Vec<Format>),
+    /// The `_publ_body_label` item. The variant holds the column values, one per loop row.
+    ///
+    /// Code identifying the section of text. The combination of this with
+    /// _publ_body_element must be unique.
     Label(Vec<CharString>),
+    /// The `_publ_body_title` item. The variant holds the column values, one per loop row.
+    ///
+    /// Title of the associated section of text.
     Title(Vec<CharString>),
 }
 

@@ -49,7 +49,10 @@ pub enum SpaceGroupIdentifier {
 pub enum SpaceGroupError {
     /// The `IT_number` value is outside 1 to 230.
     #[error("the IT number {number} is outside 1 to 230")]
-    InvalidItNumber { number: u64 },
+    InvalidItNumber {
+        /// The `IT_number` value outside the range.
+        number: u64,
+    },
     /// The Hall symbol resolves to no group.
     #[error("the Hall symbol {0:?} resolves to no group")]
     UnresolvedHall(String),
@@ -59,19 +62,29 @@ pub enum SpaceGroupError {
     /// A supplied value misses the computed value.
     #[error("the supplied {item} {supplied:?} misses the computed {computed:?}")]
     Mismatch {
+        /// The item the supplied value belongs to.
         item: &'static str,
+        /// The supplied value.
         supplied: String,
+        /// The value computed from the group.
         computed: String,
     },
     /// A supplied transform matrix carries the wrong shape.
     #[error("the supplied {item} has the shape {actual:?}, not (3, 3)")]
     BadShape {
+        /// The item the transform matrix belongs to.
         item: &'static str,
+        /// The shape found in the input.
         actual: (usize, usize),
     },
     /// A supplied closed-set value misses the set.
     #[error("the supplied {item} {value:?} is not in the closed set")]
-    NotInClosedSet { item: &'static str, value: String },
+    NotInClosedSet {
+        /// The item the value belongs to.
+        item: &'static str,
+        /// The supplied value outside the closed set.
+        value: String,
+    },
     /// The resolved group carries no crystal system. The resolution
     /// paths guarantee a table row, so this does not occur.
     #[error("the resolved group carries no crystal system: {0}")]

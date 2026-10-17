@@ -9,12 +9,17 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 pub use self::scat_value::ScatValue;
 pub use self::stol_value::StolValue;
 
+/// The single-value terms of the `atom_scat_versus_stol` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomScatVersusStolTerms {
+    /// The `_atom_scat_versus_stol_atom_type` item. The variant holds the single value.
     Atom_type(CharString),
+    /// The `_atom_scat_versus_stol_scat_value` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Scat_value(ScatValue),
+    /// The `_atom_scat_versus_stol_stol_value` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Stol_value(StolValue),
 }

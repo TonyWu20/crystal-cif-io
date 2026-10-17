@@ -11,14 +11,93 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `refine_ls_class` category struct. One field per registry item.
 pub struct RefineLsClass {
+    /// The `_refine_ls_class_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying a certain reflection class. This code must
+    /// match a _reflns_class_code.
     pub code: Option<CharString>,
+    /// The `_refine_ls_class_d_res_high` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the highest resolution in angstroms for
+    /// the reflections used in the refinement. This is the lowest d value
+    /// in a reflection class.
+    /// Units: A (angstrom).
     pub d_res_high: Option<Numeric>,
+    /// The `_refine_ls_class_d_res_low` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the lowest resolution in angstroms for
+    /// the reflections used in the refinement. This is the highest d value
+    /// in a reflection class.
+    /// Units: A (angstrom).
     pub d_res_low: Option<Numeric>,
+    /// The `_refine_ls_class_R_factor_all` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factors for all reflections,
+    /// and for significantly intense reflections (see
+    /// _reflns_threshold_expression), included in the refinement. The
+    /// reflections also satisfy the resolution limits established by
+    /// _refine_ls_class_d_res_high and _refine_ls_class_d_res_low. This is
+    /// the conventional R factor. sum | F(obs) - F(calc) | R =
+    /// ------------------------ sum | F(obs) | F(obs) = the observed
+    /// structure-factor amplitudes F(calc) = the calculated
+    /// structure-factor amplitudes and the sum is taken over the
+    /// reflections of this class. See also _refine_ls_class_wR_factor_all
+    /// definitions.
     pub r_factor_all: Option<Numeric>,
+    /// The `_refine_ls_class_R_factor_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factors for all reflections,
+    /// and for significantly intense reflections (see
+    /// _reflns_threshold_expression), included in the refinement. The
+    /// reflections also satisfy the resolution limits established by
+    /// _refine_ls_class_d_res_high and _refine_ls_class_d_res_low. This is
+    /// the conventional R factor. sum | F(obs) - F(calc) | R =
+    /// ------------------------ sum | F(obs) | F(obs) = the observed
+    /// structure-factor amplitudes F(calc) = the calculated
+    /// structure-factor amplitudes and the sum is taken over the
+    /// reflections of this class. See also _refine_ls_class_wR_factor_all
+    /// definitions.
     pub r_factor_gt: Option<Numeric>,
+    /// The `_refine_ls_class_R_Fsqd_factor` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factor R(F^2^) calculated on
+    /// the squared amplitudes of the observed and calculated structure
+    /// factors for the reflections judged significantly intense (i.e.
+    /// satisfying the threshold specified by _reflns_threshold_expression)
+    /// and included in the refinement. The reflections also satisfy the
+    /// resolution limits established by _refine_ls_class_d_res_high and
+    /// _refine_ls_class_d_res_low. sum | F(obs)^2^ - F(calc)^2^ | R(Fsqd) =
+    /// ------------------------------- sum F(obs)^2^ F(obs)^2^ = squares of
+    /// the observed structure-factor amplitudes F(calc)^2^ = squares of the
+    /// calculated structure-factor amplitudes and the sum is taken over the
+    /// reflections of this class.
     pub r_fsqd_factor: Option<Numeric>,
+    /// The `_refine_ls_class_R_I_factor` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the residual factor R(I) for the
+    /// reflections judged significantly intense (i.e. satisfying the
+    /// threshold specified by _reflns_threshold_expression) and included in
+    /// the refinement. This is most often calculated in Rietveld
+    /// refinements against powder data, where it is referred to as R~B~ or
+    /// R~Bragg~. sum | I(obs) - I(calc) | R(I) = ------------------------
+    /// sum | I(obs) | I(obs) = the net observed intensities I(calc) = the
+    /// net calculated intensities and the sum is taken over the reflections
+    /// of this class.
     pub r_i_factor: Option<Numeric>,
+    /// The `_refine_ls_class_wR_factor_all` item. The field holds the column values, one per loop row.
+    ///
+    /// For each reflection class, the weighted residual factors for all
+    /// reflections included in the refinement. The reflections also satisfy
+    /// the resolution limits established by _refine_ls_class_d_res_high and
+    /// _refine_ls_class_d_res_low. ( sum w [ Y(obs) - Y(calc) ]^2^ )^1/2^
+    /// wR = ( ------------------------------ ) ( sum w Y(obs)^2^ ) Y(obs) =
+    /// the observed amplitudes specified by
+    /// _refine_ls_structure_factor_coef Y(calc) = the calculated amplitudes
+    /// specified by _refine_ls_structure_factor_coef w = the least-squares
+    /// weights and the sum is taken over the reflections of this class. See
+    /// also _refine_ls_class_R_factor_ definitions.
     pub wr_factor_all: Option<Numeric>,
 }
 

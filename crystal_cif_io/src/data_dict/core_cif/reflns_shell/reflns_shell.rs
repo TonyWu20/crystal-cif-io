@@ -10,29 +10,165 @@ use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `reflns_shell` category struct. One field per registry item.
 pub struct ReflnsShell {
+    /// The `_reflns_shell_d_res_high` item. The field holds the column values, one per loop row.
+    ///
+    /// The highest resolution in angstroms for the reflections in this
+    /// shell. This is the smallest d value.
+    /// Units: A (angstrom).
     pub d_res_high: Option<Numeric>,
+    /// The `_reflns_shell_d_res_low` item. The field holds the column values, one per loop row.
+    ///
+    /// The lowest resolution in angstroms for the reflections in this
+    /// shell. This is the largest d value.
+    /// Units: A (angstrom).
     pub d_res_low: Option<Numeric>,
+    /// The `_reflns_shell_meanI_over_sigI_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of all reflections in this
+    /// shell to the mean of the standard uncertainties of the intensities
+    /// of all reflections in the resolution shell.
     pub meani_over_sigi_all: Option<Numeric>,
+    /// The `_reflns_shell_meanI_over_sigI_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of the significantly
+    /// intense reflections (see _reflns_threshold_expression) in this shell
+    /// to the mean of the standard uncertainties of the intensities of the
+    /// significantly intense reflections in the resolution shell.
     pub meani_over_sigi_gt: Option<Numeric>,
+    /// The `_reflns_shell_meanI_over_sigI_obs` item. The field holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of the reflections
+    /// classified as 'observed' (see _reflns_observed_criterion) in this
+    /// shell to the mean of the standard uncertainties of the intensities
+    /// of the 'observed' reflections in the resolution shell.
     pub meani_over_sigi_obs: Option<Numeric>,
+    /// The `_reflns_shell_meanI_over_uI_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of all reflections in this
+    /// shell to the mean of the standard uncertainties of the intensities
+    /// of all reflections in the resolution shell.
     pub meani_over_ui_all: Option<Numeric>,
+    /// The `_reflns_shell_meanI_over_uI_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The ratio of the mean of the intensities of the significantly
+    /// intense reflections (see _reflns_threshold_expression) in this shell
+    /// to the mean of the standard uncertainties of the intensities of the
+    /// significantly intense reflections in the resolution shell.
     pub meani_over_ui_gt: Option<Numeric>,
+    /// The `_reflns_shell_number_measured_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The total number of reflections measured for this resolution shell.
     pub number_measured_all: Option<Numeric>,
+    /// The `_reflns_shell_number_measured_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The number of significantly intense reflections (see
+    /// _reflns_threshold_expression) measured for this resolution shell.
     pub number_measured_gt: Option<Numeric>,
+    /// The `_reflns_shell_number_measured_obs` item. The field holds the column values, one per loop row.
+    ///
+    /// The number of reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) measured for this resolution shell.
     pub number_measured_obs: Option<Numeric>,
+    /// The `_reflns_shell_number_possible` item. The field holds the column values, one per loop row.
+    ///
+    /// The number of unique reflections it is possible to measure in this
+    /// reflection shell.
     pub number_possible: Option<Numeric>,
+    /// The `_reflns_shell_number_unique_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The total number of measured reflections resulting from merging
+    /// measured symmetry-equivalent reflections for this resolution shell.
     pub number_unique_all: Option<Numeric>,
+    /// The `_reflns_shell_number_unique_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The total number of significantly intense reflections (see
+    /// _reflns_threshold_expression) resulting from merging measured
+    /// symmetry-equivalent reflections for this resolution shell.
     pub number_unique_gt: Option<Numeric>,
+    /// The `_reflns_shell_number_unique_obs` item. The field holds the column values, one per loop row.
+    ///
+    /// The total number of reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) resulting from merging measured
+    /// symmetry-equivalent reflections for this resolution shell.
     pub number_unique_obs: Option<Numeric>,
+    /// The `_reflns_shell_percent_possible_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The percentage of geometrically possible reflections represented by
+    /// all reflections measured for this resolution shell.
     pub percent_possible_all: Option<Numeric>,
+    /// The `_reflns_shell_percent_possible_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The percentage of geometrically possible reflections represented by
+    /// significantly intense reflections (see _reflns_threshold_expression)
+    /// measured for this resolution shell.
     pub percent_possible_gt: Option<Numeric>,
+    /// The `_reflns_shell_percent_possible_obs` item. The field holds the column values, one per loop row.
+    ///
+    /// The percentage of geometrically possible reflections represented by
+    /// reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) measured for this resolution shell.
     pub percent_possible_obs: Option<Numeric>,
+    /// The `_reflns_shell_Rmerge_F_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(F) for all reflections in a given shell. sum~i~
+    /// ( sum~j~ | F~j~ - &lt;F&gt; | ) Rmerge(F) =
+    /// -------------------------------- sum~i~ ( sum~j~ &lt;F&gt; ) F~j~ = the
+    /// amplitude of the jth observation of reflection i &lt;F&gt; = the mean of
+    /// the amplitudes of all observations of reflection i sum~i~ is taken
+    /// over all reflections sum~j~ is taken over all observations of each
+    /// reflection.
     pub rmerge_f_all: Option<Numeric>,
+    /// The `_reflns_shell_Rmerge_F_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(F) for significantly intense reflections (see
+    /// _reflns_threshold_expression) in a given shell. sum~i~ ( sum~j~ |
+    /// F~j~ - &lt;F&gt; | ) Rmerge(F) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;F&gt; ) F~j~ = the amplitude of the jth observation of
+    /// reflection i &lt;F&gt; = the mean of the amplitudes of all observations of
+    /// reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     pub rmerge_f_gt: Option<Numeric>,
+    /// The `_reflns_shell_Rmerge_F_obs` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(F) for reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) in a given shell. sum~i~ ( sum~j~ | F~j~
+    /// - &lt;F&gt; | ) Rmerge(F) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;F&gt; ) F~j~ = the amplitude of the jth observation of
+    /// reflection i &lt;F&gt; = the mean of the amplitudes of all observations of
+    /// reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     pub rmerge_f_obs: Option<Numeric>,
+    /// The `_reflns_shell_Rmerge_I_all` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(I) for all reflections in a given shell. sum~i~
+    /// ( sum~j~ | I~j~ - &lt;I&gt; | ) Rmerge(I) =
+    /// -------------------------------- sum~i~ ( sum~j~ &lt;I&gt; ) I~j~ = the
+    /// intensity of the jth observation of reflection i &lt;I&gt; = the mean of
+    /// the intensities of all observations of reflection i sum~i~ is taken
+    /// over all reflections sum~j~ is taken over all observations of each
+    /// reflection.
     pub rmerge_i_all: Option<Numeric>,
+    /// The `_reflns_shell_Rmerge_I_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(I) for significantly intense reflections (see
+    /// _reflns_threshold_expression) in a given shell. sum~i~ ( sum~j~ |
+    /// I~j~ - &lt;I&gt; | ) Rmerge(I) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;I&gt; ) I~j~ = the intensity of the jth observation of
+    /// reflection i &lt;I&gt; = the mean of the intensities of all observations
+    /// of reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     pub rmerge_i_gt: Option<Numeric>,
+    /// The `_reflns_shell_Rmerge_I_obs` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of Rmerge(I) for reflections classified as 'observed' (see
+    /// _reflns_observed_criterion) in a given shell. sum~i~ ( sum~j~ | I~j~
+    /// - &lt;I&gt; | ) Rmerge(I) = -------------------------------- sum~i~ (
+    /// sum~j~ &lt;I&gt; ) I~j~ = the intensity of the jth observation of
+    /// reflection i &lt;I&gt; = the mean of the intensities of all observations
+    /// of reflection i sum~i~ is taken over all reflections sum~j~ is taken
+    /// over all observations of each reflection.
     pub rmerge_i_obs: Option<Numeric>,
 }
 

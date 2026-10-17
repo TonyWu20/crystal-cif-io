@@ -6,45 +6,85 @@ use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ItCoordinateSystemCode {
+    /// `b1`
     B1,
+    /// `b2`
     B2,
+    /// `b3`
     B3,
+    /// `-b1`
     MinusB1,
+    /// `-b2`
     MinusB2,
+    /// `-b3`
     MinusB3,
+    /// `c1`
     C1,
+    /// `c2`
     C2,
+    /// `c3`
     C3,
+    /// `-c1`
     MinusC1,
+    /// `-c2`
     MinusC2,
+    /// `-c3`
     MinusC3,
+    /// `a1`
     A1,
+    /// `a2`
     A2,
+    /// `a3`
     A3,
+    /// `-a1`
     MinusA1,
+    /// `-a2`
     MinusA2,
+    /// `-a3`
     MinusA3,
+    /// `abc`
     Abc,
+    /// `ba-c`
     BaMinusC,
+    /// `cab`
     Cab,
+    /// `-cba`
     MinusCba,
+    /// `bca`
     Bca,
+    /// `a-cb`
     AMinusCb,
+    /// `1abc`
     OneAbc,
+    /// `1ba-c`
     OneBaMinusC,
+    /// `1cab`
     OneCab,
+    /// `1-cba`
     OneMinusCba,
+    /// `1bca`
     OneBca,
+    /// `1a-cb`
     OneAMinusCb,
+    /// `2abc`
     TwoAbc,
+    /// `2ba-c`
     TwoBaMinusC,
+    /// `2cab`
     TwoCab,
+    /// `2-cba`
     TwoMinusCba,
+    /// `2bca`
     TwoBca,
+    /// `2a-cb`
     TwoAMinusCb,
+    /// `1`
     One,
+    /// `2`
     Two,
+    /// `h`
     H,
+    /// `r`
     R,
 }
 

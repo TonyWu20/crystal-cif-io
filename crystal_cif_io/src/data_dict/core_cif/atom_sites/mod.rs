@@ -24,10 +24,15 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomSitesItem {
+    /// The `_atom_sites_Cartn_transform_axes` item. The variant holds the single value.
     Cartn_transform_axes(CharString),
+    /// The `_atom_sites_solution_hydrogens` item. The variant holds the single value.
     Solution_hydrogens(SolutionMethod),
+    /// The `_atom_sites_solution_primary` item. The variant holds the single value.
     Solution_primary(SolutionMethod),
+    /// The `_atom_sites_solution_secondary` item. The variant holds the single value.
     Solution_secondary(SolutionMethod),
+    /// The `_atom_sites_special_details` item. The variant holds the single value.
     Special_details(CharString),
 }
 
@@ -67,30 +72,243 @@ impl Display for AtomSitesItem {
 /// category (24 items).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `atom_sites` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum AtomSitesLoopItem {
+    /// The `_atom_sites_Cartn_tran_matrix_11` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_11(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_12` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_12(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_13` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_13(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_21` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_21(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_22` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_22(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_23` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_23(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_31` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_31(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_32` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_32(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_matrix_33` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform fractional coordinates in the
+    /// ATOM_SITE category to Cartesian coordinates. The axial alignments of
+    /// this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_Cartn_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33| z | 3
+    /// |
     Cartn_tran_matrix_33(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_vector_1` item. The variant holds the column values, one per loop row.
+    ///
+    /// Elements of a 3 x 1 translation vector used in the transformation of
+    /// fractional coordinates in the ATOM_SITE category to Cartesian
+    /// coordinates. The axial alignments of this transformation are
+    /// described in _atom_sites_Cartn_transform_axes. x' |11 12 13| x | 1 |
+    /// ( y' ) Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33|
+    /// z | 3 |
     Cartn_tran_vector_1(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_vector_2` item. The variant holds the column values, one per loop row.
+    ///
+    /// Elements of a 3 x 1 translation vector used in the transformation of
+    /// fractional coordinates in the ATOM_SITE category to Cartesian
+    /// coordinates. The axial alignments of this transformation are
+    /// described in _atom_sites_Cartn_transform_axes. x' |11 12 13| x | 1 |
+    /// ( y' ) Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33|
+    /// z | 3 |
     Cartn_tran_vector_2(Vec<Numeric>),
+    /// The `_atom_sites_Cartn_tran_vector_3` item. The variant holds the column values, one per loop row.
+    ///
+    /// Elements of a 3 x 1 translation vector used in the transformation of
+    /// fractional coordinates in the ATOM_SITE category to Cartesian
+    /// coordinates. The axial alignments of this transformation are
+    /// described in _atom_sites_Cartn_transform_axes. x' |11 12 13| x | 1 |
+    /// ( y' ) Cartesian = |21 22 23| ( y ) fractional + | 2 | z' |31 32 33|
+    /// z | 3 |
     Cartn_tran_vector_3(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_11` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_11(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_12` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_12(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_13` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_13(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_21` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_21(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_22` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_22(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_23` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_23(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_31` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_31(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_32` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_32(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_matrix_33` item. The variant holds the column values, one per loop row.
+    ///
+    /// Matrix elements used to transform Cartesian coordinates in the
+    /// ATOM_SITE category to fractional coordinates. The axial alignments
+    /// of this transformation are described in
+    /// _atom_sites_Cartn_transform_axes. The 3 x 1 translation is defined
+    /// in _atom_sites_fract_tran_vector_. x' |11 12 13| x | 1 | ( y' )
+    /// fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33| z | 3
+    /// |
     Fract_tran_matrix_33(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_vector_1` item. The variant holds the column values, one per loop row.
+    ///
+    /// Elements of a 3 x 1 translation vector used in the transformation of
+    /// Cartesian coordinates in the ATOM_SITE category to fractional
+    /// coordinates. The axial alignments of this transformation are
+    /// described in _atom_sites_Cartn_transform_axes. x' |11 12 13| x | 1 |
+    /// ( y' ) fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33|
+    /// z | 3 |
     Fract_tran_vector_1(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_vector_2` item. The variant holds the column values, one per loop row.
+    ///
+    /// Elements of a 3 x 1 translation vector used in the transformation of
+    /// Cartesian coordinates in the ATOM_SITE category to fractional
+    /// coordinates. The axial alignments of this transformation are
+    /// described in _atom_sites_Cartn_transform_axes. x' |11 12 13| x | 1 |
+    /// ( y' ) fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33|
+    /// z | 3 |
     Fract_tran_vector_2(Vec<Numeric>),
+    /// The `_atom_sites_fract_tran_vector_3` item. The variant holds the column values, one per loop row.
+    ///
+    /// Elements of a 3 x 1 translation vector used in the transformation of
+    /// Cartesian coordinates in the ATOM_SITE category to fractional
+    /// coordinates. The axial alignments of this transformation are
+    /// described in _atom_sites_Cartn_transform_axes. x' |11 12 13| x | 1 |
+    /// ( y' ) fractional = |21 22 23| ( y ) Cartesian + | 2 | z' |31 32 33|
+    /// z | 3 |
     Fract_tran_vector_3(Vec<Numeric>),
 }
 

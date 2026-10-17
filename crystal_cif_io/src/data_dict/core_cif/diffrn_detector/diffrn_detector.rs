@@ -14,13 +14,40 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_detector` category struct. One field per registry item.
 pub struct DiffrnDetector {
+    /// The `_diffrn_detector` item. The field holds the single value.
+    ///
+    /// The general class of the radiation detector.
     pub diffrn_detector: Option<CharString>,
+    /// The `_diffrn_detector_area_resol_mean` item. The field holds the single value.
+    ///
+    /// The resolution of an area detector, in pixels/mm.
+    /// Units: pixel/mm (pixel per millimetre).
     pub area_resol_mean: Option<AreaResolMean>,
+    /// The `_diffrn_detector_details` item. The field holds the single value.
+    ///
+    /// A description of special aspects of the radiation detector.
     pub details: Option<CharString>,
+    /// The `_diffrn_detector_dtime` item. The field holds the single value.
+    ///
+    /// The deadtime in microseconds of the detector used to measure the
+    /// diffraction intensities.
+    /// Units: \ms (microsecond).
     pub dtime: Option<Dtime>,
+    /// The `_diffrn_radiation_detector` item. The field holds the single value.
+    ///
+    /// The detector used to measure the diffraction intensities.
     pub diffrn_radiation_detector: Option<CharString>,
+    /// The `_diffrn_detector_type` item. The field holds the single value.
+    ///
+    /// The make, model or name of the detector device used.
     pub r#type: Option<CharString>,
+    /// The `_diffrn_radiation_detector_dtime` item. The field holds the single value.
+    ///
+    /// The deadtime in microseconds of the detector used to measure the
+    /// diffraction intensities.
+    /// Units: \ms (microsecond).
     pub diffrn_radiation_detector_dtime: Option<DiffrnRadiationDetectorDtime>,
 }
 impl CifCategory for DiffrnDetector {

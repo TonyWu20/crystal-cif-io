@@ -3,10 +3,14 @@ use std::fmt::Display;
 use crate::data_dict::{matrix, CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Matrix, Tag, Value};
 
+/// The single-value terms of the `atom_sites_cartn_transform` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomSitesCartnTransformTerms {
+    /// The `_atom_sites_cartn_transform_matrix` item. The variant holds the single value.
     Matrix(Matrix),
+    /// The `_atom_sites_cartn_transform_vector` item. The variant holds the single value.
     Vector(Matrix),
 }
 

@@ -4,9 +4,13 @@ use elements_rs::Element;
 
 use crystal_cif_fmt::grammar::{CharString, UnquotedString, Value};
 
+/// The element code of one `atom_site` label: a parsed element
+/// symbol or a custom code text.
 #[derive(Debug, Clone)]
 pub enum TypeSymbolCode {
+    /// A parsed IUPAC element symbol.
     Element(Element),
+    /// A code text the element table does not name.
     Custom(String),
 }
 
@@ -19,6 +23,8 @@ impl Display for TypeSymbolCode {
     }
 }
 
+/// One `atom_site` type symbol: the element code plus the
+/// optional oxidation state.
 #[derive(Debug, Clone)]
 pub struct TypeSymbol {
     code: TypeSymbolCode,
@@ -26,6 +32,7 @@ pub struct TypeSymbol {
 }
 
 impl TypeSymbol {
+    /// Combines the code and the oxidation state into one symbol.
     pub fn new(code: TypeSymbolCode, oxidation_state: Option<i32>) -> Self {
         Self {
             code,

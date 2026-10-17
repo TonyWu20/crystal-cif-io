@@ -12,8 +12,18 @@ use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 /// The `audit_link` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// The `audit_link` category struct. One field per registry item.
 pub struct AuditLink {
+    /// The `_audit_link_block_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The value of _audit_block_code associated with a data block in the
+    /// current file related to the current data block. The special value
+    /// '.' may be used to refer to the current data block for completeness.
     pub block_code: Option<CharString>,
+    /// The `_audit_link_block_description` item. The field holds the column values, one per loop row.
+    ///
+    /// A textual description of the relationship of the referenced data
+    /// block to the current one.
     pub block_description: Option<CharString>,
 }
 

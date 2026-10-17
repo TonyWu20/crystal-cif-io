@@ -7,13 +7,48 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+/// The single-value terms of the `database` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DatabaseTerms {
+    /// The `_database_CSD_history` item. The variant holds the single value.
+    ///
+    /// A history of changes made by the Cambridge Crystallographic Data
+    /// Centre and incorporated into the Cambridge Structural Database
+    /// (CSD).
     CSD_history(CharString),
+    /// The `_database_code_depnum_ccdc_archive` item. The variant holds the single value.
+    ///
+    /// Deposition numbers assigned by the Cambridge Crystallographic Data
+    /// Centre (CCDC) to files containing structural information archived by
+    /// the CCDC.
     Code_depnum_ccdc_archive(CharString),
+    /// The `_database_code_depnum_ccdc_fiz` item. The variant holds the single value.
+    ///
+    /// Deposition numbers assigned by the Fachinformationszentrum Karlsruhe
+    /// (FIZ) to files containing structural information archived by the
+    /// Cambridge Crystallographic Data Centre (CCDC).
     Code_depnum_ccdc_fiz(CharString),
+    /// The `_database_code_depnum_ccdc_journal` item. The variant holds the single value.
+    ///
+    /// Deposition numbers assigned by various journals to files containing
+    /// structural information archived by the Cambridge Crystallographic
+    /// Data Centre (CCDC).
     Code_depnum_ccdc_journal(CharString),
+    /// The `_database_dataset_doi` item. The variant holds the single value.
+    ///
+    /// The digital object identifier (DOI) registered to identify a data
+    /// set publication associated with the structure described in the
+    /// current datablock. This should be used for a dataset obtained from a
+    /// curated database such as CSD or PDB. A DOI is a unique character
+    /// string identifying any object of intellectual property. It provides
+    /// a persistent identifier for an object on a digital network and
+    /// permits the association of related current data in a structured
+    /// extensible way. A DOI is an implementation of the Internet concepts
+    /// of Uniform Resource Name and Universal Resource Locator managed
+    /// according to the specifications of the International DOI Foundation
+    /// (see `http://www.doi.org`).
     Dataset_doi(CharString),
 }
 
@@ -48,18 +83,94 @@ impl Display for DatabaseTerms {
     }
 }
 
+/// The loop-value terms of the `database` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DatabaseLoopItem {
+    /// The `_database_code_CAS` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_CAS(Vec<CharString>),
+    /// The `_database_code_COD` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_COD(Vec<CharString>),
+    /// The `_database_code_CSD` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_CSD(Vec<CharString>),
+    /// The `_database_code_ICSD` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_ICSD(Vec<CharString>),
+    /// The `_database_code_MDF` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_MDF(Vec<CharString>),
+    /// The `_database_code_NBS` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_NBS(Vec<CharString>),
+    /// The `_database_code_PDB` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_PDB(Vec<CharString>),
+    /// The `_database_code_PDF` item. The variant holds the column values, one per loop row.
+    ///
+    /// The codes are assigned by databases: Chemical Abstracts;
+    /// Crystallography Open Database (COD); Cambridge Structural Database
+    /// (organic and metal-organic compounds); Inorganic Crystal Structure
+    /// Database; Metals Data File (metal structures); NBS (NIST) Crystal
+    /// Data Database (lattice parameters); Protein Data Bank; and the
+    /// Powder Diffraction File (JCPDS/ICDD).
     Code_PDF(Vec<CharString>),
+    /// The `_database_journal_ASTM` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ASTM CODEN designator for a journal as given in the Chemical
+    /// Source List maintained by the Chemical Abstracts Service, and the
+    /// journal code used in the Cambridge Structural Database.
     Journal_ASTM(Vec<CharString>),
+    /// The `_database_journal_CSD` item. The variant holds the column values, one per loop row.
+    ///
+    /// The ASTM CODEN designator for a journal as given in the Chemical
+    /// Source List maintained by the Chemical Abstracts Service, and the
+    /// journal code used in the Cambridge Structural Database.
     Journal_CSD(Vec<CharString>),
 }
 

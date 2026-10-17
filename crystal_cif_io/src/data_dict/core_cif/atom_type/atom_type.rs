@@ -13,13 +13,21 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `atom_type` category struct. One field per registry item.
 pub struct AtomType {
+    /// The `_atom_type_atomic_mass` item. The field holds the single value.
     pub atomic_mass: Option<Numeric>,
+    /// The `_atom_type_atomic_number` item. The field holds the single value.
     pub atomic_number: Option<Numeric>,
+    /// The `_atom_type_display_colour` item. The field holds the single value.
     pub display_colour: Option<CharString>,
+    /// The `_atom_type_electron_count` item. The field holds the single value.
     pub electron_count: Option<Numeric>,
+    /// The `_atom_type_element_symbol` item. The field holds the single value.
     pub element_symbol: Option<CharString>,
+    /// The `_atom_type_mass_number` item. The field holds the single value.
     pub mass_number: Option<Numeric>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<AtomTypeRow>,
 }
 
@@ -148,28 +156,152 @@ impl CifCategory for AtomType {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `atom_type` category: the per-observation values of the loop items.
 pub struct AtomTypeRow {
+    /// The `_atom_type_analytical_mass_percent` item. The field holds
+    /// the column values, one per loop row.
     pub analytical_mass_percent: Option<AnalyticalMass>,
+    /// The `_atom_type_description` item. The field holds the column values, one per loop row.
+    ///
+    /// A description of the atom(s) designated by this atom type. In most
+    /// cases, this will be the element name and oxidation state of a single
+    /// atom species. For disordered or nonstoichiometric structures it will
+    /// describe a combination of atom species.
     pub description: Option<CharString>,
+    /// The `_atom_type_number_in_cell` item. The field holds the column values, one per loop row.
+    ///
+    /// Total number of atoms of this atom type in the unit cell.
     pub number_in_cell: Option<NumberInCell>,
+    /// The `_atom_type_oxidation_number` item. The field holds the column values, one per loop row.
+    ///
+    /// Formal oxidation state of this atom type in the structure.
     pub oxidation_number: Option<OxidationNumber>,
+    /// The `_atom_type_radius_bond` item. The field holds the column values, one per loop row.
+    ///
+    /// The effective intra- and intermolecular bonding radii in angstroms
+    /// of this atom type.
+    /// Units: A (angstrom).
     pub radius_bond: Option<Radius>,
+    /// The `_atom_type_radius_contact` item. The field holds the column values, one per loop row.
+    ///
+    /// The effective intra- and intermolecular bonding radii in angstroms
+    /// of this atom type.
+    /// Units: A (angstrom).
     pub radius_contact: Option<Radius>,
+    /// The `_atom_type_scat_Cromer_Mann_a1` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_a1: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_a2` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_a2: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_a3` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_a3: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_a4` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_a4: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_b1` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_b1: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_b2` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_b2: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_b3` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_b3: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_b4` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_b4: Option<Numeric>,
+    /// The `_atom_type_scat_Cromer_Mann_c` item. The field holds the column values, one per loop row.
+    ///
+    /// The Cromer-Mann scattering-factor coefficients used to calculate the
+    /// scattering factors for this atom type. Ref: International Tables for
+    /// X-ray Crystallography (1974). Vol. IV, Table 2.2B or International
+    /// Tables for Crystallography (2004). Vol. C, Tables 6.1.1.4 and
+    /// 6.1.1.5
     pub scat_cromer_mann_c: Option<Numeric>,
+    /// The `_atom_type_scat_dispersion_imag` item. The field holds the column values, one per loop row.
+    ///
+    /// The imaginary and real components of the anomalous-dispersion
+    /// scattering factor, f'' and f', in electrons for this atom type and
+    /// the radiation given in _diffrn_radiation_wavelength.
     pub scat_dispersion_imag: Option<Numeric>,
+    /// The `_atom_type_scat_dispersion_real` item. The field holds the column values, one per loop row.
+    ///
+    /// The imaginary and real components of the anomalous-dispersion
+    /// scattering factor, f'' and f', in electrons for this atom type and
+    /// the radiation given in _diffrn_radiation_wavelength.
     pub scat_dispersion_real: Option<Numeric>,
+    /// The `_atom_type_scat_dispersion_source` item. The field holds the column values, one per loop row.
+    ///
+    /// Reference to source of real and imaginary dispersion corrections for
+    /// scattering factors used for this atom type.
     pub scat_dispersion_source: Option<CharString>,
+    /// The `_atom_type_scat_length_neutron` item. The field holds the column values, one per loop row.
+    ///
+    /// The bound coherent scattering length in femtometres for the atom
+    /// type at the isotopic composition used for the diffraction
+    /// experiment.
+    /// Units: fm (femtometre).
     pub scat_length_neutron: Option<Numeric>,
+    /// The `_atom_type_scat_source` item. The field holds the column values, one per loop row.
+    ///
+    /// Reference to source of scattering factors or scattering lengths used
+    /// for this atom type.
     pub scat_source: Option<CharString>,
+    /// The `_atom_type_scat_versus_stol_list` item. The field holds the column values, one per loop row.
+    ///
+    /// A table of scattering factors as a function of sin theta over
+    /// lambda. This table should be well commented to indicate the items
+    /// present. Regularly formatted lists are strongly recommended.
     pub scat_versus_stol_list: Option<CharString>,
+    /// The `_atom_type_symbol` item. The field holds the column values, one per loop row.
+    ///
+    /// The code used to identify the atom species (singular or plural)
+    /// representing this atom type. Normally this code is the element
+    /// symbol. The code may be composed of any character except an
+    /// underscore with the additional proviso that digits designate an
+    /// oxidation state and must be followed by a + or - character.
     pub symbol: Option<CharString>,
 }
 

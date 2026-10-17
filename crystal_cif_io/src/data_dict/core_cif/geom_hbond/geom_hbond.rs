@@ -10,8 +10,11 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `geom_hbond` category struct. One field per registry item.
 pub struct GeomHbond {
+    /// The `_geom_hbond_id` item. The field holds the single value.
     pub id: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<GeomHbondRow>,
 }
 
@@ -68,17 +71,111 @@ impl CifCategory for GeomHbond {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `geom_hbond` category: the per-observation values of the loop items.
 pub struct GeomHbondRow {
+    /// The `_geom_hbond_angle_DHA` item. The field holds the column values, one per loop row.
+    ///
+    /// Angle in degrees defined by the three sites
+    /// _geom_hbond_atom_site_label_D, *_H and *_A. The site at *_H (the
+    /// hydrogen atom participating in the interaction) is at the apex of
+    /// the angle.
+    /// Units: deg (degree of arc).
     pub angle_dha: Option<Numeric>,
+    /// The `_geom_hbond_atom_site_label_A` item. The field holds the column values, one per loop row.
+    ///
+    /// The labels of three atom sites (respectively, the donor atom,
+    /// hydrogen atom and acceptor atom) participating in a hydrogen bond.
+    /// These must match labels specified as _atom_site_label in the atom
+    /// list.
     pub atom_site_label_a: Option<CharString>,
+    /// The `_geom_hbond_atom_site_label_D` item. The field holds the column values, one per loop row.
+    ///
+    /// The labels of three atom sites (respectively, the donor atom,
+    /// hydrogen atom and acceptor atom) participating in a hydrogen bond.
+    /// These must match labels specified as _atom_site_label in the atom
+    /// list.
     pub atom_site_label_d: Option<CharString>,
+    /// The `_geom_hbond_atom_site_label_H` item. The field holds the column values, one per loop row.
+    ///
+    /// The labels of three atom sites (respectively, the donor atom,
+    /// hydrogen atom and acceptor atom) participating in a hydrogen bond.
+    /// These must match labels specified as _atom_site_label in the atom
+    /// list.
     pub atom_site_label_h: Option<CharString>,
+    /// The `_geom_hbond_distance_DA` item. The field holds the column values, one per loop row.
+    ///
+    /// Distances in angstroms between the donor and hydrogen (*_DH),
+    /// hydrogen and acceptor (*_HA) and donor and acceptor (*_DA) sites in
+    /// a hydrogen bond.
+    /// Units: A (angstrom).
     pub distance_da: Option<HbondDistance>,
+    /// The `_geom_hbond_distance_DH` item. The field holds the column values, one per loop row.
+    ///
+    /// Distances in angstroms between the donor and hydrogen (*_DH),
+    /// hydrogen and acceptor (*_HA) and donor and acceptor (*_DA) sites in
+    /// a hydrogen bond.
+    /// Units: A (angstrom).
     pub distance_dh: Option<HbondDistance>,
+    /// The `_geom_hbond_distance_HA` item. The field holds the column values, one per loop row.
+    ///
+    /// Distances in angstroms between the donor and hydrogen (*_DH),
+    /// hydrogen and acceptor (*_HA) and donor and acceptor (*_DA) sites in
+    /// a hydrogen bond.
+    /// Units: A (angstrom).
     pub distance_ha: Option<HbondDistance>,
+    /// The `_geom_hbond_publ_flag` item. The field holds the column values, one per loop row.
+    ///
+    /// This code signals whether the hydrogen-bond information is referred
+    /// to in a publication or should be placed in a table of significant
+    /// hydrogen-bond geometry.
     pub publ_flag: Option<PublFlag>,
+    /// The `_geom_hbond_site_symmetry_A` item. The field holds the column values, one per loop row.
+    ///
+    /// The symmetry code of each atom site as the symmetry-equivalent
+    /// position number 'n' and the cell translation number 'klm'. These
+    /// numbers are combined to form the code 'n klm' or n_klm. The
+    /// character string n_klm is composed as follows: n refers to the
+    /// symmetry operation that is applied to the coordinates stored in
+    /// _atom_site_fract_x, _atom_site_fract_y and _atom_site_fract_z. It
+    /// must match a number given in _space_group_symop_id. k, l and m refer
+    /// to the translations that are subsequently applied to the
+    /// symmetry-transformed coordinates to generate the atom used in
+    /// calculating the hydrogen bond. These translations (x,y,z) are
+    /// related to (k,l,m) by the relations k = 5 + x l = 5 + y m = 5 + z By
+    /// adding 5 to the translations, the use of negative numbers is
+    /// avoided.
     pub site_symmetry_a: Option<CharString>,
+    /// The `_geom_hbond_site_symmetry_D` item. The field holds the column values, one per loop row.
+    ///
+    /// The symmetry code of each atom site as the symmetry-equivalent
+    /// position number 'n' and the cell translation number 'klm'. These
+    /// numbers are combined to form the code 'n klm' or n_klm. The
+    /// character string n_klm is composed as follows: n refers to the
+    /// symmetry operation that is applied to the coordinates stored in
+    /// _atom_site_fract_x, _atom_site_fract_y and _atom_site_fract_z. It
+    /// must match a number given in _space_group_symop_id. k, l and m refer
+    /// to the translations that are subsequently applied to the
+    /// symmetry-transformed coordinates to generate the atom used in
+    /// calculating the hydrogen bond. These translations (x,y,z) are
+    /// related to (k,l,m) by the relations k = 5 + x l = 5 + y m = 5 + z By
+    /// adding 5 to the translations, the use of negative numbers is
+    /// avoided.
     pub site_symmetry_d: Option<CharString>,
+    /// The `_geom_hbond_site_symmetry_H` item. The field holds the column values, one per loop row.
+    ///
+    /// The symmetry code of each atom site as the symmetry-equivalent
+    /// position number 'n' and the cell translation number 'klm'. These
+    /// numbers are combined to form the code 'n klm' or n_klm. The
+    /// character string n_klm is composed as follows: n refers to the
+    /// symmetry operation that is applied to the coordinates stored in
+    /// _atom_site_fract_x, _atom_site_fract_y and _atom_site_fract_z. It
+    /// must match a number given in _space_group_symop_id. k, l and m refer
+    /// to the translations that are subsequently applied to the
+    /// symmetry-transformed coordinates to generate the atom used in
+    /// calculating the hydrogen bond. These translations (x,y,z) are
+    /// related to (k,l,m) by the relations k = 5 + x l = 5 + y m = 5 + z By
+    /// adding 5 to the translations, the use of negative numbers is
+    /// avoided.
     pub site_symmetry_h: Option<CharString>,
 }
 

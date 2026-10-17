@@ -23,24 +23,43 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ChemicalItem {
+    /// The `_chemical_absolute_configuration` item. The variant holds the single value.
     Absolute_configuration(AbsoluteConfiguration),
+    /// The `_chemical_compound_source` item. The variant holds the single value.
     Compound_source(CharString),
+    /// The `_chemical_enantioexcess_bulk` item. The variant holds the single value.
     Enantioexcess_bulk(Enantioexcess),
+    /// The `_chemical_enantioexcess_bulk_technique` item. The variant holds the single value.
     Enantioexcess_bulk_technique(EnantioexcessBulkTechnique),
+    /// The `_chemical_enantioexcess_crystal` item. The variant holds the single value.
     Enantioexcess_crystal(Enantioexcess),
+    /// The `_chemical_enantioexcess_crystal_technique` item. The variant holds the single value.
     Enantioexcess_crystal_technique(EnantioexcessCrystalTechnique),
+    /// The `_chemical_identifier_inchi` item. The variant holds the single value.
     Identifier_inchi(CharString),
+    /// The `_chemical_identifier_inchi_key` item. The variant holds the single value.
     Identifier_inchi_key(CharString),
+    /// The `_chemical_identifier_inchi_version` item. The variant holds the single value.
     Identifier_inchi_version(CharString),
+    /// The `_chemical_melting_point` item. The variant holds the single value.
     Melting_point(Temperature),
+    /// The `_chemical_name_common` item. The variant holds the single value.
     Name_common(CharString),
+    /// The `_chemical_name_mineral` item. The variant holds the single value.
     Name_mineral(CharString),
+    /// The `_chemical_name_structure_type` item. The variant holds the single value.
     Name_structure_type(CharString),
+    /// The `_chemical_name_systematic` item. The variant holds the single value.
     Name_systematic(CharString),
+    /// The `_chemical_optical_rotation` item. The variant holds the single value.
     Optical_rotation(CharString),
+    /// The `_chemical_properties_biological` item. The variant holds the single value.
     Properties_biological(CharString),
+    /// The `_chemical_properties_physical` item. The variant holds the single value.
     Properties_physical(CharString),
+    /// The `_chemical_temperature_decomposition` item. The variant holds the single value.
     Temperature_decomposition(Temperature),
+    /// The `_chemical_temperature_sublimation` item. The variant holds the single value.
     Temperature_sublimation(Temperature),
 }
 
@@ -108,12 +127,59 @@ impl Display for ChemicalItem {
 /// items).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `chemical` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ChemicalLoopItem {
+    /// The `_chemical_melting_point_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the melting point (the temperature at which the crystalline solid
+    /// changes to a liquid) lies. These items allow a range of temperatures
+    /// to be given. _chemical_melting_point should always be used in
+    /// preference to these items whenever possible.
+    /// Units: K (kelvin).
     Melting_point_gt(Vec<Temperature>),
+    /// The `_chemical_melting_point_lt` item. The variant holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the melting point (the temperature at which the crystalline solid
+    /// changes to a liquid) lies. These items allow a range of temperatures
+    /// to be given. _chemical_melting_point should always be used in
+    /// preference to these items whenever possible.
+    /// Units: K (kelvin).
     Melting_point_lt(Vec<Temperature>),
+    /// The `_chemical_temperature_decomposition_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to decompose. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_decomposition should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     Temperature_decomposition_gt(Vec<Temperature>),
+    /// The `_chemical_temperature_decomposition_lt` item. The variant holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to decompose. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_decomposition should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     Temperature_decomposition_lt(Vec<Temperature>),
+    /// The `_chemical_temperature_sublimation_gt` item. The variant holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to sublime. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_sublimation should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     Temperature_sublimation_gt(Vec<Temperature>),
+    /// The `_chemical_temperature_sublimation_lt` item. The variant holds the column values, one per loop row.
+    ///
+    /// A temperature in kelvins below which (*_lt) or above which (*_gt)
+    /// the solid is known to sublime. These items allow a range of
+    /// temperatures to be given. _chemical_temperature_sublimation should
+    /// always be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     Temperature_sublimation_lt(Vec<Temperature>),
 }
 

@@ -17,12 +17,36 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_standards` category struct. One field per registry item.
 pub struct DiffrnStandards {
+    /// The `_diffrn_standards_decay_percent` item. The observed decay
+    /// percent of the reflection intensities over the exposure.
     pub decay_percent: Option<DecayPercent>,
+    /// The `_diffrn_standards_interval_count` item. The field holds the single value.
+    ///
+    /// The number of reflection intensities between the measurements of
+    /// standard reflection intensities.
     pub interval_count: Option<IntervalCount>,
+    /// The `_diffrn_standards_interval_time` item. The field holds the single value.
+    ///
+    /// The time in minutes between the measurements of standard reflection
+    /// intensities.
+    /// Units: min (minute).
     pub interval_time: Option<IntervalTime>,
+    /// The `_diffrn_standards_number` item. The field holds the single value.
+    ///
+    /// The number of unique standard reflections used during the
+    /// measurement of the diffraction intensities.
     pub number: Option<StandardsNumber>,
+    /// The `_diffrn_standards_scale_sigma` item. The field holds the single value.
+    ///
+    /// The standard uncertainty (e.s.d.) of the individual mean standard
+    /// scales applied to the intensity data.
     pub scale_sigma: Option<ScaleSigma>,
+    /// The `_diffrn_standards_scale_u` item. The field holds the single value.
+    ///
+    /// The standard uncertainty of the individual mean standard scales
+    /// applied to the intensity data.
     pub scale_u: Option<ScaleU>,
 }
 impl CifCategory for DiffrnStandards {

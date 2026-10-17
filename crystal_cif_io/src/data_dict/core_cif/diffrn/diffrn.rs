@@ -20,15 +20,53 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn` category struct. One field per registry item.
 pub struct Diffrn {
+    /// The `_diffrn_ambient_environment` item. The field holds the single value.
+    ///
+    /// The gas or liquid surrounding the sample, if not air.
     pub ambient_environment: Option<CharString>,
+    /// The `_diffrn_ambient_pressure` item. The field holds the single value.
+    ///
+    /// The mean hydrostatic pressure in kilopascals at which the
+    /// intensities were measured.
+    /// Units: kPa (kilopascal).
     pub ambient_pressure: Option<AmbientPressure>,
+    /// The `_diffrn_ambient_temperature` item. The field holds the single value.
+    ///
+    /// The mean temperature in kelvins at which the intensities were
+    /// measured.
+    /// Units: K (kelvin).
     pub ambient_temperature: Option<AmbientTemperature>,
+    /// The `_diffrn_crystal_treatment` item. The field holds the single value.
+    ///
+    /// Remarks about how the crystal was treated prior to the intensity
+    /// measurements. Particularly relevant when intensities were measured
+    /// at low temperature.
     pub crystal_treatment: Option<CharString>,
+    /// The `_diffrn_measured_fraction_theta_full` item. The field holds the single value.
+    ///
+    /// Fraction of unique (symmetry-independent) reflections measured out
+    /// to _diffrn_reflns_theta_full.
     pub measured_fraction_theta_full: Option<MeasuredFractionThetaFull>,
+    /// The `_diffrn_measured_fraction_theta_max` item. The field holds the single value.
+    ///
+    /// Fraction of unique (symmetry-independent) reflections measured out
+    /// to _diffrn_reflns_theta_max.
     pub measured_fraction_theta_max: Option<MeasuredFractionThetaMax>,
+    /// The `_diffrn_special_details` item. The field holds the single value.
+    ///
+    /// Special details of the intensity-measurement process. Should include
+    /// information about source instability, crystal motion, degradation
+    /// and so on.
     pub special_details: Option<CharString>,
+    /// The `_diffrn_symmetry_description` item. The field holds the single value.
+    ///
+    /// Observed diffraction point symmetry, systematic absences and
+    /// possible space group(s) or superspace group(s) compatible with
+    /// these.
     pub symmetry_description: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<DiffrnRow>,
 }
 impl CifCategory for Diffrn {
@@ -208,10 +246,39 @@ impl CifCategory for Diffrn {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `diffrn` category: the per-observation values of the loop items.
 pub struct DiffrnRow {
+    /// The `_diffrn_ambient_pressure_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The mean hydrostatic pressure in kilopascals above which (*_gt) or
+    /// below which (*_lt) the intensities were measured. These items allow
+    /// for a pressure range to be given. _diffrn_ambient_pressure should
+    /// always be used in preference to these items whenever possible.
+    /// Units: kPa (kilopascal).
     pub ambient_pressure_gt: Option<AmbientPressureGt>,
+    /// The `_diffrn_ambient_pressure_lt` item. The field holds the column values, one per loop row.
+    ///
+    /// The mean hydrostatic pressure in kilopascals above which (*_gt) or
+    /// below which (*_lt) the intensities were measured. These items allow
+    /// for a pressure range to be given. _diffrn_ambient_pressure should
+    /// always be used in preference to these items whenever possible.
+    /// Units: kPa (kilopascal).
     pub ambient_pressure_lt: Option<AmbientPressureLt>,
+    /// The `_diffrn_ambient_temperature_gt` item. The field holds the column values, one per loop row.
+    ///
+    /// The mean temperature in kelvins above which (*_gt) or below which
+    /// (*_lt) the intensities were measured. These items allow a range of
+    /// temperatures to be given. _diffrn_ambient_temperature should always
+    /// be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub ambient_temperature_gt: Option<AmbientTemperatureGt>,
+    /// The `_diffrn_ambient_temperature_lt` item. The field holds the column values, one per loop row.
+    ///
+    /// The mean temperature in kelvins above which (*_gt) or below which
+    /// (*_lt) the intensities were measured. These items allow a range of
+    /// temperatures to be given. _diffrn_ambient_temperature should always
+    /// be used in preference to these items whenever possible.
+    /// Units: K (kelvin).
     pub ambient_temperature_lt: Option<AmbientTemperatureLt>,
 }
 fn rows_to_members(rows: &[DiffrnRow]) -> Vec<DataBlockMember> {

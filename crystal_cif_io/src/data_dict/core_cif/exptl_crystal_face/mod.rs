@@ -14,14 +14,62 @@ pub use exptl_crystal_face::ExptlCrystalFace;
 /// items as `numb` values.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `exptl_crystal_face` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum ExptlCrystalFaceLoopItem {
+    /// The `_exptl_crystal_face_diffr_chi` item. The variant holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     Diffr_chi(Vec<Numeric>),
+    /// The `_exptl_crystal_face_diffr_kappa` item. The variant holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     Diffr_kappa(Vec<Numeric>),
+    /// The `_exptl_crystal_face_diffr_phi` item. The variant holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     Diffr_phi(Vec<Numeric>),
+    /// The `_exptl_crystal_face_diffr_psi` item. The variant holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     Diffr_psi(Vec<Numeric>),
+    /// The `_exptl_crystal_face_index_h` item. The variant holds the column values, one per loop row.
+    ///
+    /// Miller indices of the crystal face associated with the value
+    /// _exptl_crystal_face_perp_dist.
     Index_h(Vec<Numeric>),
+    /// The `_exptl_crystal_face_index_k` item. The variant holds the column values, one per loop row.
+    ///
+    /// Miller indices of the crystal face associated with the value
+    /// _exptl_crystal_face_perp_dist.
     Index_k(Vec<Numeric>),
+    /// The `_exptl_crystal_face_index_l` item. The variant holds the column values, one per loop row.
+    ///
+    /// Miller indices of the crystal face associated with the value
+    /// _exptl_crystal_face_perp_dist.
     Index_l(Vec<Numeric>),
+    /// The `_exptl_crystal_face_perp_dist` item. The variant holds the column values, one per loop row.
+    ///
+    /// The perpendicular distance in millimetres from the face to the
+    /// centre of rotation of the crystal.
+    /// Units: mm (millimetre).
     Perp_dist(Vec<Numeric>),
 }
 
@@ -63,9 +111,13 @@ impl LoopValueTerm for ExptlCrystalFaceLoopItem {
 /// The single-value item of the `exptl_crystal_face` category (T6).
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The single-value terms of the `exptl_crystal_face` category: one variant per
+
+/// registry single-value item, in item order.
 pub enum ExptlCrystalFaceTerms {
     /// The shell records a 3-vector (`_type.dimension` `[3]`);
     /// the `Matrix` payload holds the row list.
+    /// The `_exptl_crystal_face_hkl` item. The variant holds the column values, one per loop row.
     Hkl(Matrix),
 }
 

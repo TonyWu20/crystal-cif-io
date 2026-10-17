@@ -10,15 +10,64 @@ use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_orient_refln` category struct. One field per registry item.
 pub struct DiffrnOrientRefln {
+    /// The `_diffrn_orient_refln_angle_chi` item. The field holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     pub angle_chi: Option<Numeric>,
+    /// The `_diffrn_orient_refln_angle_kappa` item. The field holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     pub angle_kappa: Option<Numeric>,
+    /// The `_diffrn_orient_refln_angle_omega` item. The field holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     pub angle_omega: Option<Numeric>,
+    /// The `_diffrn_orient_refln_angle_phi` item. The field holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     pub angle_phi: Option<Numeric>,
+    /// The `_diffrn_orient_refln_angle_psi` item. The field holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     pub angle_psi: Option<Numeric>,
+    /// The `_diffrn_orient_refln_angle_theta` item. The field holds the column values, one per loop row.
+    ///
+    /// Diffractometer angles of a reflection used to define the orientation
+    /// matrix in degrees. See _diffrn_orient_matrix_UB_ and
+    /// _diffrn_orient_refln_index_h, *_k and *_l.
+    /// Units: deg (degree of arc).
     pub angle_theta: Option<Numeric>,
+    /// The `_diffrn_orient_refln_index_h` item. The field holds the column values, one per loop row.
+    ///
+    /// The indices of a reflection used to define the orientation matrix.
+    /// See _diffrn_orient_matrix_.
     pub index_h: Option<Numeric>,
+    /// The `_diffrn_orient_refln_index_k` item. The field holds the column values, one per loop row.
+    ///
+    /// The indices of a reflection used to define the orientation matrix.
+    /// See _diffrn_orient_matrix_.
     pub index_k: Option<Numeric>,
+    /// The `_diffrn_orient_refln_index_l` item. The field holds the column values, one per loop row.
+    ///
+    /// The indices of a reflection used to define the orientation matrix.
+    /// See _diffrn_orient_matrix_.
     pub index_l: Option<Numeric>,
 }
 impl CifCategory for Vec<DiffrnOrientRefln> {

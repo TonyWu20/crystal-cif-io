@@ -9,9 +9,12 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 pub use self::index_type::Type;
 pub use self::journal_index::{JournalIndex, JournalIndexRow};
 
+/// The single-value terms of the `journal_index` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum JournalIndexTerms {
+    /// The `_journal_index_id` item. The variant holds the single value.
     Id(CharString),
 }
 
@@ -38,11 +41,22 @@ impl Display for JournalIndexTerms {
     }
 }
 
+/// The loop-value terms of the `journal_index` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum JournalIndexLoopItem {
+    /// The `_journal_index_subterm` item. The variant holds the column values, one per loop row.
+    ///
+    /// Indexing terms supplied by the journal staff.
     Subterm(Vec<CharString>),
+    /// The `_journal_index_term` item. The variant holds the column values, one per loop row.
+    ///
+    /// Indexing terms supplied by the journal staff.
     Term(Vec<CharString>),
+    /// The `_journal_index_type` item. The variant holds the column values, one per loop row.
+    ///
+    /// Indexing terms supplied by the journal staff.
     /// closed code set recorded in the dictionary _enumeration
     Type(Vec<Type>),
 }

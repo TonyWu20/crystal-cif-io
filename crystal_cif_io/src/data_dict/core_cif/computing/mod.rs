@@ -7,9 +7,12 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+/// The single-value terms of the `computing` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ComputingTerms {
+    /// The `_computing_sample_tracking` item. The variant holds the single value.
     Sample_tracking(CharString),
 }
 
@@ -36,15 +39,45 @@ impl Display for ComputingTerms {
     }
 }
 
+/// The loop-value terms of the `computing` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ComputingLoopItem {
+    /// The `_computing_cell_refinement` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Cell_refinement(Vec<CharString>),
+    /// The `_computing_data_collection` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Data_collection(Vec<CharString>),
+    /// The `_computing_data_reduction` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Data_reduction(Vec<CharString>),
+    /// The `_computing_molecular_graphics` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Molecular_graphics(Vec<CharString>),
+    /// The `_computing_publication_material` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Publication_material(Vec<CharString>),
+    /// The `_computing_structure_refinement` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Structure_refinement(Vec<CharString>),
+    /// The `_computing_structure_solution` item. The variant holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     Structure_solution(Vec<CharString>),
 }
 

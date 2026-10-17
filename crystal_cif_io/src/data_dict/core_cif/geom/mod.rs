@@ -2,7 +2,7 @@
 //!
 //! `_geom_special_details` records information about the geometry
 //! checks not coded elsewhere. The category also holds
-//! [`PublFlag`], the closed code set shared by the `geom_*`
+//! `PublFlag`, the closed code set shared by the `geom_*`
 //! special-list flags.
 
 mod geom;
@@ -20,10 +20,15 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum GeomItem {
+    /// The `_geom_bond_distance_incr` item. The variant holds the single value.
     Bond_distance_incr(Numeric),
+    /// The `_geom_contact_distance_incr` item. The variant holds the single value.
     Contact_distance_incr(Numeric),
+    /// The `_geom_min_bond_distance_cutoff` item. The variant holds the single value.
     Min_bond_distance_cutoff(Numeric),
+    /// The `_geom_min_contact_distance_cutoff` item. The variant holds the single value.
     Min_contact_distance_cutoff(Numeric),
+    /// The `_geom_special_details` item. The variant holds the single value.
     Special_details(CharString),
 }
 

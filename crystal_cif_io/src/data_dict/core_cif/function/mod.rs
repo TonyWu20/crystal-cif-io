@@ -7,16 +7,25 @@ use crystal_cif_fmt::grammar::{CharString, Matrix, Tag, Value};
 
 pub use self::symkey::Symkey;
 
+/// The single-value terms of the `function` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum FunctionTerms {
+    /// The `_function_atomtype` item. The variant holds the single value.
     Atomtype(CharString),
+    /// The `_function_closest` item. The variant holds the single value.
     Closest(Matrix),
+    /// The `_function_seitzfromjones` item. The variant holds the single value.
     Seitzfromjones(Matrix),
+    /// The `_function_symequiv` item. The variant holds the single value.
     Symequiv(Matrix),
+    /// The `_function_symkey` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Symkey(Symkey),
+    /// The `_function_symlat` item. The variant holds the single value.
     Symlat(Matrix),
+    /// The `_function_symop` item. The variant holds the single value.
     Symop(CharString),
 }
 

@@ -25,39 +25,220 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_refln` category struct. One field per registry item.
 pub struct DiffrnRefln {
+    /// The `_diffrn_refln_angle_chi` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer angles of a reflection in degrees. These
+    /// correspond to the specified orientation matrix and the original
+    /// measured cell before any subsequent cell transformations.
+    /// Units: deg (degree of arc).
     pub angle_chi: Option<Numeric>,
+    /// The `_diffrn_refln_angle_kappa` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer angles of a reflection in degrees. These
+    /// correspond to the specified orientation matrix and the original
+    /// measured cell before any subsequent cell transformations.
+    /// Units: deg (degree of arc).
     pub angle_kappa: Option<Numeric>,
+    /// The `_diffrn_refln_angle_omega` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer angles of a reflection in degrees. These
+    /// correspond to the specified orientation matrix and the original
+    /// measured cell before any subsequent cell transformations.
+    /// Units: deg (degree of arc).
     pub angle_omega: Option<Numeric>,
+    /// The `_diffrn_refln_angle_phi` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer angles of a reflection in degrees. These
+    /// correspond to the specified orientation matrix and the original
+    /// measured cell before any subsequent cell transformations.
+    /// Units: deg (degree of arc).
     pub angle_phi: Option<Numeric>,
+    /// The `_diffrn_refln_angle_psi` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer angles of a reflection in degrees. These
+    /// correspond to the specified orientation matrix and the original
+    /// measured cell before any subsequent cell transformations.
+    /// Units: deg (degree of arc).
     pub angle_psi: Option<Numeric>,
+    /// The `_diffrn_refln_angle_theta` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer angles of a reflection in degrees. These
+    /// correspond to the specified orientation matrix and the original
+    /// measured cell before any subsequent cell transformations.
+    /// Units: deg (degree of arc).
     pub angle_theta: Option<Numeric>,
+    /// The `_diffrn_refln_attenuator_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying the attenuator setting for this reflection.
+    /// This code must match one of the _diffrn_attenuator_code values.
     pub attenuator_code: Option<CharString>,
+    /// The `_diffrn_refln_class_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying the class to which this reflection has been
+    /// assigned. This code must match a value of _diffrn_reflns_class_code.
+    /// Reflections may be grouped into classes for a variety of purposes.
+    /// For example, for modulated structures each reflection class may be
+    /// defined by the number m=sum|m~i~|, where the m~i~ are the integer
+    /// coefficients that, in addition to h,k,l, index the corresponding
+    /// diffraction vector in the basis defined for the reciprocal lattice.
     pub class_code: Option<CharString>,
+    /// The `_diffrn_refln_counts_bg_1` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer counts for the measurements: background before
+    /// the peak, background after the peak, net counts after background
+    /// removed, counts for peak scan or position, and the total counts
+    /// (background plus peak).
     pub counts_bg_1: Option<Numeric>,
+    /// The `_diffrn_refln_counts_bg_2` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer counts for the measurements: background before
+    /// the peak, background after the peak, net counts after background
+    /// removed, counts for peak scan or position, and the total counts
+    /// (background plus peak).
     pub counts_bg_2: Option<Numeric>,
+    /// The `_diffrn_refln_counts_net` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer counts for the measurements: background before
+    /// the peak, background after the peak, net counts after background
+    /// removed, counts for peak scan or position, and the total counts
+    /// (background plus peak).
     pub counts_net: Option<Numeric>,
+    /// The `_diffrn_refln_counts_peak` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer counts for the measurements: background before
+    /// the peak, background after the peak, net counts after background
+    /// removed, counts for peak scan or position, and the total counts
+    /// (background plus peak).
     pub counts_peak: Option<Numeric>,
+    /// The `_diffrn_refln_counts_total` item. The field holds the column values, one per loop row.
+    ///
+    /// The diffractometer counts for the measurements: background before
+    /// the peak, background after the peak, net counts after background
+    /// removed, counts for peak scan or position, and the total counts
+    /// (background plus peak).
     pub counts_total: Option<Numeric>,
+    /// The `_diffrn_refln_crystal_id` item. The field holds the column values, one per loop row.
+    ///
+    /// Code identifying each crystal if multiple crystals are used. Is used
+    /// to link with _exptl_crystal_id in the _exptl_crystal_ list.
     pub crystal_id: Option<CharString>,
+    /// The `_diffrn_refln_detect_slit_horiz` item. The field holds the column values, one per loop row.
+    ///
+    /// Total slit apertures in degrees in the diffraction plane (*_horiz)
+    /// and perpendicular to the diffraction plane (*_vert).
+    /// Units: deg (degree of arc).
     pub detect_slit_horiz: Option<DetectSlitHoriz>,
+    /// The `_diffrn_refln_detect_slit_vert` item. The field holds the column values, one per loop row.
+    ///
+    /// Total slit apertures in degrees in the diffraction plane (*_horiz)
+    /// and perpendicular to the diffraction plane (*_vert).
+    /// Units: deg (degree of arc).
     pub detect_slit_vert: Option<DetectSlitVert>,
+    /// The `_diffrn_refln_elapsed_time` item. The field holds the column values, one per loop row.
+    ///
+    /// Elapsed time in minutes from the start of the diffraction experiment
+    /// to the measurement of this intensity.
+    /// Units: min (minute).
     pub elapsed_time: Option<ElapsedTime>,
+    /// The `_diffrn_refln_index_h` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of a measured reflection. These need not match the
+    /// _refln_index_h, *_k, *_l values if a transformation of the original
+    /// measured cell has taken place. Details of the cell transformation
+    /// are given in _diffrn_reflns_reduction_process. See also
+    /// _diffrn_reflns_transf_matrix_.
     pub index_h: Option<Numeric>,
+    /// The `_diffrn_refln_index_k` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of a measured reflection. These need not match the
+    /// _refln_index_h, *_k, *_l values if a transformation of the original
+    /// measured cell has taken place. Details of the cell transformation
+    /// are given in _diffrn_reflns_reduction_process. See also
+    /// _diffrn_reflns_transf_matrix_.
     pub index_k: Option<Numeric>,
+    /// The `_diffrn_refln_index_l` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of a measured reflection. These need not match the
+    /// _refln_index_h, *_k, *_l values if a transformation of the original
+    /// measured cell has taken place. Details of the cell transformation
+    /// are given in _diffrn_reflns_reduction_process. See also
+    /// _diffrn_reflns_transf_matrix_.
     pub index_l: Option<Numeric>,
+    /// The `_diffrn_refln_intensity_net` item. The field holds the column values, one per loop row.
+    ///
+    /// Net intensity calculated from the diffraction counts after the
+    /// attenuator and standard scales have been applied.
     pub intensity_net: Option<IntensityNet>,
+    /// The `_diffrn_refln_intensity_sigma` item. The field holds the column values, one per loop row.
+    ///
+    /// Standard uncertainty (e.s.d.) of the net intensity calculated from
+    /// the diffraction counts after the attenuator and standard scales have
+    /// been applied.
     pub intensity_sigma: Option<IntensitySigma>,
+    /// The `_diffrn_refln_intensity_u` item. The field holds the column values, one per loop row.
+    ///
+    /// Standard uncertainty of the net intensity calculated from the
+    /// diffraction counts after the attenuator and standard scales have
+    /// been applied.
     pub intensity_u: Option<IntensityU>,
+    /// The `_diffrn_refln_scale_group_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying the scale applicable to this reflection. This
+    /// code must match with a specified _diffrn_scale_group_code value.
     pub scale_group_code: Option<CharString>,
+    /// The `_diffrn_refln_scan_mode` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying the mode of scanning for measurements using a
+    /// diffractometer. See _diffrn_refln_scan_width and
+    /// _diffrn_refln_scan_mode_backgd.
     pub scan_mode: Option<ScanMode>,
+    /// The `_diffrn_refln_scan_mode_backgd` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying the mode of scanning a reflection to measure
+    /// the background intensity.
     pub scan_mode_backgd: Option<ScanModeBackgd>,
+    /// The `_diffrn_refln_scan_rate` item. The field holds the column values, one per loop row.
+    ///
+    /// The rate of scanning a reflection in degrees per minute to measure
+    /// the intensity.
+    /// Units: deg/min (degree of arc per minute).
     pub scan_rate: Option<ScanRate>,
+    /// The `_diffrn_refln_scan_time_backgd` item. The field holds the column values, one per loop row.
+    ///
+    /// The time spent measuring each background in seconds.
+    /// Units: s (second).
     pub scan_time_backgd: Option<ScanTimeBackgd>,
+    /// The `_diffrn_refln_scan_width` item. The field holds the column values, one per loop row.
+    ///
+    /// The scan width in degrees of the scan mode defined by the code
+    /// _diffrn_refln_scan_mode.
+    /// Units: deg (degree of arc).
     pub scan_width: Option<ScanWidth>,
+    /// The `_diffrn_refln_sint/lambda` item. The field holds the column values, one per loop row.
+    ///
+    /// The (sin theta)/lambda value in reciprocal angstroms for this
+    /// reflection.
+    /// Units: A^-1^ (reciprocal angstrom).
     pub sint_lambda: Option<SintLambda>,
+    /// The `_diffrn_refln_standard_code` item. The field holds the column values, one per loop row.
+    ///
+    /// A code indicating that this reflection was measured as a standard
+    /// reflection. The value must be '.' or match one of the
+    /// _diffrn_standard_refln_code values.
     pub standard_code: Option<CharString>,
+    /// The `_diffrn_refln_wavelength` item. The field holds the column values, one per loop row.
+    ///
+    /// The mean wavelength in angstroms of the radiation used to measure
+    /// the intensity of this reflection. This is an important parameter for
+    /// reflections measured using energy-dispersive detectors or the Laue
+    /// method.
+    /// Units: A (angstrom).
     pub wavelength: Option<Wavelength>,
+    /// The `_diffrn_refln_wavelength_id` item. The field holds the column values, one per loop row.
+    ///
+    /// Code identifying the wavelength in the _diffrn_radiation_ list.
     pub wavelength_id: Option<CharString>,
 }
 impl CifCategory for Vec<DiffrnRefln> {

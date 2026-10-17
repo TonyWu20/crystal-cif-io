@@ -3,10 +3,14 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+/// The single-value terms of the `database_code` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum DatabaseCodeTerms {
+    /// The `_database_code_amcsd` item. The variant holds the single value.
     Amcsd(CharString),
+    /// The `_database_code_bincstrdb` item. The variant holds the single value.
     Bincstrdb(CharString),
 }
 

@@ -7,9 +7,12 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, LoopValueTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+/// The single-value terms of the `citation_editor` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum CitationEditorTerms {
+    /// The `_citation_editor` item. The variant holds the single value.
     Citation_editor(CharString),
 }
 
@@ -36,11 +39,26 @@ impl Display for CitationEditorTerms {
     }
 }
 
+/// The loop-value terms of the `citation_editor` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum CitationEditorLoopItem {
+    /// The `_citation_editor_citation_id` item. The variant holds the column values, one per loop row.
+    ///
+    /// The value of _citation_editor_citation_id must match an identifier
+    /// specified by _citation_id in the _citation_ list.
     Citation_id(Vec<CharString>),
+    /// The `_citation_editor_name` item. The variant holds the column values, one per loop row.
+    ///
+    /// Name of an editor of the citation; relevant for books and book
+    /// chapters. The family name(s), followed by a comma and including any
+    /// dynastic components, precedes the first name(s) or initial(s).
     Name(Vec<CharString>),
+    /// The `_citation_editor_ordinal` item. The variant holds the column values, one per loop row.
+    ///
+    /// This data name defines the order of the editor's name in the list of
+    /// editors of a citation.
     Ordinal(Vec<CharString>),
 }
 

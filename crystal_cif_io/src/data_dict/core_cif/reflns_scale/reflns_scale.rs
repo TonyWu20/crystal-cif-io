@@ -10,10 +10,25 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `reflns_scale` category struct. One field per registry item.
 pub struct ReflnsScale {
+    /// The `_reflns_scale_group_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying a scale _reflns_scale_meas_. These are linked
+    /// to the _refln_ list by the _refln_scale_group_code. These codes need
+    /// not correspond to those in the _diffrn_scale_ list.
     pub group_code: Option<CharString>,
+    /// The `_reflns_scale_meas_F` item. The field holds the column values, one per loop row.
+    ///
+    /// Scales associated with _reflns_scale_group_code.
     pub meas_f: Option<Numeric>,
+    /// The `_reflns_scale_meas_F_squared` item. The field holds the column values, one per loop row.
+    ///
+    /// Scales associated with _reflns_scale_group_code.
     pub meas_f_squared: Option<Numeric>,
+    /// The `_reflns_scale_meas_intensity` item. The field holds the column values, one per loop row.
+    ///
+    /// Scales associated with _reflns_scale_group_code.
     pub meas_intensity: Option<Numeric>,
 }
 

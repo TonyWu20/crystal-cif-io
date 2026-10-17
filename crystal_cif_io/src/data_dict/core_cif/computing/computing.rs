@@ -11,8 +11,11 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `computing` category struct. One field per registry item.
 pub struct Computing {
+    /// The `_computing_sample_tracking` item. The field holds the single value.
     pub sample_tracking: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<ComputingRow>,
 }
 
@@ -84,13 +87,42 @@ impl CifCategory for Computing {
 
 /// The `computing` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `computing` category: the per-observation values of the loop items.
 pub struct ComputingRow {
+    /// The `_computing_cell_refinement` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub cell_refinement: Option<CharString>,
+    /// The `_computing_data_collection` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub data_collection: Option<CharString>,
+    /// The `_computing_data_reduction` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub data_reduction: Option<CharString>,
+    /// The `_computing_molecular_graphics` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub molecular_graphics: Option<CharString>,
+    /// The `_computing_publication_material` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub publication_material: Option<CharString>,
+    /// The `_computing_structure_refinement` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub structure_refinement: Option<CharString>,
+    /// The `_computing_structure_solution` item. The field holds the column values, one per loop row.
+    ///
+    /// Software used in the processing of the data. Give the program or
+    /// package name and a brief reference.
     pub structure_solution: Option<CharString>,
 }
 

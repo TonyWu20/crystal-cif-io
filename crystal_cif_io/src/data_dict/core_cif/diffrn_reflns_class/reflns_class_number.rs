@@ -10,10 +10,12 @@ use crystal_cif_fmt::grammar::{Float, Number, Numeric, Value};
 pub struct ReflnsClassNumber(Float);
 
 impl ReflnsClassNumber {
+    /// Build the guarded value: the input clamped to the dictionary range.
     pub fn new(float: Float) -> Self {
         Self(Float(float.max(0.0)))
     }
 
+    /// The recorded value, stored as written.
     pub fn value(&self) -> Float {
         self.0
     }

@@ -3,18 +3,30 @@ use std::fmt::Display;
 use crate::data_dict::{matrix, CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Matrix, Numeric, Tag, Value};
 
+/// The single-value terms of the `atom_site_aniso` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomSiteAnisoTerms {
+    /// The `_atom_site.tensor_beta` item. The variant holds the single value.
     Atom_site_tensor_beta(Matrix),
+    /// The `_atom_site_aniso_beta_11` item. The variant holds the single value.
     Beta_11(Numeric),
+    /// The `_atom_site_aniso_beta_12` item. The variant holds the single value.
     Beta_12(Numeric),
+    /// The `_atom_site_aniso_beta_13` item. The variant holds the single value.
     Beta_13(Numeric),
+    /// The `_atom_site_aniso_beta_22` item. The variant holds the single value.
     Beta_22(Numeric),
+    /// The `_atom_site_aniso_beta_23` item. The variant holds the single value.
     Beta_23(Numeric),
+    /// The `_atom_site_aniso_beta_33` item. The variant holds the single value.
     Beta_33(Numeric),
+    /// The `_atom_site_aniso_matrix_b` item. The variant holds the single value.
     Matrix_b(Matrix),
+    /// The `_atom_site_aniso_matrix_u` item. The variant holds the single value.
     Matrix_u(Matrix),
+    /// The `_atom_site_aniso_symmform` item. The variant holds the single value.
     Symmform(CharString),
 }
 

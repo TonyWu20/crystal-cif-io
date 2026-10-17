@@ -9,8 +9,17 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `valence_ref` category: the per-observation values of the loop items.
 pub struct ValenceRefRow {
+    /// The `_valence_ref_id` item. The field holds the column values, one per loop row.
+    ///
+    /// An identifier for items in this category. Parent of
+    /// _valence_param_ref_id, which must have the same value.
     pub id: Option<CharString>,
+    /// The `_valence_ref_reference` item. The field holds the column values, one per loop row.
+    ///
+    /// Literature reference from which the valence parameters identified by
+    /// _valence_param_id were taken.
     pub reference: Option<CharString>,
 }
 

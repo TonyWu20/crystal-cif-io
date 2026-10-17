@@ -11,12 +11,19 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `audit_author` category struct. One field per registry item.
 pub struct AuditAuthor {
+    /// The `_audit_author_email` item. The field holds the single value.
     pub email: Option<CharString>,
+    /// The `_audit_author_fax` item. The field holds the single value.
     pub fax: Option<CharString>,
+    /// The `_audit_author_id` item. The field holds the single value.
     pub id: Option<CharString>,
+    /// The `_audit_author_id_ORCID` item. The field holds the single value.
     pub id_orcid: Option<CharString>,
+    /// The `_audit_author_phone` item. The field holds the single value.
     pub phone: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<AuditAuthorRow>,
 }
 
@@ -136,8 +143,19 @@ impl CifCategory for AuditAuthor {
 
 /// The `audit_author` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `audit_author` category: the per-observation values of the loop items.
 pub struct AuditAuthorRow {
+    /// The `_audit_author_address` item. The field holds the column values, one per loop row.
+    ///
+    /// The address of an author of this data block. If there are multiple
+    /// authors, _audit_author_address is looped with _audit_author_name.
     pub address: Option<CharString>,
+    /// The `_audit_author_name` item. The field holds the column values, one per loop row.
+    ///
+    /// The name of an author of this data block. If there are multiple
+    /// authors, _audit_author_name is looped with _audit_author_address.
+    /// The family name(s), followed by a comma and including any dynastic
+    /// components, precedes the first name(s) or initial(s).
     pub name: Option<CharString>,
 }
 

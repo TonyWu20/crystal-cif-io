@@ -10,12 +10,15 @@ use crystal_cif_fmt::grammar::{Numeric, Value};
 pub struct BondAtomNumber(Numeric);
 
 impl BondAtomNumber {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(1.0), None)
             .map_err(|e| RangeError::new(format!("chemical_conn_bond_atom_1 / _atom_2: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }

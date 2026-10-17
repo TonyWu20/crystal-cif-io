@@ -20,20 +20,35 @@ impl RefineCifError {
 /// The dictionary records the value `refU` with a capital `U`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HydrogenTreatment {
+    /// `refall`
     Refall,
+    /// `refxyz`
     Refxyz,
+    /// `refU`
     RefU,
+    /// `noref`
     Noref,
+    /// `constr`
     Constr,
+    /// `hetero`
     Hetero,
+    /// `heteroxyz`
     Heteroxyz,
+    /// `heteroU`
     HeteroU,
+    /// `heteronoref`
     Heteronoref,
+    /// `hetero-mixed`
     HeteroMixed,
+    /// `heteroxyz-mixed`
     HeteroxyzMixed,
+    /// `heteroU-mixed`
     HeteroUMixed,
+    /// `heteronoref-mixed`
     HeteronorefMixed,
+    /// `mixed`
     Mixed,
+    /// `undef`
     Undef,
 }
 
@@ -122,11 +137,17 @@ impl TryFrom<String> for HydrogenTreatment {
 /// The closed value set of `_refine_ls_matrix_type`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MatrixType {
+    /// `full`
     Full,
+    /// `fullcycle`
     Fullcycle,
+    /// `atomblock`
     Atomblock,
+    /// `userblock`
     Userblock,
+    /// `diagonal`
     Diagonal,
+    /// `sparse`
     Sparse,
 }
 
@@ -197,8 +218,11 @@ impl TryFrom<String> for MatrixType {
 /// The closed value set of `_refine_ls_structure_factor_coef`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum StructureFactorCoef {
+    /// `F`
     F,
+    /// `Fsqd`
     Fsqd,
+    /// `Inet`
     Inet,
 }
 
@@ -263,8 +287,11 @@ impl TryFrom<String> for StructureFactorCoef {
 /// The closed value set of `_refine_ls_weighting_scheme`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WeightingScheme {
+    /// `sigma`
     Sigma,
+    /// `unit`
     Unit,
+    /// `calc`
     Calc,
 }
 

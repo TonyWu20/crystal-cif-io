@@ -12,37 +12,188 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `refln` category struct. One field per registry item.
 pub struct Refln {
+    /// The `_refln_A_calc` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated and measured structure-factor component A (in
+    /// electrons for X-ray diffraction). A =|F|cos(phase)
     pub a_calc: Option<Numeric>,
+    /// The `_refln_A_meas` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated and measured structure-factor component A (in
+    /// electrons for X-ray diffraction). A =|F|cos(phase)
     pub a_meas: Option<Numeric>,
+    /// The `_refln_B_calc` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated and measured structure-factor component B (in
+    /// electrons for X-ray diffraction). B =|F|sin(phase)
     pub b_calc: Option<Numeric>,
+    /// The `_refln_B_meas` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated and measured structure-factor component B (in
+    /// electrons for X-ray diffraction). B =|F|sin(phase)
     pub b_meas: Option<Numeric>,
+    /// The `_refln_class_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying the class to which this reflection has been
+    /// assigned. This code must match a value of _reflns_class_code.
+    /// Reflections may be grouped into classes for a variety of purposes.
+    /// For example, for modulated structures each reflection class may be
+    /// defined by the number m=sum|m~i~|, where the m~i~ are the integer
+    /// coefficients that, in addition to h,k,l, index the corresponding
+    /// diffraction vector in the basis defined for the reciprocal lattice.
     pub class_code: Option<CharString>,
+    /// The `_refln_crystal_id` item. The field holds the column values, one per loop row.
+    ///
+    /// Code identifying each crystal if multiple crystals are used. Is used
+    /// to link with _exptl_crystal_id in the _exptl_crystal_ list.
     pub crystal_id: Option<CharString>,
+    /// The `_refln_d_spacing` item. The field holds the column values, one per loop row.
+    ///
+    /// The d spacing in angstroms for this reflection. This is related to
+    /// the (sin theta)/lambda value by the expression _refln_d_spacing =
+    /// 2/(_refln_sint/lambda)
+    /// Units: A (angstrom).
     pub d_spacing: Option<Numeric>,
+    /// The `_refln_F_calc` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated, measured and standard uncertainty (derived from
+    /// measurement) of the structure factors (in electrons for X-ray
+    /// diffraction).
     pub f_calc: Option<Numeric>,
+    /// The `_refln_F_meas` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated, measured and standard uncertainty (derived from
+    /// measurement) of the structure factors (in electrons for X-ray
+    /// diffraction).
     pub f_meas: Option<Numeric>,
+    /// The `_refln_F_sigma` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated, measured and standard uncertainty (derived from
+    /// measurement) of the structure factors (in electrons for X-ray
+    /// diffraction).
     pub f_sigma: Option<Numeric>,
+    /// The `_refln_F_squared_calc` item. The field holds the column values, one per loop row.
+    ///
+    /// Calculated, measured and estimated standard uncertainty (derived
+    /// from measurement) of the squared structure factors (in electrons
+    /// squared for X-ray diffraction).
     pub f_squared_calc: Option<Numeric>,
+    /// The `_refln_F_squared_meas` item. The field holds the column values, one per loop row.
+    ///
+    /// Calculated, measured and estimated standard uncertainty (derived
+    /// from measurement) of the squared structure factors (in electrons
+    /// squared for X-ray diffraction).
     pub f_squared_meas: Option<Numeric>,
+    /// The `_refln_F_squared_sigma` item. The field holds the column values, one per loop row.
+    ///
+    /// Calculated, measured and estimated standard uncertainty (derived
+    /// from measurement) of the squared structure factors (in electrons
+    /// squared for X-ray diffraction).
     pub f_squared_sigma: Option<Numeric>,
+    /// The `_refln_include_status` item. The field holds the column values, one per loop row.
+    ///
+    /// Classification of a reflection indicating its status with respect to
+    /// inclusion in the refinement and the calculation of R factors.
     pub include_status: Option<IncludeStatus>,
+    /// The `_refln_index_h` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of the reflection. The values of the Miller indices
+    /// in the REFLN category must correspond to the cell defined by the
+    /// cell lengths and cell angles in the CELL category.
     pub index_h: Option<Numeric>,
+    /// The `_refln_index_k` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of the reflection. The values of the Miller indices
+    /// in the REFLN category must correspond to the cell defined by the
+    /// cell lengths and cell angles in the CELL category.
     pub index_k: Option<Numeric>,
+    /// The `_refln_index_l` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of the reflection. The values of the Miller indices
+    /// in the REFLN category must correspond to the cell defined by the
+    /// cell lengths and cell angles in the CELL category.
     pub index_l: Option<Numeric>,
+    /// The `_refln_intensity_calc` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated, measured and standard uncertainty (derived from
+    /// measurement) of the intensity, all in the same arbitrary units as
+    /// _refln_intensity_meas.
     pub intensity_calc: Option<Numeric>,
+    /// The `_refln_intensity_meas` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated, measured and standard uncertainty (derived from
+    /// measurement) of the intensity, all in the same arbitrary units as
+    /// _refln_intensity_meas.
     pub intensity_meas: Option<Numeric>,
+    /// The `_refln_intensity_sigma` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated, measured and standard uncertainty (derived from
+    /// measurement) of the intensity, all in the same arbitrary units as
+    /// _refln_intensity_meas.
     pub intensity_sigma: Option<Numeric>,
+    /// The `_refln_mean_path_length_tbar` item. The field holds the column values, one per loop row.
+    ///
+    /// Mean path length in millimetres through the crystal for this
+    /// reflection.
+    /// Units: mm (millimetre).
     pub mean_path_length_tbar: Option<Numeric>,
+    /// The `_refln_observed_status` item. The field holds the column values, one per loop row.
+    ///
+    /// Classification of a reflection indicating its status with respect to
+    /// inclusion in the refinement and the calculation of R factors.
     pub observed_status: Option<ObservedStatus>,
+    /// The `_refln_phase_calc` item. The field holds the column values, one per loop row.
+    ///
+    /// The calculated structure-factor phase in degrees.
+    /// Units: deg (degree of arc).
     pub phase_calc: Option<Numeric>,
+    /// The `_refln_phase_meas` item. The field holds the column values, one per loop row.
+    ///
+    /// The measured structure-factor phase in degrees.
+    /// Units: deg (degree of arc).
     pub phase_meas: Option<Numeric>,
+    /// The `_refln_refinement_status` item. The field holds the column values, one per loop row.
+    ///
+    /// Status of a reflection in the structure-refinement process.
     pub refinement_status: Option<RefinementStatus>,
+    /// The `_refln_scale_group_code` item. The field holds the column values, one per loop row.
+    ///
+    /// Code identifying the structure-factor scale. This code must
+    /// correspond to one of the _reflns_scale_group_code values.
     pub scale_group_code: Option<CharString>,
+    /// The `_refln_sint/lambda` item. The field holds the column values, one per loop row.
+    ///
+    /// The (sin theta)/lambda value in reciprocal angstroms for this
+    /// reflection.
+    /// Units: A^-1^ (reciprocal angstrom).
     pub sint_lambda: Option<Numeric>,
+    /// The `_refln_symmetry_epsilon` item. The field holds the column values, one per loop row.
+    ///
+    /// The symmetry reinforcement factor corresponding to the number of
+    /// times the reflection indices are generated identically from the
+    /// space-group symmetry operations.
     pub symmetry_epsilon: Option<Numeric>,
+    /// The `_refln_symmetry_multiplicity` item. The field holds the column values, one per loop row.
+    ///
+    /// The number of reflections symmetry-equivalent under the Laue
+    /// symmetry to the present reflection. In the Laue symmetry, Friedel
+    /// opposites (h k l and -h -k -l) are equivalent. Tables of
+    /// symmetry-equivalent reflections are available in International
+    /// Tables for Crystallography Volume A (2002), Chapter 10.1.
     pub symmetry_multiplicity: Option<Numeric>,
+    /// The `_refln_wavelength` item. The field holds the column values, one per loop row.
+    ///
+    /// The mean wavelength in angstroms of the radiation used to measure
+    /// this reflection. This is an important parameter for data collected
+    /// using energy-dispersive detectors or the Laue method.
+    /// Units: A (angstrom).
     pub wavelength: Option<Numeric>,
+    /// The `_refln_wavelength_id` item. The field holds the column values, one per loop row.
+    ///
+    /// Code identifying the wavelength in the _diffrn_radiation_ list. See
+    /// _diffrn_radiation_wavelength_id.
     pub wavelength_id: Option<CharString>,
 }
 

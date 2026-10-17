@@ -13,18 +13,27 @@ pub use self::sample_thickness::SampleThickness;
 pub use self::shift_over_su_max::ShiftOverSuMax;
 pub use self::shift_over_su_mean::ShiftOverSuMean;
 
+/// The single-value terms of the `refine_ls` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum RefineLsTerms {
+    /// The `_refine_ls_abs_structure_z_score` item. The variant holds the single value.
     Abs_structure_z_score(Numeric),
+    /// The `_refine_ls_number_reflns_gt` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Number_reflns_gt(NumberReflnsGt),
+    /// The `_refine_ls_sample_shape_details` item. The variant holds the single value.
     Sample_shape_details(CharString),
+    /// The `_refine_ls_sample_shape_expression` item. The variant holds the single value.
     Sample_shape_expression(CharString),
+    /// The `_refine_ls_sample_thickness` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Sample_thickness(SampleThickness),
+    /// The `_refine_ls_shift_over_su_max` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Shift_over_su_max(ShiftOverSuMax),
+    /// The `_refine_ls_shift_over_su_mean` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Shift_over_su_mean(ShiftOverSuMean),
 }

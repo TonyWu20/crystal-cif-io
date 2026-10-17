@@ -10,24 +10,31 @@ use crystal_cif_fmt::grammar::{Numeric, Value};
 pub struct HbondDistance(Numeric);
 
 impl HbondDistance {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_da(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), None)
             .map_err(|e| RangeError::new(format!("geom_hbond_distance_DA: {e}")))?;
         Ok(Self(value))
     }
 
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_dh(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), None)
             .map_err(|e| RangeError::new(format!("geom_hbond_distance_DH: {e}")))?;
         Ok(Self(value))
     }
 
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_ha(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), None)
             .map_err(|e| RangeError::new(format!("geom_hbond_distance_HA: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }

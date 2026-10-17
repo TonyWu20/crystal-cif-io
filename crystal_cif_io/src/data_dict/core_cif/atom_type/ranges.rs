@@ -13,12 +13,15 @@ use crystal_cif_fmt::grammar::{Numeric, Value};
 pub struct AnalyticalMass(Numeric);
 
 impl AnalyticalMass {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), Some(100.0))
             .map_err(|e| RangeError::new(format!("atom_type_analytical_mass_percent: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }
@@ -44,12 +47,15 @@ impl From<AnalyticalMass> for Value {
 pub struct NumberInCell(Numeric);
 
 impl NumberInCell {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), None)
             .map_err(|e| RangeError::new(format!("atom_type_number_in_cell: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }
@@ -75,12 +81,15 @@ impl From<NumberInCell> for Value {
 pub struct OxidationNumber(Numeric);
 
 impl OxidationNumber {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(-8.0), Some(8.0))
             .map_err(|e| RangeError::new(format!("atom_type_oxidation_number: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }
@@ -107,18 +116,23 @@ impl From<OxidationNumber> for Value {
 pub struct Radius(Numeric);
 
 impl Radius {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_bond(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), Some(5.0))
             .map_err(|e| RangeError::new(format!("atom_type_radius_bond: {e}")))?;
         Ok(Self(value))
     }
 
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_contact(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), Some(5.0))
             .map_err(|e| RangeError::new(format!("atom_type_radius_contact: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }

@@ -9,12 +9,34 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_measurement` category struct. One field per registry item.
 pub struct DiffrnMeasurement {
+    /// The `_diffrn_measurement_details` item. The field holds the single value.
+    ///
+    /// A description of special aspects of the intensity measurement.
     pub details: Option<CharString>,
+    /// The `_diffrn_measurement_device` item. The field holds the single value.
+    ///
+    /// The general class of goniometer or device used to support and orient
+    /// the specimen.
     pub device: Option<CharString>,
+    /// The `_diffrn_measurement_device_details` item. The field holds the single value.
+    ///
+    /// A description of special aspects of the device used to measure the
+    /// diffraction intensities.
     pub device_details: Option<CharString>,
+    /// The `_diffrn_measurement_device_type` item. The field holds the single value.
+    ///
+    /// The make, model or name of the measurement device (goniometer) used.
     pub device_type: Option<CharString>,
+    /// The `_diffrn_measurement_method` item. The field holds the single value.
+    ///
+    /// Method used to measure the intensities.
     pub method: Option<CharString>,
+    /// The `_diffrn_measurement_specimen_support` item. The field holds the single value.
+    ///
+    /// The physical device used to support the crystal during data
+    /// collection.
     pub specimen_support: Option<CharString>,
 }
 

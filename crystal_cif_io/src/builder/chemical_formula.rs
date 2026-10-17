@@ -31,19 +31,30 @@ pub enum FormulaError {
     UnknownElement(String),
     /// The computed molar mass misses the `1.0:` range.
     #[error("the {item} value misses its range: {detail}")]
-    Range { item: &'static str, detail: String },
+    Range {
+        /// The item the value belongs to.
+        item: &'static str,
+        /// The range detail of the failure.
+        detail: String,
+    },
     /// The supplied density misses the structure-level expectation
     /// beyond the relative tolerance.
     #[error("the supplied density {supplied} misses the computed {computed} beyond the relative {tolerance}")]
     DensityMismatch {
+        /// The supplied density.
         supplied: f64,
+        /// The density computed from the structure.
         computed: f64,
+        /// The relative tolerance of the check.
         tolerance: f64,
     },
     /// The density is supplied but the check needs the Z and the
     /// cell volume alongside it.
     #[error("the density {density} needs the structure Z and the cell volume for the check")]
-    MissingDensityInputs { density: f64 },
+    MissingDensityInputs {
+        /// The supplied density with no inputs for the check.
+        density: f64,
+    },
 }
 
 #[cfg(test)]

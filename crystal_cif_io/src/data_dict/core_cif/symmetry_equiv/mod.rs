@@ -13,8 +13,35 @@ pub use symmetry_equiv::SymmetryEquiv;
 /// holds one column of the loop.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
+/// The loop-value terms of the `symmetry_equiv` category: one variant per
+
+/// registry loop-value item, in item order.
 pub enum SymmetryEquivLoopItem {
+    /// The `_symmetry_equiv_pos_as_xyz` item. The variant holds the column values, one per loop row.
+    ///
+    /// Symmetry-equivalent position in the 'xyz' representation. Except for
+    /// the space group P1, these data will be repeated in a loop. The
+    /// format of the data item is as per International Tables for
+    /// Crystallography Vol. A. (2002). All equivalent positions should be
+    /// entered, including those for lattice centring and a centre of
+    /// symmetry, if present. In order for the defaults to work correctly,
+    /// the identity operation should have _space_group_symop_id or
+    /// _symmetry_equiv_pos_site_id set to 1, and
+    /// _space_group_symop_operation_xyz or _symmetry_equiv_pos_as_xyz set
+    /// to x,y,z; i.e. the operation labelled 1 should be the identity
+    /// operation.
     Equiv_pos_as_xyz(Vec<CharString>),
+    /// The `_symmetry_equiv_pos_site_id` item. The variant holds the column values, one per loop row.
+    ///
+    /// A code identifying each entry in the _symmetry_equiv_pos_as_xyz
+    /// list. It is normally the sequence number of the entry in that list,
+    /// and should be identified with the code 'n' in _geom_*_symmetry_
+    /// codes of the form 'n_klm'. In order for the defaults to work
+    /// correctly, the identity operation should have _space_group_symop_id
+    /// or _symmetry_equiv_pos_site_id set to 1, and
+    /// _space_group_symop_operation_xyz or _symmetry_equiv_pos_as_xyz set
+    /// to x,y,z; i.e. the operation labelled 1 should be the identity
+    /// operation.
     Equiv_pos_site_id(Vec<Numeric>),
 }
 

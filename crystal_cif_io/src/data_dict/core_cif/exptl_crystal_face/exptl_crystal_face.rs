@@ -11,14 +11,60 @@ use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `exptl_crystal_face` category struct. One field per registry item.
 pub struct ExptlCrystalFace {
+    /// The `_exptl_crystal_face_diffr_chi` item. The field holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     pub diffr_chi: Option<Numeric>,
+    /// The `_exptl_crystal_face_diffr_kappa` item. The field holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     pub diffr_kappa: Option<Numeric>,
+    /// The `_exptl_crystal_face_diffr_phi` item. The field holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     pub diffr_phi: Option<Numeric>,
+    /// The `_exptl_crystal_face_diffr_psi` item. The field holds the column values, one per loop row.
+    ///
+    /// The goniometer angle settings in degrees when the perpendicular to
+    /// the specified crystal face is aligned along a specified direction
+    /// (e.g. the bisector of the incident and reflected beams in an optical
+    /// goniometer).
+    /// Units: deg (degree of arc).
     pub diffr_psi: Option<Numeric>,
+    /// The `_exptl_crystal_face_index_h` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of the crystal face associated with the value
+    /// _exptl_crystal_face_perp_dist.
     pub index_h: Option<Numeric>,
+    /// The `_exptl_crystal_face_index_k` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of the crystal face associated with the value
+    /// _exptl_crystal_face_perp_dist.
     pub index_k: Option<Numeric>,
+    /// The `_exptl_crystal_face_index_l` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of the crystal face associated with the value
+    /// _exptl_crystal_face_perp_dist.
     pub index_l: Option<Numeric>,
+    /// The `_exptl_crystal_face_perp_dist` item. The field holds the column values, one per loop row.
+    ///
+    /// The perpendicular distance in millimetres from the face to the
+    /// centre of rotation of the crystal.
+    /// Units: mm (millimetre).
     pub perp_dist: Option<Numeric>,
 }
 

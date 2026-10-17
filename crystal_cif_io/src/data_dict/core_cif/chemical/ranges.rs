@@ -14,18 +14,23 @@ use crystal_cif_fmt::grammar::{Numeric, Value};
 pub struct Enantioexcess(Numeric);
 
 impl Enantioexcess {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_bulk(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), Some(1.0))
             .map_err(|e| RangeError::new(format!("chemical_enantioexcess_bulk: {e}")))?;
         Ok(Self(value))
     }
 
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new_crystal(value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), Some(1.0))
             .map_err(|e| RangeError::new(format!("chemical_enantioexcess_crystal: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }
@@ -54,12 +59,15 @@ impl From<Enantioexcess> for Value {
 pub struct Temperature(Numeric);
 
 impl Temperature {
+    /// Builds the value and checks the dictionary range. An out-of-range
+    /// value rejects with a [`RangeError`].
     pub fn try_new(item: &str, value: Numeric) -> Result<Self, RangeError> {
         check_range(&value, Some(0.0), None)
             .map_err(|e| RangeError::new(format!("chemical_{item}: {e}")))?;
         Ok(Self(value))
     }
 
+    /// The stored value.
     pub fn value(&self) -> Numeric {
         self.0
     }

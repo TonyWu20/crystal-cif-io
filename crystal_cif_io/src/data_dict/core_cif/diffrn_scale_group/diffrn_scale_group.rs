@@ -11,8 +11,19 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_scale_group` category struct. One field per registry item.
 pub struct DiffrnScaleGroup {
+    /// The `_diffrn_scale_group_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying a specific measurement group (e.g. for
+    /// multi-film or multi-crystal data). The code must match a
+    /// _diffrn_refln_scale_group_code in the reflection list.
     pub code: Option<CharString>,
+    /// The `_diffrn_scale_group_I_net` item. The field holds the column values, one per loop row.
+    ///
+    /// The scale for a specific measurement group which is to be multiplied
+    /// with the net intensity to place all intensities in the
+    /// _diffrn_refln_ or _refln_ list on a common scale.
     pub i_net: Option<INet>,
 }
 impl CifCategory for Vec<DiffrnScaleGroup> {

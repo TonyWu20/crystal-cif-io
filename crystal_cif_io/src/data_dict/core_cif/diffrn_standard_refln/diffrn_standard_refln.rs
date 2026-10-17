@@ -10,8 +10,15 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `diffrn_standard_refln` category struct. One field per registry item.
 pub struct DiffrnStandardRefln {
+    /// The `_diffrn_standard_refln_code` item. The field holds the column values, one per loop row.
+    ///
+    /// The code identifying a reflection measured as a standard reflection
+    /// with the indices _diffrn_standard_refln_index_. This is the same
+    /// code as the _diffrn_refln_standard_code in the _diffrn_refln_ list.
     pub code: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<DiffrnStandardReflnRow>,
 }
 impl CifCategory for DiffrnStandardRefln {
@@ -76,9 +83,22 @@ impl CifCategory for DiffrnStandardRefln {
 }
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `diffrn_standard_refln` category: the per-observation values of the loop items.
 pub struct DiffrnStandardReflnRow {
+    /// The `_diffrn_standard_refln_index_h` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of standard reflections used in the diffraction
+    /// measurement process.
     pub index_h: Option<Numeric>,
+    /// The `_diffrn_standard_refln_index_k` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of standard reflections used in the diffraction
+    /// measurement process.
     pub index_k: Option<Numeric>,
+    /// The `_diffrn_standard_refln_index_l` item. The field holds the column values, one per loop row.
+    ///
+    /// Miller indices of standard reflections used in the diffraction
+    /// measurement process.
     pub index_l: Option<Numeric>,
 }
 fn rows_to_members(rows: &[DiffrnStandardReflnRow]) -> Vec<DataBlockMember> {

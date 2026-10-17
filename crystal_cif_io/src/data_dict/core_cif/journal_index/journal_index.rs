@@ -12,8 +12,11 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `journal_index` category struct. One field per registry item.
 pub struct JournalIndex {
+    /// The `_journal_index_id` item. The field holds the single value.
     pub id: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<JournalIndexRow>,
 }
 
@@ -81,9 +84,19 @@ impl CifCategory for JournalIndex {
 
 /// The `journal_index` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `journal_index` category: the per-observation values of the loop items.
 pub struct JournalIndexRow {
+    /// The `_journal_index_subterm` item. The field holds the column values, one per loop row.
+    ///
+    /// Indexing terms supplied by the journal staff.
     pub subterm: Option<CharString>,
+    /// The `_journal_index_term` item. The field holds the column values, one per loop row.
+    ///
+    /// Indexing terms supplied by the journal staff.
     pub term: Option<CharString>,
+    /// The `_journal_index_type` item. The field holds the column values, one per loop row.
+    ///
+    /// Indexing terms supplied by the journal staff.
     pub type_: Option<Type>,
 }
 

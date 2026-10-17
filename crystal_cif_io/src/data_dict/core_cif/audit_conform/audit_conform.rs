@@ -11,8 +11,11 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns, SingleLineData};
 
 #[derive(Debug, Clone, Default)]
+/// The `audit_conform` category struct. One field per registry item.
 pub struct AuditConform {
+    /// The `_audit_conform_dict_DOI` item. The field holds the single value.
     pub dict_doi: Option<CharString>,
+    /// The loop rows of the category: one row per observation.
     pub rows: Vec<AuditConformRow>,
 }
 
@@ -80,9 +83,22 @@ impl CifCategory for AuditConform {
 
 /// The `audit_conform` loop-row struct. One `Option` field per registry column.
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `audit_conform` category: the per-observation values of the loop items.
 pub struct AuditConformRow {
+    /// The `_audit_conform_dict_location` item. The field holds the column values, one per loop row.
+    ///
+    /// A file name or uniform resource locator (URL) for the dictionary to
+    /// which the current data block conforms.
     pub dict_location: Option<CharString>,
+    /// The `_audit_conform_dict_name` item. The field holds the column values, one per loop row.
+    ///
+    /// The string identifying the highest-level dictionary defining data
+    /// names used in this file.
     pub dict_name: Option<CharString>,
+    /// The `_audit_conform_dict_version` item. The field holds the column values, one per loop row.
+    ///
+    /// The version number of the dictionary to which the current data block
+    /// conforms.
     pub dict_version: Option<CharString>,
 }
 

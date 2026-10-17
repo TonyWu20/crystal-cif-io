@@ -7,13 +7,20 @@ use crystal_cif_fmt::grammar::{CharString, Numeric, Tag, Value};
 
 pub use self::temperature::Temperature;
 
+/// The single-value terms of the `atom_analytical_mass_loss` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum AtomAnalyticalMassLossTerms {
+    /// The `_atom_analytical_mass_loss_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_atom_analytical_mass_loss_meas_id` item. The variant holds the single value.
     Meas_id(CharString),
+    /// The `_atom_analytical_mass_loss_percent` item. The variant holds the single value.
     Percent(Numeric),
+    /// The `_atom_analytical_mass_loss_special_details` item. The variant holds the single value.
     Special_details(CharString),
+    /// The `_atom_analytical_mass_loss_temperature` item. The variant holds the single value.
     /// range constraint recorded in the dictionary _enumeration
     Temperature(Temperature),
 }

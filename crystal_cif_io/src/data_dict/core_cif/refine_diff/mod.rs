@@ -3,11 +3,16 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{Numeric, Tag, Value};
 
+/// The single-value terms of the `refine_diff` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum RefineDiffTerms {
+    /// The `_refine_diff_potential_max` item. The variant holds the single value.
     Potential_max(Numeric),
+    /// The `_refine_diff_potential_min` item. The variant holds the single value.
     Potential_min(Numeric),
+    /// The `_refine_diff_potential_rms` item. The variant holds the single value.
     Potential_rms(Numeric),
 }
 

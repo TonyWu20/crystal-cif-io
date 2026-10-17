@@ -13,13 +13,51 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 use crystal_cif_fmt::{DataBlockMember, DataItems, LoopColumn, LoopColumns};
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `chemical_conn_atom` category: the per-observation values of the loop items.
 pub struct ChemicalConnAtomRow {
+    /// The `_chemical_conn_atom_charge` item. The field holds the column values, one per loop row.
+    ///
+    /// The net integer charge assigned to this atom. This is the formal
+    /// charge assignment normally found in chemical diagrams.
     pub charge: Option<ConnAtomCharge>,
+    /// The `_chemical_conn_atom_display_x` item. The field holds the column values, one per loop row.
+    ///
+    /// The 2D Cartesian coordinates (x,y) of the position of this atom in a
+    /// recognizable chemical diagram. The coordinate origin is at the lower
+    /// left corner, the x axis is horizontal and the y axis is vertical.
+    /// The coordinates must lie in the range 0.0 to 1.0. These coordinates
+    /// can be obtained from projections of a suitable uncluttered view of
+    /// the molecular structure.
     pub display_x: Option<ConnAtomDisplay>,
+    /// The `_chemical_conn_atom_display_y` item. The field holds the column values, one per loop row.
+    ///
+    /// The 2D Cartesian coordinates (x,y) of the position of this atom in a
+    /// recognizable chemical diagram. The coordinate origin is at the lower
+    /// left corner, the x axis is horizontal and the y axis is vertical.
+    /// The coordinates must lie in the range 0.0 to 1.0. These coordinates
+    /// can be obtained from projections of a suitable uncluttered view of
+    /// the molecular structure.
     pub display_y: Option<ConnAtomDisplay>,
+    /// The `_chemical_conn_atom_NCA` item. The field holds the column values, one per loop row.
+    ///
+    /// The number of connected atoms excluding terminal hydrogen atoms.
     pub nca: Option<ConnAtomCount>,
+    /// The `_chemical_conn_atom_NH` item. The field holds the column values, one per loop row.
+    ///
+    /// The total number of hydrogen atoms attached to this atom, regardless
+    /// of whether they are included in the refinement or the _atom_site_
+    /// list. This number will be the same as _atom_site_attached_hydrogens
+    /// only if none of the hydrogen atoms appear in the _atom_site_ list.
     pub nh: Option<ConnAtomCount>,
+    /// The `_chemical_conn_atom_number` item. The field holds the column values, one per loop row.
+    ///
+    /// The chemical sequence number to be associated with this atom.
     pub number: Option<ConnAtomNumber>,
+    /// The `_chemical_conn_atom_type_symbol` item. The field holds the column values, one per loop row.
+    ///
+    /// A code identifying the atom type. This code must match an
+    /// _atom_type_symbol code in the _atom_type_ list or be a recognizable
+    /// element symbol.
     pub type_symbol: Option<CharString>,
 }
 

@@ -3,10 +3,14 @@ use std::fmt::Display;
 use crate::data_dict::{CifTerm, SingleValueTerm};
 use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 
+/// The single-value terms of the `space_group_generator` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum SpaceGroupGeneratorTerms {
+    /// The `_space_group_generator_id` item. The variant holds the single value.
     Id(CharString),
+    /// The `_space_group_generator_xyz` item. The variant holds the single value.
     Xyz(CharString),
 }
 

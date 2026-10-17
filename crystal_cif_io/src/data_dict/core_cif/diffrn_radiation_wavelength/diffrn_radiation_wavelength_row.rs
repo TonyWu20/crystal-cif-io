@@ -15,11 +15,35 @@ use {
 };
 
 #[derive(Debug, Clone, Default)]
+/// One loop row of the `diffrn_radiation_wavelength` category: the per-observation values of the loop items.
 pub struct DiffrnRadiationWavelengthRow {
+    /// The `_diffrn_radiation_wavelength` item. The field holds the column values, one per loop row.
+    ///
+    /// The radiation wavelength in angstroms.
+    /// Units: A (angstrom).
     pub diffrn_radiation_wavelength: Option<DiffrnRadiationWavelength>,
+    /// The `_diffrn_radiation_wavelength_details` item. The field holds the column values, one per loop row.
+    ///
+    /// Information about the determination of the radiation wavelength that
+    /// is not conveyed completely by an enumerated value of
+    /// _diffrn_radiation_wavelength_determination.
     pub details: Option<CharString>,
+    /// The `_diffrn_radiation_wavelength_determination` item. The field holds the column values, one per loop row.
+    ///
+    /// The method of determination of incident wavelength.
     pub determination: Option<Determination>,
+    /// The `_diffrn_radiation_wavelength_id` item. The field holds the column values, one per loop row.
+    ///
+    /// An arbitrary code identifying each value of
+    /// _diffrn_radiation_wavelength. Items in the DIFFRN_RADIATION category
+    /// are looped when multiple wavelengths are used. This code is used to
+    /// link with the _diffrn_refln_ list. It must match with one of the
+    /// _diffrn_refln_wavelength_id codes.
     pub id: Option<CharString>,
+    /// The `_diffrn_radiation_wavelength_wt` item. The field holds the column values, one per loop row.
+    ///
+    /// The relative weight of a wavelength identified by the code
+    /// _diffrn_radiation_wavelength_id in the list of wavelengths.
     pub wt: Option<Wt>,
 }
 impl CifCategory for Vec<DiffrnRadiationWavelengthRow> {

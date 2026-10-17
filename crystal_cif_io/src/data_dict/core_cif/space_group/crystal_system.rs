@@ -10,15 +10,23 @@ use std::fmt::Display;
 //     try_from = "String",
 //     into = "String"
 // )]
+/// The seven crystal systems of the `space_group` category.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub enum CrystalSystemCif {
     #[default]
+    /// `triclinic`
     Triclinic,
+    /// `monoclinic`
     Monoclinic,
+    /// `orthorhombic`
     Orthorhombic,
+    /// `tetragonal`
     Tetragonal,
+    /// `trigonal`
     Trigonal,
+    /// `hexagonal`
     Hexagonal,
+    /// `cubic`
     Cubic,
 }
 

@@ -82,21 +82,29 @@ pub enum CifError {
     /// A typed item carries a value class the dictionary denies.
     #[error("{tag}: expected the {expected} value class, found {found}")]
     ValueClass {
+        /// The tag of the item that failed.
         tag: String,
+        /// The value class the dictionary allows.
         expected: &'static str,
+        /// The value class the item carries.
         found: &'static str,
     },
     /// A matrix item carries the wrong shape.
     #[error("{tag}: expected a {expected:?} shape, found {found:?}")]
     Shape {
+        /// The tag of the matrix item that failed.
         tag: String,
+        /// The matrix shape the dictionary allows.
         expected: (usize, usize),
+        /// The matrix shape the document carries.
         found: (usize, usize),
     },
     /// A required item is absent (from [`CoreCif::validate`]).
     #[error("{category}: the required item {item} is missing")]
     Missing {
+        /// The category the required item belongs to.
         category: &'static str,
+        /// The name of the missing item.
         item: &'static str,
     },
 }
@@ -107,71 +115,133 @@ pub struct CoreCif {
     /// The heading of the data block this view was read from. `to_block`
     /// writes it back, so the round trip needs no separate heading.
     pub heading: DataBlockHeading,
+    /// The `cell` CIF category of the typed document layer.
     pub cell: Cell,
+    /// The `space_group` CIF category of the typed document layer.
     pub space_group: SpaceGroup,
+    /// The rows of the `space_group_symop` CIF category: one row per observation.
     pub space_group_symop: Vec<Symop>,
+    /// The rows of the `atom_site` CIF category: one row per observation.
     pub atom_site: Vec<AtomSite>,
+    /// The `chemical_formula` CIF category of the typed document layer.
     pub chemical_formula: ChemicalFormula,
     // T3 wave: the tier T3 category groups (roadmap D12j).
+    /// The `atom_sites` CIF category of the typed document layer.
     pub atom_sites: AtomSites,
+    /// The `atom_type` CIF category of the typed document layer.
     pub atom_type: AtomType,
+    /// The `chemical` CIF category of the typed document layer.
     pub chemical: Chemical,
+    /// The rows of the `chemical_conn_atom` CIF category: one row per observation.
     pub chemical_conn_atom: Vec<ChemicalConnAtomRow>,
+    /// The `chemical_conn_bond` CIF category of the typed document layer.
     pub chemical_conn_bond: ChemicalConnBond,
+    /// The `geom` CIF category of the typed document layer.
     pub geom: Geom,
+    /// The `geom_angle` CIF category of the typed document layer.
     pub geom_angle: GeomAngle,
+    /// The `geom_bond` CIF category of the typed document layer.
     pub geom_bond: GeomBond,
+    /// The `geom_contact` CIF category of the typed document layer.
     pub geom_contact: GeomContact,
+    /// The `geom_hbond` CIF category of the typed document layer.
     pub geom_hbond: GeomHbond,
+    /// The `geom_torsion` CIF category of the typed document layer.
     pub geom_torsion: GeomTorsion,
+    /// The `valence_param` CIF category of the typed document layer.
     pub valence_param: ValenceParam,
+    /// The rows of the `valence_ref` CIF category: one row per observation.
     pub valence_ref: Vec<ValenceRefRow>,
     // T5 wave: the 16 raw-diffraction categories of tier T5.
+    /// The rows of the `cell_measurement_refln` CIF category: one row per observation.
     pub cell_measurement_refln: Vec<CellMeasurementRefln>,
+    /// The `diffrn` CIF category of the typed document layer.
     pub diffrn: Diffrn,
+    /// The rows of the `diffrn_attenuator` CIF category: one row per observation.
     pub diffrn_attenuator: Vec<DiffrnAttenuator>,
+    /// The `diffrn_detector` CIF category of the typed document layer.
     pub diffrn_detector: DiffrnDetector,
+    /// The `diffrn_measurement` CIF category of the typed document layer.
     pub diffrn_measurement: DiffrnMeasurement,
+    /// The `diffrn_orient_matrix` CIF category of the typed document layer.
     pub diffrn_orient_matrix: DiffrnOrientMatrix,
+    /// The rows of the `diffrn_orient_refln` CIF category: one row per observation.
     pub diffrn_orient_refln: Vec<DiffrnOrientRefln>,
+    /// The `diffrn_radiation` CIF category of the typed document layer.
     pub diffrn_radiation: DiffrnRadiation,
+    /// The rows of the `diffrn_radiation_wavelength` CIF category: one row per observation.
     pub diffrn_radiation_wavelength: Vec<DiffrnRadiationWavelengthRow>,
+    /// The rows of the `diffrn_refln` CIF category: one row per observation.
     pub diffrn_refln: Vec<DiffrnRefln>,
+    /// The `diffrn_reflns` CIF category of the typed document layer.
     pub diffrn_reflns: DiffrnReflns,
+    /// The rows of the `diffrn_reflns_class` CIF category: one row per observation.
     pub diffrn_reflns_class: Vec<DiffrnReflnsClass>,
+    /// The rows of the `diffrn_scale_group` CIF category: one row per observation.
     pub diffrn_scale_group: Vec<DiffrnScaleGroup>,
+    /// The `diffrn_source` CIF category of the typed document layer.
     pub diffrn_source: DiffrnSource,
+    /// The `diffrn_standard_refln` CIF category of the typed document layer.
     pub diffrn_standard_refln: DiffrnStandardRefln,
+    /// The `diffrn_standards` CIF category of the typed document layer.
     pub diffrn_standards: DiffrnStandards,
     // T4 wave: the tier T4 (metadata and publication) category fields.
+    /// The `audit` CIF category of the typed document layer.
     pub audit: Audit,
+    /// The `audit_author` CIF category of the typed document layer.
     pub audit_author: AuditAuthor,
+    /// The `audit_conform` CIF category of the typed document layer.
     pub audit_conform: AuditConform,
+    /// The `audit_contact_author` CIF category of the typed document layer.
     pub audit_contact_author: AuditContactAuthor,
+    /// The rows of the `audit_link` CIF category: one row per observation.
     pub audit_link: Vec<AuditLink>,
+    /// The `citation` CIF category of the typed document layer.
     pub citation: Citation,
+    /// The rows of the `citation_author` CIF category: one row per observation.
     pub citation_author: Vec<CitationAuthor>,
+    /// The `citation_editor` CIF category of the typed document layer.
     pub citation_editor: CitationEditor,
+    /// The `computing` CIF category of the typed document layer.
     pub computing: Computing,
+    /// The `database` CIF category of the typed document layer.
     pub database: Database,
+    /// The `journal` CIF category of the typed document layer.
     pub journal: Journal,
+    /// The `journal_index` CIF category of the typed document layer.
     pub journal_index: JournalIndex,
+    /// The `publ` CIF category of the typed document layer.
     pub publ: Publ,
+    /// The `publ_author` CIF category of the typed document layer.
     pub publ_author: PublAuthor,
+    /// The rows of the `publ_body` CIF category: one row per observation.
     pub publ_body: Vec<PublBody>,
+    /// The rows of the `publ_manuscript_incl` CIF category: one row per observation.
     pub publ_manuscript_incl: Vec<PublManuscriptIncl>,
     // T2 wave: the twelve categories of the T2 tier (roadmap D12j).
+    /// The `exptl` CIF category of the typed document layer.
     pub exptl: Exptl, // T2 wave: single items and the T loop family.
+    /// The rows of the `exptl_crystal` CIF category: one row per observation.
     pub exptl_crystal: Vec<ExptlCrystal>, // T2 wave:
+    /// The rows of the `exptl_crystal_face` CIF category: one row per observation.
     pub exptl_crystal_face: Vec<ExptlCrystalFace>, // T2 wave:
+    /// The rows of the `refln` CIF category: one row per observation.
     pub refln: Vec<Refln>, // T2 wave:
+    /// The `reflns` CIF category of the typed document layer.
     pub reflns: Reflns, // T2 wave: single items and the two loop families.
+    /// The rows of the `reflns_class` CIF category: one row per observation.
     pub reflns_class: Vec<ReflnsClass>, // T2 wave:
+    /// The rows of the `reflns_scale` CIF category: one row per observation.
     pub reflns_scale: Vec<ReflnsScale>, // T2 wave:
+    /// The rows of the `reflns_shell` CIF category: one row per observation.
     pub reflns_shell: Vec<ReflnsShell>, // T2 wave:
+    /// The `refine` CIF category of the typed document layer.
     pub refine: Refine, // T2 wave: single items and the loop family.
+    /// The rows of the `refine_ls_class` CIF category: one row per observation.
     pub refine_ls_class: Vec<RefineLsClass>, // T2 wave:
+    /// The `symmetry` CIF category of the typed document layer.
     pub symmetry: Symmetry, // T2 wave:
+    /// The rows of the `symmetry_equiv` CIF category: one row per observation.
     pub symmetry_equiv: Vec<SymmetryEquiv>, // T2 wave:
     /// Members no typed category consumed, plus every save frame.
     pub extra: Vec<DataBlockMember>,
@@ -551,10 +621,16 @@ pub struct BlockTypeFailure {
 pub enum CoreCifParseError {
     /// The file does not parse. Each string is one rendered syntax report.
     #[error("the file does not parse: {n} syntax report(s)", n = reports.len())]
-    Syntax { reports: Vec<String> },
+    Syntax {
+        /// One rendered syntax report per parse failure.
+        reports: Vec<String>,
+    },
     /// One or more data blocks failed to type. Every failure is carried.
     #[error("{n} data block(s) failed to type", n = failures.len())]
-    Typed { failures: Vec<BlockTypeFailure> },
+    Typed {
+        /// The typed failure of every data block that failed.
+        failures: Vec<BlockTypeFailure>,
+    },
 }
 
 /// The typed document: one `CoreCif` per data block, plus the

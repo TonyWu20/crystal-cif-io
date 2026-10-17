@@ -3,11 +3,14 @@ use std::fmt::Display;
 use crystal_cif_fmt::grammar::{Integer, Number, Numeric, UnsignedInteger, Value};
 
 #[derive(Debug, Clone, Copy)]
+/// The `atom_site` symmetry multiplicity: the value clamped into the
+/// 1 to 192 range the dictionary records.
 pub struct SymMultiplicity {
     value: u8,
 }
 
 impl SymMultiplicity {
+    /// Clamps the value into the 1 to 192 range.
     pub fn new(value: u8) -> Self {
         Self {
             value: value.clamp(1, 192),

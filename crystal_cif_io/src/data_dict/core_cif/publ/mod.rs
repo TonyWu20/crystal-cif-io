@@ -9,24 +9,104 @@ use crystal_cif_fmt::grammar::{CharString, Tag, Value};
 pub use self::publ::{Publ, PublRow};
 pub use self::requested_category::RequestedCategory;
 
+/// The single-value terms of the `publ` category: one variant per
+/// registry single-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum PublTerms {
+    /// The `_publ_contact_author` item. The variant holds the single value.
+    ///
+    /// The name and address of the author submitting the manuscript and
+    /// data block. This is the person contacted by the journal editorial
+    /// staff. It is preferable to use the separate data items
+    /// _publ_contact_author_name and _publ_contact_author_address.
     Contact_author(CharString),
+    /// The `_publ_contact_author_address` item. The variant holds the single value.
+    ///
+    /// The address of the author submitting the manuscript and data block.
+    /// This is the person contacted by the journal editorial staff.
     Contact_author_address(CharString),
+    /// The `_publ_contact_author_email` item. The variant holds the single value.
+    ///
+    /// E-mail address in a form recognizable to international networks. The
+    /// format of e-mail addresses is given in Section 3.4, Address
+    /// Specification, of Internet Message Format, RFC 2822, P. Resnick
+    /// (Editor), Network Standards Group, April 2001.
     Contact_author_email(CharString),
+    /// The `_publ_contact_author_fax` item. The variant holds the single value.
+    ///
+    /// Facsimile telephone number of the author submitting the manuscript
+    /// and data block. The recommended style is the international dialing
+    /// prefix, followed by the area code in parentheses, followed by the
+    /// local number with no spaces. The earlier convention of including the
+    /// international dialing prefix in parentheses is no longer
+    /// recommended.
     Contact_author_fax(CharString),
+    /// The `_publ_contact_author_id_iucr` item. The variant holds the single value.
+    ///
+    /// Identifier in the IUCr contact database of the author submitting the
+    /// manuscript and data block. This identifier may be available from the
+    /// World Directory of Crystallographers (`http://wdc.iucr.org`).
     Contact_author_id_iucr(CharString),
+    /// The `_publ_contact_author_id_orcid` item. The variant holds the single value.
+    ///
+    /// Identifier in the ORCID Registry of the author submitting the
+    /// manuscript and data block. ORCID is an open, non-profit,
+    /// community-driven service to provide a registry of unique researcher
+    /// identifiers (`http://orcid.org`).
     Contact_author_id_orcid(CharString),
+    /// The `_publ_contact_author_name` item. The variant holds the single value.
+    ///
+    /// The name of the author submitting the manuscript and data block.
+    /// This is the person contacted by the journal editorial staff.
     Contact_author_name(CharString),
+    /// The `_publ_contact_author_phone` item. The variant holds the single value.
+    ///
+    /// Telephone number of the author submitting the manuscript and data
+    /// block. The recommended style is the international dialing prefix,
+    /// followed by the area code in parentheses, followed by the local
+    /// number and any extension number prefixed by 'x', with no spaces. The
+    /// earlier convention of including the international dialing prefix in
+    /// parentheses is no longer recommended.
     Contact_author_phone(CharString),
+    /// The `_publ_contact_letter` item. The variant holds the single value.
+    ///
+    /// A letter submitted to the journal editor by the contact author.
     Contact_letter(CharString),
+    /// The `_publ_manuscript_creation` item. The variant holds the single value.
+    ///
+    /// A description of the word-processor package and computer used to
+    /// create the word-processed manuscript stored as
+    /// _publ_manuscript_processed.
     Manuscript_creation(CharString),
+    /// The `_publ_manuscript_processed` item. The variant holds the single value.
+    ///
+    /// The full manuscript of a paper (excluding possibly the figures and
+    /// the tables) output in ASCII characters from a word processor.
+    /// Information about the generation of this data item must be specified
+    /// in the data item _publ_manuscript_creation.
     Manuscript_processed(CharString),
+    /// The `_publ_manuscript_text` item. The variant holds the single value.
+    ///
+    /// The full manuscript of a paper (excluding figures and possibly the
+    /// tables) output as standard ASCII text.
     Manuscript_text(CharString),
+    /// The `_publ_requested_category` item. The variant holds the single value.
+    ///
+    /// The category of paper submitted. For submission to Acta
+    /// Crystallographica Section C or Acta Crystallographica Section E,
+    /// ONLY those codes indicated for use with those journals should be
+    /// used.
     /// closed code set recorded in the dictionary _enumeration
     Requested_category(RequestedCategory),
+    /// The `_publ_requested_coeditor_name` item. The variant holds the single value.
+    ///
+    /// The name of the co-editor whom the authors would like to handle the
+    /// submitted manuscript.
     Requested_coeditor_name(CharString),
+    /// The `_publ_requested_journal` item. The variant holds the single value.
+    ///
+    /// The name of the journal to which the manuscript is being submitted.
     Requested_journal(CharString),
 }
 
@@ -81,25 +161,180 @@ impl Display for PublTerms {
     }
 }
 
+/// The loop-value terms of the `publ` category: one variant per
+/// registry loop-value item, in item order.
 #[derive(Debug, Clone)]
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum PublLoopItem {
+    /// The `_publ_section_abstract` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_abstract(Vec<CharString>),
+    /// The `_publ_section_acknowledgements` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_acknowledgements(Vec<CharString>),
+    /// The `_publ_section_comment` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_comment(Vec<CharString>),
+    /// The `_publ_section_discussion` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_discussion(Vec<CharString>),
+    /// The `_publ_section_experimental` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_experimental(Vec<CharString>),
+    /// The `_publ_section_exptl_prep` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_exptl_prep(Vec<CharString>),
+    /// The `_publ_section_exptl_refinement` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_exptl_refinement(Vec<CharString>),
+    /// The `_publ_section_exptl_solution` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_exptl_solution(Vec<CharString>),
+    /// The `_publ_section_figure_captions` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_figure_captions(Vec<CharString>),
+    /// The `_publ_section_introduction` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_introduction(Vec<CharString>),
+    /// The `_publ_section_keywords` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_keywords(Vec<CharString>),
+    /// The `_publ_section_references` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_references(Vec<CharString>),
+    /// The `_publ_section_related_literature` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_related_literature(Vec<CharString>),
+    /// The `_publ_section_synopsis` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_synopsis(Vec<CharString>),
+    /// The `_publ_section_table_legends` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_table_legends(Vec<CharString>),
+    /// The `_publ_section_title` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_title(Vec<CharString>),
+    /// The `_publ_section_title_footnote` item. The variant holds the column values, one per loop row.
+    ///
+    /// The sections of a manuscript if submitted in parts. As an
+    /// alternative, see _publ_manuscript_text and
+    /// _publ_manuscript_processed. The _publ_section_exptl_prep,
+    /// _publ_section_exptl_refinement and _publ_section_exptl_solution
+    /// items are preferred for separating the chemical preparation,
+    /// refinement and structure solution aspects of the experimental
+    /// description.
     Section_title_footnote(Vec<CharString>),
 }
 
