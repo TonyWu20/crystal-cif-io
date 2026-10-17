@@ -69,7 +69,7 @@ Keep a Changelog.
 - Split the workspace into two crates (roadmap D13).
   `crystal-cif-fmt` (new, 0.1.0) owns the parser, the IR value
   types, the term materialization traits, and the canonical JSON.
-  `crystal-cif-io` (0.3.0) keeps `data_dict` and `builder` and
+  `crystal-cif-io` keeps `data_dict` and `builder` and
   depends on `crystal-cif-fmt` by path.
 - Breaking: `parse_cif`, `rich_error`, `CifDialect`, and all IR
   types (`Tag`, `Value`, `DataBlock`, `DataItems`, `SaveFrame`,

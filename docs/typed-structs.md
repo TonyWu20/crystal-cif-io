@@ -362,7 +362,7 @@ crystal-cif-io/            (the repo root, [workspace])
 │       ├── parser/       current src/parser (chumsky + ariadne, parse_cif, CifDialect)
 │       ├── canonical.rs  current src/canonical.rs (canonical JSON, spec-level checks)
 │       └── serde/        current src/serde
-└── crystal_cif_io/       package crystal-cif-io, moves 0.2.0 -> 0.3.0
+└── crystal_cif_io/       package crystal-cif-io
     ├── src/
     │   ├── lib.rs        re-exports the category structs (the castep pattern)
     │   ├── core_cif.rs   CoreCif, CifError (the castep param_document.rs seat)
