@@ -1,0 +1,18 @@
+{
+  "exptl_absorpt_correction_type": {
+    "codes": ["semi-empirical"],
+    "note": "A real-data code the DDL1 pin does not hold. The COD entry 1000000 records it (roadmap D12m). The closed-value gate keeps the marked extension."
+  },
+  "atom_sites_solution_primary": {
+    "codes": ["mixed"],
+    "note": "Shared enum. The SolutionMethod enum keeps the hydrogens code for all three items."
+  },
+  "atom_sites_solution_secondary": {
+    "codes": ["mixed"],
+    "note": "Shared enum. The SolutionMethod enum keeps the hydrogens code for all three items."
+  },
+  "atom_site_thermal_displace_type": {
+    "codes": ["betaani"],
+    "note": "Shared enum. The AdpType enum keeps the DDL1 code betaani for the shell-only item."
+  }
+}

@@ -1,0 +1,84 @@
+use std::fmt::Display;
+
+// use serde::{Deserialize, Serialize};
+
+// /// This crate
+// #[cfg(feature = "serde")]
+// #[derive(Serialize, Deserialize)]
+// #[serde(
+//     rename_all(serialize = "lowercase"),
+//     try_from = "String",
+//     into = "String"
+// )]
+/// The seven crystal systems of the `space_group` category.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
+pub enum CrystalSystemCif {
+    #[default]
+    /// `triclinic`
+    Triclinic,
+    /// `monoclinic`
+    Monoclinic,
+    /// `orthorhombic`
+    Orthorhombic,
+    /// `tetragonal`
+    Tetragonal,
+    /// `trigonal`
+    Trigonal,
+    /// `hexagonal`
+    Hexagonal,
+    /// `cubic`
+    Cubic,
+}
+
+impl Display for CrystalSystemCif {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = format!("{:?}", self).to_lowercase();
+        write!(f, "{}", name)
+    }
+}
+
+impl From<CrystalSystemCif> for String {
+    fn from(value: CrystalSystemCif) -> Self {
+        value.to_string()
+    }
+}
+
+#[derive(Debug, thiserror::Error)]
+#[error("Not a valid crystal system option")]
+pub struct CrystalSystemCifError;
+
+impl TryFrom<&str> for CrystalSystemCif {
+    type Error = CrystalSystemCifError;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value {
+            "Triclinic" | "triclinic" => Ok(Self::Triclinic),
+            "Monoclinic" | "monoclinic" => Ok(Self::Monoclinic),
+            "Orthorhombic" | "orthorhombic" => Ok(Self::Orthorhombic),
+            "Tetragonal" | "tetragonal" => Ok(Self::Tetragonal),
+            "Trigonal" | "trigonal" => Ok(Self::Trigonal),
+            "Hexagonal" | "hexagonal" => Ok(Self::Hexagonal),
+            "Cubic" | "cubic" => Ok(Self::Cubic),
+            _ => Err(CrystalSystemCifError),
+        }
+    }
+}
+
+impl TryFrom<String> for CrystalSystemCif {
+    type Error = CrystalSystemCifError;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        Self::try_from(value.as_str())
+    }
+}
+
+// #[cfg(test)]
+// #[test]
+// fn test_cs_from_str() {
+//     use crystal_cif_fmt::{CharString, UnquotedString, Value};
+
+//     let input = "cubic".to_string();
+//     let value = Value::CharString(CharString::Unquoted(UnquotedString::new(input)));
+//     let system = CrystalSystemCif::deserialize(&value).unwrap();
+//     dbg!(system);
+// }

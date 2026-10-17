@@ -15,7 +15,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Fetch the cif_api corpus (pinned upstream commit)
-        run: python3 tests/real_data/cif_api/fetch.py
+        run: python3 crystal_cif_fmt/tests/real_data/cif_api/fetch.py
 
       - name: Run the test suite
         run: cargo test

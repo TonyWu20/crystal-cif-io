@@ -383,7 +383,8 @@
       "paper_pages": {
         "type": "range",
         "min": 1.0,
-        "note": "range constraint recorded in the dictionary _enumeration"
+        "note": "range constraint recorded in the dictionary _enumeration",
+        "numeric": true
       },
       "paper_url": {
         "type": "string"
@@ -397,7 +398,17 @@
         "type": "string"
       },
       "type": {
-        "type": "string"
+        "type": "closed",
+        "values": [
+          "O",
+          "I",
+          "M",
+          "S"
+        ],
+        "rust": "Type",
+        "file": "index_type",
+        "note": "closed code set recorded in the dictionary _enumeration",
+        "doc": "The closed code set of `_journal_index_type`. The codes are recorded in\nthe shell dictionary `_enumeration` (see `codegen/depends.json`)."
       },
       "id": {
         "type": "string"
@@ -464,7 +475,8 @@
           "QI",
           "QM",
           "QO",
-          "SC"
+          "SC",
+          "TE"
         ]
       },
       "requested_coeditor_name": {
@@ -944,7 +956,9 @@
       "determination": {
         "type": "closed",
         "values": [
-          "fundamental"
+          "fundamental",
+          "estimated",
+          "refined"
         ],
         "note": "closed code set recorded in the dictionary _enumeration"
       },
